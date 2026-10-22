@@ -1,0 +1,42 @@
+COMMAND: python3 -B experiments/E036-match-port/family.py --family O8 --ports motion --variant motion.offside-max --out experiments/E036-match-port/out/T62/falsifier-offside-max.jsonl
+ports: motion.offside-max
+8 matches selected, 0 already in experiments/E036-match-port/out/T62/falsifier-offside-max.jsonl, 8 to run
+O8/c1-c2-friendly: completed; score [0, 0] ticks 5158 cpu 77.643 s; port 0791:835F called 6286; port 0791:83A2 called 1839; port 0791:8537 called 116664; port 0791:869F called 718; port 0791:8AE9 called 115500; port 0791:8C67 called 4; port 0791:8CCA called 2; port 0791:8CF5 called 5158; port 0791:8E24 called 16590; port 0791:90C5 called 480; port 0791:9119 called 5718
+O8/c1-c2-qualifier: completed; score [0, 2] ticks 5182 cpu 86.847 s; port 0791:835F called 6393; port 0791:83A2 called 1744; port 0791:8537 called 117640; port 0791:869F called 723; port 0791:8AE9 called 116065; port 0791:8C67 called 4; port 0791:8CCA called 2; port 0791:8CF5 called 5182; port 0791:8E24 called 16622; port 0791:90C5 called 465; port 0791:9119 called 5722
+O8/c30-c44-friendly: completed; score [1, 1] ticks 4790 cpu 77.187 s; port 0791:835F called 3525; port 0791:83A2 called 1556; port 0791:8537 called 108419; port 0791:869F called 751; port 0791:8AE9 called 107415; port 0791:8C67 called 4; port 0791:8CCA called 2; port 0791:8CF5 called 4790; port 0791:8E24 called 15129; port 0791:90C5 called 221; port 0791:9119 called 5270
+O8/c30-c44-qualifier: completed; score [2, 0] ticks 4893 cpu 77.505 s; port 0791:835F called 4748; port 0791:83A2 called 1660; port 0791:8537 called 111145; port 0791:869F called 701; port 0791:8AE9 called 110010; port 0791:8C67 called 4; port 0791:8CCA called 2; port 0791:8CF5 called 4893; port 0791:8E24 called 15704; port 0791:90C5 called 418; port 0791:9119 called 5433
+O8/c64-c90-friendly: completed; score [1, 0] ticks 4735 cpu 81.253 s; port 0791:835F called 2115; port 0791:83A2 called 1214; port 0791:8537 called 107331; port 0791:869F called 652; port 0791:8AE9 called 106397; port 0791:8C67 called 4; port 0791:8CCA called 2; port 0791:8CF5 called 4735; port 0791:8E24 called 14937; port 0791:90C5 called 236; port 0791:9119 called 5175
+O8/c64-c90-qualifier: completed; score [0, 0] ticks 4992 cpu 85.569 s; port 0791:835F called 4218; port 0791:83A2 called 1362; port 0791:8537 called 112782; port 0791:869F called 630; port 0791:8AE9 called 111858; port 0791:8C67 called 4; port 0791:8CCA called 2; port 0791:8CF5 called 4992; port 0791:8E24 called 15973; port 0791:90C5 called 495; port 0791:9119 called 5432
+O8/c101-c120-friendly: completed; score [0, 1] ticks 5114 cpu 70.335 s; port 0791:835F called 5350; port 0791:83A2 called 1615; port 0791:8537 called 115896; port 0791:869F called 696; port 0791:8AE9 called 114671; port 0791:8C67 called 4; port 0791:8CCA called 2; port 0791:8CF5 called 5114; port 0791:8E24 called 16544; port 0791:90C5 called 536; port 0791:9119 called 5704
+O8/c101-c120-qualifier: decision substitution at minute 46 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 47 answered with port frames live: 0791:83A2 waiting on its call of 0791:6E11 (returning to 0791:84E1)
+O8/c101-c120-qualifier: decision substitution at minute 48 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 51 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 52 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 53 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 55 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 56 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 57 answered with port frames live: 0791:83A2 waiting on its call of 0791:6E11 (returning to 0791:84E1)
+O8/c101-c120-qualifier: decision substitution at minute 58 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 59 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 62 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 63 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 66 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 66 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 73 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 74 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 75 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 78 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 79 answered with port frames live: 0791:83A2 waiting on its call of 0791:82EB (returning to 0791:8471)
+O8/c101-c120-qualifier: decision substitution at minute 80 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 82 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 84 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 85 answered with port frames live: 0791:83A2 waiting on its call of 0791:6E11 (returning to 0791:84E1)
+O8/c101-c120-qualifier: decision substitution at minute 87 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 88 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 89 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: decision substitution at minute 91 answered with port frames live: 0791:83A2 waiting on its call of 0791:6E11 (returning to 0791:84E1)
+O8/c101-c120-qualifier: decision substitution at minute 91 answered with port frames live: 0791:8AE9 waiting on its call of 0791:57AC (returning to 0791:8B1B)
+O8/c101-c120-qualifier: completed; score [0, 2] ticks 5019 cpu 65.387 s; port 0791:835F called 3873; port 0791:83A2 called 1422; port 0791:8537 called 111711; port 0791:869F called 611; port 0791:8AE9 called 110299; port 0791:8C67 called 4; port 0791:8CCA called 2; port 0791:8CF5 called 5019; port 0791:8E24 called 16122; port 0791:90C5 called 457; port 0791:9119 called 5559
+8 of 8 matches in experiments/E036-match-port/out/T62/falsifier-offside-max.jsonl, 0 not completed
+GENERATOR EXIT: 0

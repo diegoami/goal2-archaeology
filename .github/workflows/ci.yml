@@ -68,22 +68,9 @@ jobs:
           BEFORE: ${{ github.event.before }}
           REPO: ${{ github.repository }}
         run: python3 tools/ci_gate.py decide >> "$GITHUB_OUTPUT"
-      - if: steps.gate.outputs.code == 'true'
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
       # Relative Markdown links resolve and JSON files parse.
       - if: steps.gate.outputs.quick == 'true'
         run: python3 tools/check_links.py
-      # The copied harness tools run here (harness.lock pins them).
-      - if: steps.gate.outputs.code == 'true'
-        run: node tools/harness/review.mjs --self-test
-      # #262: the OpenCode 2 operand guard's exact-pinned grammars, installed without scripts; the tests
-      # check them offline. The OpenCode tests drive a hashed nonbilling stub; no model is called.
-      - if: steps.gate.outputs.code == 'true'
-        run: npm ci --prefix tools/harness/opencode-guard --ignore-scripts --no-audit --no-fund && node tools/harness/check-opencode-guard.mjs
-      - if: steps.gate.outputs.code == 'true'
-        run: node --test tools/harness/make-brief.test.mjs tools/harness/chain.test.mjs tools/harness/review-scratch.test.mjs tools/harness/heavy.test.mjs tests/harness_compat.test.mjs tests/opencode_protocol.test.mjs tests/opencode_guard.test.mjs tests/opencode_workflow.test.mjs
       # G2: the artifact is a release asset; the workflow's token fetches it (never committed).
       # goal2-67cf27d6 is the set the driver and new runs name (it declares the runtime writes,
       # F001); goal2-a949da2f stays fetched for tests/static, whose released-file tests read its

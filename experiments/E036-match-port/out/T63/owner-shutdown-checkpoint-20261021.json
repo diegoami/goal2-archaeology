@@ -1,0 +1,51 @@
+{
+  "owner_decision": "Port PRs merge on required checks plus green CI; one milestone review covers port stage.",
+  "recorded_at": "2026-10-21T21:08:07.533998+00:00",
+  "state_backup": {
+    "remote": "goal2drive:goal2-archaeology/checkpoint-2026-10-21/states/T63",
+    "verification": "rclone check --one-way --download: 7 matching files, zero differences",
+    "source_manifest": {
+      "source": "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T63-port-positioning/.cache/states",
+      "exists": true,
+      "files": {
+        "driver/title.json": {
+          "sha256": "068a99dba8afc522cfab4406684a915d4dc1cf390b0e824ff73fbe32b71e7cec",
+          "bytes": 2082
+        },
+        "driver/title.sav": {
+          "sha256": "748f0f2d46b225ba5a6fa26d35cb11a2412ed9093afd8ed73474415eb3f463aa",
+          "bytes": 140774
+        }
+      }
+    }
+  },
+  "shutdown_scope": "Finish entire T64 pipeline, then remaining T69 Done-when evidence; commit/push and checkpoint; stop. No further per-PR review dispatch.",
+  "review_status": "Opus R2 cancelled by owner, including all detached checks. No final verdict; do not resume.",
+  "stopped_units": [
+    "goal2-t63-opus-r2-20261021.service",
+    "goal2-t69-integrated-resume-20261021.service",
+    "goal2-t69-validation-resume-20261021.service",
+    "goal2-r345o2-all.service",
+    "goal2-r345o2-audit-a.service",
+    "goal2-r345o2-audit-b.service",
+    "goal2-r345o2-audit-c.service",
+    "goal2-r345o2-audit-ctl.service",
+    "goal2-r345o2-fz-depth.service",
+    "goal2-r345o2-fz-keeper.service",
+    "goal2-r345o2-fz-marking.service",
+    "goal2-r345o2-mut-r1b.service",
+    "goal2-r345o2-mut-r2b.service",
+    "goal2-r345o2-own.service",
+    "goal2-r345o2-probe-r2.service",
+    "goal2-r345o2-suite.service"
+  ],
+  "native_audit": {
+    "files": [],
+    "models": [],
+    "tool_uses": 0,
+    "results": [],
+    "permission_denials": [],
+    "tool_errors": [],
+    "sensitive_access_flags": []
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "files": [
+    {
+      "file": "/home/diego/goal2-review-tmp/345-opus-7cb9a5d20c/transcript.jsonl",
+      "sha256": "01be17c12bdd38e6aaa8adb932b1c130527d5287d6f2c3861f3277f968d0a399",
+      "records": 665
+    }
+  ],
+  "models": [
+    "claude-opus-5-5"
+  ],
+  "tool_uses": 92,
+  "results": [],
+  "permission_denials": [
+    {
+      "file": "transcript.jsonl",
+      "line": 153,
+      "excerpt": "PreToolUse:Bash hook error: [node \"$CLAUDE_PROJECT_DIR/tools/harness/guard.mjs\" reviewer]: guard: the reviewer may not run what the guard cannot read before it runs (a variable, substitution, glob or brace where a command could stand, $'\u2026' with an escape, a shell with options or reading stdin, or a git alias): refused `[:4000]`. The harness forbids it for this agent (tools/harness/lib/guard.mjs).\n"
+    }
+  ],
+  "tool_errors": [
+    {
+      "file": "transcript.jsonl",
+      "line": 153,
+      "tool": "Bash",
+      "excerpt": "PreToolUse:Bash hook error: [node \"$CLAUDE_PROJECT_DIR/tools/harness/guard.mjs\" reviewer]: guard: the reviewer may not run what the guard cannot read before it runs (a variable, substitution, glob or brace where a command could stand, $'\u2026' with an escape, a shell with options or reading stdin, or a git alias): refused `[:4000]`. The harness forbids it for this agent (tools/harness/lib/guard.mjs).\n"
+    },
+    {
+      "file": "transcript.jsonl",
+      "line": 270,
+      "tool": "Bash",
+      "excerpt": "Exit code 128\nfatal: pathspec 'experiments/E036-match-port/fileopts.py' did not match any files"
+    },
+    {
+      "file": "transcript.jsonl",
+      "line": 388,
+      "tool": "Bash",
+      "excerpt": "Exit code 1\nTraceback (most recent call last):\n  File \"/home/diego/goal2-review-tmp/345-opus-7cb9a5d20c/tools/arity.py\", line 37, in <module>\n    at = next(ast.literal_eval(k.value) for k in c.keywords if k.arg == \"at\")\n  File \"/home/diego/goal2-review-tmp/345-opus-7cb9a5d20c/tools/arity.py\", line 37, in <genexpr>\n    at = next(ast.literal_eval(k.value) for k in c.keywords if k.arg == \"at\")\n              ~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/usr/lib/python3.14/ast.py\", line 106, in literal_eval\n    return _convert(node_or_string)\n  File \"/usr/lib/python3.14/ast.py\", line 105, in _convert\n    return _convert_signed_num(node)\n  File \"/usr/lib/python3.14/ast.py\", line 79, in _convert_signed_num\n    return _convert_num(node)\n  File \"/usr/lib/python3.14/ast.py\", line 70, in _convert_num\n    _raise_malformed_node(node)\n    ~~~~~~~~~~~~~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.14/ast.py\", line 67, in _raise_malformed_node\n    raise ValueError(msg + f': {node!r}')\nValueError: malformed node or str"
+    },
+    {
+      "file": "transcript.jsonl",
+      "line": 665,
+      "tool": "Bash",
+      "excerpt": "Exit code 137"
+    }
+  ],
+  "sensitive_access_flags": [],
+  "correction": "Supersedes empty native_audit in owner-shutdown-checkpoint-20261021.json: initial audit invocation omitted the transcript filename. This corrected audit parsed all 665 available records; cancellation has no final verdict."
+}

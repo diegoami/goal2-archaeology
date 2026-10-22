@@ -11,6 +11,12 @@ A download that fails on the network is retried once (`tools/net.py`, #236). Whe
 the network and the cached copy already verifies, the download is skipped with a printed line and
 the set is verified from the cache; with no verified copy the failure stands.
 
+[designed: owner, 2026-10-21] When `gh release download` fails other than on the network (a cloud
+session's proxy allows only GitHub's REST API, and gh's release commands use GraphQL), each file is
+downloaded over plain HTTPS
+from the public release instead (`https://github.com/<repo>/releases/download/<tag>/<name>`); the
+sha256 check is the same either way.
+
 Adapted from diegoami/toy-archaeology tools/fetch_artifact.py at a3056ff: the release is
 `goal2-original` and the repository `diegoami/goal2-archaeology`.
 """
@@ -19,8 +25,10 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import shutil
 import subprocess
 import sys
+import urllib.request
 from pathlib import Path
 
 try:  # imported as tools.fetch_artifact, or run as tools/fetch_artifact.py with tools/ on the path
@@ -71,6 +79,18 @@ def verify(set_id: str) -> list[str]:
     return problems
 
 
+def https_download(repo: str, tag: str, name: str, dest: Path) -> bool:
+    """Download one release asset of a public repository over plain HTTPS; False when it fails."""
+    url = f"https://github.com/{repo}/releases/download/{tag}/{name}"
+    try:
+        with urllib.request.urlopen(url, timeout=120) as r, open(dest / name, "wb") as out:
+            shutil.copyfileobj(r, out)
+        return True
+    except OSError as e:
+        print(f"{name}: HTTPS download failed too ({e})", file=sys.stderr)
+        return False
+
+
 def download(set_id: str, repo: str = DEFAULT_REPO) -> Path:
     """Download a set's files from the release into the cache; return the destination."""
     known = sets()
@@ -83,6 +103,10 @@ def download(set_id: str, repo: str = DEFAULT_REPO) -> Path:
             ["gh", "release", "download", RELEASE, "--repo", repo,
              "-p", entry["path"], "-D", str(dest), "--clobber"])
         if result.returncode == 0:
+            continue
+        # Only a failure that is not the network (a cloud proxy's 403 on gh's GraphQL) falls back to
+        # HTTPS; when the network itself is down, the offline handling below applies as before.
+        if not net.is_network_error(result.stderr) and https_download(repo, RELEASE, entry["path"], dest):
             continue
         if net.is_network_error(result.stderr) and not verify(set_id):
             reason = net.text(result.stderr).strip().splitlines()[0]

@@ -1,0 +1,10 @@
+Retake of test_driver_terminate's one failure (no DOSBox-X window within 15 s, under load); HEAD dbc515f9b76b868e2c5bb73ecccc37f518599a9b
+/home/user/goal2-archaeology/runtime/driver/driver.py:362: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/user/goal2-archaeology/scratch/driver/test-dosprompt/dosbox.out' mode='w' encoding='utf-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.
+----------------------------------------------------------------------
+Ran 1 test in 8.651s
+
+OK
+exit 0

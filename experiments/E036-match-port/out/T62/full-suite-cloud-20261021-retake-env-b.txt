@@ -1,0 +1,65 @@
+Retake (b; a named the modules wrongly) of the 5 non-gh failures with the cloud session's own title start state in .cache/states/driver (the placed T62 state was saved under /home/diego); HEAD 5dc7037dc6a147553e8b3a81b6b34e63a9f47b7d; uid 0
+F/home/user/goal2-archaeology/runtime/driver/driver.py:362: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/user/goal2-archaeology/scratch/driver/test-dosprompt/dosbox.out' mode='w' encoding='utf-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.FFF
+======================================================================
+FAIL: test_no_alt_is_held_and_f10_arrives_as_f10 (tests.test_driver_keys.EndToEnd.test_no_alt_is_held_and_f10_arrives_as_f10)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/test_driver_keys.py", line 505, in test_no_alt_is_held_and_f10_arrives_as_f10
+    self.assertEqual(4, len(rows), p.stdout + p.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 0 : Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/experiments/fix-244-driver-keys/probe.py", line 87, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/user/goal2-archaeology/experiments/fix-244-driver-keys/probe.py", line 62, in main
+    d.launch(None)
+    ~~~~~~~~^^^^^^
+  File "/home/user/goal2-archaeology/runtime/driver/driver.py", line 368, in launch
+    sc = self.wait_screen(lambda sc: TITLE_TEXT in sc.text(), timeout, "title screen")
+  File "/home/user/goal2-archaeology/runtime/driver/driver.py", line 573, in wait_screen
+    sc = self.screen()
+  File "/home/user/goal2-archaeology/runtime/driver/driver.py", line 561, in screen
+    return self.read()[1].screen()
+           ~~~~~~~~~^^
+  File "/home/user/goal2-archaeology/runtime/driver/driver.py", line 554, in read
+    data = self.save_state()
+  File "/home/user/goal2-archaeology/runtime/driver/driver.py", line 533, in save_state
+    raise RuntimeError(f"dosbox-x exited with code {self.dbx.returncode} during a savestate")
+RuntimeError: dosbox-x exited with code -11 during a savestate
+
+
+======================================================================
+FAIL: test_the_record_names_no_home_directory (tests.test_human_record.Extraction.test_the_record_names_no_home_directory)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/test_human_record.py", line 275, in test_the_record_names_no_home_directory
+    self.assertTrue(str(session).startswith(home + "/"))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_unreadable_formats_directory_is_a_named_error (tests.test_ga.GaFetchTest.test_unreadable_formats_directory_is_a_named_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/test_ga.py", line 226, in test_unreadable_formats_directory_is_a_named_error
+    with self.assertRaises(ga.GaError) as raised:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: GaError not raised
+
+======================================================================
+FAIL: test_unreadable_tools_directory_is_a_named_error (tests.test_ga.GaFetchTest.test_unreadable_tools_directory_is_a_named_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/test_ga.py", line 211, in test_unreadable_tools_directory_is_a_named_error
+    with self.assertRaises(ga.GaError) as raised:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: GaError not raised
+
+----------------------------------------------------------------------
+Ran 5 tests in 9.734s
+
+FAILED (failures=4)
+exit 1
