@@ -1,0 +1,605 @@
+{
+ "argv": [
+  ".cache/states/driver/e038-title-load-prompt-r0001.sav",
+  "--keys",
+  "6E,0D,0D,62,6F,62,0D,0D,0D",
+  "--key-polls",
+  "214B:0DB9",
+  "--time",
+  "10:00:20.95",
+  "--compare",
+  ".cache/states/driver/e038-manager-menu-r0001.sav",
+  "--out",
+  "experiments/E038-new-game-keywait/out/trace-r0001.json"
+ ],
+ "stop": "keys done",
+ "events": [
+  {
+   "kind": "read",
+   "site": "1771:085F",
+   "callers": [
+    "0000:0029",
+    "0728:0720 (outside the program)"
+   ],
+   "ss_sp_at_08DD": "3875:3FF0",
+   "seed": "0000",
+   "seed2": "0000",
+   "screen": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                   THE international soccer management game\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■■■■■■■■■■■",
+   "key": "6E"
+  },
+  {
+   "kind": "interrupt",
+   "via": "Intr",
+   "int": "21",
+   "ah": "3D",
+   "al": "02",
+   "regs_in": {
+    "AX": "3D02",
+    "BX": "0000",
+    "CX": "0000",
+    "DX": "3DB2",
+    "SI": "0000",
+    "DI": "0000",
+    "DS": "3875",
+    "ES": "0000"
+   },
+   "at": "214B:1AC3 (Intr 235C:000B, return address)",
+   "callers": [
+    "214B:1C1A (near)",
+    "1771:014E",
+    "1771:0198 (near)",
+    "1771:08A5",
+    "0000:0029",
+    "0728:0720 (outside the program)"
+   ],
+   "served": "open 'goal.dat' mode 02: handle 5 (44040 bytes)",
+   "regs_out": {
+    "AX": "0005"
+   }
+  },
+  {
+   "kind": "interrupt",
+   "via": "Intr",
+   "int": "21",
+   "ah": "3F",
+   "al": "A4",
+   "regs_in": {
+    "AX": "3FA4",
+    "BX": "0005",
+    "CX": "0810",
+    "DX": "0000",
+    "SI": "7461",
+    "DI": "0016",
+    "DS": "3E69",
+    "ES": "3FEA"
+   },
+   "at": "214B:1B86 (Intr 235C:000B, return address)",
+   "callers": [
+    "1771:01A7",
+    "1771:08A5",
+    "0000:0029",
+    "0728:0720 (outside the program)"
+   ],
+   "served": "read handle 5 (goal.dat): 2064 bytes asked, 2064 read to 3E69:0000, at offset 0",
+   "regs_out": {
+    "AX": "0810"
+   }
+  },
+  {
+   "kind": "interrupt",
+   "via": "Intr",
+   "int": "21",
+   "ah": "3F",
+   "al": "10",
+   "regs_in": {
+    "AX": "3F10",
+    "BX": "0005",
+    "CX": "8387",
+    "DX": "0000",
+    "SI": "7461",
+    "DI": "0016",
+    "DS": "3EEA",
+    "ES": "3FEA"
+   },
+   "at": "214B:1B86 (Intr 235C:000B, return address)",
+   "callers": [
+    "1771:01B6",
+    "1771:08A5",
+    "0000:0029",
+    "0728:0720 (outside the program)"
+   ],
+   "served": "read handle 5 (goal.dat): 33671 bytes asked, 33671 read to 3EEA:0000, at offset 2064",
+   "regs_out": {
+    "AX": "8387"
+   }
+  },
+  {
+   "kind": "interrupt",
+   "via": "Intr",
+   "int": "21",
+   "ah": "3F",
+   "al": "87",
+   "regs_in": {
+    "AX": "3F87",
+    "BX": "0005",
+    "CX": "0BF5",
+    "DX": "0007",
+    "SI": "7461",
+    "DI": "0016",
+    "DS": "4722",
+    "ES": "3FEA"
+   },
+   "at": "214B:1B86 (Intr 235C:000B, return address)",
+   "callers": [
+    "1771:01C5",
+    "1771:08A5",
+    "0000:0029",
+    "0728:0720 (outside the program)"
+   ],
+   "served": "read handle 5 (goal.dat): 3061 bytes asked, 3061 read to 4722:0007, at offset 35735",
+   "regs_out": {
+    "AX": "0BF5"
+   }
+  },
+  {
+   "kind": "interrupt",
+   "via": "Intr",
+   "int": "21",
+   "ah": "3F",
+   "al": "F5",
+   "regs_in": {
+    "AX": "3FF5",
+    "BX": "0005",
+    "CX": "06DB",
+    "DX": "000C",
+    "SI": "7461",
+    "DI": "0016",
+    "DS": "47E1",
+    "ES": "3FEA"
+   },
+   "at": "214B:1B86 (Intr 235C:000B, return address)",
+   "callers": [
+    "1771:01D4",
+    "1771:08A5",
+    "0000:0029",
+    "0728:0720 (outside the program)"
+   ],
+   "served": "read handle 5 (goal.dat): 1755 bytes asked, 1755 read to 47E1:000C, at offset 38796",
+   "regs_out": {
+    "AX": "06DB"
+   }
+  },
+  {
+   "kind": "interrupt",
+   "via": "Intr",
+   "int": "21",
+   "ah": "3F",
+   "al": "DB",
+   "regs_in": {
+    "AX": "3FDB",
+    "BX": "0005",
+    "CX": "0087",
+    "DX": "0007",
+    "SI": "7461",
+    "DI": "0016",
+    "DS": "484F",
+    "ES": "3FEA"
+   },
+   "at": "214B:1B86 (Intr 235C:000B, return address)",
+   "callers": [
+    "1771:01E3",
+    "1771:08A5",
+    "0000:0029",
+    "0728:0720 (outside the program)"
+   ],
+   "served": "read handle 5 (goal.dat): 135 bytes asked, 135 read to 484F:0007, at offset 40551",
+   "regs_out": {
+    "AX": "0087"
+   }
+  },
+  {
+   "kind": "interrupt",
+   "via": "Intr",
+   "int": "21",
+   "ah": "3F",
+   "al": "87",
+   "regs_in": {
+    "AX": "3F87",
+    "BX": "0005",
+    "CX": "0183",
+    "DX": "9D80",
+    "SI": "7461",
+    "DI": "0016",
+    "DS": "2DA4",
+    "ES": "3FEA"
+   },
+   "at": "214B:1B86 (Intr 235C:000B, return address)",
+   "callers": [
+    "1771:01F1",
+    "1771:08A5",
+    "0000:0029",
+    "0728:0720 (outside the program)"
+   ],
+   "served": "read handle 5 (goal.dat): 387 bytes asked, 387 read to 2DA4:9D80, at offset 40686",
+   "regs_out": {
+    "AX": "0183"
+   }
+  },
+  {
+   "kind": "interrupt",
+   "via": "Intr",
+   "int": "21",
+   "ah": "3F",
+   "al": "83",
+   "regs_in": {
+    "AX": "3F83",
+    "BX": "0005",
+    "CX": "0081",
+    "DX": "9B7C",
+    "SI": "7461",
+    "DI": "0016",
+    "DS": "2DA4",
+    "ES": "3FEA"
+   },
+   "at": "214B:1B86 (Intr 235C:000B, return address)",
+   "callers": [
+    "1771:01FF",
+    "1771:08A5",
+    "0000:0029",
+    "0728:0720 (outside the program)"
+   ],
+   "served": "read handle 5 (goal.dat): 129 bytes asked, 129 read to 2DA4:9B7C, at offset 41073",
+   "regs_out": {
+    "AX": "0081"
+   }
+  },
+  {
+   "kind": "interrupt",
+   "via": "Intr",
+   "int": "21",
+   "ah": "3F",
+   "al": "81",
+   "regs_in": {
+    "AX": "3F81",
+    "BX": "0005",
+    "CX": "0081",
+    "DX": "9BFD",
+    "SI": "7461",
+    "DI": "0016",
+    "DS": "2DA4",
+    "ES": "3FEA"
+   },
+   "at": "214B:1B86 (Intr 235C:000B, return address)",
+   "callers": [
+    "1771:020D",
+    "1771:08A5",
+    "0000:0029",
+    "0728:0720 (outside the program)"
+   ],
+   "served": "read handle 5 (goal.dat): 129 bytes asked, 129 read to 2DA4:9BFD, at offset 41202",
+   "regs_out": {
+    "AX": "0081"
+   }
+  },
+  {
+   "kind": "interrupt",
+   "via": "Intr",
+   "int": "21",
+   "ah": "3F",
+   "al": "81",
+   "regs_in": {
+    "AX": "3F81",
+    "BX": "0005",
+    "CX": "0081",
+    "DX": "9C7E",
+    "SI": "7461",
+    "DI": "0016",
+    "DS": "2DA4",
+    "ES": "3FEA"
+   },
+   "at": "214B:1B86 (Intr 235C:000B, return address)",
+   "callers": [
+    "1771:021B",
+    "1771:08A5",
+    "0000:0029",
+    "0728:0720 (outside the program)"
+   ],
+   "served": "read handle 5 (goal.dat): 129 bytes asked, 129 read to 2DA4:9C7E, at offset 41331",
+   "regs_out": {
+    "AX": "0081"
+   }
+  },
+  {
+   "kind": "interrupt",
+   "via": "Intr",
+   "int": "21",
+   "ah": "3F",
+   "al": "81",
+   "regs_in": {
+    "AX": "3F81",
+    "BX": "0005",
+    "CX": "0A14",
+    "DX": "9F03",
+    "SI": "7461",
+    "DI": "0016",
+    "DS": "2DA4",
+    "ES": "3FEA"
+   },
+   "at": "214B:1B86 (Intr 235C:000B, return address)",
+   "callers": [
+    "1771:0229",
+    "1771:08A5",
+    "0000:0029",
+    "0728:0720 (outside the program)"
+   ],
+   "served": "read handle 5 (goal.dat): 2580 bytes asked, 2580 read to 2DA4:9F03, at offset 41460",
+   "regs_out": {
+    "AX": "0A14"
+   }
+  },
+  {
+   "kind": "interrupt",
+   "via": "Intr",
+   "int": "21",
+   "ah": "3E",
+   "al": "03",
+   "regs_in": {
+    "AX": "3E03",
+    "BX": "0005",
+    "CX": "7461",
+    "DX": "0016",
+    "SI": "3FEA",
+    "DI": "079A",
+    "DS": "3FEE",
+    "ES": "0229"
+   },
+   "at": "214B:1A59 (Intr 235C:000B, return address)",
+   "callers": [
+    "1771:022E",
+    "1771:08A5",
+    "0000:0029",
+    "0728:0720 (outside the program)"
+   ],
+   "served": "close handle 5 (goal.dat)",
+   "regs_out": {}
+  },
+  {
+   "kind": "read",
+   "site": "1771:0081",
+   "callers": [
+    "1771:08A8 (near)",
+    "0000:0029",
+    "0728:0720 (outside the program)"
+   ],
+   "ss_sp_at_08DD": "3875:3FE8",
+   "seed": "0000",
+   "seed2": "0000",
+   "screen": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                        How many players  1 2 3 4 5 6  ?\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n                     Use ←→ to choose number, ◄┘ to select",
+   "key": "0D"
+  },
+  {
+   "kind": "read",
+   "site": "1771:28F5",
+   "callers": [
+    "1771:2D55",
+    "0000:003F",
+    "0728:0720 (outside the program)"
+   ],
+   "ss_sp_at_08DD": "3875:3ED6",
+   "seed": "18BC",
+   "seed2": "0000",
+   "screen": " (c) NE'93│ │     Player 1 : PLEASE SELECT YOUR COUNTRY           use INS to\n ┌─┐┌─┐┌─┐│ │──────────────────────────────────────────────────  swap between\n │ ││ ││ ││ │ Use ←→↑↓ keys to browse, then hit ◄┘ to select       world and\n └─┤└─┘└─┤│ │──────────────────────────────────────────────────   continental\n───┘ v.2    │       level of difficulty : SIMPLE                   rankings\n────────────┘──────────────────────────────────────────────────\n┌team─────────────────────────────┬───────────────────tactics┐ ┌───────────────┐\n│Denmark-------- status major     ├──────────────team─tactics┤ │Denmark--------│\n├manager──────────────────────────┤defence─system──half pitch┤ │Germany--------│\n│R Nielsen       skill exceptional├protection─sag back to box┤ │Holland--------│\n├ranking─now─top┬─────────────────┼offside──────────play safe┤ │Sweden---------│\n│World    29  29│formation  5-4-1 ├───────────player─defaults┤ │Scotland-------│\n│Europe    1   1│strips     ☻ ☻ ☻ │positioning───push forward┤ │France---------│\n├skills──────┬──┴─┬────┬────┬────┬┼possession──────quick pass┤ │England--------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼passing───────short passes┤ │Russia---------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling────────go in hard┤ │Yugoslavia-----│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼marking─────────man to man┤ │Switzerland----│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼───────────characteristics┤ │R.C.S----------│\n├performance─┼────┼────┼────┼────┼┤average─caps─0─────age─29─┤ │Wales----------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──tough■■■■■■■■■■■┤ │Eire-----------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───very fit■■■■■■■■┤ │Portugal-------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────energetic■■■■■■■┤ │Italy----------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────not bad■■■■■■■■■┤ │Romania--------│\n└────────────┴────┴────┴────┴────┴┴──────────────┴────┴────┴─┘ └───────────────┘\nspacebar-players",
+   "key": "0D"
+  },
+  {
+   "kind": "poll",
+   "site": "214B:0DB9",
+   "count": 1,
+   "answer": "a key waits (the next read takes it)"
+  },
+  {
+   "kind": "read",
+   "site": "214B:112B",
+   "callers": [
+    "1771:0A22",
+    "1771:2E05",
+    "0000:003F",
+    "0728:0720 (outside the program)"
+   ],
+   "ss_sp_at_08DD": "3875:3BB2",
+   "seed": "F5DB",
+   "seed2": "0000",
+   "screen": " (c) NE'93│ │     Player 1 : PLEASE SELECT YOUR COUNTRY           use INS to\n ┌─┐┌─┐┌─┐│ │──────────────────────────────────────────────────  swap between\n │ ││ ││ ││ │ Use ←→↑↓ keys to browse, then hit ◄┘ to select       world and\n └─┤└─┘└─┤│ │──────────────────────────────────────────────────   continental\n───┘ v.2    │       level of difficulty : SIMPLE                   rankings\n────────────┘──────────────────────────────────────────────────\n┌team─────────────────────────────┬───────────────────tactics┐ ┌───────────────┐\n│Denmark-------- status major     ├──────────────team─tactics┤ │Denmark--------│\n├manager──────────────────────────┤defence─system──half pitch┤ │Germany--------│\n│W Player▒▒▒▒▒▒  skill exceptional├protection─sag back to box┤ │Holland--------│\n├ranking─now─top┬─────────────────┼offside──────────play safe┤ │Sweden---------│\n│World    29  29│formation  5-4-1 ├───────────player─defaults┤ │Scotland-------│\n│Europe    1   1│strips     ☻ ☻ ☻ │positioning───push forward┤ │France---------│\n├skills──────┬──┴─┬────┬────┬────┬┼possession──────quick pass┤ │England--------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼passing───────short passes┤ │Russia---------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling────────go in hard┤ │Yugoslavia-----│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼marking─────────man to man┤ │Switzerland----│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼───────────characteristics┤ │R.C.S----------│\n├performance─┼────┼────┼────┼────┼┤average─caps─0─────age─29─┤ │Wales----------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──tough■■■■■■■■■■■┤ │Eire-----------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───very fit■■■■■■■■┤ │Portugal-------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────energetic■■■■■■■┤ │Italy----------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────not bad■■■■■■■■■┤ │Romania--------│\n└────────────┴────┴────┴────┴────┴┴──────────────┴────┴────┴─┘ └───────────────┘\n************* Type in characters (maximum 14). ◄┘-accept Esc-abort *************",
+   "key": "62"
+  },
+  {
+   "kind": "poll",
+   "site": "214B:0DB9",
+   "count": 1,
+   "answer": "a key waits (the next read takes it)"
+  },
+  {
+   "kind": "read",
+   "site": "214B:112B",
+   "callers": [
+    "1771:0A22",
+    "1771:2E05",
+    "0000:003F",
+    "0728:0720 (outside the program)"
+   ],
+   "ss_sp_at_08DD": "3875:3BB2",
+   "seed": "F5DB",
+   "seed2": "0000",
+   "screen": " (c) NE'93│ │     Player 1 : PLEASE SELECT YOUR COUNTRY           use INS to\n ┌─┐┌─┐┌─┐│ │──────────────────────────────────────────────────  swap between\n │ ││ ││ ││ │ Use ←→↑↓ keys to browse, then hit ◄┘ to select       world and\n └─┤└─┘└─┤│ │──────────────────────────────────────────────────   continental\n───┘ v.2    │       level of difficulty : SIMPLE                   rankings\n────────────┘──────────────────────────────────────────────────\n┌team─────────────────────────────┬───────────────────tactics┐ ┌───────────────┐\n│Denmark-------- status major     ├──────────────team─tactics┤ │Denmark--------│\n├manager──────────────────────────┤defence─system──half pitch┤ │Germany--------│\n│B ▒▒▒▒▒▒▒▒▒▒▒▒  skill exceptional├protection─sag back to box┤ │Holland--------│\n├ranking─now─top┬─────────────────┼offside──────────play safe┤ │Sweden---------│\n│World    29  29│formation  5-4-1 ├───────────player─defaults┤ │Scotland-------│\n│Europe    1   1│strips     ☻ ☻ ☻ │positioning───push forward┤ │France---------│\n├skills──────┬──┴─┬────┬────┬────┬┼possession──────quick pass┤ │England--------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼passing───────short passes┤ │Russia---------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling────────go in hard┤ │Yugoslavia-----│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼marking─────────man to man┤ │Switzerland----│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼───────────characteristics┤ │R.C.S----------│\n├performance─┼────┼────┼────┼────┼┤average─caps─0─────age─29─┤ │Wales----------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──tough■■■■■■■■■■■┤ │Eire-----------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───very fit■■■■■■■■┤ │Portugal-------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────energetic■■■■■■■┤ │Italy----------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────not bad■■■■■■■■■┤ │Romania--------│\n└────────────┴────┴────┴────┴────┴┴──────────────┴────┴────┴─┘ └───────────────┘\n************* Type in characters (maximum 14). ◄┘-accept Esc-abort *************",
+   "key": "6F"
+  },
+  {
+   "kind": "poll",
+   "site": "214B:0DB9",
+   "count": 1,
+   "answer": "a key waits (the next read takes it)"
+  },
+  {
+   "kind": "read",
+   "site": "214B:112B",
+   "callers": [
+    "1771:0A22",
+    "1771:2E05",
+    "0000:003F",
+    "0728:0720 (outside the program)"
+   ],
+   "ss_sp_at_08DD": "3875:3BB2",
+   "seed": "F5DB",
+   "seed2": "0000",
+   "screen": " (c) NE'93│ │     Player 1 : PLEASE SELECT YOUR COUNTRY           use INS to\n ┌─┐┌─┐┌─┐│ │──────────────────────────────────────────────────  swap between\n │ ││ ││ ││ │ Use ←→↑↓ keys to browse, then hit ◄┘ to select       world and\n └─┤└─┘└─┤│ │──────────────────────────────────────────────────   continental\n───┘ v.2    │       level of difficulty : SIMPLE                   rankings\n────────────┘──────────────────────────────────────────────────\n┌team─────────────────────────────┬───────────────────tactics┐ ┌───────────────┐\n│Denmark-------- status major     ├──────────────team─tactics┤ │Denmark--------│\n├manager──────────────────────────┤defence─system──half pitch┤ │Germany--------│\n│Bo ▒▒▒▒▒▒▒▒▒▒▒  skill exceptional├protection─sag back to box┤ │Holland--------│\n├ranking─now─top┬─────────────────┼offside──────────play safe┤ │Sweden---------│\n│World    29  29│formation  5-4-1 ├───────────player─defaults┤ │Scotland-------│\n│Europe    1   1│strips     ☻ ☻ ☻ │positioning───push forward┤ │France---------│\n├skills──────┬──┴─┬────┬────┬────┬┼possession──────quick pass┤ │England--------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼passing───────short passes┤ │Russia---------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling────────go in hard┤ │Yugoslavia-----│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼marking─────────man to man┤ │Switzerland----│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼───────────characteristics┤ │R.C.S----------│\n├performance─┼────┼────┼────┼────┼┤average─caps─0─────age─29─┤ │Wales----------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──tough■■■■■■■■■■■┤ │Eire-----------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───very fit■■■■■■■■┤ │Portugal-------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────energetic■■■■■■■┤ │Italy----------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────not bad■■■■■■■■■┤ │Romania--------│\n└────────────┴────┴────┴────┴────┴┴──────────────┴────┴────┴─┘ └───────────────┘\n************* Type in characters (maximum 14). ◄┘-accept Esc-abort *************",
+   "key": "62"
+  },
+  {
+   "kind": "poll",
+   "site": "214B:0DB9",
+   "count": 1,
+   "answer": "a key waits (the next read takes it)"
+  },
+  {
+   "kind": "read",
+   "site": "214B:112B",
+   "callers": [
+    "1771:0A22",
+    "1771:2E05",
+    "0000:003F",
+    "0728:0720 (outside the program)"
+   ],
+   "ss_sp_at_08DD": "3875:3BB2",
+   "seed": "F5DB",
+   "seed2": "0000",
+   "screen": " (c) NE'93│ │     Player 1 : PLEASE SELECT YOUR COUNTRY           use INS to\n ┌─┐┌─┐┌─┐│ │──────────────────────────────────────────────────  swap between\n │ ││ ││ ││ │ Use ←→↑↓ keys to browse, then hit ◄┘ to select       world and\n └─┤└─┘└─┤│ │──────────────────────────────────────────────────   continental\n───┘ v.2    │       level of difficulty : SIMPLE                   rankings\n────────────┘──────────────────────────────────────────────────\n┌team─────────────────────────────┬───────────────────tactics┐ ┌───────────────┐\n│Denmark-------- status major     ├──────────────team─tactics┤ │Denmark--------│\n├manager──────────────────────────┤defence─system──half pitch┤ │Germany--------│\n│Bob ▒▒▒▒▒▒▒▒▒▒  skill exceptional├protection─sag back to box┤ │Holland--------│\n├ranking─now─top┬─────────────────┼offside──────────play safe┤ │Sweden---------│\n│World    29  29│formation  5-4-1 ├───────────player─defaults┤ │Scotland-------│\n│Europe    1   1│strips     ☻ ☻ ☻ │positioning───push forward┤ │France---------│\n├skills──────┬──┴─┬────┬────┬────┬┼possession──────quick pass┤ │England--------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼passing───────short passes┤ │Russia---------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling────────go in hard┤ │Yugoslavia-----│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼marking─────────man to man┤ │Switzerland----│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼───────────characteristics┤ │R.C.S----------│\n├performance─┼────┼────┼────┼────┼┤average─caps─0─────age─29─┤ │Wales----------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──tough■■■■■■■■■■■┤ │Eire-----------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───very fit■■■■■■■■┤ │Portugal-------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────energetic■■■■■■■┤ │Italy----------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────not bad■■■■■■■■■┤ │Romania--------│\n└────────────┴────┴────┴────┴────┴┴──────────────┴────┴────┴─┘ └───────────────┘\n************* Type in characters (maximum 14). ◄┘-accept Esc-abort *************",
+   "key": "0D"
+  },
+  {
+   "kind": "read",
+   "site": "000E:0629",
+   "callers": [
+    "000E:6964 (near)",
+    "0000:0078",
+    "0728:0720 (outside the program)"
+   ],
+   "ss_sp_at_08DD": "3875:3ED0",
+   "seed": "157F",
+   "seed2": "0000",
+   "screen": " (c) NE'93│ │ ──────────────────────────────────────────────────────────────────\n ┌─┐┌─┐┌─┐│ │ ──────────────────────────────────────────────────────────────────\n │ ││ ││ ││ │ ──────────────────────────────────────────────────────────────────\n └─┤└─┘└─┤│ │ ──────────────────────────────────────────────────────────────────\n───┘ v.2    │ ──────────────────────────────────────────────────────────────────\n────────────┘ ──────────────┌──────────────────────┐────────────────────────────\n────────────────────────────│ THE SOCCER BULLETIN  │────────────────────────────\n──┌────────────────────┐────├──────────────────────┤────┌────────────────────┐──\n──│  D A I L Y  R A G  │────│        DENMARK       │────│ ☼ Sporting Times ☼ │──\n──├────────────────────┤────│     APPOINT A NEW    │────├────────────────────┤──\n──│       WELCOME      │────│        MANAGER       │────│      CAN B OB      │──\n──│       ABOARD       │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│    DO THE JOB ?    │──\n──│       B OB !       │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ≡≡≡≡≡ ≡≡≡ ≡≡≡≡ ≡≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ≡≡≡≡≡ ≡≡≡ ░░░░░ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ≡≡≡≡≡ ≡≡≡ ░░░░░ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ░░░░░ ≡≡≡ ░░░░░ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ░░░░░ ≡≡≡ ≡≡≡≡≡ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ≡≡≡≡≡ ≡≡≡ ░░ ≡≡ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ≡≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡ │──\n──└────────────────────┘────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────└────────────────────┘──\n────────────────────────────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────────────────────────────\n────────────────────────────└──────────────────────┘────────────────────────────\n────────────────────────────────────────────────────────────────────────────────\n────────────────────────────────────────────────────────────────────────────────\n                                  hit any key",
+   "key": "0D"
+  },
+  {
+   "kind": "interrupt",
+   "via": "int",
+   "int": "21",
+   "ah": "2C",
+   "al": "01",
+   "regs_in": {
+    "AX": "2C01",
+    "BX": "3EC6",
+    "CX": "0000",
+    "DX": "0004",
+    "SI": "9C7C",
+    "DI": "5F8E",
+    "DS": "2DA4",
+    "ES": "4857"
+   },
+   "at": "23E4:11D9",
+   "callers": [
+    "1771:67A8 (far return at SS:SP)",
+    "1771:76C7 (near)",
+    "0000:0085",
+    "0728:0720 (outside the program)"
+   ],
+   "served": "get time: CH:CL = 10:00, DH:DL = 20.95 (served from --time)",
+   "regs_out": {
+    "CX": "0A00",
+    "DX": "145F"
+   }
+  },
+  {
+   "kind": "read",
+   "site": "000E:0629",
+   "callers": [
+    "000E:6625 (near)",
+    "0000:00BE",
+    "0728:0720 (outside the program)"
+   ],
+   "ss_sp_at_08DD": "3875:3CB6",
+   "seed": "EE42",
+   "seed2": "145F",
+   "screen": " (c) NE'93│ │ ──────────────────────────────────────────────────────────────────\n ┌─┐┌─┐┌─┐│ │ ──────────────────────────────────────────────────────────────────\n │ ││ ││ ││ │ ──────────────────────────────────────────────────────────────────\n └─┤└─┘└─┤│ │ ──────────────────────────────────────────────────────────────────\n───┘ v.2    │ ──────────────────────────────────────────────────────────────────\n────────────┘ ──────────────┌──────────────────────┐────────────────────────────\n────────────────────────────│ THE SOCCER BULLETIN  │────────────────────────────\n──┌────────────────────┐────├──────────────────────┤────┌────────────────────┐──\n──│  D A I L Y  R A G  │────│ GROUPS ARE ANNOUNCED │────│ ☼ Sporting Times ☼ │──\n──├────────────────────┤────│  FOR QUALIFYING FOR  │────├────────────────────┤──\n──│       DENMARK      │────│   THE 2028 EUROPEAN  │────│     DENMARK IS     │──\n──│  HAS AN EASY RIDE  │────│     CHAMPIONSHIPS    │────│  THE BEST TEAM IN  │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│       GROUP A      │──\n──│ ≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ≡≡≡≡≡ ≡≡≡ ░░░░░ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ≡≡≡≡≡ ≡≡≡ ░░░░░ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ░░░░░ ≡≡≡ ░░░░░ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│     DENMARK PLAY     │────│ ░░░░░ ≡≡≡ ≡≡≡≡≡ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡≡ │────│      YUGOSLAVIA,     │────│ ≡≡≡≡≡ ≡≡≡ ░░ ≡≡ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡≡ │────│        SPAIN,        │────│ ≡≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡ │──\n──└────────────────────┘────│      AND CYPRUS      │────└────────────────────┘──\n────────────────────────────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────────────────────────────\n────────────────────────────└──────────────────────┘────────────────────────────\n────────────────────────────────────────────────────────────────────────────────\n────────────────────────────────────────────────────────────────────────────────\n                                  hit any key",
+   "key": "0D"
+  },
+  {
+   "kind": "read",
+   "site": "000E:75D1",
+   "callers": [
+    "0000:00CB",
+    "0728:0720 (outside the program)"
+   ],
+   "ss_sp_at_08DD": "3875:3EEA",
+   "seed": "EE42",
+   "seed2": "145F",
+   "screen": " (c) NE'93│ │ ┌────────────────────────────────┬────┐           Denmark--------\n ┌─┐┌─┐┌─┐│ │ ├─  ┬  ┬┌──┌──┐┬──┐┌▄▄ ┌──┐┌──┐  │2028│          ┌────────────┬─┐\n │ ││ ││ ││ │ └───└──┘┴  └──┘├──┘└───└──┴┴  ┴  └────┘          │P Schmeichel│G│\n └─┤└─┘└─┤│ │┌──┬────────────QUALIFYING───────┬────────        │L Olsen     │S│\n───┘ v.2    ││  ├──┐┌──┐┌─┬─┐┬──┐┬┌──┐┌──┐┌▄──├──┐┬┬──┐        │T Piechnik  │C│\n────────────┘└──┴  ┴└──┴┴ ┴ ┴├──┘┴└──┘┴  ┴──▀┘┴  ┴┴├──┘        │K Christofte│C│\n──┌name──────────┬rating─────────┐ ───────  ─┌─────────┐────── │H Andersen  │B│\n──│B Ob          │unknown        │ ───────  ─│team info│────── │J Sivebaek  │B│\n──└──────────────┴───────────────┘ ───────  ─└─────────┘────── │K Vilfort   │D│\n─┌team───────────┐────┌─┬managers──────┐──  ─┌────────────┐─── │H Larsen    │M│\n─│Denmark--------│────│1│B Ob          │──  ─│fixture list│─── │J Jensen    │M│\n─├rankings───┬───┘────│2│              │──  ─└────────────┘─── │B Laudrup   │F│\n─│World  : 29│────────│3│              │──  ─┌──────────┐───── │F Povlsen   │$│\n─│Europe :  1│────────│4│              │──  ─│tournament│───── ├────────────┼─┤\n─└───────────┘────────│5│              │──  ─└──────────┘───── │M Krogh     │G│\n─┌next─opponents─┐────│6│              │──  ─┌───────┐──────── │P Nielsen   │S│\n─│Sweden---------│────└─┴──────────────┘──  ─│history│──────── │K Nielsen   │C│\n─├rankings───┬───┘──────── Use ↑↓ to ─────  ─└───────┘──────── │C Kristensen│B│\n─│World  : 19│─────────── find option ────  ─┌────────────┐─── │J Molby     │D│\n─│Europe :  4│────────────────────────────  ─│select squad│─── │M Bruun     │W│\n─├───────────┴───┐───────── Hit ◄┘ to ────  ─└────────────┘─── │L Elstrup   │¢│\n─│friendly home  │───────── select ───────  ─┌──────────────┐─ │T Frank     │$│\n─└───────────────┘───────── option ───────  ─│play next game│─ │B Kristensen│$│\n──────────────────────────────────────────  ─└──────────────┘─ └────────────┴─┘\nF1help  F3load goal  F4load summary  F5print screen F7save               F10quit",
+   "key": null
+  }
+ ],
+ "final_screen": " (c) NE'93│ │ ┌────────────────────────────────┬────┐           Denmark--------\n ┌─┐┌─┐┌─┐│ │ ├─  ┬  ┬┌──┌──┐┬──┐┌▄▄ ┌──┐┌──┐  │2028│          ┌────────────┬─┐\n │ ││ ││ ││ │ └───└──┘┴  └──┘├──┘└───└──┴┴  ┴  └────┘          │P Schmeichel│G│\n └─┤└─┘└─┤│ │┌──┬────────────QUALIFYING───────┬────────        │L Olsen     │S│\n───┘ v.2    ││  ├──┐┌──┐┌─┬─┐┬──┐┬┌──┐┌──┐┌▄──├──┐┬┬──┐        │T Piechnik  │C│\n────────────┘└──┴  ┴└──┴┴ ┴ ┴├──┘┴└──┘┴  ┴──▀┘┴  ┴┴├──┘        │K Christofte│C│\n──┌name──────────┬rating─────────┐ ───────  ─┌─────────┐────── │H Andersen  │B│\n──│B Ob          │unknown        │ ───────  ─│team info│────── │J Sivebaek  │B│\n──└──────────────┴───────────────┘ ───────  ─└─────────┘────── │K Vilfort   │D│\n─┌team───────────┐────┌─┬managers──────┐──  ─┌────────────┐─── │H Larsen    │M│\n─│Denmark--------│────│1│B Ob          │──  ─│fixture list│─── │J Jensen    │M│\n─├rankings───┬───┘────│2│              │──  ─└────────────┘─── │B Laudrup   │F│\n─│World  : 29│────────│3│              │──  ─┌──────────┐───── │F Povlsen   │$│\n─│Europe :  1│────────│4│              │──  ─│tournament│───── ├────────────┼─┤\n─└───────────┘────────│5│              │──  ─└──────────┘───── │M Krogh     │G│\n─┌next─opponents─┐────│6│              │──  ─┌───────┐──────── │P Nielsen   │S│\n─│Sweden---------│────└─┴──────────────┘──  ─│history│──────── │K Nielsen   │C│\n─├rankings───┬───┘──────── Use ↑↓ to ─────  ─└───────┘──────── │C Kristensen│B│\n─│World  : 19│─────────── find option ────  ─┌────────────┐─── │J Molby     │D│\n─│Europe :  4│────────────────────────────  ─│select squad│─── │M Bruun     │W│\n─├───────────┴───┐───────── Hit ◄┘ to ────  ─└────────────┘─── │L Elstrup   │¢│\n─│friendly home  │───────── select ───────  ─┌──────────────┐─ │T Frank     │$│\n─└───────────────┘───────── option ───────  ─│play next game│─ │B Kristensen│$│\n──────────────────────────────────────────  ─└──────────────┘─ └────────────┴─┘\nF1help  F3load goal  F4load summary  F5print screen F7save               F10quit",
+ "seed": "EE42",
+ "seed2": "145F",
+ "compare": {
+  "screen_equal": true,
+  "screen_bytes_equal": true,
+  "seed": [
+   "EE42",
+   "EE42"
+  ],
+  "seed2": [
+   "145F",
+   "145F"
+  ],
+  "players": {
+   "pointer": [
+    "4E5BD",
+    "4E5BD"
+   ],
+   "equal": true,
+   "differ": []
+  },
+  "countries": {
+   "pointer": [
+    "4857E",
+    "4857E"
+   ],
+   "equal": true,
+   "differ": []
+  },
+  "data_segment_differs": [
+   "0E89F-0E8A0",
+   "0E976-0E990",
+   "0EB25-0EB27",
+   "0EB90-0EBA6",
+   "0EBA7-0EBC5",
+   "0EBC6-0EBC9",
+   "0EBCA-0EBE6",
+   "0EBF8-0EBFA"
+  ],
+  "conventional_differs": [
+   "0041A-0041B",
+   "0041C-0041D",
+   "0041E-00430",
+   "0046C-0046D",
+   "0815E-08160",
+   "3C2DF-3C2E0",
+   "3C3B6-3C3D0",
+   "3C565-3C567",
+   "3C5D0-3C5E6",
+   "3C5E7-3C605",
+   "3C606-3C609",
+   "3C60A-3C626",
+   "3C638-3C63A"
+  ]
+ }
+}
