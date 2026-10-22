@@ -218,7 +218,7 @@ void foul_outcome_line(int param_1)
             cVar2 = in_own_goal_strip((int)uVar1,(int)((ulong)uVar1 >> 0x10),ball_record._0_2_),
             cVar2 == '\0')) {
       uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
-      f_0791_5E41((int)uVar1,(int)((ulong)uVar1 >> 0x10));
+      deflect_from_record((int)uVar1,(int)((ulong)uVar1 >> 0x10));
       commentary_with_ball_slot(CONCAT11(extraout_AH_00,0xe));
       commentary_with_ball_slot(CONCAT11(extraout_AH_01,0x21));
     }
@@ -670,7 +670,7 @@ void write_save_line(int param_1)
 
 
 // ---- 0791:5B36  duel_line  (f_0791_5B36; Ghidra 2000:5B36, __stdcall16far; found by routines.tsv)
-// the keeper-slot routine (called from 6188 at a slot 1 or 12, and from 5565): returns when DS:8325 and DS:8324 are 0, bails on 2B51, then with DS:8302 = 0 runs the duel (5BC4-5C1E: the challenger's keeping against the holder's dribbling or heading, F015) and with DS:8302 != 0 the catch of a ball in flight: roll 06B1(278A(pitch, 1)) against [bp-6] + 06B1(4 * 835F(ball)) at 5D69, a pass then draws 06B1(4) for 5A33(0x1E), 5A33(0x1F) or 5A8E (saved by); E011 takes only the DS:8302 != 0 block  [likely; F014; F022]
+// T66 (ported, exact on ALL; runtime/original_match/port/duels.py): the keeper at the ball (called from 6188 for a keeper slot and from 5565): returns when DS:8325 and DS:8324 are 0; when 2B51 says the keeper is on the holding side, 869F and commentary 0x1C (unless DS:8326); with DS:8302 = 0 (the ball at the holder's feet) commentary 2B28 0x0B outside the keeper's strip (2EB8), else 0x41 (DS:8303) or 0x0D, then the duel: with DS:8303 the holder's 06B1(278A(holder, 4)) against the keeper's 06B1(2 * 278A(keeper, 1)), else 06B1(278A(holder, 0xA)) against 06B1(278A(keeper, 1) + (template != 0x0B)); the keeper's larger roll is the save 5A8E; otherwise 4DA9 decides a foul (a coin between 8206 and 5A8E), else commentary 0x0C (DS:8303 clear) and 4D3F; with DS:8302 set (the ball in flight) element [bp-4] = 1 (DS:8324) or DS:07FE[DS:8327 in the set at 0791:5AF6] and [bp-6] = 0 or, in a penalty (DS:8324) after random_is_one(3), 278A(holder, DS:0800[DS:8327 = 4]) / 2: outside the strip the clearance 3FAD(9); with the ball moving the catch needs 06B1(278A(keeper, [bp-4])) above [bp-6] + 06B1(4 * 835F(ball)) (a long compare at 5D72); then 3C20(2996) when DS:8327 is in the set at 0791:5B16 (DS:8326 clear) and 06B1(4): 1 the ball bounces back (velocities negated, speed max(1, /4), 5A33 0x1E), 2 it goes wide (DS:82FC := DS:7920[coin], 5A33 0x1F), else the save 5A8E  [established; F014; F022; read code/seg_0791_10.asm]
 
 void __stdcall16far duel_line(undefined2 *param_1)
 
@@ -823,9 +823,10 @@ LAB_0791_5C3E:
 }
 
 
-// ---- 0791:5E41  f_0791_5E41  (f_0791_5E41; Ghidra 2000:5E41, __stdcall16far; found by routines.tsv)
+// ---- 0791:5E41  deflect_from_record  (f_0791_5E41; Ghidra 2000:5E41, __stdcall16far; found by routines.tsv)
+// T66 (ported, exact on ALL; runtime/original_match/port/duels.py): the ball deflected off the pitch record (far pointer): each byte of the record's point (+0 x, +1 y) moves by (06B1(DS:0802[DS:8303]) + 2) * s8(DS:7920[06FA()]), a draw and a coin per axis; then 869F and 34C1(moved point, event 6, record); called by 539F and 5F06  [likely; read code/seg_0791_10.asm]
 
-void __stdcall16far f_0791_5E41(undefined2 *param_1)
+void __stdcall16far deflect_from_record(undefined2 *param_1)
 
 {
   char *pcVar1;
@@ -854,9 +855,10 @@ void __stdcall16far f_0791_5E41(undefined2 *param_1)
 }
 
 
-// ---- 0791:5EAB  f_0791_5EAB  (f_0791_5EAB; Ghidra 2000:5EAB, __stdcall16far; found by routines.tsv)
+// ---- 0791:5EAB  loose_ball_to_nearest  (f_0791_5EAB; Ghidra 2000:5EAB, __stdcall16far; found by routines.tsv)
+// T66 (ported, exact on ALL; runtime/original_match/port/duels.py): 869F on the record, commentary 0x20, 2FB1 (the nearest per side), then with DS:80FA (slot 0's state byte) set to 1 the ball goes to the slot DS:8311[2996()] through 384C; DS:80FA cleared; called by 5F06 when the ball is moving and DS:8327 is not in the set at 0791:5EE6  [likely; read code/seg_0791_10.asm]
 
-void __stdcall16far f_0791_5EAB(undefined4 param_1)
+void __stdcall16far loose_ball_to_nearest(undefined4 param_1)
 
 {
   char cVar1;
@@ -875,9 +877,10 @@ void __stdcall16far f_0791_5EAB(undefined4 param_1)
 }
 
 
-// ---- 0791:5F06  f_0791_5F06  (f_0791_5F06; Ghidra 2000:5F06, __stdcall16near; found by routines.tsv)
+// ---- 0791:5F06  deflection  (f_0791_5F06; Ghidra 2000:5F06, __stdcall16near; found by routines.tsv)
+// T66 (ported, exact on ALL; runtime/original_match/port/duels.py): nested in 5F8A (the record two frames up, 6188's): keeps DS:8303 and 2B51 of the record; with the ball moving and DS:8327 not in the set at 0791:5EE6 (23E4:08DF's ZF) 5EAB; else 5E41, commentary 0x20 (moving) or DS:080A[2B51], then DS:8303 := 06FA()  [likely; read code/seg_0791_10.asm]
 
-void f_0791_5F06(int param_1)
+void deflection(int param_1)
 
 {
   undefined4 uVar1;
@@ -893,11 +896,11 @@ void f_0791_5F06(int param_1)
   bVar4 = cVar2 == '\0';
   if ((!bVar4) && (sys_set_bit_mask_08DF(0x5ee6,0x2000,DS:8327), bVar4)) {
     uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
-    f_0791_5EAB((int)uVar1,(int)((ulong)uVar1 >> 0x10));
+    loose_ball_to_nearest((int)uVar1,(int)((ulong)uVar1 >> 0x10));
     return;
   }
   uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
-  f_0791_5E41((int)uVar1,(int)((ulong)uVar1 >> 0x10));
+  deflect_from_record((int)uVar1,(int)((ulong)uVar1 >> 0x10));
   if (cVar2 == '\0') {
     commentary_with_ball_slot(CONCAT11(cVar3 >> 7,*(undefined1 *)(cVar3 + 0x80a)));
   }
