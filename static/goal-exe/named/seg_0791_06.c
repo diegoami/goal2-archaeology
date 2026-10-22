@@ -2,7 +2,7 @@
 // Headings give listing addresses (SEGMENT:OFFSET, as in ../code/). DS:XXXX is the data segment 2581. A segment number written in the code (a far pointer's segment, a far call's) is Ghidra's: listing=Ghidra 0000=0000, 000E=1000, 0791=2000, 16D6=3000, 1771=4000, 2138=5000, 2139=6000, 214B=7000, 235C=8000, 2382=9000, 23E4=A000, 2581=B000.
 
 // ---- 0791:5F8A  react_off_ball  (f_0791_5F8A; Ghidra 2000:5F8A, __stdcall16near; found by routines.tsv)
-// (frame of 6188): the reactions of a non-holder, gated by 8325/8324, by 835F(ball) above 10 (far) and DS:8303: 287C with elements 4 (aerial, near), 3 (far), 9 (near, 2F28 true) or DS:0804[2B51()] (DS:8300 non-zero), each success passing to 408E, 3EDF, 5F06, 3EC5 or the commentary tail  [likely; F022]
+// T66 (ported, exact on ALL; runtime/original_match/port/duels.py): (frame of 6188): the reactions of a non-holder, gated by 8325/8324, by 835F(ball) above 10 (far) and DS:8303: 287C with elements 4 (aerial, near), 3 (far), 9 (near, 2F28 true) or DS:0804[2B51()] (DS:8300 non-zero), each success passing to 408E, 3EDF, 5F06, 3EC5 or the commentary tail  [established; F022; read code/seg_0791_10.asm]
 
 void react_off_ball(int param_1)
 
@@ -77,7 +77,7 @@ void react_off_ball(int param_1)
         cVar1 = skill_draw_passes((int)*(undefined4 *)(param_1 + 6),
                                   (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),3);
         if (cVar1 != '\0') {
-          f_0791_5F06(&stack0xfffe);
+          deflection(&stack0xfffe);
         }
       }
     }
@@ -93,7 +93,7 @@ void react_off_ball(int param_1)
                           ((int)*(undefined4 *)(param_1 + 6),
                            (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),ball_record._0_2_);
         if (cVar1 == '\0') {
-          f_0791_5F06(&stack0xfffe);
+          deflection(&stack0xfffe);
         }
         else {
           take_header((int)*(undefined4 *)(param_1 + 6),
@@ -111,7 +111,7 @@ void react_off_ball(int param_1)
 
 
 // ---- 0791:6188  handle_player_at_ball  (f_0791_6188; Ghidra 2000:6188, __stdcall16far; found by routines.tsv)
-// watched match only (DS:9A3E = 0), state +0x12 not 13, player on the ball square (2CEC): a keeper calls 5B36, another player not already holding (DS:830B) calls 5F8A  [likely; read decompiled/seg_0791_04.c]
+// T66 (ported, exact on ALL; runtime/original_match/port/duels.py): watched match only (DS:9A3E = 0), state +0x12 not 13, player on the ball square (2CEC): a keeper calls 5B36, another player not already holding (DS:830B) calls 5F8A  [likely; read decompiled/seg_0791_04.c; read code/seg_0791_10.asm]
 
 void __stdcall16far handle_player_at_ball(undefined4 param_1)
 
@@ -141,9 +141,10 @@ void __stdcall16far handle_player_at_ball(undefined4 param_1)
 }
 
 
-// ---- 0791:61EC  f_0791_61EC  (f_0791_61EC; Ghidra 2000:61EC, __cdecl16near; found by routines.tsv)
+// ---- 0791:61EC  restart_kick_off  (f_0791_61EC; Ghidra 2000:61EC, __cdecl16near; found by routines.tsv)
+// T66 (ported, exact on ALL; runtime/original_match/port/duels.py): DS:8325 := 0, check_substitutions 8062, DS:830B := DS:0668[s] + 10 with s the side not holding the ball (2996), or the holding side after an own goal (DS:7C39, then cleared), then 2A15 and 2929(1); called by 6240  [likely; read code/seg_0791_10.asm]
 
-void __cdecl16near f_0791_61EC(void)
+void __cdecl16near restart_kick_off(void)
 
 {
   char cVar1;
@@ -167,9 +168,10 @@ void __cdecl16near f_0791_61EC(void)
 }
 
 
-// ---- 0791:6240  f_0791_6240  (f_0791_6240; Ghidra 2000:6240, __stdcall16far; found by routines.tsv)
+// ---- 0791:6240  kick_off_state  (f_0791_6240; Ghidra 2000:6240, __stdcall16far; found by routines.tsv)
+// T66 (ported, exact on ALL; runtime/original_match/port/duels.py): update_player's state-6 handler (8B65), the wait for the kick-off after a goal (65A4 sets state 6): after an own goal (DS:7C39) 61EC; a record not DS:830B goes to the holder's point when its side's score (DS:9B3C[2996()]) is not below the other's, else 4354; the holder, when 2CC5 or random_is_one(16), turns his facing +8 to 5 * 2BE5 or, already facing, sets +7 := 6 * s8(DS:7920[+7 < 0]) or restarts (61EC) at |+7| = 6  [likely; read code/seg_0791_10.asm]
 
-void __stdcall16far f_0791_6240(undefined4 param_1)
+void __stdcall16far kick_off_state(undefined4 param_1)
 
 {
   char cVar1;
@@ -191,7 +193,7 @@ void __stdcall16far f_0791_6240(undefined4 param_1)
             iVar2 = -iVar2;
           }
           if (iVar2 == 6) {
-            f_0791_61EC();
+            restart_kick_off();
           }
           else {
             *(char *)(iVar3 + 7) = ((char *)form_delta)[*(char *)(iVar3 + 7) < '\0'] * '\x06';
@@ -216,14 +218,14 @@ void __stdcall16far f_0791_6240(undefined4 param_1)
     }
   }
   else {
-    f_0791_61EC();
+    restart_kick_off();
   }
   return;
 }
 
 
 // ---- 0791:6337  repick_kickoff_keeper  (f_0791_6337; Ghidra 2000:6337, __cdecl16near; found by routines.tsv)
-// when 0791:045D says DS:830B is a keeper slot {1,12}: draws rand(10) and sets DS:830B := r + 1 + DS:0668[2996()], staying on the same side of the pitch; 65A4 calls it (the watched engine's 8206 too); no other draws  [established; F012]
+// T66 (ported, exact on ALL; runtime/original_match/port/duels.py): when 0791:045D says DS:830B is a keeper slot {1,12}: draws rand(10) and sets DS:830B := r + 1 + DS:0668[2996()], staying on the same side of the pitch; 65A4 calls it (the watched engine's 8206 too); no other draws  [established; F012; read code/seg_0791_11.asm]
 
 void __cdecl16near repick_kickoff_keeper(void)
 
@@ -277,7 +279,7 @@ void __cdecl16near repick_kickoff_keeper(void)
 
 
 // ---- 0791:6443  record_goal  (f_0791_6443; Ghidra 2000:6443, __stdcall16near; found by routines.tsv)
-// (minute, slot, side): commentary 0x26 (0x27 when DS:7C39 is set, and then the other side is credited), adds 1 to the scorer's player word +0x0A, gives the scorer +0xC := clamp(s8(+0xC) + s8(DS:0x7920[7C39!=0?0:1])) through 7CC5 (+1 in a quick match, read by 377E so the scorer's strength shifts from the next minute on) and +0x12 += s8(DS:0x720[ring id 0x26]) = +40, adds 1 to the count DS:80F0[side] (up to 11), and stores the player and minute in the scorer list DS:7BD1 + side*0x21 + n*3 (+0x80 when DS:8324 or 7C39 is set)  [established; F012; read decompiled/seg_0791_04.c]
+// T66 (ported, exact on ALL; runtime/original_match/port/duels.py): the minute's byte goes to the row's +2; with DS:80F0 + side at 11 the eleventh row is written again; the argument side byte is reversed in its own frame (64FA) for an own goal: (minute, slot, side): commentary 0x26 (0x27 when DS:7C39 is set, and then the other side is credited), adds 1 to the scorer's player word +0x0A, gives the scorer +0xC := clamp(s8(+0xC) + s8(DS:0x7920[7C39!=0?0:1])) through 7CC5 (+1 in a quick match, read by 377E so the scorer's strength shifts from the next minute on) and +0x12 += s8(DS:0x720[ring id 0x26]) = +40, adds 1 to the count DS:80F0[side] (up to 11), and stores the player and minute in the scorer list DS:7BD1 + side*0x21 + n*3 (+0x80 when DS:8324 or 7C39 is set)  [established; F012; read decompiled/seg_0791_04.c; read code/seg_0791_11.asm]
 
 void record_goal(undefined1 param_1,int param_2,char param_3)
 
@@ -336,7 +338,7 @@ void record_goal(undefined1 param_1,int param_2,char param_3)
 
 
 // ---- 0791:65A4  reset_pitch_states  (f_0791_65A4; Ghidra 2000:65A4, __cdecl16near; found by routines.tsv)
-// per pitch slot 1..22: pitch+0x12 := 6 when 0791:2B51 says the slot is on DS:830B's side and 0791:045D says it is not a keeper, else 0; then calls 0791:6337  [established; F012]
+// T66 (ported, exact on ALL; runtime/original_match/port/duels.py): per pitch slot 1..22: pitch+0x12 := 6 when 0791:2B51 says the slot is on DS:830B's side and 0791:045D says it is not a keeper, else 0; then calls 0791:6337  [established; F012; read code/seg_0791_11.asm]
 
 void __cdecl16near reset_pitch_states(void)
 
@@ -366,7 +368,7 @@ LAB_0791_65E9:
 
 
 // ---- 0791:65FE  after_goal  (f_0791_65FE; Ghidra 2000:65FE, __cdecl16near; found by routines.tsv)
-// after a goal: DS:8325 := 1, whistle(4) (0441 - the goal pause, no RNG), copies pitch+0 to pitch+7 per slot (display), 0791:65A4, 0791:C173, then the per-slot form update: for every slot whose 2956 is 0 (available), 0791:7CC5(pitch, 0, s8(DS:0x7920[2B51])) - DS:0x7920 is 0xFF,0x01, so the side of DS:830B gains 1 form on every available player and the other side loses 1, shifting both line sums from the next minute on; then DS:832A := 50*(two score compares) and, when DS:9A3E, DS:9B55 := 1; 0791:D733 calls it after 0106(0)  [established; F012]
+// T66 (ported, exact on ALL; runtime/original_match/port/duels.py): after a goal: DS:8325 := 1, whistle(4) (0441 - the goal pause, no RNG), copies pitch+0 to pitch+7 per slot (display), 0791:65A4, 0791:C173, then the per-slot form update: for every slot whose 2956 is 0 (available), 0791:7CC5(pitch, 0, s8(DS:0x7920[2B51])) - DS:0x7920 is 0xFF,0x01, so the side of DS:830B gains 1 form on every available player and the other side loses 1, shifting both line sums from the next minute on; then DS:832A := 50*(two score compares) and, when DS:9A3E, DS:9B55 := 1; 0791:D733 calls it after 0106(0)  [established; F012; read code/seg_0791_11.asm]
 
 void __cdecl16near after_goal(void)
 
@@ -427,9 +429,10 @@ void __cdecl16near after_goal(void)
 }
 
 
-// ---- 0791:6755  f_0791_6755  (f_0791_6755; Ghidra 2000:6755, __stdcall16near; found by routines.tsv)
+// ---- 0791:6755  ball_over_goal_line  (f_0791_6755; Ghidra 2000:6755, __stdcall16near; found by routines.tsv)
+// T66 (ported, exact on ALL; runtime/original_match/port/duels.py): nested in 690C (DS:8327 > 4): the ball over a goal line: y := 0x27 * s8(DS:7920[y > 0]), commentary 0x28 (x = 0) or 0x29, DS:832A := 0x14, then 6F01(the side not holding the ball, 0), or 82EB with DS:830E set  [likely; read code/seg_0791_11.asm]
 
-void f_0791_6755(void)
+void ball_over_goal_line(void)
 
 {
   int iVar1;
@@ -467,7 +470,7 @@ void f_0791_6755(void)
 
 
 // ---- 0791:67B6  goal_scored  (f_0791_67B6; Ghidra 2000:67B6, __stdcall16near; found by routines.tsv)
-// credits a goal: the side from ball_holder_is_side0 (reversed by the own-goal flag DS:7C39), +1 to DS:9B3C[side], record_goal unless DS:8326, then after_goal and DS:7C37 := 1 (the replay is pending) unless DS:0C20 is set; with DS:830E set (an attacker judged nearer the goal line, likely offside) the goal is undone and none of this follows; it tests no managed side  [likely; F030; read code/seg_0791_11.asm:538]
+// T66 (ported, exact on ALL; runtime/original_match/port/duels.py): the score's inc is 685C and its take-back dec 68B3, the writes the kit reads as goal and goal_disallowed: credits a goal: the side from ball_holder_is_side0 (reversed by the own-goal flag DS:7C39), +1 to DS:9B3C[side], record_goal unless DS:8326, then after_goal and DS:7C37 := 1 (the replay is pending) unless DS:0C20 is set; with DS:830E set (an attacker judged nearer the goal line, likely offside) the goal is undone and none of this follows; it tests no managed side  [established; F030; read code/seg_0791_11.asm:538; read code/seg_0791_11.asm]
 
 void goal_scored(void)
 
@@ -547,7 +550,7 @@ void __cdecl16near penalty_contest(void)
   bool bVar4;
   
   if (4 < DS:8327) {
-    f_0791_6755(&stack0xfffe);
+    ball_over_goal_line(&stack0xfffe);
     pitch_records[0].out_of_place = 0;
     DS:8324 = 0;
     return;
@@ -562,7 +565,7 @@ void __cdecl16near penalty_contest(void)
       iVar3 = u214b_random_1_to_n(uVar2);
       if (iVar1 < iVar3) goto LAB_0791_6976;
     }
-    f_0791_6755(&stack0xfffe);
+    ball_over_goal_line(&stack0xfffe);
   }
   else {
 LAB_0791_6976:
@@ -1121,78 +1124,4 @@ undefined1 f_0791_717F(void)
     local_5 = local_5 + 1;
   }
   return local_6;
-}
-
-
-// ---- 0791:71E8  f_0791_71E8  (f_0791_71E8; Ghidra 2000:71E8, __stdcall16near; found by routines.tsv)
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-void f_0791_71E8(int param_1)
-
-{
-  char cVar1;
-  undefined1 extraout_AH;
-  undefined2 unaff_SS;
-  
-  cVar1 = f_0791_2CC5((int)*(undefined4 *)(param_1 + 6),
-                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-  if (cVar1 != '\0') {
-    if (*(int *)*(undefined4 *)(param_1 + 6) == DS:8315) {
-      if (DS:8323 == '\0') {
-        cVar1 = f_0791_717F(param_1);
-        if (cVar1 != '\0') {
-          cVar1 = attack_direction((int)*(undefined4 *)(param_1 + 6),
-                                   (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-          *(undefined1 *)((int)*(undefined4 *)(param_1 + 6) + 8) = (char)(cVar1 * -0x25);
-          commentary_with_ball_slot(CONCAT11((char)((uint)(cVar1 * -0x25) >> 8),0x2e));
-          DS:8323 = '\x01';
-        }
-      }
-      else {
-        long_ball_target((int)*(undefined4 *)(param_1 + 6),
-                         (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-        fill_pitch_state(CONCAT11(extraout_AH,5));
-      }
-    }
-    else {
-      DS:830C = *(undefined1 *)((int)*(undefined4 *)(param_1 + 6) + 6);
-      DS:830D = 0;
-      *(int *)((int)*(undefined4 *)(param_1 + 6) + 7) = DS:8315;
-    }
-  }
-  return;
-}
-
-
-// ---- 0791:7287  f_0791_7287  (f_0791_7287; Ghidra 2000:7287, __stdcall16far; found by routines.tsv)
-
-void __stdcall16far f_0791_7287(undefined2 *param_1)
-
-{
-  char cVar1;
-  undefined2 *puVar2;
-  undefined2 uVar3;
-  
-  uVar3 = (undefined2)((ulong)param_1 >> 0x10);
-  puVar2 = (undefined2 *)param_1;
-  if (*(byte *)(puVar2 + 3) == DS:830B) {
-    f_0791_71E8(&stack0xfffe);
-  }
-  else {
-    cVar1 = is_keeper_slot(*(undefined1 *)(puVar2 + 3));
-    if (cVar1 == '\0') {
-      cVar1 = in_own_goal_strip((pitch *)pitch_records + DS:830B,0xb000,*param_1);
-      if (cVar1 == '\0') {
-        update_player_destination(puVar2,uVar3);
-      }
-      else {
-        *(undefined1 *)(puVar2 + 4) = 0;
-      }
-    }
-    else {
-      set_destination_from_post(puVar2,uVar3);
-    }
-  }
-  return;
 }

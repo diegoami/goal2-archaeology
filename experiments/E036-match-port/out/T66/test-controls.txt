@@ -1,0 +1,16 @@
+module absent (main before T66): exit 1, FAILED (errors=19), caught
+5B43/5B4A: the 8325/8324 gate dropped: exit 1, FAILED (failures=1), caught
+5B8F: line 0x41 said as 0x0D: exit 1, FAILED (failures=1), caught
+5BAD: the keeper's roll not doubled: exit 1, FAILED (failures=1), caught
+5BCD: the holder's roll not held on the stack: exit 1, FAILED (failures=1), caught
+5C5A: the coin ignored: exit 1, FAILED (failures=1), caught
+5CE3: event 4 not tested: exit 1, FAILED (failures=1), caught
+5D78: the high words not compared: exit 1, FAILED (failures=1), caught
+5F66: line 0x20 said as 0x22: exit 1, FAILED (failures=1), caught
+6141: line 0x19 said as 0x23: exit 1, FAILED (failures=1), caught
+634A: the keeper test dropped: exit 1, FAILED (failures=1), caught
+68D6: DS:0C20 not cleared: exit 1, FAILED (failures=1), caught
+6508: the cap at 12: exit 1, FAILED (failures=1), caught
+64FA: the own goal's side not reversed: exit 1, FAILED (failures=1), caught
+68B3: the take-back written as 685C: exit 1, FAILED (failures=1), caught
+all controls caught
