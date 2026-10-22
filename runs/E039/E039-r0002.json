@@ -1,0 +1,789 @@
+{
+ "schema": "run/1",
+ "run_id": "E039-r0002",
+ "experiment": "E039",
+ "arm": "start-year-1992",
+ "rep": 2,
+ "code_commit": "2f4589f",
+ "machine": "ubuntu-24-04",
+ "artifact": {
+  "set": "goal2-67cf27d6",
+  "variant": null
+ },
+ "runtime": {
+  "driver": "runtime/driver/driver.py@2f4589f",
+  "platform": "python-3.13.16/ubuntu-24-04",
+  "fingerprint": {
+   "dosbox-x": "2024.03.01 SDL2",
+   "xvfb": "2:21.1.12-1ubuntu1.9",
+   "xdotool": "xdotool version 3.20160805.1",
+   "python": "3.13.16",
+   "kernel": "6.18.44-fc-v140",
+   "config_sha256": "f8b285dd3e07cd60b97aa4d93cc80021859bfc7b4c4bb8bc070163334e16eeca",
+   "machine": "svga_s3",
+   "memsize": "16",
+   "cycles": "30000",
+   "core": "auto",
+   "cputype": "auto",
+   "dos_time": "10:00:00",
+   "dos_date": "10-04-1992"
+  }
+ },
+ "interventions": [
+  {
+   "level": "I1",
+   "what": "text screen, BIOS data area (0040:0049, 0040:006C), GOAL.EXE memory (DS:7B62, DS:7B64, the stack above SS:SP) and the CPU's registers read from DOSBox-X savestates (Host+S; components Vga, Memory, CPU)"
+  },
+  {
+   "level": "I2",
+   "what": "savestates written at every poll (vocabulary/interventions.md lists save of state as I2); one per screen kept"
+  },
+  {
+   "level": "I3",
+   "what": "DOS date 10/04/1992 and DOS time 10:00:00 requested with the DOSBox-X commands `date 10/04/1992` and `time 10:00:00` in the autoexec, before GOAL runs; applied: DOS reported date 10/04/1992 and time 9:59:59 right after (`date /t`, `time /t`), checked by Driver.launch"
+  }
+ ],
+ "start_state": {
+  "id": "fresh-launch",
+  "sha256": "f8b285dd3e07cd60b97aa4d93cc80021859bfc7b4c4bb8bc070163334e16eeca",
+  "restore": "fresh DOSBox-X process (config sha256 f8b285dd3e07cd60b97aa4d93cc80021859bfc7b4c4bb8bc070163334e16eeca), game folder recreated from the verified release copy, nothing restored; DOS time set to 10:00:00 on 10/04/1992 before GOAL ran; then the keys n Enter Enter b o b Enter Enter Enter, each sent once the screen before it waits in 214B:08DD's read (the name's letters after a settle poll)"
+ },
+ "seed": null,
+ "actions": {
+  "script": "experiments/E039-start-year/run.py",
+  "sha256": "11d0283921f7314091f3be310ae3af1531d09a2c34a8e74cf05d5148b8884521",
+  "args": [
+   "--dos-date",
+   "10/04/1992",
+   "--batch",
+   "b1"
+  ]
+ },
+ "observations": [
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host UTC time at launch",
+   "value": "2026-10-22T20:19:28.853Z"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOS clock read back: CLOCK.TXT as DOS wrote it (`date /t`, then `time /t`) before GOAL, right after setting the date and time",
+   "value": "10/04/1992\n9:59:59\n"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "pre-date: no savestate before the title had the CPU in GOAL.EXE's code with DS:A9FD 0",
+   "value": "none caught"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "title-load-prompt: host UTC time just before the savestate was requested",
+   "value": "2026-10-22T20:20:53.271Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "title-load-prompt: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-22T20:20:53.271+00:00 UTC"
+  },
+  {
+   "step": 0,
+   "source": "screen",
+   "field": "title-load-prompt: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+  },
+  {
+   "step": 0,
+   "source": "ui-text",
+   "field": "title-load-prompt: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                   THE international soccer management game\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■■■■■■■■■■■"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "title-load-prompt: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "title-load-prompt: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a0436 (36 04 0a 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "title-load-prompt: CPU registers from the savestate's CPU component (E021 notes section 1), hex",
+   "value": "{\"EAX\": \"00000000\", \"ECX\": \"0000079A\", \"EDX\": \"00001F94\", \"EBX\": \"00003FEA\", \"ESP\": \"00003FC6\", \"EBP\": \"00000001\", \"ESI\": \"00000002\", \"EDI\": \"00000004\", \"EIP\": \"0000CFB2\", \"EFLAGS\": \"00007212\", \"ES\": \"3FF0\", \"CS\": \"F000\", \"SS\": \"3875\", \"DS\": \"000E\", \"FS\": \"0000\", \"GS\": \"0000\"}"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "title-load-prompt: 214B:08DD's frame (Intr's return 214B:0904 on the stack) and the callers' return addresses up the BP chain, listing addresses; null when the CPU is not in 08DD's INT 16h call",
+   "value": "{\"intr_return_at\": \"3875:3FD0\", \"bp\": \"3FEE\", \"callers\": [\"1771:085F\", \"0000:0029\", \"0728:0720 (outside the program)\"]}"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "title-load-prompt: word at DS:7B62 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "0000"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "title-load-prompt: word at DS:7B64 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "0000"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "title-load-prompt: word at DS:A9FD (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "07c8"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "title-load-prompt: word at DS:A9FF (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "10b3"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "title-load-prompt: word at DS:8336 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "004e"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "title-load-prompt: the game record [DS:A923] +0x38..+0x41 (1771:9B85: +0x3A year, +0x3C stage, +0x40 year mod 4 = 2), hex",
+   "value": "00000000000000000000"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>",
+   "value": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=<work>/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=<work>/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=30000\n[autoexec]\nmount c <game>\nc:\ndate 10/04/1992\ntime 10:00:00\nmount d <work>/dosclock\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\ngoal\nexit\n"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "sha256 of that config text (UTF-8)",
+   "value": "f8b285dd3e07cd60b97aa4d93cc80021859bfc7b4c4bb8bc070163334e16eeca"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "batch label given on the command line",
+   "value": "b1"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "title-player-count: host UTC time just before the savestate was requested",
+   "value": "2026-10-22T20:20:53.934Z"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "title-player-count: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-22T20:20:53.934+00:00 UTC"
+  },
+  {
+   "step": 1,
+   "source": "screen",
+   "field": "title-player-count: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2"
+  },
+  {
+   "step": 1,
+   "source": "ui-text",
+   "field": "title-player-count: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                        How many players  1 2 3 4 5 6  ?\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n                     Use ←→ to choose number, ◄┘ to select"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "title-player-count: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "title-player-count: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a043f (3f 04 0a 00)"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "field": "title-player-count: CPU registers from the savestate's CPU component (E021 notes section 1), hex",
+   "value": "{\"EAX\": \"00000000\", \"ECX\": \"0000296E\", \"EDX\": \"00000001\", \"EBX\": \"000013F0\", \"ESP\": \"00003FBE\", \"EBP\": \"00000070\", \"ESI\": \"00000874\", \"EDI\": \"0000007C\", \"EIP\": \"0000CFA1\", \"EFLAGS\": \"00007212\", \"ES\": \"0FA0\", \"CS\": \"F000\", \"SS\": \"3875\", \"DS\": \"1F94\", \"FS\": \"0000\", \"GS\": \"0000\"}"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "field": "title-player-count: 214B:08DD's frame (Intr's return 214B:0904 on the stack) and the callers' return addresses up the BP chain, listing addresses; null when the CPU is not in 08DD's INT 16h call",
+   "value": "{\"intr_return_at\": \"3875:3FC8\", \"bp\": \"3FE6\", \"callers\": [\"1771:0081\", \"1771:08A8 (near)\", \"0000:0029\", \"0728:0720 (outside the program)\"]}"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "title-player-count: word at DS:7B62 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "0000"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "title-player-count: word at DS:7B64 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "0000"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "title-player-count: word at DS:A9FD (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "07c8"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "title-player-count: word at DS:A9FF (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "10b3"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "title-player-count: word at DS:8336 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "004e"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "field": "title-player-count: the game record [DS:A923] +0x38..+0x41 (1771:9B85: +0x3A year, +0x3C stage, +0x40 year mod 4 = 2), hex",
+   "value": "00000000000000000000"
+  },
+  {
+   "step": 2,
+   "source": "log",
+   "field": "country-select: host UTC time just before the savestate was requested",
+   "value": "2026-10-22T20:20:54.592Z"
+  },
+  {
+   "step": 2,
+   "source": "log",
+   "field": "country-select: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-22T20:20:54.592+00:00 UTC"
+  },
+  {
+   "step": 2,
+   "source": "screen",
+   "field": "country-select: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "fed56e4032e0aee03f512cb2e82b0afd4b7db4ffadd0895add2db1da81f0bd5e"
+  },
+  {
+   "step": 2,
+   "source": "ui-text",
+   "field": "country-select: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │     Player 1 : PLEASE SELECT YOUR COUNTRY           use INS to\n ┌─┐┌─┐┌─┐│ │──────────────────────────────────────────────────  swap between\n │ ││ ││ ││ │ Use ←→↑↓ keys to browse, then hit ◄┘ to select       world and\n └─┤└─┘└─┤│ │──────────────────────────────────────────────────   continental\n───┘ v.2    │       level of difficulty : TOO EASY                 rankings\n────────────┘──────────────────────────────────────────────────\n┌team─────────────────────────────┬───────────────────tactics┐ ┌───────────────┐\n│Germany-------- status giant     ├──────────────team─tactics┤ │Germany--------│\n├manager──────────────────────────┤defence─system──full pitch┤ │Argentina------│\n│B Vogts         skill eclectic   ├protection────stand ground┤ │Italy----------│\n├ranking─now─top┬─────────────────┼offside───────offside trap┤ │England--------│\n│World     1   1│formation  5-3-2 ├───────────player─defaults┤ │Cameroon-------│\n│Europe    2   2│strips     ☻ ☻ ☻ │positioning──────stay back┤ │R.C.S----------│\n├skills──────┬──┴─┬────┬────┬────┬┼possession──────quick pass┤ │Eire-----------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼passing────────long passes┤ │Yugoslavia-----│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling────────go in hard┤ │Brazil---------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼marking─────────man to man┤ │Spain----------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼───────────characteristics┤ │Belgium--------│\n├performance─┼────┼────┼────┼────┼┤average─caps─0─────age─29─┤ │Romania--------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──average■■■■■■■■■┤ │Costa Rica-----│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───superb■■■■■■■■■■┤ │Holland--------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────full of zip■■■■■┤ │Colombia-------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────could be worse■■┤ │Uruguay--------│\n└────────────┴────┴────┴────┴────┴┴──────────────┴────┴────┴─┘ └───────────────┘\nspacebar-players"
+  },
+  {
+   "step": 2,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "country-select: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 2,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "country-select: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a0448 (48 04 0a 00)"
+  },
+  {
+   "step": 2,
+   "source": "memory",
+   "field": "country-select: CPU registers from the savestate's CPU component (E021 notes section 1), hex",
+   "value": "{\"EAX\": \"00000000\", \"ECX\": \"0000296E\", \"EDX\": \"00003FE2\", \"EBX\": \"000013F0\", \"ESP\": \"00003EAC\", \"EBP\": \"000028DB\", \"ESI\": \"00001F94\", \"EDI\": \"000028F0\", \"EIP\": \"0000CFB0\", \"EFLAGS\": \"00007212\", \"ES\": \"0FA0\", \"CS\": \"F000\", \"SS\": \"3875\", \"DS\": \"1F94\", \"FS\": \"0000\", \"GS\": \"0000\"}"
+  },
+  {
+   "step": 2,
+   "source": "memory",
+   "field": "country-select: 214B:08DD's frame (Intr's return 214B:0904 on the stack) and the callers' return addresses up the BP chain, listing addresses; null when the CPU is not in 08DD's INT 16h call",
+   "value": "{\"intr_return_at\": \"3875:3EB6\", \"bp\": \"3ED4\", \"callers\": [\"1771:28F5\", \"1771:2D55\", \"0000:003F\", \"0728:0720 (outside the program)\"]}"
+  },
+  {
+   "step": 2,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "country-select: word at DS:7B62 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "18bc"
+  },
+  {
+   "step": 2,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "country-select: word at DS:7B64 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "0000"
+  },
+  {
+   "step": 2,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "country-select: word at DS:A9FD (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "07c8"
+  },
+  {
+   "step": 2,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "country-select: word at DS:A9FF (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "10b3"
+  },
+  {
+   "step": 2,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "country-select: word at DS:8336 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "004e"
+  },
+  {
+   "step": 2,
+   "source": "memory",
+   "field": "country-select: the game record [DS:A923] +0x38..+0x41 (1771:9B85: +0x3A year, +0x3C stage, +0x40 year mod 4 = 2), hex",
+   "value": "0000ca07050102010101"
+  },
+  {
+   "step": 3,
+   "source": "log",
+   "field": "country-select-name-entry: host UTC time just before the savestate was requested",
+   "value": "2026-10-22T20:20:55.251Z"
+  },
+  {
+   "step": 3,
+   "source": "log",
+   "field": "country-select-name-entry: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-22T20:20:55.251+00:00 UTC"
+  },
+  {
+   "step": 3,
+   "source": "screen",
+   "field": "country-select-name-entry: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "a8c29236f3c0460c6cc5dc5714096eb42ed27c924b528f2a88e8fd1e53870859"
+  },
+  {
+   "step": 3,
+   "source": "ui-text",
+   "field": "country-select-name-entry: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │     Player 1 : PLEASE SELECT YOUR COUNTRY           use INS to\n ┌─┐┌─┐┌─┐│ │──────────────────────────────────────────────────  swap between\n │ ││ ││ ││ │ Use ←→↑↓ keys to browse, then hit ◄┘ to select       world and\n └─┤└─┘└─┤│ │──────────────────────────────────────────────────   continental\n───┘ v.2    │       level of difficulty : TOO EASY                 rankings\n────────────┘──────────────────────────────────────────────────\n┌team─────────────────────────────┬───────────────────tactics┐ ┌───────────────┐\n│Germany-------- status giant     ├──────────────team─tactics┤ │Germany--------│\n├manager──────────────────────────┤defence─system──full pitch┤ │Argentina------│\n│☻ Player▒▒▒▒▒▒  skill eclectic   ├protection────stand ground┤ │Italy----------│\n├ranking─now─top┬─────────────────┼offside───────offside trap┤ │England--------│\n│World     1   1│formation  5-3-2 ├───────────player─defaults┤ │Cameroon-------│\n│Europe    2   2│strips     ☻ ☻ ☻ │positioning──────stay back┤ │R.C.S----------│\n├skills──────┬──┴─┬────┬────┬────┬┼possession──────quick pass┤ │Eire-----------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼passing────────long passes┤ │Yugoslavia-----│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling────────go in hard┤ │Brazil---------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼marking─────────man to man┤ │Spain----------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼───────────characteristics┤ │Belgium--------│\n├performance─┼────┼────┼────┼────┼┤average─caps─0─────age─29─┤ │Romania--------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──average■■■■■■■■■┤ │Costa Rica-----│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───superb■■■■■■■■■■┤ │Holland--------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────full of zip■■■■■┤ │Colombia-------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────could be worse■■┤ │Uruguay--------│\n└────────────┴────┴────┴────┴────┴┴──────────────┴────┴────┴─┘ └───────────────┘\n************* Type in characters (maximum 14). ◄┘-accept Esc-abort *************"
+  },
+  {
+   "step": 3,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "country-select-name-entry: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 3,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "country-select-name-entry: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a0451 (51 04 0a 00)"
+  },
+  {
+   "step": 3,
+   "source": "memory",
+   "field": "country-select-name-entry: CPU registers from the savestate's CPU component (E021 notes section 1), hex",
+   "value": "{\"EAX\": \"00007256\", \"ECX\": \"0000A034\", \"EDX\": \"00009A00\", \"EBX\": \"00003102\", \"ESP\": \"00003B8E\", \"EBP\": \"00003BA4\", \"ESI\": \"0000A82D\", \"EDI\": \"00003BA3\", \"EIP\": \"0000073A\", \"EFLAGS\": \"00007256\", \"ES\": \"3875\", \"CS\": \"296E\", \"SS\": \"3875\", \"DS\": \"2DA4\", \"FS\": \"0000\", \"GS\": \"0000\"}"
+  },
+  {
+   "step": 3,
+   "source": "memory",
+   "field": "country-select-name-entry: 214B:08DD's frame (Intr's return 214B:0904 on the stack) and the callers' return addresses up the BP chain, listing addresses; null when the CPU is not in 08DD's INT 16h call",
+   "value": "null"
+  },
+  {
+   "step": 3,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "country-select-name-entry: word at DS:7B62 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "f5db"
+  },
+  {
+   "step": 3,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "country-select-name-entry: word at DS:7B64 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "0000"
+  },
+  {
+   "step": 3,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "country-select-name-entry: word at DS:A9FD (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "07c8"
+  },
+  {
+   "step": 3,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "country-select-name-entry: word at DS:A9FF (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "10b3"
+  },
+  {
+   "step": 3,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "country-select-name-entry: word at DS:8336 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "004e"
+  },
+  {
+   "step": 3,
+   "source": "memory",
+   "field": "country-select-name-entry: the game record [DS:A923] +0x38..+0x41 (1771:9B85: +0x3A year, +0x3C stage, +0x40 year mod 4 = 2), hex",
+   "value": "0000ca07050102010101"
+  },
+  {
+   "step": 7,
+   "source": "log",
+   "field": "after-name-1: host UTC time just before the savestate was requested",
+   "value": "2026-10-22T20:20:59.417Z"
+  },
+  {
+   "step": 7,
+   "source": "log",
+   "field": "after-name-1: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-22T20:20:59.417+00:00 UTC"
+  },
+  {
+   "step": 7,
+   "source": "screen",
+   "field": "after-name-1: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "ea6d84247cb1833f0cb9a70328fe7cceb568f569f46c0f0566c5cf8f243b45d5"
+  },
+  {
+   "step": 7,
+   "source": "ui-text",
+   "field": "after-name-1: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │ ──────────────────────────────────────────────────────────────────\n ┌─┐┌─┐┌─┐│ │ ──────────────────────────────────────────────────────────────────\n │ ││ ││ ││ │ ──────────────────────────────────────────────────────────────────\n └─┤└─┘└─┤│ │ ──────────────────────────────────────────────────────────────────\n───┘ v.2    │ ──────────────────────────────────────────────────────────────────\n────────────┘ ──────────────┌──────────────────────┐────────────────────────────\n────────────────────────────│ THE SOCCER BULLETIN  │────────────────────────────\n──┌────────────────────┐────├──────────────────────┤────┌────────────────────┐──\n──│  D A I L Y  R A G  │────│        GERMANY       │────│ ☼ Sporting Times ☼ │──\n──├────────────────────┤────│     APPOINT A NEW    │────├────────────────────┤──\n──│       WELCOME      │────│        MANAGER       │────│      CAN B OB      │──\n──│       ABOARD       │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│    DO THE JOB ?    │──\n──│       B OB !       │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ≡≡≡≡≡ ≡≡≡ ≡≡≡≡ ≡≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ≡≡≡≡≡ ≡≡≡ ░░░░░ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ≡≡≡≡≡ ≡≡≡ ░░░░░ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ░░░░░ ≡≡≡ ░░░░░ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ░░░░░ ≡≡≡ ≡≡≡≡≡ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ≡≡≡≡≡ ≡≡≡ ░░ ≡≡ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ≡≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡ │──\n──└────────────────────┘────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────└────────────────────┘──\n────────────────────────────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────────────────────────────\n────────────────────────────└──────────────────────┘────────────────────────────\n────────────────────────────────────────────────────────────────────────────────\n────────────────────────────────────────────────────────────────────────────────\n                                  hit any key"
+  },
+  {
+   "step": 7,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "after-name-1: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 7,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "after-name-1: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a0484 (84 04 0a 00)"
+  },
+  {
+   "step": 7,
+   "source": "memory",
+   "field": "after-name-1: CPU registers from the savestate's CPU component (E021 notes section 1), hex",
+   "value": "{\"EAX\": \"00000000\", \"ECX\": \"00002042\", \"EDX\": \"0000624F\", \"EBX\": \"0000204E\", \"ESP\": \"00003EA6\", \"EBP\": \"0000414E\", \"ESI\": \"00004547\", \"EDI\": \"0000060E\", \"EIP\": \"0000CFAF\", \"EFLAGS\": \"00007212\", \"ES\": \"0FA0\", \"CS\": \"F000\", \"SS\": \"3875\", \"DS\": \"0831\", \"FS\": \"0000\", \"GS\": \"0000\"}"
+  },
+  {
+   "step": 7,
+   "source": "memory",
+   "field": "after-name-1: 214B:08DD's frame (Intr's return 214B:0904 on the stack) and the callers' return addresses up the BP chain, listing addresses; null when the CPU is not in 08DD's INT 16h call",
+   "value": "{\"intr_return_at\": \"3875:3EB0\", \"bp\": \"3ECE\", \"callers\": [\"000E:0629\", \"000E:6964 (near)\", \"0000:0078\", \"0728:0720 (outside the program)\"]}"
+  },
+  {
+   "step": 7,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "after-name-1: word at DS:7B62 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "157f"
+  },
+  {
+   "step": 7,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "after-name-1: word at DS:7B64 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "0000"
+  },
+  {
+   "step": 7,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "after-name-1: word at DS:A9FD (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "07c8"
+  },
+  {
+   "step": 7,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "after-name-1: word at DS:A9FF (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "10b3"
+  },
+  {
+   "step": 7,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "after-name-1: word at DS:8336 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "004e"
+  },
+  {
+   "step": 7,
+   "source": "memory",
+   "field": "after-name-1: the game record [DS:A923] +0x38..+0x41 (1771:9B85: +0x3A year, +0x3C stage, +0x40 year mod 4 = 2), hex",
+   "value": "0000ca07050102010101"
+  },
+  {
+   "step": 8,
+   "source": "log",
+   "field": "after-name-2: host UTC time just before the savestate was requested",
+   "value": "2026-10-22T20:21:00.075Z"
+  },
+  {
+   "step": 8,
+   "source": "log",
+   "field": "after-name-2: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-22T20:21:00.075+00:00 UTC"
+  },
+  {
+   "step": 8,
+   "source": "screen",
+   "field": "after-name-2: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "b83c122edb7b28306bedc2ddae97ee2a62f0a59b37890159f288f00ca2c23faf"
+  },
+  {
+   "step": 8,
+   "source": "ui-text",
+   "field": "after-name-2: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │ ──────────────────────────────────────────────────────────────────\n ┌─┐┌─┐┌─┐│ │ ──────────────────────────────────────────────────────────────────\n │ ││ ││ ││ │ ──────────────────────────────────────────────────────────────────\n └─┤└─┘└─┤│ │ ──────────────────────────────────────────────────────────────────\n───┘ v.2    │ ──────────────────────────────────────────────────────────────────\n────────────┘ ──────────────┌──────────────────────┐────────────────────────────\n────────────────────────────│ THE SOCCER BULLETIN  │────────────────────────────\n──┌────────────────────┐────├──────────────────────┤────┌────────────────────┐──\n──│  D A I L Y  R A G  │────│ GROUPS ARE ANNOUNCED │────│ ☼ Sporting Times ☼ │──\n──├────────────────────┤────│  FOR QUALIFYING FOR  │────├────────────────────┤──\n──│       GERMANY      │────│     THE WORLD CUP    │────│     GERMANY IS     │──\n──│  HAS AN EASY RIDE  │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│  THE BEST TEAM IN  │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│       GROUP A      │──\n──│ ≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ≡≡≡≡≡ ≡≡≡ ░░░░░ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ≡≡≡≡≡ ≡≡≡ ░░░░░ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ░░░░░ ≡≡≡ ░░░░░ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│     GERMANY PLAY     │────│ ░░░░░ ≡≡≡ ≡≡≡≡≡ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡≡ │────│       ROMANIA,       │────│ ≡≡≡≡≡ ≡≡≡ ░░ ≡≡ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡≡ │────│      N.IRELAND,      │────│ ≡≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡ │──\n──└────────────────────┘────│      AND ALBANIA     │────└────────────────────┘──\n────────────────────────────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────────────────────────────\n────────────────────────────└──────────────────────┘────────────────────────────\n────────────────────────────────────────────────────────────────────────────────\n────────────────────────────────────────────────────────────────────────────────\n                                  hit any key"
+  },
+  {
+   "step": 8,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "after-name-2: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 8,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "after-name-2: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a048d (8d 04 0a 00)"
+  },
+  {
+   "step": 8,
+   "source": "memory",
+   "field": "after-name-2: CPU registers from the savestate's CPU component (E021 notes section 1), hex",
+   "value": "{\"EAX\": \"00000000\", \"ECX\": \"00006E61\", \"EDX\": \"00002079\", \"EBX\": \"00006D72\", \"ESP\": \"00003C8C\", \"EBP\": \"00005349\", \"ESI\": \"00002A86\", \"EDI\": \"0000060E\", \"EIP\": \"0000CFA7\", \"EFLAGS\": \"00007212\", \"ES\": \"0FA0\", \"CS\": \"F000\", \"SS\": \"3875\", \"DS\": \"0831\", \"FS\": \"0000\", \"GS\": \"0000\"}"
+  },
+  {
+   "step": 8,
+   "source": "memory",
+   "field": "after-name-2: 214B:08DD's frame (Intr's return 214B:0904 on the stack) and the callers' return addresses up the BP chain, listing addresses; null when the CPU is not in 08DD's INT 16h call",
+   "value": "{\"intr_return_at\": \"3875:3C96\", \"bp\": \"3CB4\", \"callers\": [\"000E:0629\", \"000E:6625 (near)\", \"0000:00BE\", \"0728:0720 (outside the program)\"]}"
+  },
+  {
+   "step": 8,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "after-name-2: word at DS:7B62 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "ee42"
+  },
+  {
+   "step": 8,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "after-name-2: word at DS:7B64 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "3b4e"
+  },
+  {
+   "step": 8,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "after-name-2: word at DS:A9FD (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "07c8"
+  },
+  {
+   "step": 8,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "after-name-2: word at DS:A9FF (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "10b3"
+  },
+  {
+   "step": 8,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "after-name-2: word at DS:8336 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "004e"
+  },
+  {
+   "step": 8,
+   "source": "memory",
+   "field": "after-name-2: the game record [DS:A923] +0x38..+0x41 (1771:9B85: +0x3A year, +0x3C stage, +0x40 year mod 4 = 2), hex",
+   "value": "0000ca07050102010101"
+  },
+  {
+   "step": 9,
+   "source": "log",
+   "field": "manager-menu: host UTC time just before the savestate was requested",
+   "value": "2026-10-22T20:21:00.743Z"
+  },
+  {
+   "step": 9,
+   "source": "log",
+   "field": "manager-menu: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-22T20:21:00.743+00:00 UTC"
+  },
+  {
+   "step": 9,
+   "source": "screen",
+   "field": "manager-menu: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "f64826f4ebd581963af36e8bd158b7ee5b64a9ef2db9879a565879a93edb04aa"
+  },
+  {
+   "step": 9,
+   "source": "ui-text",
+   "field": "manager-menu: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │   │     │:::::::::::::::::::::::1994:::           Germany--------\n ┌─┐┌─┐┌─┐│ │   │     │        │    │                          ┌────────────┬─┐\n │ ││ ││ ││ │   │     │┌──┐┌── │ ┌──┤  ┌─── ┬  ┬ ┌──┐          │B Illgner   │G│\n └─┤└─┘└─┤│ │   │  │  ││  ││   │ │  │  │    │  │ │  │          │M Binz      │S│\n───┘ v.2    │   └──┴──┘└──┘┴   └ └──┘  └─── └──┴ ├──┘          │G Buchwald  │C│\n────────────┘   ─────────────QUALIFYING──────────┴───          │J Kohler    │C│\n──┌name──────────┬rating─────────┐ ───────  ─┌─────────┐────── │A Brehme    │B│\n──│B Ob          │unknown        │ ───────  ─│team info│────── │S Reuter    │B│\n──└──────────────┴───────────────┘ ───────  ─└─────────┘────── │L Mattheus  │Ç│\n─┌team───────────┐────┌─┬managers──────┐──  ─┌────────────┐─── │S Effenberg │M│\n─│Germany--------│────│1│B Ob          │──  ─│fixture list│─── │T Haessler  │M│\n─├rankings───┬───┘────│2│              │──  ─└────────────┘─── │K Riedle    │¢│\n─│World  :  1│────────│3│              │──  ─┌──────────┐───── │R Voeller   │$│\n─│Europe :  2│────────│4│              │──  ─│tournament│───── ├────────────┼─┤\n─└───────────┘────────│5│              │──  ─└──────────┘───── │A Kopke     │G│\n─┌next─opponents─┐────│6│              │──  ─┌───────┐──────── │T Helmer    │S│\n─│R.C.S----------│────└─┴──────────────┘──  ─│history│──────── │M Frontzeck │C│\n─├rankings───┬───┘──────── Use ↑↓ to ─────  ─└───────┘──────── │M Schulz    │B│\n─│World  :  6│─────────── find option ────  ─┌────────────┐─── │M Sammer    │Ç│\n─│Europe : 11│────────────────────────────  ─│select squad│─── │A Thom      │M│\n─├───────────┴───┐───────── Hit ◄┘ to ────  ─└────────────┘─── │A Moller    │M│\n─│friendly home  │───────── select ───────  ─┌──────────────┐─ │T Doll      │$│\n─└───────────────┘───────── option ───────  ─│play next game│─ │J Klinsmann │$│\n──────────────────────────────────────────  ─└──────────────┘─ └────────────┴─┘\nF1help  F3load goal  F4load summary  F5print screen F7save               F10quit"
+  },
+  {
+   "step": 9,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "manager-menu: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 9,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "manager-menu: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a0496 (96 04 0a 00)"
+  },
+  {
+   "step": 9,
+   "source": "memory",
+   "field": "manager-menu: CPU registers from the savestate's CPU component (E021 notes section 1), hex",
+   "value": "{\"EAX\": \"00000000\", \"ECX\": \"0000296E\", \"EDX\": \"00000009\", \"EBX\": \"000013F0\", \"ESP\": \"00003EC0\", \"EBP\": \"00000070\", \"ESI\": \"000004BC\", \"EDI\": \"000075CC\", \"EIP\": \"0000CFA7\", \"EFLAGS\": \"00007212\", \"ES\": \"0FA0\", \"CS\": \"F000\", \"SS\": \"3875\", \"DS\": \"0831\", \"FS\": \"0000\", \"GS\": \"0000\"}"
+  },
+  {
+   "step": 9,
+   "source": "memory",
+   "field": "manager-menu: 214B:08DD's frame (Intr's return 214B:0904 on the stack) and the callers' return addresses up the BP chain, listing addresses; null when the CPU is not in 08DD's INT 16h call",
+   "value": "{\"intr_return_at\": \"3875:3ECA\", \"bp\": \"3EE8\", \"callers\": [\"000E:75D1\", \"0000:00CB\", \"0728:0720 (outside the program)\"]}"
+  },
+  {
+   "step": 9,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "manager-menu: word at DS:7B62 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "ee42"
+  },
+  {
+   "step": 9,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "manager-menu: word at DS:7B64 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "3b4e"
+  },
+  {
+   "step": 9,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "manager-menu: word at DS:A9FD (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "07c8"
+  },
+  {
+   "step": 9,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "manager-menu: word at DS:A9FF (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "10b3"
+  },
+  {
+   "step": 9,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "manager-menu: word at DS:8336 (F004; A9FD the year 214B:1C63 stores, A9FF the delay calibration), hex",
+   "value": "004e"
+  },
+  {
+   "step": 9,
+   "source": "memory",
+   "field": "manager-menu: the game record [DS:A923] +0x38..+0x41 (1771:9B85: +0x3A year, +0x3C stage, +0x40 year mod 4 = 2), hex",
+   "value": "0000ca07050102010101"
+  },
+  {
+   "step": 10,
+   "source": "process",
+   "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after TERM_GRACE, see log)",
+   "value": "both exited"
+  },
+  {
+   "step": 10,
+   "source": "log",
+   "field": "waits, polls and key holds, seconds since launch",
+   "value": "[[0.023,\"mapper file (written), sha256 7b2f6f958fdb0a0b6a68e12611c3e3ab8554f0872c048ab8a8a05da2fff73a23: savestate on Scroll_Lock, load on Print\"],[0.132,\"Xvfb poll: answered after 2 polls of 0.1s\"],[0.132,\"Xvfb :594 answering\"],[0.161,\"dosbox-x started\"],[0.287,\"window found after 2 polls of 0.1s\"],[0.292,\"window focused\"],[1.015,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[1.016,\"savestate complete after 1 polls of 0.05s\"],[1.102,\"pre-title read: CPU F000:CA40 (no GOAL program yet)\"],[1.629,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[1.63,\"savestate complete after 1 polls of 0.05s\"],[1.702,\"pre-title read: CPU F000:CA40 (no GOAL program yet)\"],[2.226,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[2.228,\"savestate complete after 1 polls of 0.05s\"],[2.28,\"pre-title read: CPU F000:CA40 (no GOAL program yet)\"],[2.806,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[2.808,\"savestate complete after 1 polls of 0.05s\"],[2.88,\"pre-title read: CPU 296E:1E40 (load + 214B), DS:A9FD 1992\"],[2.883,\"title screen: matched after 4 savestate polls\"],[2.883,\"DOS clock read back: '10/04/1992\\\\n9:59:59'\"],[3.406,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[3.408,\"savestate complete after 1 polls of 0.05s\"],[3.974,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[3.976,\"savestate complete after 1 polls of 0.05s\"],[4.544,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[4.547,\"savestate complete after 1 polls of 0.05s\"],[5.114,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[5.115,\"savestate complete after 1 polls of 0.05s\"],[5.676,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[5.677,\"savestate complete after 1 polls of 0.05s\"],[6.234,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[6.236,\"savestate complete after 1 polls of 0.05s\"],[6.808,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[6.809,\"savestate complete after 1 polls of 0.05s\"],[7.368,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[7.37,\"savestate complete after 1 polls of 0.05s\"],[7.935,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[7.936,\"savestate complete after 1 polls of 0.05s\"],[8.499,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[8.502,\"savestate complete after 1 polls of 0.05s\"],[9.062,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[9.064,\"savestate complete after 1 polls of 0.05s\"],[9.626,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[9.629,\"savestate complete after 1 polls of 0.05s\"],[10.196,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[10.198,\"savestate complete after 1 polls of 0.05s\"],[10.755,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[10.756,\"savestate complete after 1 polls of 0.05s\"],[11.313,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[11.314,\"savestate complete after 1 polls of 0.05s\"],[11.87,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[11.871,\"savestate complete after 1 polls of 0.05s\"],[12.425,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[12.427,\"savestate complete after 1 polls of 0.05s\"],[12.984,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[12.985,\"savestate complete after 1 polls of 0.05s\"],[13.541,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[13.543,\"savestate complete after 1 polls of 0.05s\"],[14.099,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[14.101,\"savestate complete after 1 polls of 0.05s\"],[14.657,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[14.66,\"savestate complete after 1 polls of 0.05s\"],[15.217,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[15.218,\"savestate complete after 1 polls of 0.05s\"],[15.776,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[15.778,\"savestate complete after 1 polls of 0.05s\"],[16.338,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[16.339,\"savestate complete after 1 polls of 0.05s\"],[16.895,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[16.897,\"savestate complete after 1 polls of 0.05s\"],[17.453,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[17.454,\"savestate complete after 1 polls of 0.05s\"],[18.013,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[18.015,\"savestate complete after 1 polls of 0.05s\"],[18.571,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[18.573,\"savestate complete after 1 polls of 0.05s\"],[19.13,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[19.131,\"savestate complete after 1 polls of 0.05s\"],[19.687,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[19.689,\"savestate complete after 1 polls of 0.05s\"],[20.249,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[20.25,\"savestate complete after 1 polls of 0.05s\"],[20.805,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[20.807,\"savestate complete after 1 polls of 0.05s\"],[21.365,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[21.367,\"savestate complete after 1 polls of 0.05s\"],[21.935,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[21.937,\"savestate complete after 1 polls of 0.05s\"],[22.504,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[22.505,\"savestate complete after 1 polls of 0.05s\"],[23.062,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[23.064,\"savestate complete after 1 polls of 0.05s\"],[23.621,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[23.622,\"savestate complete after 1 polls of 0.05s\"],[24.182,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[24.184,\"savestate complete after 1 polls of 0.05s\"],[24.741,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[24.743,\"savestate complete after 1 polls of 0.05s\"],[25.3,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[25.302,\"savestate complete after 1 polls of 0.05s\"],[25.86,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[25.861,\"savestate complete after 1 polls of 0.05s\"],[26.419,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[26.422,\"savestate complete after 1 polls of 0.05s\"],[26.98,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[26.982,\"savestate complete after 1 polls of 0.05s\"],[27.546,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[27.548,\"savestate complete after 1 polls of 0.05s\"],[28.114,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[28.116,\"savestate complete after 1 polls of 0.05s\"],[28.683,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[28.684,\"savestate complete after 1 polls of 0.05s\"],[29.244,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[29.245,\"savestate complete after 1 polls of 0.05s\"],[29.809,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[29.811,\"savestate complete after 1 polls of 0.05s\"],[30.385,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[30.387,\"savestate complete after 1 polls of 0.05s\"],[30.946,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[30.948,\"savestate complete after 1 polls of 0.05s\"],[31.509,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[31.512,\"savestate complete after 1 polls of 0.05s\"],[32.081,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[32.082,\"savestate complete after 1 polls of 0.05s\"],[32.64,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[32.641,\"savestate complete after 1 polls of 0.05s\"],[33.199,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[33.202,\"savestate complete after 1 polls of 0.05s\"],[33.761,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[33.763,\"savestate complete after 1 polls of 0.05s\"],[34.326,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[34.327,\"savestate complete after 1 polls of 0.05s\"],[34.885,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[34.886,\"savestate complete after 1 polls of 0.05s\"],[35.443,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[35.445,\"savestate complete after 1 polls of 0.05s\"],[36.01,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[36.012,\"savestate complete after 1 polls of 0.05s\"],[36.575,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[36.576,\"savestate complete after 1 polls of 0.05s\"],[37.134,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[37.136,\"savestate complete after 1 polls of 0.05s\"],[37.692,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[37.694,\"savestate complete after 1 polls of 0.05s\"],[38.252,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[38.254,\"savestate complete after 1 polls of 0.05s\"],[38.813,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[38.815,\"savestate complete after 1 polls of 0.05s\"],[39.371,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[39.373,\"savestate complete after 1 polls of 0.05s\"],[39.93,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[39.933,\"savestate complete after 1 polls of 0.05s\"],[40.504,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[40.506,\"savestate complete after 1 polls of 0.05s\"],[41.063,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[41.065,\"savestate complete after 1 polls of 0.05s\"],[41.626,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[41.628,\"savestate complete after 1 polls of 0.05s\"],[42.195,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[42.196,\"savestate complete after 1 polls of 0.05s\"],[42.753,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[42.754,\"savestate complete after 1 polls of 0.05s\"],[43.315,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[43.317,\"savestate complete after 1 polls of 0.05s\"],[43.882,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[43.883,\"savestate complete after 1 polls of 0.05s\"],[44.44,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[44.442,\"savestate complete after 1 polls of 0.05s\"],[45.006,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[45.008,\"savestate complete after 1 polls of 0.05s\"],[45.565,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[45.567,\"savestate complete after 1 polls of 0.05s\"],[46.13,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[46.132,\"savestate complete after 1 polls of 0.05s\"],[46.693,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[46.694,\"savestate complete after 1 polls of 0.05s\"],[47.252,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[47.254,\"savestate complete after 1 polls of 0.05s\"],[47.814,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[47.816,\"savestate complete after 1 polls of 0.05s\"],[48.372,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[48.373,\"savestate complete after 1 polls of 0.05s\"],[48.959,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[48.961,\"savestate complete after 1 polls of 0.05s\"],[49.519,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[49.521,\"savestate complete after 1 polls of 0.05s\"],[50.08,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[50.081,\"savestate complete after 1 polls of 0.05s\"],[50.639,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[50.641,\"savestate complete after 1 polls of 0.05s\"],[51.196,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[51.198,\"savestate complete after 1 polls of 0.05s\"],[51.754,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[51.756,\"savestate complete after 1 polls of 0.05s\"],[52.321,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[52.323,\"savestate complete after 1 polls of 0.05s\"],[52.881,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[52.882,\"savestate complete after 1 polls of 0.05s\"],[53.44,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[53.441,\"savestate complete after 1 polls of 0.05s\"],[54.0,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[54.001,\"savestate complete after 1 polls of 0.05s\"],[54.558,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[54.559,\"savestate complete after 1 polls of 0.05s\"],[55.114,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[55.116,\"savestate complete after 1 polls of 0.05s\"],[55.671,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[55.673,\"savestate complete after 1 polls of 0.05s\"],[56.229,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[56.23,\"savestate complete after 1 polls of 0.05s\"],[56.788,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[56.79,\"savestate complete after 1 polls of 0.05s\"],[57.354,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[57.355,\"savestate complete after 1 polls of 0.05s\"],[57.91,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[57.912,\"savestate complete after 1 polls of 0.05s\"],[58.467,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[58.47,\"savestate complete after 1 polls of 0.05s\"],[59.025,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[59.028,\"savestate complete after 1 polls of 0.05s\"],[59.59,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[59.591,\"savestate complete after 1 polls of 0.05s\"],[60.152,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[60.154,\"savestate complete after 1 polls of 0.05s\"],[60.71,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[60.711,\"savestate complete after 1 polls of 0.05s\"],[61.275,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[61.277,\"savestate complete after 1 polls of 0.05s\"],[61.834,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[61.836,\"savestate complete after 1 polls of 0.05s\"],[62.402,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[62.405,\"savestate complete after 1 polls of 0.05s\"],[62.981,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[62.983,\"savestate complete after 1 polls of 0.05s\"],[63.541,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[63.543,\"savestate complete after 1 polls of 0.05s\"],[64.104,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[64.106,\"savestate complete after 1 polls of 0.05s\"],[64.665,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[64.666,\"savestate complete after 1 polls of 0.05s\"],[65.224,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[65.226,\"savestate complete after 1 polls of 0.05s\"],[65.782,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[65.783,\"savestate complete after 1 polls of 0.05s\"],[66.338,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[66.34,\"savestate complete after 1 polls of 0.05s\"],[66.898,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[66.9,\"savestate complete after 1 polls of 0.05s\"],[67.458,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[67.46,\"savestate complete after 1 polls of 0.05s\"],[68.024,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[68.025,\"savestate complete after 1 polls of 0.05s\"],[68.581,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[68.583,\"savestate complete after 1 polls of 0.05s\"],[69.148,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[69.151,\"savestate complete after 1 polls of 0.05s\"],[69.725,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[69.728,\"savestate complete after 1 polls of 0.05s\"],[70.303,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[70.305,\"savestate complete after 1 polls of 0.05s\"],[70.872,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[70.874,\"savestate complete after 1 polls of 0.05s\"],[71.438,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[71.439,\"savestate complete after 1 polls of 0.05s\"],[71.997,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[71.998,\"savestate complete after 1 polls of 0.05s\"],[72.558,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[72.56,\"savestate complete after 1 polls of 0.05s\"],[73.122,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[73.124,\"savestate complete after 1 polls of 0.05s\"],[73.682,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[73.684,\"savestate complete after 1 polls of 0.05s\"],[74.258,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[74.26,\"savestate complete after 1 polls of 0.05s\"],[74.818,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[74.819,\"savestate complete after 1 polls of 0.05s\"],[75.377,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[75.378,\"savestate complete after 1 polls of 0.05s\"],[75.937,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[75.939,\"savestate complete after 1 polls of 0.05s\"],[76.503,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[76.504,\"savestate complete after 1 polls of 0.05s\"],[77.059,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[77.061,\"savestate complete after 1 polls of 0.05s\"],[77.624,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[77.627,\"savestate complete after 1 polls of 0.05s\"],[78.198,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[78.2,\"savestate complete after 1 polls of 0.05s\"],[78.761,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[78.762,\"savestate complete after 1 polls of 0.05s\"],[79.319,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[79.321,\"savestate complete after 1 polls of 0.05s\"],[79.88,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[79.882,\"savestate complete after 1 polls of 0.05s\"],[80.437,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[80.439,\"savestate complete after 1 polls of 0.05s\"],[81.003,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[81.005,\"savestate complete after 1 polls of 0.05s\"],[81.563,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[81.564,\"savestate complete after 1 polls of 0.05s\"],[82.122,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[82.123,\"savestate complete after 1 polls of 0.05s\"],[82.682,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[82.685,\"savestate complete after 1 polls of 0.05s\"],[83.261,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[83.262,\"savestate complete after 1 polls of 0.05s\"],[83.82,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[83.822,\"savestate complete after 1 polls of 0.05s\"],[84.381,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[84.383,\"savestate complete after 1 polls of 0.05s\"],[84.941,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[84.942,\"savestate complete after 1 polls of 0.05s\"],[84.994,\"title-load-prompt: kept after 146 savestate polls (82.1 s)\"],[85.081,\"key n held 0.08s (raw keycode 57)\"],[85.604,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[85.605,\"savestate complete after 1 polls of 0.05s\"],[85.653,\"title-player-count: kept after 1 savestate polls (0.6 s)\"],[85.739,\"key Enter held 0.08s (raw keycode 36)\"],[86.261,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[86.263,\"savestate complete after 1 polls of 0.05s\"],[86.312,\"country-select: kept after 1 savestate polls (0.6 s)\"],[86.397,\"key Enter held 0.08s (raw keycode 36)\"],[86.92,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[86.922,\"savestate complete after 1 polls of 0.05s\"],[86.957,\"country-select-name-entry: kept after 1 savestate polls (0.6 s)\"],[87.059,\"key b held 0.08s (raw keycode 56)\"],[87.582,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[87.584,\"savestate complete after 1 polls of 0.05s\"],[88.125,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[88.127,\"savestate complete after 1 polls of 0.05s\"],[88.145,\"after key b: changed and stable after 2 savestate polls\"],[88.227,\"key o held 0.08s (raw keycode 32)\"],[88.749,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[88.752,\"savestate complete after 1 polls of 0.05s\"],[89.296,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[89.298,\"savestate complete after 1 polls of 0.05s\"],[89.316,\"after key o: changed and stable after 2 savestate polls\"],[89.398,\"key b held 0.08s (raw keycode 56)\"],[89.921,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[89.922,\"savestate complete after 1 polls of 0.05s\"],[90.463,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[90.465,\"savestate complete after 1 polls of 0.05s\"],[90.482,\"after key b: changed and stable after 2 savestate polls\"],[90.564,\"key Enter held 0.08s (raw keycode 36)\"],[91.086,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[91.088,\"savestate complete after 1 polls of 0.05s\"],[91.137,\"after-name-1: kept after 1 savestate polls (0.6 s)\"],[91.222,\"key Enter held 0.08s (raw keycode 36)\"],[91.744,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[91.747,\"savestate complete after 1 polls of 0.05s\"],[91.803,\"after-name-2: kept after 1 savestate polls (0.6 s)\"],[91.889,\"key Enter held 0.08s (raw keycode 36)\"],[92.412,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[92.414,\"savestate complete after 1 polls of 0.05s\"],[92.461,\"manager-menu: kept after 1 savestate polls (0.6 s)\"],[92.965,\"dosbox-x pid 1814 alive 0.5s after SIGTERM (grace 0.5s): SIGKILL to its group\"],[92.981,\"dosbox-x pid 1814 ended by SIGKILL 0.516s after the first signal\"],[92.989,\"Xvfb pid 1807 ended by SIGTERM 0.008s after the first signal\"],[92.989,\"terminated\"]]"
+  }
+ ],
+ "outputs": [
+  {
+   "name": "e039-1992-title-load-prompt-r0002.sav",
+   "sha256": "8351803db4d5c13d30636f5ebd142ed7931d18955442e6edd67303041dd25b84",
+   "store": "drive:goal2drive:goal2-archaeology/E039/"
+  },
+  {
+   "name": "e039-1992-title-player-count-r0002.sav",
+   "sha256": "bb185057e2bc71026b0e8bff00f4ed4bf1db7ac535546f0f2302742000e32335",
+   "store": "drive:goal2drive:goal2-archaeology/E039/"
+  },
+  {
+   "name": "e039-1992-country-select-r0002.sav",
+   "sha256": "384d443b26c642379facb88282706a5b03813ab0e5e8599e1c4373dafde1ef28",
+   "store": "drive:goal2drive:goal2-archaeology/E039/"
+  },
+  {
+   "name": "e039-1992-country-select-name-entry-r0002.sav",
+   "sha256": "0c005da7790debeedb27d51742ea44948cd7795c90c83d815c3f49bea1685721",
+   "store": "drive:goal2drive:goal2-archaeology/E039/"
+  },
+  {
+   "name": "e039-1992-after-name-1-r0002.sav",
+   "sha256": "9780700b3d26675e8043b3bed88a05297be9e14c9a4d7c963c12497ec6ac9018",
+   "store": "drive:goal2drive:goal2-archaeology/E039/"
+  },
+  {
+   "name": "e039-1992-after-name-2-r0002.sav",
+   "sha256": "7f6dfe5cd9a7961f8276c437adec825d94caa712833f2772d54b80afb661dc33",
+   "store": "drive:goal2drive:goal2-archaeology/E039/"
+  },
+  {
+   "name": "e039-1992-manager-menu-r0002.sav",
+   "sha256": "3f137084f3474fb89f07d316eaec86995d69185d9ea201267799b8c28ad50d3d",
+   "store": "drive:goal2drive:goal2-archaeology/E039/"
+  }
+ ],
+ "started": "2026-10-22T20:19:28.853Z",
+ "ended": "2026-10-22T20:21:01.878Z",
+ "status": "completed"
+}

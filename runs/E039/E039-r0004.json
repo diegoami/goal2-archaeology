@@ -1,0 +1,119 @@
+{
+ "schema": "run/1",
+ "run_id": "E039-r0004",
+ "experiment": "E039",
+ "arm": "start-year-1990-catch",
+ "rep": 4,
+ "code_commit": "7141ff0",
+ "machine": "ubuntu-24-04",
+ "artifact": {
+  "set": "goal2-67cf27d6",
+  "variant": null
+ },
+ "runtime": {
+  "driver": "runtime/driver/driver.py@7141ff0",
+  "platform": "python-3.13.16/ubuntu-24-04",
+  "fingerprint": {
+   "dosbox-x": "2024.03.01 SDL2",
+   "xvfb": "2:21.1.12-1ubuntu1.9",
+   "xdotool": "xdotool version 3.20160805.1",
+   "python": "3.13.16",
+   "kernel": "6.18.44-fc-v140",
+   "config_sha256": "185e25786bf9e99c74e65c52bc0a2d76915fd2a0f9697e4b08de0e5b733e1c0f",
+   "machine": "svga_s3",
+   "memsize": "16",
+   "cycles": "30000",
+   "core": "auto",
+   "cputype": "auto",
+   "dos_time": "10:00:00",
+   "dos_date": "10-04-1990"
+  }
+ },
+ "interventions": [
+  {
+   "level": "I1",
+   "what": "text screen, BIOS data area (0040:0049, 0040:006C), GOAL.EXE memory (DS:7B62, DS:7B64, the stack above SS:SP) and the CPU's registers read from DOSBox-X savestates (Host+S; components Vga, Memory, CPU)"
+  },
+  {
+   "level": "I2",
+   "what": "savestates written at every poll (vocabulary/interventions.md lists save of state as I2); one per screen kept"
+  },
+  {
+   "level": "I3",
+   "what": "DOS date 10/04/1990 and DOS time 10:00:00 requested with the DOSBox-X commands `date 10/04/1990` and `time 10:00:00` in the autoexec, before GOAL runs; applied: DOS reported date 10/04/1990 and time 9:59:59 right after (`date /t`, `time /t`), checked by Driver.launch"
+  }
+ ],
+ "start_state": {
+  "id": "fresh-launch",
+  "sha256": "185e25786bf9e99c74e65c52bc0a2d76915fd2a0f9697e4b08de0e5b733e1c0f",
+  "restore": "fresh DOSBox-X process (config sha256 185e25786bf9e99c74e65c52bc0a2d76915fd2a0f9697e4b08de0e5b733e1c0f), game folder recreated from the verified release copy, nothing restored; DOS time set to 10:00:00 on 10/04/1990 before GOAL ran; then the keys n Enter Enter b o b Enter Enter Enter, each sent once the screen before it waits in 214B:08DD's read (the name's letters after a settle poll)"
+ },
+ "seed": null,
+ "actions": {
+  "script": "experiments/E039-start-year/run.py",
+  "sha256": "2b621abbdaf1a6f866471f1693e622a97777d53537b66e646476dc6366588733",
+  "args": [
+   "--dos-date",
+   "10/04/1990",
+   "--catch-only",
+   "--first-save",
+   "0.3",
+   "--batch",
+   "catch"
+  ]
+ },
+ "observations": [
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host UTC time at launch",
+   "value": "2026-10-22T20:23:40.222Z"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOS clock read back: CLOCK.TXT as DOS wrote it (`date /t`, then `time /t`) before GOAL, right after setting the date and time",
+   "value": "10/04/1990\n9:59:59\n"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "pre-date: no savestate before the title had the CPU in GOAL.EXE's code with DS:A9FD 0",
+   "value": "none caught"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>",
+   "value": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=<work>/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=<work>/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=30000\n[autoexec]\nmount c <game>\nc:\ndate 10/04/1990\ntime 10:00:00\nmount d <work>/dosclock\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\ngoal\nexit\n"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "sha256 of that config text (UTF-8)",
+   "value": "185e25786bf9e99c74e65c52bc0a2d76915fd2a0f9697e4b08de0e5b733e1c0f"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "batch label given on the command line",
+   "value": "catch"
+  },
+  {
+   "step": 1,
+   "source": "process",
+   "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after TERM_GRACE, see log)",
+   "value": "both exited"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "waits, polls and key holds, seconds since launch",
+   "value": "[[0.024,\"mapper file (written), sha256 7b2f6f958fdb0a0b6a68e12611c3e3ab8554f0872c048ab8a8a05da2fff73a23: savestate on Scroll_Lock, load on Print\"],[0.134,\"Xvfb poll: answered after 2 polls of 0.1s\"],[0.134,\"Xvfb :314 answering\"],[0.159,\"dosbox-x started\"],[0.287,\"window found after 2 polls of 0.1s\"],[0.29,\"window focused\"],[1.114,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[1.116,\"savestate complete after 1 polls of 0.05s\"],[1.201,\"pre-title read: CPU F000:CA40 (no GOAL program yet)\"],[1.726,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[1.727,\"savestate complete after 1 polls of 0.05s\"],[1.79,\"pre-title read: CPU F000:CA40 (no GOAL program yet)\"],[2.315,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[2.317,\"savestate complete after 1 polls of 0.05s\"],[2.373,\"pre-title read: CPU 356E:00BF (load + 2D4B), DS:A9FD 0\"],[2.899,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[2.901,\"savestate complete after 1 polls of 0.05s\"],[2.967,\"pre-title read: CPU 296E:1E40 (load + 214B), DS:A9FD 1990\"],[2.969,\"title screen: matched after 4 savestate polls\"],[2.97,\"DOS clock read back: '10/04/1990\\\\n9:59:59'\"],[3.47,\"dosbox-x pid 2235 alive 0.5s after SIGTERM (grace 0.5s): SIGKILL to its group\"],[3.484,\"dosbox-x pid 2235 ended by SIGKILL 0.514s after the first signal\"],[3.487,\"Xvfb pid 2228 ended by SIGTERM 0.003s after the first signal\"],[3.487,\"terminated\"]]"
+  }
+ ],
+ "outputs": [],
+ "started": "2026-10-22T20:23:40.222Z",
+ "ended": "2026-10-22T20:23:43.741Z",
+ "status": "completed"
+}

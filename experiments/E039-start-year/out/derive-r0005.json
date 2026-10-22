@@ -1,0 +1,97 @@
+{
+ "argv": [
+  ".cache/states/driver/e039-1990-pre-date-r0005.sav",
+  ".cache/states/driver/e039-date-call-r0005.sav",
+  "--log",
+  "experiments/E039-start-year/out/derive-r0005.json"
+ ],
+ "from": {
+  "sha256": "0dc3446318a9e7e79242b9286664ff92d3441ca7b967fc18d671aba595f5b7ac",
+  "cpu": "2BA5:0074",
+  "where": "2382:0074"
+ },
+ "stop": "date call",
+ "ticks_served": 3,
+ "instructions_before_last_tick_chunk": 4943250,
+ "text_page_writes": 0,
+ "events": [
+  {
+   "kind": "interrupt",
+   "via": "int",
+   "int": "21",
+   "ah": "25",
+   "regs_in": {
+    "AX": "251B",
+    "BX": "0007",
+    "CX": "0037",
+    "DX": "012F",
+    "DS": "2BA5",
+    "ES": "0040"
+   },
+   "at": "2382:0095",
+   "tick": 1,
+   "served": "set interrupt vector 1Bh = 2BA5:012F (0000:006C)"
+  },
+  {
+   "kind": "interrupt",
+   "via": "Intr",
+   "int": "10",
+   "ah": "02",
+   "regs_in": {
+    "AX": "02EE",
+    "BX": "00AA",
+    "CX": "296E",
+    "DX": "1A01",
+    "DS": "3FFA",
+    "ES": "20E7"
+   },
+   "at": "214B:0684 (Intr 235C:000B, return address)",
+   "tick": 3,
+   "served": "set cursor position: page 0, row 0x1a, column 0x1 -> 0040:0050"
+  },
+  {
+   "kind": "interrupt",
+   "via": "Intr",
+   "int": "10",
+   "ah": "02",
+   "regs_in": {
+    "AX": "02EE",
+    "BX": "00AA",
+    "CX": "296E",
+    "DX": "1A01",
+    "DS": "3FFA",
+    "ES": "20E7"
+   },
+   "at": "214B:0684 (Intr 235C:000B, return address)",
+   "tick": 3,
+   "served": "set cursor position: page 0, row 0x1a, column 0x1 -> 0040:0050"
+  }
+ ],
+ "state": {
+  "sha256": "0d9c683023c7327f17bfc29900f2eff4e703641d21d3f353693f09654688494b",
+  "bytes": 138493,
+  "cpu": {
+   "EAX": "00002A10",
+   "ECX": "00000000",
+   "EDX": "0000296E",
+   "EBX": "00003D6F",
+   "ESP": "00003DDA",
+   "EBP": "00003DDA",
+   "ESI": "00000000",
+   "EDI": "00003DF0",
+   "EFLAGS": "00007206",
+   "ES": "3D6F",
+   "CS": "2B7F",
+   "SS": "3875",
+   "DS": "2DA4",
+   "FS": "0000",
+   "GS": "0000",
+   "EIP": "00000071"
+  },
+  "at": "235C:0071",
+  "stack_words_from_SS_SP": "3875:3DDA 3DF6 1C82 296E 3DF0 3875 3DF2 3875 3DF4 3875 A9FD",
+  "DS:A9FD": "0000",
+  "DS:A9FF": 4279,
+  "bios_ticks": 655438
+ }
+}
