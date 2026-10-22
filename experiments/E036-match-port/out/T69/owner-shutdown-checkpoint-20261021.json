@@ -1,0 +1,26 @@
+{
+  "owner_decision": "Port PRs merge on required checks plus green CI; one milestone review covers port stage.",
+  "recorded_at": "2026-10-21T21:08:07.543988+00:00",
+  "state_backup": {
+    "remote": "goal2drive:goal2-archaeology/checkpoint-2026-10-21/states/T69",
+    "verification": "rclone check --one-way --download: 7 matching files, zero differences",
+    "source_manifest": {
+      "source": "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-aca0f4fd155445184/.cache/states",
+      "exists": true,
+      "files": {
+        "driver/title.json": {
+          "sha256": "59edbd8a5d219eaab5bf8c3d9f197060cf991706bbd68d6debe255cbf01236fb",
+          "bytes": 2082
+        },
+        "driver/title.sav": {
+          "sha256": "56b9ddca817838035fff1d36e039bf7b3a55ed14223ce2e43c42989dba83d28a",
+          "bytes": 140577
+        }
+      }
+    }
+  },
+  "shutdown_scope": "Finish entire T64 pipeline, then remaining T69 Done-when evidence; commit/push and checkpoint; stop. No further per-PR review dispatch.",
+  "validation_order": "Pending workers stopped before requeue, raw and logs preserved. New controller waits for successful T64 integrated ALL, then skips completed own62 and clock-reload8 and resumes only pending variants with fresh logs; ALL gate follows.",
+  "validation_method": ".cache/t69-after-t64-20261021.py",
+  "integration_method": ".cache/integrate-t69-after-t64-20261021.py"
+}

@@ -1,0 +1,3674 @@
+{
+  "ok": true,
+  "records": 62,
+  "counts_equal": true,
+  "comparison": [
+    "F40/e032-0101: score [1, 0] ticks 4279 draws 192967 cpu 10.74 s -> 68.914 s; identical",
+    "F40/e032-1234: score [1, 1] ticks 4146 draws 184109 cpu 13.51 s -> 41.601 s; identical",
+    "F40/e032-2345: score [0, 1] ticks 4138 draws 187079 cpu 12.905 s -> 67.716 s; identical",
+    "F40/e032-2b7e: score [0, 2] ticks 4029 draws 175773 cpu 12.583 s -> 37.575 s; identical",
+    "F40/e032-4c1d: score [1, 0] ticks 4659 draws 210776 cpu 14.817 s -> 78.504 s; identical",
+    "F40/e032-6a33: score [0, 2] ticks 4159 draws 184733 cpu 13.035 s -> 37.491 s; identical",
+    "F40/e032-8e05: score [1, 0] ticks 4157 draws 186815 cpu 13.108 s -> 69.748 s; identical",
+    "F40/e032-a1f0: score [1, 0] ticks 4281 draws 191805 cpu 13.06 s -> 37.793 s; identical",
+    "F40/e032-c3c3: score [2, 1] ticks 4262 draws 184677 cpu 14.186 s -> 71.375 s; identical",
+    "F40/e032-e719: score [1, 0] ticks 4240 draws 191629 cpu 15.154 s -> 38.329 s; identical",
+    "F40/more-0042: score [0, 2] ticks 4144 draws 182554 cpu 14.612 s -> 71.535 s; identical",
+    "F40/more-1111: score [1, 0] ticks 4271 draws 191359 cpu 15.031 s -> 38.413 s; identical",
+    "F40/more-3a5c: score [0, 0] ticks 4138 draws 184982 cpu 14.551 s -> 71.821 s; identical",
+    "F40/more-5e5e: score [2, 1] ticks 4435 draws 193715 cpu 15.931 s -> 41.14 s; identical",
+    "F40/more-7f31: score [1, 0] ticks 4056 draws 181732 cpu 14.889 s -> 69.903 s; identical",
+    "F40/more-9abc: score [0, 0] ticks 3991 draws 181391 cpu 13.46 s -> 36.93 s; identical",
+    "F40/more-b4d2: score [1, 2] ticks 4147 draws 180349 cpu 14.739 s -> 71.22 s; identical",
+    "F40/more-cafe: score [0, 0] ticks 4180 draws 188266 cpu 19.36 s -> 42.282 s; identical",
+    "F40/more-d00d: score [1, 1] ticks 4367 draws 193560 cpu 18.245 s -> 75.454 s; identical",
+    "F40/more-face: score [0, 0] ticks 4194 draws 189436 cpu 14.957 s -> 42.188 s; identical",
+    "F40/edit-0101: score [1, 0] ticks 4142 draws 185537 cpu 14.341 s -> 76.39 s; identical",
+    "F40/edit-1234: score [6, 0] ticks 4576 draws 191606 cpu 15.959 s -> 43.899 s; identical",
+    "F40/edit-2345: score [3, 0] ticks 4410 draws 189909 cpu 16.022 s -> 80.393 s; identical",
+    "F40/edit-2b7e: score [2, 1] ticks 4180 draws 176867 cpu 15.43 s -> 41.225 s; identical",
+    "F40/edit-4c1d: score [1, 0] ticks 4113 draws 182704 cpu 16.631 s -> 68.986 s; identical",
+    "F40/edit-6a33: score [3, 0] ticks 4328 draws 184213 cpu 15.79 s -> 40.963 s; identical",
+    "F40/edit-8e05: score [4, 0] ticks 4709 draws 204531 cpu 15.472 s -> 80.895 s; identical",
+    "F40/edit-a1f0: score [1, 0] ticks 4285 draws 189738 cpu 14.054 s -> 43.634 s; identical",
+    "F40/edit-c3c3: score [3, 0] ticks 4301 draws 186146 cpu 13.331 s -> 41.373 s; identical",
+    "F40/edit-e719: score [4, 1] ticks 4481 draws 189747 cpu 13.925 s -> 48.495 s; identical",
+    "F40/edit-0042: score [4, 1] ticks 4195 draws 168689 cpu 12.899 s -> 38.545 s; identical",
+    "F40/edit-1111: score [1, 1] ticks 4185 draws 181696 cpu 13.526 s -> 45.764 s; identical",
+    "F40/edit-3a5c: score [4, 0] ticks 4694 draws 202921 cpu 15.076 s -> 42.898 s; identical",
+    "F40/edit-5e5e: score [3, 0] ticks 4270 draws 186471 cpu 14.271 s -> 45.522 s; identical",
+    "F40/edit-7f31: score [3, 0] ticks 4440 draws 189570 cpu 15.338 s -> 42.256 s; identical",
+    "F40/edit-9abc: score [1, 0] ticks 4262 draws 185943 cpu 14.645 s -> 45.771 s; identical",
+    "F40/edit-b4d2: score [0, 0] ticks 4434 draws 195765 cpu 14.24 s -> 41.637 s; identical",
+    "F40/edit-cafe: score [2, 1] ticks 4282 draws 184509 cpu 13.619 s -> 45.363 s; identical",
+    "F40/edit-d00d: score [2, 0] ticks 4439 draws 195054 cpu 14.075 s -> 43.832 s; identical",
+    "F40/edit-face: score [4, 0] ticks 4554 draws 192310 cpu 14.671 s -> 47.162 s; identical",
+    "O8/c1-c2-friendly: score [2, 5] ticks 4564 draws 193140 cpu 14.351 s -> 45.752 s; identical",
+    "O8/c1-c2-qualifier: score [2, 0] ticks 4587 draws 207919 cpu 14.449 s -> 49.061 s; identical",
+    "O8/c30-c44-friendly: score [1, 1] ticks 4108 draws 183851 cpu 12.691 s -> 43.069 s; identical",
+    "O8/c30-c44-qualifier: score [2, 3] ticks 4568 draws 192900 cpu 13.72 s -> 46.687 s; identical",
+    "O8/c64-c90-friendly: score [0, 1] ticks 4349 draws 202196 cpu 13.642 s -> 43.932 s; identical",
+    "O8/c64-c90-qualifier: score [1, 2] ticks 4262 draws 190354 cpu 12.882 s -> 44.695 s; identical",
+    "O8/c101-c120-friendly: score [1, 3] ticks 4806 draws 211757 cpu 16.588 s -> 48.72 s; identical",
+    "O8/c101-c120-qualifier: score [1, 5] ticks 4580 draws 191116 cpu 15.762 s -> 47.467 s; identical",
+    "S/reference: score [1, 1] ticks 4149 draws 182188 cpu 15.256 s -> 42.717 s; identical",
+    "S/decisions-70: score [1, 2] ticks 4204 draws 181654 cpu 15.491 s -> 45.2 s; identical",
+    "S/injury-70: score [1, 2] ticks 4382 draws 189662 cpu 15.096 s -> 47.748 s; identical",
+    "S/hard-4: score [1, 2] ticks 4410 draws 181905 cpu 14.76 s -> 45.074 s; identical",
+    "S/quick-30: score [1, 2] ticks 1408 draws 60523 cpu 4.984 s -> 13.874 s; identical",
+    "S/quick-1: score [1, 1] ticks 140 draws 8042 cpu 0.468 s -> 0.764 s; identical",
+    "S/decisions-quick-60: score [1, 2] ticks 2747 draws 117314 cpu 10.489 s -> 30.303 s; identical",
+    "S/ko-39-budget-5: score [0, 0] ticks 6033 draws 267625 cpu 21.072 s -> 67.699 s; identical",
+    "S/ko-42-sudden-death: score [0, 0] ticks 5644 draws 254901 cpu 19.535 s -> 69.167 s; identical",
+    "S/ko-30-extra-time: score [3, 2] ticks 5809 draws 242673 cpu 18.574 s -> 59.457 s; identical",
+    "S/ko-9-quick: score [1, 1] ticks 2290 draws 110835 cpu 9.766 s -> 34.746 s; identical",
+    "S/ko-53-quick: score [2, 2] ticks 2194 draws 102210 cpu 10.296 s -> 30.089 s; identical",
+    "S/ko-42-quick-g19: score [0, 0] ticks 2094 draws 102419 cpu 8.234 s -> 26.845 s; identical",
+    "S/qualifier-21: score [1, 1] ticks 4149 draws 182188 cpu 13.378 s -> 42.465 s; identical",
+    "62 matches expected identical, 62 pass, 0 fail"
+  ],
+  "matrix": {
+    "F40/e032-0101": {
+      "0791:1C78": {
+        "entry": 1107,
+        "port_calls": 1107
+      },
+      "0791:1D4A": {
+        "entry": 1108,
+        "port_calls": 1108
+      },
+      "0791:1E53": {
+        "entry": 1108,
+        "port_calls": 1108
+      },
+      "0791:1EB5": {
+        "entry": 1108,
+        "port_calls": 1108
+      },
+      "0791:230C": {
+        "entry": 11,
+        "port_calls": 11
+      },
+      "0791:9564": {
+        "entry": 4387,
+        "port_calls": 4387
+      },
+      "0791:970C": {
+        "entry": 4279,
+        "port_calls": 4279
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/e032-2345": {
+      "0791:1C78": {
+        "entry": 1101,
+        "port_calls": 1101
+      },
+      "0791:1D4A": {
+        "entry": 1102,
+        "port_calls": 1102
+      },
+      "0791:1E53": {
+        "entry": 1102,
+        "port_calls": 1102
+      },
+      "0791:1EB5": {
+        "entry": 1102,
+        "port_calls": 1102
+      },
+      "0791:230C": {
+        "entry": 11,
+        "port_calls": 11
+      },
+      "0791:9564": {
+        "entry": 4232,
+        "port_calls": 4232
+      },
+      "0791:970C": {
+        "entry": 4138,
+        "port_calls": 4138
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/e032-4c1d": {
+      "0791:1C78": {
+        "entry": 1195,
+        "port_calls": 1195
+      },
+      "0791:1D4A": {
+        "entry": 1196,
+        "port_calls": 1196
+      },
+      "0791:1E53": {
+        "entry": 1196,
+        "port_calls": 1196
+      },
+      "0791:1EB5": {
+        "entry": 1196,
+        "port_calls": 1196
+      },
+      "0791:230C": {
+        "entry": 12,
+        "port_calls": 12
+      },
+      "0791:9564": {
+        "entry": 4764,
+        "port_calls": 4764
+      },
+      "0791:970C": {
+        "entry": 4659,
+        "port_calls": 4659
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/e032-8e05": {
+      "0791:1C78": {
+        "entry": 1152,
+        "port_calls": 1152
+      },
+      "0791:1D4A": {
+        "entry": 1153,
+        "port_calls": 1153
+      },
+      "0791:1E53": {
+        "entry": 1153,
+        "port_calls": 1153
+      },
+      "0791:1EB5": {
+        "entry": 1153,
+        "port_calls": 1153
+      },
+      "0791:230C": {
+        "entry": 12,
+        "port_calls": 12
+      },
+      "0791:9564": {
+        "entry": 4269,
+        "port_calls": 4269
+      },
+      "0791:970C": {
+        "entry": 4157,
+        "port_calls": 4157
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/e032-c3c3": {
+      "0791:1C78": {
+        "entry": 1184,
+        "port_calls": 1184
+      },
+      "0791:1D4A": {
+        "entry": 1185,
+        "port_calls": 1185
+      },
+      "0791:1E53": {
+        "entry": 1185,
+        "port_calls": 1185
+      },
+      "0791:1EB5": {
+        "entry": 1185,
+        "port_calls": 1185
+      },
+      "0791:230C": {
+        "entry": 9,
+        "port_calls": 9
+      },
+      "0791:9564": {
+        "entry": 4363,
+        "port_calls": 4363
+      },
+      "0791:970C": {
+        "entry": 4262,
+        "port_calls": 4262
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/more-0042": {
+      "0791:1C78": {
+        "entry": 1040,
+        "port_calls": 1040
+      },
+      "0791:1D4A": {
+        "entry": 1041,
+        "port_calls": 1041
+      },
+      "0791:1E53": {
+        "entry": 1041,
+        "port_calls": 1041
+      },
+      "0791:1EB5": {
+        "entry": 1041,
+        "port_calls": 1041
+      },
+      "0791:230C": {
+        "entry": 12,
+        "port_calls": 12
+      },
+      "0791:9564": {
+        "entry": 4252,
+        "port_calls": 4252
+      },
+      "0791:970C": {
+        "entry": 4144,
+        "port_calls": 4144
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/more-3a5c": {
+      "0791:1C78": {
+        "entry": 1181,
+        "port_calls": 1181
+      },
+      "0791:1D4A": {
+        "entry": 1182,
+        "port_calls": 1182
+      },
+      "0791:1E53": {
+        "entry": 1182,
+        "port_calls": 1182
+      },
+      "0791:1EB5": {
+        "entry": 1182,
+        "port_calls": 1182
+      },
+      "0791:230C": {
+        "entry": 10,
+        "port_calls": 10
+      },
+      "0791:9564": {
+        "entry": 4231,
+        "port_calls": 4231
+      },
+      "0791:970C": {
+        "entry": 4138,
+        "port_calls": 4138
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/more-7f31": {
+      "0791:1C78": {
+        "entry": 1147,
+        "port_calls": 1147
+      },
+      "0791:1D4A": {
+        "entry": 1148,
+        "port_calls": 1148
+      },
+      "0791:1E53": {
+        "entry": 1148,
+        "port_calls": 1148
+      },
+      "0791:1EB5": {
+        "entry": 1148,
+        "port_calls": 1148
+      },
+      "0791:230C": {
+        "entry": 10,
+        "port_calls": 10
+      },
+      "0791:9564": {
+        "entry": 4170,
+        "port_calls": 4170
+      },
+      "0791:970C": {
+        "entry": 4056,
+        "port_calls": 4056
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/more-b4d2": {
+      "0791:1C78": {
+        "entry": 1160,
+        "port_calls": 1160
+      },
+      "0791:1D4A": {
+        "entry": 1161,
+        "port_calls": 1161
+      },
+      "0791:1E53": {
+        "entry": 1161,
+        "port_calls": 1161
+      },
+      "0791:1EB5": {
+        "entry": 1161,
+        "port_calls": 1161
+      },
+      "0791:230C": {
+        "entry": 11,
+        "port_calls": 11
+      },
+      "0791:9564": {
+        "entry": 4265,
+        "port_calls": 4265
+      },
+      "0791:970C": {
+        "entry": 4147,
+        "port_calls": 4147
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/more-d00d": {
+      "0791:1C78": {
+        "entry": 1154,
+        "port_calls": 1154
+      },
+      "0791:1D4A": {
+        "entry": 1155,
+        "port_calls": 1155
+      },
+      "0791:1E53": {
+        "entry": 1155,
+        "port_calls": 1155
+      },
+      "0791:1EB5": {
+        "entry": 1155,
+        "port_calls": 1155
+      },
+      "0791:230C": {
+        "entry": 11,
+        "port_calls": 11
+      },
+      "0791:9564": {
+        "entry": 4459,
+        "port_calls": 4459
+      },
+      "0791:970C": {
+        "entry": 4367,
+        "port_calls": 4367
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-0101": {
+      "0791:1C78": {
+        "entry": 1083,
+        "port_calls": 1083
+      },
+      "0791:1D4A": {
+        "entry": 1084,
+        "port_calls": 1084
+      },
+      "0791:1E53": {
+        "entry": 1084,
+        "port_calls": 1084
+      },
+      "0791:1EB5": {
+        "entry": 1084,
+        "port_calls": 1084
+      },
+      "0791:230C": {
+        "entry": 12,
+        "port_calls": 12
+      },
+      "0791:9564": {
+        "entry": 4261,
+        "port_calls": 4261
+      },
+      "0791:970C": {
+        "entry": 4142,
+        "port_calls": 4142
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-2345": {
+      "0791:1C78": {
+        "entry": 1133,
+        "port_calls": 1133
+      },
+      "0791:1D4A": {
+        "entry": 1134,
+        "port_calls": 1134
+      },
+      "0791:1E53": {
+        "entry": 1134,
+        "port_calls": 1134
+      },
+      "0791:1EB5": {
+        "entry": 1134,
+        "port_calls": 1134
+      },
+      "0791:230C": {
+        "entry": 13,
+        "port_calls": 13
+      },
+      "0791:9564": {
+        "entry": 4534,
+        "port_calls": 4534
+      },
+      "0791:970C": {
+        "entry": 4410,
+        "port_calls": 4410
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-4c1d": {
+      "0791:1C78": {
+        "entry": 1103,
+        "port_calls": 1103
+      },
+      "0791:1D4A": {
+        "entry": 1104,
+        "port_calls": 1104
+      },
+      "0791:1E53": {
+        "entry": 1104,
+        "port_calls": 1104
+      },
+      "0791:1EB5": {
+        "entry": 1104,
+        "port_calls": 1104
+      },
+      "0791:230C": {
+        "entry": 12,
+        "port_calls": 12
+      },
+      "0791:9564": {
+        "entry": 4211,
+        "port_calls": 4211
+      },
+      "0791:970C": {
+        "entry": 4113,
+        "port_calls": 4113
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-8e05": {
+      "0791:1C78": {
+        "entry": 1224,
+        "port_calls": 1224
+      },
+      "0791:1D4A": {
+        "entry": 1225,
+        "port_calls": 1225
+      },
+      "0791:1E53": {
+        "entry": 1225,
+        "port_calls": 1225
+      },
+      "0791:1EB5": {
+        "entry": 1225,
+        "port_calls": 1225
+      },
+      "0791:230C": {
+        "entry": 13,
+        "port_calls": 13
+      },
+      "0791:9564": {
+        "entry": 4816,
+        "port_calls": 4816
+      },
+      "0791:970C": {
+        "entry": 4709,
+        "port_calls": 4709
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-0042": {
+      "0791:1C78": {
+        "entry": 1071,
+        "port_calls": 1071
+      },
+      "0791:1D4A": {
+        "entry": 1072,
+        "port_calls": 1072
+      },
+      "0791:1E53": {
+        "entry": 1072,
+        "port_calls": 1072
+      },
+      "0791:1EB5": {
+        "entry": 1072,
+        "port_calls": 1072
+      },
+      "0791:230C": {
+        "entry": 13,
+        "port_calls": 13
+      },
+      "0791:9564": {
+        "entry": 4313,
+        "port_calls": 4313
+      },
+      "0791:970C": {
+        "entry": 4195,
+        "port_calls": 4195
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-3a5c": {
+      "0791:1C78": {
+        "entry": 1121,
+        "port_calls": 1121
+      },
+      "0791:1D4A": {
+        "entry": 1122,
+        "port_calls": 1122
+      },
+      "0791:1E53": {
+        "entry": 1122,
+        "port_calls": 1122
+      },
+      "0791:1EB5": {
+        "entry": 1122,
+        "port_calls": 1122
+      },
+      "0791:230C": {
+        "entry": 13,
+        "port_calls": 13
+      },
+      "0791:9564": {
+        "entry": 4804,
+        "port_calls": 4804
+      },
+      "0791:970C": {
+        "entry": 4694,
+        "port_calls": 4694
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-7f31": {
+      "0791:1C78": {
+        "entry": 1203,
+        "port_calls": 1203
+      },
+      "0791:1D4A": {
+        "entry": 1204,
+        "port_calls": 1204
+      },
+      "0791:1E53": {
+        "entry": 1204,
+        "port_calls": 1204
+      },
+      "0791:1EB5": {
+        "entry": 1204,
+        "port_calls": 1204
+      },
+      "0791:230C": {
+        "entry": 13,
+        "port_calls": 13
+      },
+      "0791:9564": {
+        "entry": 4551,
+        "port_calls": 4551
+      },
+      "0791:970C": {
+        "entry": 4440,
+        "port_calls": 4440
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-b4d2": {
+      "0791:1C78": {
+        "entry": 1177,
+        "port_calls": 1177
+      },
+      "0791:1D4A": {
+        "entry": 1178,
+        "port_calls": 1178
+      },
+      "0791:1E53": {
+        "entry": 1178,
+        "port_calls": 1178
+      },
+      "0791:1EB5": {
+        "entry": 1178,
+        "port_calls": 1178
+      },
+      "0791:230C": {
+        "entry": 12,
+        "port_calls": 12
+      },
+      "0791:9564": {
+        "entry": 4526,
+        "port_calls": 4526
+      },
+      "0791:970C": {
+        "entry": 4434,
+        "port_calls": 4434
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-d00d": {
+      "0791:1C78": {
+        "entry": 1188,
+        "port_calls": 1188
+      },
+      "0791:1D4A": {
+        "entry": 1189,
+        "port_calls": 1189
+      },
+      "0791:1E53": {
+        "entry": 1189,
+        "port_calls": 1189
+      },
+      "0791:1EB5": {
+        "entry": 1189,
+        "port_calls": 1189
+      },
+      "0791:230C": {
+        "entry": 12,
+        "port_calls": 12
+      },
+      "0791:9564": {
+        "entry": 4580,
+        "port_calls": 4580
+      },
+      "0791:970C": {
+        "entry": 4439,
+        "port_calls": 4439
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "O8/c1-c2-friendly": {
+      "0791:1C78": {
+        "entry": 1169,
+        "port_calls": 1169
+      },
+      "0791:1D4A": {
+        "entry": 1170,
+        "port_calls": 1170
+      },
+      "0791:1E53": {
+        "entry": 1170,
+        "port_calls": 1170
+      },
+      "0791:1EB5": {
+        "entry": 1170,
+        "port_calls": 1170
+      },
+      "0791:230C": {
+        "entry": 9,
+        "port_calls": 9
+      },
+      "0791:9564": {
+        "entry": 4728,
+        "port_calls": 4728
+      },
+      "0791:970C": {
+        "entry": 4564,
+        "port_calls": 4564
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "O8/c30-c44-friendly": {
+      "0791:1C78": {
+        "entry": 1260,
+        "port_calls": 1260
+      },
+      "0791:1D4A": {
+        "entry": 1261,
+        "port_calls": 1261
+      },
+      "0791:1E53": {
+        "entry": 1261,
+        "port_calls": 1261
+      },
+      "0791:1EB5": {
+        "entry": 1261,
+        "port_calls": 1261
+      },
+      "0791:230C": {
+        "entry": 10,
+        "port_calls": 10
+      },
+      "0791:9564": {
+        "entry": 4200,
+        "port_calls": 4200
+      },
+      "0791:970C": {
+        "entry": 4108,
+        "port_calls": 4108
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "O8/c64-c90-friendly": {
+      "0791:1C78": {
+        "entry": 1076,
+        "port_calls": 1076
+      },
+      "0791:1D4A": {
+        "entry": 1077,
+        "port_calls": 1077
+      },
+      "0791:1E53": {
+        "entry": 1077,
+        "port_calls": 1077
+      },
+      "0791:1EB5": {
+        "entry": 1077,
+        "port_calls": 1077
+      },
+      "0791:230C": {
+        "entry": 9,
+        "port_calls": 9
+      },
+      "0791:9564": {
+        "entry": 4449,
+        "port_calls": 4449
+      },
+      "0791:970C": {
+        "entry": 4349,
+        "port_calls": 4349
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "O8/c101-c120-friendly": {
+      "0791:1C78": {
+        "entry": 1136,
+        "port_calls": 1136
+      },
+      "0791:1D4A": {
+        "entry": 1137,
+        "port_calls": 1137
+      },
+      "0791:1E53": {
+        "entry": 1137,
+        "port_calls": 1137
+      },
+      "0791:1EB5": {
+        "entry": 1137,
+        "port_calls": 1137
+      },
+      "0791:230C": {
+        "entry": 10,
+        "port_calls": 10
+      },
+      "0791:9564": {
+        "entry": 4904,
+        "port_calls": 4904
+      },
+      "0791:970C": {
+        "entry": 4806,
+        "port_calls": 4806
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "S/reference": {
+      "0791:1C78": {
+        "entry": 1106,
+        "port_calls": 1106
+      },
+      "0791:1D4A": {
+        "entry": 1107,
+        "port_calls": 1107
+      },
+      "0791:1E53": {
+        "entry": 1107,
+        "port_calls": 1107
+      },
+      "0791:1EB5": {
+        "entry": 1107,
+        "port_calls": 1107
+      },
+      "0791:230C": {
+        "entry": 9,
+        "port_calls": 9
+      },
+      "0791:9564": {
+        "entry": 4241,
+        "port_calls": 4241
+      },
+      "0791:970C": {
+        "entry": 4149,
+        "port_calls": 4149
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "S/injury-70": {
+      "0791:1C78": {
+        "entry": 1230,
+        "port_calls": 1230
+      },
+      "0791:1D4A": {
+        "entry": 1231,
+        "port_calls": 1231
+      },
+      "0791:1E53": {
+        "entry": 1231,
+        "port_calls": 1231
+      },
+      "0791:1EB5": {
+        "entry": 1231,
+        "port_calls": 1231
+      },
+      "0791:230C": {
+        "entry": 10,
+        "port_calls": 10
+      },
+      "0791:9564": {
+        "entry": 4488,
+        "port_calls": 4488
+      },
+      "0791:970C": {
+        "entry": 4382,
+        "port_calls": 4382
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "S/quick-30": {
+      "0791:1C78": {
+        "entry": 363,
+        "port_calls": 363
+      },
+      "0791:1D4A": {
+        "entry": 364,
+        "port_calls": 364
+      },
+      "0791:1E53": {
+        "entry": 364,
+        "port_calls": 364
+      },
+      "0791:1EB5": {
+        "entry": 364,
+        "port_calls": 364
+      },
+      "0791:230C": {
+        "entry": 14,
+        "port_calls": 14
+      },
+      "0791:9564": {
+        "entry": 1346,
+        "port_calls": 1346
+      },
+      "0791:970C": {
+        "entry": 1408,
+        "port_calls": 1408
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "S/decisions-quick-60": {
+      "0791:1C78": {
+        "entry": 744,
+        "port_calls": 744
+      },
+      "0791:1D4A": {
+        "entry": 745,
+        "port_calls": 745
+      },
+      "0791:1E53": {
+        "entry": 745,
+        "port_calls": 745
+      },
+      "0791:1EB5": {
+        "entry": 745,
+        "port_calls": 745
+      },
+      "0791:230C": {
+        "entry": 17,
+        "port_calls": 17
+      },
+      "0791:9564": {
+        "entry": 2761,
+        "port_calls": 2761
+      },
+      "0791:970C": {
+        "entry": 2747,
+        "port_calls": 2747
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "S/ko-42-sudden-death": {
+      "0791:1C78": {
+        "entry": 1603,
+        "port_calls": 1603
+      },
+      "0791:1D4A": {
+        "entry": 1604,
+        "port_calls": 1604
+      },
+      "0791:1E53": {
+        "entry": 1604,
+        "port_calls": 1604
+      },
+      "0791:1EB5": {
+        "entry": 1604,
+        "port_calls": 1604
+      },
+      "0791:230C": {
+        "entry": 11,
+        "port_calls": 11
+      },
+      "0791:9564": {
+        "entry": 6382,
+        "port_calls": 6382
+      },
+      "0791:970C": {
+        "entry": 5644,
+        "port_calls": 5644
+      },
+      "0791:97D0": {
+        "entry": 4,
+        "port_calls": 4
+      },
+      "0791:983F": {
+        "entry": 4,
+        "port_calls": 4
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "S/ko-9-quick": {
+      "0791:1C78": {
+        "entry": 713,
+        "port_calls": 713
+      },
+      "0791:1D4A": {
+        "entry": 714,
+        "port_calls": 714
+      },
+      "0791:1E53": {
+        "entry": 714,
+        "port_calls": 714
+      },
+      "0791:1EB5": {
+        "entry": 714,
+        "port_calls": 714
+      },
+      "0791:230C": {
+        "entry": 11,
+        "port_calls": 11
+      },
+      "0791:9564": {
+        "entry": 3494,
+        "port_calls": 3494
+      },
+      "0791:970C": {
+        "entry": 2290,
+        "port_calls": 2290
+      },
+      "0791:97D0": {
+        "entry": 4,
+        "port_calls": 4
+      },
+      "0791:983F": {
+        "entry": 4,
+        "port_calls": 4
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "S/ko-42-quick-g19": {
+      "0791:1C78": {
+        "entry": 622,
+        "port_calls": 622
+      },
+      "0791:1D4A": {
+        "entry": 623,
+        "port_calls": 623
+      },
+      "0791:1E53": {
+        "entry": 623,
+        "port_calls": 623
+      },
+      "0791:1EB5": {
+        "entry": 623,
+        "port_calls": 623
+      },
+      "0791:230C": {
+        "entry": 11,
+        "port_calls": 11
+      },
+      "0791:9564": {
+        "entry": 2480,
+        "port_calls": 2480
+      },
+      "0791:970C": {
+        "entry": 2094,
+        "port_calls": 2094
+      },
+      "0791:97D0": {
+        "entry": 4,
+        "port_calls": 4
+      },
+      "0791:983F": {
+        "entry": 4,
+        "port_calls": 4
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/e032-6a33": {
+      "0791:1C78": {
+        "entry": 1154,
+        "port_calls": 1154
+      },
+      "0791:1D4A": {
+        "entry": 1155,
+        "port_calls": 1155
+      },
+      "0791:1E53": {
+        "entry": 1155,
+        "port_calls": 1155
+      },
+      "0791:1EB5": {
+        "entry": 1155,
+        "port_calls": 1155
+      },
+      "0791:230C": {
+        "entry": 8,
+        "port_calls": 8
+      },
+      "0791:9564": {
+        "entry": 4259,
+        "port_calls": 4259
+      },
+      "0791:970C": {
+        "entry": 4159,
+        "port_calls": 4159
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/e032-a1f0": {
+      "0791:1C78": {
+        "entry": 1183,
+        "port_calls": 1183
+      },
+      "0791:1D4A": {
+        "entry": 1184,
+        "port_calls": 1184
+      },
+      "0791:1E53": {
+        "entry": 1184,
+        "port_calls": 1184
+      },
+      "0791:1EB5": {
+        "entry": 1184,
+        "port_calls": 1184
+      },
+      "0791:230C": {
+        "entry": 9,
+        "port_calls": 9
+      },
+      "0791:9564": {
+        "entry": 4373,
+        "port_calls": 4373
+      },
+      "0791:970C": {
+        "entry": 4281,
+        "port_calls": 4281
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/e032-e719": {
+      "0791:1C78": {
+        "entry": 1138,
+        "port_calls": 1138
+      },
+      "0791:1D4A": {
+        "entry": 1139,
+        "port_calls": 1139
+      },
+      "0791:1E53": {
+        "entry": 1139,
+        "port_calls": 1139
+      },
+      "0791:1EB5": {
+        "entry": 1139,
+        "port_calls": 1139
+      },
+      "0791:230C": {
+        "entry": 9,
+        "port_calls": 9
+      },
+      "0791:9564": {
+        "entry": 4342,
+        "port_calls": 4342
+      },
+      "0791:970C": {
+        "entry": 4240,
+        "port_calls": 4240
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/more-1111": {
+      "0791:1C78": {
+        "entry": 1193,
+        "port_calls": 1193
+      },
+      "0791:1D4A": {
+        "entry": 1194,
+        "port_calls": 1194
+      },
+      "0791:1E53": {
+        "entry": 1194,
+        "port_calls": 1194
+      },
+      "0791:1EB5": {
+        "entry": 1194,
+        "port_calls": 1194
+      },
+      "0791:230C": {
+        "entry": 10,
+        "port_calls": 10
+      },
+      "0791:9564": {
+        "entry": 4371,
+        "port_calls": 4371
+      },
+      "0791:970C": {
+        "entry": 4271,
+        "port_calls": 4271
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/more-5e5e": {
+      "0791:1C78": {
+        "entry": 1177,
+        "port_calls": 1177
+      },
+      "0791:1D4A": {
+        "entry": 1178,
+        "port_calls": 1178
+      },
+      "0791:1E53": {
+        "entry": 1178,
+        "port_calls": 1178
+      },
+      "0791:1EB5": {
+        "entry": 1178,
+        "port_calls": 1178
+      },
+      "0791:230C": {
+        "entry": 9,
+        "port_calls": 9
+      },
+      "0791:9564": {
+        "entry": 4541,
+        "port_calls": 4541
+      },
+      "0791:970C": {
+        "entry": 4435,
+        "port_calls": 4435
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/more-9abc": {
+      "0791:1C78": {
+        "entry": 1124,
+        "port_calls": 1124
+      },
+      "0791:1D4A": {
+        "entry": 1125,
+        "port_calls": 1125
+      },
+      "0791:1E53": {
+        "entry": 1125,
+        "port_calls": 1125
+      },
+      "0791:1EB5": {
+        "entry": 1125,
+        "port_calls": 1125
+      },
+      "0791:230C": {
+        "entry": 11,
+        "port_calls": 11
+      },
+      "0791:9564": {
+        "entry": 4083,
+        "port_calls": 4083
+      },
+      "0791:970C": {
+        "entry": 3991,
+        "port_calls": 3991
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/more-cafe": {
+      "0791:1C78": {
+        "entry": 1252,
+        "port_calls": 1252
+      },
+      "0791:1D4A": {
+        "entry": 1253,
+        "port_calls": 1253
+      },
+      "0791:1E53": {
+        "entry": 1253,
+        "port_calls": 1253
+      },
+      "0791:1EB5": {
+        "entry": 1253,
+        "port_calls": 1253
+      },
+      "0791:230C": {
+        "entry": 9,
+        "port_calls": 9
+      },
+      "0791:9564": {
+        "entry": 4272,
+        "port_calls": 4272
+      },
+      "0791:970C": {
+        "entry": 4180,
+        "port_calls": 4180
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/more-face": {
+      "0791:1C78": {
+        "entry": 1205,
+        "port_calls": 1205
+      },
+      "0791:1D4A": {
+        "entry": 1206,
+        "port_calls": 1206
+      },
+      "0791:1E53": {
+        "entry": 1206,
+        "port_calls": 1206
+      },
+      "0791:1EB5": {
+        "entry": 1206,
+        "port_calls": 1206
+      },
+      "0791:230C": {
+        "entry": 9,
+        "port_calls": 9
+      },
+      "0791:9564": {
+        "entry": 4286,
+        "port_calls": 4286
+      },
+      "0791:970C": {
+        "entry": 4194,
+        "port_calls": 4194
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-1234": {
+      "0791:1C78": {
+        "entry": 1120,
+        "port_calls": 1120
+      },
+      "0791:1D4A": {
+        "entry": 1121,
+        "port_calls": 1121
+      },
+      "0791:1E53": {
+        "entry": 1121,
+        "port_calls": 1121
+      },
+      "0791:1EB5": {
+        "entry": 1121,
+        "port_calls": 1121
+      },
+      "0791:230C": {
+        "entry": 13,
+        "port_calls": 13
+      },
+      "0791:9564": {
+        "entry": 4682,
+        "port_calls": 4682
+      },
+      "0791:970C": {
+        "entry": 4576,
+        "port_calls": 4576
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-2b7e": {
+      "0791:1C78": {
+        "entry": 1159,
+        "port_calls": 1159
+      },
+      "0791:1D4A": {
+        "entry": 1160,
+        "port_calls": 1160
+      },
+      "0791:1E53": {
+        "entry": 1160,
+        "port_calls": 1160
+      },
+      "0791:1EB5": {
+        "entry": 1160,
+        "port_calls": 1160
+      },
+      "0791:230C": {
+        "entry": 12,
+        "port_calls": 12
+      },
+      "0791:9564": {
+        "entry": 4282,
+        "port_calls": 4282
+      },
+      "0791:970C": {
+        "entry": 4180,
+        "port_calls": 4180
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-6a33": {
+      "0791:1C78": {
+        "entry": 1151,
+        "port_calls": 1151
+      },
+      "0791:1D4A": {
+        "entry": 1152,
+        "port_calls": 1152
+      },
+      "0791:1E53": {
+        "entry": 1152,
+        "port_calls": 1152
+      },
+      "0791:1EB5": {
+        "entry": 1152,
+        "port_calls": 1152
+      },
+      "0791:230C": {
+        "entry": 13,
+        "port_calls": 13
+      },
+      "0791:9564": {
+        "entry": 4431,
+        "port_calls": 4431
+      },
+      "0791:970C": {
+        "entry": 4328,
+        "port_calls": 4328
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-a1f0": {
+      "0791:1C78": {
+        "entry": 1250,
+        "port_calls": 1250
+      },
+      "0791:1D4A": {
+        "entry": 1251,
+        "port_calls": 1251
+      },
+      "0791:1E53": {
+        "entry": 1251,
+        "port_calls": 1251
+      },
+      "0791:1EB5": {
+        "entry": 1251,
+        "port_calls": 1251
+      },
+      "0791:230C": {
+        "entry": 12,
+        "port_calls": 12
+      },
+      "0791:9564": {
+        "entry": 4418,
+        "port_calls": 4418
+      },
+      "0791:970C": {
+        "entry": 4285,
+        "port_calls": 4285
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-e719": {
+      "0791:1C78": {
+        "entry": 1171,
+        "port_calls": 1171
+      },
+      "0791:1D4A": {
+        "entry": 1172,
+        "port_calls": 1172
+      },
+      "0791:1E53": {
+        "entry": 1172,
+        "port_calls": 1172
+      },
+      "0791:1EB5": {
+        "entry": 1172,
+        "port_calls": 1172
+      },
+      "0791:230C": {
+        "entry": 13,
+        "port_calls": 13
+      },
+      "0791:9564": {
+        "entry": 4601,
+        "port_calls": 4601
+      },
+      "0791:970C": {
+        "entry": 4481,
+        "port_calls": 4481
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-1111": {
+      "0791:1C78": {
+        "entry": 1194,
+        "port_calls": 1194
+      },
+      "0791:1D4A": {
+        "entry": 1195,
+        "port_calls": 1195
+      },
+      "0791:1E53": {
+        "entry": 1195,
+        "port_calls": 1195
+      },
+      "0791:1EB5": {
+        "entry": 1195,
+        "port_calls": 1195
+      },
+      "0791:230C": {
+        "entry": 12,
+        "port_calls": 12
+      },
+      "0791:9564": {
+        "entry": 4277,
+        "port_calls": 4277
+      },
+      "0791:970C": {
+        "entry": 4185,
+        "port_calls": 4185
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-5e5e": {
+      "0791:1C78": {
+        "entry": 1096,
+        "port_calls": 1096
+      },
+      "0791:1D4A": {
+        "entry": 1097,
+        "port_calls": 1097
+      },
+      "0791:1E53": {
+        "entry": 1097,
+        "port_calls": 1097
+      },
+      "0791:1EB5": {
+        "entry": 1097,
+        "port_calls": 1097
+      },
+      "0791:230C": {
+        "entry": 13,
+        "port_calls": 13
+      },
+      "0791:9564": {
+        "entry": 4378,
+        "port_calls": 4378
+      },
+      "0791:970C": {
+        "entry": 4270,
+        "port_calls": 4270
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-9abc": {
+      "0791:1C78": {
+        "entry": 1180,
+        "port_calls": 1180
+      },
+      "0791:1D4A": {
+        "entry": 1181,
+        "port_calls": 1181
+      },
+      "0791:1E53": {
+        "entry": 1181,
+        "port_calls": 1181
+      },
+      "0791:1EB5": {
+        "entry": 1181,
+        "port_calls": 1181
+      },
+      "0791:230C": {
+        "entry": 13,
+        "port_calls": 13
+      },
+      "0791:9564": {
+        "entry": 4367,
+        "port_calls": 4367
+      },
+      "0791:970C": {
+        "entry": 4262,
+        "port_calls": 4262
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-cafe": {
+      "0791:1C78": {
+        "entry": 1142,
+        "port_calls": 1142
+      },
+      "0791:1D4A": {
+        "entry": 1143,
+        "port_calls": 1143
+      },
+      "0791:1E53": {
+        "entry": 1143,
+        "port_calls": 1143
+      },
+      "0791:1EB5": {
+        "entry": 1143,
+        "port_calls": 1143
+      },
+      "0791:230C": {
+        "entry": 12,
+        "port_calls": 12
+      },
+      "0791:9564": {
+        "entry": 4388,
+        "port_calls": 4388
+      },
+      "0791:970C": {
+        "entry": 4282,
+        "port_calls": 4282
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-face": {
+      "0791:1C78": {
+        "entry": 1140,
+        "port_calls": 1140
+      },
+      "0791:1D4A": {
+        "entry": 1141,
+        "port_calls": 1141
+      },
+      "0791:1E53": {
+        "entry": 1141,
+        "port_calls": 1141
+      },
+      "0791:1EB5": {
+        "entry": 1141,
+        "port_calls": 1141
+      },
+      "0791:230C": {
+        "entry": 13,
+        "port_calls": 13
+      },
+      "0791:9564": {
+        "entry": 4673,
+        "port_calls": 4673
+      },
+      "0791:970C": {
+        "entry": 4554,
+        "port_calls": 4554
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "O8/c1-c2-qualifier": {
+      "0791:1C78": {
+        "entry": 1193,
+        "port_calls": 1193
+      },
+      "0791:1D4A": {
+        "entry": 1194,
+        "port_calls": 1194
+      },
+      "0791:1E53": {
+        "entry": 1194,
+        "port_calls": 1194
+      },
+      "0791:1EB5": {
+        "entry": 1194,
+        "port_calls": 1194
+      },
+      "0791:230C": {
+        "entry": 9,
+        "port_calls": 9
+      },
+      "0791:9564": {
+        "entry": 4693,
+        "port_calls": 4693
+      },
+      "0791:970C": {
+        "entry": 4587,
+        "port_calls": 4587
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "O8/c30-c44-qualifier": {
+      "0791:1C78": {
+        "entry": 1294,
+        "port_calls": 1294
+      },
+      "0791:1D4A": {
+        "entry": 1295,
+        "port_calls": 1295
+      },
+      "0791:1E53": {
+        "entry": 1295,
+        "port_calls": 1295
+      },
+      "0791:1EB5": {
+        "entry": 1295,
+        "port_calls": 1295
+      },
+      "0791:230C": {
+        "entry": 9,
+        "port_calls": 9
+      },
+      "0791:9564": {
+        "entry": 4690,
+        "port_calls": 4690
+      },
+      "0791:970C": {
+        "entry": 4568,
+        "port_calls": 4568
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "O8/c64-c90-qualifier": {
+      "0791:1C78": {
+        "entry": 982,
+        "port_calls": 982
+      },
+      "0791:1D4A": {
+        "entry": 983,
+        "port_calls": 983
+      },
+      "0791:1E53": {
+        "entry": 983,
+        "port_calls": 983
+      },
+      "0791:1EB5": {
+        "entry": 983,
+        "port_calls": 983
+      },
+      "0791:230C": {
+        "entry": 9,
+        "port_calls": 9
+      },
+      "0791:9564": {
+        "entry": 4360,
+        "port_calls": 4360
+      },
+      "0791:970C": {
+        "entry": 4262,
+        "port_calls": 4262
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "O8/c101-c120-qualifier": {
+      "0791:1C78": {
+        "entry": 1155,
+        "port_calls": 1155
+      },
+      "0791:1D4A": {
+        "entry": 1156,
+        "port_calls": 1156
+      },
+      "0791:1E53": {
+        "entry": 1156,
+        "port_calls": 1156
+      },
+      "0791:1EB5": {
+        "entry": 1156,
+        "port_calls": 1156
+      },
+      "0791:230C": {
+        "entry": 7,
+        "port_calls": 7
+      },
+      "0791:9564": {
+        "entry": 4686,
+        "port_calls": 4686
+      },
+      "0791:970C": {
+        "entry": 4580,
+        "port_calls": 4580
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "S/decisions-70": {
+      "0791:1C78": {
+        "entry": 1126,
+        "port_calls": 1126
+      },
+      "0791:1D4A": {
+        "entry": 1127,
+        "port_calls": 1127
+      },
+      "0791:1E53": {
+        "entry": 1127,
+        "port_calls": 1127
+      },
+      "0791:1EB5": {
+        "entry": 1127,
+        "port_calls": 1127
+      },
+      "0791:230C": {
+        "entry": 40,
+        "port_calls": 40
+      },
+      "0791:9564": {
+        "entry": 4308,
+        "port_calls": 4308
+      },
+      "0791:970C": {
+        "entry": 4204,
+        "port_calls": 4204
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "S/hard-4": {
+      "0791:1C78": {
+        "entry": 1246,
+        "port_calls": 1246
+      },
+      "0791:1D4A": {
+        "entry": 1247,
+        "port_calls": 1247
+      },
+      "0791:1E53": {
+        "entry": 1247,
+        "port_calls": 1247
+      },
+      "0791:1EB5": {
+        "entry": 1247,
+        "port_calls": 1247
+      },
+      "0791:230C": {
+        "entry": 12,
+        "port_calls": 12
+      },
+      "0791:9564": {
+        "entry": 4520,
+        "port_calls": 4520
+      },
+      "0791:970C": {
+        "entry": 4410,
+        "port_calls": 4410
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "S/quick-1": {
+      "0791:1C78": {
+        "entry": 10,
+        "port_calls": 10
+      },
+      "0791:1D4A": {
+        "entry": 11,
+        "port_calls": 11
+      },
+      "0791:1E53": {
+        "entry": 11,
+        "port_calls": 11
+      },
+      "0791:1EB5": {
+        "entry": 11,
+        "port_calls": 11
+      },
+      "0791:230C": {
+        "entry": 14,
+        "port_calls": 14
+      },
+      "0791:9564": {
+        "entry": 49,
+        "port_calls": 49
+      },
+      "0791:970C": {
+        "entry": 140,
+        "port_calls": 140
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "S/ko-39-budget-5": {
+      "0791:1C78": {
+        "entry": 1702,
+        "port_calls": 1702
+      },
+      "0791:1D4A": {
+        "entry": 1703,
+        "port_calls": 1703
+      },
+      "0791:1E53": {
+        "entry": 1703,
+        "port_calls": 1703
+      },
+      "0791:1EB5": {
+        "entry": 1703,
+        "port_calls": 1703
+      },
+      "0791:230C": {
+        "entry": 18,
+        "port_calls": 18
+      },
+      "0791:9564": {
+        "entry": 6573,
+        "port_calls": 6573
+      },
+      "0791:970C": {
+        "entry": 6033,
+        "port_calls": 6033
+      },
+      "0791:97D0": {
+        "entry": 4,
+        "port_calls": 4
+      },
+      "0791:983F": {
+        "entry": 4,
+        "port_calls": 4
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "S/ko-30-extra-time": {
+      "0791:1C78": {
+        "entry": 1487,
+        "port_calls": 1487
+      },
+      "0791:1D4A": {
+        "entry": 1488,
+        "port_calls": 1488
+      },
+      "0791:1E53": {
+        "entry": 1488,
+        "port_calls": 1488
+      },
+      "0791:1EB5": {
+        "entry": 1488,
+        "port_calls": 1488
+      },
+      "0791:230C": {
+        "entry": 13,
+        "port_calls": 13
+      },
+      "0791:9564": {
+        "entry": 5921,
+        "port_calls": 5921
+      },
+      "0791:970C": {
+        "entry": 5809,
+        "port_calls": 5809
+      },
+      "0791:97D0": {
+        "entry": 4,
+        "port_calls": 4
+      },
+      "0791:983F": {
+        "entry": 4,
+        "port_calls": 4
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "S/ko-53-quick": {
+      "0791:1C78": {
+        "entry": 628,
+        "port_calls": 628
+      },
+      "0791:1D4A": {
+        "entry": 629,
+        "port_calls": 629
+      },
+      "0791:1E53": {
+        "entry": 629,
+        "port_calls": 629
+      },
+      "0791:1EB5": {
+        "entry": 629,
+        "port_calls": 629
+      },
+      "0791:230C": {
+        "entry": 11,
+        "port_calls": 11
+      },
+      "0791:9564": {
+        "entry": 3022,
+        "port_calls": 3022
+      },
+      "0791:970C": {
+        "entry": 2194,
+        "port_calls": 2194
+      },
+      "0791:97D0": {
+        "entry": 4,
+        "port_calls": 4
+      },
+      "0791:983F": {
+        "entry": 4,
+        "port_calls": 4
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "S/qualifier-21": {
+      "0791:1C78": {
+        "entry": 1106,
+        "port_calls": 1106
+      },
+      "0791:1D4A": {
+        "entry": 1107,
+        "port_calls": 1107
+      },
+      "0791:1E53": {
+        "entry": 1107,
+        "port_calls": 1107
+      },
+      "0791:1EB5": {
+        "entry": 1107,
+        "port_calls": 1107
+      },
+      "0791:230C": {
+        "entry": 9,
+        "port_calls": 9
+      },
+      "0791:9564": {
+        "entry": 4241,
+        "port_calls": 4241
+      },
+      "0791:970C": {
+        "entry": 4149,
+        "port_calls": 4149
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/e032-1234": {
+      "0791:1C78": {
+        "entry": 1168,
+        "port_calls": 1168
+      },
+      "0791:1D4A": {
+        "entry": 1169,
+        "port_calls": 1169
+      },
+      "0791:1E53": {
+        "entry": 1169,
+        "port_calls": 1169
+      },
+      "0791:1EB5": {
+        "entry": 1169,
+        "port_calls": 1169
+      },
+      "0791:230C": {
+        "entry": 10,
+        "port_calls": 10
+      },
+      "0791:9564": {
+        "entry": 4238,
+        "port_calls": 4238
+      },
+      "0791:970C": {
+        "entry": 4146,
+        "port_calls": 4146
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-c3c3": {
+      "0791:1C78": {
+        "entry": 1168,
+        "port_calls": 1168
+      },
+      "0791:1D4A": {
+        "entry": 1169,
+        "port_calls": 1169
+      },
+      "0791:1E53": {
+        "entry": 1169,
+        "port_calls": 1169
+      },
+      "0791:1EB5": {
+        "entry": 1169,
+        "port_calls": 1169
+      },
+      "0791:230C": {
+        "entry": 13,
+        "port_calls": 13
+      },
+      "0791:9564": {
+        "entry": 4405,
+        "port_calls": 4405
+      },
+      "0791:970C": {
+        "entry": 4301,
+        "port_calls": 4301
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/e032-2b7e": {
+      "0791:1C78": {
+        "entry": 1172,
+        "port_calls": 1172
+      },
+      "0791:1D4A": {
+        "entry": 1173,
+        "port_calls": 1173
+      },
+      "0791:1E53": {
+        "entry": 1173,
+        "port_calls": 1173
+      },
+      "0791:1EB5": {
+        "entry": 1173,
+        "port_calls": 1173
+      },
+      "0791:230C": {
+        "entry": 12,
+        "port_calls": 12
+      },
+      "0791:9564": {
+        "entry": 4141,
+        "port_calls": 4141
+      },
+      "0791:970C": {
+        "entry": 4029,
+        "port_calls": 4029
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    }
+  },
+  "candidate_sha256": "15aaad69a724ebcc319425161eea60767a92c33e9b000dabb12c29d30c108627",
+  "retry_source": "experiments/E036-match-port/out/T69/retry-three-20261020T192724Z.jsonl",
+  "prior_sources": [
+    "experiments/E036-match-port/out/T69/own-20261020T164316Z-0.jsonl",
+    "experiments/E036-match-port/out/T69/own-20261020T164316Z-1.jsonl"
+  ]
+}

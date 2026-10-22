@@ -1,0 +1,18 @@
+{
+ "run_id": "39771597101",
+ "run_attempt": "1",
+ "workflow": "E036 family run",
+ "ref": "task/T69-port-frame",
+ "sha": "ce5e97070b46dd87f99dc6fdf8729c04a0a6c129",
+ "inputs": {
+  "task": "T69",
+  "name": "all-actions",
+  "family": "ALL",
+  "ports": "all",
+  "count": "0791:1C78,0791:1D4A,0791:1E53,0791:1EB5,0791:230C,0791:9564,0791:970C,0791:97D0,0791:983F,0791:98C4,0791:9955,0791:998C,0791:9A32,0791:F098",
+  "shards": "31",
+  "time_limit": "6000",
+  "stretch_limit": "600"
+ },
+ "run_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39771597101"
+}

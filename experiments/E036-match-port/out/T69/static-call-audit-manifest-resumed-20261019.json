@@ -1,0 +1,8 @@
+{
+  "kind": "read-only static arity audit; no runtime execution or acceptance claim",
+  "method_note": "Method checks both preserved task trees and writes cache JSON; output creation is exclusive to preserve prior raw results. Reproduction uses scratch paths or fresh output names. This task retains its corresponding raw output.",
+  "files": {
+    "static-call-audit-resumed-20261019.json": "27199b0c0cac82443b8bf1778b334ffb156a920a8a7dd05b643d90b63da18e80",
+    "static-call-audit-method-resumed-20261019.py": "1c26b19b8544947cbb21da5023c298f25e38ccd318452487ae8b8de94a248dce"
+  }
+}

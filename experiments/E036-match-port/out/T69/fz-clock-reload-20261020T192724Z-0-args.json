@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "experiments/E036-match-port/family.py",
+    "--family",
+    "O8",
+    "--only",
+    "O8/c1-c2-friendly,O8/c30-c44-friendly,O8/c64-c90-friendly,O8/c101-c120-friendly",
+    "--ports",
+    "frame",
+    "--workers",
+    "2",
+    "--time-limit",
+    "3000",
+    "--count",
+    "0791:1C78,0791:1D4A,0791:1E53,0791:1EB5,0791:230C,0791:9564,0791:970C,0791:97D0,0791:983F,0791:98C4,0791:9955,0791:998C,0791:9A32,0791:F098",
+    "--out",
+    "experiments/E036-match-port/out/T69/fz-clock-reload-20261020T192724Z-0.jsonl",
+    "--variant",
+    "frame.clock-reload"
+  ]
+}

@@ -20,8 +20,8 @@ from .image import (Image, COUNTRIES_PTR, COUNTRY_SIZE, PLAYERS_PTR, PLAYER_SIZE
 from .machine import Machine, GuestError, MEM_SIZE
 from . import screens as S
 
-VERSION = "3"                  # 3: a saved match names its ports (the port mode, port/); a version 2 save loads, portless
-LOADS = ("2", VERSION)
+VERSION = "4"                  # 4: live Python port frames are reconstructed by deterministic replay on load
+LOADS = ("2", "3", VERSION)
 
 # -- the calls (route_fixture's own, static/goal-exe/code/seg_000E_09.asm:308 and :396) -------------------------
 RUN_MATCH, RUN_MATCH_RETURN = "0791:F1F6", "000E:6F1D"
@@ -397,11 +397,13 @@ class Match:
     def events(self):
         """The match's events as they happen. A `decision` event means the original stopped and asks the
         manager: call answer() before taking the next event (taking it without an answer plays on)."""
+        self._replay_start()
         while True:
             if self._queue:
                 ev = self._queue.pop(0)
                 if ev.kind == "decision":
                     self.st["waiting"] = dict(ev.data)
+                self._replay_events = getattr(self, "_replay_events", 0) + 1
                 yield ev
                 continue
             if self.st["over"]:
@@ -435,6 +437,7 @@ class Match:
             avail = self.st["waiting"]["available"]
             if len(set(order)) != len(order) or any(w not in avail for w in order):
                 raise ValueError(f"shootout_order: distinct players of the available eleven {avail}")
+            self._replay_action("answer", {"shootout_order": order})
             self.st["answer"] = {"shootout_order": order}
             self.st["decisions"].append({"context": "shootout_order", "minute": self.st["minute"],
                                          "answer": {"shootout_order": order}})
@@ -464,6 +467,8 @@ class Match:
         own = {int(p): {int(e): (None if v is None else bool(v)) for e, v in d.items()} for p, d in (own_tactics or {}).items()}
         if any(p not in squad or any(not 1 <= e <= 4 for e in d) for p, d in own.items()):
             raise ValueError("own_tactics: {player of the managed squad: {element 1..4: True, False or None}}")
+        self._replay_action("answer", {"substitutions": subs, "tactics": tactics, "positions": positions,
+                                      "marking": marking, "own_tactics": own, "quick": bool(quick), "speed": speed})
         self.st["answer"] = {"substitutions": subs, "tactics": tactics, "positions": positions, "marking": marking,
                              "own": own, "quick": bool(quick), "speed": speed}
         self.st["decisions"].append({"context": self.st["waiting"]["context"], "minute": self.st["minute"],
@@ -486,6 +491,7 @@ class Match:
             raise MatchError("the match is over")
         if self.st.get("stage") == "shootout":
             raise MatchError("the kit takes no pause in the shoot-out (what the original's team menu does mid-kick is not checked)")
+        self._replay_action("pause", {})
         if S.ENTER not in self.st["poll_keys"]:        # asked already: one menu
             self.st["poll_keys"].append(S.ENTER)
 
@@ -1210,16 +1216,45 @@ class Match:
                          for r in range(25))
 
     # -- stop and resume ---------------------------------------------------------------------------------
+    def _replay_start(self):
+        # Capture after construction/fixture edits but before the first public operation. The origin is an
+        # ordinary frame-free checkpoint, so loading never needs to locate the original external image.
+        if (self.ports and getattr(self, "prover", None) is None
+                and getattr(self, "_replay_origin", None) is None and not self.m.frames):
+            self._replay_origin = self._encode_save(*self._save_state())
+            self._replay_events = 0
+            self._replay_actions = []
+
+    def _replay_action(self, kind, args):
+        self._replay_start()
+        if getattr(self, "_replay_origin", None) is not None and not getattr(self, "_replaying", False):
+            # Freeze caller-owned dictionaries and normalize keys as the save format will do.
+            self._replay_actions.append(json.loads(json.dumps([self._replay_events, kind, args])))
+
+    def _frame_state(self):
+        return [{"entry": f.entry.address, "variant": f.variant, "ss": f.ss, "sp": f.sp, "bp": f.bp,
+                 "ret_lin": f.ret_lin, "expect_sp": f.expect_sp, "after_sp": f.after_sp,
+                 "call": None if f.waiting is None else
+                 {k: getattr(f.waiting, k) for k in ("target", "args", "ret_to", "far", "caller_pops")}}
+                for f in self.m.frames]
+
     def save(self):
         """The whole match now (guest memory, registers, the kit's state) as bytes; Match.load() resumes it.
         Call it between events."""
         if self._menu is not None and not self.st["over"]:
             raise MatchError("save between events, not while the kit drives a screen")
-        if self.m.frames:              # a port waits on a call of the original's (port/guest.py): its Python frame
+        if self.m.frames and getattr(self, "_replay_origin", None) is None:
             raise MatchError("a port's frame is live (" + "; ".join(self.port_frames()) + "): save at a later event, "
                              "once the call has returned")      # is not in the guest's memory
         if getattr(self, "prover", None) is not None:
             raise MatchError("a proved match (prove=) is not saved: its proof state is not in the guest's memory")
+        state, memory = self._save_state()
+        if self.m.frames:
+            state["replay"] = {"origin": self._replay_origin.hex(), "events": self._replay_events,
+                               "actions": self._replay_actions, "frames": self._frame_state()}
+        return self._encode_save(state, memory)
+
+    def _save_state(self):
         snap = self.m.snapshot()
         state = {"st": self.st, "opts": self.opts, "inputs": self.inputs, "side": self.side,
                  "image_sha256": self.image_sha256, "end_lin": self.end_lin, "fixture_ptr": list(self.fixture_ptr),
@@ -1228,8 +1263,12 @@ class Match:
                  "header": self.image_header.hex()}
         if self.ports:                 # opts["ports"] names them; a stop a port made resumes at its return as new
             state["no_replay_at"] = self.m.no_replay_at
+        return state, snap["memory"] + self.image_tail
+
+    @staticmethod
+    def _encode_save(state, memory):
         blob = json.dumps(state).encode()
-        memory = zlib.compress(snap["memory"] + self.image_tail, 6)
+        memory = zlib.compress(memory, 6)
         return b"OMK1" + len(blob).to_bytes(4, "little") + blob + memory
 
     @classmethod
@@ -1241,6 +1280,8 @@ class Match:
         if state["version"] not in LOADS:
             raise ValueError(f"saved by kit version {state['version']}, this is {VERSION} (it loads {', '.join(LOADS)})")
         memory = zlib.decompress(data[8 + n:])
+        if "replay" in state:
+            return cls._load_replay(state, memory)
         self = cls.__new__(cls)
         self.m = Machine(memory, state["load"])
         self.m.restore({"memory": memory[:MEM_SIZE], "regs": state["regs"]})
@@ -1259,3 +1300,45 @@ class Match:
         self.prover = None
         self.m.no_replay_at = state.get("no_replay_at")
         return self
+
+    @classmethod
+    def _load_replay(cls, state, memory):
+        replay = state.pop("replay")
+        try:
+            origin = bytes.fromhex(replay["origin"])
+            # Origins are ordinary checkpoints; reject recursive replay envelopes.
+            n = int.from_bytes(origin[4:8], "little")
+            if "replay" in json.loads(origin[8:8 + n]):
+                raise ValueError("replay origin is not a plain checkpoint")
+            self = cls.load(origin)
+            self._replay_origin, self._replay_events = origin, 0
+            self._replay_actions, self._replaying = [], True
+            events = self.events()
+            actions = iter(replay["actions"])
+            action = next(actions, None)
+            count = replay["events"]
+            if type(count) is not int or count < 0:
+                raise ValueError("invalid event count")
+            for boundary in range(count + 1):
+                while action is not None and action[0] == boundary:
+                    _, kind, args = action
+                    if kind not in ("answer", "pause"):
+                        raise ValueError("unknown replay action")
+                    getattr(self, kind)(**args)
+                    action = next(actions, None)
+                if boundary < count:
+                    next(events)
+            if action is not None:
+                raise ValueError("replay actions are out of order or beyond the checkpoint")
+            actual, actual_memory = self._save_state()
+            canonical = lambda x: json.dumps(x, sort_keys=True)
+            # JSON round trip normalizes integer dictionary keys and tuples before sorting.
+            actual = json.loads(json.dumps(actual))
+            if (actual_memory != memory or canonical(actual) != canonical(state)
+                    or canonical(json.loads(json.dumps(self._frame_state()))) != canonical(replay["frames"])):
+                raise ValueError("reconstructed state differs from checkpoint")
+            self._replaying = False
+            self._replay_actions = replay["actions"]
+            return self
+        except (ValueError, KeyError, TypeError, StopIteration, MatchError) as exc:
+            raise MatchError(f"port replay failed: {exc}") from exc

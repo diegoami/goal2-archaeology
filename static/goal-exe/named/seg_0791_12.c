@@ -804,7 +804,7 @@ void in_match_menu(char param_1)
 
 
 // ---- 0791:F098  play_match  (f_0791_F098; Ghidra 2000:F098, __stdcall16near; found by routines.tsv)
-// the match proper: 0791:998C, 9955, 9A32; stores the score DS:9B3C in the fixture's word +0 and the result byte +3 (2 draw, else home < away); if DS:7C36 and drawn, extra time (9B0C, 9B5B) and then penalty_shootout; if not quick and the scores differ, 0791:98C4  [likely; F005; F009; read decompiled/seg_0791_09.c]
+// the match proper (a nested procedure of run_match: [bp+4] is its BP, whose +6 holds the far pointer to the fixture's result record): 0791:998C, 9955, 9A32; stores the score DS:9B3C in the record's word +0 and the result byte +3 (2 a draw, else 1 when the second goal byte is larger, 0 when not); if DS:7C36 and drawn, extra time (9B0C, 9B5B), the score again, DS:8323 := 0 and, if still drawn, penalty_shootout A10A, byte +3 := 1 when DS:9B3D > DS:9B3C else 0; then, if not quick (DS:9A3E clear), 0791:98C4 when the two scores differ, and 9955  [established; F005; F009; F013; read code/seg_0791_23.asm]
 
 void play_match(int param_1)
 
@@ -814,8 +814,8 @@ void play_match(int param_1)
   undefined2 uVar3;
   undefined2 unaff_SS;
   
-  f_0791_998C();
-  f_0791_9955();
+  first_half();
+  half_end_sweeps();
   pre_half_sequence();
   *(undefined2 *)*(undefined4 *)(param_1 + 6) = DS:9B3C;
   pbVar1 = (byte *)*(undefined4 *)(param_1 + 6);
@@ -848,9 +848,9 @@ void play_match(int param_1)
   }
   if (DS:9A3E == '\0') {
     if (DS:9B3C._1_1_ != (byte)DS:9B3C) {
-      f_0791_98C4();
+      restart_and_sweep();
     }
-    f_0791_9955();
+    half_end_sweeps();
   }
   return;
 }

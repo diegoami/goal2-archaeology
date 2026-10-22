@@ -1,0 +1,188 @@
+{
+  "ok": true,
+  "records": 3,
+  "counts_equal": true,
+  "comparison": [
+    "F40/e032-1234: score [1, 1] ticks 4146 draws 184109 cpu 13.51 s -> 41.601 s; identical",
+    "F40/e032-2b7e: score [0, 2] ticks 4029 draws 175773 cpu 12.583 s -> 37.575 s; identical",
+    "F40/edit-c3c3: score [3, 0] ticks 4301 draws 186146 cpu 13.331 s -> 41.373 s; identical",
+    "3 matches expected identical, 3 pass, 0 fail"
+  ],
+  "matrix": {
+    "F40/e032-1234": {
+      "0791:1C78": {
+        "entry": 1168,
+        "port_calls": 1168
+      },
+      "0791:1D4A": {
+        "entry": 1169,
+        "port_calls": 1169
+      },
+      "0791:1E53": {
+        "entry": 1169,
+        "port_calls": 1169
+      },
+      "0791:1EB5": {
+        "entry": 1169,
+        "port_calls": 1169
+      },
+      "0791:230C": {
+        "entry": 10,
+        "port_calls": 10
+      },
+      "0791:9564": {
+        "entry": 4238,
+        "port_calls": 4238
+      },
+      "0791:970C": {
+        "entry": 4146,
+        "port_calls": 4146
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 0,
+        "port_calls": 0
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/edit-c3c3": {
+      "0791:1C78": {
+        "entry": 1168,
+        "port_calls": 1168
+      },
+      "0791:1D4A": {
+        "entry": 1169,
+        "port_calls": 1169
+      },
+      "0791:1E53": {
+        "entry": 1169,
+        "port_calls": 1169
+      },
+      "0791:1EB5": {
+        "entry": 1169,
+        "port_calls": 1169
+      },
+      "0791:230C": {
+        "entry": 13,
+        "port_calls": 13
+      },
+      "0791:9564": {
+        "entry": 4405,
+        "port_calls": 4405
+      },
+      "0791:970C": {
+        "entry": 4301,
+        "port_calls": 4301
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    },
+    "F40/e032-2b7e": {
+      "0791:1C78": {
+        "entry": 1172,
+        "port_calls": 1172
+      },
+      "0791:1D4A": {
+        "entry": 1173,
+        "port_calls": 1173
+      },
+      "0791:1E53": {
+        "entry": 1173,
+        "port_calls": 1173
+      },
+      "0791:1EB5": {
+        "entry": 1173,
+        "port_calls": 1173
+      },
+      "0791:230C": {
+        "entry": 12,
+        "port_calls": 12
+      },
+      "0791:9564": {
+        "entry": 4141,
+        "port_calls": 4141
+      },
+      "0791:970C": {
+        "entry": 4029,
+        "port_calls": 4029
+      },
+      "0791:97D0": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:983F": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:98C4": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9955": {
+        "entry": 2,
+        "port_calls": 2
+      },
+      "0791:998C": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:9A32": {
+        "entry": 1,
+        "port_calls": 1
+      },
+      "0791:F098": {
+        "entry": 1,
+        "port_calls": 1
+      }
+    }
+  },
+  "candidate_sha256": "c77b58941ea78344017a3f3bc48bb7c2feef6bca7eea3516c618ea8a2290ed43"
+}

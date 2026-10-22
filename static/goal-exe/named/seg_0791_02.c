@@ -70,7 +70,7 @@ void f_0791_1829(undefined1 param_1,uint param_2,int param_3)
 
 
 // ---- 0791:1C78  commentary_record_is_new  (f_0791_1C78; Ghidra 2000:1C78, __stdcall16near; found by routines.tsv)
-// a predicate: compares a proposed commentary record (code and two player words, side) with the newest entry of the ring at DS:7C38 + 6 * DS:80EE and returns whether they differ; it stores nothing (its caller 0791:1D4A advances the ring and writes)  [likely; F005; read code/seg_0791_03.asm]
+// a predicate on the commentary ring: whether the proposed line differs from the newest record at DS:7C38 + 6 * DS:80EE; its argument is 1D4A's BP, whose frame holds the code byte [bp+4], the squad indexes [bp+6] and [bp+8] (index i names the word at +2i-2 of the side's country record; 0 is the word 0) and the side byte [bp+0xA]; returns 1 in AL when the code, either word or the side differs; it stores nothing but its own frame (its caller 0791:1D4A advances the ring and writes)  [established; F005; F014; read code/seg_0791_03.asm]
 
 undefined4 commentary_record_is_new(int param_1)
 
