@@ -1,0 +1,8 @@
+COMMAND: python3 -B experiments/E036-match-port/family.py --family O8 --only O8/c64-c90-friendly,O8/c64-c90-qualifier --workers 2 --time-limit 6000 --stretch-limit 600 --checkpoint .cache/checkpoints --out shard/shard-2.jsonl --ports duels --variant duels.swing-reversed
+HEAD: 8b6fc7ce2fec983f4f289ebb91624089bb9273ef runner 4 CPUs  AMD EPYC 7763 64-Core Processor started 2026-10-22T21:18:21Z
+ports: duels.swing-reversed
+2 matches selected, 0 already in shard/shard-2.jsonl, 2 to run
+O8/c64-c90-friendly: completed; score [0, 1] ticks 4291 cpu 70.288 s; port 0791:5B36 called 8; port 0791:5E41 called 42; port 0791:5EAB called 33; port 0791:5F06 called 38; port 0791:5F8A called 399; port 0791:6188 called 106393; port 0791:61EC called 2; port 0791:6240 called 333; port 0791:6337 called 2; port 0791:6443 called 1; port 0791:65A4 called 1; port 0791:65FE called 1; port 0791:6755 called 1; port 0791:67B6 called 1
+O8/c64-c90-qualifier: completed; score [1, 2] ticks 4343 cpu 69.391 s; port 0791:5B36 called 30; port 0791:5E41 called 26; port 0791:5EAB called 26; port 0791:5F06 called 30; port 0791:5F8A called 338; port 0791:6188 called 100224; port 0791:61EC called 4; port 0791:6240 called 1236; port 0791:6337 called 4; port 0791:6443 called 3; port 0791:65A4 called 3; port 0791:65FE called 3; port 0791:6755 called 2; port 0791:67B6 called 3
+2 of 2 matches in shard/shard-2.jsonl, 0 not completed
+exit 0 finished 2026-10-22T21:19:24Z
