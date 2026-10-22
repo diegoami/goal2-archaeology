@@ -174,7 +174,11 @@ class Run:
     def keep(self, name, how, read):
         times, st, data, regs, frame = read
         label = name
-        self.obs.extend(cycle.read_observations(self.step, label, times, st))
+        obs = cycle.read_observations(self.step, label, times, st)
+        for o in obs:  # a screen before GOAL shows DOSBox-X's mount messages: host paths as conf_public writes them
+            if isinstance(o.get("value"), str):
+                o["value"] = o["value"].replace(str(self.d.game_dir), "<game>").replace(str(self.d.workdir), "<work>")
+        self.obs.extend(obs)
         self.obs.append({"step": self.step, "source": "memory", "field": f"{label}: CPU registers from the savestate's CPU component (E021 notes section 1), hex",
                          "value": json.dumps({k: f"{v:04X}" if k in ("ES", "CS", "SS", "DS", "FS", "GS") else f"{v:08X}" for k, v in regs.items()})})
         self.obs.append({"step": self.step, "source": "memory", "field": f"{label}: 214B:08DD's frame (Intr's return 214B:0904 on the stack) and the callers' return addresses up the BP chain, listing addresses; null when the CPU is not in 08DD's INT 16h call",

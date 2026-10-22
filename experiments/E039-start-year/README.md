@@ -35,3 +35,11 @@ the title: no new-game keys) and `--first-save S` (the delay before the first sa
 Catch attempts are run with `--dos-date 10/04/1990 --catch-only` and `--first-save` stepped from 0.2 s by 0.1 s until
 one record keeps a `pre-date` state; each attempt is a record (arm `start-year-1990-catch`). The derived state is made
 from that record's state.
+
+## Amendment 2 (2026-10-22, after E039-r0003)
+
+The next attempt (`--first-save 0.3`) caught a `pre-date` state (CPU load+2382:0074) but wrote no record: its screen
+(the DOS prompt, before GOAL draws) shows DOSBox-X's mount messages with the host path of the game folder, and the
+record writer refuses host paths. The state is kept, renamed `e039-1990-pre-date-aborted-2.sav` (sha256 `0fadb2e2…`),
+and not used. From here a read's text observations carry host paths replaced by `<game>` and `<work>`, as the
+config observation already does; the screen's sha256 is of the bytes as read.
