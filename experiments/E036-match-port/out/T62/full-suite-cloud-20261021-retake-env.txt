@@ -1,0 +1,58 @@
+Retake of the 5 non-gh failures with the cloud session's own title start state in .cache/states/driver (the placed T62 state was saved under /home/diego); HEAD 5dc7037dc6a147553e8b3a81b6b34e63a9f47b7d
+EEEEE
+======================================================================
+ERROR: test_driver_keys (unittest.loader._FailedTest.test_driver_keys)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_driver_keys
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/unittest/loader.py", line 141, in loadTestsFromName
+    module = __import__(module_name)
+ModuleNotFoundError: No module named 'test_driver_keys'
+
+
+======================================================================
+ERROR: test_driver_terminate (unittest.loader._FailedTest.test_driver_terminate)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_driver_terminate
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/unittest/loader.py", line 141, in loadTestsFromName
+    module = __import__(module_name)
+ModuleNotFoundError: No module named 'test_driver_terminate'
+
+
+======================================================================
+ERROR: test_human_record (unittest.loader._FailedTest.test_human_record)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_human_record
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/unittest/loader.py", line 141, in loadTestsFromName
+    module = __import__(module_name)
+ModuleNotFoundError: No module named 'test_human_record'
+
+
+======================================================================
+ERROR: test_ga (unittest.loader._FailedTest.test_ga)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_ga
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/unittest/loader.py", line 141, in loadTestsFromName
+    module = __import__(module_name)
+ModuleNotFoundError: No module named 'test_ga'
+
+
+======================================================================
+ERROR: test_ga (unittest.loader._FailedTest.test_ga)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_ga
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/unittest/loader.py", line 141, in loadTestsFromName
+    module = __import__(module_name)
+ModuleNotFoundError: No module named 'test_ga'
+
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.001s
+
+FAILED (errors=5)
+exit 1
+0
