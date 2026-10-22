@@ -1,0 +1,18 @@
+{
+ "run_id": "39826706018",
+ "run_attempt": "1",
+ "workflow": "E036 family run",
+ "ref": "claude/gracious-fermat-eik7l4",
+ "sha": "cfdea1c7311c7fee9d0bdf212e278ccd7a3400ce",
+ "inputs": {
+  "task": "T65",
+  "name": "own-final-actions",
+  "family": "ALL",
+  "ports": "contests",
+  "count": "0791:4DA9,0791:4E28,0791:500C,0791:5049,0791:533B,0791:539F,0791:5474,0791:5513,0791:5565,0791:56D9,0791:5729,0791:57AC,0791:58E1,0791:593B,0791:59B3,0791:5A33,0791:5A8E",
+  "shards": "31",
+  "time_limit": "6000",
+  "stretch_limit": "600"
+ },
+ "run_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39826706018"
+}

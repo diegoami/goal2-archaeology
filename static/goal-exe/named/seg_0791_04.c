@@ -705,7 +705,7 @@ void __stdcall16far begin_chase(undefined2 *param_1)
 
 
 // ---- 0791:4DA9  challenger_would_foul  (f_0791_4DA9; Ghidra 2000:4DA9, __stdcall16far; found by routines.tsv)
-// (pitch record of a challenger or keeper): true when (a chance 1 in 18 - 1771:2FFB(player), 06D0, or the player's effective tactic element 4, 26D7) and rand(hardness of DS:830B's player) < rand(hardness of the record's player); the foul gate of 5513 and of 5B36's duel branch, the watched twin of D5C1's hardness rolls; T52: the foul gate of a lost challenge (called from 5513 and 5B36 with the challenger): when random_is_one(0x12 - hardness(challenger)) is true or the challenger's effective element 4 (go in hard) is set, it returns 1 if rand(1..hardness(ball holder)) < rand(1..hardness(challenger)); 5513 then draws a coin between the foul line 539F-path (foul_outcome_line) and watched_substitution_sequence; hardness is 1771's player_hardness  [likely; F027; F010; F026; read named/seg_0791_04.c]
+// T65 (ported, exact on ALL): (pitch record of a challenger or keeper): true when (a chance 1 in 18 - 1771:2FFB(player), 06D0, or the player's effective tactic element 4, 26D7) and rand(hardness of DS:830B's player) < rand(hardness of the record's player); the foul gate of 5513 and of 5B36's duel branch, the watched twin of D5C1's hardness rolls; T52: the foul gate of a lost challenge (called from 5513 and 5B36 with the challenger): when random_is_one(0x12 - hardness(challenger)) is true or the challenger's effective element 4 (go in hard) is set, it returns 1 if rand(1..hardness(ball holder)) < rand(1..hardness(challenger)); 5513 then draws a coin between the foul line 539F-path (foul_outcome_line) and watched_substitution_sequence; hardness is 1771's player_hardness  [established; F027; F010; F026; read named/seg_0791_04.c; read code/seg_0791_08.asm]
 
 undefined2 __stdcall16far challenger_would_foul(undefined4 param_1)
 
@@ -736,7 +736,7 @@ undefined2 __stdcall16far challenger_would_foul(undefined4 param_1)
 
 
 // ---- 0791:4E28  holder_action_choice  (f_0791_4E28; Ghidra 2000:4E28, __stdcall16near; found by routines.tsv)
-// what the ball holder does when his 5049 gate fires: far forward (row * direction >= 24 + draw, abs(x) > 3): 3DF6; deep in his own end (row * direction < -8) or draw = 1: pass (3323); else by position: 3 and 4 pass when element 1 is clear and dribble (move_ball_to_slot) when set; 7 and 8 dribble when element 1 is set unless random_is_one(3); 10 and 11 always dribble; 12 and 13 pass with random_is_one(DS:07E4[position == 12]); other positions pass  [likely; F026; read named/seg_0791_04.c]
+// T65 (ported, exact on ALL; the far-forward test is row * direction > 0x18 + draw, strict): what the ball holder does when his 5049 gate fires: far forward (row * direction >= 24 + draw, abs(x) > 3): 3DF6; deep in his own end (row * direction < -8) or draw = 1: pass (3323); else by position: 3 and 4 pass when element 1 is clear and dribble (move_ball_to_slot) when set; 7 and 8 dribble when element 1 is set unless random_is_one(3); 10 and 11 always dribble; 12 and 13 pass with random_is_one(DS:07E4[position == 12]); other positions pass  [established; F026; read named/seg_0791_04.c; read code/seg_0791_09.asm]
 
 void holder_action_choice(int param_1)
 
@@ -838,9 +838,10 @@ void holder_action_choice(int param_1)
 }
 
 
-// ---- 0791:500C  f_0791_500C  (f_0791_500C; Ghidra 2000:500C, __stdcall16near; found by routines.tsv)
+// ---- 0791:500C  defending_keeper_in_state13  (f_0791_500C; Ghidra 2000:500C, __stdcall16near; found by routines.tsv)
+// T65 (ported, exact on ALL): nested in 5049: 1 when the first pitch slot (DS:0668[side] + 1) of the side not holding the ball (2996) is in state 0x0D, else 0  [likely; read code/seg_0791_09.asm]
 
-undefined2 f_0791_500C(void)
+undefined2 defending_keeper_in_state13(void)
 
 {
   long lVar1;
