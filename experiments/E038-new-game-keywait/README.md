@@ -24,3 +24,13 @@ source .cache/cloud.env
 python3 experiments/E038-new-game-keywait/run.py --batch b1
 python3 experiments/E038-new-game-keywait/trace.py .cache/states/driver/e038-title-load-prompt-r0001.sav --keys 6E,0D,0D,62,6F,62,0D,0D,0D --key-polls 214B:0DB9 --out experiments/E038-new-game-keywait/out/trace-r0001.json
 ```
+
+## Amendment 1 (2026-10-22, after E038-r0001)
+
+- **Drive.** The kept states are on the owner's Drive twice: under `goal2-archaeology/E038/` with the names the
+  record gives (its `outputs`, with their `.json`), and in the Drive folder's root as goal2 asked, beside the other
+  states goal2 uses: `e038-r0001-title-keywait.sav` (= `e038-title-load-prompt-r0001.sav`) and
+  `e038-r0001-<screen>.sav` for the others. The sha256 in the record names each; the copies were checked by MD5
+  against the local files after upload.
+- **`trace.py`'s `--time`** takes `HH:MM:SS.hh`; the committed trace ran with `10:00:20.95` (README's command
+  line has none): the DOSBox-X run's `DS:7B64` (`0x145F`) shows DOS answered 20.95 s past the minute.
