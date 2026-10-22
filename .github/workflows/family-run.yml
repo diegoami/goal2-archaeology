@@ -3,7 +3,8 @@ name: E036 family run
 # The owner, 2026-10-22 (#361): an E036 family run (the integrated --ports all run of a port PR) in shards on Actions
 # runners, one shard per job, instead of ~10 hours in a cloud session. Dispatched on the task branch (the workflow file
 # comes from it, and so does the code that runs); the collector joins the shards (experiments/E036-match-port/shards.py)
-# and commits them, with a manifest, to experiments/E036-match-port/out/<task>/<name>-<run id>/ on that branch.
+# and commits them, with a manifest, to experiments/E036-match-port/out/<task>/<name>-<run id>/ on that branch
+# (<name>-<run id>-attempt-<n> for a re-run, #364; experiments/E036-match-port/collect_run.sh).
 # Runner time is the cost: each run's timing is read afterwards (GET .../actions/runs/<id>/timing) and reported.
 on:
   workflow_dispatch:
@@ -134,30 +135,4 @@ jobs:
           FAMILY: ${{ inputs.family }}
           ONLY: ${{ inputs.only }}
           INPUTS: ${{ toJSON(inputs) }}
-        run: |
-          set -u
-          dest="experiments/E036-match-port/out/$TASK/$NAME-$GITHUB_RUN_ID"
-          mkdir -p "$dest"
-          cp shards/* "$dest/"
-          args=(collect --family "$FAMILY" --out "$dest/$NAME.jsonl")
-          [ -n "$ONLY" ] && args+=(--only "$ONLY")
-          python3 -B experiments/E036-match-port/shards.py "${args[@]}" "$dest"/shard-*.jsonl > "$dest/collect.txt" 2>&1
-          echo "exit $?" >> "$dest/collect.txt"
-          cat "$dest/collect.txt"
-          python3 - "$dest/manifest.json" <<'PY'
-          import json, os, sys
-          json.dump({"run_id": os.environ["GITHUB_RUN_ID"], "run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
-                     "workflow": os.environ["GITHUB_WORKFLOW"], "ref": os.environ["GITHUB_REF_NAME"],
-                     "sha": os.environ["GITHUB_SHA"], "inputs": json.loads(os.environ["INPUTS"]),
-                     "run_url": f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"},
-                    open(sys.argv[1], "w"), indent=1)
-          PY
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$dest"
-          git commit -q -m "$TASK: $NAME, E036 family run $GITHUB_RUN_ID on Actions (#361)"
-          for i in 1 2 3 4 5; do
-            git pull -q --rebase origin "$GITHUB_REF_NAME" && git push -q origin "HEAD:$GITHUB_REF_NAME" && exit 0
-            sleep $((i * 10))
-          done
-          exit 1
+        run: bash experiments/E036-match-port/collect_run.sh   # its own folder per attempt (#364)

@@ -59,7 +59,8 @@ GitHub tools, or `gh api` (REST), for example:
 - merge with the merge commit process.md §3 asks for, pinned to the checked head:
   `gh api -X PUT repos/diegoami/goal2-archaeology/pulls/<n>/merge -f merge_method=merge -f sha=<head sha>`
   (goal2 squashes only locally; a cloud session always merges like this);
-- open a PR: `gh api repos/diegoami/goal2-archaeology/pulls -f title=... -f head=<branch> -f base=main -F draft=true -f body=@<file>`;
+- open a PR: `gh api repos/diegoami/goal2-archaeology/pulls -f title=... -f head=<branch> -f base=main -F draft=true -F body=@<file>`
+  (`-F`, not `-f`: only `-F` reads a file after `@`; `-f body=@<file>` posts the path as the text, 2026-10-22);
 - the login check: `gh api user --jq .login`.
 
 Release assets come over plain HTTPS from the public release (the setup falls back to it); their
