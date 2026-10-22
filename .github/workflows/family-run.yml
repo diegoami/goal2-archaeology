@@ -1,0 +1,163 @@
+name: E036 family run
+
+# The owner, 2026-10-22 (#361): an E036 family run (the integrated --ports all run of a port PR) in shards on Actions
+# runners, one shard per job, instead of ~10 hours in a cloud session. Dispatched on the task branch (the workflow file
+# comes from it, and so does the code that runs); the collector joins the shards (experiments/E036-match-port/shards.py)
+# and commits them, with a manifest, to experiments/E036-match-port/out/<task>/<name>-<run id>/ on that branch.
+# Runner time is the cost: each run's timing is read afterwards (GET .../actions/runs/<id>/timing) and reported.
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "the task whose out/ folder takes the result (T64)"
+        required: true
+      name:
+        description: "the result's folder name prefix (all-actions)"
+        default: all-actions
+      family:
+        default: ALL
+      only:
+        description: "comma-separated match ids (empty: the whole family)"
+        default: ""
+      ports:
+        description: "--ports (all, or M,...; empty: the unhooked kit)"
+        default: all
+      variant:
+        description: "--variant M.NAME (empty: none)"
+        default: ""
+      count:
+        description: "--count SSSS:OOOO,... (empty: none)"
+        default: ""
+      shards:
+        description: "jobs (at most 20 run at once)"
+        default: "31"
+      time_limit:
+        default: "6000"
+      stretch_limit:
+        default: "600"
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - id: plan
+        env:
+          FAMILY: ${{ inputs.family }}
+          ONLY: ${{ inputs.only }}
+          SHARDS: ${{ inputs.shards }}
+        run: |
+          set -eu
+          args=(plan --family "$FAMILY" --shards "$SHARDS")
+          [ -n "$ONLY" ] && args+=(--only "$ONLY")
+          echo "matrix=$(python3 -B experiments/E036-match-port/shards.py "${args[@]}")" >> "$GITHUB_OUTPUT"
+
+  run:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-${{ hashFiles('tools/static/requirements.txt', 'runtime/emul/requirements.txt') }}
+      - run: pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt
+      # the reference image, fetched by hash (runtime/original_match/assets.py checks its SHA-256)
+      - run: gh release download E006 --repo "$GITHUB_REPOSITORY" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl
+      - env:
+          FAMILY: ${{ inputs.family }}
+          ONLY: ${{ matrix.only }}
+          PORTS: ${{ inputs.ports }}
+          VARIANT: ${{ inputs.variant }}
+          COUNT: ${{ inputs.count }}
+          TIME_LIMIT: ${{ inputs.time_limit }}
+          STRETCH_LIMIT: ${{ inputs.stretch_limit }}
+          SHARD: ${{ matrix.shard }}
+        run: |
+          set -u
+          mkdir -p shard
+          args=(--family "$FAMILY" --only "$ONLY" --workers 2 --time-limit "$TIME_LIMIT" --stretch-limit "$STRETCH_LIMIT"
+                --checkpoint .cache/checkpoints --out "shard/shard-$SHARD.jsonl")
+          [ -n "$PORTS" ] && args+=(--ports "$PORTS")
+          [ -n "$VARIANT" ] && args+=(--variant "$VARIANT")
+          [ -n "$COUNT" ] && args+=(--count "$COUNT")
+          { echo "COMMAND: python3 -B experiments/E036-match-port/family.py ${args[*]}"
+            echo "HEAD: $(git rev-parse HEAD) runner $(nproc) CPUs $(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2) started $(date -u +%FT%TZ)"
+          } > "shard/shard-$SHARD-run.txt"
+          PYTHONPATH=runtime python3 -B experiments/E036-match-port/family.py "${args[@]}" >> "shard/shard-$SHARD-run.txt" 2>&1
+          echo "exit $? finished $(date -u +%FT%TZ)" >> "shard/shard-$SHARD-run.txt"
+          tail -n 3 "shard/shard-$SHARD-run.txt"
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shard-${{ matrix.shard }}
+          path: shard/
+          retention-days: 14
+
+  collect:
+    needs: [plan, run]
+    if: always() && needs.plan.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: shard-*
+          path: shards
+          merge-multiple: true
+      - env:
+          TASK: ${{ inputs.task }}
+          NAME: ${{ inputs.name }}
+          FAMILY: ${{ inputs.family }}
+          ONLY: ${{ inputs.only }}
+          INPUTS: ${{ toJSON(inputs) }}
+        run: |
+          set -u
+          dest="experiments/E036-match-port/out/$TASK/$NAME-$GITHUB_RUN_ID"
+          mkdir -p "$dest"
+          cp shards/* "$dest/"
+          args=(collect --family "$FAMILY" --out "$dest/$NAME.jsonl")
+          [ -n "$ONLY" ] && args+=(--only "$ONLY")
+          python3 -B experiments/E036-match-port/shards.py "${args[@]}" "$dest"/shard-*.jsonl > "$dest/collect.txt" 2>&1
+          echo "exit $?" >> "$dest/collect.txt"
+          cat "$dest/collect.txt"
+          python3 - "$dest/manifest.json" <<'PY'
+          import json, os, sys
+          json.dump({"run_id": os.environ["GITHUB_RUN_ID"], "run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+                     "workflow": os.environ["GITHUB_WORKFLOW"], "ref": os.environ["GITHUB_REF_NAME"],
+                     "sha": os.environ["GITHUB_SHA"], "inputs": json.loads(os.environ["INPUTS"]),
+                     "run_url": f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"},
+                    open(sys.argv[1], "w"), indent=1)
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$dest"
+          git commit -q -m "$TASK: $NAME, E036 family run $GITHUB_RUN_ID on Actions (#361)"
+          for i in 1 2 3 4 5; do
+            git pull -q --rebase origin "$GITHUB_REF_NAME" && git push -q origin "HEAD:$GITHUB_REF_NAME" && exit 0
+            sleep $((i * 10))
+          done
+          exit 1
