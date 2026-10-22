@@ -731,6 +731,37 @@ class TheCommand(unittest.TestCase):
         self.assertEqual(ran, [])
         self.assertEqual([r["id"] for r in records.read_log(self.out)], [m.id for m in self.o8])
 
+    def test_a_checkpoint_reads_back_only_under_its_own_key_and_drop_removes_it(self):
+        # #359: a checkpoint of another match declaration, image, kit, mask, --count or ports is not resumed
+        ck = family.Checkpoints(Path(self.tmp.name) / "ck")
+        key = {"spec_sha256": "a", "counts": ["0791:970C"], "ports": []}
+        ck.save("S/ko-9-quick", key, b"match", {"minutes": 10, "play": {"events": [("minute", 1, (0, 0), {1: 2})]}}, b"z")
+        saved = ck.load("S/ko-9-quick", key)
+        self.assertEqual((saved["match"], saved["before"]), (b"match", b"z"))
+        self.assertEqual(saved["runner"]["play"]["events"][0][3], {1: 2})            # int keys survive (JSON would not)
+        self.assertIsNone(ck.load("S/ko-9-quick", dict(key, ports=["motion"])))
+        self.assertIsNone(ck.load("S/ko-53-quick", key))
+        ck.path("S/ko-9-quick").write_bytes(b"E36C1 not a pickle")
+        self.assertIsNone(ck.load("S/ko-9-quick", key))                             # a torn or foreign file: start over
+        ck.drop("S/ko-9-quick")
+        self.assertFalse(ck.path("S/ko-9-quick").exists())
+        ck.drop("S/ko-9-quick")                                                       # dropping nothing is no error
+
+    def test_a_checkpoint_goes_once_its_record_is_in_the_log(self):
+        folder = Path(self.tmp.name) / "ck"
+        ck = family.Checkpoints(folder)
+        ck.save(self.o8[0].id, {}, b"", {}, b"")                    # a run killed after the append, before the drop
+        self.write([self.stub(self.o8[0])])
+        ck.save(self.o8[1].id, {}, b"", {}, b"")
+        seen = []
+
+        def run_one(spec):
+            seen.append(ck.path(spec.id).exists())
+            return self.stub(spec)
+        family.run_family(self.o8[:2], str(self.out), run_one=run_one, say=lambda *a: None, checkpoint=str(folder))
+        self.assertEqual(seen, [True])                               # o8[1] ran with its checkpoint still there
+        self.assertEqual(sorted(folder.iterdir()), [])                # both are gone: one done before, one just written
+
     def test_a_run_appends_each_record_as_its_match_ends(self):
         lines = []
 
@@ -837,6 +868,38 @@ class OneRealMatch(unittest.TestCase):
         self.assertEqual(r["counts"], {"0791:970C": r["ticks"]})
         self.assertTrue(records.is_completed(r))
         self.assertEqual(sum(row[1] for row in r["draws"]["per_minute"]), want_draws)
+
+    def test_a_match_killed_after_a_checkpoint_resumes_to_the_straight_runs_record(self):
+        """#359: S/quick-30 with the motion port and a --count, killed just after its second checkpoint (minute event 20)
+        and run again: the record equals a straight run's, but for the time taken; the checkpoint is gone after."""
+        class Killed(BaseException):           # not an Exception: run_match would make an Exception the record's error
+            pass
+        spec = FAMILIES["S"].matches[[m.id for m in FAMILIES["S"].matches].index("S/quick-30")]
+        image = original_match.Image.from_bytes(IMAGE_FILE.read_bytes())
+        ports, counts = family.port_specs("motion", None)[0], ("0791:970C", "0791:8537")
+        straight = family.run_match(image, spec, counts=counts, ports=ports, time_limit=3000)
+        with tempfile.TemporaryDirectory() as tmp:
+            ck = family.Checkpoints(Path(tmp), every=10)
+            real_save, saves = ck.save, []
+
+            def save_then_die(*a):
+                real_save(*a)
+                saves.append(a[3]["minutes"])
+                if len(saves) == 2:
+                    raise Killed()
+            ck.save = save_then_die
+            with self.assertRaises(Killed):
+                family.run_match(image, spec, counts=counts, ports=ports, time_limit=3000, checkpoints=ck)
+            ck.save = real_save
+            said = []
+            resumed = family.run_match(image, spec, counts=counts, ports=ports, time_limit=3000, checkpoints=ck,
+                                       say=said.append)
+            self.assertEqual(saves, [10, 20])
+            self.assertIn("resumed from its checkpoint after 20 minute events", " ".join(said))
+            self.assertTrue(records.is_completed(resumed), resumed["error"])
+            strip = lambda r: {k: v for k, v in r.items() if k not in ("cpu_s", "wall_s")}
+            self.assertEqual(strip(resumed), strip(straight))
+            self.assertGreater(resumed["counts"]["0791:8537"], 0)
 
     def test_the_write_watch_finds_what_is_declared(self):
         """--find-ranges on the quickest match: every span it saw written outside DS and the screen is in a declared
