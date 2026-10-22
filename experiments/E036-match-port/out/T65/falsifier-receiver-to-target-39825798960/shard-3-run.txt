@@ -1,0 +1,8 @@
+COMMAND: python3 -B experiments/E036-match-port/family.py --family O8 --only O8/c101-c120-friendly,O8/c101-c120-qualifier --workers 2 --time-limit 6000 --stretch-limit 600 --checkpoint .cache/checkpoints --out shard/shard-3.jsonl --ports contests --variant contests.receiver-to-target
+HEAD: 17065445cae1371be9f9eb5adcfab2649aed3e59 runner 4 CPUs  AMD EPYC 7763 64-Core Processor started 2026-10-22T17:48:18Z
+ports: contests.receiver-to-target
+2 matches selected, 0 already in shard/shard-3.jsonl, 2 to run
+O8/c101-c120-friendly: completed; score [0, 0] ticks 3461 cpu 267.275 s; port 0791:4DA9 called 1; port 0791:4E28 called 3; port 0791:500C called 0; port 0791:5049 called 74065; port 0791:533B called 74057; port 0791:539F called 0; port 0791:5474 called 1; port 0791:5513 called 1; port 0791:5565 called 70704; port 0791:56D9 called 74065; port 0791:5729 called 6899; port 0791:57AC called 74065; port 0791:58E1 called 12; port 0791:593B called 0; port 0791:59B3 called 8; port 0791:5A33 called 0; port 0791:5A8E called 0
+O8/c101-c120-qualifier: completed; score [0, 0] ticks 3541 cpu 278.517 s; port 0791:4DA9 called 2; port 0791:4E28 called 32; port 0791:500C called 0; port 0791:5049 called 74001; port 0791:533B called 73939; port 0791:539F called 4; port 0791:5474 called 6; port 0791:5513 called 2; port 0791:5565 called 70772; port 0791:56D9 called 74001; port 0791:5729 called 9998; port 0791:57AC called 74001; port 0791:58E1 called 74; port 0791:593B called 0; port 0791:59B3 called 209; port 0791:5A33 called 0; port 0791:5A8E called 0
+2 of 2 matches in shard/shard-3.jsonl, 0 not completed
+exit 0 finished 2026-10-22T17:52:32Z
