@@ -1,0 +1,21 @@
+E
+======================================================================
+ERROR: test_port_motion (unittest.loader._FailedTest.test_port_motion)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_port_motion
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a55a365b32cd67a36/.cache/tmp/main-tree/tests/test_port_motion.py", line 14, in <module>
+    from original_match.port import motion  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'motion' from 'original_match.port' (/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a55a365b32cd67a36/.cache/tmp/main-tree/runtime/original_match/port/__init__.py)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)
+tree /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a55a365b32cd67a36/.cache/tmp/main-tree, module tests.test_port_motion
+loaded from None
+exit 1

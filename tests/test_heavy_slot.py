@@ -1,4 +1,4 @@
-"""#318: the heavy jobs (the family runner, check.py, the unit suite) take a slot of tools/harness/heavy.sh.
+"""#318: the heavy jobs (the family runner, check.py, the unit suite) take a slot of tools/heavy.sh.
 
 runtime/heavy_slot.py's `take` re-runs the command under heavy.sh, so it waits behind the machine's other heavy
 jobs; the real script runs here in a throwaway lock folder. Each rule has a test that fails without it."""
@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "runtime"))
 import heavy_slot  # noqa: E402
 
-HEAVY = ROOT / "tools" / "harness" / "heavy.sh"
+HEAVY = ROOT / "tools" / "heavy.sh"
 FAMILY = ROOT / "experiments" / "E036-match-port" / "family.py"
 USABLE = HEAVY.is_file() and os.access(HEAVY, os.X_OK)
 
@@ -46,7 +46,7 @@ def env_for(lock_dir, **extra):
 PROBE = "import heavy_slot, os; heavy_slot.take('probe'); print('held=' + os.environ.get('HARNESS_HEAVY_HELD', '-'))"
 
 
-@unittest.skipUnless(USABLE, "tools/harness/heavy.sh is not executable")
+@unittest.skipUnless(USABLE, "tools/heavy.sh is not executable")
 class TakeTest(unittest.TestCase):
     def setUp(self):
         self._dir = tempfile.TemporaryDirectory()
@@ -219,7 +219,7 @@ class FamilyWorkersTest(unittest.TestCase):
         self.assertEqual(err.getvalue(), "")
 
 
-@unittest.skipUnless(USABLE, "tools/harness/heavy.sh is not executable")
+@unittest.skipUnless(USABLE, "tools/heavy.sh is not executable")
 class EntryPointsTest(unittest.TestCase):
     """The three commands call heavy_slot.take as their first act when run as scripts (not when imported)."""
 
@@ -280,7 +280,7 @@ class EntryPointsTest(unittest.TestCase):
                 holder.stdout.close()
 
 
-@unittest.skipUnless(USABLE, "tools/harness/heavy.sh is not executable")
+@unittest.skipUnless(USABLE, "tools/heavy.sh is not executable")
 class RefusedAfterParsingTest(unittest.TestCase):
     """#328: a command line an entry point refuses after argparse answers at once while the slot is held. Each entry point
     has ONE validation (ci_gate.refusal, family.prepare, check.validate) that main() and the slot step share; the cases
@@ -450,7 +450,7 @@ def build_caches(d):
     return plain, perm
 
 
-@unittest.skipUnless(USABLE, "tools/harness/heavy.sh is not executable")
+@unittest.skipUnless(USABLE, "tools/heavy.sh is not executable")
 class PathOptionsTest(unittest.TestCase):
     """#328 round 2: every path option is checked before the slot by the operation the run applies to it
     (runtime/fileopts.py). Per option and per path condition: the entry point's own validation accepts or refuses it as the

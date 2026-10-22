@@ -41,7 +41,7 @@ void __stdcall16far send_off(undefined4 param_1)
   cVar3 = side_may_lose_a_player(uVar4);
   if (cVar3 != '\0') {
     commentary_with_both_slots(0x33);
-    f_0791_90C5(0x8304,0xb000,referee_record._0_2_,0xcfe);
+    place_offside_marker(0x8304,0xb000,referee_record._0_2_,0xcfe);
     uVar4 = pitch_slot_side(iVar5,uVar7);
     mark_sent_off(*(undefined2 *)(iVar5 + 0xd),uVar4);
     walk_player_off(*(undefined1 *)(iVar5 + 6));
@@ -180,9 +180,9 @@ void f_0791_7E60(undefined1 param_1)
   match_whistle(4);
   local_4 = 1;
   while( true ) {
-    f_0791_8537((pitch *)pitch_records + DS:830B,0xb000);
+    move_player_sprite((pitch *)pitch_records + DS:830B,0xb000);
     match_delay((uint)*(byte *)((int)DS:A923 + 0x3f) << 2);
-    f_0791_8537((pitch *)pitch_records + DS:830C,0xb000);
+    move_player_sprite((pitch *)pitch_records + DS:830C,0xb000);
     match_delay((uint)*(byte *)((int)DS:A923 + 0x3f) << 2);
     move_referee((sprite *)&referee_record,0xb000,CONCAT11(extraout_AH,param_1));
     if (local_4 == 10) break;
@@ -427,7 +427,7 @@ undefined2 __stdcall16far ball_travel(void)
 
 
 // ---- 0791:83A2  move_ball  (f_0791_83A2; Ghidra 2000:83A2, __stdcall16far; found by routines.tsv)
-// adds the velocity (+6, +8) to the ball record at DS:82F6, counts the timer at +0x0A down, redraws (8F10); when out of bounds (2DCA: abs(x)<9, abs(y)<0x26 is in play) it picks the restart: abs(x)<2 calls 698E/690C, else abs(y)<0x26 calls 6E11, else 6E6E or 6F01, depending on which end  [likely; read decompiled/seg_0791_06.c; read decompiled/seg_0791_02.c]
+// the ball's step (ported, T62 port/motion.py, exact on ALL): the position + the velocity bytes (+6 x, +8 y) taken only when 2E00 accepts that square, the timer +0x0A counted down when nonzero, the in-flight flag +0x0D kept only while ball_travel 835F > 2, draw_ball 8F10; off the pitch (2DCA: |x| <= 8, |y| <= 0x25) the whistle 0441(2), then with DS:830E set 82EB when |x| > 1 or the holder DS:830B's side (2BE5) times y is negative; else DS:830C, 830A, 830D, 8325 cleared and the restart: |x| <= 1 698E (y * side < 0) or 690C, |y| < 0x26 the throw-in 6E11, y * side < 0 the corner 6E6E, else 6F01(2996 = 0, 0); the timer and DS:8327 then zeroed  [established; F013; read code/seg_0791_14.asm]
 
 void __stdcall16far move_ball(char *param_1)
 
@@ -527,9 +527,10 @@ void __stdcall16far move_ball(char *param_1)
 }
 
 
-// ---- 0791:8537  f_0791_8537  (f_0791_8537; Ghidra 2000:8537, __stdcall16far; found by routines.tsv)
+// ---- 0791:8537  move_player_sprite  (f_0791_8537; Ghidra 2000:8537, __stdcall16far; found by routines.tsv)
+// a pitch record's sprite moved in the picture DS:7C16 (+0 position, +2 old position, +4 glyph word): the old cell restored from the background DS:7C1E unless the old position is DS:0640 (off the pitch) or unchanged, +2 := +0, the glyph drawn at the new cell (one more when +4 is 1 and the record holds the ball DS:830B); then, for the ball's holder (2C29), the ball DS:82F6 := the position and, unless a keeper (045D) in its area (2EB8), its row byte 82F7 stepped by the run direction +0xF (1, 2, 5: by 2BE5; 3: -1; 4: +1; 0x26 -> 0x24, 0xDA -> 0xDC), and draw_ball 8F10; the picture is the occupancy grid 86D0 reads (E032); ported, T62 port/motion.py, exact on ALL  [established; F013; read code/seg_0791_14.asm]
 
-void __stdcall16far f_0791_8537(int *param_1)
+void __stdcall16far move_player_sprite(int *param_1)
 
 {
   char cVar1;
@@ -585,9 +586,10 @@ void __stdcall16far f_0791_8537(int *param_1)
 }
 
 
-// ---- 0791:869F  f_0791_869F  (f_0791_869F; Ghidra 2000:869F, __stdcall16far; found by routines.tsv)
+// ---- 0791:869F  take_possession  (f_0791_869F; Ghidra 2000:869F, __stdcall16far; found by routines.tsv)
+// DS:830B := the record's slot +6; DS:8300 (word), 830C, 830D, 8302, 8303, 8327 := 0; returns AX 0; ported, T62 port/motion.py, exact on ALL  [established; F013; read code/seg_0791_14.asm]
 
-void __stdcall16far f_0791_869F(undefined4 param_1)
+void __stdcall16far take_possession(undefined4 param_1)
 
 {
   DS:830B = *(undefined1 *)((int)param_1 + 6);
@@ -774,7 +776,7 @@ LAB_0791_89E5:
 
 
 // ---- 0791:8AE9  update_player  (f_0791_8AE9; Ghidra 2000:8AE9, __stdcall16far; found by routines.tsv)
-// runs the +0x12 state handler, then 8889; adds one to pitch +0x14 when unsigned pitch +0xF <5; after ball and drawing calls, when DS:8325 nonzero and unsigned counter >180, decrements signed player energy >1 by one, and resets counter even if decrement suppressed; fitness untouched  [established; F013; F018; F021]
+// runs the +0x12 state handler, then 8889; adds one to pitch +0x14 when unsigned pitch +0xF <5; after ball and drawing calls, when DS:8325 nonzero and unsigned counter >180, decrements signed player energy >1 by one, and resets counter even if decrement suppressed; fitness untouched; the handlers by state (8B0E-8BB0): 5 57AC, 0xD 58E1, 1 69BD, 2 6AAD, 3 6AF7, 6 6240, 7 7069, 8 7287, 9 715A, 0xA 73BA, 0xB 7621, any other none; possession taken (869F, DS:830C := DS:830D, DS:8303 kept) when DS:8302 is set, the record is DS:830D's and 2CEC says it is at the ball out of state 0xC, 2AD4(0x19) first when DS:830B differs and DS:8303 is clear; ported, T62 port/motion.py, exact on ALL  [established; F013; F018; F021; read code/seg_0791_14.asm]
 
 void __stdcall16far update_player(undefined4 param_1)
 
@@ -836,10 +838,10 @@ void __stdcall16far update_player(undefined4 param_1)
     if ((DS:830B != DS:830D) && (DS:8303 == '\0')) {
       commentary_with_both_slots(0x19);
     }
-    f_0791_869F(iVar5,uVar7);
+    take_possession(iVar5,uVar7);
     DS:8303 = cVar2;
   }
-  f_0791_8537(iVar5,uVar7);
+  move_player_sprite(iVar5,uVar7);
   if ((DS:8325 != '\0') && (0xb4 < *(uint *)(iVar5 + 0x14))) {
     if ('\x01' < (char)ppVar6[iVar3].energy) {
       pbVar1 = &ppVar6[iVar3].energy;
@@ -851,9 +853,10 @@ void __stdcall16far update_player(undefined4 param_1)
 }
 
 
-// ---- 0791:8C67  f_0791_8C67  (f_0791_8C67; Ghidra 2000:8C67, __stdcall16near; found by routines.tsv)
+// ---- 0791:8C67  reset_offside_line  (f_0791_8C67; Ghidra 2000:8C67, __stdcall16near; found by routines.tsv)
+// nested in 8CCA (its BP, then a side byte): the offside line DS:82E2 + 6 side := (2BE5 of the side's slot 0668[side] + 1) * 8 at +0, 0 at +1, and +2 := that word; ported, T62 port/motion.py, exact on ALL  [established; F013; read code/seg_0791_14.asm]
 
-void f_0791_8C67(undefined2 param_1,char param_2)
+void reset_offside_line(undefined2 param_1,char param_2)
 
 {
   int iVar1;
@@ -870,15 +873,16 @@ void f_0791_8C67(undefined2 param_1,char param_2)
 }
 
 
-// ---- 0791:8CCA  f_0791_8CCA  (f_0791_8CCA; Ghidra 2000:8CCA, __cdecl16near; found by routines.tsv)
+// ---- 0791:8CCA  reset_offside_lines  (f_0791_8CCA; Ghidra 2000:8CCA, __cdecl16near; found by routines.tsv)
+// 8C67 for side 1 then side 0, then DS:82EF := 0, DS:82EE := 1, and the words DS:82F0 and DS:82F4 := the word DS:82EE; called by 983F at each half's start; ported, T62 port/motion.py, exact on ALL  [established; F013; read code/seg_0791_15.asm]
 
-void __cdecl16near f_0791_8CCA(void)
+void __cdecl16near reset_offside_lines(void)
 
 {
   byte extraout_AH;
   
-  f_0791_8C67(&stack0xfffe,1);
-  f_0791_8C67(&stack0xfffe,(uint)extraout_AH << 8);
+  reset_offside_line(&stack0xfffe,1);
+  reset_offside_line(&stack0xfffe,(uint)extraout_AH << 8);
   referee_record.row = 1;
   referee_record.column = 0;
   referee_record._2_2_ = 1;
@@ -889,7 +893,7 @@ void __cdecl16near f_0791_8CCA(void)
 
 
 // ---- 0791:8CF5  track_offside_line  (f_0791_8CF5; Ghidra 2000:8CF5, __cdecl16near; found by routines.tsv)
-// per side 0..1, over the side's outfield pitch slots 0668[side]+2..+11, keeps in the six-byte sprite record at DS:82E2+6*side (the byte at +1) the minimum signed advancement y*attack direction (2BE5) against an accumulator that starts at ZERO (8D1F; 8D90 jge 8DAD keeps the earlier, so a positive product never replaces the zero), stored back as that y (min*direction, 8DB5-8DC3) - a y value, never a record number; a side whose deepest defender still has y*direction >= 0 keeps 0; draws the sprite through 8E24, and when the stored y's sign equals the ball y's sign, DS:8328 is set and the y is nonzero, calls 90C5 on the record at DS:8304 (the offside path); called by the tick loop every watched tick after the engine; no RNG in its tree (8E24 and 90C5 call nothing that draws)  [likely; F013; read code/seg_0791_15.asm]
+// per side 0..1, over the side's outfield pitch slots 0668[side]+2..+11, keeps in the six-byte sprite record at DS:82E2+6*side (the byte at +1) the minimum signed advancement y*attack direction (2BE5) against an accumulator that starts at ZERO (8D1F; 8D90 jge 8DAD keeps the earlier, so a positive product never replaces the zero), stored back as that y (min*direction, 8DB5-8DC3) - a y value, never a record number; a side whose deepest defender still has y*direction >= 0 keeps 0; draws the sprite through 8E24, and when the stored y's sign equals the ball y's sign, DS:8328 is set and the y is nonzero, calls 90C5 on the record at DS:8304 (the offside path); called by the tick loop every watched tick after the engine; no RNG in its tree (8E24 and 90C5 call nothing that draws); ported, T62 port/motion.py, exact on ALL  [established; F013; read code/seg_0791_15.asm]
 
 void __cdecl16near track_offside_line(void)
 
@@ -921,92 +925,13 @@ void __cdecl16near track_offside_line(void)
       }
     }
     ((undefined1 *)&DS:82E3)[iVar1] = ((undefined1 *)&DS:82E3)[iVar1] * cVar2;
-    f_0791_8E24((undefined2 *)(iVar1 + -0x7d1e),0xb000);
+    move_sprite((undefined2 *)(iVar1 + -0x7d1e),0xb000);
     if ((('\0' < (char)ball_record.y == '\0' < (char)((undefined1 *)&DS:82E3)[iVar1]) &&
         (DS:8328 != '\0')) && (((undefined1 *)&DS:82E3)[iVar1] != '\0')) {
-      f_0791_90C5(0x8304,0xb000,*local_b,DS:8308);
+      place_offside_marker(0x8304,0xb000,*local_b,DS:8308);
     }
     if (local_3 == '\x01') break;
     local_3 = local_3 + '\x01';
-  }
-  return;
-}
-
-
-// ---- 0791:8E24  f_0791_8E24  (f_0791_8E24; Ghidra 2000:8E24, __stdcall16far; found by routines.tsv)
-
-void __stdcall16far f_0791_8E24(int *param_1)
-
-{
-  int *piVar1;
-  undefined2 uVar2;
-  undefined2 uVar3;
-  
-  uVar2 = (undefined2)((ulong)param_1 >> 0x10);
-  piVar1 = (int *)param_1;
-  if ((piVar1[1] != *param_1) &&
-     (uVar3 = (undefined2)((ulong)DS:7C16 >> 0x10),
-     *(int *)((int)DS:7C16 + (char)piVar1[1] * 0xa0 + *(char *)((int)piVar1 + 3) * 2 + 0x90e)
-     == piVar1[2])) {
-    *(undefined2 *)
-     ((int)DS:7C16 + (char)piVar1[1] * 0xa0 + *(char *)((int)piVar1 + 3) * 2 + 0x90e) =
-         *(undefined2 *)
-          ((int)DS:7C1E + (char)piVar1[1] * 0xa0 + *(char *)((int)piVar1 + 3) * 2 + 0x90e);
-  }
-  piVar1[1] = *param_1;
-  *(int *)((int)DS:7C16 + (char)*param_1 * 0xa0 + *(char *)((int)piVar1 + 1) * 2 + 0x90e) =
-       piVar1[2];
-  return;
-}
-
-
-// ---- 0791:8F10  draw_ball  (f_0791_8F10; Ghidra 2000:8F10, __stdcall16far; found by routines.tsv)
-// restores the old cell of the ball in the screen buffer (DS:7C16 from the background DS:7C1E, rows 0xA0 bytes, +0x90E), picks the glyph from table DS:0880 by height (835F >= 3 when +0x0D is set) and writes the new cell  [likely; read decompiled/seg_0791_06.c]
-
-void __stdcall16far draw_ball(int *param_1)
-
-{
-  int iVar1;
-  char cVar2;
-  uint uVar3;
-  int *piVar4;
-  int iVar5;
-  undefined2 uVar6;
-  undefined2 uVar7;
-  bool bVar8;
-  
-  uVar6 = (undefined2)((ulong)param_1 >> 0x10);
-  piVar4 = (int *)param_1;
-  if ((piVar4[1] != DS:0640) && (piVar4[1] != *param_1)) {
-    iVar1 = (char)piVar4[1] * 0xa0;
-    iVar5 = (int)DS:7C16 + iVar1 + *(char *)((int)piVar4 + 3) * 2;
-    bVar8 = iVar5 == 0;
-    sys_set_bit_mask_08DF
-              (0x8ef0,0x2000,CONCAT11((char)((uint)iVar1 >> 8),*(undefined1 *)(iVar5 + 0x90e)));
-    if (!bVar8) {
-      *(undefined2 *)
-       ((int)DS:7C16 + (char)piVar4[1] * 0xa0 + *(char *)((int)piVar4 + 3) * 2 + 0x90e) =
-           *(undefined2 *)
-            ((int)DS:7C1E + (char)piVar4[1] * 0xa0 + *(char *)((int)piVar4 + 3) * 2 + 0x90e);
-    }
-  }
-  piVar4[1] = *param_1;
-  if ((*(char *)((int)piVar4 + 0xd) == '\0') || (uVar3 = ball_travel(piVar4,uVar6), uVar3 < 3)) {
-    cVar2 = '\0';
-  }
-  else {
-    cVar2 = '\x01';
-  }
-  *(char *)(piVar4 + 2) = *(char *)(cVar2 + 0x880);
-  if (*param_1 != DS:0640) {
-    uVar7 = (undefined2)((ulong)DS:7C16 >> 0x10);
-    if (*(int *)((int)DS:7C16 + (char)*param_1 * 0xa0 + *(char *)((int)piVar4 + 1) * 2 + 0x90e
-                ) ==
-        *(int *)((int)DS:7C1E + (char)*param_1 * 0xa0 + *(char *)((int)piVar4 + 1) * 2 + 0x90e
-                )) {
-      *(int *)((int)DS:7C16 + (char)*param_1 * 0xa0 + *(char *)((int)piVar4 + 1) * 2 + 0x90e)
-           = piVar4[2];
-    }
   }
   return;
 }

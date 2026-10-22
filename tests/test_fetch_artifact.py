@@ -123,11 +123,25 @@ class FakeReleaseTest(unittest.TestCase):
         self.assertIn("no-such-set-00000000: unknown artifact set", str(raised.exception))
         self.assertEqual([], self.calls())
 
-    def test_failing_gh_stops_the_download(self):
-        with mock.patch.dict(os.environ, {"FAKE_GH_FAIL": "1"}):
+    def test_failing_gh_and_https_stop_the_download(self):
+        with mock.patch.dict(os.environ, {"FAKE_GH_FAIL": "1"}), \
+                mock.patch.object(fetch_artifact, "https_download", return_value=False) as https:
             with self.assertRaises(subprocess.CalledProcessError):
                 fetch_artifact.download(SET_ID)
         self.assertEqual(1, len(self.calls()))
+        self.assertEqual(1, https.call_count)
+
+    def test_failing_gh_falls_back_to_https_and_verifies(self):
+        # [designed: owner, 2026-10-21] a cloud proxy blocks gh's GraphQL: each file then comes over
+        # HTTPS from the public release, and the same sha256 check applies.
+        def served(repo, tag, name, dest):
+            (dest / name).write_bytes((self.release / name).read_bytes())
+            return True
+        with mock.patch.dict(os.environ, {"FAKE_GH_FAIL": "1"}), \
+                mock.patch.object(fetch_artifact, "https_download", side_effect=served) as https:
+            fetch_artifact.download(SET_ID)
+        self.assertEqual(len(self.files()), https.call_count)
+        self.assertEqual([], fetch_artifact.verify(SET_ID))
 
     def test_missing_file_is_reported(self):
         fetch_artifact.download(SET_ID)

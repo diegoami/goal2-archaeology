@@ -1,0 +1,11 @@
+O8/c1-c2-friendly: score [2, 5] ticks 4564 draws 193140 cpu 14.351 s -> 77.643 s; caught: first at score; the draws first differ at minute 1 (reference 1760 draws, candidate 1655); also ticks, draws.count, draws.digest, events, board.statistics, board.bars and 8 more
+O8/c1-c2-qualifier: score [2, 0] ticks 4587 draws 207919 cpu 14.449 s -> 86.847 s; caught: first at score; the draws first differ at minute 1 (reference 1798 draws, candidate 1644); also ticks, draws.count, draws.digest, events, board.statistics, board.bars and 10 more
+O8/c30-c44-friendly: score [1, 1] ticks 4108 draws 183851 cpu 12.691 s -> 77.187 s; caught: first at ticks; the draws first differ at minute 1 (reference 1730 draws, candidate 1653); also draws.count, draws.digest, events, board.statistics, board.bars, board.seed and 6 more
+O8/c30-c44-qualifier: score [2, 3] ticks 4568 draws 192900 cpu 13.72 s -> 77.505 s; caught: first at score; the draws first differ at minute 1 (reference 1637 draws, candidate 1600); also ticks, draws.count, draws.digest, events, board.statistics, board.bars and 9 more
+O8/c64-c90-friendly: score [0, 1] ticks 4349 draws 202196 cpu 13.642 s -> 81.253 s; caught: first at score; the draws first differ at minute 1 (reference 3303 draws, candidate 3114); also ticks, draws.count, draws.digest, events, board.statistics, board.bars and 9 more
+O8/c64-c90-qualifier: score [1, 2] ticks 4262 draws 190354 cpu 12.882 s -> 85.569 s; caught: first at score; the draws first differ at minute 1 (reference 1791 draws, candidate 1800); also ticks, draws.count, draws.digest, events, board.statistics, board.bars and 10 more
+O8/c101-c120-friendly: score [1, 3] ticks 4806 draws 211757 cpu 16.588 s -> 70.335 s; caught: first at score; the draws first differ at minute 1 (reference 1691 draws, candidate 1563); also ticks, draws.count, draws.digest, events, board.statistics, board.bars and 8 more
+O8/c101-c120-qualifier: score [1, 5] ticks 4580 draws 191116 cpu 15.762 s -> 65.387 s; caught: first at score; the draws first differ at minute 1 (reference 1685 draws, candidate 2251); also ticks, draws.count, draws.digest, events, board.statistics, board.bars and 10 more
+8 matches expected differ, 8 pass, 0 fail
+
+exit 0

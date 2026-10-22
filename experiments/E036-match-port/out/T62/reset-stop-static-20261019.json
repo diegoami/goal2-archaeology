@@ -1,0 +1,566 @@
+{
+  "kind": "static-only candidate inventory; proposed, not independent review or runtime corroboration",
+  "created": "2026-10-19T20:49:44.700832+00:00",
+  "issue": 336,
+  "requested_kit_pin": "424d5998076da1e4efc399c2715689ddb44d3e1a",
+  "read_checkout_head": "53d7ef5ec445aebc5f20d053f05d1db008db771e",
+  "listing_files": {
+    "static/goal-exe/code/seg_0791_01.asm": {
+      "sha256": "a785c7efdfb54bab19ca5b3eea73a19548a61a46512f79c653559e1cba080688",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_02.asm": {
+      "sha256": "57849ee0856cb014c748370434588b99cd5151ce14d785a125c3a4350e04eb8b",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_03.asm": {
+      "sha256": "960a08fdcaa6f4115a4702c48a454b097fe0194db91c76ea5a4a9818bbfca0a3",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_04.asm": {
+      "sha256": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_05.asm": {
+      "sha256": "0635bc395cd69ffe2c77ead9aaaf786f36eedeee5496daae8f43127ce4aed474",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_06.asm": {
+      "sha256": "b7debdb96455259d2dca1e10096d42fb6ae843b79105eda4c5e7b7cf7b34ceb6",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_07.asm": {
+      "sha256": "1cee0aa8db2d9e0be1e885f1f535eca11f450cbee9421366182528e540d94804",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_08.asm": {
+      "sha256": "6932ef5507b1fa923e7fcec51e4abb0c091d413571c80d0d3798cb1382119acd",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_09.asm": {
+      "sha256": "1236aa3fcb2d30080e22d9a4bee4398c52d09fc3010e133bc124e318f7e89ac0",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_10.asm": {
+      "sha256": "dabf426d52c0c137574a07b97044e43868ebe0e0e49b4b7367be05e98842c88c",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_11.asm": {
+      "sha256": "a5aebf13faf14469141d8edb9a0878b0a56b7267451694622801732f522603ec",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_12.asm": {
+      "sha256": "51e9bb66b774cb145dea8d8986ee4dbcb3c6b74b1a79e47808fe28909916b108",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_13.asm": {
+      "sha256": "e5d4454db0deeb4b617cb1ff626b8ca505bb1b61b970b4c8e5952385481a8025",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_14.asm": {
+      "sha256": "032e2d6f22d6db5981e2a11f43298924a53e15d080e1d73d1fb375ddbe400abd",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_15.asm": {
+      "sha256": "39083ebcc1fba0fc0c377bd9656189ceb0e0a328d0940583c774e910967e1abf",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_16.asm": {
+      "sha256": "970a6ea902b38abd5e437aed568fc1833caf6bac00e25194be1f3f39504ea4e1",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_17.asm": {
+      "sha256": "e8ca718382b8b72b2a9d1ede8d24bf6bf0bf2e899b3cc70d91a5435d076f6c44",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_18.asm": {
+      "sha256": "e19061df86a89389539ddc48b0497b1f04742062851deca434838b600387d397",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_19.asm": {
+      "sha256": "9a67e02197e7b3796be1cf653ed6ffff35a9939cbe0044dee57f639971063ed8",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_20.asm": {
+      "sha256": "9ed1e3aa1aca8370004fc286911f2cf55003c084f03f95f8e39b56bf438361f9",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_21.asm": {
+      "sha256": "c0a1f37f3b6b13092012d3007a333b27c1a2194eeccd2eba5637b291be3b3358",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_22.asm": {
+      "sha256": "a914346b919764a8232d3a9f7979d5193a20bce6a8829e48d9b74fb9b806464b",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_23.asm": {
+      "sha256": "49e12bb8534566ad1e6b4b22e2f088ce483d4518f8d2b8cf28fefb3c7f9b9cde",
+      "same_at_requested_pin": true
+    },
+    "static/goal-exe/code/seg_0791_24.asm": {
+      "sha256": "f081cd651518cc3f56bea9e53bdf0545f766da0334f18e990c08be0f5c128bc2",
+      "same_at_requested_pin": true
+    }
+  },
+  "kit_path": "runtime/original_match/match.py",
+  "kit_sha256": "635f2dc9f54515452bd3c262c61899b1e36829186266af4d88db54c9b659bb45",
+  "tick_handler_at_requested_pin": "    def _on_tick(self, replay):\n        if replay:\n            return\n        self.st[\"ticks\"] += 1\n        self.st[\"notice\"] = None       # a notice's menu comes in the same stoppage (0791:8062), never a tick later\n        self._menu = None\n        self._flush()\n        if self.opts[\"ticks\"]:\n            self._emit(\"tick\", subtick=self.m.rd(SUBTICK))\n        if self._queue:\n            self.m.stop(\"events\")\n",
+  "direct_literal_mov_writes": [
+    {
+      "routine": "0791:0C65",
+      "offset": "0791:0C6B",
+      "path": "static/goal-exe/code/seg_0791_02.asm",
+      "line": 343,
+      "width": "byte",
+      "ds_offset": "9B55",
+      "value_expression": "0",
+      "listing_line": "0C6B  C6 06 55 9B 00  mov byte ptr [0x9b55], 0"
+    },
+    {
+      "routine": "0791:0C65",
+      "offset": "0791:0F17",
+      "path": "static/goal-exe/code/seg_0791_02.asm",
+      "line": 624,
+      "width": "byte",
+      "ds_offset": "9B41",
+      "value_expression": "al",
+      "listing_line": "0F17  A2 41 9B        mov byte ptr [0x9b41], al"
+    },
+    {
+      "routine": "0791:112C",
+      "offset": "0791:1397",
+      "path": "static/goal-exe/code/seg_0791_02.asm",
+      "line": 1091,
+      "width": "byte",
+      "ds_offset": "7C39",
+      "value_expression": "0",
+      "listing_line": "1397  C6 06 39 7C 00  mov byte ptr [0x7c39], 0"
+    },
+    {
+      "routine": "0791:333F",
+      "offset": "0791:334C",
+      "path": "static/goal-exe/code/seg_0791_06.asm",
+      "line": 32,
+      "width": "byte",
+      "ds_offset": "8325",
+      "value_expression": "1",
+      "listing_line": "334C  C6 06 25 83 01  mov byte ptr [0x8325], 1"
+    },
+    {
+      "routine": "0791:34C1",
+      "offset": "0791:34D5",
+      "path": "static/goal-exe/code/seg_0791_06.asm",
+      "line": 188,
+      "width": "byte",
+      "ds_offset": "8302",
+      "value_expression": "1",
+      "listing_line": "34D5  C6 06 02 83 01  mov byte ptr [0x8302], 1"
+    },
+    {
+      "routine": "0791:61EC",
+      "offset": "0791:61EF",
+      "path": "static/goal-exe/code/seg_0791_10.asm",
+      "line": 987,
+      "width": "byte",
+      "ds_offset": "8325",
+      "value_expression": "0",
+      "listing_line": "61EF  C6 06 25 83 00  mov byte ptr [0x8325], 0"
+    },
+    {
+      "routine": "0791:61EC",
+      "offset": "0791:622E",
+      "path": "static/goal-exe/code/seg_0791_10.asm",
+      "line": 1015,
+      "width": "byte",
+      "ds_offset": "7C39",
+      "value_expression": "0",
+      "listing_line": "622E  C6 06 39 7C 00  mov byte ptr [0x7c39], 0"
+    },
+    {
+      "routine": "0791:65FE",
+      "offset": "0791:6604",
+      "path": "static/goal-exe/code/seg_0791_11.asm",
+      "line": 321,
+      "width": "byte",
+      "ds_offset": "8325",
+      "value_expression": "1",
+      "listing_line": "6604  C6 06 25 83 01  mov byte ptr [0x8325], 1"
+    },
+    {
+      "routine": "0791:65FE",
+      "offset": "0791:674C",
+      "path": "static/goal-exe/code/seg_0791_11.asm",
+      "line": 480,
+      "width": "byte",
+      "ds_offset": "9B55",
+      "value_expression": "1",
+      "listing_line": "674C  C6 06 55 9B 01  mov byte ptr [0x9b55], 1"
+    },
+    {
+      "routine": "0791:698E",
+      "offset": "0791:69B1",
+      "path": "static/goal-exe/code/seg_0791_11.asm",
+      "line": 768,
+      "width": "byte",
+      "ds_offset": "7C39",
+      "value_expression": "1",
+      "listing_line": "69B1  C6 06 39 7C 01  mov byte ptr [0x7c39], 1"
+    },
+    {
+      "routine": "0791:69BD",
+      "offset": "0791:6A92",
+      "path": "static/goal-exe/code/seg_0791_11.asm",
+      "line": 857,
+      "width": "byte",
+      "ds_offset": "8302",
+      "value_expression": "0",
+      "listing_line": "6A92  C6 06 02 83 00  mov byte ptr [0x8302], 0"
+    },
+    {
+      "routine": "0791:6AAD",
+      "offset": "0791:6ABA",
+      "path": "static/goal-exe/code/seg_0791_11.asm",
+      "line": 879,
+      "width": "byte",
+      "ds_offset": "9B55",
+      "value_expression": "1",
+      "listing_line": "6ABA  C6 06 55 9B 01  mov byte ptr [0x9b55], 1"
+    },
+    {
+      "routine": "0791:6BF1",
+      "offset": "0791:6C0A",
+      "path": "static/goal-exe/code/seg_0791_11.asm",
+      "line": 1015,
+      "width": "byte",
+      "ds_offset": "8302",
+      "value_expression": "1",
+      "listing_line": "6C0A  C6 06 02 83 01  mov byte ptr [0x8302], 1"
+    },
+    {
+      "routine": "0791:6BF1",
+      "offset": "0791:6C2B",
+      "path": "static/goal-exe/code/seg_0791_11.asm",
+      "line": 1028,
+      "width": "byte",
+      "ds_offset": "9B55",
+      "value_expression": "1",
+      "listing_line": "6C2B  C6 06 55 9B 01  mov byte ptr [0x9b55], 1"
+    },
+    {
+      "routine": "0791:6FEE",
+      "offset": "0791:7050",
+      "path": "static/goal-exe/code/seg_0791_12.asm",
+      "line": 401,
+      "width": "byte",
+      "ds_offset": "8302",
+      "value_expression": "0",
+      "listing_line": "7050  C6 06 02 83 00  mov byte ptr [0x8302], 0"
+    },
+    {
+      "routine": "0791:70F6",
+      "offset": "0791:7141",
+      "path": "static/goal-exe/code/seg_0791_12.asm",
+      "line": 515,
+      "width": "byte",
+      "ds_offset": "8302",
+      "value_expression": "0",
+      "listing_line": "7141  C6 06 02 83 00  mov byte ptr [0x8302], 0"
+    },
+    {
+      "routine": "0791:74C2",
+      "offset": "0791:75EB",
+      "path": "static/goal-exe/code/seg_0791_12.asm",
+      "line": 1055,
+      "width": "byte",
+      "ds_offset": "8302",
+      "value_expression": "0",
+      "listing_line": "75EB  C6 06 02 83 00  mov byte ptr [0x8302], 0"
+    },
+    {
+      "routine": "0791:7881",
+      "offset": "0791:78AA",
+      "path": "static/goal-exe/code/seg_0791_13.asm",
+      "line": 24,
+      "width": "byte",
+      "ds_offset": "8302",
+      "value_expression": "1",
+      "listing_line": "78AA  C6 06 02 83 01  mov byte ptr [0x8302], 1"
+    },
+    {
+      "routine": "0791:7881",
+      "offset": "0791:78C7",
+      "path": "static/goal-exe/code/seg_0791_13.asm",
+      "line": 32,
+      "width": "byte",
+      "ds_offset": "8325",
+      "value_expression": "0",
+      "listing_line": "78C7  C6 06 25 83 00  mov byte ptr [0x8325], 0"
+    },
+    {
+      "routine": "0791:7881",
+      "offset": "0791:78D2",
+      "path": "static/goal-exe/code/seg_0791_13.asm",
+      "line": 35,
+      "width": "byte",
+      "ds_offset": "9B41",
+      "value_expression": "0",
+      "listing_line": "78D2  C6 06 41 9B 00  mov byte ptr [0x9b41], 0"
+    },
+    {
+      "routine": "0791:7881",
+      "offset": "0791:795D",
+      "path": "static/goal-exe/code/seg_0791_13.asm",
+      "line": 92,
+      "width": "byte",
+      "ds_offset": "9B41",
+      "value_expression": "al",
+      "listing_line": "795D  A2 41 9B        mov byte ptr [0x9b41], al"
+    },
+    {
+      "routine": "0791:7881",
+      "offset": "0791:7963",
+      "path": "static/goal-exe/code/seg_0791_13.asm",
+      "line": 94,
+      "width": "byte",
+      "ds_offset": "8325",
+      "value_expression": "al",
+      "listing_line": "7963  A2 25 83        mov byte ptr [0x8325], al"
+    },
+    {
+      "routine": "0791:7E60",
+      "offset": "0791:7E66",
+      "path": "static/goal-exe/code/seg_0791_13.asm",
+      "line": 679,
+      "width": "byte",
+      "ds_offset": "8325",
+      "value_expression": "0",
+      "listing_line": "7E66  C6 06 25 83 00  mov byte ptr [0x8325], 0"
+    },
+    {
+      "routine": "0791:8062",
+      "offset": "0791:80DB",
+      "path": "static/goal-exe/code/seg_0791_13.asm",
+      "line": 956,
+      "width": "byte",
+      "ds_offset": "9B41",
+      "value_expression": "1",
+      "listing_line": "80DB  C6 06 41 9B 01  mov byte ptr [0x9b41], 1"
+    },
+    {
+      "routine": "0791:8062",
+      "offset": "0791:8103",
+      "path": "static/goal-exe/code/seg_0791_13.asm",
+      "line": 973,
+      "width": "byte",
+      "ds_offset": "9B41",
+      "value_expression": "0",
+      "listing_line": "8103  C6 06 41 9B 00  mov byte ptr [0x9b41], 0"
+    },
+    {
+      "routine": "0791:83A2",
+      "offset": "0791:8483",
+      "path": "static/goal-exe/code/seg_0791_14.asm",
+      "line": 193,
+      "width": "byte",
+      "ds_offset": "8325",
+      "value_expression": "0",
+      "listing_line": "8483  C6 06 25 83 00  mov byte ptr [0x8325], 0"
+    },
+    {
+      "routine": "0791:869F",
+      "offset": "0791:86BB",
+      "path": "static/goal-exe/code/seg_0791_14.asm",
+      "line": 449,
+      "width": "byte",
+      "ds_offset": "8302",
+      "value_expression": "0",
+      "listing_line": "86BB  C6 06 02 83 00  mov byte ptr [0x8302], 0"
+    },
+    {
+      "routine": "0791:97D0",
+      "offset": "0791:9801",
+      "path": "static/goal-exe/code/seg_0791_16.asm",
+      "line": 116,
+      "width": "byte",
+      "ds_offset": "9B55",
+      "value_expression": "0",
+      "listing_line": "9801  C6 06 55 9B 00  mov byte ptr [0x9b55], 0"
+    },
+    {
+      "routine": "0791:983F",
+      "offset": "0791:9845",
+      "path": "static/goal-exe/code/seg_0791_16.asm",
+      "line": 148,
+      "width": "byte",
+      "ds_offset": "9B41",
+      "value_expression": "0",
+      "listing_line": "9845  C6 06 41 9B 00  mov byte ptr [0x9b41], 0"
+    },
+    {
+      "routine": "0791:983F",
+      "offset": "0791:9865",
+      "path": "static/goal-exe/code/seg_0791_16.asm",
+      "line": 159,
+      "width": "byte",
+      "ds_offset": "8302",
+      "value_expression": "0",
+      "listing_line": "9865  C6 06 02 83 00  mov byte ptr [0x8302], 0"
+    },
+    {
+      "routine": "0791:983F",
+      "offset": "0791:986A",
+      "path": "static/goal-exe/code/seg_0791_16.asm",
+      "line": 160,
+      "width": "byte",
+      "ds_offset": "9B55",
+      "value_expression": "1",
+      "listing_line": "986A  C6 06 55 9B 01  mov byte ptr [0x9b55], 1"
+    },
+    {
+      "routine": "0791:983F",
+      "offset": "0791:98B6",
+      "path": "static/goal-exe/code/seg_0791_16.asm",
+      "line": 193,
+      "width": "byte",
+      "ds_offset": "8325",
+      "value_expression": "0",
+      "listing_line": "98B6  C6 06 25 83 00  mov byte ptr [0x8325], 0"
+    },
+    {
+      "routine": "0791:98C4",
+      "offset": "0791:98F7",
+      "path": "static/goal-exe/code/seg_0791_16.asm",
+      "line": 226,
+      "width": "byte",
+      "ds_offset": "8325",
+      "value_expression": "1",
+      "listing_line": "98F7  C6 06 25 83 01  mov byte ptr [0x8325], 1"
+    },
+    {
+      "routine": "0791:9955",
+      "offset": "0791:9958",
+      "path": "static/goal-exe/code/seg_0791_16.asm",
+      "line": 271,
+      "width": "byte",
+      "ds_offset": "8325",
+      "value_expression": "0",
+      "listing_line": "9958  C6 06 25 83 00  mov byte ptr [0x8325], 0"
+    },
+    {
+      "routine": "0791:9955",
+      "offset": "0791:996A",
+      "path": "static/goal-exe/code/seg_0791_16.asm",
+      "line": 278,
+      "width": "byte",
+      "ds_offset": "8302",
+      "value_expression": "0",
+      "listing_line": "996A  C6 06 02 83 00  mov byte ptr [0x8302], 0"
+    },
+    {
+      "routine": "0791:9A32",
+      "offset": "0791:9A90",
+      "path": "static/goal-exe/code/seg_0791_16.asm",
+      "line": 382,
+      "width": "byte",
+      "ds_offset": "9B41",
+      "value_expression": "1",
+      "listing_line": "9A90  C6 06 41 9B 01  mov byte ptr [0x9b41], 1"
+    },
+    {
+      "routine": "0791:9B0C",
+      "offset": "0791:9B30",
+      "path": "static/goal-exe/code/seg_0791_16.asm",
+      "line": 451,
+      "width": "byte",
+      "ds_offset": "9B41",
+      "value_expression": "1",
+      "listing_line": "9B30  C6 06 41 9B 01  mov byte ptr [0x9b41], 1"
+    },
+    {
+      "routine": "0791:9B5B",
+      "offset": "0791:9B5E",
+      "path": "static/goal-exe/code/seg_0791_16.asm",
+      "line": 474,
+      "width": "byte",
+      "ds_offset": "9B41",
+      "value_expression": "1",
+      "listing_line": "9B5E  C6 06 41 9B 01  mov byte ptr [0x9b41], 1"
+    },
+    {
+      "routine": "0791:A006",
+      "offset": "0791:A0D3",
+      "path": "static/goal-exe/code/seg_0791_16.asm",
+      "line": 1062,
+      "width": "byte",
+      "ds_offset": "8325",
+      "value_expression": "0",
+      "listing_line": "A0D3  C6 06 25 83 00  mov byte ptr [0x8325], 0"
+    },
+    {
+      "routine": "0791:A4A1",
+      "offset": "0791:A573",
+      "path": "static/goal-exe/code/seg_0791_17.asm",
+      "line": 336,
+      "width": "byte",
+      "ds_offset": "7C39",
+      "value_expression": "0",
+      "listing_line": "A573  C6 06 39 7C 00  mov byte ptr [0x7c39], 0"
+    },
+    {
+      "routine": "0791:A4A1",
+      "offset": "0791:A5C4",
+      "path": "static/goal-exe/code/seg_0791_17.asm",
+      "line": 371,
+      "width": "byte",
+      "ds_offset": "9B41",
+      "value_expression": "1",
+      "listing_line": "A5C4  C6 06 41 9B 01  mov byte ptr [0x9b41], 1"
+    },
+    {
+      "routine": "0791:A4A1",
+      "offset": "0791:A629",
+      "path": "static/goal-exe/code/seg_0791_17.asm",
+      "line": 412,
+      "width": "byte",
+      "ds_offset": "8325",
+      "value_expression": "0",
+      "listing_line": "A629  C6 06 25 83 00  mov byte ptr [0x8325], 0"
+    },
+    {
+      "routine": "0791:C5DC",
+      "offset": "0791:C7E0",
+      "path": "static/goal-exe/code/seg_0791_20.asm",
+      "line": 591,
+      "width": "byte",
+      "ds_offset": "9B55",
+      "value_expression": "1",
+      "listing_line": "C7E0  C6 06 55 9B 01  mov byte ptr [0x9b55], 1"
+    },
+    {
+      "routine": "0791:D733",
+      "offset": "0791:D739",
+      "path": "static/goal-exe/code/seg_0791_21.asm",
+      "line": 799,
+      "width": "byte",
+      "ds_offset": "8325",
+      "value_expression": "1",
+      "listing_line": "D739  C6 06 25 83 01  mov byte ptr [0x8325], 1"
+    },
+    {
+      "routine": "0791:ED8A",
+      "offset": "0791:F004",
+      "path": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 843,
+      "width": "byte",
+      "ds_offset": "9B55",
+      "value_expression": "1",
+      "listing_line": "F004  C6 06 55 9B 01  mov byte ptr [0x9b55], 1"
+    }
+  ],
+  "limits": [
+    "Only direct literal mov writes to five selected candidate globals; indirect stores, other instructions and other globals are not exhaustively inventoried.",
+    "An instruction write is not proof of observability at a completed-tick stop.",
+    "No game runs, seed coverage, state predicate or interpolation design is claimed.",
+    "No T62/T64/T69 runtime, test, annotation or queued input changes."
+  ]
+}
