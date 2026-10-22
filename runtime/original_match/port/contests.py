@@ -18,9 +18,9 @@ from .runtime import Regs
 from .geometry import cbw, cwd, mul, imul
 
 PORTS = Registry("contests", "the holder's decisions and the contests: 4DA9-5A8E (T65)")
-PORTS.variant("tackle-tie-wins", "5474 at 54FE: the challenger also wins a tied roll (jle read as jl)")
-PORTS.variant("chase-ignores-stand", "5729 at 5798: effective element 6 (stand ground) no longer stops the chase")
-PORTS.variant("forward-floor-minus-one", "4E28 at 4E4D: the far-forward floor is 0x17 + draw, not 0x18 + draw")
+PORTS.variant("receiver-to-target", "533B at 5372: the pass receiver runs to DS:8313, not to the ball DS:82F6")
+PORTS.variant("countdown-double", "58E1 at 591A: the chase countdown +0x10 runs down by 2, not 1")
+PORTS.variant("nearest-not-chasing", "57AC at 5876: the side's nearest player (DS:8311) no longer goes to the ball")
 M16 = 0xFFFF
 
 
@@ -149,7 +149,7 @@ def holder_action_choice(mem, variant):
     r.local16(-4, r.di)                                          # 4E44
     r.local16(-2, r.es)                                          # 4E47
     r = yield from guest(mem, r, "261A", ret="4E4D", far=False)
-    r.ax = r.ax + (0x17 if variant == "forward-floor-minus-one" else 0x18)   # 4E4D
+    r.ax = r.ax + 0x18                                           # 4E4D
     r.push(r.ax)                                                 # 4E50: the floor, live across 2BE5
     seg, off = nested(mem, r)
     r = yield from guest(mem, r, "2BE5", seg, off, ret="4E5E")
@@ -466,7 +466,7 @@ def pass_receiver_destination(mem, variant):
         r.ah = 0
         r = yield from guest(mem, r, "045D", r.ax, ret="5367", far=False)
         if r.al or mem.ds16(0x8300) < 0xA:                       # 5369-5370 jae 5382
-            r.ax = mem.ds16(0x82F6)                              # 5372
+            r.ax = mem.ds16(0x8313 if variant == "receiver-to-target" else 0x82F6)   # 5372
             nested(mem, r)
             mem.w16(mem.addr(r.es, r.di + 7), r.ax, "0791:537C")
         else:
@@ -579,8 +579,7 @@ def tackle_roll(mem, variant):
     mul(r, r.dx)
     r = yield from guest(mem, r, "214B:06B1", r.ax, ret="54FB")
     r.dx = pop(mem, r)                                           # 54FB
-    wins = s16(r.ax) >= s16(r.dx) if variant == "tackle-tie-wins" else s16(r.ax) > s16(r.dx)   # 54FC-54FE jle
-    if wins:
+    if s16(r.ax) > s16(r.dx):                                    # 54FC-54FE jle 550A
         r = yield from guest(mem, r, "539F", ss16(mem, r, r.bp + 4), ret="5506", far=False)
         r.local8(-1, 1)                                          # 5506
     r.al = ss8(mem, r, r.bp - 1)                                 # 550A
@@ -766,7 +765,7 @@ def chase_ball_gate(mem, variant):
                     r.ax = 6
                     seg, off = nested(mem, r)
                     r = yield from guest(mem, r, "26D7", 6, seg, off, ret="5796")
-                    go = r.al == 0 or variant == "chase-ignores-stand"   # 5798 je 579E
+                    go = r.al == 0                               # 5798 je 579E
     r.al = 1 if go else 0                                        # 579A / 579E
     r.local8(-1, r.al)                                           # 57A0
     r.leave()
@@ -826,8 +825,8 @@ def play_state_update(mem, variant):
                     r.di = r.ax
                     r.al = mem.ds8((r.di + table) & M16)         # 586F / 5888
                     own(mem, r)
-                    if r.al == rb(mem, r, 6):
-                        to_ball = True
+                    if r.al == rb(mem, r, 6) and not (table == 0x8311 and variant == "nearest-not-chasing"):
+                        to_ball = True                           # 5876 / 588F je 58AD
                         break
                 if to_ball is None and mem.ds8(0x830C) == 0:     # 5895
                     point = mem.ds16(0x82F6)
@@ -870,7 +869,8 @@ def chase_countdown(mem, variant):
         own(mem, r)                                              # 590D
         if rb(mem, r, 0x10) > 0:
             own(mem, r)
-            mem.w8(mem.addr(r.es, r.di + 0x10), rb(mem, r, 0x10) - 1, "0791:591A")
+            mem.w8(mem.addr(r.es, r.di + 0x10), rb(mem, r, 0x10) - (2 if variant == "countdown-double" else 1),
+                   "0791:591A")
         else:
             own(mem, r)
             mem.w8(mem.addr(r.es, r.di + 0x12), 5, "0791:5923")
