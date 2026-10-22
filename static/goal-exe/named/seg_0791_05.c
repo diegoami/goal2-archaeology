@@ -53,7 +53,7 @@ void foul_outcome_line(int param_1)
   
   cVar2 = is_keeper_slot(DS:830B);
   if (cVar2 == '\0') {
-    f_0791_4D3F((pitch *)pitch_records + DS:830B,0xb000);
+    begin_chase((pitch *)pitch_records + DS:830B,0xb000);
     if (DS:8303 == '\0') {
       u214b_beep_tone_delay(5,100);
     }
@@ -202,7 +202,7 @@ undefined1 challenge_duel(int param_1)
         if ((((cVar3 == '\0') && (cVar3 = f_0791_5513(&stack0xfffe), cVar3 == '\0')) &&
             (cVar3 = f_0791_4151(), cVar3 == '\0')) &&
            (cVar3 = is_keeper_slot(DS:830B), cVar3 == '\0')) {
-          f_0791_4D3F((int)*(undefined4 *)(param_1 + 6),
+          begin_chase((int)*(undefined4 *)(param_1 + 6),
                       (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
           if (DS:8303 == '\0') {
             commentary_with_ball_slot(CONCAT11(extraout_AH,0xc));
@@ -340,8 +340,8 @@ void __stdcall16far play_state_update(undefined4 param_1)
                           (cVar1 = pitch_slot_side(iVar2,uVar3),
                           *(char *)(cVar1 + -0x7cf1) != *(char *)(iVar2 + 6))) &&
                          ((DS:830C != '\0' ||
-                          (cVar1 = f_0791_44C1(iVar2,uVar3,ball_record._0_2_), cVar1 == '\0'))))))))
-      {
+                          (cVar1 = near_player_zone(iVar2,uVar3,ball_record._0_2_), cVar1 == '\0')))
+                         ))))) {
         update_marking_destination(iVar2,uVar3);
       }
       else {
@@ -508,7 +508,7 @@ void write_save_line(int param_1)
                 ,9);
   }
   else {
-    f_0791_4D3F((int)*(undefined4 *)(param_1 + 6),(int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10)
+    begin_chase((int)*(undefined4 *)(param_1 + 6),(int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10)
                );
   }
   return;
@@ -644,7 +644,7 @@ LAB_0791_5BE8:
       if (DS:8303 == '\0') {
         commentary_with_ball_slot(0xc);
       }
-      f_0791_4D3F(puVar7,uVar8);
+      begin_chase(puVar7,uVar8);
     }
     else {
       cVar2 = u214b_random_coin_flip();

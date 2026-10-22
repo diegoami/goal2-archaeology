@@ -1,0 +1,22 @@
+test_a_missing_dispatch_block_is_created (tests.test_switch_model.SwitchDispatch.test_a_missing_dispatch_block_is_created) ... ok
+test_ask_and_review_kind_together (tests.test_switch_model.SwitchDispatch.test_ask_and_review_kind_together) ... ok
+test_ask_maybe_refused (tests.test_switch_model.SwitchDispatch.test_ask_maybe_refused) ... ok
+test_ask_on_and_off (tests.test_switch_model.SwitchDispatch.test_ask_on_and_off) ... ok
+test_blocked_model_refused (tests.test_switch_model.SwitchDispatch.test_blocked_model_refused) ... ok
+test_dry_run_writes_nothing (tests.test_switch_model.SwitchDispatch.test_dry_run_writes_nothing) ... ok
+test_inherited_property_name_is_not_a_model (tests.test_switch_model.SwitchDispatch.test_inherited_property_name_is_not_a_model) ... ok
+test_other_keys_are_untouched (tests.test_switch_model.SwitchDispatch.test_other_keys_are_untouched) ... ok
+test_review_kind_needs_a_model (tests.test_switch_model.SwitchDispatch.test_review_kind_needs_a_model) ... ok
+test_review_kind_research (tests.test_switch_model.SwitchDispatch.test_review_kind_research) ... ok
+test_review_kind_sets_the_reviewer_for_that_kind_only (tests.test_switch_model.SwitchDispatch.test_review_kind_sets_the_reviewer_for_that_kind_only) ... ok
+test_session_family_refused (tests.test_switch_model.SwitchDispatch.test_session_family_refused) ... ok
+test_show_after_a_change (tests.test_switch_model.SwitchDispatch.test_show_after_a_change) ... ok
+test_show_prints_the_dispatch_line (tests.test_switch_model.SwitchDispatch.test_show_prints_the_dispatch_line) ... ok
+test_show_without_a_dispatch_block (tests.test_switch_model.SwitchDispatch.test_show_without_a_dispatch_block) ... ok
+test_unknown_kind_refused (tests.test_switch_model.SwitchDispatch.test_unknown_kind_refused) ... ok
+test_unknown_model_refused (tests.test_switch_model.SwitchDispatch.test_unknown_model_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 2.468s
+
+OK

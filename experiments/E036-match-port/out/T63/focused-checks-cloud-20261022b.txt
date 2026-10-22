@@ -1,0 +1,37 @@
+HEAD: dbc515f9b76b868e2c5bb73ecccc37f518599a9b
+Ran 119 tests in 41.838s
+
+OK
+check_annotations: ok
+citations FAIL findings/F001-goal2-runs-unattended-under-dosbox-x.md
+citations FAIL findings/F002-static-inventory.md
+citations FAIL findings/F003-g1-driver-repeats-the-restore-cycle.md
+citations FAIL findings/F004-dos-time-seeds-the-game-and-key-timing-drives-the-live-match.md
+citations FAIL findings/F005-the-quick-result-runs-another-engine-than-the-watched-match.md
+citations FAIL findings/F006-cycles-and-host-speed-do-not-change-a-match.md
+citations FAIL findings/F007-player-values-are-made-at-a-new-game-from-a-seed-per-country-not-from-the-dos-time.md
+citations FAIL findings/F008-the-player-screen-draws-12-skills-as-bars-derived-from-three-record-bytes.md
+citations FAIL findings/F009-ghidra-decompiled-view-agrees-with-nine-of-ten-hand-traced-claims.md
+citations FAIL findings/F010-r008-is-a-countrys-default-team-tactics-and-both-match-engines-read-it.md
+citations FAIL findings/F011-the-pool-screen-lists-the-squad-and-80-extra-records-numbered-from-a927.md
+citations FAIL findings/F012-quick-engine-rule.md
+citations FAIL findings/F013-the-watched-engine-tick-map.md
+citations FAIL findings/F014-performance-ratings-and-man-of-the-match.md
+citations FAIL findings/F015-keeping-and-penalties-read-through-the-derived-skills.md
+citations FAIL findings/F016-ageing-peak-band-and-yearly-writes.md
+citations FAIL findings/F017-retirement-creation-and-results-to-talent.md
+citations FAIL findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md
+citations FAIL findings/F019-confidence-follows-result-relative-to-country-ranks.md
+citations FAIL findings/F020-events-change-confidence-and-team-morale-aggregates-it.md
+citations FAIL findings/F021-energy-and-form-set-a-players-strength-fitness-is-never-read-in-a-match.md
+citations FAIL findings/F022-contest-sites-287c-5474-5d69-and-the-branches-e011-takes.md
+citations FAIL findings/F023-the-stage-builders-write-the-competition-calendar-from-ranked-pots-and-a-points-sort-with-no-coin.md
+citations FAIL findings/F024-computer-lineup-is-the-stored-eleven-corrected-by-bench-swaps-on-377e-and-silent-fixtures-are-one-b19d-call.md
+citations FAIL findings/F025-sacking-and-end-of-the-game.md
+citations FAIL findings/F026-what-each-team-tactic-changes-in-a-watched-match.md
+citations FAIL findings/F027-discipline-cap-bans-added-time-substitution-budget-and-foul-chain.md
+citations FAIL findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md
+citations FAIL findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md
+citations FAIL findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md
+citations FAIL findings/F031-the-squad-and-the-pool-exchange-except-from-a-countrys-first-finals-group-fixture-to-the-next-qualifying-build-and-between-two-away-cross-continent-friendlies.md
+citations done

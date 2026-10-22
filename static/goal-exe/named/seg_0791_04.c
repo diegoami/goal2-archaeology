@@ -145,9 +145,10 @@ void __stdcall16far set_destination_from_post(undefined4 param_1)
 }
 
 
-// ---- 0791:4438  f_0791_4438  (f_0791_4438; Ghidra 2000:4438, __stdcall16far; found by routines.tsv)
+// ---- 0791:4438  near_post_zone  (f_0791_4438; Ghidra 2000:4438, __stdcall16far; found by routines.tsv)
+// whether a point lies within 3 columns and 8 directed rows of the record post, adding the position offset unless state 9; used to choose an unassigned marking target  [likely; read code/seg_0791_07.asm]
 
-uint __stdcall16far f_0791_4438(undefined4 param_1,undefined2 param_2)
+uint __stdcall16far near_post_zone(undefined4 param_1,undefined2 param_2)
 
 {
   undefined2 uVar1;
@@ -186,9 +187,10 @@ uint __stdcall16far f_0791_4438(undefined4 param_1,undefined2 param_2)
 }
 
 
-// ---- 0791:44C1  f_0791_44C1  (f_0791_44C1; Ghidra 2000:44C1, __stdcall16far; found by routines.tsv)
+// ---- 0791:44C1  near_player_zone  (f_0791_44C1; Ghidra 2000:44C1, __stdcall16far; found by routines.tsv)
+// whether a point lies within 3 columns and 5 directed rows of this non-holder, non-chasing record; a proximity gate for position decisions  [likely; read code/seg_0791_07.asm]
 
-uint __stdcall16far f_0791_44C1(char *param_1,undefined2 param_2)
+uint __stdcall16far near_player_zone(char *param_1,undefined2 param_2)
 
 {
   char cVar1;
@@ -409,8 +411,8 @@ undefined1 choose_marking_target(int param_1)
       if ((cVar3 == '\0') &&
          (uVar1._0_1_ = ((pitch *)pitch_records + *(byte *)(cVar2 + 0x668) + local_5)->x,
          uVar1._1_1_ = ((pitch *)pitch_records + *(byte *)(cVar2 + 0x668) + local_5)->y,
-         cVar3 = f_0791_4438((int)*(undefined4 *)(param_1 + 6),
-                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),uVar1),
+         cVar3 = near_post_zone((int)*(undefined4 *)(param_1 + 6),
+                                (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),uVar1),
          cVar3 != '\0')) {
         local_9 = pcVar8[iVar6].squad[local_5 - 1];
       }
@@ -607,9 +609,10 @@ void __stdcall16far update_player_destination(undefined4 param_1)
 }
 
 
-// ---- 0791:4D3F  f_0791_4D3F  (f_0791_4D3F; Ghidra 2000:4D3F, __stdcall16far; found by routines.tsv)
+// ---- 0791:4D3F  begin_chase  (f_0791_4D3F; Ghidra 2000:4D3F, __stdcall16far; found by routines.tsv)
+// for an outfield slot or a keeper in its own goal strip, set state 13, copy the current point to destination, and set the movement countdown from the draw table with a keeper bonus  [likely; read code/seg_0791_08.asm]
 
-void __stdcall16far f_0791_4D3F(undefined2 *param_1)
+void __stdcall16far begin_chase(undefined2 *param_1)
 
 {
   char cVar1;

@@ -1,0 +1,17 @@
+mutated push at 494D: tests=1, failures=1, errors=0
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T63-port-positioning/tests/test_port_positioning.py", line 214, in test_marking_comparisons_keep_listing_pushes_live_across_guest_calls
+    self.assertEqual(by_site["0791:496A"], (by_site["0791:494D"][0] - 2, 5))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (16110, 0) != (16108, 5)
+
+First differing element 0:
+16110
+16108
+
+- (16110, 0)
+?     -   ^
+
++ (16108, 5)
+?      +  ^
+

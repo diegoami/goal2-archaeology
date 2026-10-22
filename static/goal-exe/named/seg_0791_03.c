@@ -865,7 +865,7 @@ void __stdcall16far f_0791_3B9E(undefined4 param_1,int param_2)
   launch_ball(uVar2,uVar3,*(undefined1 *)(cVar1 + 0x78c),uVar4);
   commentary_with_ball_slot(CONCAT11(extraout_AH,3));
   DS:8303 = u214b_random_coin_flip();
-  f_0791_4D3F(uVar2,uVar3);
+  begin_chase(uVar2,uVar3);
   return;
 }
 
@@ -1040,7 +1040,7 @@ void __stdcall16far f_0791_3DF6(char *param_1)
   DS:830C = 0;
   cVar1 = u214b_random_is_one(8);
   DS:8303 = cVar1 == '\0';
-  f_0791_4D3F(pcVar3,uVar4);
+  begin_chase(pcVar3,uVar4);
   return;
 }
 
