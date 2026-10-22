@@ -1,0 +1,18 @@
+{
+ "run_id": "39760200442",
+ "run_attempt": "1",
+ "workflow": "E036 family run",
+ "ref": "task/T64-port-ball",
+ "sha": "a2bebb3dd9bd2b7094a24447a0800d40c053bc79",
+ "inputs": {
+  "task": "T64",
+  "name": "all-actions",
+  "family": "ALL",
+  "ports": "all",
+  "count": "0791:2FB1,0791:30EA,0791:3111,0791:3323,0791:333F,0791:34C1,0791:384C,0791:3B15,0791:3B9E,0791:3BEE,0791:3C20,0791:3C3F,0791:3D38,0791:3DF6,0791:3EC5,0791:3EDF,0791:3EF8,0791:3FAD,0791:408E,0791:40BC,0791:4151",
+  "shards": "31",
+  "time_limit": "6000",
+  "stretch_limit": "600"
+ },
+ "run_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39760200442"
+}
