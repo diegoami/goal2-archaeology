@@ -120,7 +120,7 @@ class EarlyDriver(driver.Driver):
     """The driver, with the first savestate delayed and every read before the title checked for the pre-date state."""
     def read(self):
         if not getattr(self, "_first_done", False):
-            time.sleep(FIRST_SAVE)  # one bounded wait before the first savestate (docstring)
+            time.sleep(self.first_save)  # one bounded wait before the first savestate (docstring)
             self._first_done = True
         times, st, data = super().read()
         if getattr(self, "pre_date", None) is None and not getattr(self, "titled", False):
@@ -148,6 +148,7 @@ class Run:
         self.d = EarlyDriver({"dos_time": DOS_TIME, "dos_date": self.dos_date, "cycles": CYCLES},
                              workdir=driver.SCRATCH / "e039" / self.run_id)
         self.d.pre_date = None
+        self.d.first_save = args.first_save
         self.obs, self.outputs, self.step, self.kept = [], [], 0, []
 
     def wait(self, name, how, text):
@@ -210,7 +211,7 @@ class Run:
                 self.keep("pre-date", "start-up", (times, st, data, regs, None))
             else:
                 self.obs.append({"step": 0, "source": "log", "field": "pre-date: no savestate before the title had the CPU in GOAL.EXE's code with DS:A9FD 0", "value": "none caught"})
-            for name, key, how, text in SCREENS:
+            for name, key, how, text in ([] if self.args.catch_only else SCREENS):
                 if key is not None:
                     self.step += 1
                     if name is None:
@@ -249,7 +250,7 @@ class Run:
                    if len(back) >= 2 else "NOT verified as applied: no read-back")
         keys = [k for _, k, _, _ in SCREENS if k]
         record = {
-            "schema": "run/1", "run_id": self.run_id, "experiment": EXPERIMENT, "arm": f"start-year-{self.year}",
+            "schema": "run/1", "run_id": self.run_id, "experiment": EXPERIMENT, "arm": f"start-year-{self.year}" + ("-catch" if self.args.catch_only else ""),
             "rep": int(self.run_id.split("-r")[1]), "code_commit": self.commit, "machine": cycle.machine_id(),
             "artifact": {"set": driver.verify_release(driver.CACHE), "variant": None},
             "runtime": {"driver": f"runtime/driver/driver.py@{self.commit}",
@@ -285,6 +286,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--batch", default="")
     ap.add_argument("--dos-date", required=True, help="MM/DD/YYYY, set before GOAL runs")
+    ap.add_argument("--first-save", type=float, default=FIRST_SAVE, help="s before the first savestate (default %(default)s)")
+    ap.add_argument("--catch-only", action="store_true", help="stop at the title: only the pre-date catch (amendment 1)")
     a = ap.parse_args(argv)
     a.argv = argv
     driver.clock_values(a.dos_date, DOS_TIME)

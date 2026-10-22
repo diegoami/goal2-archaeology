@@ -25,3 +25,13 @@ path in it (which field was not printed; `run.py` now names it). Its `pre-date` 
 kept, renamed `.cache/states/driver/e039-1990-pre-date-aborted-1.sav` (sha256 `2306bd25…`, CPU load+2382:02BE), and
 used only to develop `derive.py` (not cited by any finding). The 1992 invocation did not start (the dirty-tree check
 refused it).
+
+## Amendment 1 (2026-10-22, after E039-r0002)
+
+E039-r0001 (1990) and r0002 (1992) completed without a `pre-date` catch: the savestate polls, 0.58 s apart, fell
+before GOAL was loaded and then at the title (the start-up before the date read lasts less than one poll interval
+at `cycles=30000`). `run.py` gains `--catch-only` (launch, the pre-date check on every read before the title, stop at
+the title: no new-game keys) and `--first-save S` (the delay before the first savestate, to move the polls' phase).
+Catch attempts are run with `--dos-date 10/04/1990 --catch-only` and `--first-save` stepped from 0.2 s by 0.1 s until
+one record keeps a `pre-date` state; each attempt is a record (arm `start-year-1990-catch`). The derived state is made
+from that record's state.
