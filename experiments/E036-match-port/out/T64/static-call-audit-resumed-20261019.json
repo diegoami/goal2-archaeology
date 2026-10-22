@@ -1,0 +1,2447 @@
+{
+  "scope": "Static call argument-byte and near/far convention only; no dynamic resumption, register, held-word, call-site or match-equivalence proof. Source unchanged.",
+  "source_sha256": "6b5f17ee9af3bf7dbb2bae4bd5ae00e1a012f6d6cf6e6e3c2cdd8464a7e2c72a",
+  "calls": [
+    {
+      "function": "find_nearest_to_ball",
+      "line": 72,
+      "target": "0791:2956",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 1064
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "find_nearest_to_ball",
+      "line": 112,
+      "target": "0791:2BE5",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 295
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "find_nearest_to_ball",
+      "line": 122,
+      "target": "0791:2BE5",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 295
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "slot_in_record_side",
+      "line": 161,
+      "target": "0791:2974",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 1083
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "pass_to_selected_receiver",
+      "line": 181,
+      "target": "0791:3111",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 1225
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "pass_to_selected_receiver",
+      "line": 186,
+      "target": "0791:384C",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_06.asm",
+          "line": 919
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "choose_pass_or_long_ball",
+      "line": 200,
+      "target": "0791:82EB",
+      "expected_return": [
+        "ret",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_0791_14.asm",
+          "line": 62
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "choose_pass_or_long_ball",
+      "line": 203,
+      "target": "214B:06FA",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 960
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "choose_pass_or_long_ball",
+      "line": 208,
+      "target": "0791:3B15",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_06.asm",
+          "line": 986
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "choose_pass_or_long_ball",
+      "line": 208,
+      "target": "0791:3323",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_06.asm",
+          "line": 23
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "take_shot",
+      "line": 243,
+      "target": "0791:3C3F",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            8
+          ],
+          "listing": "static/goal-exe/code/seg_0791_06.asm",
+          "line": 1176
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "take_header",
+      "line": 260,
+      "target": "0791:3C3F",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            8
+          ],
+          "listing": "static/goal-exe/code/seg_0791_06.asm",
+          "line": 1176
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "choose_clearance",
+      "line": 273,
+      "target": "214B:06FA",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 960
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "choose_clearance",
+      "line": 279,
+      "target": "0791:3FAD",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_07.asm",
+          "line": 418
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "choose_clearance",
+      "line": 279,
+      "target": "0791:3EF8",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_07.asm",
+          "line": 309
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "keeper_clearance_if_in_strip",
+      "line": 302,
+      "target": "0791:2EB8",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 709
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "keeper_clearance_if_in_strip",
+      "line": 308,
+      "target": "0791:3FAD",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_07.asm",
+          "line": 418
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "long_ball_target",
+      "line": 330,
+      "target": "0791:278A",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 942
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "long_ball_target",
+      "line": 335,
+      "target": "214B:06B1",
+      "expected_return": [
+        "retf",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 911
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "long_ball_target",
+      "line": 342,
+      "target": "214B:0D56",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            8
+          ],
+          "listing": "static/goal-exe/code/seg_214B_02.asm",
+          "line": 588
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "long_ball_target",
+      "line": 348,
+      "target": "0791:2BE5",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 295
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "long_ball_target",
+      "line": 354,
+      "target": "23E4:0279",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_23E4_01.asm",
+          "line": 290
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "long_ball_target",
+      "line": 362,
+      "target": "0791:34C1",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            8
+          ],
+          "listing": "static/goal-exe/code/seg_0791_06.asm",
+          "line": 600
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "long_ball_target",
+      "line": 370,
+      "target": "0791:2AA3",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 105
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_to_slot_with_half_event",
+      "line": 391,
+      "target": "0791:2C54",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 347
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_to_slot_with_half_event",
+      "line": 401,
+      "target": "0791:34C1",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            8
+          ],
+          "listing": "static/goal-exe/code/seg_0791_06.asm",
+          "line": 600
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_to_slot_with_half_event",
+      "line": 405,
+      "target": "0791:2AA3",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 105
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_to_slot_with_half_event",
+      "line": 408,
+      "target": "214B:06FA",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 960
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_to_slot_with_half_event",
+      "line": 413,
+      "target": "0791:4D3F",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_08.asm",
+          "line": 876
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "long_kick_target",
+      "line": 449,
+      "target": "0791:278A",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 942
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "long_kick_target",
+      "line": 455,
+      "target": "214B:06B1",
+      "expected_return": [
+        "retf",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 911
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "long_kick_target",
+      "line": 460,
+      "target": "214B:0D56",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            8
+          ],
+          "listing": "static/goal-exe/code/seg_214B_02.asm",
+          "line": 588
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "long_kick_target",
+      "line": 466,
+      "target": "0791:2BE5",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 295
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "long_kick_target",
+      "line": 472,
+      "target": "23E4:0279",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_23E4_01.asm",
+          "line": 290
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "long_kick_target",
+      "line": 484,
+      "target": "0791:34C1",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            8
+          ],
+          "listing": "static/goal-exe/code/seg_0791_06.asm",
+          "line": 600
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "long_kick_target",
+      "line": 490,
+      "target": "0791:2AA3",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 105
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "holder_in_advanced_central_strip",
+      "line": 511,
+      "target": "0791:2C54",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 347
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "holder_in_advanced_central_strip",
+      "line": 516,
+      "target": "0791:2996",
+      "expected_return": [
+        "ret",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 1101
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "clear_to_random_target",
+      "line": 561,
+      "target": "214B:06FA",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 960
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "clear_to_random_target",
+      "line": 622,
+      "target": "0791:34C1",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            8
+          ],
+          "listing": "static/goal-exe/code/seg_0791_06.asm",
+          "line": 600
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "clear_to_random_target",
+      "line": 627,
+      "target": "0791:2AA3",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 105
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "clear_to_random_target",
+      "line": 569,
+      "target": "0791:045D",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_0791_01.asm",
+          "line": 529
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "clear_to_random_target",
+      "line": 584,
+      "target": "214B:06B1",
+      "expected_return": [
+        "retf",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 911
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "clear_to_random_target",
+      "line": 598,
+      "target": "214B:06B1",
+      "expected_return": [
+        "retf",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 911
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "cross_to_candidate_or_random_point",
+      "line": 647,
+      "target": "0791:3D38",
+      "expected_return": [
+        "ret",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_07.asm",
+          "line": 85
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "cross_to_candidate_or_random_point",
+      "line": 689,
+      "target": "0791:34C1",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            8
+          ],
+          "listing": "static/goal-exe/code/seg_0791_06.asm",
+          "line": 600
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "cross_to_candidate_or_random_point",
+      "line": 696,
+      "target": "0791:2AA3",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 105
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "cross_to_candidate_or_random_point",
+      "line": 701,
+      "target": "214B:06D0",
+      "expected_return": [
+        "retf",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 935
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "cross_to_candidate_or_random_point",
+      "line": 707,
+      "target": "0791:4D3F",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_08.asm",
+          "line": 876
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "cross_to_candidate_or_random_point",
+      "line": 651,
+      "target": "0791:261A",
+      "expected_return": [
+        "ret",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 714
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "cross_to_candidate_or_random_point",
+      "line": 672,
+      "target": "214B:06B1",
+      "expected_return": [
+        "retf",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 911
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 761,
+      "target": "0791:2C86",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 381
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 766,
+      "target": "0791:34C1",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            8
+          ],
+          "listing": "static/goal-exe/code/seg_0791_06.asm",
+          "line": 600
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 770,
+      "target": "0791:2AA3",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 105
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 722,
+      "target": "214B:06FA",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 960
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 727,
+      "target": "214B:06FA",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 960
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 743,
+      "target": "0791:287C",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 972
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 775,
+      "target": "0791:2974",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 1083
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 786,
+      "target": "214B:06FA",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 960
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 749,
+      "target": "214B:06D0",
+      "expected_return": [
+        "retf",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 935
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 792,
+      "target": "214B:06D0",
+      "expected_return": [
+        "retf",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 935
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 754,
+      "target": "0791:29B3",
+      "expected_return": [
+        "ret",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 1155
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "find_cross_target",
+      "line": 808,
+      "target": "0791:2996",
+      "expected_return": [
+        "ret",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 1101
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "find_cross_target",
+      "line": 817,
+      "target": "0791:2996",
+      "expected_return": [
+        "ret",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 1101
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "find_cross_target",
+      "line": 847,
+      "target": "23E4:08DF",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_23E4_01.asm",
+          "line": 1066
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "find_cross_target",
+      "line": 854,
+      "target": "1771:3216",
+      "expected_return": [
+        "retf",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_1771_05.asm",
+          "line": 239
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "find_cross_target",
+      "line": 860,
+      "target": "0791:2EF0",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 742
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "mark_offside_candidate",
+      "line": 891,
+      "target": "0791:30EA",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 977
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "mark_offside_candidate",
+      "line": 900,
+      "target": "0791:30EA",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 977
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "mark_offside_candidate",
+      "line": 924,
+      "target": "0791:2996",
+      "expected_return": [
+        "ret",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 1101
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "mark_offside_candidate",
+      "line": 952,
+      "target": "0791:2BE5",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 295
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 994,
+      "target": "0791:26D7",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 841
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1013,
+      "target": "0791:261A",
+      "expected_return": [
+        "ret",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 714
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1030,
+      "target": "0791:30EA",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 977
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1036,
+      "target": "0791:30EA",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 977
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1000,
+      "target": "0791:2C54",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 347
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1134,
+      "target": "0791:30EA",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 977
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1140,
+      "target": "0791:30EA",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 977
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1007,
+      "target": "0791:045D",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_0791_01.asm",
+          "line": 529
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1051,
+      "target": "0791:2956",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 1064
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1060,
+      "target": "0791:2D10",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 477
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1154,
+      "target": "0791:2956",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 1064
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1109,
+      "target": "214B:06FA",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 960
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1198,
+      "target": "0791:2EB8",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 709
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1271,
+      "target": "0791:34C1",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            8
+          ],
+          "listing": "static/goal-exe/code/seg_0791_06.asm",
+          "line": 600
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1375,
+      "target": "0791:835F",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_14.asm",
+          "line": 94
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1183,
+      "target": "0791:82EB",
+      "expected_return": [
+        "ret",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_0791_14.asm",
+          "line": 62
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1209,
+      "target": "0791:261A",
+      "expected_return": [
+        "ret",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 714
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1215,
+      "target": "0791:2BE5",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 295
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1283,
+      "target": "214B:06D0",
+      "expected_return": [
+        "retf",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 935
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1295,
+      "target": "214B:06FA",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 960
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1314,
+      "target": "23E4:0279",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_23E4_01.asm",
+          "line": 290
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1323,
+      "target": "23E4:0279",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_23E4_01.asm",
+          "line": 290
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1328,
+      "target": "0791:2DCA",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 565
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1361,
+      "target": "23E4:0279",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_23E4_01.asm",
+          "line": 290
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1370,
+      "target": "23E4:0279",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_23E4_01.asm",
+          "line": 290
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1422,
+      "target": "0791:2AA3",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 105
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1244,
+      "target": "214B:06B1",
+      "expected_return": [
+        "retf",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 911
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1249,
+      "target": "0791:2BE5",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 295
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1335,
+      "target": "0791:287C",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 972
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1383,
+      "target": "0791:835F",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_0791_14.asm",
+          "line": 94
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1396,
+      "target": "214B:06FA",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 960
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1387,
+      "target": "214B:06FA",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 960
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1407,
+      "target": "0791:2DCA",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 565
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1585,
+      "target": "23E4:08DF",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_23E4_01.asm",
+          "line": 1066
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1707,
+      "target": "23E4:0294",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_23E4_01.asm",
+          "line": 352
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1712,
+      "target": "214B:0D56",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            8
+          ],
+          "listing": "static/goal-exe/code/seg_214B_02.asm",
+          "line": 588
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1722,
+      "target": "23E4:0279",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_23E4_01.asm",
+          "line": 290
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1730,
+      "target": "23E4:0279",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_23E4_01.asm",
+          "line": 290
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1735,
+      "target": "214B:1EA1",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            4
+          ],
+          "listing": "static/goal-exe/code/seg_214B_04.asm",
+          "line": 174
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1739,
+      "target": "0791:333F",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_0791_06.asm",
+          "line": 172
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1593,
+      "target": "23E4:08DF",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_23E4_01.asm",
+          "line": 1066
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1608,
+      "target": "0791:278A",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 942
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1624,
+      "target": "214B:0D56",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            8
+          ],
+          "listing": "static/goal-exe/code/seg_214B_02.asm",
+          "line": 588
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1569,
+      "target": "0791:045D",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_0791_01.asm",
+          "line": 529
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1574,
+      "target": "0791:2EB8",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_05.asm",
+          "line": 709
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1637,
+      "target": "0791:287C",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            6
+          ],
+          "listing": "static/goal-exe/code/seg_0791_04.asm",
+          "line": 972
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1645,
+      "target": "0791:045D",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "ret",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_0791_01.asm",
+          "line": 529
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1649,
+      "target": "214B:06FA",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 960
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1657,
+      "target": "214B:06B1",
+      "expected_return": [
+        "retf",
+        2
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            2
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 911
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1662,
+      "target": "214B:06FA",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 960
+        }
+      ],
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1684,
+      "target": "214B:06FA",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        {
+          "return": [
+            "retf",
+            0
+          ],
+          "listing": "static/goal-exe/code/seg_214B_01.asm",
+          "line": 960
+        }
+      ],
+      "matches": true
+    }
+  ],
+  "mismatches": []
+}

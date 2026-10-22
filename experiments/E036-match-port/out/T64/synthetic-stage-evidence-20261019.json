@@ -1,0 +1,20 @@
+{
+  "stage": "partial15of21translated;16synthetic tests pass;no whole-match or original-code exactness claim",
+  "initial_run": "4tests,3failures from pending-local reads; retained as failed evidence",
+  "correction": "flush pending local writes before reads; historical reader and omitted3099controls fail clean assertions",
+  "remaining_routines": [
+    "0791:3111",
+    "0791:333F",
+    "0791:34C1",
+    "0791:384C",
+    "0791:3C3F",
+    "0791:3D38"
+  ],
+  "files": {
+    "runtime/original_match/port/ball.py": "7fc3a343841b1b12b72932fb785ccda3641729077b880ac7194ae3dab2f58fed",
+    "tests/test_port_ball.py": "cf800f64ea1e25450f2831786c4332ea5c037e1becfaa87769a0db23c6526cc9",
+    "experiments/E036-match-port/out/T64/verify_synthetic_controls.py": "aaaaa9a1c11603298121d56b22e97673141954bb570e494955a1a6365dd502d9",
+    "experiments/E036-match-port/out/T64/unit-46f1ac3ce0.txt": "e9990c7496bd9438b737a67040294b47277f21820b0b1d4c9b9bbe265b2cdf47",
+    "experiments/E036-match-port/out/T64/unit-controls-pending-local-fix-20261019.txt": "44c8ccd24ee64d2736b750484390715ac26e873f9775fc72e09e27e5bfaa6f17"
+  }
+}

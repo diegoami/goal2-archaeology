@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "experiments/E036-match-port/family.py",
+    "--family",
+    "ALL",
+    "--only",
+    "F40/e032-1234,F40/e032-2b7e,F40/e032-6a33,F40/e032-a1f0,F40/e032-e719,F40/more-1111,F40/more-5e5e,F40/more-9abc,F40/more-cafe,F40/more-face,F40/edit-1234,F40/edit-2b7e,F40/edit-6a33,F40/edit-a1f0,F40/edit-e719,F40/edit-1111,F40/edit-5e5e,F40/edit-9abc,F40/edit-cafe,F40/edit-face,O8/c1-c2-qualifier,O8/c30-c44-qualifier,O8/c64-c90-qualifier,O8/c101-c120-qualifier,S/decisions-70,S/hard-4,S/quick-1,S/ko-39-budget-5,S/ko-30-extra-time,S/ko-53-quick,S/qualifier-21",
+    "--ports",
+    "ball",
+    "--workers",
+    "2",
+    "--time-limit",
+    "3000",
+    "--count",
+    "0791:2FB1,0791:30EA,0791:3111,0791:3323,0791:333F,0791:34C1,0791:384C,0791:3B15,0791:3B9E,0791:3BEE,0791:3C20,0791:3C3F,0791:3D38,0791:3DF6,0791:3EC5,0791:3EDF,0791:3EF8,0791:3FAD,0791:408E,0791:40BC,0791:4151",
+    "--out",
+    "experiments/E036-match-port/out/T64/own-20261020T163810Z-1.jsonl"
+  ]
+}
