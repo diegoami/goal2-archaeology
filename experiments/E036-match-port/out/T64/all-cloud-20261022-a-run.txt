@@ -2,3 +2,4 @@ COMMAND: python3 -B experiments/E036-match-port/family.py --family ALL --only F4
 HEAD: 277a09fc7dba70acd39ab672e46a6f4925627be8 started 2026-10-22T08:42:38Z
 ports: attributes, ball, geometry, motion, pilot, positioning, restarts, runtime
 31 matches selected, 0 already in experiments/E036-match-port/out/T64/all-cloud-20261022-a.jsonl, 31 to run
+interrupted 2026-10-22T08:55:00Z: the container restarted before any match ended (main session)
