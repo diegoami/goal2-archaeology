@@ -73,6 +73,11 @@ every PR merges with a merge commit (process.md §3).
 ## Limits
 
 - Runs are CPU-bound; a cloud session has few cores, so heavy jobs queue through `tools/heavy.sh`.
+- [designed: owner, 2026-10-22] A cloud container restarts often, killing every running job (the first
+  restart came mid-run on 2026-10-22, T63). There, measured outputs are committed and pushed about **every
+  5 minutes** while runs go (CLAUDE.md rule 20's "at least every 30 minutes" is the local floor): a small
+  loop that commits only the task's output folder is enough. Files on disk survived that restart; a
+  family run resumes with the same `--out` and a fresh log.
 - Ghidra is installed on demand, not at session start: a task that regenerates `static/goal-exe/decompiled/`
   or `named/` (process.md §13) first runs `bash setup/ghidra-12.1.4.sh` (Ghidra 12.1.4 and Temurin
   21.0.12.1, sha256 pinned, about 780 MB), then `tools/static/decompile.sh` as the views' READMEs say,
