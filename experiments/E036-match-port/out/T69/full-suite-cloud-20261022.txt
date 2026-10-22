@@ -1,0 +1,77 @@
+COMMAND: tools/heavy.sh suite -- python3 -B -m unittest discover -s tests; HEAD 35b2a66b5dac3b0a7901a515dda0a039487a5a6c; .cache/states/driver is the cloud session's own title state (#354)
+.....................match: 22/22
+.....MISS case injury_high_morale: predicted does not match expected
+match: 21/22
+.MISS case all_zero: predicted does not match expected
+match: 21/22
+.MISS case injury_high_morale: predicted does not match expected
+match: 21/22
+.MISS case all_zero: predicted does not match expected
+match: 21/22
+.MISS case injury_high_morale: predicted does not match expected
+MISS case injury_low_morale: predicted does not match expected
+MISS case injury_floor_morale: predicted does not match expected
+MISS case scorer_plus_one: predicted does not match expected
+MISS case scorer_minus_one: predicted does not match expected
+MISS case team_reaction_no_persist_pos: predicted does not match expected
+MISS case team_reaction_no_persist_neg: predicted does not match expected
+MISS case send_off_tail_other_team: predicted does not match expected
+MISS case clamp_below_one: predicted does not match expected
+MISS case clamp_above_255: predicted does not match expected
+MISS case clamp_signed_overflow: predicted does not match expected
+MISS case signed_wrap_floor: predicted does not match expected
+MISS case signed_wrap_high_persist: predicted does not match expected
+match: 9/22
+.wrote 22 cases to /home/user/goal2-archaeology/experiments/E019-q017-events-morale/probe-literal-001.json
+MISS case injury_high_morale: predicted does not match expected
+MISS case injury_low_morale: predicted does not match expected
+MISS case injury_floor_morale: predicted does not match expected
+MISS case scorer_plus_one: predicted does not match expected
+MISS case scorer_minus_one: predicted does not match expected
+MISS case team_reaction_no_persist_pos: predicted does not match expected
+MISS case team_reaction_no_persist_neg: predicted does not match expected
+MISS case send_off_tail_other_team: predicted does not match expected
+MISS case clamp_below_one: predicted does not match expected
+MISS case clamp_above_255: predicted does not match expected
+MISS case clamp_signed_overflow: predicted does not match expected
+MISS case signed_wrap_floor: predicted does not match expected
+MISS case signed_wrap_high_persist: predicted does not match expected
+match: 9/22
+.wrote 22 cases to /home/user/goal2-archaeology/experiments/E019-q017-events-morale/probe-literal-001.json
+MISS case all_zero: predicted does not match expected
+MISS case all_32: predicted does not match expected
+MISS case all_16: predicted does not match expected
+MISS case mixed_low_high: predicted does not match expected
+MISS case one_signed_negative_r1: predicted does not match expected
+MISS case one_just_above_32: predicted does not match expected
+MISS case all_signed_negative: predicted does not match expected
+MISS case exactly_below_one: predicted does not match expected
+MISS case one_signed_neg_one: predicted does not match expected
+match: 13/22
+.MISS case all_zero: predicted does not match expected
+MISS case all_32: predicted does not match expected
+MISS case all_16: predicted does not match expected
+MISS case mixed_low_high: predicted does not match expected
+MISS case one_signed_negative_r1: predicted does not match expected
+MISS case one_just_above_32: predicted does not match expected
+MISS case all_signed_negative: predicted does not match expected
+MISS case exactly_below_one: predicted does not match expected
+MISS case one_signed_neg_one: predicted does not match expected
+match: 13/22
+.MISS case injury_high_morale: predicted does not match expected
+match: 21/22
+.MISS case all_zero: predicted does not match expected
+match: 21/22
+.....................................play: refused: dosbox-x 2024.03.01 is required, found 2026.01.02 (/tmp/tmpnvc5p8m2/dosbox-x); run: bash setup/dosbox-x-2024.03.01.sh
+................./home/user/goal2-archaeology/runtime/driver/driver.py:362: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpgvqbnyxm/work/dosbox.out' mode='w' encoding='utf-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/goal2-archaeology/runtime/driver/driver.py:362: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpcmao7x04/work/dosbox.out' mode='w' encoding='utf-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/goal2-archaeology/runtime/driver/driver.py:362: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp7a56k5i5/work/dosbox.out' mode='w' encoding='utf-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+..E003-r9999 d0-time-100000-date-10041993: aborted: RuntimeError: stop after launch (test)
+.E003-r9999 d0-time-100000-date-10041993: aborted: ClockNotApplied: DOS date set to 10/04/1993, DOS reports 10/04/2026
+......
