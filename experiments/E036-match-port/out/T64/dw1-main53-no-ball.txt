@@ -1,0 +1,3 @@
+Command: ['python3', '-B', 'experiments/E036-match-port/family.py', '--family', 'ALL', '--ports', 'ball', '--max', '1', '--out', '.cache/T64-baseline.jsonl']
+exit 2
+refused: --ports/--variant: no port module 'ball' (there are: attributes, geometry, pilot, restarts, runtime)

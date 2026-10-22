@@ -1,0 +1,36 @@
+{
+  "baseline": "14 tests pass",
+  "restored": "14 tests pass",
+  "mutants": [
+    {
+      "mutation": "A920-element-push-deleted",
+      "exit": 1,
+      "assertion_failure": true,
+      "import_or_test_error": false
+    },
+    {
+      "mutation": "49D3-terminal-increment-deleted",
+      "exit": 1,
+      "assertion_failure": true,
+      "import_or_test_error": false
+    },
+    {
+      "mutation": "4A1B-stale-clear-deleted",
+      "exit": 1,
+      "assertion_failure": true,
+      "import_or_test_error": false
+    },
+    {
+      "mutation": "group4-attack-limit-zero",
+      "exit": 1,
+      "assertion_failure": true,
+      "import_or_test_error": false
+    },
+    {
+      "mutation": "group4-defend-limit-255",
+      "exit": 1,
+      "assertion_failure": true,
+      "import_or_test_error": false
+    }
+  ]
+}

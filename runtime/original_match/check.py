@@ -347,5 +347,5 @@ if __name__ == "__main__":
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))    # runtime/
     import heavy_slot
     if _takes_a_slot():    # a command line main() refuses (argparse or validate) holds no slot
-        heavy_slot.take("check")   # a heavy job (#318): waits for a slot of tools/harness/heavy.sh
+        heavy_slot.take("check")   # a heavy job (#318): waits for a slot of tools/heavy.sh
     main()

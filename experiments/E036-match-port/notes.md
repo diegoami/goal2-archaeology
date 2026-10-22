@@ -40,7 +40,10 @@ family names its own reference (the unhooked kit), so a family added later bring
   yet in it, never rewrites a line, and refuses a log that is not this run's); `--count` counts the executions of any
   instruction address, a routine's entry or a branch's target (L105's reach count), skipping the kit's replays.
   T57 builds `--family`, `--out`, `--max`, `--workers` (the default is one process; two at most), `--count`, `--only ID,...`
-  (a few matches), `--time-limit S` (per match, default 300), `--mask FILE` (a JSON list of `[space, start, length]`, space
+  (a few matches), `--time-limit S` (per match, default 300), `--stretch-limit S` (the kit's watchdog per stretch
+  between two events, default 60, at most `--time-limit`; a slow machine with every port installed needs more, #357), `--checkpoint DIR`
+  (each running match saved there every 10 minute events, so a run killed mid-match resumes inside it with the same
+  command, to the record a straight run writes; #359), `--mask FILE` (a JSON list of `[space, start, length]`, space
   `DS` or `P`: the bytes zeroed before the memory digests are taken, none by default; the record carries it and
   compare.py refuses two masks) and `--find-ranges FILE` (the write watch that found `records.RANGES`, out/T57). T59
   builds `--ports` and `--variant` (the kit's port mode; the record then carries `ports`, `variant` and `port_calls`, and

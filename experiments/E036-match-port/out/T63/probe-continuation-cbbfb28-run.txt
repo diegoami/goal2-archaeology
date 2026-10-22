@@ -1,0 +1,14 @@
+heavy: family: waiting for a slot (7 ahead)
+heavy: family: waiting for a slot (6 ahead)
+heavy: family: waiting for a slot (5 ahead)
+heavy: family: waiting for a slot (4 ahead)
+heavy: family: waiting for a slot (3 ahead)
+heavy: family: waiting for a slot (2 ahead)
+heavy: family: waiting for a slot (1 ahead)
+heavy: family: waiting for a slot (0 ahead)
+heavy: family: got slot 0 after 8519 s
+ports: positioning
+1 matches selected, 0 already in experiments/E036-match-port/out/T63/probe-continuation-cbbfb28.jsonl, 1 to run
+F40/e032-0101: completed; score [1, 0] ticks 4279 cpu 233.401 s; 0791:1FDD executed 55; 0791:20E3 executed 11; port 0791:1F3C called 12; port 0791:1FDD called 55; port 0791:20E3 called 11; port 0791:2218 called 0; port 0791:419C called 11; port 0791:42CB called 131055; port 0791:4354 called 44248; port 0791:4438 called 63090; port 0791:44C1 called 31302; port 0791:4532 called 32886; port 0791:4649 called 36925; port 0791:474D called 69811; port 0791:47C5 called 34013; port 0791:4A28 called 75304; port 0791:4B64 called 16302; port 0791:4D3F called 120
+1 of 1 matches in experiments/E036-match-port/out/T63/probe-continuation-cbbfb28.jsonl, 0 not completed
+{"continuation_lines": {"1FDD_after_A920": 565, "20E3_after_1FDD": 609}, "hits": {"1FDD_after_A920": 510, "20E3_after_1FDD": 242}, "match": "F40/e032-0101", "source": "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T63-port-positioning/runtime/original_match/port/positioning.py"}

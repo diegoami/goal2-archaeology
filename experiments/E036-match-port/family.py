@@ -2,8 +2,8 @@
 """E036 (T57): run a family of matches through the original-match kit and write one record per match.
 
     python3 -B experiments/E036-match-port/family.py --family ALL --out experiments/E036-match-port/out/T<nn>/<name>.jsonl
-        [--max N] [--workers 1|2] [--time-limit S] [--count SSSS:OOOO,...] [--mask FILE] [--only ID,...] [--cache DIR]
-        [--ports M,...|all] [--variant M.NAME]
+        [--max N] [--workers 1|2] [--time-limit S] [--stretch-limit S] [--count SSSS:OOOO,...] [--mask FILE] [--only ID,...] [--cache DIR]
+        [--ports M,...|all] [--variant M.NAME] [--checkpoint DIR]
     python3 -B experiments/E036-match-port/family.py --family ALL --find-ranges experiments/E036-match-port/out/T57/ranges-<stamp>.json [--only ID,...]
 
 --family is ALL (the union of the families under families/) or comma-separated family names. The matches are the
@@ -27,6 +27,15 @@ and image) are not run again and no line is ever rewritten; a record that is not
 the command refuse (exit 2). A record is appended and synced as soon as its match ends. --max stops after N new
 matches. --workers 2 runs two matches at a time in two processes (the most the shared machine allows); the default
 is one. --time-limit (default 300 s) bounds one match's wall time: a match over it is recorded as an error.
+--stretch-limit (default 60 s, never more than --time-limit) bounds one stretch of the kit's run between two events (the
+emulator's own watchdog, Match(timeout_s)): with every port installed on a slow machine, a knockout's quick result ran
+one stretch over 60 s (2026-10-22, a cloud session, T63; issue #357). It changes no record of a match that completes.
+--checkpoint DIR (#359) saves each running match there every CHECKPOINT_EVERY minute events (the kit's Match.save() and
+this runner's own state: the events, decisions, strays, pauses, --count counters, the memory before the match for the
+undeclared-write check, and the time used), so a run killed mid-match (a cloud container restarts) resumes inside the
+match on the next run with the same command: the record is the one a straight run writes (cpu_s and wall_s add up both
+parts). A checkpoint of another spec, image, kit, mask, --count or ports is not used; it is deleted once its match's
+record is in --out. Not with --find-ranges.
 
 Exit status: 0 when every selected match in --out is a completed match, 1 when one is not (an error, a stray
 decision, no board), 2 for a refused command.
@@ -38,9 +47,11 @@ import argparse
 import hashlib
 import json
 import os
+import pickle
 import re
 import sys
 import time
+import zlib
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -53,6 +64,8 @@ import records  # noqa: E402
 
 DEFAULT_CACHE = ".cache/dl"
 DEFAULT_TIME_LIMIT = 300.0
+DEFAULT_STRETCH_LIMIT = 60.0    # the kit's watchdog per stretch between events, as before #357
+CHECKPOINT_EVERY = 10    # minute events between two checkpoints of a match (#359): about 5 % of a match each
 SEED_WORD = 0x7B62                                     # DS:7B62 the main RNG word (match.py SEED)
 SCREEN_POINTERS = (0xA96A, 0xA96E, 0xA972)             # DS: the text page (B800:0) and the two text buffers
 SCREEN_BYTES = 4000
@@ -140,10 +153,13 @@ def digest_memory(m, mask):
     return out
 
 
-def play(m, spec, deadline, say=None):
+def play(m, spec, deadline, say=None, state=None, checkpoint=None):
     """Drive a Match with the spec's answer policy; (events, decisions, strays, stopped_at_board). say(line): told of
-    each decision answered while a port's frame waits on a call of the original's code (T59)."""
-    events, decisions, strays, paused, board = [], [], [], set(), False
+    each decision answered while a port's frame waits on a call of the original's code (T59). state: this loop's own
+    state of a resumed match (a checkpoint's); checkpoint(state): called after each `minute` event is handled (#359)."""
+    state = state or {"events": [], "decisions": [], "strays": [], "paused": [], "board": False}
+    events, decisions, strays = state["events"], state["decisions"], state["strays"]
+    paused, board = set(state["paused"]), state["board"]
     policy = spec.policy
     for ev in m.events():
         events.append((ev.kind, ev.minute, ev.score, ev.data))
@@ -166,7 +182,54 @@ def play(m, spec, deadline, say=None):
             else:
                 strays.append(context)
                 m.answer()
+        if checkpoint is not None and ev.kind == "minute":
+            checkpoint({"events": events, "decisions": decisions, "strays": strays, "paused": sorted(paused),
+                        "board": board})
     return events, decisions, strays, board
+
+
+class Checkpoints:
+    """--checkpoint DIR (#359): one file per running match, <id>.ckpt, written whole (a temporary file renamed over it),
+    read by the next run of the same match. Pickle holds the runner's own state (event data keeps its int keys, which
+    JSON would turn into strings); the files are this runner's own, under a folder the command names."""
+    MAGIC = b"E36C1"
+
+    def __init__(self, folder, every=CHECKPOINT_EVERY):
+        self.given, self.folder, self.every = str(folder), Path(folder), every       # the option as given ("" is not ".")
+
+    def path(self, match_id):
+        return self.folder / (re.sub(r"[^A-Za-z0-9._-]", "_", match_id) + ".ckpt")
+
+    def save(self, match_id, key, match_blob, runner, before_z):
+        fileopts.check_folder_output(self.given, "--checkpoint")      # the check prepare() applied before the slot
+        self.folder.mkdir(parents=True, exist_ok=True)
+        body = pickle.dumps({"key": key, "runner": runner, "match": match_blob, "before": before_z}, protocol=4)
+        path = self.path(match_id)
+        tmp = path.with_suffix(".tmp")
+        with open(tmp, "wb") as f:
+            f.write(self.MAGIC + body)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp, path)
+
+    def load(self, match_id, key):
+        """The saved state of this match under this key, or None (no file, another key, or a file that does not read)."""
+        path = self.path(match_id)
+        try:
+            data = path.read_bytes()
+            if not data.startswith(self.MAGIC):
+                return None
+            saved = pickle.loads(data[len(self.MAGIC):])
+        except (OSError, pickle.UnpicklingError, EOFError, ValueError):
+            return None
+        return saved if saved.get("key") == key else None
+
+    def drop(self, match_id):
+        for p in (self.path(match_id), self.path(match_id).with_suffix(".tmp")):
+            try:
+                p.unlink()
+            except FileNotFoundError:
+                pass
 
 
 def port_specs(ports, variant):
@@ -188,14 +251,25 @@ def port_specs(ports, variant):
     return specs, modules, variant
 
 
+def checkpoint_key(spec, mask, counts, ports):
+    """What a checkpoint must have been taken under to be resumed: the same match, image, kit, mask, --count and ports."""
+    from original_match.match import VERSION
+    return {"spec_sha256": spec.sha256, "image_sha256": families.image_sha256(), "kit": VERSION,
+            "mask": [list(s) for s in mask], "counts": list(counts), "ports": sorted(ports)}
+
+
 def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, watch=None, check_writes=True,
-              ports=(), say=None):
+              stretch_limit=DEFAULT_STRETCH_LIMIT,
+              ports=(), say=None, checkpoints=None):
     """The record of one match. Never raises for the match's own failure: that is the record's `error`.
     check_writes=False leaves the undeclared-write check out (the write watch that finds the ranges needs it so).
-    ports: the kit's port specs (port_specs); the record then carries ports, variant and port_calls."""
+    ports: the kit's port specs (port_specs); the record then carries ports, variant and port_calls.
+    checkpoints: a Checkpoints (#359): the match resumes from its checkpoint when there is one, and saves one every
+    `every` minute events (not with a watch)."""
     from original_match import Match, Fixture
-    from original_match.match import VERSION
+    from original_match.match import VERSION, MatchError
     cpu0, wall0 = time.process_time(), time.time()
+    cpu_before = wall_before = 0.0          # the time a resumed match had used before its checkpoint
     rec = {"id": spec.id, "family": spec.family, "spec_sha256": spec.sha256, "image_sha256": families.image_sha256(),
            "kit": VERSION, "mask": [list(s) for s in mask], "error": None, "stopped_at_board": False, "strays": [],
            "cpu_s": 0.0, "wall_s": 0.0, "score": None, "ticks": None, "draws": None, "board": None,
@@ -207,14 +281,30 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
                    port_calls={})
     seen = {a: 0 for a in counts}
     m = None
+    if watch is not None:
+        checkpoints = None
+    key = checkpoint_key(spec, mask, counts, ports) if checkpoints is not None else None
+    saved = checkpoints.load(spec.id, key) if checkpoints is not None else None
     try:
-        players = countries = None
-        if spec.edits:
-            players, countries = families.apply_edits(image.players(), image.countries(), spec.edits)
-        first, second, index, kind = spec.fixture
-        m = Match(image, Fixture(first, second, index=index, kind=kind), managed=spec.managed, seed=spec.seed,
-                  record_draws=True, delay_byte=spec.delay_byte, substitutions=spec.substitutions, players=players,
-                  countries=countries, timeout_s=min(60, time_limit), ports=list(ports) or None)
+        if saved is not None:
+            m = Match.load(saved["match"])
+            if sorted(m.ports.names if m.ports else []) != sorted(ports):
+                raise MatchError(f"the checkpoint's ports {m.ports.names if m.ports else []} are not {sorted(ports)}")
+            m.timeout_s = min(stretch_limit, time_limit)
+            runner = saved["runner"]
+            seen.update(runner["seen"])
+            cpu_before, wall_before = runner["cpu_s"], runner["wall_s"]
+            if say is not None:
+                say(f"{spec.id}: resumed from its checkpoint after {runner['minutes']} minute events "
+                    f"({wall_before:.0f} s of the match)")
+        else:
+            players = countries = None
+            if spec.edits:
+                players, countries = families.apply_edits(image.players(), image.countries(), spec.edits)
+            first, second, index, kind = spec.fixture
+            m = Match(image, Fixture(first, second, index=index, kind=kind), managed=spec.managed, seed=spec.seed,
+                      record_draws=True, delay_byte=spec.delay_byte, substitutions=spec.substitutions, players=players,
+                      countries=countries, timeout_s=min(stretch_limit, time_limit), ports=list(ports) or None)
         if counts:
             from unicorn import UC_HOOK_CODE
         for address in counts:
@@ -226,8 +316,30 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
             m.m.uc.hook_add(UC_HOOK_CODE, count, begin=m.m.lin(address), end=m.m.lin(address))
         if watch is not None:
             watch(m)
-        before = m.m.read(0, 0x110000)
-        events, decisions, strays, board = play(m, spec, time.time() + time_limit, say)
+        if saved is not None:
+            before_z = saved["before"]
+            before = zlib.decompress(before_z)
+            minutes, state = saved["runner"]["minutes"], saved["runner"]["play"]
+        else:
+            before = m.m.read(0, 0x110000)
+            before_z = zlib.compress(before, 6) if checkpoints is not None else None
+            minutes, state = 0, None
+        hook = None
+        if checkpoints is not None:
+            def hook(play_state):
+                nonlocal minutes
+                minutes += 1
+                if minutes % checkpoints.every:
+                    return
+                try:
+                    blob = m.save()
+                except MatchError:          # a port's frame is live, or the kit drives a screen: the next minute
+                    return
+                checkpoints.save(spec.id, key, blob, {
+                    "minutes": minutes, "play": play_state, "seen": dict(seen),
+                    "cpu_s": cpu_before + time.process_time() - cpu0, "wall_s": wall_before + time.time() - wall0},
+                    before_z)
+        events, decisions, strays, board = play(m, spec, time.time() + time_limit - wall_before, say, state, hook)
         result = m.result()
         outside = undeclared_changes(before, m.m.read(0, 0x110000), allowed_spans(m.m)) if check_writes else []
         if outside:
@@ -254,7 +366,8 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
         if not rec["port_calls"]:
             from original_match import port
             rec["port_calls"] = {a: 0 for reg, _ in port.load(ports) for a in reg.entries}
-    rec["cpu_s"], rec["wall_s"] = round(time.process_time() - cpu0, 3), round(time.time() - wall0, 3)
+    rec["cpu_s"] = round(cpu_before + time.process_time() - cpu0, 3)
+    rec["wall_s"] = round(wall_before + time.time() - wall0, 3)
     records.validate(rec)       # a record the grammar refuses is a bug here, not evidence
     return rec
 
@@ -263,18 +376,20 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
 _worker = {}
 
 
-def _init_worker(cache, mask, counts, time_limit, ports=()):
+def _init_worker(cache, mask, counts, time_limit, ports=(), stretch_limit=DEFAULT_STRETCH_LIMIT, checkpoint=None):
     """A worker finds the declared matches itself (families.discover), so no policy object crosses a process."""
     from original_match import Image
     from original_match.assets import reference_image
     _worker.update(image=Image.from_bytes(reference_image(cache)), mask=mask, counts=counts, time_limit=time_limit,
-                   ports=list(ports), specs={m.id: m for fam in families.discover().values() for m in fam.matches})
+                   ports=list(ports), stretch_limit=stretch_limit,
+                   checkpoints=Checkpoints(checkpoint) if checkpoint else None, specs={m.id: m for fam in families.discover().values() for m in fam.matches})
 
 
 def _run_in_worker(match_id):
     lines = []
     rec = run_match(_worker["image"], _worker["specs"][match_id], _worker["mask"], _worker["counts"],
-                    _worker["time_limit"], ports=_worker["ports"], say=lines.append)
+                    _worker["time_limit"], ports=_worker["ports"], say=lines.append,
+                    stretch_limit=_worker["stretch_limit"], checkpoints=_worker.get("checkpoints"))
     return rec, lines
 
 
@@ -319,20 +434,28 @@ def append(out, record):
 
 
 def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask=(), counts=(),
-               time_limit=DEFAULT_TIME_LIMIT, say=print, run_one=None, ports=()):
+               time_limit=DEFAULT_TIME_LIMIT, say=print, run_one=None, ports=(), stretch_limit=DEFAULT_STRETCH_LIMIT,
+               checkpoint=None):
     """Run the selected matches not yet in `out`; returns the records of every selected match now in `out`.
-    run_one(spec) -> record replaces the kit for a test (one process only). ports: the kit's port specs (port_specs)."""
+    run_one(spec) -> record replaces the kit for a test (one process only). ports: the kit's port specs (port_specs).
+    checkpoint: the --checkpoint folder (#359); a match's checkpoint is dropped once its record is in `out`."""
+    checkpoints = Checkpoints(checkpoint) if checkpoint else None
     fileopts.check_log_output(out, "--out")     # the check prepare() applied before the slot
     done = existing_records(out, selected, mask, ports)
     todo = [s for s in selected if s.id not in done]
     if max_new is not None:
         todo = todo[:max_new]
     say(f"{len(selected)} matches selected, {len(done)} already in {out}, {len(todo)} to run")
+    if checkpoints is not None:
+        for match_id in done:                 # killed after the record was appended, before its checkpoint went
+            checkpoints.drop(match_id)
     Path(out).parent.mkdir(parents=True, exist_ok=True)
 
     def took(rec):
         append(out, rec)
         done[rec["id"]] = rec
+        if checkpoints is not None:
+            checkpoints.drop(rec["id"])
         state = "completed" if records.is_completed(rec) else f"NOT COMPLETED ({rec['error'] or rec['strays'] or 'no board'})"
         extra = "".join(f"; {a} executed {n}" for a, n in rec.get("counts", {}).items())
         extra += "".join(f"; port {a} called {n}" for a, n in sorted(rec.get("port_calls", {}).items()))
@@ -346,11 +469,12 @@ def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask
         from original_match.assets import reference_image
         image = Image.from_bytes(reference_image(cache))
         for spec in todo:
-            took(run_match(image, spec, mask, counts, time_limit, ports=ports, say=say))
+            took(run_match(image, spec, mask, counts, time_limit, ports=ports, say=say, stretch_limit=stretch_limit,
+                           checkpoints=checkpoints))
     else:
         from concurrent.futures import ProcessPoolExecutor
         with ProcessPoolExecutor(max_workers=workers, initializer=_init_worker,
-                                 initargs=(cache, mask, counts, time_limit, list(ports))) as pool:
+                                 initargs=(cache, mask, counts, time_limit, list(ports), stretch_limit, checkpoint)) as pool:
             for rec, lines in pool.map(_run_in_worker, [s.id for s in todo]):
                 for line in lines:
                     say(line)
@@ -446,6 +570,8 @@ def parser():
     ap.add_argument("--max", type=int)
     ap.add_argument("--workers", type=int, choices=(1, 2), default=1)
     ap.add_argument("--time-limit", type=float, default=DEFAULT_TIME_LIMIT)
+    ap.add_argument("--stretch-limit", type=float, default=DEFAULT_STRETCH_LIMIT)
+    ap.add_argument("--checkpoint", help="a folder for each running match's checkpoint, to resume inside it (#359)")
     ap.add_argument("--count")
     ap.add_argument("--mask")
     ap.add_argument("--only")
@@ -475,6 +601,12 @@ def prepare(a):
         raise Refused("--max is a number of matches, 1 or more")
     if not 0 < a.time_limit <= 36000:
         raise Refused("--time-limit is a number of seconds, up to 36000")
+    if not 0 < a.stretch_limit <= 36000:
+        raise Refused("--stretch-limit is a number of seconds, up to 36000")
+    if a.checkpoint is not None:
+        if a.find_ranges is not None:
+            raise Refused("--checkpoint is for a family run (--out), not --find-ranges")
+        fileopts.check_folder_output(a.checkpoint, "--checkpoint")
     # each path option is checked by the operation the run applies to it (runtime/fileopts.py), here and not in main(): the slot
     # step runs prepare() too (#328)
     if a.find_ranges is not None:
@@ -499,7 +631,7 @@ def processes(a, selected, mask, ports=()):
     not yet in --out (up to --max) in a pool of 2 worker processes, so at most min(workers, matches to run) matches run at
     once: Python 3.14 (forkserver) starts a worker only for a match to run, and 3.12 (fork) starts both, one idle, which
     costs no CPU (both checked on this machine). At least 1: the kit is loaded. Other modes: none (checked: the options
-    --count, --mask, --only, --cache, --time-limit, --ports, --variant change what a match records or which ones, never how
+    --count, --mask, --only, --cache, --time-limit, --stretch-limit, --checkpoint, --ports, --variant change what a match records or which ones, never how
     many run at once; a ported match is one process like any other: T59)."""
     if a.find_ranges:
         return 1
@@ -521,7 +653,8 @@ def main(argv=None):
             from original_match.assets import reference_image
             find_ranges(Image.from_bytes(reference_image(a.cache)), selected[:a.max], a.find_ranges)
             return 0
-        recs = run_family(selected, a.out, a.workers, a.max, a.cache, mask, counts, a.time_limit, ports=ports)
+        recs = run_family(selected, a.out, a.workers, a.max, a.cache, mask, counts, a.time_limit, ports=ports,
+                          stretch_limit=a.stretch_limit, checkpoint=a.checkpoint)
     except REFUSALS as e:
         print(f"refused: {e}")
         return 2

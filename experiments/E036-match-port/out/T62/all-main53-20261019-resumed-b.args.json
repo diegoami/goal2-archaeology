@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "experiments/E036-match-port/family.py",
+    "--family",
+    "ALL",
+    "--only",
+    "F40/e032-1234,F40/e032-2b7e,F40/e032-6a33,F40/e032-a1f0,F40/e032-e719,F40/more-1111,F40/more-5e5e,F40/more-9abc,F40/more-cafe,F40/more-face,F40/edit-1234,F40/edit-2b7e,F40/edit-6a33,F40/edit-a1f0,F40/edit-e719,F40/edit-1111,F40/edit-5e5e,F40/edit-9abc,F40/edit-cafe,F40/edit-face,O8/c1-c2-qualifier,O8/c30-c44-qualifier,O8/c64-c90-qualifier,O8/c101-c120-qualifier,S/decisions-70,S/hard-4,S/quick-1,S/ko-39-budget-5,S/ko-30-extra-time,S/ko-53-quick,S/qualifier-21",
+    "--ports",
+    "all",
+    "--workers",
+    "2",
+    "--time-limit",
+    "3000",
+    "--count",
+    "0791:835F,0791:83A2,0791:8537,0791:869F,0791:8AE9,0791:8C67,0791:8CCA,0791:8CF5,0791:8E24,0791:90C5,0791:9119",
+    "--out",
+    "experiments/E036-match-port/out/T62/all-main53-20261019-resumed-b.jsonl"
+  ],
+  "env": {
+    "HARNESS_SESSION_FAMILY": "openai",
+    "HARNESS_CLIENT": "codex",
+    "HARNESS_HEAVY_SLOTS": "4",
+    "PYTHONPATH": "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a55a365b32cd67a36/runtime",
+    "TMPDIR": "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a55a365b32cd67a36/.cache/tmp"
+  }
+}

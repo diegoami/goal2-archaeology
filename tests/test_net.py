@@ -274,11 +274,14 @@ class FetchArtifactOffline(FakeGh):
 
     def test_a_failure_that_is_not_the_network_stands_with_a_verified_cache(self):
         self.gh(5, NOT_FOUND)
-        with mock.patch.object(fetch_artifact, "verify", return_value=[]):
+        # [designed: 2026-10-21] such a failure first tries HTTPS from the public release; here it fails too
+        with mock.patch.object(fetch_artifact, "verify", return_value=[]), \
+                mock.patch.object(fetch_artifact, "https_download", return_value=False) as https:
             with contextlib.redirect_stderr(io.StringIO()):
                 with self.assertRaises(subprocess.CalledProcessError):
                     fetch_artifact.download(self.SET)
         self.assertEqual(1, self.calls())
+        self.assertEqual(1, https.call_count)
 
 
 class NetSkip(unittest.TestCase):

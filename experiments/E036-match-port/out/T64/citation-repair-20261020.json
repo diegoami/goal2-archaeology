@@ -1,0 +1,36 @@
+{
+  "trigger": "CI39464716460: F019 named/seg_0791_08.c:1111 outside regenerated1..1087",
+  "changes": "F019 paired caller/store citations -> code/seg_0791_19.asm:143 B94E call0xb364 and code/seg_0791_18.asm:650 B3AD store+0xC; F020 store -> same stable assembly line650",
+  "claims": "unchanged",
+  "verified_listing_lines": {
+    "B7FA_result_call": "B94E  E8 13 FA        call 0xb364",
+    "B364_player_store": "B3AD  26 88 45 0C     mov byte ptr es:[di + 0xc], al"
+  },
+  "sha256": {
+    "findings/F019-confidence-follows-result-relative-to-country-ranks.md": "f05fd837002098cca873baed501bb465ebb4f775fbdb0fad25ae1b56a1b4e6d6",
+    "findings/F020-events-change-confidence-and-team-morale-aggregates-it.md": "6ca0587705bf5d0a0385d4d03d8000b7d60cab769fae5c970fbbba19857e0c18",
+    "static/goal-exe/code/seg_0791_18.asm": "e19061df86a89389539ddc48b0497b1f04742062851deca434838b600387d397",
+    "static/goal-exe/code/seg_0791_19.asm": "9a67e02197e7b3796be1cf653ed6ffff35a9939cbe0044dee57f639971063ed8"
+  },
+  "runtime_sha256": {
+    "runtime/original_match/__init__.py": "b1286fdd13e3862f5e21c91c9879a1de078199c6180328e78bcde28f5ac12d5c",
+    "runtime/original_match/assets.py": "fb5da2f045c06e3a54d5fe162a89947969d547b3d0dca4d8ed716ea380250685",
+    "runtime/original_match/build.py": "3368801a8ef847cbb1b37f625bcb716fcd6b2aa1e08d94d9db8d3107f746e9e4",
+    "runtime/original_match/check.py": "bbf9c87d5fbbd3025b7096e9be4b0fd8def14573624b5343ed6cb6efff8b4b71",
+    "runtime/original_match/example.py": "d17a104f8c08635fb8a3ff61f6113aa56a902b88aef5fcceaf32ab27790bbacf",
+    "runtime/original_match/image.py": "0b6c8a98c0d4fabdfe63be52561dd2afc56a4f0a8238e8ccc06dfd33e78e35a9",
+    "runtime/original_match/machine.py": "c01aa890626ac0235f6e1a40dec93475624a5f09d426bdb6f701b37ceb6c2db1",
+    "runtime/original_match/match.py": "88002487afbc9566836bd5af412049889a1b03314da7acf77a4576f1088224f4",
+    "runtime/original_match/port/__init__.py": "c7966f2a233301c81122c6971c7909a9d35fa0f9e183df46d844b4cd59ea6bf4",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "runtime/original_match/port/ball.py": "6b5f17ee9af3bf7dbb2bae4bd5ae00e1a012f6d6cf6e6e3c2cdd8464a7e2c72a",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "runtime/original_match/port/guest.py": "c11b92f1548125a8203ab968599a5a14c6d3e153f44da069e929d332b1d09597",
+    "runtime/original_match/port/mem.py": "0105113f8102a3e8c3544942a445e156fecc0196f7911089e7f789a7775fe45c",
+    "runtime/original_match/port/pilot.py": "700a8bf56db7adcccd6d011b0e26d0a06599c24fbc451e44fee033b8e56e0863",
+    "runtime/original_match/port/prove.py": "74e7724eaf93206e4070b9bc41d2f04cf546e177b6a9718451da6476a313e8d7",
+    "runtime/original_match/port/restarts.py": "1b958e50c37c7d2eea86a2eb2279fc144a90fcf74afdd01690b91b88ced6bafb",
+    "runtime/original_match/port/runtime.py": "0a03827635ec11e2edf31fe9344ac56363bd6aadbe15e09f8ccfee4c384e6b1d",
+    "runtime/original_match/screens.py": "45c220305d3e9bbbb4680edbb29fee6d6526d6521fbeea67a969d7b8daf7b304"
+  }
+}

@@ -1,5 +1,9 @@
 # Running notes — `RUN-NOTES.md`
 
+> [designed: owner, 2026-10-20] The review harness, OpenCode setup and worktrees described below were
+> removed (CLAUDE.md, "the branch `local`"); read "worktree" as the checkout at hand. DOSBox-X,
+> Ghidra and the runtime sections still apply; cloud sessions: [cloud.md](cloud.md).
+
 > A per-worktree file where the implementer tracks its own progress in real time. If a
 > run is interrupted (wall clock, process kill, orphan collision, owner intervention),
 > the next implementer reads this file as the authoritative handoff.

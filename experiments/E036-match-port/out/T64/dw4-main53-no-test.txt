@@ -1,0 +1,17 @@
+Command: ['python3', '-B', '-m', 'unittest', 'tests.test_port_ball']
+exit 1
+E
+======================================================================
+ERROR: test_port_ball (unittest.loader._FailedTest.test_port_ball)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_port_ball
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+ModuleNotFoundError: No module named 'tests.test_port_ball'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)
