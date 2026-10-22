@@ -471,6 +471,20 @@ class RunMatch(unittest.TestCase):
                 if expect:
                     self.assertEqual(text, expect)
 
+    def test_the_stretch_limit_reaches_the_kit_capped_by_the_time_limit(self):
+        # #357: the kit's watchdog per stretch between events; 60 s unless --stretch-limit says otherwise
+        self.run_one()
+        self.run_one(stretch_limit=600, time_limit=3000)
+        self.run_one(stretch_limit=600, time_limit=100)
+        self.assertEqual([kw["timeout_s"] for _, kw in FakeMatch.seen], [60, 600, 100])
+
+    def test_a_worker_passes_the_stretch_limit_on(self):
+        family._worker.update(image=FakeImage(), specs={self.spec.id: self.spec}, mask=(), counts=(), time_limit=3000,
+                              ports=[], stretch_limit=600)
+        self.addCleanup(family._worker.clear)
+        family._run_in_worker(self.spec.id)
+        self.assertEqual(FakeMatch.seen[-1][1]["timeout_s"], 600)
+
     def test_the_time_limit_is_a_record(self):
         FakeMatch.on_events = [lambda m: time.sleep(0.05)]
         r = self.run_one(time_limit=0.01)
@@ -643,7 +657,7 @@ class TheCommand(unittest.TestCase):
                      ("--family", "O8", "--out", out, "--max", "0"), ("--family", "NOPE", "--out", out),
                      ("--family", "O8", "--out", out, "--count", "0791:970c"), ("--family", "O8", "--out", out, "--count", "0791:970C,0791:970C"),
                      ("--family", "O8", "--out", out, "--mask", str(Path(self.tmp.name) / "none.json")),
-                     ("--family", "O8", "--out", out, "--only", "O8/nosuch"), ("--family", "O8", "--out", out, "--time-limit", "0"),
+                     ("--family", "O8", "--out", out, "--only", "O8/nosuch"), ("--family", "O8", "--out", out, "--time-limit", "0"), ("--family", "O8", "--out", out, "--stretch-limit", "0"),
                      ("--family", "O8", "--out", out, "--workers", "3")):
             with self.subTest(args):
                 self.assertEqual(self.cli(*args).returncode, 2, args)
