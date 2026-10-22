@@ -2,3 +2,4 @@ COMMAND: python3 -B experiments/E036-match-port/family.py --family ALL --only F4
 HEAD: ce6acd90cd9e30ff8e1b06b7f357bfb18bd841e4 started 2026-10-22T08:55:03Z
 ports: attributes, ball, geometry, motion, pilot, positioning, restarts, runtime
 31 matches selected, 0 already in experiments/E036-match-port/out/T64/all-cloud-20261022-b.jsonl, 31 to run
+stopped by the main session 2026-10-22T09:03:41Z: the owner asked for mid-match resumability first
