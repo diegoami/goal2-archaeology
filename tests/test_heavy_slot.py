@@ -375,6 +375,8 @@ ROOT_USER = hasattr(os, "geteuid") and os.geteuid() == 0     # root opens and cr
 #   LOG        --out                 appended to (read first if there): a file read and writable, or a path whose nearest
 #                                    existing folder is writable (the run makes the missing folders)
 #   CACHE      --cache               a folder: the reference file in it is readable, or it is missing and the folder can be made
+#   FOLDER     --checkpoint          a folder files are written in (#359): an existing writable folder, or a missing one whose
+#                                    nearest existing folder is writable (the run makes the missing folders)
 A, R = True, False
 INPUT = dict(missing=R, directory=R, file=A, link=A, broken=R, empty=R, missing_parent=R, file_in_the_way=R)
 NEW = dict(missing=A, directory=R, file=R, link=R, broken=R, empty=R, missing_parent=R, file_in_the_way=R)
@@ -385,6 +387,8 @@ LOG_PERM = dict(unreadable=R, readonly=R, unwritable_parent=R)
 CACHE = dict(missing=A, empty_folder=A, asset_file=A, asset_link=A, asset_folder=R, asset_broken=R, cache_is_a_file=R,
              under_a_file=R, missing_parent=A)
 CACHE_PERM = dict(asset_unreadable=R, unwritable_folder=R, under_unwritable=R)
+FOLDER = dict(missing=A, directory=A, file=R, link=R, broken=R, empty=R, missing_parent=A, file_in_the_way=R)
+FOLDER_PERM = dict(unreadable=R, readonly=R, unwritable_parent=R)
 # What a refusal says, by condition (a fragment of the message): the reason, so that a wrong reason that still refuses is caught.
 SAID_INPUT = dict(missing="does not exist", directory="is not a file", empty="does not exist", broken="does not exist",
                   missing_parent="does not exist", file_in_the_way="cannot be read", unreadable="cannot be read",
@@ -395,6 +399,9 @@ SAID_NEW = dict(directory="exists (an output", file="exists (an output", link="e
 SAID_LOG = dict(directory="is not a file", broken="is a broken link", empty="is empty",
                 file_in_the_way="cannot create its folder (a file is in the way)", unreadable="cannot be read",
                 readonly="is not writable", unwritable_parent="its folder is not writable")
+SAID_FOLDER = dict(file="is not a folder", link="is not a folder", broken="is a broken link", empty="is empty",
+                   file_in_the_way="cannot create its folder (a file is in the way)", unreadable="is not a folder",
+                   readonly="is not a folder", unwritable_parent="its folder is not writable")
 SAID_CACHE = dict(asset_folder="is not a file", asset_broken="does not exist", asset_unreadable="cannot be read",
                   cache_is_a_file="cannot create its folder (a file is in the way)",
                   under_a_file="cannot create its folder (a file is in the way)", unwritable_folder="its folder is not writable",
@@ -624,6 +631,23 @@ class PathOptionsTest(unittest.TestCase):
         self.table("--find-ranges", NEW_PERM, perm, self.family_validate(self.ranges_args),
                    self.family_entry(self.ranges_args), lambda path: self.family.write_ranges(path, {}), SAID_NEW)
 
+    def checkpoint_args(self, path):
+        return ["--out", str(self.tmp / "out.jsonl"), "--checkpoint", path]
+
+    def save_checkpoint(self, path):
+        self.family.Checkpoints(path).save("S/quick-1", {}, b"", {}, b"")
+
+    def test_family_checkpoint(self):
+        plain, _ = build_paths(self.tmp)
+        self.table("--checkpoint", FOLDER, plain, self.family_validate(self.checkpoint_args),
+                   self.family_entry(self.checkpoint_args), self.save_checkpoint, SAID_FOLDER)
+
+    @unittest.skipIf(ROOT_USER, "root is not stopped by a folder or file mode")
+    def test_family_checkpoint_permissions(self):
+        _, perm = build_paths(self.tmp)
+        self.table("--checkpoint", FOLDER_PERM, perm, self.family_validate(self.checkpoint_args),
+                   self.family_entry(self.checkpoint_args), self.save_checkpoint, SAID_FOLDER)
+
     def test_family_mask(self):
         plain, _ = build_paths(self.tmp)
         self.table("--mask", INPUT, plain, self.family_validate(self.mask_args), self.family_entry(self.mask_args),
@@ -662,7 +686,7 @@ class PathOptionsTest(unittest.TestCase):
 
     def test_every_path_option_is_in_a_table(self):
         """The audit: the options of the three parsers. A new option that names a file fails here until it has a table."""
-        listed = {"--image", "--json", "--cache", "--out", "--find-ranges", "--mask"}
+        listed = {"--image", "--json", "--cache", "--out", "--find-ranges", "--mask", "--checkpoint"}
         others = {"--family", "--max", "--workers", "--time-limit", "--stretch-limit", "--count", "--only", "--ports", "--variant", "--modules",
                   "--help", "-h"}
         seen = set()
