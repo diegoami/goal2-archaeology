@@ -14,4 +14,4 @@ Head: T64 with main merged (T62 #340, T63 #345, #356, #358, #360, #362). Done-wh
 4. test_port_ball 33 OK, check_annotations ok (`focused-checks-20261022.txt`); named view regenerated after the merge
    (`named-cloud-20261022.txt`). Full suite `full-suite-cloud-20261022.txt`: only the environment-only non-passes of #354.
 
-Cost of the Actions run: `all-actions-39760200442-cost.json` (runner minutes; billable 0 on a public repository).
+Cost of the Actions run: `all-actions-39760200442-cost.json` (runner minutes; raw query `-cost-raw.txt`; billable 0 on a public repository).
