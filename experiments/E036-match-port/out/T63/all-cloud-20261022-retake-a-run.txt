@@ -1,0 +1,4 @@
+COMMAND: python3 -B experiments/E036-match-port/family.py --family ALL --only S/ko-9-quick,S/ko-53-quick --ports all --count 0791:1F3C,0791:1FDD,0791:20E3,0791:2218,0791:419C,0791:42CB,0791:4354,0791:4438,0791:44C1,0791:4532,0791:4649,0791:474D,0791:47C5,0791:4A28,0791:4B64,0791:4D3F --workers 2 --time-limit 3000 --out experiments/E036-match-port/out/T63/all-cloud-20261022-retake-a.jsonl
+HEAD: 6c54d94bb355b2e5b8372eb4943f4169a7767b60 started 2026-10-22T07:45:58Z
+ports: attributes, geometry, motion, pilot, positioning, restarts, runtime
+2 matches selected, 0 already in experiments/E036-match-port/out/T63/all-cloud-20261022-retake-a.jsonl, 2 to run
