@@ -1,0 +1,5 @@
+COMMAND: PYTHONPATH=runtime python3 -B -m original_match.check --cache .cache/dl --ports frame; HEAD ce5e97070b46dd87f99dc6fdf8729c04a0a6c129
+ports: frame
+engine       PASS  74.6 s  
+interactive  PASS  201.9 s  {'straight': '0078fad9859d4b4083a88707785e2cf0a49e1b6cddfa48bfec5aa765590e592f', 'resumed': '0078fad9859d4b4083a88707785e2cf0a49e1b6cddfa48bfec5aa765590e592f', 'expected': '0078fad9859d4b4083a88707785e2cf0a49e1b6cddfa48bfec5aa765590e592f'}
+goals        PASS  102.0 s  
