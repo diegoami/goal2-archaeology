@@ -65,7 +65,7 @@ SCREENS = [
     ("after-name-2", "Enter", "read", None),
     ("manager-menu", "Enter", "read", None),
 ]
-WAIT = 60                 # [designed] s per screen: the title's animation ends after about 12 s (T82 probe), x5
+WAIT = 300                # [designed] s per screen: E039-r0001 (aborted) did not reach the title's read in 60 s at cycles=30000 with continuous savestate polling
 INTR_RETURN, READ_LOCALS, INTR_ARGS = 0x0904, 0x14, 6     # 214B:08DD 08E0, 08F7-08FF
 
 
@@ -271,7 +271,8 @@ class Run:
         }
         text = json.dumps(record, indent=1, ensure_ascii=False) + "\n"
         if str(ROOT) in text:
-            raise SystemExit(f"{self.run_id}: a host path leaked into the record")
+            where = [o["field"] for o in record["observations"] if str(ROOT) in json.dumps(o, ensure_ascii=False)]
+            raise SystemExit(f"{self.run_id}: a host path leaked into the record: {where}")
         OUT.mkdir(parents=True, exist_ok=True)
         with open(OUT / f"{self.run_id}.json", "x", encoding="utf-8") as f:
             f.write(text)
