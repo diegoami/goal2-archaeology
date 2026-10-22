@@ -323,6 +323,7 @@ class RefusedAfterParsingTest(unittest.TestCase):
                 (["--out", "x", "--max", "0"], "--max is a number of matches"),
                 (["--out", "x", "--time-limit", "0"], "--time-limit is a number of seconds"),
                 (["--out", "x", "--time-limit", "36001"], "--time-limit is a number of seconds"),
+                (["--out", "x", "--stretch-limit", "0"], "--stretch-limit is a number of seconds"),
                 (["--out", "x", "--only", "S/no-such-match"], "--only 'S/no-such-match'"),
                 (["--out", "x", "--only", "S/quick-1,S/quick-1"], "distinct ids"),
                 (["--out", "x", "--count", "bad"], "--count 'bad'"),
@@ -662,7 +663,7 @@ class PathOptionsTest(unittest.TestCase):
     def test_every_path_option_is_in_a_table(self):
         """The audit: the options of the three parsers. A new option that names a file fails here until it has a table."""
         listed = {"--image", "--json", "--cache", "--out", "--find-ranges", "--mask"}
-        others = {"--family", "--max", "--workers", "--time-limit", "--count", "--only", "--ports", "--variant", "--modules",
+        others = {"--family", "--max", "--workers", "--time-limit", "--stretch-limit", "--count", "--only", "--ports", "--variant", "--modules",
                   "--help", "-h"}
         seen = set()
         for parser in (self.family.parser(), self.check.parser()):
