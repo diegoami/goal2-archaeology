@@ -1,0 +1,18 @@
+{
+ "run_id": "39825829438",
+ "run_attempt": "1",
+ "workflow": "E036 family run",
+ "ref": "claude/gracious-fermat-eik7l4",
+ "sha": "17065445cae1371be9f9eb5adcfab2649aed3e59",
+ "inputs": {
+  "task": "T65",
+  "name": "falsifier-nearest-not-chasing",
+  "family": "O8",
+  "ports": "contests",
+  "variant": "contests.nearest-not-chasing",
+  "shards": "4",
+  "time_limit": "6000",
+  "stretch_limit": "600"
+ },
+ "run_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39825829438"
+}
