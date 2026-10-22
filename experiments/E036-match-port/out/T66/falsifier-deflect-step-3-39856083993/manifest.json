@@ -1,0 +1,18 @@
+{
+ "run_id": "39856083993",
+ "run_attempt": "1",
+ "workflow": "E036 family run",
+ "ref": "claude/gracious-fermat-eik7l4",
+ "sha": "8b6fc7ce2fec983f4f289ebb91624089bb9273ef",
+ "inputs": {
+  "task": "T66",
+  "name": "falsifier-deflect-step-3",
+  "family": "O8",
+  "ports": "duels",
+  "variant": "duels.deflect-step-3",
+  "shards": "4",
+  "time_limit": "6000",
+  "stretch_limit": "600"
+ },
+ "run_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39856083993"
+}
