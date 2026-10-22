@@ -2,7 +2,7 @@
 """E036 (T57): run a family of matches through the original-match kit and write one record per match.
 
     python3 -B experiments/E036-match-port/family.py --family ALL --out experiments/E036-match-port/out/T<nn>/<name>.jsonl
-        [--max N] [--workers 1|2] [--time-limit S] [--count SSSS:OOOO,...] [--mask FILE] [--only ID,...] [--cache DIR]
+        [--max N] [--workers 1|2] [--time-limit S] [--stretch-limit S] [--count SSSS:OOOO,...] [--mask FILE] [--only ID,...] [--cache DIR]
         [--ports M,...|all] [--variant M.NAME]
     python3 -B experiments/E036-match-port/family.py --family ALL --find-ranges experiments/E036-match-port/out/T57/ranges-<stamp>.json [--only ID,...]
 
@@ -27,6 +27,9 @@ and image) are not run again and no line is ever rewritten; a record that is not
 the command refuse (exit 2). A record is appended and synced as soon as its match ends. --max stops after N new
 matches. --workers 2 runs two matches at a time in two processes (the most the shared machine allows); the default
 is one. --time-limit (default 300 s) bounds one match's wall time: a match over it is recorded as an error.
+--stretch-limit (default 60 s, never more than --time-limit) bounds one stretch of the kit's run between two events (the
+emulator's own watchdog, Match(timeout_s)): with every port installed on a slow machine, a knockout's quick result ran
+one stretch over 60 s (2026-10-22, a cloud session, T63; issue #357). It changes no record of a match that completes.
 
 Exit status: 0 when every selected match in --out is a completed match, 1 when one is not (an error, a stray
 decision, no board), 2 for a refused command.
@@ -53,6 +56,7 @@ import records  # noqa: E402
 
 DEFAULT_CACHE = ".cache/dl"
 DEFAULT_TIME_LIMIT = 300.0
+DEFAULT_STRETCH_LIMIT = 60.0    # the kit's watchdog per stretch between events, as before #357
 SEED_WORD = 0x7B62                                     # DS:7B62 the main RNG word (match.py SEED)
 SCREEN_POINTERS = (0xA96A, 0xA96E, 0xA972)             # DS: the text page (B800:0) and the two text buffers
 SCREEN_BYTES = 4000
@@ -189,6 +193,7 @@ def port_specs(ports, variant):
 
 
 def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, watch=None, check_writes=True,
+              stretch_limit=DEFAULT_STRETCH_LIMIT,
               ports=(), say=None):
     """The record of one match. Never raises for the match's own failure: that is the record's `error`.
     check_writes=False leaves the undeclared-write check out (the write watch that finds the ranges needs it so).
@@ -214,7 +219,7 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
         first, second, index, kind = spec.fixture
         m = Match(image, Fixture(first, second, index=index, kind=kind), managed=spec.managed, seed=spec.seed,
                   record_draws=True, delay_byte=spec.delay_byte, substitutions=spec.substitutions, players=players,
-                  countries=countries, timeout_s=min(60, time_limit), ports=list(ports) or None)
+                  countries=countries, timeout_s=min(stretch_limit, time_limit), ports=list(ports) or None)
         if counts:
             from unicorn import UC_HOOK_CODE
         for address in counts:
@@ -263,18 +268,19 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
 _worker = {}
 
 
-def _init_worker(cache, mask, counts, time_limit, ports=()):
+def _init_worker(cache, mask, counts, time_limit, ports=(), stretch_limit=DEFAULT_STRETCH_LIMIT):
     """A worker finds the declared matches itself (families.discover), so no policy object crosses a process."""
     from original_match import Image
     from original_match.assets import reference_image
     _worker.update(image=Image.from_bytes(reference_image(cache)), mask=mask, counts=counts, time_limit=time_limit,
-                   ports=list(ports), specs={m.id: m for fam in families.discover().values() for m in fam.matches})
+                   ports=list(ports), stretch_limit=stretch_limit, specs={m.id: m for fam in families.discover().values() for m in fam.matches})
 
 
 def _run_in_worker(match_id):
     lines = []
     rec = run_match(_worker["image"], _worker["specs"][match_id], _worker["mask"], _worker["counts"],
-                    _worker["time_limit"], ports=_worker["ports"], say=lines.append)
+                    _worker["time_limit"], ports=_worker["ports"], say=lines.append,
+                    stretch_limit=_worker["stretch_limit"])
     return rec, lines
 
 
@@ -319,7 +325,7 @@ def append(out, record):
 
 
 def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask=(), counts=(),
-               time_limit=DEFAULT_TIME_LIMIT, say=print, run_one=None, ports=()):
+               time_limit=DEFAULT_TIME_LIMIT, say=print, run_one=None, ports=(), stretch_limit=DEFAULT_STRETCH_LIMIT):
     """Run the selected matches not yet in `out`; returns the records of every selected match now in `out`.
     run_one(spec) -> record replaces the kit for a test (one process only). ports: the kit's port specs (port_specs)."""
     fileopts.check_log_output(out, "--out")     # the check prepare() applied before the slot
@@ -346,11 +352,11 @@ def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask
         from original_match.assets import reference_image
         image = Image.from_bytes(reference_image(cache))
         for spec in todo:
-            took(run_match(image, spec, mask, counts, time_limit, ports=ports, say=say))
+            took(run_match(image, spec, mask, counts, time_limit, ports=ports, say=say, stretch_limit=stretch_limit))
     else:
         from concurrent.futures import ProcessPoolExecutor
         with ProcessPoolExecutor(max_workers=workers, initializer=_init_worker,
-                                 initargs=(cache, mask, counts, time_limit, list(ports))) as pool:
+                                 initargs=(cache, mask, counts, time_limit, list(ports), stretch_limit)) as pool:
             for rec, lines in pool.map(_run_in_worker, [s.id for s in todo]):
                 for line in lines:
                     say(line)
@@ -446,6 +452,7 @@ def parser():
     ap.add_argument("--max", type=int)
     ap.add_argument("--workers", type=int, choices=(1, 2), default=1)
     ap.add_argument("--time-limit", type=float, default=DEFAULT_TIME_LIMIT)
+    ap.add_argument("--stretch-limit", type=float, default=DEFAULT_STRETCH_LIMIT)
     ap.add_argument("--count")
     ap.add_argument("--mask")
     ap.add_argument("--only")
@@ -475,6 +482,8 @@ def prepare(a):
         raise Refused("--max is a number of matches, 1 or more")
     if not 0 < a.time_limit <= 36000:
         raise Refused("--time-limit is a number of seconds, up to 36000")
+    if not 0 < a.stretch_limit <= 36000:
+        raise Refused("--stretch-limit is a number of seconds, up to 36000")
     # each path option is checked by the operation the run applies to it (runtime/fileopts.py), here and not in main(): the slot
     # step runs prepare() too (#328)
     if a.find_ranges is not None:
@@ -499,7 +508,7 @@ def processes(a, selected, mask, ports=()):
     not yet in --out (up to --max) in a pool of 2 worker processes, so at most min(workers, matches to run) matches run at
     once: Python 3.14 (forkserver) starts a worker only for a match to run, and 3.12 (fork) starts both, one idle, which
     costs no CPU (both checked on this machine). At least 1: the kit is loaded. Other modes: none (checked: the options
-    --count, --mask, --only, --cache, --time-limit, --ports, --variant change what a match records or which ones, never how
+    --count, --mask, --only, --cache, --time-limit, --stretch-limit, --ports, --variant change what a match records or which ones, never how
     many run at once; a ported match is one process like any other: T59)."""
     if a.find_ranges:
         return 1
@@ -521,7 +530,8 @@ def main(argv=None):
             from original_match.assets import reference_image
             find_ranges(Image.from_bytes(reference_image(a.cache)), selected[:a.max], a.find_ranges)
             return 0
-        recs = run_family(selected, a.out, a.workers, a.max, a.cache, mask, counts, a.time_limit, ports=ports)
+        recs = run_family(selected, a.out, a.workers, a.max, a.cache, mask, counts, a.time_limit, ports=ports,
+                          stretch_limit=a.stretch_limit)
     except REFUSALS as e:
         print(f"refused: {e}")
         return 2
