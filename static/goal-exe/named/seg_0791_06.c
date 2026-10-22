@@ -322,7 +322,7 @@ void __stdcall16far f_0791_6AF7(int *param_1)
     *(undefined1 *)(piVar2 + 9) = 4;
     *param_1 = DS:0644;
     *(int *)((int)piVar2 + 7) = *param_1;
-    f_0791_8537(piVar2,uVar3);
+    move_player_sprite(piVar2,uVar3);
   }
   return;
 }
@@ -1164,7 +1164,7 @@ void walk_player_off(int param_1)
         else if (*(char *)((int)DS:A923 + 0x3f) == '\x01') {
           u214b_delay_ms(1);
         }
-        f_0791_8537((pitch *)pitch_records + local_4,0xb000);
+        move_player_sprite((pitch *)pitch_records + local_4,0xb000);
         if (local_4 == 0x16) break;
         local_4 = local_4 + 1;
       }
@@ -1177,7 +1177,7 @@ void walk_player_off(int param_1)
     local_a->x = (undefined1)DS:0640;
     local_a->y = uVar3;
     if (DS:9A3E == '\0') {
-      f_0791_8537(ppVar7,0xb000);
+      move_player_sprite(ppVar7,0xb000);
     }
     *(undefined1 *)((int)&pitch_records[0].state + iVar2) = 0;
   }
@@ -1203,7 +1203,7 @@ void __stdcall16far booking(undefined4 param_1)
   ppVar5 = (player *)players + *(int *)(iVar2 + 0xd);
   commentary_with_both_slots
             (CONCAT11((char)((uint)(*(int *)(iVar2 + 0xd) * 0x14) >> 8),0x32),ppVar5,uVar4);
-  f_0791_90C5(0x8304,0xb000,referee_record._0_2_,0xefe);
+  place_offside_marker(0x8304,0xb000,referee_record._0_2_,0xefe);
   match_delay((uint)*(byte *)((int)DS:A923 + 0x3f) * 200);
   f_0791_9079(0x8304,0xb000);
   u214b_set_include_bit(&ppVar5->status,uVar4,5);

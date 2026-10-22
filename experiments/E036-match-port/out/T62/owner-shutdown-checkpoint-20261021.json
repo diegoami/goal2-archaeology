@@ -1,0 +1,57 @@
+{
+  "owner_decision": "Port PRs merge on required checks plus green CI; one milestone review covers port stage.",
+  "recorded_at": "2026-10-21T21:08:07.533764+00:00",
+  "state_backup": {
+    "remote": "goal2drive:goal2-archaeology/checkpoint-2026-10-21/states/T62",
+    "verification": "rclone check --one-way --download: 7 matching files, zero differences",
+    "source_manifest": {
+      "source": "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a55a365b32cd67a36/.cache/states",
+      "exists": true,
+      "files": {
+        "driver/title.json": {
+          "sha256": "1596d2ffe88bbba4fdb363675adb6d8f07f4a1bdc8f2379ace27da1ce3c61f9e",
+          "bytes": 2085
+        },
+        "driver/title.sav": {
+          "sha256": "484e8221dd69c6f93f6361f3540389d90c549ad45d46b528e1a01b21f9075ec3",
+          "bytes": 141704
+        }
+      }
+    }
+  },
+  "shutdown_scope": "Finish entire T64 pipeline, then remaining T69 Done-when evidence; commit/push and checkpoint; stop. No further per-PR review dispatch.",
+  "review_status": "GLM cancelled by owner, including queued family children. No final verdict; do not resume.",
+  "native_prefix": {
+    "session_id": "ses_ea0343bc0ffeArn43eOxKGs66B",
+    "messages": 60,
+    "parts": 230,
+    "last_assistant": {
+      "parentID": "msg_15fcbc491001gnGUUycMydSdYp",
+      "role": "assistant",
+      "mode": "reviewer",
+      "agent": "reviewer",
+      "variant": "low",
+      "path": {
+        "cwd": "/home/diego/projects/goal2-archaeology/.cache/review-340-glm-f109e8a701",
+        "root": "/home/diego/projects/goal2-archaeology/.cache/review-340-glm-f109e8a701"
+      },
+      "cost": 0,
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "reasoning": 0,
+        "cache": {
+          "read": 0,
+          "write": 0
+        }
+      },
+      "modelID": "glm-5.3",
+      "providerID": "zai-coding-plan",
+      "time": {
+        "created": 1792616194946
+      }
+    },
+    "final_characters": 886,
+    "complete": false
+  }
+}

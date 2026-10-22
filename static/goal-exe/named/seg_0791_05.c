@@ -62,7 +62,7 @@ void foul_outcome_line(int param_1)
         (uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6),
         cVar2 = skill_draw_passes((int)uVar1,(int)((ulong)uVar1 >> 0x10),3), cVar2 != '\0')))) {
       uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
-      f_0791_869F((int)uVar1,(int)((ulong)uVar1 >> 0x10));
+      take_possession((int)uVar1,(int)((ulong)uVar1 >> 0x10));
       commentary_with_ball_slot(CONCAT11(extraout_AH,0xe));
     }
     else if ((DS:8303 == '\0') ||
@@ -491,8 +491,8 @@ void write_save_line(int param_1)
   undefined2 unaff_SS;
   
   if (DS:8326 == '\0') {
-    f_0791_869F((int)*(undefined4 *)(param_1 + 6),(int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10)
-               );
+    take_possession((int)*(undefined4 *)(param_1 + 6),
+                    (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
     uVar2 = extraout_AH;
   }
   else {
@@ -546,7 +546,7 @@ void __stdcall16far duel_line(undefined2 *param_1)
     if (DS:8326 != '\0') {
       return;
     }
-    f_0791_869F(puVar7,uVar8);
+    take_possession(puVar7,uVar8);
     commentary_with_ball_slot(CONCAT11(extraout_AH,0x1c));
     return;
   }
@@ -694,7 +694,7 @@ void __stdcall16far f_0791_5E41(undefined2 *param_1)
     local_6 = local_6 + 1;
   }
   uVar4 = (undefined2)((ulong)param_1 >> 0x10);
-  f_0791_869F((undefined2 *)param_1,uVar4);
+  take_possession((undefined2 *)param_1,uVar4);
   launch_ball((undefined2 *)param_1,uVar4,6,local_4);
   return;
 }
@@ -710,7 +710,7 @@ void __stdcall16far f_0791_5EAB(undefined4 param_1)
   undefined2 uVar2;
   
   uVar2 = (undefined2)((ulong)param_1 >> 0x10);
-  f_0791_869F((int)param_1,uVar2);
+  take_possession((int)param_1,uVar2);
   commentary_with_ball_slot(CONCAT11(extraout_AH,0x20));
   find_nearest_to_ball();
   pitch_records[0].state = 1;
@@ -824,8 +824,8 @@ void react_off_ball(int param_1)
                     ((int)*(undefined4 *)(param_1 + 6),
                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0x23);
         }
-        f_0791_869F((int)*(undefined4 *)(param_1 + 6),
-                    (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
+        take_possession((int)*(undefined4 *)(param_1 + 6),
+                        (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
       }
       else {
         cVar1 = skill_draw_passes((int)*(undefined4 *)(param_1 + 6),

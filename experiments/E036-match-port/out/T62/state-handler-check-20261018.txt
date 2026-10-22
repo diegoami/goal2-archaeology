@@ -1,0 +1,51 @@
+heavy: t62-handler-check: waiting for a slot (14 ahead)
+heavy: t62-handler-check: waiting for a slot (13 ahead)
+heavy: t62-handler-check: waiting for a slot (12 ahead)
+heavy: t62-handler-check: waiting for a slot (11 ahead)
+heavy: t62-handler-check: waiting for a slot (10 ahead)
+heavy: t62-handler-check: waiting for a slot (9 ahead)
+heavy: t62-handler-check: waiting for a slot (8 ahead)
+heavy: t62-handler-check: waiting for a slot (7 ahead)
+heavy: t62-handler-check: waiting for a slot (6 ahead)
+heavy: t62-handler-check: waiting for a slot (5 ahead)
+heavy: t62-handler-check: waiting for a slot (4 ahead)
+heavy: t62-handler-check: waiting for a slot (3 ahead)
+heavy: t62-handler-check: waiting for a slot (2 ahead)
+heavy: t62-handler-check: waiting for a slot (1 ahead)
+heavy: t62-handler-check: got slot 2 after 4274 s
+............................................
+----------------------------------------------------------------------
+Ran 44 tests in 0.046s
+
+OK
+Control: all motion tests pass.
+test_state_0a_calls_73ba_before_the_run_step_and_sprite (tests.test_port_motion.UpdatePlayer.test_state_0a_calls_73ba_before_the_run_step_and_sprite) ... FAIL
+
+======================================================================
+FAIL: test_state_0a_calls_73ba_before_the_run_step_and_sprite (tests.test_port_motion.UpdatePlayer.test_state_0a_calls_73ba_before_the_run_step_and_sprite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a55a365b32cd67a36/tests/test_port_motion.py", line 358, in test_state_0a_calls_73ba_before_the_run_step_and_sprite
+    self.assertEqual(t.targets(), ["0791:73BA", "0791:8889", "0791:8537"])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['0791:8889', '0791:8537'] != ['0791:73BA', '0791:8889', '0791:8537']
+
+First differing element 0:
+'0791:8889'
+'0791:73BA'
+
+Second list contains 1 additional elements.
+First extra element 2:
+'0791:8537'
+
+- ['0791:8889', '0791:8537']
++ ['0791:73BA', '0791:8889', '0791:8537']
+?  +++++++++++++
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)
+
+Mutation caught: removing state 0x0A fails the independent handler test; source files were never mutated.

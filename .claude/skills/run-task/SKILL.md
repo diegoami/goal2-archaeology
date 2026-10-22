@@ -3,6 +3,11 @@ name: run-task
 description: Run goal2-archaeology tasks or fixes end to end on the work branch in the checkout at hand - implement (the main session or the implementer subagent), optionally review with tools/review_pr.sh, wait for green CI, merge with a merge commit and report. Main session only.
 ---
 
+Engine port stage exception: see `docs/process.md` section 3 (owner, 2026-10-21;
+L123). Port PRs use their checks plus green CI and one milestone review for the stage;
+skip the individual port PR review dispatch and approval gates in this workflow.
+
+
 # /run-task [T<nn> | #<issue> ...]
 
 Follow `docs/process.md` §3 for each id in order (none given: the first `status:ready` task in

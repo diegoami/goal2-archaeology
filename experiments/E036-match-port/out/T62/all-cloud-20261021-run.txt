@@ -1,0 +1,51 @@
+COMMAND: python3 -B experiments/E036-match-port/family.py --family ALL --ports all --count 0791:835F,0791:83A2,0791:8537,0791:869F,0791:8AE9,0791:8C67,0791:8CCA,0791:8CF5,0791:8E24,0791:90C5,0791:9119 --workers 2 --time-limit 3000 --out experiments/E036-match-port/out/T62/all-cloud-20261021.jsonl
+HEAD: 6761685dafe1915f8808844d38bacbd128e2a88b  started 2026-10-21T22:18:58Z
+ports: attributes, geometry, motion, pilot, restarts, runtime
+62 matches selected, 0 already in experiments/E036-match-port/out/T62/all-cloud-20261021.jsonl, 62 to run
+Exception in initializer:
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/runtime/original_match/assets.py", line 47, in reference_image
+    subprocess.run(cmd + ["--dir", tmp], check=True, capture_output=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['gh', 'release', 'download', 'E006', '--repo', 'diegoami/goal2-archaeology', '--pattern', 'e0afff6751747233-e006-1000-r0001.sav', '--dir', '/home/user/goal2-archaeology/.cache/dl/tmpi0vilntg']' returned non-zero exit status 1.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/concurrent/futures/process.py", line 234, in _process_worker
+    initializer(*initargs)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/experiments/E036-match-port/family.py", line 270, in _init_worker
+    _worker.update(image=Image.from_bytes(reference_image(cache)), mask=mask, counts=counts, time_limit=time_limit,
+                                          ~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/user/goal2-archaeology/runtime/original_match/assets.py", line 49, in reference_image
+    raise AssetError(f"cannot download {REFERENCE['asset']} ({e}); run: {' '.join(cmd)} --dir {cache}") from e
+original_match.assets.AssetError: cannot download e0afff6751747233-e006-1000-r0001.sav (Command '['gh', 'release', 'download', 'E006', '--repo', 'diegoami/goal2-archaeology', '--pattern', 'e0afff6751747233-e006-1000-r0001.sav', '--dir', '/home/user/goal2-archaeology/.cache/dl/tmpi0vilntg']' returned non-zero exit status 1.); run: gh release download E006 --repo diegoami/goal2-archaeology --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/experiments/E036-match-port/family.py", line 554, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/user/goal2-archaeology/experiments/E036-match-port/family.py", line 524, in main
+    recs = run_family(selected, a.out, a.workers, a.max, a.cache, mask, counts, a.time_limit, ports=ports)
+  File "/home/user/goal2-archaeology/experiments/E036-match-port/family.py", line 354, in run_family
+    for rec, lines in pool.map(_run_in_worker, [s.id for s in todo]):
+                      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/concurrent/futures/process.py", line 621, in _chain_from_iterable_of_lists
+    for element in iterable:
+                   ^^^^^^^^
+  File "/usr/lib/python3.13/concurrent/futures/_base.py", line 625, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/usr/lib/python3.13/concurrent/futures/_base.py", line 318, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/usr/lib/python3.13/concurrent/futures/_base.py", line 460, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/concurrent/futures/_base.py", line 402, in __get_result
+    raise self._exception
+concurrent.futures.process.BrokenProcessPool: A process in the process pool was terminated abruptly while the future was running or pending.
+exit 1 finished 2026-10-21T22:18:59Z
