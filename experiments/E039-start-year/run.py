@@ -177,7 +177,8 @@ class Run:
         obs = cycle.read_observations(self.step, label, times, st)
         for o in obs:  # a screen before GOAL shows DOSBox-X's mount messages: host paths as conf_public writes them
             if isinstance(o.get("value"), str):
-                o["value"] = o["value"].replace(str(self.d.game_dir), "<game>").replace(str(self.d.workdir), "<work>")
+                o["value"] = (o["value"].replace(str(self.d.game_dir), "<game>").replace(str(self.d.workdir), "<work>")
+                              .replace(str(ROOT), "<root>"))  # a path the screen wraps at column 80 keeps its root whole
         self.obs.extend(obs)
         self.obs.append({"step": self.step, "source": "memory", "field": f"{label}: CPU registers from the savestate's CPU component (E021 notes section 1), hex",
                          "value": json.dumps({k: f"{v:04X}" if k in ("ES", "CS", "SS", "DS", "FS", "GS") else f"{v:08X}" for k, v in regs.items()})})

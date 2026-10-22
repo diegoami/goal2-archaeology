@@ -43,3 +43,6 @@ The next attempt (`--first-save 0.3`) caught a `pre-date` state (CPU load+2382:0
 record writer refuses host paths. The state is kept, renamed `e039-1990-pre-date-aborted-2.sav` (sha256 `0fadb2e2…`),
 and not used. From here a read's text observations carry host paths replaced by `<game>` and `<work>`, as the
 config observation already does; the screen's sha256 is of the bytes as read.
+- (E039-r0005, the same day) The fix missed paths the DOS screen wraps at column 80; that attempt's caught state
+  (CPU load+2382:0071, sha256 `9c696678…`) is kept as `e039-1990-pre-date-aborted-3.sav`, not used. The repository
+  root in a screen text is now also written `<root>`.
