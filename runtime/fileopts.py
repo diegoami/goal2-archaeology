@@ -8,6 +8,7 @@ itself, which runs the check and then does the work:
     input            check_input / read_input           --image, --mask, the cached reference: a readable, regular file
     new output       check_new_output / create_new_output   --json, --find-ranges: created exclusively, never overwritten
     log output       check_log_output                    --out: appended to, resumed if it exists, its folders created
+    folder output    check_folder_output                 --checkpoint: a folder files are written in, made if missing (#359)
 
 Every refusal raises PathError("<option> <path>: <why>"). Nothing here needs the run (no image, no download)."""
 import os
@@ -81,6 +82,29 @@ def check_log_output(path, option):
             _fail(option, path, "is a broken link")
         check_input(path, option)
         if not os.access(path, os.W_OK):
+            _fail(option, path, "is not writable")
+        return
+    folder = os.path.dirname(path) or "."
+    while not os.path.lexists(folder):
+        folder = os.path.dirname(folder) or "."
+    if not os.path.isdir(folder):
+        _fail(option, path, "cannot create its folder (a file is in the way)")
+    if not os.access(folder, os.W_OK | os.X_OK):
+        _fail(option, path, "its folder is not writable")
+
+
+def check_folder_output(path, option):
+    """`path` is a folder files can be created and replaced in, or a missing one that can be made with its missing folders:
+    an existing path is a folder (a symlink to one is fine) this process can write in; a missing one has an existing,
+    writable folder above it, nearest first, with no file in the way."""
+    if path == "":
+        _fail(option, path, "is empty")
+    if os.path.lexists(path):
+        if not os.path.exists(path):
+            _fail(option, path, "is a broken link")
+        if not os.path.isdir(path):
+            _fail(option, path, "is not a folder")
+        if not os.access(path, os.W_OK | os.X_OK):
             _fail(option, path, "is not writable")
         return
     folder = os.path.dirname(path) or "."

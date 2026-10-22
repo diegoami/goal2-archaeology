@@ -78,6 +78,8 @@ every PR merges with a merge commit (process.md §3).
   5 minutes** while runs go (CLAUDE.md rule 20's "at least every 30 minutes" is the local floor): a small
   loop that commits only the task's output folder is enough. Files on disk survived that restart; a
   family run resumes with the same `--out` and a fresh log.
+  A family run there takes `--checkpoint .cache/checkpoints/T<nn>` (#359): a match killed mid-way resumes
+  inside it, not from its start. Keep the folder on disk; it is the non-git state a Drive checkpoint carries.
 - Ghidra is installed on demand, not at session start: a task that regenerates `static/goal-exe/decompiled/`
   or `named/` (process.md §13) first runs `bash setup/ghidra-12.1.4.sh` (Ghidra 12.1.4 and Temurin
   21.0.12.1, sha256 pinned, about 780 MB), then `tools/static/decompile.sh` as the views' READMEs say,
