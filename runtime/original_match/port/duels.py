@@ -24,9 +24,9 @@ from .geometry import cbw, cwd, mul, imul
 from .runtime import Regs
 
 PORTS = Registry("duels", "duels, play at the ball, the goal and the after-goal swing: 5B36-68E9 (T66)")
-PORTS.variant("far-threshold-12", "5F8A at 5FCF: the ball counts as far above a travel of 12, not 10")
+PORTS.variant("deflect-step-3", "5E41 at 5E6C: each axis of a deflection moves by rand + 3, not rand + 2")
 PORTS.variant("swing-reversed", "65FE at 669D: the after-goal form swing takes the other side's sign of DS:7920")
-PORTS.variant("tackle-roll-plain", "5B36 at 5BDB: the challenger's dribbling (278A element 1) is not doubled")
+PORTS.variant("loose-line-0x23", "5F8A at 6165: the line for a loose ball off the holding side is 0x23, not 0x22")
 M16 = 0xFFFF
 ZF = 0x40                    # EFLAGS' zero flag: 23E4:08DF's answer
 
@@ -136,8 +136,7 @@ def _5b36_duel(mem, r, variant):
         r.ax = 1
         seg, off = own(mem, r)
         r = yield from guest(mem, r, "278A", 1, seg, off, ret="5BDB")
-        if variant != "tackle-roll-plain":
-            r.ax = r.ax << 1                                     # 5BDB shl ax, 1
+        r.ax = r.ax << 1                                         # 5BDB shl ax, 1
         r = yield from guest(mem, r, "214B:06B1", r.ax, ret="5BE3")
         r.dx = pop(mem, r)                                       # 5BE3
         save = s16(r.ax) > s16(r.dx)                             # 5BE4-5BE6 jg 5C3E
@@ -301,7 +300,7 @@ def deflect_from_record(mem, variant):
         table_by_al(r, mem, 0x802)
         r.ah = 0
         r = yield from guest(mem, r, "214B:06B1", r.ax, ret="5E6C")
-        r.ax = r.ax + 2                                          # 5E6C
+        r.ax = r.ax + (3 if variant == "deflect-step-3" else 2)  # 5E6C
         r.push(r.ax)                                             # 5E6F: the step, live across 06FA
         r = yield from guest(mem, r, "214B:06FA", ret="5E75")
         table_by_al(r, mem, 0x7920)                              # 5E75-5E78
@@ -411,8 +410,7 @@ def react_off_ball(mem, variant):
         return _5f8a_end(r)
     r.di = 0x82F6                                                # 5FC6
     r = yield from guest(mem, r, "835F", mem.DS, 0x82F6, ret="5FCF")
-    threshold = 12 if variant == "far-threshold-12" else 0xA
-    r.al = 1 if r.ax > threshold else 0                          # 5FCF cmp ax, 0xa; ja
+    r.al = 1 if r.ax > 0xA else 0                                # 5FCF cmp ax, 0xa; ja
     r.flush()
     r.di = ss16(mem, r, r.bp + 4)                                # 5FDA
     mem.w8(mem.ss_lin(r.di - 1), r.al, "0791:5FDD")
@@ -495,7 +493,7 @@ def react_off_ball(mem, variant):
         else:
             r.al, ret = 0x23, "6163"                             # 6153
     else:
-        r.al, ret = 0x22, "6175"                                 # 6165
+        r.al, ret = (0x23 if variant == "loose-line-0x23" else 0x22), "6175"     # 6165
     template = r.ax
     seg, off = nested(mem, r)
     r = yield from guest(mem, r, "2B28", template, seg, off, ret=ret)
