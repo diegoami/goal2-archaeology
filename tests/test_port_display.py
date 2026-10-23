@@ -730,5 +730,22 @@ class DelayMemoryTests(unittest.TestCase):
                 self.assertEqual([r.u16(BP0+off) for off in (-8,-6,-4,-2)],expected)
                 self.assertEqual(r.calls,[])
 
+class NoticeMemoryTests(unittest.TestCase):
+    def test_notice_uses_both_players_and_preserves_wait_key_restore_chain(self):
+        for key in (0,1):
+            with self.subTest(key=key):
+                r=Rig();r.player(7,6,2);r.player(9,6,4)
+                r.ds16(0x9B6C,0x100);r.ds16(0x9B6E,0x400)
+                r.ds16(0xA96E,0x200);r.ds16(0xA970,0x500)
+                r.ds16(0xA96A,0x300);r.ds16(0xA96C,0x600)
+                r.run('0791:C50C',(7,9),answer=answers({'1771:2E20':[0x12,0x34],'214B:0723':key}))
+                self.assertEqual(r.args('1771:2E20'),[(9,4),(7,2)])
+                self.assertEqual(r.args('214B:0205'),[(0x12,0x400,0x163,25,29,r.mem.DS,0xA96E)])
+                self.assertEqual(r.args('214B:02C8'),[(0x34,0x400,0x14D,25,38,r.mem.DS,0xA96E)])
+                self.assertEqual(r.args('214B:003C'),[(0x500,0x1100,0x600,0x1200,160)])
+                self.assertEqual(r.args('0791:CC2E'),[(300,)])
+                self.assertEqual(len(r.args('214B:08DD')),key)
+                self.assertEqual(r.targets()[-1],('214B:0643','0791:C5D6'))
+
 if __name__ == '__main__':
     unittest.main()

@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {"214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
+    if address not in {"0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
         PORTS.stub(address, ret=ret, value=None, why="initial all-at-once display-removal candidate; classification pending")
 
 
@@ -1526,4 +1526,34 @@ def delay_frame_memory(mem,variant):
         r.ax=mem.ds16(0xA9FF);r.dx=mem.ds16(0xAA01)
         r.local16(-6,r.ax);r.local16(-4,r.dx);r.es=r.dx
         r.ax=count
+    return _end(r)
+
+
+@PORTS.port('0791:C50C',ret='ret 4')
+def substitution_notice_memory(mem,variant):
+    """C50C-C5DB: preserve the notice's buffer/ABI effects and original no-key path."""
+    r=Regs(mem);r.enter(0)
+    r=yield from guest(mem,r,'214B:0625',ret='0791:C514')
+    r.di=0x5F8C;source=mem.DS,r.di;r.di=0xA96E
+    r=yield from guest(mem,r,'214B:0329',*source,mem.DS,r.di,ret='0791:C523')
+    for field,column,colour_ret,text_target,text_ret in (
+            (6,29,'0791:C540','214B:0205','0791:C561'),
+            (4,38,'0791:C57E','214B:02C8','0791:C59F')):
+        word=ss16(mem,r,r.bp+field)
+        player_of(mem,r,word);r.al=rb(mem,r,6);r.ah=0
+        r=yield from guest(mem,r,'1771:2E20',word,r.ax,ret=colour_ret)
+        colour=r.ax
+        r.ax=word;r.dx=11;mul(r,r.dx)
+        r.di=mem.ds16(0x9B6C)+r.ax;r.es=mem.ds16(0x9B6E);source=r.es,r.di
+        r.al=25;row=r.ax;r.al=column;col=r.ax;r.di=0xA96E
+        r=yield from guest(mem,r,text_target,colour,*source,row,col,mem.DS,r.di,ret=text_ret)
+    r.es=mem.ds16(0xA96E+2);r.di=mem.ds16(0xA96E)+0xF00;source=r.es,r.di
+    r.es=mem.ds16(0xA96A+2);r.di=mem.ds16(0xA96A)+0xF00;destination=r.es,r.di;r.ax=160
+    r=yield from guest(mem,r,'214B:003C',*source,*destination,r.ax,ret='0791:C5BC')
+    r.ax=300
+    r=yield from guest(mem,r,'0791:CC2E',r.ax,ret='0791:C5C3',far=False)
+    r=yield from guest(mem,r,'214B:0723',ret='0791:C5C8')
+    if r.al:
+        r=yield from guest(mem,r,'214B:08DD',ret='0791:C5D1')
+    r=yield from guest(mem,r,'214B:0643',ret='0791:C5D6')
     return _end(r)

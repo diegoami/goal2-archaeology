@@ -1,0 +1,37 @@
+parentb4a69fb, current new notice test
+FF
+======================================================================
+FAIL: test_notice_uses_both_players_and_preserves_wait_key_restore_chain (tests.test_port_display.NoticeMemoryTests.test_notice_uses_both_players_and_preserves_wait_key_restore_chain) (key=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp68v6bi21/tests/test_port_display.py", line 742, in test_notice_uses_both_players_and_preserves_wait_key_restore_chain
+    self.assertEqual(r.args('1771:2E20'),[(9,4),(7,2)])
+AssertionError: Lists differ: [] != [(9, 4), (7, 2)]
+
+Second list contains 2 additional elements.
+First extra element 0:
+(9, 4)
+
+- []
++ [(9, 4), (7, 2)]
+
+======================================================================
+FAIL: test_notice_uses_both_players_and_preserves_wait_key_restore_chain (tests.test_port_display.NoticeMemoryTests.test_notice_uses_both_players_and_preserves_wait_key_restore_chain) (key=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp68v6bi21/tests/test_port_display.py", line 742, in test_notice_uses_both_players_and_preserves_wait_key_restore_chain
+    self.assertEqual(r.args('1771:2E20'),[(9,4),(7,2)])
+AssertionError: Lists differ: [] != [(9, 4), (7, 2)]
+
+Second list contains 2 additional elements.
+First extra element 0:
+(9, 4)
+
+- []
++ [(9, 4), (7, 2)]
+
+----------------------------------------------------------------------
+Ran 1 test in 0.041s
+
+FAILED (failures=2)
+exit 1
