@@ -355,7 +355,8 @@ class Display(Case):
             r.ds8(0xA976,65)
             sites=[]
             r.mem._key=lambda site: sites.append(site) or 13
-            r.run('0791:0106',[flag])
+            r.run('0791:0106',[flag],answer=lambda c, mem: mem._key(c.ret_to) if c.target=='214B:08DD' else 0)
+            self.assertEqual(r.args('214B:08DD'),[()] if flag else [])
             self.assertEqual(sites,['0791:041A'] if flag else [])
             self.assertEqual(r.mem.ds8(0xA976),0)
             self.assertEqual(r.written('0791:041A'),[(0xA976,1,0)])
