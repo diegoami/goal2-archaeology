@@ -1,9 +1,9 @@
 """Fouls, cards, injuries and form; substitutions and the computer manager in play (T68, route C step P5a): the 20
 routines of row T68.
 
-Translated instruction by instruction from static/goal-exe/code/seg_0791_13.asm (7CC5-835E), seg_0791_17.asm
-(A260-A374), seg_0791_18.asm (A920-AC66), seg_0791_19.asm (BBFF-BC5C, BD03-BEC6, BF6B-C019) and seg_0791_20.asm
-(C173-C24C, C5DC-CAAF), after the named view (named/seg_0791_05.c, _08.c, _09.c) and the annotation rows; the line
+Translated instruction by instruction from static/goal-exe/code/seg_0791_13.asm (7CC5-8205), seg_0791_14.asm
+(82EB-835E), seg_0791_17.asm (A260-A374, A920-AC66), seg_0791_19.asm (BBFF-BC5C, BD03-BEC6, BF6B-C019, C173-C24C) and
+seg_0791_20.asm (C5DC-CAAF), after the named view (named/seg_0791_07.c to _11.c) and the annotation rows; the line
 comments are the listing's offsets. As T65's contests.py, T66's duels.py and T67's restarts.py, the routines are written
 in the registers the listing uses (runtime.Regs), so the words they push for their callees (a byte pushed with `mov al, n;
 push ax` keeps the AH of the instruction before), the words held on the guest stack across a call and the locals of the
