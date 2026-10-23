@@ -16,6 +16,9 @@ import json
 from pathlib import Path
 import sys
 import time
+import resource
+import gzip
+import hashlib
 
 ROOT = Path(__file__).resolve().parents[4]
 E036 = ROOT / 'experiments/E036-match-port'
@@ -27,7 +30,8 @@ import records
 import sizes
 from original_match import Image
 from original_match.assets import reference_image
-from unicorn import UC_HOOK_MEM_READ, UC_HOOK_MEM_WRITE
+from original_match.match import SS_PARAGRAPH
+from unicorn import UC_HOOK_MEM_READ, UC_HOOK_MEM_WRITE, UC_HOOK_CODE
 from unicorn import x86_const as X
 
 DISPLAY = set(sizes.TASKS['T73'][3])
@@ -50,14 +54,19 @@ def owner(relative):
 
 
 class Watch:
-    def __init__(self, mode='all'):
+    def __init__(self, mode='all', fast_pc=False):
         self.mode = mode
+        self.fast_pc = fast_pc
+        self.current_pc = None
         self.accesses = Counter()
         self.host_reads = Counter()
         self.host_writes = Counter()
         self.frames = []
         self.m = None
         self.calls = Counter()
+        self.current = ('UNKNOWN', '-', 'UNKNOWN')
+        self.instruction_cache = {}
+        self.watched_spans = ()
 
     def install(self, match):
         m = self.m = match.m
@@ -79,26 +88,51 @@ class Watch:
             handlers = m._handlers[m.lin(address)]
             handlers.insert(0, handlers.pop())
 
+        # Raw MEM_READ observers of the kit's live return stack perturb this Unicorn build,
+        # even a no-op observer (probe-hooks-none); the same observer excluding the stack is exact.
+        # Excluded bytes are NEVER mask candidates. SS's DS-relative base is from match.py;
+        # the text-buffer boundary is the actual initial A96E/A972 pointer, not a guessed mask.
+        stack_begin = m.seg(SS_PARAGRAPH) * 16 - ds
+        screen_begin = min(m.far(0xA96E), m.far(0xA972)) - ds
+        assert 0 < stack_begin < screen_begin < 0x10000
+        self.watched_spans = ((0, stack_begin), (screen_begin, 0x10000))
+
+        def code(uc, address, size, data):
+            relative = address - load
+            placed = self.instruction_cache.get(relative)
+            if placed is None:
+                routine = owner(relative)
+                if routine == 'UNKNOWN':
+                    at = 'P+' + format(relative, 'X')
+                else:
+                    seg = int(routine[:4], 16)
+                    at = f'{seg:04X}:{relative - seg * 16:04X}'
+                placed = routine, at
+                self.instruction_cache[relative] = placed
+            if self.fast_pc:
+                self.current = placed[0], '-', placed[1]
+                return
+            sp = uc.reg_read(X.UC_X86_REG_ESP) & 65535
+            ss = uc.reg_read(X.UC_X86_REG_SS) & 65535
+            while self.frames and (self.frames[-1][1] != ss or sp > self.frames[-1][2]):
+                self.frames.pop()
+            self.current = placed[0], self.frames[-1][0] if self.frames else '-', placed[1]
+
         def accessed(uc, access, address, size, value, data, kind):
-            # Hooks are range-limited, but a word straddling the DS boundary is clipped explicitly.
+            # No VM register read occurs in a memory callback: the instruction observer supplies context.
             start, end = max(address, ds), min(address + size, ds + 0x10000)
             if start >= end:
                 return
-            cs = uc.reg_read(X.UC_X86_REG_CS) & 65535
-            ip = uc.reg_read(X.UC_X86_REG_EIP) & 65535
-            sp = uc.reg_read(X.UC_X86_REG_SP) & 65535
-            ss = uc.reg_read(X.UC_X86_REG_SS) & 65535
-            relative = cs * 16 + ip - load
-            routine = owner(relative)
-            while self.frames and (self.frames[-1][1] != ss or sp > self.frames[-1][2]):
-                self.frames.pop()
-            context = self.frames[-1][0] if self.frames else '-'
-            at = m.where(cs, ip)
+            routine, context, at = self.current
             self.accesses[(kind, routine, context, at, start - ds, end - start)] += 1
 
         if self.mode in ('all', 'guest'):
-            m.uc.hook_add(UC_HOOK_MEM_READ, lambda *args: accessed(*args, 'read'), begin=ds, end=ds + 0xFFFF)
-            m.uc.hook_add(UC_HOOK_MEM_WRITE, lambda *args: accessed(*args, 'write'), begin=ds, end=ds + 0xFFFF)
+            m.uc.hook_add(UC_HOOK_CODE, code)
+            for begin, end in self.watched_spans:
+                m.uc.hook_add(UC_HOOK_MEM_READ, lambda *args: accessed(*args, 'read'),
+                              begin=ds + begin, end=ds + end - 1)
+                m.uc.hook_add(UC_HOOK_MEM_WRITE, lambda *args: accessed(*args, 'write'),
+                              begin=ds + begin, end=ds + end - 1)
         assert m.io_tap is None and m.write_tap is None
 
         def host_read(kind, address, value):
@@ -130,7 +164,9 @@ class Watch:
 
     def report(self, mid):
         return {
-            'schema': 1, 'match': mid, 'ports': [],
+            'schema': 1, 'match': mid, 'ports': [], 'fast_pc': self.fast_pc,
+            'watched_ds_spans': [list(s) for s in self.watched_spans],
+            'excluded_ds_spans_are_unmaskable': True,
             'display_entries': dict(sorted(self.calls.items())),
             'guest_accesses': [dict(kind=k, routine=r, display_context=c, instruction=a,
                                     ds_offset=o, size=n, count=count)
@@ -146,6 +182,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--only', required=True)
     ap.add_argument('--out-dir', required=True)
+    ap.add_argument('--gzip', action='store_true', help='write lossless compressed address/count JSON')
+    ap.add_argument('--fast-pc', action='store_true', help='actual instruction owner only; no optional caller context')
     ap.add_argument('--mode', choices=('all', 'entries', 'guest', 'kit'), default='all')
     ap.add_argument('--time-limit', type=float, default=6000)
     args = ap.parse_args()
@@ -157,14 +195,33 @@ def main():
     image = Image.from_bytes(reference_image(family.DEFAULT_CACHE))
     for mid in want:
         name = mid.replace('/', '__')
-        accesses, record = out / (name + '-accesses.json'), out / (name + '-record.jsonl')
+        accesses = out / (name + ('-accesses.json.gz' if args.gzip else '-accesses.json'))
+        record = out / (name + '-record.jsonl')
         if accesses.exists() or record.exists():
             raise SystemExit(f'refusing to overwrite evidence for {mid}')
-        watcher = Watch(args.mode)
+        watcher = Watch(args.mode, args.fast_pc)
+        t0 = time.monotonic()
         rec = family.run_match(image, all_specs[mid], time_limit=args.time_limit,
                                stretch_limit=args.time_limit, watch=watcher.install)
         record.write_text(records.dumps(rec) + '\n')
-        accesses.write_text(json.dumps(watcher.report(mid), indent=2) + '\n')
+        report = watcher.report(mid)
+        report['profile'] = {'elapsed_s': time.monotonic() - t0,
+                             'max_rss_kib': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
+                             'unique_guest_accesses': len(watcher.accesses)}
+        encoded = (json.dumps(report, separators=(',', ':')) + '\n').encode()
+        if args.gzip:
+            with accesses.open('xb') as raw:
+                with gzip.GzipFile(fileobj=raw, mode='wb', mtime=0) as stream:
+                    stream.write(encoded)
+        else:
+            accesses.open('xb').write(encoded)
+        # A separate immutable receipt is after serialization, so this is the full process peak.
+        (out / (name + '-profile.json')).open('x').write(json.dumps({
+            'elapsed_s': time.monotonic() - t0,
+            'max_rss_kib': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
+            'unique_guest_accesses': len(watcher.accesses),
+            'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        }, indent=2) + '\n')
         print(mid, 'completed' if rec['error'] is None else rec['error'],
               f'{len(watcher.accesses)} attributed DS access sites/ranges', flush=True)
         if rec['error']:
