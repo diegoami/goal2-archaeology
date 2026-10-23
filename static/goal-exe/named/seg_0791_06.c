@@ -539,7 +539,7 @@ void goal_scored(void)
 
 
 // ---- 0791:690C  penalty_contest  (f_0791_690C; Ghidra 2000:690C, __cdecl16near; found by routines.tsv)
-// reached with DS:8327 <= 4: unless DS:7C39 or DS:80FB is non-zero, and DS:8327 is in the set 68EC (events 3, 4), compares 06B1(0x20) with 06B1(278A(holder pitch, DS:080C[DS:8327])) and goes to 67B6 when the second is the larger, else 6755; E011 enters it twice and never reaches the contest  [likely; F022]
+// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): reached with DS:8327 above 4: the ball over the goal line 6755; else, unless DS:7C39 or DS:80FB is set (then the goal 67B6), with DS:8327 in the set at 0791:68EC (events 3, 4) the goal 67B6 when 06B1(278A(holder pitch, DS:080C[DS:8327])) exceeds 06B1(0x20), else 6755; then DS:8324 and DS:80FB cleared; 6755 and 67B6 are nested (690C's BP)  [established; F022; read code/seg_0791_11.asm:689]
 
 void __cdecl16near penalty_contest(void)
 
@@ -577,9 +577,10 @@ LAB_0791_6976:
 }
 
 
-// ---- 0791:698E  f_0791_698E  (f_0791_698E; Ghidra 2000:698E, __cdecl16near; found by routines.tsv)
+// ---- 0791:698E  ball_out_at_goal_line  (f_0791_698E; Ghidra 2000:698E, __cdecl16near; found by routines.tsv)
+// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): the ball out over a goal line from 83A2: with the holder's slot available (045D) or a coin (06FA) the corner 6E6E; else DS:8327 := 0, DS:7C39 := 1 (the own-goal flag) and 690C  [established; F013; read code/seg_0791_11.asm:750]
 
-void __cdecl16near f_0791_698E(void)
+void __cdecl16near ball_out_at_goal_line(void)
 
 {
   char cVar1;
@@ -597,7 +598,7 @@ void __cdecl16near f_0791_698E(void)
 
 
 // ---- 0791:69BD  kickoff_placement  (f_0791_69BD; Ghidra 2000:69BD, __stdcall16far; found by routines.tsv)
-// state 1 of 8AE9 (set for all 22 records by 983F through 2929(1)): destination := post +9, depth +0xC := DS:0812[+6], y += +0xC, mirrored by 2C86; the ball holder (DS:830B) gets DS:0820 = (0, -1) and the last slot of the holder's side DS:0822 = (-2, -1); at the destination with DS:8326 = 0 the holder goes to state 2 (8302 := 0, commentary 0x31), the others to state 0  [likely; F028; read decompiled/seg_0791_05.c]
+// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): state 1 of 8AE9 (2929(1): 983F at each half's start, 61EC after a goal): destination +7 := post +9, depth +0xC := DS:0812[player position], y +8 += depth, mirrored by 2C86; the side's last slot (DS:0668[2996] + 0xB) gets DS:0822 and the holder DS:830B DS:0820; at the destination (2CC5) with DS:8326 clear the holder goes to state 2 (DS:8302 := 0, commentary 0x31), the others to state 0  [established; F028; read decompiled/seg_0791_05.c; read code/seg_0791_11.asm:775]
 
 void __stdcall16far kickoff_placement(undefined4 param_1)
 
@@ -641,9 +642,10 @@ void __stdcall16far kickoff_placement(undefined4 param_1)
 }
 
 
-// ---- 0791:6AAD  f_0791_6AAD  (f_0791_6AAD; Ghidra 2000:6AAD, __stdcall16far; found by routines.tsv)
+// ---- 0791:6AAD  kickoff_taken  (f_0791_6AAD; Ghidra 2000:6AAD, __stdcall16far; found by routines.tsv)
+// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): state 2 of 8AE9 (the kick-off's taker): once 28B2(0) is true (every slot in state 0) DS:9B55 := 1, DS:830C and DS:8323 cleared, the ball launched (34C1, speed 6) to DS:0824 mirrored by 2C86, every slot to state 5 (2929) and the whistle 0441(2)  [established; F013; read code/seg_0791_11.asm:870]
 
-void __stdcall16far f_0791_6AAD(undefined4 param_1)
+void __stdcall16far kickoff_taken(undefined4 param_1)
 
 {
   char cVar1;
@@ -667,9 +669,10 @@ void __stdcall16far f_0791_6AAD(undefined4 param_1)
 }
 
 
-// ---- 0791:6AF7  f_0791_6AF7  (f_0791_6AF7; Ghidra 2000:6AF7, __stdcall16far; found by routines.tsv)
+// ---- 0791:6AF7  walk_off_state  (f_0791_6AF7; Ghidra 2000:6AF7, __stdcall16far; found by routines.tsv)
+// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): state 3 of 8AE9 (2929(3) at a half's end, 9955; 6BF1(slot, 3) in 98C4): destination +7 := DS:0642 unless the point is DS:0644 or DS:0640 (then the point); at the destination (2CC5) state 4, point and destination := DS:0644 and the picture moved (8537)  [established; F013; read code/seg_0791_11.asm:907]
 
-void __stdcall16far f_0791_6AF7(int *param_1)
+void __stdcall16far walk_off_state(int *param_1)
 
 {
   char cVar1;
@@ -695,9 +698,10 @@ void __stdcall16far f_0791_6AF7(int *param_1)
 }
 
 
-// ---- 0791:6B65  f_0791_6B65  (f_0791_6B65; Ghidra 2000:6B65, __stdcall16near; found by routines.tsv)
+// ---- 0791:6B65  taker_squad_index  (f_0791_6B65; Ghidra 2000:6B65, __stdcall16near; found by routines.tsv)
+// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): (side, role): the first k in 1..11 whose squad word (DS:A917 + 0xBF * DS:9B34[side], word k - 1) is the side's pick for the role DS:9976 + 10 side + 2 role; 0xC when none is  [established; F030; read code/seg_0791_11.asm:955]
 
-undefined4 f_0791_6B65(int param_1,char param_2)
+undefined4 taker_squad_index(int param_1,char param_2)
 
 {
   long lVar1;
@@ -716,11 +720,12 @@ undefined4 f_0791_6B65(int param_1,char param_2)
 }
 
 
-// ---- 0791:6BF1  f_0791_6BF1  (f_0791_6BF1; Ghidra 2000:6BF1, __stdcall16near; found by routines.tsv)
+// ---- 0791:6BF1  restart_setup  (f_0791_6BF1; Ghidra 2000:6BF1, __stdcall16near; found by routines.tsv)
+// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): (slot, kind): the slot takes the ball (DS:830B, 2A15), DS:830C/830D cleared, DS:8302 := 1, DS:8300 := 0, every pitch record's state +0x12 := kind (2929), DS:9B55 := 1 for a kind in the set at 0791:6BD1; the restart spot DS:8315 by kind: 0xA the penalty spot (0, 0x1C * 2BE5), 9 a corner (8 * DS:7920[x > 0], 0x24 * DS:7920[y > 0]), 0xB the ball's point, 8 a goal kick (2 * DS:7920[x > 0], -0x21 * 2BE5), 7 a throw-in (8 * DS:7920[x > 0], the ball's y), else the slot's point; the slot's destination and the ball DS:82F6 := that spot; the taker's countdown +0x10 := 10 * 2F28 + 261A + 10  [established; F013; read code/seg_0791_11.asm:1005]
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void f_0791_6BF1(char param_1,byte param_2)
+void restart_setup(char param_1,byte param_2)
 
 {
   int iVar1;
@@ -784,7 +789,7 @@ void f_0791_6BF1(char param_1,byte param_2)
 
 
 // ---- 0791:6D4E  pick_dead_ball_taker  (f_0791_6D4E; Ghidra 2000:6D4E, __stdcall16near; found by routines.tsv)
-// the set-piece taker for side (param order side, role, arg): for a managed side (1771:0B77) the prompt 0791:CC7B, else 0791:1FDD; stores the pick at DS:9976 + 10 side + 2 role; roles 2 corner (6E6E), 3 penalty (6ECF), 4 free kick (6F3E), 5 goal kick (6F01)  [likely; F030; read code/seg_0791_12.asm:6]
+// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): (side, role, kind): for a managed side (1771:0B77) the taker prompt 0791:CC7B(side, role), its pick kept at DS:9976 + 10 side + 2 role; else 0791:1FDD(side, DS:0764[role], role); the slot is the pick's squad index (6B65) + DS:0668[side], or the side's nearest DS:8311[side] when the pick is not in the eleven (0xC); then 6BF1(slot, kind); roles 2 corner (6E6E), 3 penalty (6ECF), 4 free kick (6F3E), 5 goal kick (6F01)  [established; F030; read code/seg_0791_12.asm:6]
 
 void pick_dead_ball_taker(undefined1 param_1,uint param_2,char param_3)
 
@@ -801,21 +806,22 @@ void pick_dead_ball_taker(undefined1 param_1,uint param_2,char param_3)
     uVar2 = choose_captain_or_taker(param_2 & 0xff,param_3);
     *(undefined2 *)((undefined1 *)&DS:9976 + param_3 * 10 + param_2 * 2) = uVar2;
   }
-  uVar3 = f_0791_6B65(param_2,param_3);
+  uVar3 = taker_squad_index(param_2,param_3);
   if (uVar3 < 0xc) {
     uVar3 = *(byte *)(param_3 + 0x668) + uVar3;
   }
   else {
     uVar3 = (uint)(byte)((undefined1 *)&DS:8311)[param_3];
   }
-  f_0791_6BF1(CONCAT11((char)(uVar3 >> 8),param_1),uVar3);
+  restart_setup(CONCAT11((char)(uVar3 >> 8),param_1),uVar3);
   return;
 }
 
 
-// ---- 0791:6DEA  f_0791_6DEA  (f_0791_6DEA; Ghidra 2000:6DEA, __stdcall16near; found by routines.tsv)
+// ---- 0791:6DEA  restart_line_and_count  (f_0791_6DEA; Ghidra 2000:6DEA, __stdcall16near; found by routines.tsv)
+// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): (statistic n, line): the commentary line (2AA3), then the statistics byte n of the side holding the ball (2996) +1 at 6E07: DS:7B7E + 10 side + n (0 corners, 1 free kicks)  [established; F013; read code/seg_0791_12.asm:77]
 
-void f_0791_6DEA(undefined1 param_1,char param_2)
+void restart_line_and_count(undefined1 param_1,char param_2)
 
 {
   char cVar1;
@@ -842,7 +848,7 @@ void __cdecl16near dead_ball_throw_in(void)
     DS:830E = 0;
     check_substitutions();
     cVar1 = ball_holder_is_side0();
-    f_0791_6BF1(7,((undefined1 *)&DS:8311)[cVar1 == '\0']);
+    restart_setup(7,((undefined1 *)&DS:8311)[cVar1 == '\0']);
     commentary_with_ball_slot(CONCAT11(extraout_AH,0x2b));
     cVar1 = attack_direction((pitch *)pitch_records + DS:830B,0xb000);
     set_message_word('\0' < cVar1);
@@ -852,7 +858,7 @@ void __cdecl16near dead_ball_throw_in(void)
 
 
 // ---- 0791:6E6E  dead_ball_corner  (f_0791_6E6E; Ghidra 2000:6E6E, __cdecl16near; found by routines.tsv)
-// a corner stoppage: unless DS:8326, DS:830E := 0, 0791:8062, commentary 0x2D '*** CORNER ***'; E011 enters it once  [likely; F027]
+// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): a corner stoppage: unless DS:8326, DS:830E := 0, 0791:8062 (the substitution check), the taker of the side not holding the ball 6D4E(side, 2, 9), DS:830A := DS:830B, commentary 0x2D '*** CORNER ***' and the corners count 6DEA(0x2D, 0), then 26A0(2BE5 > 0)  [established; F027; read code/seg_0791_12.asm:150]
 
 void __cdecl16near dead_ball_corner(void)
 
@@ -866,7 +872,7 @@ void __cdecl16near dead_ball_corner(void)
     cVar1 = ball_holder_is_side0();
     pick_dead_ball_taker(9,2,cVar1 == '\0');
     DS:830A = DS:830B;
-    f_0791_6DEA(CONCAT11(extraout_AH,0x2d),(uint)extraout_AH << 8);
+    restart_line_and_count(CONCAT11(extraout_AH,0x2d),(uint)extraout_AH << 8);
     cVar1 = attack_direction((pitch *)pitch_records + DS:830B,0xb000);
     set_message_word('\0' < cVar1);
   }
@@ -888,14 +894,14 @@ void __cdecl16near dead_ball_penalty(void)
   check_substitutions();
   uVar1 = ball_holder_is_side0();
   pick_dead_ball_taker(10,3,uVar1);
-  f_0791_6DEA(CONCAT11(extraout_AH,0x39),CONCAT11(extraout_AH,2));
+  restart_line_and_count(CONCAT11(extraout_AH,0x39),CONCAT11(extraout_AH,2));
   DS:8324 = 1;
   return;
 }
 
 
 // ---- 0791:6F01  dead_ball_goal_kick_or_free_kick  (f_0791_6F01; Ghidra 2000:6F01, __stdcall16near; found by routines.tsv)
-// unless DS:8326, DS:830E := 0, 0791:8062, then commentary 0x3A '*** FREE KICK ***' when its argument [bp+4] is nonzero, else 0x38 '*** GOAL KICK ***'; E011 enters it twice  [likely; F027]
+// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): (side, flag): unless DS:8326, DS:830E := 0, 0791:8062, the taker 6D4E(side, 5, 8) (state 8, the goal-kick spot), then commentary 0x3A '*** FREE KICK ***' and the free kicks count (6DEA(0x3A, 1)) when the flag is set (6FB6: a foul in the goal area), else 0x38 '*** GOAL KICK ***' (6755)  [established; F027; read code/seg_0791_12.asm:229]
 
 void dead_ball_goal_kick_or_free_kick(char param_1,undefined1 param_2)
 
@@ -911,16 +917,17 @@ void dead_ball_goal_kick_or_free_kick(char param_1,undefined1 param_2)
       commentary_with_ball_slot(CONCAT11(extraout_AH_00,0x38));
     }
     else {
-      f_0791_6DEA(CONCAT11(extraout_AH_00,0x3a),CONCAT11(extraout_AH_00,1));
+      restart_line_and_count(CONCAT11(extraout_AH_00,0x3a),CONCAT11(extraout_AH_00,1));
     }
   }
   return;
 }
 
 
-// ---- 0791:6F3E  f_0791_6F3E  (f_0791_6F3E; Ghidra 2000:6F3E, __stdcall16near; found by routines.tsv)
+// ---- 0791:6F3E  dead_ball_free_kick  (f_0791_6F3E; Ghidra 2000:6F3E, __stdcall16near; found by routines.tsv)
+// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): (side): DS:830E := 0, 0791:8062; near the goal (2BE5 of the side's first record times the ball's y at least 0x12 and |x| at most 4) the taker 6D4E(side, 4, 0xB), else the side's nearest DS:8311[side] takes it 6BF1(slot, 0xB); then commentary 0x3A and the free kicks count 6DEA(0x3A, 1)  [established; F027; read code/seg_0791_12.asm:261]
 
-void f_0791_6F3E(char param_1)
+void dead_ball_free_kick(char param_1)
 
 {
   char cVar1;
@@ -943,17 +950,18 @@ void f_0791_6F3E(char param_1)
       goto LAB_0791_6FA7;
     }
   }
-  f_0791_6BF1(0xb,((undefined1 *)&DS:8311)[param_1]);
+  restart_setup(0xb,((undefined1 *)&DS:8311)[param_1]);
   uVar3 = extraout_AH_00;
 LAB_0791_6FA7:
-  f_0791_6DEA(CONCAT11(uVar3,0x3a),CONCAT11(uVar3,1));
+  restart_line_and_count(CONCAT11(uVar3,0x3a),CONCAT11(uVar3,1));
   return;
 }
 
 
-// ---- 0791:6FB6  f_0791_6FB6  (f_0791_6FB6; Ghidra 2000:6FB6, __cdecl16near; found by routines.tsv)
+// ---- 0791:6FB6  foul_restart  (f_0791_6FB6; Ghidra 2000:6FB6, __cdecl16near; found by routines.tsv)
+// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): a foul's restart: with the ball's point in the holder's area (2E36) the side holding the ball (2996) restarts with 6F01(side, 1), else the free kick 6F3E(side)  [established; F027; read code/seg_0791_12.asm:324]
 
-void __cdecl16near f_0791_6FB6(void)
+void __cdecl16near foul_restart(void)
 
 {
   char cVar1;
@@ -962,166 +970,11 @@ void __cdecl16near f_0791_6FB6(void)
   cVar1 = in_own_goal_area((pitch *)pitch_records + DS:830B,0xb000,ball_record._0_2_);
   if (cVar1 == '\0') {
     uVar2 = ball_holder_is_side0();
-    f_0791_6F3E(uVar2);
+    dead_ball_free_kick(uVar2);
   }
   else {
     uVar2 = ball_holder_is_side0();
     dead_ball_goal_kick_or_free_kick(1,uVar2);
   }
   return;
-}
-
-
-// ---- 0791:6FEE  f_0791_6FEE  (f_0791_6FEE; Ghidra 2000:6FEE, __stdcall16near; found by routines.tsv)
-
-void f_0791_6FEE(int param_1)
-
-{
-  char *pcVar1;
-  char cVar2;
-  undefined1 extraout_AH;
-  undefined2 unaff_SS;
-  
-  cVar2 = f_0791_2CC5((int)*(undefined4 *)(param_1 + 6),
-                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-  if (cVar2 != '\0') {
-    if (DS:8323 == '\0') {
-      if (*(char *)((int)*(undefined4 *)(param_1 + 6) + 0x10) == '\0') {
-        DS:8302 = 0;
-        commentary_with_ball_slot(0x2a);
-        DS:8323 = '\x01';
-        show_message_8304();
-      }
-      else {
-        pcVar1 = (char *)((int)*(undefined4 *)(param_1 + 6) + 0x10);
-        *pcVar1 = *pcVar1 + -1;
-      }
-    }
-    else {
-      cVar2 = pitch_slot_side((int)*(undefined4 *)(param_1 + 6),
-                              (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-      launch_to_slot_with_half_event
-                ((int)*(undefined4 *)(param_1 + 6),
-                 (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),
-                 ((undefined1 *)&DS:8311)[cVar2]);
-      fill_pitch_state(CONCAT11(extraout_AH,5));
-    }
-  }
-  return;
-}
-
-
-// ---- 0791:7069  f_0791_7069  (f_0791_7069; Ghidra 2000:7069, __stdcall16far; found by routines.tsv)
-
-void __stdcall16far f_0791_7069(undefined4 param_1)
-
-{
-  char cVar1;
-  char cVar2;
-  int iVar3;
-  undefined2 uVar4;
-  
-  uVar4 = (undefined2)((ulong)param_1 >> 0x10);
-  iVar3 = (int)param_1;
-  if (*(char *)(iVar3 + 6) == DS:830B) {
-    f_0791_6FEE(&stack0xfffe);
-  }
-  else {
-    cVar1 = pitch_slot_side(iVar3,uVar4);
-    if (((undefined1 *)&DS:8311)[cVar1] == *(char *)(iVar3 + 6)) {
-      cVar1 = u214b_random_coin_flip();
-      cVar2 = u214b_random_coin_flip();
-      *(char *)(iVar3 + 7) = ((char)ball_record.x / '\x02' + cVar2) - cVar1;
-      cVar1 = attack_direction(iVar3,uVar4);
-      cVar2 = u214b_random_1_to_n(4);
-      *(char *)(iVar3 + 8) = ball_record.y + cVar2 * cVar1;
-    }
-    else {
-      update_player_destination(iVar3,uVar4);
-    }
-  }
-  return;
-}
-
-
-// ---- 0791:70F6  f_0791_70F6  (f_0791_70F6; Ghidra 2000:70F6, __stdcall16near; found by routines.tsv)
-
-void f_0791_70F6(int param_1)
-
-{
-  char *pcVar1;
-  char cVar2;
-  undefined1 extraout_AH;
-  undefined2 unaff_SS;
-  
-  cVar2 = f_0791_2CC5((int)*(undefined4 *)(param_1 + 6),
-                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-  if (cVar2 != '\0') {
-    if (DS:8323 == '\0') {
-      if (*(char *)((int)*(undefined4 *)(param_1 + 6) + 0x10) == '\0') {
-        DS:8302 = 0;
-        commentary_with_ball_slot(0x2c);
-        DS:8323 = '\x01';
-        show_message_8304();
-      }
-      else {
-        pcVar1 = (char *)((int)*(undefined4 *)(param_1 + 6) + 0x10);
-        *pcVar1 = *pcVar1 + -1;
-      }
-    }
-    else {
-      cross_to_candidate_or_random_point
-                ((int)*(undefined4 *)(param_1 + 6),
-                 (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-      fill_pitch_state(CONCAT11(extraout_AH,5));
-    }
-  }
-  return;
-}
-
-
-// ---- 0791:715A  f_0791_715A  (f_0791_715A; Ghidra 2000:715A, __stdcall16far; found by routines.tsv)
-
-void __stdcall16far f_0791_715A(undefined4 param_1)
-
-{
-  undefined2 uVar1;
-  
-  uVar1 = (undefined2)((ulong)param_1 >> 0x10);
-  if (*(char *)((int)param_1 + 6) == DS:830B) {
-    f_0791_70F6(&stack0xfffe);
-  }
-  else {
-    update_player_destination((int)param_1,uVar1);
-  }
-  return;
-}
-
-
-// ---- 0791:717F  f_0791_717F  (f_0791_717F; Ghidra 2000:717F, __stdcall16near; found by routines.tsv)
-
-undefined1 f_0791_717F(void)
-
-{
-  undefined2 uVar1;
-  char cVar2;
-  undefined1 local_6;
-  uint local_5;
-  
-  local_6 = 1;
-  local_5 = 1;
-  while( true ) {
-    cVar2 = is_keeper_slot(local_5);
-    if ((cVar2 == '\0') && (DS:830B != local_5)) {
-      uVar1._0_1_ = ((pitch *)pitch_records + local_5)->x;
-      uVar1._1_1_ = ((pitch *)pitch_records + local_5)->y;
-      cVar2 = in_own_goal_strip((pitch *)pitch_records + DS:830B,0xb000,uVar1);
-      if (cVar2 != '\0') {
-        local_6 = 0;
-      }
-    }
-    if (local_5 == 0x16) break;
-    local_5 = local_5 + 1;
-  }
-  return local_6;
 }
