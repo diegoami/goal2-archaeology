@@ -50,7 +50,8 @@ def owner(relative):
 
 
 class Watch:
-    def __init__(self):
+    def __init__(self, mode='all'):
+        self.mode = mode
         self.accesses = Counter()
         self.host_reads = Counter()
         self.host_writes = Counter()
@@ -63,7 +64,7 @@ class Watch:
         assert not m._ports
         ds = m.DS * 16
         load = m.load * 16
-        for address in sorted(DISPLAY):
+        for address in (sorted(DISPLAY) if self.mode in ('all', 'entries') else []):
             def entered(replay, address=address):
                 if replay:
                     return
@@ -84,7 +85,7 @@ class Watch:
             if start >= end:
                 return
             cs = uc.reg_read(X.UC_X86_REG_CS) & 65535
-            ip = uc.reg_read(X.UC_X86_REG_IP) & 65535
+            ip = uc.reg_read(X.UC_X86_REG_EIP) & 65535
             sp = uc.reg_read(X.UC_X86_REG_SP) & 65535
             ss = uc.reg_read(X.UC_X86_REG_SS) & 65535
             relative = cs * 16 + ip - load
@@ -95,8 +96,9 @@ class Watch:
             at = m.where(cs, ip)
             self.accesses[(kind, routine, context, at, start - ds, end - start)] += 1
 
-        m.uc.hook_add(UC_HOOK_MEM_READ, lambda *args: accessed(*args, 'read'), begin=ds, end=ds + 0xFFFF)
-        m.uc.hook_add(UC_HOOK_MEM_WRITE, lambda *args: accessed(*args, 'write'), begin=ds, end=ds + 0xFFFF)
+        if self.mode in ('all', 'guest'):
+            m.uc.hook_add(UC_HOOK_MEM_READ, lambda *args: accessed(*args, 'read'), begin=ds, end=ds + 0xFFFF)
+            m.uc.hook_add(UC_HOOK_MEM_WRITE, lambda *args: accessed(*args, 'write'), begin=ds, end=ds + 0xFFFF)
         assert m.io_tap is None and m.write_tap is None
 
         def host_read(kind, address, value):
@@ -122,8 +124,9 @@ class Watch:
             start, end = max(address, ds), min(address + len(value), ds + 0x10000)
             if start < end:
                 self.host_writes[(start - ds, end - start)] += 1
-        m.io_tap = host_read
-        m.write_tap = host_write
+        if self.mode in ('all', 'kit'):
+            m.io_tap = host_read
+            m.write_tap = host_write
 
     def report(self, mid):
         return {
@@ -143,6 +146,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--only', required=True)
     ap.add_argument('--out-dir', required=True)
+    ap.add_argument('--mode', choices=('all', 'entries', 'guest', 'kit'), default='all')
     ap.add_argument('--time-limit', type=float, default=6000)
     args = ap.parse_args()
     want = args.only.split(',')
@@ -156,7 +160,7 @@ def main():
         accesses, record = out / (name + '-accesses.json'), out / (name + '-record.jsonl')
         if accesses.exists() or record.exists():
             raise SystemExit(f'refusing to overwrite evidence for {mid}')
-        watcher = Watch()
+        watcher = Watch(args.mode)
         rec = family.run_match(image, all_specs[mid], time_limit=args.time_limit,
                                stretch_limit=args.time_limit, watch=watcher.install)
         record.write_text(records.dumps(rec) + '\n')
