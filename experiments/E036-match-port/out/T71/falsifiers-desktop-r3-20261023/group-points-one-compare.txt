@@ -1,0 +1,10 @@
+O8/c1-c2-friendly: score [2, 5] ticks 4564 draws 193140 cpu 14.351 s -> 38.634 s; NOT CAUGHT: identical: FAIL
+O8/c1-c2-qualifier: score [2, 0] ticks 4587 draws 207919 cpu 14.449 s -> 39.553 s; caught: first at after.ranges.w5c8a0 (w5c8a0+0x0000)
+O8/c30-c44-friendly: score [1, 1] ticks 4108 draws 183851 cpu 12.691 s -> 50.629 s; NOT CAUGHT: identical: FAIL
+O8/c30-c44-qualifier: score [2, 3] ticks 4568 draws 192900 cpu 13.72 s -> 56.335 s; NOT CAUGHT: identical: FAIL
+O8/c64-c90-friendly: score [0, 1] ticks 4349 draws 202196 cpu 13.642 s -> 47.984 s; NOT CAUGHT: identical: FAIL
+O8/c64-c90-qualifier: score [1, 2] ticks 4262 draws 190354 cpu 12.882 s -> 44.553 s; NOT CAUGHT: identical: FAIL
+O8/c101-c120-friendly: score [1, 3] ticks 4806 draws 211757 cpu 16.588 s -> 62.708 s; NOT CAUGHT: identical: FAIL
+O8/c101-c120-qualifier: score [1, 5] ticks 4580 draws 191116 cpu 15.762 s -> 55.12 s; NOT CAUGHT: identical: FAIL
+S/qualifier-21: score [1, 1] ticks 4149 draws 182188 cpu 13.378 s -> 64.129 s; NOT CAUGHT: identical: FAIL
+9 matches expected differ, 1 pass, 8 fail

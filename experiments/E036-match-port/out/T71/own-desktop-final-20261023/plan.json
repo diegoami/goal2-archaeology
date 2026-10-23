@@ -1,0 +1,68 @@
+{
+  "include": [
+    {
+      "shard": 0,
+      "only": "F40/e032-0101,F40/e032-1234,F40/e032-2345,F40/e032-2b7e"
+    },
+    {
+      "shard": 1,
+      "only": "F40/e032-4c1d,F40/e032-6a33,F40/e032-8e05,F40/e032-a1f0"
+    },
+    {
+      "shard": 2,
+      "only": "F40/e032-c3c3,F40/e032-e719,F40/more-0042,F40/more-1111"
+    },
+    {
+      "shard": 3,
+      "only": "F40/more-3a5c,F40/more-5e5e,F40/more-7f31,F40/more-9abc"
+    },
+    {
+      "shard": 4,
+      "only": "F40/more-b4d2,F40/more-cafe,F40/more-d00d,F40/more-face"
+    },
+    {
+      "shard": 5,
+      "only": "F40/edit-0101,F40/edit-1234,F40/edit-2345,F40/edit-2b7e"
+    },
+    {
+      "shard": 6,
+      "only": "F40/edit-4c1d,F40/edit-6a33,F40/edit-8e05,F40/edit-a1f0"
+    },
+    {
+      "shard": 7,
+      "only": "F40/edit-c3c3,F40/edit-e719,F40/edit-0042,F40/edit-1111"
+    },
+    {
+      "shard": 8,
+      "only": "F40/edit-3a5c,F40/edit-5e5e,F40/edit-7f31,F40/edit-9abc"
+    },
+    {
+      "shard": 9,
+      "only": "F40/edit-b4d2,F40/edit-cafe,F40/edit-d00d,F40/edit-face"
+    },
+    {
+      "shard": 10,
+      "only": "O8/c1-c2-friendly,O8/c1-c2-qualifier,O8/c30-c44-friendly,O8/c30-c44-qualifier"
+    },
+    {
+      "shard": 11,
+      "only": "O8/c64-c90-friendly,O8/c64-c90-qualifier,O8/c101-c120-friendly,O8/c101-c120-qualifier"
+    },
+    {
+      "shard": 12,
+      "only": "S/reference,S/decisions-70,S/injury-70,S/hard-4"
+    },
+    {
+      "shard": 13,
+      "only": "S/quick-30,S/quick-1,S/decisions-quick-60,S/ko-39-budget-5"
+    },
+    {
+      "shard": 14,
+      "only": "S/ko-42-sudden-death,S/ko-30-extra-time,S/ko-9-quick"
+    },
+    {
+      "shard": 15,
+      "only": "S/ko-53-quick,S/ko-42-quick-g19,S/qualifier-21"
+    }
+  ]
+}
