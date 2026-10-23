@@ -869,7 +869,7 @@ void f_1771_101A(int param_1)
 
 
 // ---- 1771:10E7  country_rating  (f_1771_10E7; Ghidra 4000:10E7, __stdcall16far; found by routines.tsv)
-// ((5 - continent +0x2C) * (0x21 - continent rank +0x2A) + (0x81 - world rank +0x2B)) idiv 2, signed toward zero (1139-113D); each difference grows as its rank gets better, so a better rank gives a larger rating; 1..128 for continent 1..4, continent rank 1..32, world rank 1..128; make_player's +3 = this + 0x7F (flag 1)  [established; F007; F017; read code/seg_1771_02.asm]
+// T72 (runtime/original_match/port/update.py): ((5 - continent +0x2C) * (0x21 - continent rank +0x2A) + (0x81 - world rank +0x2B)) idiv 2, signed toward zero (1139-113D); each difference grows as its rank gets better, so a better rank gives a larger rating; 1..128 for continent 1..4, continent rank 1..32, world rank 1..128; make_player's +3 = this + 0x7F (flag 1)  [established; F007; F017; read code/seg_1771_02.asm]
 
 int __stdcall16far country_rating(int param_1)
 

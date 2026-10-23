@@ -448,7 +448,7 @@ void roll_quick_goals(int param_1)
 
 
 // ---- 0791:B27F  post_fixture_status_update  (f_0791_B27F; Ghidra 2000:B27F, __stdcall16near; found by routines.tsv)
-// the ban machine, run by B7FA on every nonzero squad word of both teams after a fixture played through B7FA (000E:69E1, 000E:6FF8; a fixture byte +2 of 0 goes to BB2F, which does not call B7FA), and by BA4E on the manager's pool unless the fixture byte +2 is 0 (BB09-BB0E), on +0x10 (Pascal element k = bit k-1, 214B:0C79 / 0CA1 / 0C57): clear element 8 (suspended); if element 6 (sent off) was set, set element 8; clear element 6; if element 5 (booked in this match) was set: if element 4 (a carried booking) was clear set it, else set element 8 and clear element 4; clear element 5. A sending off is a 1-fixture ban, the second carried booking a 1-fixture ban, one booking carries until a second  [established; F027]
+// T72 (runtime/original_match/port/update.py): the ban machine, run by B7FA on every nonzero squad word of both teams after a fixture played through B7FA (000E:69E1, 000E:6FF8; a fixture byte +2 of 0 goes to BB2F, which does not call B7FA), and by BA4E on the manager's pool unless the fixture byte +2 is 0 (BB09-BB0E), on +0x10 (Pascal element k = bit k-1, 214B:0C79 / 0CA1 / 0C57): clear element 8 (suspended); if element 6 (sent off) was set, set element 8; clear element 6; if element 5 (booked in this match) was set: if element 4 (a carried booking) was clear set it, else set element 8 and clear element 4; clear element 5. A sending off is a 1-fixture ban, the second carried booking a 1-fixture ban, one booking carries until a second  [established; F027]
 
 void post_fixture_status_update(int param_1)
 
@@ -482,7 +482,7 @@ void post_fixture_status_update(int param_1)
 
 
 // ---- 0791:B364  adjust_player_confidence  (f_0791_B364; Ghidra 2000:B364, __stdcall16near; found by routines.tsv)
-// adds signed delta word to signed player +0xC with word wrapping; clips to 1..32 on each call; result, bench, pool and scorer callers  [established; F019]
+// T72 (runtime/original_match/port/update.py): adds signed delta word to signed player +0xC with word wrapping; clips to 1..32 on each call; result, bench, pool and scorer callers  [established; F019]
 
 void adjust_player_confidence(int param_1,int param_2)
 
@@ -622,7 +622,7 @@ void __stdcall16far credit_silent_match_scorers(undefined4 param_1)
 
 
 // ---- 0791:B6CC  add_manager_delta  (f_0791_B6CC; Ghidra 2000:B6CC, __stdcall16far; found by routines.tsv)
-// adds a signed amount to the byte [A91F]+3k+2, clamped to -127..127; 1771:63A4 folds it into the manager byte +1 and clears it  [established; F017; read code/seg_0791_18.asm]
+// T72 (runtime/original_match/port/update.py): adds a signed amount to the byte [A91F]+3k+2, clamped to -127..127; 1771:63A4 folds it into the manager byte +1 and clears it  [established; F017; read code/seg_0791_18.asm]
 
 void __stdcall16far add_manager_delta(int param_1,int param_2)
 
@@ -644,7 +644,7 @@ void __stdcall16far add_manager_delta(int param_1,int param_2)
 
 
 // ---- 0791:B71C  fixture_confidence_delta  (f_0791_B71C; Ghidra 2000:B71C, __stdcall16far; found by routines.tsv)
-// (opponent country_rating - own country_rating) signed idiv 32; non-draw adds signed-score absolute margin for winner or subtracts for loser; doubles when winner==side equals side==0 or 5A03; draw keeps rank term  [established; F019]
+// T72 (runtime/original_match/port/update.py): (opponent country_rating - own country_rating) signed idiv 32; non-draw adds signed-score absolute margin for winner or subtracts for loser; doubles when winner==side equals side==0 or 5A03; draw keeps rank term  [established; F019]
 
 int __stdcall16far fixture_confidence_delta(char param_1,undefined4 param_2)
 
@@ -689,7 +689,7 @@ int __stdcall16far fixture_confidence_delta(char param_1,undefined4 param_2)
 
 
 // ---- 0791:B7FA  update_fixture_player_state  (f_0791_B7FA; Ghidra 2000:B7FA, __stdcall16far; found by routines.tsv)
-// both squads' nonzero words: selects 3651 when 5A8F nonzero, 3558 otherwise; recovery flag 1 for XI or status-bit-3 participants else 0; B364 applies B71C result to participants, then draw(2)-draw(2) to participating bench; unused bench instead draw(2)-draw(4)  [established; F018; F019]
+// T72 (runtime/original_match/port/update.py): both squads' nonzero words: selects 3651 when 5A8F nonzero, 3558 otherwise; recovery flag 1 for XI or status-bit-3 participants else 0; B364 applies B71C result to participants, then draw(2)-draw(2) to participating bench; unused bench instead draw(2)-draw(4)  [established; F018; F019]
 
 void __stdcall16far update_fixture_player_state(undefined4 param_1)
 
@@ -786,7 +786,7 @@ void __stdcall16far update_fixture_player_state(undefined4 param_1)
 
 
 // ---- 0791:BA4E  update_pool_player_state  (f_0791_BA4E; Ghidra 2000:BA4E, __stdcall16near; found by routines.tsv)
-// manager pool's 80 words: selects 3651 when 5A8F nonzero, 3558 otherwise with recovery flag 0; B364 applies draw(4)-draw(4) per word, before caller route_fixture applies B7FA result updates  [established; F018; F019]
+// T72 (runtime/original_match/port/update.py): manager pool's 80 words: selects 3651 when 5A8F nonzero, 3558 otherwise with recovery flag 0; B364 applies draw(4)-draw(4) per word, before caller route_fixture applies B7FA result updates  [established; F018; F019]
 
 void update_pool_player_state(int param_1)
 

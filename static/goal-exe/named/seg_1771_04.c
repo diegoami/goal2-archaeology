@@ -769,7 +769,7 @@ bool __stdcall16far fixture_kind_in_result_set(undefined4 param_1)
 
 
 // ---- 1771:5A38  friendly_continents_differ  (f_1771_5A38; Ghidra 4000:5A38, __stdcall16far; found by routines.tsv)
-// (country word, fixture record) true when the fixture's byte +2 is 1 and the countries' +0x2C (continent) of the word and of the fixture's second country (+6) differ; for the word of the fixture's second country it compares that country with itself, so it is false there; for a country's own fixture: true exactly for a friendly it plays as side A against a country of another continent (a tour fixture)  [established; F027; F031]
+// T72 (runtime/original_match/port/update.py): (country word, fixture record) true when the fixture's byte +2 is 1 and the countries' +0x2C (continent) of the word and of the fixture's second country (+6) differ; for the word of the fixture's second country it compares that country with itself, so it is false there; for a country's own fixture: true exactly for a friendly it plays as side A against a country of another continent (a tour fixture)  [established; F027; F031]
 
 uint __stdcall16far friendly_continents_differ(undefined4 param_1,int param_2)
 
@@ -797,7 +797,7 @@ uint __stdcall16far friendly_continents_differ(undefined4 param_1,int param_2)
 
 
 // ---- 1771:5A8F  recovery_route_gradual  (f_1771_5A8F; Ghidra 4000:5A8F, __stdcall16far; found by routines.tsv)
-// (country word, fixture record) = 1771:5A38 or 1771:5A03 (kind in the DS:0F3E set); B7FA picks 3651 (gradual recovery, an injured player returns with chance 1/3 per fixture) when true and 3558 (energy := fitness at once) when false  [likely; F027; F019]
+// T72 (runtime/original_match/port/update.py): (country word, fixture record) = 1771:5A38 or 1771:5A03 (kind in the DS:0F3E set); B7FA picks 3651 (gradual recovery, an injured player returns with chance 1/3 per fixture) when true and 3558 (energy := fitness at once) when false  [likely; F027; F019]
 
 undefined1 __stdcall16far recovery_route_gradual(undefined4 param_1,undefined2 param_2)
 
@@ -892,7 +892,7 @@ void __cdecl16far f_1771_5BF6(void)
 
 
 // ---- 1771:5C60  fixture_absolute_margin  (f_1771_5C60; Ghidra 4000:5C60, __stdcall16far; found by routines.tsv)
-// absolute difference of the two signed fixture score bytes, used by B71C's non-draw term  [established; F019]
+// T72 (runtime/original_match/port/update.py): absolute difference of the two signed fixture score bytes, used by B71C's non-draw term  [established; F019]
 
 int __stdcall16far fixture_absolute_margin(char *param_1)
 
