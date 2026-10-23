@@ -1,0 +1,6 @@
+COMMAND: ['/home/diego/.local/bin/python3.12', '-B', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/family.py', '--family', 'ALL', '--only', 'F40/edit-4c1d,F40/edit-6a33', '--ports', 'display', '--variant', 'display.omit-214b-1ebc', '--count', '214B:1EBC', '--workers', '2', '--checkpoint', '/home/diego/projects/goal2-archaeology/.cache/checkpoints/omission-all-desktop-20261023-v1/omit-214b-1ebc/12', '--time-limit', '600', '--stretch-limit', '120', '--out', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/omission-all-desktop-20261023-v1/omit-214b-1ebc/shard-12.jsonl']
+heavy: family: waiting for a slot (1 ahead)
+heavy: family: waiting for a slot (0 ahead)
+heavy: family: got slot 12 13 after 144 s
+ports: display.omit-214b-1ebc
+2 matches selected, 0 already in /home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/omission-all-desktop-20261023-v1/omit-214b-1ebc/shard-12.jsonl, 2 to run
