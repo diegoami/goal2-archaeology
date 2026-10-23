@@ -18,7 +18,7 @@ F='experiments/E036-match-port/family.py'
 C='experiments/E036-match-port/compare.py'
 CONTROLS=[
  ('fixed pre-task baseline',None,None,None),
- ('041A board key clear omitted',D,'mem.wds8(0xA976, 0, "0791:041A")','mem.wds8(0xA976, 1, "0791:041A")'),
+ ('041A board key clear omitted',D,"mem.wds8(0xA976,0,'0791:041A')","mem.wds8(0xA976,1,'0791:041A')"),
  ('0691 last pitch slot omitted',D,'range(1, 23)','range(1, 22)'),
  ('0682 numbered glyph offset shifted',D,'r.ax = r.ax + 0x2F','r.ax = r.ax + 0x30'),
  ('0640 half glyph OR instead of XOR',D,'r.al = r.al ^ (r.dx & 255)','r.al = r.al | (r.dx & 255)'),
@@ -36,7 +36,7 @@ CONTROLS=[
  ('010C text nonempty loop skipped',D,'if r.cx:\n        r.di = ss16','if not r.cx:\n        r.di = ss16'),
  ('01DB text column offset changed',D,'r.di = r.di + r.ax + r.cx - 0xA2','r.di = r.di + r.ax + r.cx - 0xA0'),
  ('072B score sides swapped',D,"((0x9B3D, 2, '0739'","((0x9B3C, 2, '0739'"),
- ('0C6B pending flag not cleared',D,'mem.wds8(0x9B55, 0, "0791:0C6B")','mem.wds8(0x9B55, 1, "0791:0C6B")'),
+ ('0C6B pending flag not cleared',D,'mem.wds8(0x9B55,0,"0791:0C6B")','mem.wds8(0x9B55,1,"0791:0C6B")'),
  ('16B1 snapshot last squad slot omitted',D,'for slot in range(1, 21):','for slot in range(1, 20):'),
  ('17FE snapshot seed destination changed',D,"mem.wds16(0x9974, r.ax, '0791:17FE')","mem.wds16(0x9976, r.ax, '0791:17FE')"),
  ('screen projection applied to every event kind',F,'if kind == "full_time" and "screen_sha256" in data:','if "screen_sha256" in data:'),
