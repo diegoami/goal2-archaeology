@@ -284,8 +284,8 @@ def kickoff_taken(mem, variant):
 
 # -- 6AF7 ----------------------------------------------------------------------------------------------------------
 @PORTS.port("0791:6AF7", ret="retf 4")
-def walk_to_bench(mem, variant):
-    """6AF7-6B62 (state 4 or 0xC's walk): destination +7 := DS:0642 unless the point +0 is DS:0644 or DS:0640 (then the
+def walk_off_state(mem, variant):
+    """6AF7-6B62 (state 3 of 8AE9): destination +7 := DS:0642 unless the point +0 is DS:0644 or DS:0640 (then the
     point itself); at the destination (2CC5) state 4, the point and destination := DS:0644 and the picture moved (8537)."""
     r = Regs(mem)
     r.enter(0)
@@ -714,8 +714,8 @@ def throw_in_taker(mem, variant):
 
 
 @PORTS.port("0791:70F6", ret="ret 2")
-def free_kick_taker(mem, variant):
-    """70F6-7157 (nested in 715A, its record): at the destination with DS:8323 set the kick 3DF6 and every slot to state
+def corner_taker(mem, variant):
+    """70F6-7157 (nested in 715A, its record): at the destination with DS:8323 set the corner's kick 3DF6 and every slot to state
     5; else the countdown, at 0 line 0x2C, DS:8323 := 1 and 26C2."""
     r = Regs(mem)
     r.enter(0)
@@ -734,9 +734,9 @@ def free_kick_taker(mem, variant):
 
 
 @PORTS.port("0791:74C2", ret="ret 2")
-def goal_kick_taker(mem, variant):
-    """74C2-75FE (nested in 7621, its record): at the destination with DS:8323 set, when the side's keeper (the slot
-    after DS:0668[the other side]) stands at |y| 0x25: the taker's position set to 1 (a keeper) for 06FA and 2F28, then
+def free_kick_taker(mem, variant):
+    """74C2-75FE (nested in 7621, its record): at the destination with DS:8323 set, when the other side's keeper (the
+    slot after DS:0668[the other side]) stands at |y| 0x25: the taker's position set to 1 (a keeper) for 06FA and 2F28, then
     put back; both true the kick 3C3F(4, 0x11), else the pass 3323; every slot to state 5. DS:8323 clear: the countdown,
     at 0 line 0x30 and DS:8323 := 1."""
     r = Regs(mem)
@@ -797,7 +797,7 @@ def goal_kick_taker(mem, variant):
 # -- 7069 ----------------------------------------------------------------------------------------------------------
 @PORTS.port("0791:7069", ret="retf 4")
 def throw_in_state(mem, variant):
-    """7069-70F3 (state 7 of 8AE9): the holder 6FEE; the side's nearest to the thrower (DS:8311[2974]) gets the
+    """7069-70F3 (state 7 of 8AE9, a throw-in): the holder 6FEE; the side's nearest to the thrower (DS:8311[2974]) gets the
     destination x := DS:82F6 / 2 + 06FA - 06FA, y := 82F7 + 2BE5 * 06B1(4); the others 4B64."""
     r = Regs(mem)
     r.enter(0)
@@ -846,8 +846,8 @@ def throw_in_state(mem, variant):
 
 # -- 715A ----------------------------------------------------------------------------------------------------------
 @PORTS.port("0791:715A", ret="retf 4")
-def free_kick_state(mem, variant):
-    """715A-717C (state 0xB of 8AE9): the holder 70F6, the others 4B64."""
+def corner_state(mem, variant):
+    """715A-717C (state 9 of 8AE9, a corner): the holder 70F6, the others 4B64."""
     r = Regs(mem)
     r.enter(0)
     seg, off = own(mem, r)                                       # 715D
@@ -861,7 +861,7 @@ def free_kick_state(mem, variant):
 
 # -- 717F ----------------------------------------------------------------------------------------------------------
 @PORTS.port("0791:717F", ret="ret 2")
-def corner_area_clear(mem, variant):
+def goal_area_clear(mem, variant):
     """717F-71E5 (7287's BP, unused): 1 unless an available slot (045D false) other than DS:830B stands in the holder's
     area (2EB8 of its point)."""
     r = Regs(mem)
@@ -897,9 +897,9 @@ def corner_area_clear(mem, variant):
 
 # -- 71E8 ----------------------------------------------------------------------------------------------------------
 @PORTS.port("0791:71E8", ret="ret 2")
-def corner_taker(mem, variant):
+def goal_kick_taker(mem, variant):
     """71E8-7284 (nested in 7287, its record): at the destination, on the ball's spot DS:8315: with DS:8323 set the
-    corner's cross 3B15 and every slot to state 5; else with the area clear (717F) y := -0x25 * 2BE5, line 0x2E and
+    kick 3B15 and every slot to state 5; else with the area clear (717F) y := -0x25 * 2BE5, line 0x2E and
     DS:8323 := 1. Off the spot: DS:830C := its slot, DS:830D := 0 and the destination := DS:8315."""
     r = Regs(mem)
     r.enter(0)
@@ -942,8 +942,8 @@ def corner_taker(mem, variant):
 
 # -- 7287 ----------------------------------------------------------------------------------------------------------
 @PORTS.port("0791:7287", ret="retf 4")
-def corner_state(mem, variant):
-    """7287-72EF (state 9 of 8AE9): the holder 71E8; an unavailable slot (045D) 4354; one in the holder's area (2EB8)
+def goal_kick_state(mem, variant):
+    """7287-72EF (state 8 of 8AE9, a goal kick): the holder 71E8; an unavailable slot (045D) 4354; one in the holder's area (2EB8)
     y := 0; the others 4B64."""
     r = Regs(mem)
     r.enter(0)
@@ -972,8 +972,8 @@ def corner_state(mem, variant):
 
 # -- 7621 ----------------------------------------------------------------------------------------------------------
 @PORTS.port("0791:7621", ret="retf 4")
-def goal_kick_state(mem, variant):
-    """7621-787E (state 8 of 8AE9): the holder 74C2. A slot of the side defending (2B51 false) facing the kick (2BE5 of
+def free_kick_state(mem, variant):
+    """7621-787E (state 0xB of 8AE9, a free kick): the holder 74C2. A slot of the side defending (2B51 false) facing the kick (2BE5 of
     the holder times DS:8316 above 0), with |y| - |x| of DS:8315 above 10 and its position in the set at 0791:7601,
     takes a place by its position (2BB1 - 7) around a point near the ball (|y| < 0x1A) or the halfway point; the others
     4B64, a defender then kept at least 4 rows from the ball's |y| (2BE5 steps) and moved off the ball's x by a coin."""
