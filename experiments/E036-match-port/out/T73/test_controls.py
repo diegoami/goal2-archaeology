@@ -4,7 +4,7 @@ No worktree or branch switch: runtime and minimal experiment/test dependencies a
 read from fixed pre-task255de405, then only the T73 files under test are overlaid.
 Every measured verdict is written by the caller to an immutable output log.
 """
-import io
+import io, hashlib
 from pathlib import Path
 import shutil
 import subprocess
@@ -48,21 +48,40 @@ CONTROLS=[
  ('strict profile inherits coarse block skip',C,'if no_screen and not strict_display else set()','if no_screen else set()'),
  ('mismatched display mask allowed',C,'if required and not all(matching):','if False:'),
  ('display profile reference override allowed',C,'if supplied.resolve() != bound.resolve():','if False:'),
+ ('removed void routine returns a value',D,'value=None, why=','value=1, why='),
+ ('0083 empty statistics bar executes writes',D,'r.ax=rw(mem,r,2)+rw(mem,r,0)\n    if r.ax:','r.ax=rw(mem,r,2)+rw(mem,r,0)\n    if True:'),
+ ('2F58 empty player row executes name call',D,"if word:\n        r=yield from guest(mem,r,'1771:2EE5'","if True:\n        r=yield from guest(mem,r,'1771:2EE5'"),
+ ('3916 live slot brightness includes bench12',D,'bright=r.ax<12','bright=r.ax<=12'),
+ ('3B09 mark flag guard inverted',D,'if mem.ds8(0xC1E) and flag:','if not mem.ds8(0xC1E) and flag:'),
+ ('3B80 zone branch excludes position2',D,'if rb(mem,r,6)>=2:','if rb(mem,r,6)>2:'),
+ ('3D18 nonmatch branch inverted',D,"if not mem.ds8(0xC1E):\n        r=yield from guest(mem,r,'1771:3B3F'","if mem.ds8(0xC1E):\n        r=yield from guest(mem,r,'1771:3B3F'"),
+ ('43D8 both-feet branch inverted',D,'if r.al:\n        r.di=0x425D;','if not r.al:\n        r.di=0x425D;'),
+ ('044B special message colour changed',D,'r.al=0x82 if matched else mem.ds8(0x7922)','r.al=0x83 if matched else mem.ds8(0x7922)'),
+ ('1E18 delay local count incremented',D,'r.ax=count;r.local16(-8,r.ax)','r.ax=count+1;r.local16(-8,r.ax)'),
+ ('04BF second digit row shifted',D,"((0,0xDC,'049E'),(80,0xDB,'04BF'))","((0,0xDC,'049E'),(79,0xDB,'04BF'))"),
+ ('0540 seventh segment omitted',D,'for index in range(1,8):','for index in range(1,7):'),
+ ('05B8 last digit column shifted',D,'digit=r.ax;r.ax=0x4B','digit=r.ax;r.ax=0x4C'),
+ ('19B2 top-row boundary excludes row4',D,'if pointer==0xA972 and ss16(mem,r,r.bp+6)>4:','if pointer==0xA972 and ss16(mem,r,r.bp+6)>=4:'),
+ ('C553 outgoing notice column shifted',D,"(6,29,'0791:C540'","(6,30,'0791:C540'"),
 ]
 paths=['runtime','tests/test_e036_compare.py',F,C,'experiments/E036-match-port/families.py',
        'experiments/E036-match-port/records.py','experiments/E036-match-port/families']
 archive=subprocess.check_output(['git','archive',BASE,*paths],cwd=ROOT)
+current={name:(ROOT/name).read_bytes() for name in (D,F,C)}
+owned_test=(ROOT/'tests/test_port_display.py').read_bytes()
+print('snapshot hashes', {name:hashlib.sha256(data).hexdigest() for name,data in current.items()},flush=True)
+print('tests sha256',hashlib.sha256(owned_test).hexdigest(),flush=True)
 all_ok=True
 for name,target,old,new in CONTROLS:
  with tempfile.TemporaryDirectory() as temporary:
   into=Path(temporary)
   with tarfile.open(fileobj=io.BytesIO(archive)) as tf:tf.extractall(into,filter='data')
-  shutil.copy(ROOT/'tests/test_port_display.py',into/'tests')
+  (into/'tests/test_port_display.py').write_bytes(owned_test)
   inventory=into/'experiments/E036-match-port/out/T73';inventory.mkdir(parents=True)
   shutil.copy(ROOT/'experiments/E036-match-port/out/T73/static-inventory.json',inventory)
   if target is not None:
    for changed in (D,F,C):
-    p=into/changed;p.parent.mkdir(parents=True,exist_ok=True);shutil.copy(ROOT/changed,p)
+    p=into/changed;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(current[changed])
    p=into/target;s=p.read_text();assert s.count(old)==1,(name,s.count(old));p.write_text(s.replace(old,new))
   result=subprocess.run([sys.executable,'-B','-m','unittest','tests.test_port_display'],cwd=into,
                         capture_output=True,text=True,timeout=180)

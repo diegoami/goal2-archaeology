@@ -673,21 +673,22 @@ class CommentaryMemoryTests(unittest.TestCase):
 
     def test_padding_and_top_rows_update_both_buffers(self):
         for row,expected in ((4,[0xA96A,0xA972]),(5,[0xA96A])):
-            with self.subTest(row=row):
-                r=Rig();r.ds8(0x7C38,3);r.ds8(0x7C3D,1);r.ds8(0x832F,0xA5)
-                def answer(q,m):
-                    if q.target=='23E4:0644':
-                        seg,off=q.args[2:4]
-                        m.memory[seg*16+off:seg*16+off+4]=b'\x03abc'
-                    return 0
-                r.run('0791:1829',(33,row,0),answer=answer)
-                output=[q for q in r.calls if q[0]=='214B:02C8']
-                self.assertEqual([q[1][-1] for q in output],expected)
-                self.assertEqual([q[1][0] for q in output],[0xA5]*len(expected))
-                self.assertEqual([q[1][3:5] for q in output],[(row,33)]*len(expected))
-                fills=[q for q in r.calls if q[0]=='214B:0018']
-                self.assertEqual(fills[0][1][2:],(27,32))
-                self.assertEqual(r.mem.u8(BP0-0x24),30)
+            for length in (0,3,30,35):
+                with self.subTest(row=row,length=length):
+                    r=Rig();r.ds8(0x7C38,3);r.ds8(0x7C3D,1);r.ds8(0x832F,0xA5)
+                    def answer(q,m):
+                        if q.target=='23E4:0644':
+                            seg,off=q.args[2:4];data=bytes([length])+b'x'*length
+                            m.memory[seg*16+off:seg*16+off+len(data)]=data
+                        return 0
+                    r.run('0791:1829',(33,row,0),answer=answer)
+                    output=[q for q in r.calls if q[0]=='214B:02C8']
+                    self.assertEqual([q[1][-1] for q in output],expected)
+                    self.assertEqual([q[1][0] for q in output],[0xA5]*len(expected))
+                    self.assertEqual([q[1][3:5] for q in output],[(row,33)]*len(expected))
+                    fills=[q[1][2:] for q in r.calls if q[0]=='214B:0018']
+                    self.assertEqual(fills,[(30-length,32)] if length<30 else [])
+                    self.assertEqual(r.mem.u8(BP0-0x24),30)
 
 class ClockDigitMemoryTests(unittest.TestCase):
     def test_vertical_segment_uses_parent_colour_and_adjacent_rows(self):
@@ -746,6 +747,97 @@ class NoticeMemoryTests(unittest.TestCase):
                 self.assertEqual(r.args('0791:CC2E'),[(300,)])
                 self.assertEqual(len(r.args('214B:08DD')),key)
                 self.assertEqual(r.targets()[-1],('214B:0643','0791:C5D6'))
+
+class RemovedBodyDispositionTests(unittest.TestCase):
+    def test_declared_removals_preserve_memory_registers_and_void_return(self):
+        # This visits Python removals, not the original UI branch PCs. ALL
+        # comparison separately proves their combined removal in declared states.
+        registry=port._module_registry('display')
+        for address,entry in registry.entries.items():
+            if not entry.stub:continue
+            for words in ((),(0,)*12,(65535,)*12):
+                with self.subTest(address=address,words=words):
+                    r=Rig();r.mem.regs.update(ax=0xA55A,dx=0x5AA5,eflags=0x602)
+                    r.run(address,words)
+                    before=bytes(r.mem.memory);registers=dict(r.mem.regs)
+                    self.assertIsNone(r.run(address,words))
+                    self.assertEqual(bytes(r.mem.memory),before)
+                    self.assertEqual(r.mem.regs,registers)
+                    self.assertEqual(r.writes,[])
+                    self.assertEqual(r.calls,[])
+
+class UnreachedStateBranchTests(unittest.TestCase):
+    def test_empty_statistics_bar_and_nonempty_reached_twin(self):
+        for first,second,want in ((0,0,[]),(1,65535,[]),(1,3,[18,6])):
+            with self.subTest(first=first,second=second):
+                r=Rig();r.lin16(0x40100,first);r.lin16(0x40102,second)
+                r.ds16(0xA96E,0x200);r.ds16(0xA970,0x500)
+                r.run('0791:006C',(0,4,0x100,0x4000))
+                self.assertEqual([a[-1] for a in r.args('214B:00DB')],want)
+
+    def test_empty_squad_row_and_nonempty_reached_twin(self):
+        for word,want in ((0,[]),(1,[(1,4,2)])):
+            r=Rig();r.run('1771:2F37',(2,4,word))
+            self.assertEqual(r.args('1771:2EE5'),want)
+            self.assertEqual(r.u16(BP0-4),POFF+20*word)
+
+    def test_performance_brightness_uses_live_slot_then_status_bit(self):
+        for slot,status,want in ((11,0,15),(12,0,7),(12,4,15)):
+            with self.subTest(slot=slot,status=status):
+                r=Rig();r.ds8(0xC1F,1);r.player(1,16,status);r.lin16(PSEG*16+POFF+20+18,500)
+                def answer(q,m):
+                    if q.target=='1771:3A82':return slot
+                    if q.target=='214B:0C57':return int(bool(q.args[1]&(1<<(q.args[0]-1))))
+                    return 7 if q.target=='1771:2E20' else 0
+                r.run('1771:3827',(60,8,1),answer=answer)
+                self.assertEqual(r.mem.ds8(0xAAB2),want)
+
+    def test_mark_text_match_flag_and_side_flag_branches(self):
+        for live,flag,source in ((0,0,0xE90),(0,1,0xE9B),(1,0,0xE90),(1,1,0x3AD5)):
+            r=Rig();r.ds8(0xC1E,live);r.run('1771:3AE2',(PARENT,flag))
+            a=r.args('214B:01A3')[0]
+            self.assertEqual(a[1],source)
+            self.assertEqual(a[0],r.mem.seg(0x1771) if live and flag else r.mem.DS)
+
+    def test_mark_row_position_zone_and_country_default_branches(self):
+        for position,status,want_zone in ((1,64,None),(2,64,True),(2,0,False)):
+            r=Rig();r.lin16(PARENT+4,1);r.player(1,6,position);r.player(1,16,status)
+            r.player(1,0,3);r.country(3,0x2D,128)
+            def answer(q,m):return int(bool(q.args[1]&(1<<(q.args[0]-1))))
+            r.run('1771:3B3F',(PARENT,),answer=answer)
+            if want_zone is None:self.assertEqual(r.calls,[])
+            elif want_zone:self.assertEqual(r.args('214B:01A3')[0][1],0x3B30)
+            else:self.assertEqual(r.args('1771:3AE2'),[(1,BP0)])
+
+    def test_tactics_nonmatch_default_mark_row_skips_live_slot_lookup(self):
+        r=Rig();r.ds8(0xC1E,0);r.player(1,6,4)
+        r.run('1771:3BD3',(1,))
+        self.assertEqual(r.args('1771:3A82'),[])
+        self.assertEqual(r.args('1771:3B3F'),[(BP0,)])
+
+    def test_card_two_feet_yellow_card_and_nonmatch_selection_label(self):
+        r=Rig();r.player(1,16,8);r.player(1,14,1)
+        def answer(q,m):
+            if q.target=='214B:0C57':return int(bool(q.args[1]&(1<<(q.args[0]-1))))
+            return {'1771:3041':1,'1771:3A82':5}.get(q.target,0)
+        r.run('1771:42BC',(1,),answer=answer)
+        self.assertEqual(r.args('1771:3088'),[])
+        self.assertIn(0x425D,[a[1] for a in r.args('214B:026D')])
+        self.assertIn((14,r.mem.seg(0x1771),0x4268,10,40,r.mem.DS,0xA96E),r.args('214B:02C8'))
+        self.assertIn(0x4298,[a[1] for a in r.args('214B:01A3')])
+
+    def test_message_special_colour_and_yes_no_highlight_twins(self):
+        for special,want in ((0,0x27),(1,0x82)):
+            r=Rig();r.ds8(0x7922,0x27);r.ds8(0x7923,0x70)
+            positions=iter((special,5))
+            def answer(q,m):
+                if q.target=='23E4:0644':
+                    seg,off=q.args[2:4];m.memory[seg*16+off:seg*16+off+4]=b'\x03yes'
+                if q.target=='23E4:06E3':return next(positions)
+                return 0
+            r.run('214B:0350',(0xA96E,r.mem.DS,0x100,0x400,25),answer=answer)
+            self.assertEqual(r.args('214B:02C8')[0][0],want)
+            self.assertEqual([a[-2:] for a in r.args('214B:00DB')],[(0x70,1),(0x70,1)])
 
 if __name__ == '__main__':
     unittest.main()
