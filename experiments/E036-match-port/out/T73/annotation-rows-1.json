@@ -1,0 +1,243 @@
+{
+  "existing_rows_preserved": 586,
+  "added_rows": [
+    {
+      "address": "0791:0000",
+      "name": "draw_shootout_score_numbers",
+      "purpose": "When DS:832D is not FF, unpacks DS:5B10 and formats DS:832D/832C at row6 columns14/16, using a 256-byte local expression",
+      "confidence": "likely",
+      "basis": "read code/seg_0791_01.asm:7"
+    },
+    {
+      "address": "0791:006C",
+      "name": "draw_summary_statistic_bar",
+      "purpose": "Given two statistic words, splits24 attribute cells by the second word times24 divided by the wrapped sum; zero sum skips both writes; team colours come from DS:832F/832E",
+      "confidence": "likely",
+      "basis": "read code/seg_0791_01.asm:62"
+    },
+    {
+      "address": "0791:0481",
+      "name": "draw_large_digit_vertical_segment",
+      "purpose": "The static link names054C's frame: writes colour+DC at the requested cell and colour+DB one80-cell row later, through the saved screen pointer",
+      "confidence": "likely",
+      "basis": "read code/seg_0791_01.asm:531"
+    },
+    {
+      "address": "0791:04C9",
+      "name": "draw_large_digit_segments",
+      "purpose": "Reads seven digit-table entries at DS:0644 plus ten times segment plus character; first three enabled segments fill four cells and the rest call0481 through the parent static link",
+      "confidence": "likely",
+      "basis": "read code/seg_0791_01.asm:560"
+    },
+    {
+      "address": "0791:05C6",
+      "name": "pitch_player_glyph_for_mode",
+      "purpose": "Reads0691's slot through a static link and selects the glyph for DS:066A modes0 through4; mode2 combines team/clock tests with XOR; unsupported modes leave the local byte unchanged",
+      "confidence": "likely",
+      "basis": "read code/seg_0791_01.asm:674"
+    },
+    {
+      "address": "0791:0691",
+      "name": "update_pitch_player_glyphs",
+      "purpose": "Writes glyph/colour word+4 of all22 pitch records: keeper glyph1, other glyphs from05C6, side colours selected by2974 and DS:8330/832E",
+      "confidence": "likely",
+      "basis": "read code/seg_0791_01.asm:773"
+    },
+    {
+      "address": "0791:1829",
+      "name": "draw_commentary_ring_line",
+      "purpose": "Expands a six-byte DS:7C38 commentary record and player-name markers into a padded30-character local string; writes via DS:A96A and also DS:A972 for rows at most4",
+      "confidence": "likely",
+      "basis": "read code/seg_0791_03.asm:274"
+    },
+    {
+      "address": "0791:9079",
+      "name": "restore_pitch_sprite_cell",
+      "purpose": "Sets the sprite record position from DS:0644; outside quick mode calls8E24 and restores the matching occupancy word from the background picture to DS:7C16",
+      "confidence": "likely",
+      "basis": "read code/seg_0791_15.asm:392"
+    },
+    {
+      "address": "0791:A699",
+      "name": "save_pitch_copy_and_unpack",
+      "purpose": "Copies4000 bytes from DS:7C22 when DS:0C1F is set, otherwise DS:7C1E, into DS:7C1A; then expands its supplied template into the DS:A96E buffer",
+      "confidence": "likely",
+      "basis": "read code/seg_0791_17.asm:449"
+    },
+    {
+      "address": "0791:A75D",
+      "name": "draw_match_lineups",
+      "purpose": "Uses A699 with the DS:534A template, writes the two country names/formations and all eleven squad rows per side, followed by the host name",
+      "confidence": "likely",
+      "basis": "read code/seg_0791_17.asm:537"
+    },
+    {
+      "address": "1771:0947",
+      "name": "format_manager_name",
+      "purpose": "Builds a manager marker from DS:9B78, the separator at CS:0945 and the manager string at DS:9B74 plus13 times manager; stores at most14 characters through the hidden caller result pointer",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_01.asm:1036"
+    },
+    {
+      "address": "1771:0AF8",
+      "name": "draw_manager_status",
+      "purpose": "Manager0 draws nothing; status byte+1 of the three-byte manager record chooses a fixed CS:0AF0 string at zero or a DS:7894 band indexed by (status-1)/8",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_02.asm:39"
+    },
+    {
+      "address": "1771:0FB1",
+      "name": "draw_country_name_right",
+      "purpose": "Writes the DS:0D6A placeholder with the DS:A964 palette, then a nonzero country's DS:9B68 name using0E24 colour and the backward string writer0205",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_02.asm:557"
+    },
+    {
+      "address": "1771:11E1",
+      "name": "draw_team_line_strength_bars",
+      "purpose": "Divides DS:9B4B/9B4F/9B53 signed words by4, clamps all four words beginning DS:9B47 at stride4 to1..256, then draws four attribute bars of value times25 divided by256",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_02.asm:798"
+    },
+    {
+      "address": "1771:1289",
+      "name": "draw_live_team_line_performance",
+      "purpose": "Clears DS:9B45..9B54, accumulates eleven starter performances into the role words at DS:9B47 using DS:0D7C (hybrid roles split a signed half), then calls11E1 at row20",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_02.asm:870"
+    },
+    {
+      "address": "1771:1527",
+      "name": "draw_country_rating_label",
+      "purpose": "Calls10E7 for the country, indexes DS:7884 with signed (result-1)/8, and draws the selected16-byte DS:6EB4 label at the requested row/column",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_03.asm:6"
+    },
+    {
+      "address": "1771:5AC4",
+      "name": "draw_competition_stage_header",
+      "purpose": "Composes the continent/snapshot header templates, the stage label at DS:0F5E and the number2*game+38+game+3A-2*(snapshot!=game+40); optionally draws the stored leader country",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_08.asm:858"
+    },
+    {
+      "address": "1771:76FA",
+      "name": "draw_fixture_score",
+      "purpose": "Draws the CS:76F8 score marker; only nonzero fixture kind and score byte0 below FE produce score strings from bytes1/0 and the flag-dependent DS:AAB2 colour",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_11.asm:50"
+    },
+    {
+      "address": "1771:77C3",
+      "name": "draw_fixture_row",
+      "purpose": "Draws fixture country+6 four columns left with0FB1, country+4 four columns right with0F58, and the two score cells with76FA",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_11.asm:143"
+    },
+    {
+      "address": "1771:883F",
+      "name": "draw_competition_leaderboard",
+      "purpose": "Selects three16-byte DS:A93F entries by continent or snapshot; nonzero word+0E draws marker byte0, string+1 and count word+0C; sets DS:AAB2 to7",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_12.asm:795"
+    },
+    {
+      "address": "1771:8939",
+      "name": "draw_competition_view_frame",
+      "purpose": "Clears/expands the base screen, then selects one-pass or interactive templates and the current/snapshot legend according to the parent frame and game+38",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_12.asm:901"
+    },
+    {
+      "address": "1771:89C1",
+      "name": "highlight_competition_view_selector",
+      "purpose": "Expands DS:2D7A and highlights the row23 selector using DS:1113/1116 indexed by the parent view-kind local",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_12.asm:963"
+    },
+    {
+      "address": "1771:89FE",
+      "name": "highlight_competition_continent_selector",
+      "purpose": "Highlights the continent selector using the parent country's continent and the DS:1119/111D/1121 coordinate tables",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_12.asm:991"
+    },
+    {
+      "address": "1771:8A5D",
+      "name": "draw_competition_selectors",
+      "purpose": "Expands DS:2C68, draws the view selector with89C1, and optionally highlights the continent selector with89FE",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_12.asm:1030"
+    },
+    {
+      "address": "1771:8A87",
+      "name": "draw_competition_group_table",
+      "purpose": "Draws four eight-byte DS:A933 group records, including country, played/won/drawn/lost bytes, goals and points; address selection includes group, continent, phase and snapshot offsets",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_12.asm:1052"
+    },
+    {
+      "address": "1771:8CA2",
+      "name": "draw_competition_fixture_reference",
+      "purpose": "Fixture index0 is skipped; otherwise resolves DS:A92B plus8 times index minus8 and calls77C3 with the supplied row/column",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_13.asm:6"
+    },
+    {
+      "address": "1771:8CCF",
+      "name": "draw_competition_bracket_fixture",
+      "purpose": "For a nonzero fixture index, draws both countries and scores at bracket coordinates, then the winner marker for a played fixture whose kind is not6",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_13.asm:30"
+    },
+    {
+      "address": "1771:8D84",
+      "name": "draw_competition_extra_group_fixtures",
+      "purpose": "Outside game stage5 draws the extra-group eight fixtures, their paired bracket fixtures and finished winners, using the parent country/continent and frame state",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_13.asm:109"
+    },
+    {
+      "address": "1771:8E9A",
+      "name": "draw_competition_group_view",
+      "purpose": "Draws a primary group table and twelve fixture rows, or the special ninth-group fixtures; normalizes unavailable group9 to1 and finishes with the original group selector/key call",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_13.asm:226"
+    },
+    {
+      "address": "1771:9028",
+      "name": "draw_competition_finals_group_view",
+      "purpose": "Draws the phase1 group table and six fixture rows with stage/snapshot templates, bounds the parent group selector and restores the saved country local after its key call",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_13.asm:394"
+    },
+    {
+      "address": "1771:91CE",
+      "name": "draw_competition_finals_bracket",
+      "purpose": "Draws later finals bracket fixtures from the group-table references and, for completed final references, winner/loser/placement country names",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_13.asm:564"
+    },
+    {
+      "address": "1771:937C",
+      "name": "draw_competition_knockout_bracket",
+      "purpose": "Draws the sixteen-fixture knockout bracket selected by the game frame; completed last fixtures provide the winner, loser and placement country labels",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_13.asm:738"
+    },
+    {
+      "address": "1771:9509",
+      "name": "draw_competition_bracket_view",
+      "purpose": "Draws the stage header and leaderboard, chooses91CE or937C by snapshot, copies the full4000-byte back buffer to video and reads one key",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_13.asm:904"
+    },
+    {
+      "address": "1771:958D",
+      "name": "competition_table_view",
+      "purpose": "Maintains country/group/view/snapshot locals, dispatches8939 plus8E9A/9028/9509, handles country/view/snapshot navigation keys and repeats only for an interactive non-Esc request",
+      "confidence": "likely",
+      "basis": "read code/seg_1771_13.asm:952"
+    }
+  ]
+}
