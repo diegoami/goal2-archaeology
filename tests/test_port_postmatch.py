@@ -340,6 +340,8 @@ class Postmatch(Case):
             r.ds16(0xA931, 0x5200)
             r.run("1771:82BD", [toff, tseg])
             self.assertEqual(len(r.args("214B:007B")), expected_swaps, rows)
+            self.assertEqual(r.u16(BP0 - 4), 3)
+            self.assertEqual(r.u16(BP0 - 2), 4)
 
     def test_aggregate_unplayed_and_index_exit(self):
         for index, played in ((0, True), (1, False), (1, True)):
