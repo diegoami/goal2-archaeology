@@ -702,7 +702,7 @@ class ClockDigitMemoryTests(unittest.TestCase):
         r.run('0791:04C9',(PARENT,75,ord('8')))
         self.assertEqual(len(r.args('214B:0000')),3)
         self.assertEqual([a[2:] for a in r.args('214B:0000')],[(4,0x12DF)]*3)
-        self.assertEqual(r.args('0791:0481'),[(PARENT,75+i*80) for i in range(4,8)])
+        self.assertEqual(r.args('0791:0481'),[(75+i*80,PARENT) for i in range(4,8)])
         self.assertEqual(r.u16(BP0-2),7)
 
     def test_formatter_retains_colour_shift_and_one_or_two_digit_calls(self):
@@ -717,7 +717,7 @@ class ClockDigitMemoryTests(unittest.TestCase):
                 r.run('0791:054C',(0x12,90),answer=answer)
                 self.assertEqual(r.u16(BP0+4),0x1200)
                 self.assertEqual([a[1] for a in r.args('0791:04C9')],columns)
-                self.assertEqual([a[2]&255 for a in r.args('0791:04C9')],list(text))
+                self.assertEqual([a[0]&255 for a in r.args('0791:04C9')],list(text))
 
 if __name__ == '__main__':
     unittest.main()

@@ -1488,7 +1488,7 @@ def digit_segments_memory(mem,variant):
                 r.ax=ss16(mem,r,parent+4)+0xDF
                 r=yield from guest(mem,r,'214B:0000',*destination,count,r.ax,ret='0791:052B')
             else:
-                r=yield from guest(mem,r,'0791:0481',parent,r.ax,ret='0791:0540',far=False)
+                r=yield from guest(mem,r,'0791:0481',r.ax,parent,ret='0791:0540',far=False)
     return _end(r)
 
 
@@ -1508,8 +1508,8 @@ def big_digits_memory(mem,variant):
     r=yield from guest(mem,r,'23E4:0644',r.ss,expression,r.ss,line,r.ax,ret='0791:059B')
     if mem.u8(mem.ss_lin(line))==2:
         r.al=mem.u8(mem.ss_lin(line+1));digit=r.ax;r.ax=0x45
-        r=yield from guest(mem,r,'0791:04C9',r.bp,r.ax,digit,ret='0791:05AD',far=False)
+        r=yield from guest(mem,r,'0791:04C9',digit,r.ax,r.bp,ret='0791:05AD',far=False)
     r.al=mem.u8(mem.ss_lin(line));r.ah=0;r.di=r.ax
     r.al=mem.u8(mem.ss_lin(line+r.di));digit=r.ax;r.ax=0x4B
-    r=yield from guest(mem,r,'0791:04C9',r.bp,r.ax,digit,ret='0791:05C0',far=False)
+    r=yield from guest(mem,r,'0791:04C9',digit,r.ax,r.bp,ret='0791:05C0',far=False)
     return _end(r)
