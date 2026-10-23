@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {"1771:157D", "1771:11E1", "1771:1289", "1771:0947", "1771:0AF8", "1771:1527", "1771:13D0", "1771:4D8A", "1771:4E22", "1771:8A87", "1771:5AC4", "1771:0FB1", "1771:76FA", "1771:77C3", "1771:8E9A", "1771:8CA2", "1771:958D", "1771:8939", "0791:0441", "214B:1EF1", "214B:1F87", "214B:1E8D", "214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
+    if address not in {'1771:157D', '1771:11E1', '1771:1289', '1771:0947', '1771:13D0', '1771:4D8A', '1771:4E22', '1771:8A87', '1771:5AC4', '1771:0FB1', '1771:76FA', '1771:77C3', '1771:8E9A', '1771:8CA2', '1771:958D', '1771:8939', '0791:0441', '214B:1EF1', '214B:1F87', '0791:C50C', '214B:1E09', '0791:0481', '0791:04C9', '0791:054C', '0791:1829', '0791:0106', '0791:05C6', '0791:0691', '0791:8F10', '0791:9079', '0791:A699', '0791:94C9', '0791:94E8', '0791:0C65', '0791:0712', '214B:00FF', '214B:0123', '214B:01A3', '214B:0205', '214B:026D', '214B:02C8', '0791:15B9', '0791:0000', '214B:00DB', '214B:0625', '214B:0643', '1771:3827', '1771:2EE5', '1771:2F37', '1771:0F58', '214B:0350', '0791:A75D', '1771:3AE2', '1771:3B3F', '1771:3BD3', '1771:42BC', '214B:13C5'}:
         PORTS.stub(address, ret=ret, value=None, why="display/sound/wait body omitted; listing return cleanup and incoming result registers preserved")
 
 
@@ -890,29 +890,6 @@ def shootout_board_numbers(mem, variant):
     return _end(r)
 
 
-@PORTS.port('0791:006C',ret='ret 8')
-def board_bar_attributes(mem,variant):
-    if variant == 'omit-0791-006c': return
-    r=Regs(mem);r.enter(2)
-    seg,off=farg(mem,r,8)
-    r.ax=rw(mem,r,2)+rw(mem,r,0)
-    if r.ax:
-        r.ax=rw(mem,r,2)+rw(mem,r,0);r.bx=r.ax
-        r.ax=rw(mem,r,2);r.cx=24;mul(r,r.cx)
-        r.dx=0;r.ax=r.ax//r.bx;amount=r.ax;r.local16(-2,amount)
-        r.ax=ss16(mem,r,r.bp+6);r.dx=160;mul(r,r.dx)
-        r.di,r.es=mem.ds16(0xA96E),mem.ds16(0xA970)
-        r.di=r.di+r.ax-0x5C;destination=r.es,r.di
-        r.al=mem.ds8(0x832F);r.ah=0
-        r=yield from guest(mem,r,'214B:00DB',*destination,r.ax,amount,ret='00C9')
-        r.ax=(amount+35)<<1;r.cx=r.ax
-        r.ax=ss16(mem,r,r.bp+6);r.dx=160;mul(r,r.dx)
-        r.di,r.es=mem.ds16(0xA96E),mem.ds16(0xA970)
-        r.di=r.di+r.ax+r.cx-0xA2;destination=r.es,r.di
-        r.al=mem.ds8(0x832E);r.ah=0;colour=r.ax
-        r.ax=24-amount
-        r=yield from guest(mem,r,'214B:00DB',*destination,colour,r.ax,ret='00FB')
-    return _end(r)
 
 
 @PORTS.port('214B:00DB',ret='retf 8')
@@ -1164,31 +1141,6 @@ def highlight_memory(mem,variant):
     return _end(r)
 
 
-@PORTS.port('1771:3947',ret='ret 6')
-def skill_bars_memory(mem,variant):
-    if variant == 'omit-1771-3947': return
-    r=Regs(mem);r.enter(10)
-    pseg,poff=player_of(mem,r,ss16(mem,r,r.bp+8))
-    r.local16(-10,poff);r.local16(-8,pseg)
-    mem.wds8(0xAAB2,0x70,'1771:3961')
-    r.al=rb(mem,r,4);r.ah=0;ability=r.ax;r.local16(-4,ability)
-    ability=(ability+1)&65535;r.local16(-4,ability)
-    for skill in range(1,13):
-        r.local16(-2,skill);r.ax=skill;r.cx=r.ax
-        r.es,r.di=pseg,poff;r.al=rb(mem,r,7);r.ah=0;r.dx=12;mul(r,r.dx)
-        r.di=r.ax+r.cx;r.al=mem.ds8((r.di+0x6D25)&65535);r.ah=0;r.cx=r.ax
-        r.es,r.di=pseg,poff;r.al=rb(mem,r,5);r.ah=0;r.dx=12;mul(r,r.dx)
-        r.di=r.ax+r.cx;r.al=mem.ds8((r.di+0x6DCD)&65535);r.ah=0
-        value=r.ax;r.local16(-6,value);mul(r,ability)
-        r.dx=0;r.cx=256;dividend=r.ax;r.ax,r.dx=dividend//256,dividend%256
-        amount=r.ax;r.local16(-6,amount)
-        r.ax=ss16(mem,r,r.bp+4)<<1;r.cx=r.ax
-        r.ax=ss16(mem,r,r.bp+6)+skill;r.dx=160;mul(r,r.dx)
-        r.di,r.es=mem.ds16(0xA96E),mem.ds16(0xA970)
-        r.di=r.di+r.ax+r.cx-0xA2;destination=r.es,r.di
-        r.al=mem.ds8(0xAAB2);r.ah=0
-        r=yield from guest(mem,r,'214B:00DB',*destination,r.ax,amount,ret='1771:39F7')
-    return _end(r)
 
 
 @PORTS.port('1771:3AE2',ret='ret 4')
@@ -1599,20 +1551,6 @@ def substitution_notice_memory(mem,variant):
     return _end(r)
 
 
-@PORTS.port('214B:1EBC',ret='retf 2')
-def tone_frequency_memory(mem,variant):
-    """1EBC-1EF0: keep the PIT divisor's argument/frame writes; omit device output."""
-    if variant == 'omit-214b-1ebc': return
-    r=Regs(mem);r.enter()
-    if not mem.ds8(0xA9FC):
-        r=yield from guest(mem,r,'214B:1E75',ret='214B:1ECA')
-        r.ax=ss16(mem,r,r.bp+6);r.dx=0;r.cx=r.ax;r.bx=r.dx
-        r.ax=0x34DD;r.dx=0x12
-        r=yield from guest(mem,r,'23E4:0294',ret='214B:1EDE')
-        r.local16(6,r.ax)
-        r.al=ss16(mem,r,r.bp+6)&255
-        r.al=(ss16(mem,r,r.bp+6)>>8)&255
-    return _end(r)
 
 
 @PORTS.port('0791:0441',ret='ret 2')
@@ -1625,15 +1563,6 @@ def whistle_memory(mem,variant):
     return _end(r)
 
 
-@PORTS.port('214B:1E8D',ret='retf')
-def speaker_off_frame(mem,variant):
-    """1E8D-1EA0: frame and AL on the kit's port61-read-zero path; device output removed."""
-    if variant == 'omit-214b-1e8d': return
-    r=Regs(mem);r.enter()
-    if not mem.ds8(0xA9FC):
-        # Original kit return-register probe: speaker-returns-1.txt (IN61 is zero).
-        r.al=0
-    return _end(r)
 
 
 @PORTS.port('214B:1EF1',ret='retf 6')
@@ -2040,35 +1969,8 @@ def manager_name_memory(mem,variant):
     return _end(r)
 
 
-@PORTS.port('1771:0AF8',ret='retf 6')
-def manager_status_memory(mem,variant):
-    if variant == 'omit-1771-0af8': return
-    r=Regs(mem);r.enter(4);manager=ss16(mem,r,r.bp+10);r.ax=manager;r.dx=3;mul(r,r.dx)
-    r.es,r.di=mem.ds16(0xA921),mem.ds16(0xA91F);r.di=r.di+r.ax
-    r.local16(-4,r.di);r.local16(-2,r.es)
-    if manager:
-        if not rb(mem,r,1):
-            r.di=0xAF0;source=mem.seg(0x1771),r.di;ret='1771:0B39'
-        else:
-            r.al=rb(mem,r,1);r.ah=0;r.ax=r.ax-1;idiv_by(r,8);r.di=r.ax
-            r.al=mem.ds8(0x7894+r.di);r.ah=0;r.di=r.ax;half(r,'cx',4);r.di=(r.di<<4)+0x6EB4
-            source=mem.DS,r.di;ret='1771:0B71'
-        r.al=ss8(mem,r,r.bp+8);row=r.ax;r.al=ss8(mem,r,r.bp+6)
-        r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:026D',ret)
-    return _end(r)
 
 
-@PORTS.port('1771:1527',ret='ret 6')
-def country_rating_label_memory(mem,variant):
-    if variant == 'omit-1771-1527': return
-    r=Regs(mem);r.enter(4);country=ss16(mem,r,r.bp+8);squad_of(mem,r,country)
-    r.local16(-4,r.di);r.local16(-2,r.es)
-    r=yield from guest(mem,r,'1771:10E7',country,ret='1771:1548')
-    r.ax=r.ax-1;idiv_by(r,8);r.di=r.ax;r.al=mem.ds8((r.di+0x7884)&65535);r.ah=0
-    r.di=r.ax;half(r,'cx',4);r.di=(r.di<<4)+0x6EB4;source=mem.DS,r.di
-    r.al=ss8(mem,r,r.bp+6);row=r.ax;r.al=ss8(mem,r,r.bp+4)
-    r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:026D','1771:1575')
-    return _end(r)
 
 
 @PORTS.port('1771:13D0',ret='ret 2')

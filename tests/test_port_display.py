@@ -103,6 +103,21 @@ class Rig:
         return [(off, size, value) for off, size, value, at in self.writes if at == lin]
 
 
+def assert_explicit_void_removal(case, rig, address, words):
+    """Checks the declared Python stub, never original branch-PC execution."""
+    case.assertIsNotNone(port._module_registry('display').entries[address].stub)
+    rig.mem.regs.update(ax=0xA55A,dx=0x5AA5,eflags=0x602)
+    initial_registers=dict(rig.mem.regs)
+    case.assertIsNone(rig.run(address,words))
+    case.assertEqual(rig.mem.regs,initial_registers)
+    before=bytes(rig.mem.memory);registers=initial_registers
+    case.assertIsNone(rig.run(address,words))
+    case.assertEqual(bytes(rig.mem.memory),before)
+    case.assertEqual(rig.mem.regs,registers)
+    case.assertEqual(rig.calls,[])
+    case.assertEqual(rig.writes,[])
+
+
 class Case(unittest.TestCase):
     """A test that cannot hang: a loop that does not end (a test of a loop's bound) fails after 20 s."""
 
@@ -460,13 +475,12 @@ class Display(Case):
             self.assertEqual(r.mem.ds8(0xE86),want,performance)
             self.assertEqual(len(r.args('214B:01A3')),int(performance!=0x7FFF))
 
-    def test_skill_bars_keep_all_twelve_unclamped_unsigned_products(self):
+    def test_skill_bar_removal_preserves_even_nonzero_skill_inputs(self):
         r=Rig();r.player(1,4,255);r.player(1,5,0);r.player(1,7,0)
         for k in range(1,13):r.ds8(0x6D25+k,k-1);r.ds8(0x6DCD+k-1,k+1)
         r.ds16(0xA96E,GOFF);r.ds16(0xA970,GSEG)
-        r.run('1771:3947',[10,4,1])
-        self.assertEqual(len(r.args('214B:00DB')),12)
-        self.assertEqual([a[-1] for a in r.args('214B:00DB')],list(range(2,14)))
+        assert_explicit_void_removal(self,r,'1771:3947',(10,4,1))
+
 
 
 class EventProjection(unittest.TestCase):
@@ -758,8 +772,10 @@ class RemovedBodyDispositionTests(unittest.TestCase):
             for words in ((),(0,)*12,(65535,)*12):
                 with self.subTest(address=address,words=words):
                     r=Rig();r.mem.regs.update(ax=0xA55A,dx=0x5AA5,eflags=0x602)
-                    r.run(address,words)
-                    before=bytes(r.mem.memory);registers=dict(r.mem.regs)
+                    initial_registers=dict(r.mem.regs)
+                    self.assertIsNone(r.run(address,words))
+                    self.assertEqual(r.mem.regs,initial_registers)
+                    before=bytes(r.mem.memory);registers=initial_registers
                     self.assertIsNone(r.run(address,words))
                     self.assertEqual(bytes(r.mem.memory),before)
                     self.assertEqual(r.mem.regs,registers)
@@ -767,14 +783,12 @@ class RemovedBodyDispositionTests(unittest.TestCase):
                     self.assertEqual(r.calls,[])
 
 class UnreachedStateBranchTests(unittest.TestCase):
-    def test_empty_statistics_bar_and_nonempty_reached_twin(self):
-        for first,second,want in ((0,0,[]),(1,65535,[]),(1,3,[18,6])):
-            with self.subTest(first=first,second=second):
-                r=Rig();r.lin16(0x40100,first);r.lin16(0x40102,second)
-                r.ds16(0xA96E,0x200);r.ds16(0xA970,0x500)
-                try:r.run('0791:006C',(0,4,0x100,0x4000))
-                except ZeroDivisionError:self.fail('an empty bar must bypass division')
-                self.assertEqual([a[-1] for a in r.args('214B:00DB')],want)
+    def test_removed_statistics_bar_preserves_zero_and_nonzero_inputs(self):
+        for first,second in ((0,0),(1,65535),(1,3)):
+            r=Rig();r.lin16(0x40100,first);r.lin16(0x40102,second)
+            r.ds16(0xA96E,0x200);r.ds16(0xA970,0x500)
+            assert_explicit_void_removal(self,r,'0791:006C',(0,4,0x100,0x4000))
+
 
     def test_empty_squad_row_and_nonempty_reached_twin(self):
         for word,want in ((0,[]),(1,[(1,4,2)])):
@@ -841,30 +855,19 @@ class UnreachedStateBranchTests(unittest.TestCase):
             self.assertEqual([a[-2:] for a in r.args('214B:00DB')],[(0x70,1),(0x70,1)])
 
 class ToneMemoryTests(unittest.TestCase):
-    def test_tone_divisor_argument_and_return_high_byte_are_preserved(self):
-        for frequency in (1,440,32768,65535):
-            r=Rig();r.ds8(0xA9FC,0)
-            def answer(q,m):
-                if q.target=='23E4:0294':
-                    dividend=(m.reg('dx')<<16)|m.reg('ax')
-                    divisor=(m.reg('bx')<<16)|m.reg('cx')
-                    quotient=dividend//divisor;m.regs['dx']=quotient>>16
-                    return quotient&65535
-                return 0
-            r.run('214B:1EBC',(frequency,),answer=answer)
-            quotient=0x1234DD//frequency;low=quotient&65535
-            self.assertEqual(r.u16(BP0+6),low)
-            self.assertEqual(r.mem.reg('ax'),(low&0xFF00)|(low>>8))
-            self.assertEqual(r.mem.reg('dx'),quotient>>16)
-            self.assertEqual(r.targets(),[('214B:1E75','214B:1ECA'),('23E4:0294','214B:1EDE')])
+    def test_removed_tone_frequency_preserves_enabled_and_disabled_inputs(self):
+        for disabled in (0,1):
+            for frequency in (1,440,32768,65535):
+                r=Rig();r.ds8(0xA9FC,disabled)
+                assert_explicit_void_removal(self,r,'214B:1EBC',(frequency,))
 
-    def test_disabled_sound_skips_division_even_for_zero_frequency(self):
-        r=Rig();r.ds8(0xA9FC,1);r.mem.regs.update(ax=0xBEEF,dx=0x1234)
-        r.run('214B:1EBC',(0,))
-        self.assertEqual(r.calls,[])
+
+    def test_removed_tone_preserves_zero_frequency_and_creates_no_frame(self):
+        r=Rig();r.ds8(0xA9FC,1);r.lin16(BP0,0xCAFE)
+        assert_explicit_void_removal(self,r,'214B:1EBC',(0,))
         self.assertEqual(r.u16(BP0+6),0)
-        self.assertEqual(r.u16(BP0),0x1234)
-        self.assertEqual((r.mem.reg('ax'),r.mem.reg('dx')),(0xBEEF,0x1234))
+        self.assertEqual(r.u16(BP0),0xCAFE)
+
 
 class SoundChainMemoryTests(unittest.TestCase):
     def test_whistle_gate_keeps_the_exact_jingle_call(self):
@@ -873,13 +876,12 @@ class SoundChainMemoryTests(unittest.TestCase):
             r.run('0791:0441',(7,))
             self.assertEqual(r.args('214B:1F87'),[(7,)] if speed else [])
 
-    def test_speaker_off_keeps_kit_return_byte_and_saved_frame(self):
-        for disabled,want in ((0,0x1200),(1,0x1234)):
-            r=Rig();r.ds8(0xA9FC,disabled);r.mem.regs.update(ax=0x1234,dx=0xABCD)
-            r.run('214B:1E8D')
-            self.assertEqual(r.mem.reg('ax'),want)
-            self.assertEqual(r.mem.reg('dx'),0xABCD)
-            self.assertEqual(r.u16(BP0),0x1234)
+    def test_removed_speaker_off_keeps_incoming_result_and_creates_no_frame(self):
+        for disabled in (0,1):
+            r=Rig();r.ds8(0xA9FC,disabled);r.lin16(BP0,0xCAFE)
+            assert_explicit_void_removal(self,r,'214B:1E8D',())
+            self.assertEqual(r.u16(BP0),0xCAFE)
+
 
     def test_note_transposition_real_calls_local_and_wrapped_duration(self):
         for note,transpose,octave,want_note,want_octave in ((11,1,6,0,7),(9,255,6,0,28)):
@@ -1093,24 +1095,18 @@ class TeamPanelHelperTests(unittest.TestCase):
         self.assertEqual(r.args('23E4:06B7'),[(r.mem.seg(0x1771),0x945),(0x5400,0x21A)])
         self.assertEqual(r.args('23E4:0644'),[(0,BP0-0x100,0x5800,0x100,14)])
 
-    def test_manager_status_zero_guard_and_status_band_boundaries(self):
-        for manager,status,want in ((0,0,None),(1,0,0xAF0),(130,0,0xAF0),(1,1,0x6EC4),(1,9,0x6ED4),(1,255,0x6EE4)):
+    def test_removed_manager_status_preserves_all_argument_bands(self):
+        for manager,status in ((0,0),(1,0),(130,0),(1,1),(1,9),(1,255)):
             r=Rig();r.ds16(0xA91F,0x100);r.ds16(0xA921,0x5400)
             r.lin8(0x54100+manager*3+1,status)
-            for index,value in ((0,1),(1,2),(31,3)):r.ds8(0x7894+index,value)
-            r.run('1771:0AF8',(24,10,manager))
-            if want is None:self.assertEqual(r.calls,[])
-            else:
-                high=0x100 if manager==130 and status==0 else 0
-                self.assertEqual(r.args('214B:026D'),[(r.mem.seg(0x1771) if want==0xAF0 else r.mem.DS,want,high+10,high+24,r.mem.DS,0xA96E)])
+            assert_explicit_void_removal(self,r,'1771:0AF8',(24,10,manager))
 
-    def test_country_rating_signed_zero_and_eight_point_boundaries(self):
-        for rating,index in ((0,0),(1,0),(8,0),(9,1),(257,32)):
-            r=Rig()
-            for slot,value in ((0,1),(1,2),(32,3)):r.ds8(0x7884+slot,value)
-            r.run('1771:1527',(25,8,3),answer=answers({'1771:10E7':rating}))
-            expected=0x6EB4+16*{0:1,1:2,32:3}[index]
-            self.assertEqual(r.args('214B:026D'),[(r.mem.DS,expected,8,25,r.mem.DS,0xA96E)])
+
+    def test_removed_rating_label_calls_no_rating_or_text_helpers(self):
+        for country in (0,3,128):
+            r=Rig();r.ds8(0x7884,1);r.ds8(0x7885,2)
+            assert_explicit_void_removal(self,r,'1771:1527',(25,8,country))
+
 
     def test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter(self):
         cases=((0,10,False,[1,20,8,10,25,5]),(128,10,False,[5946,20,8,10,25,5]),
