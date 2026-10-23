@@ -63,6 +63,7 @@ import fileopts  # noqa: E402
 import records  # noqa: E402
 
 DEFAULT_CACHE = ".cache/dl"
+DISPLAY_PROFILE = HERE / "families/display/profile.json"
 DEFAULT_TIME_LIMIT = 300.0
 DEFAULT_STRETCH_LIMIT = 60.0    # the kit's watchdog per stretch between events, as before #357
 CHECKPOINT_EVERY = 10    # minute events between two checkpoints of a match (#359): about 5 % of a match each
@@ -107,6 +108,49 @@ def parse_mask(path):
     except (OSError, ValueError) as e:
         raise Refused(f"--mask {path}: {e}")
     return mask
+
+
+def read_display_profile():
+    """The reviewed DS-only display profile; no unobserved or inferred fallback mask.
+
+    The reference may be generated after this manifest is written, so its existence
+    is checked by compare.py when used, not before the original reference run.
+    """
+    try:
+        value = records.loads(fileopts.read_input(DISPLAY_PROFILE, "display profile").decode("utf-8"))
+        if not isinstance(value, dict) or set(value) != {"schema", "mask", "reference", "proof"}:
+            raise ValueError("expected schema, mask, reference and proof")
+        if type(value["schema"]) is not int or value["schema"] != 1:
+            raise ValueError("unknown display profile schema")
+        records.validate_mask(value["mask"])
+        if any(row[0] != "DS" for row in value["mask"]):
+            raise ValueError("display profile requires a DS-only mask")
+        for key in ("reference", "proof"):
+            if not isinstance(value[key], str) or not value[key]:
+                raise ValueError(f"display profile {key} must be a path")
+        return value
+    except (OSError, ValueError, fileopts.PathError) as exc:
+        raise Refused(f"display profile {DISPLAY_PROFILE}: {exc}") from exc
+
+
+def uses_display_projection(mask, selected=False):
+    """Selected mode is separate from byte-mask content; even an empty profile projects its screen field."""
+    if not selected:
+        return False
+    if [list(row) for row in mask] != read_display_profile()["mask"]:
+        raise Refused("mask differs from the selected display profile")
+    return True
+
+
+def display_profile_selected(args):
+    """Display ports select their profile; original references explicitly use its declared mask file.
+
+    --mask is an existing option. Its declared path distinguishes an empty display
+    profile from an ordinary raw --mask [] run, without a new record field or flag.
+    """
+    if "display" in {spec.split(".")[0] for spec in ports_of(args)}:
+        return True
+    return args.mask is not None and Path(args.mask).resolve() == DISPLAY_PROFILE.with_name("mask.json").resolve()
 
 
 # ---- one match -------------------------------------------------------------------------------------------------
@@ -267,16 +311,19 @@ def port_specs(ports, variant):
     return specs, modules, variant
 
 
-def checkpoint_key(spec, mask, counts, ports):
+def checkpoint_key(spec, mask, counts, ports, display_profile=False):
     """What a checkpoint must have been taken under to be resumed: the same match, image, kit, mask, --count and ports."""
     from original_match.match import VERSION
-    return {"spec_sha256": spec.sha256, "image_sha256": families.image_sha256(), "kit": VERSION,
-            "mask": [list(s) for s in mask], "counts": list(counts), "ports": sorted(ports)}
+    key = {"spec_sha256": spec.sha256, "image_sha256": families.image_sha256(), "kit": VERSION,
+           "mask": [list(s) for s in mask], "counts": list(counts), "ports": sorted(ports)}
+    if display_profile:
+        key["display_profile"] = 1
+    return key
 
 
 def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, watch=None, check_writes=True,
               stretch_limit=DEFAULT_STRETCH_LIMIT,
-              ports=(), say=None, checkpoints=None):
+              ports=(), say=None, checkpoints=None, display_profile=False):
     """The record of one match. Never raises for the match's own failure: that is the record's `error`.
     check_writes=False leaves the undeclared-write check out (the write watch that finds the ranges needs it so).
     ports: the kit's port specs (port_specs); the record then carries ports, variant and port_calls.
@@ -299,7 +346,7 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
     m = None
     if watch is not None:
         checkpoints = None
-    key = checkpoint_key(spec, mask, counts, ports) if checkpoints is not None else None
+    key = checkpoint_key(spec, mask, counts, ports, display_profile) if checkpoints is not None else None
     saved = checkpoints.load(spec.id, key) if checkpoints is not None else None
     try:
         if saved is not None:
@@ -363,7 +410,7 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
                                   f"P+0x{outside[0][0] - m.m.load * 16:X}: rerun --find-ranges")
         draws = m.st["draws"]
         rec["strays"], rec["stopped_at_board"] = strays, board
-        n_events, events_sha = records.events_digest(events)
+        n_events, events_sha = display_events_digest(events) if uses_display_projection(mask, display_profile) else records.events_digest(events)
         b = result["board"]
         rec.update(
             score=list(result["score"]), ticks=result["ticks"],
@@ -392,12 +439,12 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
 _worker = {}
 
 
-def _init_worker(cache, mask, counts, time_limit, ports=(), stretch_limit=DEFAULT_STRETCH_LIMIT, checkpoint=None):
+def _init_worker(cache, mask, counts, time_limit, ports=(), stretch_limit=DEFAULT_STRETCH_LIMIT, checkpoint=None, display_profile=False):
     """A worker finds the declared matches itself (families.discover), so no policy object crosses a process."""
     from original_match import Image
     from original_match.assets import reference_image
     _worker.update(image=Image.from_bytes(reference_image(cache)), mask=mask, counts=counts, time_limit=time_limit,
-                   ports=list(ports), stretch_limit=stretch_limit,
+                   ports=list(ports), stretch_limit=stretch_limit, display_profile=display_profile,
                    checkpoints=Checkpoints(checkpoint) if checkpoint else None, specs={m.id: m for fam in families.discover().values() for m in fam.matches})
 
 
@@ -405,7 +452,8 @@ def _run_in_worker(match_id):
     lines = []
     rec = run_match(_worker["image"], _worker["specs"][match_id], _worker["mask"], _worker["counts"],
                     _worker["time_limit"], ports=_worker["ports"], say=lines.append,
-                    stretch_limit=_worker["stretch_limit"], checkpoints=_worker.get("checkpoints"))
+                    stretch_limit=_worker["stretch_limit"], checkpoints=_worker.get("checkpoints"),
+                    display_profile=_worker.get("display_profile",False))
     return rec, lines
 
 
@@ -451,7 +499,7 @@ def append(out, record):
 
 def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask=(), counts=(),
                time_limit=DEFAULT_TIME_LIMIT, say=print, run_one=None, ports=(), stretch_limit=DEFAULT_STRETCH_LIMIT,
-               checkpoint=None):
+               checkpoint=None, display_profile=False):
     """Run the selected matches not yet in `out`; returns the records of every selected match now in `out`.
     run_one(spec) -> record replaces the kit for a test (one process only). ports: the kit's port specs (port_specs).
     checkpoint: the --checkpoint folder (#359); a match's checkpoint is dropped once its record is in `out`."""
@@ -486,11 +534,11 @@ def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask
         image = Image.from_bytes(reference_image(cache))
         for spec in todo:
             took(run_match(image, spec, mask, counts, time_limit, ports=ports, say=say, stretch_limit=stretch_limit,
-                           checkpoints=checkpoints))
+                           checkpoints=checkpoints, display_profile=display_profile))
     else:
         from concurrent.futures import ProcessPoolExecutor
         with ProcessPoolExecutor(max_workers=workers, initializer=_init_worker,
-                                 initargs=(cache, mask, counts, time_limit, list(ports), stretch_limit, checkpoint)) as pool:
+                                 initargs=(cache, mask, counts, time_limit, list(ports), stretch_limit, checkpoint, display_profile)) as pool:
             for rec, lines in pool.map(_run_in_worker, [s.id for s in todo]):
                 for line in lines:
                     say(line)
@@ -638,7 +686,13 @@ def prepare(a):
         if unknown or len(set(ids)) != len(ids):
             raise Refused(f"--only {a.only!r}: distinct ids among the selected matches (unknown: {unknown})")
         selected = [m for m in selected if m.id in ids]
-    return selected, parse_mask(a.mask), parse_count(a.count)
+    mask = parse_mask(a.mask)
+    if display_profile_selected(a):
+        profile = read_display_profile()
+        if a.mask is not None and mask != profile["mask"]:
+            raise Refused("--mask differs from the declared display profile")
+        mask = profile["mask"]
+    return selected, mask, parse_count(a.count)
 
 
 def processes(a, selected, mask, ports=()):
@@ -670,7 +724,7 @@ def main(argv=None):
             find_ranges(Image.from_bytes(reference_image(a.cache)), selected[:a.max], a.find_ranges)
             return 0
         recs = run_family(selected, a.out, a.workers, a.max, a.cache, mask, counts, a.time_limit, ports=ports,
-                          stretch_limit=a.stretch_limit, checkpoint=a.checkpoint)
+                          stretch_limit=a.stretch_limit, checkpoint=a.checkpoint, display_profile=display_profile_selected(a))
     except REFUSALS as e:
         print(f"refused: {e}")
         return 2

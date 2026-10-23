@@ -314,6 +314,53 @@ class Display(Case):
         self.assertEqual(r.written('0791:0C6B'), [(0x9B55, 1, 0)])
 
 
+    def test_snapshot_preserves_all_record_copies_flags_and_seed(self):
+        r = Rig()
+        r.ds16(0x9B34, 3)
+        r.ds16(0x9B36, 4)
+        r.squad(3, list(range(1, 21)))
+        r.squad(4, [0] * 20)
+        r.country(3, 0x2E, 130)
+        r.country(4, 0x2E, 131)
+        for ptr, seg in ((0xA91F,0x4C00),(0x9B74,0x5400),(0x9B78,0x5600),
+                         (0x9B6C,0x5000),(0x9B70,0x5200),(0xA978,0x5800)):
+            r.ds16(ptr, 0x100)
+            r.ds16(ptr+2, seg)
+        for word in range(21):r.lin8(0x52000 + 0x100 + word, word+1)
+        r.lin8(0x56000 + 0x100 + 130, 65)
+        r.lin8(0x56000 + 0x100 + 131, 66)
+        r.lin16(0x58000 + 0x100, 4321)
+        r.ds16(0x9B3A, 0x0205)
+        r.ds16(0x9B3C, 0x0304)
+        r.run('0791:15B9')
+        moves = r.args('23E4:025D')
+        self.assertEqual(len(moves), 51)
+        self.assertEqual(len(r.args('23E4:0644')), 42)
+        self.assertEqual(moves[0], (r.mem.DS,0x7C3E,r.mem.DS,0x8439,0x7FB))
+        self.assertIn((r.mem.DS,0x9B08,r.mem.DS,0x9AE0,40), moves)
+        self.assertEqual(r.mem.ds8(0x9970),65)
+        self.assertEqual(r.mem.ds8(0x9971),66)
+        self.assertEqual(r.mem.ds8(0x98E0),2)
+        self.assertEqual(r.mem.ds8(0x98E0+20),1)
+        self.assertEqual(r.mem.ds16(0x9B30),3)
+        self.assertEqual(r.mem.ds16(0x9B32),4)
+        self.assertEqual(r.mem.ds16(0x9B38),0x0205)
+        self.assertEqual(r.mem.ds16(0x9B3E),0x0304)
+        self.assertEqual(r.mem.ds16(0x9974),4321)
+        self.assertEqual(r.args('214B:0329'),[(r.mem.DS,0x6120,r.mem.DS,0xA96A)])
+
+    def test_summary_keeps_the_board_key_site_and_key_clear(self):
+        for flag in (0,1):
+            r = Rig()
+            r.ds8(0xA976,65)
+            sites=[]
+            r.mem._key=lambda site: sites.append(site) or 13
+            r.run('0791:0106',[flag])
+            self.assertEqual(sites,['0791:041A'] if flag else [])
+            self.assertEqual(r.mem.ds8(0xA976),0)
+            self.assertEqual(r.written('0791:041A'),[(0xA976,1,0)])
+
+
 class EventProjection(unittest.TestCase):
     def modules(self):
         sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'experiments/E036-match-port'))
@@ -351,6 +398,145 @@ class EventProjection(unittest.TestCase):
         a = [('minute', 90, (2, 1), {'screen_sha256':'a'})]
         b = [('minute', 90, (2, 1), {'screen_sha256':'b'})]
         self.assertNotEqual(family.display_events_digest(a), family.display_events_digest(b))
+
+class StrictDisplayProfile(unittest.TestCase):
+    def setup_profile(self, directory):
+        import json
+        from tests.test_e036_compare import family, compare_module
+        path = Path(directory) / 'profile.json'
+        value = {'schema':1, 'mask':[['DS', 0x9974, 2]],
+                 'reference':str(Path(directory) / 'reference.jsonl'), 'proof':'synthetic test proof'}
+        path.write_text(json.dumps(value))
+        return family, compare_module, path, value
+
+    def patched(self, family, compare, path):
+        import contextlib
+        from unittest import mock
+        stack = contextlib.ExitStack()
+        for module in {family, compare.family_runner}:
+            stack.enter_context(mock.patch.object(module, 'DISPLAY_PROFILE', path))
+        return stack
+
+    def test_profile_is_ds_only_and_missing_is_refused(self):
+        import tempfile, json
+        with tempfile.TemporaryDirectory() as d:
+            family, compare, path, value = self.setup_profile(d)
+            with self.patched(family, compare, path):
+                self.assertEqual(family.read_display_profile(), value)
+                for mask in ([['P', 10, 2]], [['DS', 65535, 2]], [['DS', 12, 2], ['DS', 11, 2]]):
+                    path.write_text(json.dumps({**value, 'mask':mask}))
+                    with self.assertRaises(family.Refused):family.read_display_profile()
+                path.unlink()
+                with self.assertRaises(family.Refused):family.read_display_profile()
+                with self.assertRaises(compare.Malformed):
+                    compare.candidate_display_profile({'id':{'ports':['display'],'mask':value['mask']}}, True)
+
+    def test_display_cli_gets_only_the_declared_mask_and_legacy_default_stays_empty(self):
+        import tempfile, json
+        from unittest import mock
+        with tempfile.TemporaryDirectory() as d:
+            family, compare, path, value = self.setup_profile(d)
+            with self.patched(family, compare, path), mock.patch('original_match.assets.check_cache'):
+                args = family.parser().parse_args(['--family','F40','--out',str(Path(d)/'out.jsonl')])
+                self.assertEqual(family.prepare(args)[1], [])
+                with mock.patch.object(family, 'ports_of', return_value=['display.any-variant']):
+                    self.assertEqual(family.prepare(args)[1], value['mask'])
+                    wrong = Path(d)/'wrong.json';wrong.write_text(json.dumps([['DS',12,2]]))
+                    args.mask = str(wrong)
+                    with self.assertRaises(family.Refused):family.prepare(args)
+                    correct = Path(d)/'correct.json';correct.write_text(json.dumps(value['mask']))
+                    args.mask = str(correct)
+                    self.assertEqual(family.prepare(args)[1], value['mask'])
+
+    def test_strict_profile_compares_legacy_skipped_ds_blocks(self):
+        import tempfile, copy
+        from tests.test_e036_compare import record, F40, dg
+        with tempfile.TemporaryDirectory() as d:
+            family, compare, path, value = self.setup_profile(d)
+            with self.patched(family, compare, path):
+                original = record(F40[0], mask=value['mask'])
+                changed = copy.deepcopy(original)
+                changed['board']['screen_sha256'] = dg('other screen')
+                self.assertEqual(compare.differences(original,changed,True,strict_display=True), [])
+                changed['after']['ds'][59] = dg('changed bytes not in the proved mask')
+                self.assertEqual(compare.differences(original,changed,True), [])
+                self.assertTrue(compare.differences(original,changed,True,strict_display=True))
+                changed['ports']=['display']
+                self.assertEqual(compare.candidate_display_profile({'x':changed},True), value)
+                changed['mask']=[]
+                with self.assertRaises(compare.Malformed):compare.candidate_display_profile({'x':changed},True)
+
+    def test_profile_reference_missing_or_mask_mismatched_is_malformed(self):
+        import tempfile, json, contextlib, io
+        from tests.test_e036_compare import record, F40
+        with tempfile.TemporaryDirectory() as d:
+            family, compare, path, value = self.setup_profile(d)
+            candidate = Path(d)/'candidate.jsonl'
+            rows=[record(mid, mask=value['mask']) for mid in F40]
+            for row in rows:row.update(ports=['display'],variant=None,port_calls={'0791:0106':1})
+            candidate.write_text(''.join(json.dumps(row)+'\n' for row in rows))
+            reference=Path(value['reference'])
+            args=['--family','F40','--no-screen','--candidate',str(candidate)]
+            with self.patched(family,compare,path), contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(compare.main(args),2)
+                reference.write_text(''.join(json.dumps(record(mid))+'\n' for mid in F40))
+                self.assertEqual(compare.main(args),2)
+                reference.write_text(''.join(json.dumps(record(mid,mask=value['mask']))+'\n' for mid in F40))
+                self.assertEqual(compare.main(args),0)
+                other = Path(d)/'other-reference.jsonl'
+                other.write_text(reference.read_text())
+                self.assertEqual(compare.main(args+['--reference',str(other)]),2)
+                self.assertEqual(compare.main(args+['--reference',str(reference)]),0)
+                path.unlink()
+                self.assertEqual(compare.main(args),2)
+
+    def test_empty_declared_profile_is_selected_separately_from_raw_empty_mask(self):
+        import tempfile,json
+        from unittest import mock
+        from tests.test_e036_compare import record,F40,FAMILIES
+        with tempfile.TemporaryDirectory() as d:
+            family,compare,path,value=self.setup_profile(d)
+            value['mask']=[];path.write_text(json.dumps(value))
+            declared=path.with_name('mask.json');declared.write_text('[]')
+            other=Path(d)/'other-empty.json';other.write_text('[]')
+            with self.patched(family,compare,path),mock.patch('original_match.assets.check_cache'):
+                self.assertEqual(family.read_display_profile()['mask'],[])
+                self.assertTrue(family.uses_display_projection([],selected=True))
+                self.assertFalse(family.uses_display_projection([],selected=False))
+                args=family.parser().parse_args(['--family','F40','--out',str(Path(d)/'out.jsonl')])
+                self.assertFalse(family.display_profile_selected(args))
+                self.assertEqual(family.prepare(args)[1],[])
+                args.mask=str(other)
+                self.assertFalse(family.display_profile_selected(args))
+                args.mask=str(declared)
+                self.assertTrue(family.display_profile_selected(args))
+                self.assertEqual(family.prepare(args)[1],[])
+                with mock.patch.object(family,'ports_of',return_value=['display']):
+                    args.mask=None
+                    self.assertTrue(family.display_profile_selected(args))
+                    self.assertEqual(family.prepare(args)[1],[])
+                self.assertEqual(compare.candidate_display_profile({'x':{'ports':['display'],'mask':[]}},True),value)
+                self.assertIsNone(compare.candidate_display_profile({'x':{'mask':[]}},True))
+                spec=FAMILIES['F40'].matches[0]
+                raw=family.checkpoint_key(spec,[],[],[])
+                projected=family.checkpoint_key(spec,[],[],[],display_profile=True)
+                self.assertNotIn('display_profile',raw)
+                self.assertEqual(projected,{**raw,'display_profile':1})
+
+    def test_selected_profile_mode_reaches_single_and_pool_workers(self):
+        import tempfile
+        from unittest import mock
+        from tests.test_e036_compare import family,FAMILIES,record
+        spec=FAMILIES['F40'].matches[0]
+        with tempfile.TemporaryDirectory() as d, mock.patch('original_match.assets.reference_image',return_value=b'input'), \
+             mock.patch('original_match.Image.from_bytes',return_value=object()), \
+             mock.patch.object(family,'run_match',return_value=record(spec.id)) as run:
+            family.run_family([spec],str(Path(d)/'out.jsonl'),mask=[],display_profile=True,say=lambda s:None)
+            self.assertIs(run.call_args.kwargs['display_profile'],True)
+            with mock.patch.dict(family._worker,{},clear=True):
+                family._init_worker('.cache',[],[],300,display_profile=True)
+                family._run_in_worker(spec.id)
+                self.assertIs(run.call_args.kwargs['display_profile'],True)
 
 if __name__ == '__main__':
     unittest.main()

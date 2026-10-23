@@ -24,9 +24,10 @@ template counts, the result's digest, the decisions, and after the post-match up
 every 1 KiB of DS and of every range. The first differing field is named, with the minute where the draws give one.
 --expect differ (a falsifier caught): every candidate match must differ from its reference in one of those fields, or
 be a match that did not complete (a falsifier that hangs or errors is caught as well); an identical match is NOT CAUGHT.
---no-screen leaves out what only the screen carries: the board screen's digest and the 1 KiB blocks of DS that only
-hold the screen's two text buffers (records.SCREEN_DS_BLOCKS); the pitch picture's background copy is engine state and
-stays.
+--no-screen with the new display profile leaves out the board screen digest and uses the independently proved byte
+mask/reference; every DS block and every other compared field stays. Historical unprofiled --no-screen retains its
+legacy screen-buffer block exclusions. The pitch background always stays. The display-profile producer also excludes
+only full_time.data.screen_sha256 from the event digest, in both original references and candidates.
 
     python3 -B experiments/E036-match-port/compare.py --e032 --candidate <reference.jsonl>
 prints, per seed, whether F40's ten E032 matches ('F40/e032-*') equal original_match.check's EXPECTED_FAMILY (score,
@@ -42,6 +43,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import families  # noqa: E402
 import records  # noqa: E402
+import family as family_runner  # noqa: E402
 
 ROOT = HERE.parents[1]
 FIELDS = ("score", "ticks", "draws.count", "draws.digest", "draws.per_minute", "events", "board.statistics",
@@ -82,11 +84,11 @@ def block_difference(a, b, label, skip=()):
     return None
 
 
-def differences(a, b, no_screen=False):
+def differences(a, b, no_screen=False, strict_display=False):
     """[(field, where)] for every compared field in which two completed records differ, in FIELDS order. `where` names
     the minute (draws), the 1 KiB block (memory) or the row that differs first, else ''."""
     out = []
-    skip_blocks = set(records.SCREEN_DS_BLOCKS) if no_screen else set()
+    skip_blocks = set(records.SCREEN_DS_BLOCKS) if no_screen and not strict_display else set()
     for field in FIELDS:
         if no_screen and field in SCREEN_FIELDS:
             continue
@@ -111,6 +113,28 @@ def differences(a, b, no_screen=False):
     return out
 
 
+def candidate_display_profile(candidate, no_screen):
+    """Strict new profile for display ports or records over its mask; legacy behavior is retained.
+
+    Owner decision 2026-10-23: new display records compare every DS block over the
+    proved byte mask, while historical unprofiled --no-screen retains its behavior.
+    """
+    if not no_screen:
+        return None
+    required = any("display" in record.get("ports", ()) for record in candidate.values())
+    masks = [record["mask"] for record in candidate.values()]
+    if not required and not (any(masks) and family_runner.DISPLAY_PROFILE.exists()):
+        return None
+    try:
+        profile = family_runner.read_display_profile()
+    except family_runner.Refused as exc:
+        raise Malformed(str(exc)) from exc
+    matching = [mask == profile["mask"] for mask in masks]
+    if required and not all(matching):
+        raise Malformed("candidate mask differs from the declared display profile")
+    return profile if all(matching) else None
+
+
 def describe(diff):
     """The first differing field (with its minute or block), the minute where the draws first differ when that is not
     the first field, and the other differing fields."""
@@ -125,7 +149,7 @@ def describe(diff):
     return text
 
 
-def check(ref, cand, expected, expect="identical", no_screen=False, image_sha256=None):
+def check(ref, cand, expected, expect="identical", no_screen=False, image_sha256=None, strict_display=False):
     """(lines, passed) for the matches of `expected` ({id: spec digest}); ref and cand are {id: record}. Raises Malformed
     on a missing or unexpected match, a record that is not the declared match's, an incomplete reference, two masks."""
     missing_ref = sorted(set(expected) - set(ref))
@@ -157,7 +181,7 @@ def check(ref, cand, expected, expect="identical", no_screen=False, image_sha256
     for mid in expected:
         a, b = ref[mid], cand[mid]
         bad = completed(b)
-        diff = differences(a, b, no_screen) if not bad else []
+        diff = differences(a, b, no_screen, strict_display) if not bad else []
         head = (f"{mid}: score {a['score']} ticks {a['ticks']} draws {a['draws']['count']} "
                 f"cpu {a['cpu_s']} s -> {b['cpu_s']} s; ")
         if expect == "identical":
@@ -236,9 +260,17 @@ def main(argv=None):
             print("\n".join(lines))
             return 0 if ok else 1
         cand = load(a.candidate)
+        profile = candidate_display_profile(cand, a.no_screen)
+        if profile and a.reference is not None:
+            supplied = Path(a.reference)
+            supplied = supplied if supplied.is_absolute() else ROOT / supplied
+            bound = Path(profile["reference"])
+            bound = bound if bound.is_absolute() else ROOT / bound
+            if supplied.resolve() != bound.resolve():
+                raise Malformed("--reference differs from the declared display profile reference")
         groups = {}
         for fam in chosen:
-            groups.setdefault(a.reference or fam.reference, []).append(fam)
+            groups.setdefault(a.reference or (profile["reference"] if profile else fam.reference), []).append(fam)
         ref, expected = {}, {}
         for path, fams in groups.items():
             log = load(Path(path) if Path(path).is_absolute() else ROOT / path)
@@ -247,7 +279,7 @@ def main(argv=None):
                     expected[mid] = digest
                     if mid in log:
                         ref[mid] = log[mid]
-        lines, ok = check(ref, cand, expected, a.expect, a.no_screen, families.image_sha256())
+        lines, ok = check(ref, cand, expected, a.expect, a.no_screen, families.image_sha256(), strict_display=profile is not None)
     except Malformed as e:
         print(f"MALFORMED: {e}")
         return 2

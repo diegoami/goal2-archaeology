@@ -13,7 +13,7 @@ from .mem import s16, s8
 from .postmatch import half
 from .restarts import _end
 from .runtime import Regs
-from .setup import guest, member, farg, w8, w16, rb, rw
+from .setup import guest, member, farg, w8, w16, rb, rw, squad_of, player_of
 
 PORTS = Registry("display", "the 88-routine display boundary (T73)")
 
@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {"0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8"}:
+    if address not in {"0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9"}:
         PORTS.stub(address, ret=ret, value=None, why="initial all-at-once display-removal candidate; classification pending")
 
 
@@ -522,4 +522,136 @@ def score_into_buffer(mem, variant):
         r.sp = r.sp + 6
         r = yield from guest(mem, r, '214B:0205', colour, r.ss, temporary, row_word, column_word,
                              seg, off, ret=written)
+    return _end(r)
+
+
+@PORTS.port('0791:15B9', ret='ret')
+def snapshot_state(mem, variant):
+    """15B9-1826: preserve the snapshot's concrete copies; no blanket snapshot mask is assumed."""
+    r = Regs(mem)
+    r.enter(8)
+    r.di = 0x8439
+    r.ax = 0x7FB
+    r = yield from guest(mem, r, '23E4:025D', mem.DS, 0x7C3E, mem.DS, r.di, r.ax, ret='15D2')
+    for side in range(2):
+        r.local8(-1, side)
+        r.al = side
+        cbw(r)
+        r.di = r.ax << 1
+        sqseg, sqoff = squad_of(mem, r, mem.ds16((0x9B34 + r.di) & 65535))
+        r.local16(-7, sqoff)
+        r.local16(-5, sqseg)
+        r.al = side
+        cbw(r)
+        r.di = r.ax << 1
+        squad_of(mem, r, mem.ds16((0x9B34 + r.di) & 65535))
+        source = r.es, r.di
+        r.al = side
+        cbw(r)
+        r.dx = 0xBF
+        mul(r, r.dx)
+        r.di = r.ax + 0x8C34
+        r.ax = 0xBF
+        r = yield from guest(mem, r, '23E4:025D', *source, mem.DS, r.di, r.ax, ret='162B')
+        for pointer, stride, base, length, target, ret in ((0xA91F, 3, 0x9930, 3, '23E4:025D', '165B'),
+                (0x9B74, 13, 0x993C, 12, '23E4:0644', '168B')):
+            r.es, r.di = sqseg, sqoff
+            r.al = rb(mem, r, 0x2E)
+            r.ah = 0
+            r.dx = stride
+            mul(r, r.dx)
+            r.di, r.es = mem.ds16(pointer), mem.ds16(pointer + 2)
+            r.di = r.di + r.ax
+            source = r.es, r.di
+            r.al = side
+            cbw(r)
+            r.dx = stride
+            mul(r, r.dx)
+            r.di = r.ax + base
+            r.ax = length
+            r = yield from guest(mem, r, target, *source, mem.DS, r.di, r.ax, ret=ret)
+        r.es, r.di = sqseg, sqoff
+        r.al = rb(mem, r, 0x2E)
+        r.ah = 0
+        r.di, r.es = mem.ds16(0x9B78), mem.ds16(0x9B7A)
+        r.di = r.di + r.ax
+        half(r, 'dx', rb(mem, r, 0))
+        r.al = side
+        cbw(r)
+        r.di = r.ax
+        mem.wds8((r.di + 0x9970) & 65535, r.dx & 255, '0791:16A3')
+        for slot in range(1, 21):
+            r.local16(-3, slot)
+            def squad_player():
+                r.ax = slot << 1
+                r.es, r.di = sqseg, sqoff + r.ax
+                r.ax = rw(mem, r, -2)
+                return r.ax
+            player_of(mem, r, squad_player())
+            source = r.es, r.di
+            r.ax, r.dx = slot, 20
+            mul(r, r.dx)
+            r.cx = r.ax
+            r.al = side
+            cbw(r)
+            r.dx = 400
+            mul(r, r.dx)
+            r.di = r.ax + r.cx + 0x8F1C
+            r.ax = 20
+            r = yield from guest(mem, r, '23E4:025D', *source, mem.DS, r.di, r.ax, ret='16F2')
+            squad_player()
+            r.dx = 11
+            mul(r, r.dx)
+            r.di, r.es = mem.ds16(0x9B6C), mem.ds16(0x9B6E)
+            r.di = r.di + r.ax
+            source = r.es, r.di
+            r.ax, r.dx = slot, 11
+            mul(r, r.dx)
+            r.cx = r.ax
+            r.al = side
+            cbw(r)
+            r.dx = 220
+            mul(r, r.dx)
+            r.di = r.ax + r.cx + 0x9565
+            r.ax = 10
+            r = yield from guest(mem, r, '23E4:0644', *source, mem.DS, r.di, r.ax, ret='1733')
+            squad_player()
+            r.di, r.es = mem.ds16(0x9B70), mem.ds16(0x9B72)
+            r.di = r.di + r.ax
+            half(r, 'bx', rb(mem, r, 0))
+            r.ax, r.cx = slot, slot
+            r.al = side
+            cbw(r)
+            r.dx = 20
+            mul(r, r.dx)
+            r.di = r.ax + r.cx
+            mem.wds8((r.di + 0x98DF) & 65535, r.bx & 255, '0791:175C')
+    for source, dest, length, ret in ((0x7B7E, 0x7B6A, 20, '1785'), (0x7BD4, 0x7B92, 66, '1798')):
+        r.di, r.ax = dest, length
+        r = yield from guest(mem, r, '23E4:025D', mem.DS, source, mem.DS, dest, r.ax, ret=ret)
+    r.di, r.es = mem.ds16(0x7C2A), mem.ds16(0x7C2C)
+    source = r.es, r.di
+    r.di, r.ax = 0x7C2E, 8
+    r = yield from guest(mem, r, '23E4:025D', *source, mem.DS, r.di, r.ax, ret='17AC')
+    r.al = mem.ds8(0x9A3D)
+    mem.wds8(0x9A3C, r.al, '0791:17AF')
+    for source, dest, length, ret in ((0x9A40, 0x9A90, 80, '17C5'), (0x9B08, 0x9AE0, 40, '17D8')):
+        r.di, r.ax = dest, length
+        r = yield from guest(mem, r, '23E4:025D', mem.DS, source, mem.DS, dest, r.ax, ret=ret)
+    r.ax, r.es = mem.ds16(0x9B34), mem.ds16(0x9B36)
+    r.dx = r.es
+    mem.wds16(0x9B30, r.ax, '0791:17DE')
+    mem.wds16(0x9B32, r.dx, '0791:17E1')
+    for source, dest, at in ((0x9B3A, 0x9B38, '17E8'), (0x9B3C, 0x9B3E, '17EE')):
+        r.ax = mem.ds16(source)
+        mem.wds16(dest, r.ax, '0791:' + at)
+    r.al = mem.ds8(0x9B41)
+    mem.wds8(0x9B42, r.al, '0791:17F4')
+    r.di, r.es = mem.ds16(0xA978), mem.ds16(0xA97A)
+    r.ax = rw(mem, r, 0)
+    mem.wds16(0x9974, r.ax, '0791:17FE')
+    r.di, r.ax = 0x998C, 20
+    r = yield from guest(mem, r, '23E4:025D', mem.DS, 0x9978, mem.DS, r.di, r.ax, ret='1814')
+    r.di = 0xA96A
+    r = yield from guest(mem, r, '214B:0329', mem.DS, 0x6120, mem.DS, r.di, ret='1823')
     return _end(r)
