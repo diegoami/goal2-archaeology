@@ -1,0 +1,35 @@
+COMMAND: python3 -B experiments/E036-match-port/family.py --family O8 --only O8/c64-c90-friendly,O8/c64-c90-qualifier --workers 2 --time-limit 6000 --stretch-limit 600 --checkpoint .cache/checkpoints --out shard/shard-2.jsonl --ports discipline --variant discipline.offside-same-side
+HEAD: fdd05908ff9933b13d2ae242fa9764e1aefc889e runner 4 CPUs  AMD EPYC 7763 64-Core Processor started 2026-10-23T02:53:28Z
+ports: discipline.offside-same-side
+2 matches selected, 0 already in shard/shard-2.jsonl, 2 to run
+O8/c64-c90-friendly: completed; score [0, 0] ticks 4738 cpu 36.412 s; port 0791:7CC5 called 0; port 0791:7D56 called 0; port 0791:7E60 called 15; port 0791:7EEF called 2; port 0791:8062 called 42; port 0791:8206 called 2; port 0791:82EB called 13; port 0791:A260 called 291; port 0791:A2E6 called 27; port 0791:A920 called 536; port 0791:A9B8 called 0; port 0791:AAE8 called 16; port 0791:BBFF called 2; port 0791:BD03 called 2; port 0791:BD83 called 1; port 0791:BF6B called 0; port 0791:C173 called 0; port 0791:C5DC called 5; port 0791:C7EB called 5; port 0791:C88D called 5
+O8/c64-c90-qualifier: decision substitution at minute 20 answered with port frames live: 0791:8206 waiting on its call of 0791:6FB6 (returning to 0791:82E5); 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 26 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 28 answered with port frames live: 0791:8206 waiting on its call of 0791:6FB6 (returning to 0791:82E5); 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 31 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 31 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 36 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 40 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 41 answered with port frames live: 0791:82EB waiting on its call of 0791:6FB6 (returning to 0791:835B); 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 45 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 46 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 49 answered with port frames live: 0791:82EB waiting on its call of 0791:6FB6 (returning to 0791:835B); 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 56 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 58 answered with port frames live: 0791:82EB waiting on its call of 0791:6FB6 (returning to 0791:835B); 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 61 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 65 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 70 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 74 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 77 answered with port frames live: 0791:8206 waiting on its call of 0791:6FB6 (returning to 0791:82E5); 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 80 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 80 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 87 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 88 answered with port frames live: 0791:82EB waiting on its call of 0791:6FB6 (returning to 0791:835B); 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 88 answered with port frames live: 0791:82EB waiting on its call of 0791:6FB6 (returning to 0791:835B); 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 89 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 89 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 90 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: decision substitution at minute 91 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c64-c90-qualifier: completed; score [0, 0] ticks 4528 cpu 35.921 s; port 0791:7CC5 called 1; port 0791:7D56 called 1; port 0791:7E60 called 12; port 0791:7EEF called 3; port 0791:8062 called 37; port 0791:8206 called 3; port 0791:82EB called 9; port 0791:A260 called 222; port 0791:A2E6 called 24; port 0791:A920 called 434; port 0791:A9B8 called 0; port 0791:AAE8 called 13; port 0791:BBFF called 2; port 0791:BD03 called 2; port 0791:BD83 called 1; port 0791:BF6B called 0; port 0791:C173 called 0; port 0791:C5DC called 2; port 0791:C7EB called 2; port 0791:C88D called 2
+2 of 2 matches in shard/shard-2.jsonl, 0 not completed
+exit 0 finished 2026-10-23T02:54:01Z
