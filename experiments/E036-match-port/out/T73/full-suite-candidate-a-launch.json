@@ -1,0 +1,11 @@
+{
+  "purpose": "Early full-suite check of passing 63-body candidate; repeat after any classification source/test changes",
+  "head": "d91a6050a8eb62a3bcee5aae19385d98347f8e22",
+  "sha256": {
+    "runtime/original_match/port/display.py": "81a8fe8613aaaa1062f6e468f92989b683dfde52c2c0b12d11b56ed2cdab42fe",
+    "tests/test_port_display.py": "785c49cdaac37ea59405d1f5b8edd39af461562900d3488afbcbd447d740daa1",
+    "experiments/E036-match-port/family.py": "9feff83d61a82c0d948d506fc2aa3af53f4fefb159ac5ccf7aa664f13810677f",
+    "experiments/E036-match-port/compare.py": "77d3c5d9c6114a27f19f0061dee4e24b83ff359b4e00de50d65d2e6195c8ef92"
+  },
+  "command": "HARNESS_HEAVY_SLOTS=32 tools/heavy.sh T73-candidate-full-suite -- /home/diego/.local/bin/python3.12 -B -m unittest discover -s tests -v"
+}
