@@ -54,6 +54,42 @@ class Summarise(unittest.TestCase):
         code, _ = run(self.record, trace, self.tmp)
         self.assertEqual(code, 1)
 
+    def reads_cut(self, how):
+        """The committed trace with its reads outside the name entry cut (#378): none, the last one, or one more."""
+        trace = copy.deepcopy(self.trace)
+        idx = [i for i, e in enumerate(trace["events"]) if e["kind"] == "read" and e["site"] != "214B:112B"]
+        if how == "none":
+            trace["events"] = [e for i, e in enumerate(trace["events"]) if i not in idx]
+        elif how == "last":
+            del trace["events"][idx[-1]]
+        else:
+            trace["events"].append(copy.deepcopy(trace["events"][idx[-1]]))
+        return trace
+
+    def test_a_trace_with_no_reads_fails(self):
+        code, out = run(self.record, self.reads_cut("none"), self.tmp)
+        self.assertEqual(code, 1, out)
+
+    def test_a_trace_missing_the_manager_menu_read_fails(self):
+        code, out = run(self.record, self.reads_cut("last"), self.tmp)
+        self.assertEqual(code, 1, out)
+        self.assertIn("holds 5 reads", out)
+
+    def test_a_trace_with_one_read_more_fails(self):
+        code, out = run(self.record, self.reads_cut("more"), self.tmp)
+        self.assertEqual(code, 1, out)
+        self.assertIn("holds 7 reads", out)
+
+    def test_each_seed_word_that_differs_fails(self):
+        # #379: all six reads present, screens and callers equal, one seed word changed in one read
+        for key in ("seed", "seed2"):
+            with self.subTest(key):
+                trace = copy.deepcopy(self.trace)
+                read = next(e for e in trace["events"] if e["kind"] == "read" and e["site"] == "1771:28F5")
+                read[key] = "FFFF" if read[key] != "FFFF" else "0000"
+                code, out = run(self.record, trace, self.tmp)
+                self.assertEqual(code, 1, out)
+
 
 if __name__ == "__main__":
     unittest.main()
