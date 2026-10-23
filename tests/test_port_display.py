@@ -1021,5 +1021,39 @@ class CompetitionFixtureTextTests(unittest.TestCase):
         self.assertEqual(r.args('1771:0F58'),[(3,8,62)])
         self.assertEqual(r.args('1771:76FA'),[(FXSEG,FXOFF,8,58)])
 
+class CompetitionRecordRenderingTests(unittest.TestCase):
+    def test_four_group_records_keep_phase_snapshot_offsets_and_all_columns(self):
+        for phase,snapshot in ((0,0),(1,0),(0,1),(1,1)):
+            r=Rig();r.lin16(PARENT-8,3);r.lin16(PARENT-4,2);r.lin8(PARENT-9,snapshot)
+            r.country(3,0x2C,1);r.ds16(0xA933,0x500);r.ds16(0xA935,0x5400)
+            expected_chars=[(66,)];expected_numbers=[]
+            for index in range(1,5):
+                base=0x54500+8*index+112+448+phase*0x700+snapshot*0xE00-0x200
+                r.lin16(base,index+3)
+                for field,value in ((2,index),(3,index+1),(4,index+2),(5,index+10),(6,index+20),(7,index+30)):r.lin8(base+field,value)
+                expected_chars += [(3*index+3+48,),(index+48,),(index+49,),(index+50,)]
+                expected_numbers += [(0,index+10),(0,index+20),(0,index+30)]
+            r.run('1771:8A87',(PARENT,phase))
+            self.assertEqual(r.args('1771:0F58'),[(i+3,i+10,4) for i in range(1,5)])
+            self.assertEqual(r.args('23E4:075A'),expected_chars)
+            self.assertEqual(r.args('214B:09DA'),expected_numbers)
+            self.assertEqual(len(r.args('214B:026D')),16)
+            self.assertEqual(len(r.args('214B:01A3')),12)
+            self.assertEqual(r.args('214B:02C8')[0][0],0x0207)
+            self.assertEqual(r.u16(BP0-2),4)
+
+    def test_stage_header_snapshot_round_and_leader_branches(self):
+        for snapshot,flag,leader in ((0,0,0),(0,1,7),(1,0,0),(1,1,7)):
+            r=Rig();r.ds8(0xF74,2);r.ds8(0xF75,1)
+            game=GSEG*16+GOFF;r.lin16(game+0x38,3);r.lin16(game+0x3A,4);r.lin8(game+0x40,1)
+            index=5 if snapshot else 1;r.lin16(game+0x2C+index*2,leader)
+            r.run('1771:5AC4',(1,snapshot,flag))
+            self.assertEqual([a[1] for a in r.args('214B:0329')],[0x1726,0x1190] if snapshot else [0x1726,0x1296,0x1230])
+            self.assertEqual(r.args('214B:09DA'),[(0,10 if snapshot else 8)])
+            self.assertEqual(r.args('214B:02C8')[0][1:5],(r.mem.DS,0xF5E+flag*11,2-snapshot,30))
+            self.assertEqual(r.args('214B:02C8')[1][3:5],(2-snapshot,49-2*snapshot))
+            self.assertEqual(r.args('1771:0F58'),[(leader,1,19)] if leader else [])
+            self.assertEqual(r.u16(BP0-2),index)
+
 if __name__ == '__main__':
     unittest.main()
