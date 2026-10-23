@@ -1,0 +1,45 @@
+fixed parent source620fdca, current new tests
+FFF
+======================================================================
+FAIL: test_disabled_record_retains_only_pointer_frame (tests.test_port_display.CommentaryMemoryTests.test_disabled_record_retains_only_pointer_frame)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpde67puxz/tests/test_port_display.py", line 654, in test_disabled_record_retains_only_pointer_frame
+    self.assertEqual(r.u16(BP0-0x28),0x7C38+12)
+AssertionError: 0 != 31812
+
+======================================================================
+FAIL: test_padding_and_top_rows_update_both_buffers (tests.test_port_display.CommentaryMemoryTests.test_padding_and_top_rows_update_both_buffers) (row=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpde67puxz/tests/test_port_display.py", line 668, in test_padding_and_top_rows_update_both_buffers
+    self.assertEqual([q[1][-1] for q in output],expected)
+AssertionError: Lists differ: [] != [43370, 43378]
+
+Second list contains 2 additional elements.
+First extra element 0:
+43370
+
+- []
++ [43370, 43378]
+
+======================================================================
+FAIL: test_padding_and_top_rows_update_both_buffers (tests.test_port_display.CommentaryMemoryTests.test_padding_and_top_rows_update_both_buffers) (row=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpde67puxz/tests/test_port_display.py", line 668, in test_padding_and_top_rows_update_both_buffers
+    self.assertEqual([q[1][-1] for q in output],expected)
+AssertionError: Lists differ: [] != [43370]
+
+Second list contains 1 additional elements.
+First extra element 0:
+43370
+
+- []
++ [43370]
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.038s
+
+FAILED (failures=3)
+exit 1

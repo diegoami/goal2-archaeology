@@ -646,5 +646,31 @@ class StrictDisplayProfile(unittest.TestCase):
                 family._run_in_worker(spec.id)
                 self.assertIs(run.call_args.kwargs['display_profile'],True)
 
+class CommentaryMemoryTests(unittest.TestCase):
+    def test_disabled_record_retains_only_pointer_frame(self):
+        r=Rig();r.ds8(0x7C38+12,255)
+        r.run('0791:1829',(33,4,2))
+        self.assertEqual(r.calls,[])
+        self.assertEqual(r.u16(BP0-0x28),0x7C38+12)
+        self.assertEqual(r.u16(BP0-0x26),r.mem.DS)
+
+    def test_padding_and_top_rows_update_both_buffers(self):
+        for row,expected in ((4,[0xA96A,0xA972]),(5,[0xA96A])):
+            with self.subTest(row=row):
+                r=Rig();r.ds8(0x7C38,3);r.ds8(0x7C3D,1);r.ds8(0x832F,0xA5)
+                def answer(q,m):
+                    if q.target=='23E4:0644':
+                        seg,off=q.args[2:4]
+                        m.memory[seg*16+off:seg*16+off+4]=b'\x03abc'
+                    return 0
+                r.run('0791:1829',(33,row,0),answer=answer)
+                output=[q for q in r.calls if q[0]=='214B:02C8']
+                self.assertEqual([q[1][-1] for q in output],expected)
+                self.assertEqual([q[1][0] for q in output],[0xA5]*len(expected))
+                self.assertEqual([q[1][3:5] for q in output],[(row,33)]*len(expected))
+                fills=[q for q in r.calls if q[0]=='214B:0018']
+                self.assertEqual(fills[0][1][2:],(27,32))
+                self.assertEqual(r.mem.u8(BP0-0x24),30)
+
 if __name__ == '__main__':
     unittest.main()

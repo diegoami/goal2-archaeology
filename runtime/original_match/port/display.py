@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {"0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
+    if address not in {"0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
         PORTS.stub(address, ret=ret, value=None, why="initial all-at-once display-removal candidate; classification pending")
 
 
@@ -1397,4 +1397,63 @@ def player_card_memory(mem,variant):
                     r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:01A3',ret)
     r.ax=8;row=r.ax;r.ax=60
     r=yield from guest(mem,r,'1771:3827',word,row,r.ax,ret='1771:4853',far=False)
+    return _end(r)
+
+
+@PORTS.port('0791:1829',ret='ret 6')
+def commentary_line_memory(mem,variant):
+    """1829-19E3: expand the commentary record, preserving its local and buffer writes."""
+    r=Regs(mem);r.enter(0x128)
+    r.di=ss16(mem,r,r.bp+8)*6+0x7C38;record=r.di
+    r.local16(-0x28,r.di);r.local16(-0x26,mem.DS)
+    r.es=mem.DS
+    if mem.ds8(record)==255:
+        return _end(r)
+    r.al=mem.ds8(record);cbw(r);r.dx=21;mul(r,r.dx);r.di=r.ax+0xBE
+    source=mem.DS,r.di
+    line=(r.bp-0x24)&65535;expression=(r.bp-0x128)&65535
+    r.di=line;r.ax=35
+    r=yield from guest(mem,r,'23E4:0644',*source,r.ss,line,r.ax,ret='0791:1873')
+    if mem.u8(mem.ss_lin(line)):
+        if mem.u8(mem.ss_lin(line+1))==1:
+            r.local8(-0x23,32)
+            r.di=expression;r.push(r.ss);r.push(r.di)
+            r.ax=mem.ds16(record+1);r.dx=11;mul(r,r.dx)
+            r.di=mem.ds16(0x9B6C)+r.ax;r.es=mem.ds16(0x9B6E)
+            r=yield from guest(mem,r,'23E4:062A',r.es,r.di,ret='0791:18A5')
+            r.di=line
+            r=yield from guest(mem,r,'23E4:06B7',r.ss,r.di,ret='0791:18AF')
+            r.di=line;r.ax=35;r.sp=r.sp+4
+            r=yield from guest(mem,r,'23E4:0644',r.ss,expression,r.ss,line,r.ax,ret='0791:18BD')
+        for marker,field,store_ret,concat_ret,name_ret,end_ret in (
+                (1,1,'0791:18DD','0791:18E7','0791:1900','0791:190E'),
+                (2,3,'0791:192E','0791:1938','0791:1951','0791:195F')):
+            r.al=mem.u8(mem.ss_lin(line));r.ah=0;r.di=r.ax
+            if mem.u8(mem.ss_lin(line+r.di))==marker:
+                r.local8(-0x24,(mem.u8(mem.ss_lin(line))-1)&255)
+                r.di=expression;r.push(r.ss);r.push(r.di)
+                r.di=line
+                r=yield from guest(mem,r,'23E4:062A',r.ss,r.di,ret=store_ret)
+                r.di=0x1827
+                r=yield from guest(mem,r,'23E4:06B7',mem.seg(0x0791),r.di,ret=concat_ret)
+                r.ax=mem.ds16(record+field);r.dx=11;mul(r,r.dx)
+                r.di=mem.ds16(0x9B6C)+r.ax;r.es=mem.ds16(0x9B6E)
+                r=yield from guest(mem,r,'23E4:06B7',r.es,r.di,ret=name_ret)
+                r.di=line;r.ax=35;r.sp=r.sp+4
+                r=yield from guest(mem,r,'23E4:0644',r.ss,expression,r.ss,line,r.ax,ret=end_ret)
+    length=mem.u8(mem.ss_lin(line))
+    if length<30:
+        r.al=length;r.ah=0;r.ax=r.ax+1;r.di=r.bp+r.ax-0x24
+        destination=r.ss,r.di;r.al=length;r.ah=0;r.dx=r.ax;r.ax=30-r.dx
+        count=r.ax;r.ax=32
+        r=yield from guest(mem,r,'214B:0018',*destination,count,r.ax,ret='0791:1988')
+    r.local8(-0x24,30)
+    for pointer,ret in ((0xA96A,'0791:19B2'),(0xA972,'0791:19DE')):
+        if pointer==0xA972 and ss16(mem,r,r.bp+6)>4:
+            break
+        r.al=mem.ds8(record+5);cbw(r);r.di=r.ax;r.al=mem.ds8(0x832E+r.di);colour=r.ax
+        r.di=line;source=r.ss,r.di
+        r.al=ss16(mem,r,r.bp+6)&255;row=r.ax
+        r.al=ss16(mem,r,r.bp+4)&255;column=r.ax;r.di=pointer
+        r=yield from guest(mem,r,'214B:02C8',colour,*source,row,column,mem.DS,r.di,ret=ret)
     return _end(r)
