@@ -600,7 +600,7 @@ def bind_pitch_player(mem, variant):
 @PORTS.port("0791:A2E6", ret="retf 6")
 def initialize_pitch_player(mem, variant):
     """A2E6-A372 (the record [bp+6], slot [bp+0xA]): A260; the point +0 and +2 := DS:0644; +5 := DS:8330[side] when the
-    slot is available (045D), else DS:832E[side]; +0xB := DS:063E, +0x10 := 0, +0x14 := 0, +0xF := 5."""
+    slot is a goalkeeper's (045D: 1 or 12), else DS:832E[side]; +0xB := DS:063E, +0x10 := 0, +0x14 := 0, +0xF := 5."""
     r = Regs(mem)
     r.enter(0)                                                   # A2E6-A2E7
     slot = arg16(mem, r, 0xA)                                    # A2E9 push word ptr [bp + 0xa]

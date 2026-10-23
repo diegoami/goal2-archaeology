@@ -166,7 +166,7 @@ def penalty_contest(mem, variant):
 # -- 698E ----------------------------------------------------------------------------------------------------------
 @PORTS.port("0791:698E", ret="ret")
 def ball_out_at_goal_line(mem, variant):
-    """698E-69BC: with DS:830B's slot available (045D) or a coin (06FA) the corner 6E6E; else DS:8327 := 0,
+    """698E-69BC: with DS:830B's slot a goalkeeper's (045D: 1 or 12) or a coin (06FA) the corner 6E6E; else DS:8327 := 0,
     DS:7C39 := 1 and 690C (the own goal's path)."""
     r = Regs(mem)
     r.enter(0)
@@ -862,7 +862,7 @@ def corner_state(mem, variant):
 # -- 717F ----------------------------------------------------------------------------------------------------------
 @PORTS.port("0791:717F", ret="ret 2")
 def goal_area_clear(mem, variant):
-    """717F-71E5 (7287's BP, unused): 1 unless an available slot (045D false) other than DS:830B stands in the holder's
+    """717F-71E5 (7287's BP, unused): 1 unless an outfield slot (045D false: not 1 or 12) other than DS:830B stands in the holder's
     area (2EB8 of its point)."""
     r = Regs(mem)
     r.enter(4)                                                   # 717F-7182
@@ -943,7 +943,7 @@ def goal_kick_taker(mem, variant):
 # -- 7287 ----------------------------------------------------------------------------------------------------------
 @PORTS.port("0791:7287", ret="retf 4")
 def goal_kick_state(mem, variant):
-    """7287-72EF (state 8 of 8AE9, a goal kick): the holder 71E8; an unavailable slot (045D) 4354; one in the holder's area (2EB8)
+    """7287-72EF (state 8 of 8AE9, a goal kick): the holder 71E8; a goalkeeper's slot (045D: 1 or 12) 4354; one in the holder's area (2EB8)
     y := 0; the others 4B64."""
     r = Regs(mem)
     r.enter(0)

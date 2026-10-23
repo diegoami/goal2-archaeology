@@ -1,0 +1,13 @@
+COMMAND: python3 -B experiments/E036-match-port/out/T67/test_controls_v2.py; HEAD de39716848a0972a029b00c272f59bcb60c41e11 (fix/380-381-keeper-slot, uncommitted: the #380 wording and this script)
+restarts.py as on main (T59's 6E11 only): exit 1, FAILED (errors=17), caught
+6DCB: the first slot for the nearest: exit 1, FAILED (failures=1), caught
+7754: DS:8315 >= 0 read as negative: exit 1, FAILED (failures=1), caught
+7779: DS:8316 >= 0 read as negative: exit 1, FAILED (failures=1), caught
+78A7: the off-pitch test dropped: exit 1, FAILED (failures=1), caught
+78FD: a waiting key not read: exit 1, FAILED (failures=1), caught
+7A89: the cap at 4: exit 1, FAILED (failures=1), caught
+7B12: 11 available enough: exit 1, FAILED (failures=1), caught
+7A01: the booking written as another instruction: exit 1, FAILED (failures=2), caught
+7A05: the tally's cap at 6: exit 1, FAILED (failures=1), caught
+all controls caught
+exit 0
