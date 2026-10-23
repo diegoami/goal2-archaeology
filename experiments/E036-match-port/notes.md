@@ -60,12 +60,44 @@ family names its own reference (the unhooked kit), so a family added later bring
   `Match(prove=N)`, port/prove.py): the routine, its call, the byte or the register. Exit 0 located, 1 not, 2 refused.
 
 **Heavy jobs (#318).** A match run is a heavy job: `family.py` (and `check.py`, `--find-ranges` included) waits for a
-slot of `tools/harness/heavy.sh` as its first act, so at most four run at a time on the machine, across every agent and
+slot of `tools/heavy.sh` as its first act, so at most four run at a time on the machine, across every agent and
 review (harness.json `heavy.slots`; two until 2026-10-18), and `--workers 2` holds two slots. It prints `heavy: family: waiting for a slot
 (k ahead)` while it queues and then runs unchanged; inside another heavy job it runs at once. To name the slot or
-run anything else in it: `tools/harness/heavy.sh <name> -- <command>` (a review has `heavy.sh` on its PATH);
+run anything else in it: `tools/heavy.sh <name> -- <command>` (a review has `heavy.sh` on its PATH);
 `heavy.sh --status` lists the slots and the queue. The old line "at most one match process at a time" in briefs
 is this rule: do not start a second family run by hand beside the lock. docs/environment.md "Heavy jobs".
+
+**Where a family runs (the owner, 2026-10-22; #361).** One match takes one core; a family is 62 matches, so a run's
+wall time is the matches over the cores. Measured on 2026-10-22/23 (T62-T70): one port installed, about 60 s of CPU a
+match on the owner's machine and 200-550 s in a cloud session (3-4x slower, and its container restarts); every port
+installed, 1,500-2,200 s a match in a cloud session, about 500-1,900 s on an Actions runner.
+- *GitHub Actions* (`.github/workflows/family-run.yml`, the default for full runs of the port tasks): a
+  `workflow_dispatch` on the task's branch splits the selection into shards (`shards.py plan`), runs each as an ordinary
+  `family.py --only <shard> --workers 2 --checkpoint ...` job, and its collector joins them in the family order
+  (`shards.py collect`, which refuses a match missing or twice) and commits them with each shard's log and a manifest to
+  `out/<task>/<name>-<run id>/` on that branch (a re-run of the same run: `<name>-<run id>-attempt-<n>`, #364).
+  Dispatch, then pull the branch after the run and compare the joined file:
+
+      gh api -X POST repos/diegoami/goal2-archaeology/actions/workflows/family-run.yml/dispatches -f ref=<branch> \
+        -f 'inputs[task]=T<nn>' -f 'inputs[name]=all-actions' -f 'inputs[family]=ALL' -f 'inputs[ports]=all' \
+        -f 'inputs[count]=<the row's addresses>'      # a falsifier: inputs[name]=falsifier-<v>, inputs[family]=O8,
+                                                        # inputs[variant]=<module>.<v>; the unhooked kit: inputs[ports]=
+      gh api "repos/diegoami/goal2-archaeology/actions/workflows/family-run.yml/runs?per_page=3" \
+        --jq '.workflow_runs[] | "\(.id) \(.status) \(.conclusion) \(.head_sha[0:8])"'
+      git pull --ff-only origin <branch>
+      python3 -B experiments/E036-match-port/compare.py --family ALL --candidate out/T<nn>/all-actions-<id>/all-actions.jsonl
+
+  31 shards (the default) run at most 20 at a time; an integrated run took 40-50 min of wall time and 570-600
+  runner-minutes, billable 0 on this public repository (each run's `GET .../actions/runs/<id>/timing`). The joined
+  file stands in for the Done-when's `out/T<nn>/own.jsonl` or `all.jsonl` (the PR says so). A shard's slowest match
+  (an S knockout with every port) took up to 37 min: a job over 30 min is not yet stuck (`--time-limit 6000`).
+- *A desktop with more cores*: the same shards by hand. `shards.py plan --family ALL --shards <cores/2>` prints the
+  `--only` lists; run each as its own `family.py ... --workers 2 --checkpoint .cache/checkpoints/T<nn> --out
+  out/T<nn>/<name>-s<i>.jsonl` under `HARNESS_HEAVY_SLOTS=<cores>`, then `shards.py collect --family ALL --out
+  out/T<nn>/<name>.jsonl out/T<nn>/<name>-s*.jsonl`. Only cores and their speed matter (no GPU); under WSL keep the
+  checkout on WSL's own disk and give it every core (`.wslconfig`).
+- *A cloud session*: samples only (`--only` a few matches); commit outputs about every 5 minutes and run long jobs with
+  `--checkpoint` (#359), since its container restarts.
 
 A family is a file under `families/` (`F40.json`, `O8.json`, `S.json`; `families.py` documents the format): its matches
 (fixture, managed side, seed, declared edits of the records, answer policy) and the path of its reference log. A new
