@@ -93,7 +93,7 @@ installed, 1,500-2,200 s a match in a cloud session, about 500-1,900 s on an Act
       gh api "repos/diegoami/goal2-archaeology/actions/workflows/family-run.yml/runs?per_page=3" \
         --jq '.workflow_runs[] | "\(.id) \(.status) \(.conclusion) \(.head_sha[0:8])"'
       git pull --ff-only origin <branch>
-      python3 -B experiments/E036-match-port/compare.py --family ALL --no-screen --candidate out/T<nn>/all-actions-<id>/all-actions.jsonl
+      python3 -B experiments/E036-match-port/compare.py --family ALL --no-screen --candidate experiments/E036-match-port/out/T<nn>/all-actions-<id>/all-actions.jsonl
 
   31 shards (the default) run at most 20 at a time; an integrated run took 40-50 min of wall time and 570-600
   runner-minutes, billable 0 on this public repository (each run's `GET .../actions/runs/<id>/timing`). The joined
