@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {"1771:958D", "1771:8939", "0791:0441", "214B:1EF1", "214B:1F87", "214B:1E8D", "214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
+    if address not in {"1771:8E9A", "1771:8CA2", "1771:958D", "1771:8939", "0791:0441", "214B:1EF1", "214B:1F87", "214B:1E8D", "214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
         PORTS.stub(address, ret=ret, value=None, why="initial all-at-once display-removal candidate; classification pending")
 
 
@@ -1717,4 +1717,63 @@ def competition_view_memory(mem,variant):
             if rw(mem,r,0x38)>0:
                 r.al=int(not ss8(mem,r,r.bp-9));r.local8(-9,r.al)
         if not ss8(mem,r,r.bp+10) or mem.ds8(0xA976)==27:break
+    return _end(r)
+
+
+@PORTS.port('1771:8CA2',ret='ret 8')
+def competition_fixture_memory(mem,variant):
+    r=Regs(mem);r.enter()
+    fixture=ss16(mem,r,r.bp+10)
+    if fixture>0:
+        r.ax=fixture;half(r,'cx',3);r.ax=r.ax<<3
+        r.es,r.di=mem.ds16(0xA92D),mem.ds16(0xA92B);r.di=r.di+r.ax-8
+        r=yield from guest(mem,r,'1771:77C3',r.es,r.di,ss16(mem,r,r.bp+8),ss16(mem,r,r.bp+6),ret='1771:8CC7',far=False)
+    return _end(r)
+
+
+@PORTS.port('1771:8E9A',ret='ret 2')
+def competition_groups_memory(mem,variant):
+    """8E9A-9027: group table/fixtures and the original one-key selector boundary."""
+    r=Regs(mem);r.enter(6);parent=ss16(mem,r,r.bp+4)
+    squad_of(mem,r,ss16(mem,r,parent-8));country=r.es,r.di
+    r.local16(-6,r.di);r.local16(-4,r.es)
+    if ss16(mem,r,parent-4)>8:
+        if rb(mem,r,0x2C)<3 or not ss8(mem,r,parent-9):
+            mem.w16(mem.ss_lin(parent-4),1,'1771:8ED9')
+    group=ss16(mem,r,parent-4)
+    template=0x36F2 if group==9 else 0x351E;r.di=template;source=mem.DS,r.di;r.di=0xA96E
+    r=yield from guest(mem,r,'214B:0329',*source,mem.DS,r.di,ret='1771:8EF8' if group==9 else '1771:8F22')
+    if ss8(mem,r,parent+10):
+        r.di=0x2D3C if group==9 else 0x2D5A;source=mem.DS,r.di;r.di=0xA96E
+        r=yield from guest(mem,r,'214B:0329',*source,mem.DS,r.di,ret='1771:8F11' if group==9 else '1771:8F3B')
+    if ss8(mem,r,parent+10):
+        r.al=1
+        r=yield from guest(mem,r,'1771:8A5D',r.ax,parent,ret='1771:8F4E',far=False)
+    r.al=0;flag=r.ax;r.al=ss8(mem,r,parent-9);snapshot=r.ax
+    r.es,r.di=country;r.al=rb(mem,r,0x2C);r.ah=0
+    r=yield from guest(mem,r,'1771:5AC4',flag,snapshot,r.ax,ret='1771:8F66',far=False)
+    r.di=0x142A;source=mem.DS,r.di;r.di=0xA96E
+    r=yield from guest(mem,r,'214B:0329',*source,mem.DS,r.di,ret='1771:8F75')
+    if ss16(mem,r,parent-4)==9:
+        r=yield from guest(mem,r,'1771:8D84',parent,ret='1771:8F85',far=False)
+    else:
+        r.al=0
+        r=yield from guest(mem,r,'1771:8A87',r.ax,parent,ret='1771:8F90',far=False)
+        r.local16(-2,1)
+        for index in range(1,13):
+            if index!=1:r.local16(-2,index)
+            r.ax=index<<1;r.push(r.ax)
+            r.ax=ss16(mem,r,parent-4);r.dx=56;mul(r,r.dx);r.bx=r.ax
+            r.es,r.di=country;r.al=rb(mem,r,0x2C);r.ah=0;r.dx=0x1C0;mul(r,r.dx);r.cx=r.ax
+            r.al=ss8(mem,r,parent-9);cbw(r);r.dx=0xE00;mul(r,r.dx)
+            r.es,r.di=mem.ds16(0xA935),mem.ds16(0xA933);r.di=r.di+r.ax+r.cx+r.bx
+            r.ax=pop(mem,r);r.di=r.di+r.ax;fixture=rw(mem,r,-0x1DA)
+            r.ax=index+7;row=r.ax;r.ax=58
+            r=yield from guest(mem,r,'1771:8CA2',fixture,row,r.ax,parent,ret='1771:8FEE',far=False)
+    r.di=(parent-4)&65535;destination=r.ss,r.di
+    r.al=0
+    if ss8(mem,r,parent-9):
+        r.es,r.di=country;r.al=int(rb(mem,r,0x2C)>2)
+    r.ah=0;r.ax=r.ax+8
+    r=yield from guest(mem,r,'214B:1560',*destination,r.ax,ret='1771:9022')
     return _end(r)

@@ -961,5 +961,37 @@ class CompetitionBoundaryTests(unittest.TestCase):
             elif key in (0xAE,0xAF):self.assertEqual(r.args('214B:1C86'),[(0,BP0-2,1,3,65535 if key==0xAE else 1)])
             else:self.assertEqual(r.mem.u8(BP0-9),int(key==0xB6))
 
+class CompetitionGroupTests(unittest.TestCase):
+    def test_zero_fixture_and_positive_fixture_pointer_twin(self):
+        for index,want in ((0,[]),(5,[(0x5400,0x120,10,58)])):
+            r=Rig();r.ds16(0xA92B,0x100);r.ds16(0xA92D,0x5400)
+            r.run('1771:8CA2',(PARENT,58,10,index))
+            self.assertEqual(r.args('1771:77C3'),want)
+
+    def test_regular_group_keeps_all_twelve_fixture_rows_and_selector(self):
+        r=Rig();r.lin16(PARENT-8,3);r.lin16(PARENT-4,1);r.lin8(PARENT-9,0)
+        r.country(3,0x2C,1);r.ds16(0xA933,0x300);r.ds16(0xA935,0x5400)
+        for index in range(1,13):r.lin16(0x54300+56+448+2*index-0x1DA,index)
+        r.run('1771:8E9A',(PARENT,))
+        self.assertEqual([a[1] for a in r.args('214B:0329')],[0x351E,0x142A])
+        self.assertEqual(r.args('1771:5AC4'),[(0,0,1)])
+        self.assertEqual(r.args('1771:8A87'),[(0,PARENT)])
+        self.assertEqual(r.args('1771:8CA2'),[(i,i+7,58,PARENT) for i in range(1,13)])
+        self.assertEqual(r.u16(BP0-2),12)
+        self.assertEqual(r.args('214B:1560'),[(0,PARENT-4,8)])
+
+    def test_ninth_group_requires_continent_and_snapshot_then_uses_special_body(self):
+        for continent,snapshot,want_group in ((2,1,1),(3,0,1),(3,1,9)):
+            r=Rig();r.lin16(PARENT-8,3);r.lin16(PARENT-4,9);r.lin8(PARENT-9,snapshot)
+            r.lin8(PARENT+10,1);r.country(3,0x2C,continent)
+            r.ds16(0xA933,0x300);r.ds16(0xA935,0x5400)
+            r.run('1771:8E9A',(PARENT,))
+            self.assertEqual(r.u16(PARENT-4),want_group)
+            self.assertEqual([a[1] for a in r.args('214B:0329')],
+                             [0x36F2,0x2D3C,0x142A] if want_group==9 else [0x351E,0x2D5A,0x142A])
+            self.assertEqual(r.args('1771:8A5D'),[(1,PARENT)])
+            self.assertEqual(r.args('1771:8D84'),[(PARENT,)] if want_group==9 else [])
+            self.assertEqual(r.args('214B:1560'),[(0,PARENT-4,9 if continent>2 and snapshot else 8)])
+
 if __name__ == '__main__':
     unittest.main()
