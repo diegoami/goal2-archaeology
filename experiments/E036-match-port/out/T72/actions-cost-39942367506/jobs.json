@@ -1,0 +1,4025 @@
+{
+  "total_count": 33,
+  "jobs": [
+    {
+      "id": 120376657766,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwIHZg",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376657766",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376657766",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:26Z",
+      "started_at": "2026-10-23T10:54:29Z",
+      "completed_at": "2026-10-23T10:54:40Z",
+      "name": "plan",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:30Z",
+          "completed_at": "2026-10-23T10:54:31Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:31Z",
+          "completed_at": "2026-10-23T10:54:36Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:36Z",
+          "completed_at": "2026-10-23T10:54:37Z"
+        },
+        {
+          "name": "Run set -eu",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:37Z",
+          "completed_at": "2026-10-23T10:54:37Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:37Z",
+          "completed_at": "2026-10-23T10:54:37Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T10:54:37Z",
+          "completed_at": "2026-10-23T10:54:37Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-23T10:54:37Z",
+          "completed_at": "2026-10-23T10:54:37Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376657766",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012306,
+      "runner_name": "GitHub Actions 1000012306",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376746855,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNjZw",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376746855",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376746855",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:18:58Z",
+      "name": "run (5, F40/more-0042,F40/more-1111)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:45Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:51Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:51Z",
+          "completed_at": "2026-10-23T10:54:53Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:53Z",
+          "completed_at": "2026-10-23T10:54:54Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:54Z",
+          "completed_at": "2026-10-23T10:54:55Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:55Z",
+          "completed_at": "2026-10-23T11:18:53Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:18:53Z",
+          "completed_at": "2026-10-23T11:18:55Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:18:55Z",
+          "completed_at": "2026-10-23T11:18:55Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:18:55Z",
+          "completed_at": "2026-10-23T11:18:55Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:18:55Z",
+          "completed_at": "2026-10-23T11:18:55Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:18:55Z",
+          "completed_at": "2026-10-23T11:18:55Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376746855",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012309,
+      "runner_name": "GitHub Actions 1000012309",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376746885,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNjhQ",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376746885",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376746885",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:10:13Z",
+      "name": "run (8, F40/more-b4d2,F40/more-cafe)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:45Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:52Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:52Z",
+          "completed_at": "2026-10-23T10:54:53Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:53Z",
+          "completed_at": "2026-10-23T10:54:54Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:54Z",
+          "completed_at": "2026-10-23T11:10:08Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:10:08Z",
+          "completed_at": "2026-10-23T11:10:10Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:10:10Z",
+          "completed_at": "2026-10-23T11:10:10Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:10:10Z",
+          "completed_at": "2026-10-23T11:10:10Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:10:10Z",
+          "completed_at": "2026-10-23T11:10:10Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:10:10Z",
+          "completed_at": "2026-10-23T11:10:10Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376746885",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012307,
+      "runner_name": "GitHub Actions 1000012307",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376746900,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNjlA",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376746900",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376746900",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:15:40Z",
+      "name": "run (4, F40/e032-c3c3,F40/e032-e719)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:45Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:52Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:52Z",
+          "completed_at": "2026-10-23T10:54:53Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:53Z",
+          "completed_at": "2026-10-23T10:54:54Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:54Z",
+          "completed_at": "2026-10-23T11:15:35Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:15:35Z",
+          "completed_at": "2026-10-23T11:15:36Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:15:36Z",
+          "completed_at": "2026-10-23T11:15:37Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:15:37Z",
+          "completed_at": "2026-10-23T11:15:37Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:15:37Z",
+          "completed_at": "2026-10-23T11:15:37Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:15:37Z",
+          "completed_at": "2026-10-23T11:15:37Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376746900",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012310,
+      "runner_name": "GitHub Actions 1000012310",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376746923,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNjqw",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376746923",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376746923",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:18:51Z",
+      "name": "run (7, F40/more-7f31,F40/more-9abc)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:45Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:52Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:52Z",
+          "completed_at": "2026-10-23T10:54:55Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:55Z",
+          "completed_at": "2026-10-23T10:54:56Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:56Z",
+          "completed_at": "2026-10-23T11:18:47Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:18:47Z",
+          "completed_at": "2026-10-23T11:18:48Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:18:48Z",
+          "completed_at": "2026-10-23T11:18:48Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:18:48Z",
+          "completed_at": "2026-10-23T11:18:48Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:18:48Z",
+          "completed_at": "2026-10-23T11:18:49Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:18:49Z",
+          "completed_at": "2026-10-23T11:18:49Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376746923",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012308,
+      "runner_name": "GitHub Actions 1000012308",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376746930,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNjsg",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376746930",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376746930",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:19:38Z",
+      "name": "run (0, F40/e032-0101,F40/e032-1234)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:46Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:46Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:51Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:51Z",
+          "completed_at": "2026-10-23T10:54:53Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:53Z",
+          "completed_at": "2026-10-23T10:54:56Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:56Z",
+          "completed_at": "2026-10-23T10:54:57Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:57Z",
+          "completed_at": "2026-10-23T11:19:33Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:19:33Z",
+          "completed_at": "2026-10-23T11:19:34Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:19:34Z",
+          "completed_at": "2026-10-23T11:19:34Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:19:34Z",
+          "completed_at": "2026-10-23T11:19:34Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:19:34Z",
+          "completed_at": "2026-10-23T11:19:35Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:19:35Z",
+          "completed_at": "2026-10-23T11:19:35Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376746930",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012312,
+      "runner_name": "GitHub Actions 1000012312",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376746948,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNjxA",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376746948",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376746948",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:10:47Z",
+      "name": "run (6, F40/more-3a5c,F40/more-5e5e)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:43Z",
+          "completed_at": "2026-10-23T10:54:44Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:49Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:49Z",
+          "completed_at": "2026-10-23T10:54:49Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:49Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:51Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:51Z",
+          "completed_at": "2026-10-23T10:54:52Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:52Z",
+          "completed_at": "2026-10-23T11:10:44Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:10:44Z",
+          "completed_at": "2026-10-23T11:10:45Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:10:45Z",
+          "completed_at": "2026-10-23T11:10:45Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:10:45Z",
+          "completed_at": "2026-10-23T11:10:45Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:10:45Z",
+          "completed_at": "2026-10-23T11:10:45Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:10:45Z",
+          "completed_at": "2026-10-23T11:10:45Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376746948",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012313,
+      "runner_name": "GitHub Actions 1000012313",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376746962,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNj0g",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376746962",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376746962",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:07:50Z",
+      "name": "run (13, F40/edit-8e05,F40/edit-a1f0)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:45Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:52Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:52Z",
+          "completed_at": "2026-10-23T10:54:53Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:53Z",
+          "completed_at": "2026-10-23T10:54:54Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:54Z",
+          "completed_at": "2026-10-23T11:07:45Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:07:45Z",
+          "completed_at": "2026-10-23T11:07:46Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:07:46Z",
+          "completed_at": "2026-10-23T11:07:46Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:07:46Z",
+          "completed_at": "2026-10-23T11:07:47Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:07:47Z",
+          "completed_at": "2026-10-23T11:07:47Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:07:47Z",
+          "completed_at": "2026-10-23T11:07:47Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376746962",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012311,
+      "runner_name": "GitHub Actions 1000012311",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376746965,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNj1Q",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376746965",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376746965",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:19:04Z",
+      "name": "run (11, F40/edit-2345,F40/edit-2b7e)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:46Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:46Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:51Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:51Z",
+          "completed_at": "2026-10-23T10:54:53Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:53Z",
+          "completed_at": "2026-10-23T10:54:54Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:54Z",
+          "completed_at": "2026-10-23T10:54:55Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:55Z",
+          "completed_at": "2026-10-23T11:18:59Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:18:59Z",
+          "completed_at": "2026-10-23T11:19:01Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:19:01Z",
+          "completed_at": "2026-10-23T11:19:01Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:19:01Z",
+          "completed_at": "2026-10-23T11:19:01Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:19:01Z",
+          "completed_at": "2026-10-23T11:19:02Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:19:02Z",
+          "completed_at": "2026-10-23T11:19:02Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376746965",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012314,
+      "runner_name": "GitHub Actions 1000012314",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376746975,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNj3w",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376746975",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376746975",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:19:08Z",
+      "name": "run (1, F40/e032-2345,F40/e032-2b7e)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:45Z",
+          "completed_at": "2026-10-23T10:54:49Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:49Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:52Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:52Z",
+          "completed_at": "2026-10-23T10:54:53Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:53Z",
+          "completed_at": "2026-10-23T11:19:05Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:19:05Z",
+          "completed_at": "2026-10-23T11:19:06Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:19:06Z",
+          "completed_at": "2026-10-23T11:19:06Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:19:06Z",
+          "completed_at": "2026-10-23T11:19:06Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:19:06Z",
+          "completed_at": "2026-10-23T11:19:06Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:19:06Z",
+          "completed_at": "2026-10-23T11:19:06Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376746975",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012318,
+      "runner_name": "GitHub Actions 1000012318",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376746978,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNj4g",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376746978",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376746978",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:06:25Z",
+      "name": "run (17, F40/edit-7f31,F40/edit-9abc)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:45Z",
+          "completed_at": "2026-10-23T10:54:49Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:49Z",
+          "completed_at": "2026-10-23T10:54:49Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:49Z",
+          "completed_at": "2026-10-23T10:54:51Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:51Z",
+          "completed_at": "2026-10-23T10:54:52Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:52Z",
+          "completed_at": "2026-10-23T10:54:53Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:53Z",
+          "completed_at": "2026-10-23T11:06:21Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:06:21Z",
+          "completed_at": "2026-10-23T11:06:22Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:06:22Z",
+          "completed_at": "2026-10-23T11:06:23Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:06:23Z",
+          "completed_at": "2026-10-23T11:06:23Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:06:23Z",
+          "completed_at": "2026-10-23T11:06:23Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:06:23Z",
+          "completed_at": "2026-10-23T11:06:23Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376746978",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012320,
+      "runner_name": "GitHub Actions 1000012320",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376746991,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNj7w",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376746991",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376746991",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:10:15Z",
+      "name": "run (10, F40/edit-0101,F40/edit-1234)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:45Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:52Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:52Z",
+          "completed_at": "2026-10-23T10:54:53Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:53Z",
+          "completed_at": "2026-10-23T10:54:54Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:54Z",
+          "completed_at": "2026-10-23T11:10:11Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:10:11Z",
+          "completed_at": "2026-10-23T11:10:12Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:10:12Z",
+          "completed_at": "2026-10-23T11:10:12Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:10:12Z",
+          "completed_at": "2026-10-23T11:10:12Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:10:12Z",
+          "completed_at": "2026-10-23T11:10:12Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:10:12Z",
+          "completed_at": "2026-10-23T11:10:13Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376746991",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012319,
+      "runner_name": "GitHub Actions 1000012319",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747000,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNj-A",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747000",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747000",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:21:18Z",
+      "name": "run (2, F40/e032-4c1d,F40/e032-6a33)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:45Z",
+          "completed_at": "2026-10-23T10:54:49Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:49Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:52Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:52Z",
+          "completed_at": "2026-10-23T10:54:53Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:53Z",
+          "completed_at": "2026-10-23T11:21:15Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:21:15Z",
+          "completed_at": "2026-10-23T11:21:15Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:21:15Z",
+          "completed_at": "2026-10-23T11:21:16Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:21:16Z",
+          "completed_at": "2026-10-23T11:21:16Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:21:16Z",
+          "completed_at": "2026-10-23T11:21:16Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:21:16Z",
+          "completed_at": "2026-10-23T11:21:16Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747000",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012317,
+      "runner_name": "GitHub Actions 1000012317",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747051,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNkKw",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747051",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747051",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T11:10:15Z",
+      "completed_at": "2026-10-23T11:35:29Z",
+      "name": "run (24, S/reference,S/decisions-70)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T11:10:16Z",
+          "completed_at": "2026-10-23T11:10:18Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T11:10:18Z",
+          "completed_at": "2026-10-23T11:10:22Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T11:10:22Z",
+          "completed_at": "2026-10-23T11:10:23Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T11:10:23Z",
+          "completed_at": "2026-10-23T11:10:25Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T11:10:25Z",
+          "completed_at": "2026-10-23T11:10:26Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T11:10:26Z",
+          "completed_at": "2026-10-23T11:10:27Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T11:10:27Z",
+          "completed_at": "2026-10-23T11:35:24Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:35:24Z",
+          "completed_at": "2026-10-23T11:35:26Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:35:26Z",
+          "completed_at": "2026-10-23T11:35:26Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:35:26Z",
+          "completed_at": "2026-10-23T11:35:26Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:35:26Z",
+          "completed_at": "2026-10-23T11:35:26Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:35:26Z",
+          "completed_at": "2026-10-23T11:35:27Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747051",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012333,
+      "runner_name": "GitHub Actions 1000012333",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747066,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNkOg",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747066",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747066",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:19:33Z",
+      "name": "run (3, F40/e032-8e05,F40/e032-a1f0)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:45Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:51Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:51Z",
+          "completed_at": "2026-10-23T10:54:55Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:55Z",
+          "completed_at": "2026-10-23T10:54:57Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:57Z",
+          "completed_at": "2026-10-23T11:19:30Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:19:30Z",
+          "completed_at": "2026-10-23T11:19:31Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:19:31Z",
+          "completed_at": "2026-10-23T11:19:31Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:19:31Z",
+          "completed_at": "2026-10-23T11:19:31Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:19:31Z",
+          "completed_at": "2026-10-23T11:19:31Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:19:31Z",
+          "completed_at": "2026-10-23T11:19:31Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747066",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012324,
+      "runner_name": "GitHub Actions 1000012324",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747072,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNkQA",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747072",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747072",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:06:07Z",
+      "name": "run (14, F40/edit-c3c3,F40/edit-e719)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:45Z",
+          "completed_at": "2026-10-23T10:54:49Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:49Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:51Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:51Z",
+          "completed_at": "2026-10-23T10:54:56Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:56Z",
+          "completed_at": "2026-10-23T10:54:56Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:56Z",
+          "completed_at": "2026-10-23T11:06:03Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:06:03Z",
+          "completed_at": "2026-10-23T11:06:05Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:06:05Z",
+          "completed_at": "2026-10-23T11:06:05Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:06:05Z",
+          "completed_at": "2026-10-23T11:06:05Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:06:05Z",
+          "completed_at": "2026-10-23T11:06:05Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:06:05Z",
+          "completed_at": "2026-10-23T11:06:05Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747072",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012321,
+      "runner_name": "GitHub Actions 1000012321",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747077,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNkRQ",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747077",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747077",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:15:53Z",
+      "name": "run (9, F40/more-d00d,F40/more-face)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:45Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:52Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:52Z",
+          "completed_at": "2026-10-23T10:54:54Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:54Z",
+          "completed_at": "2026-10-23T10:54:55Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:55Z",
+          "completed_at": "2026-10-23T11:15:49Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:15:49Z",
+          "completed_at": "2026-10-23T11:15:50Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:15:50Z",
+          "completed_at": "2026-10-23T11:15:50Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:15:50Z",
+          "completed_at": "2026-10-23T11:15:50Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:15:50Z",
+          "completed_at": "2026-10-23T11:15:51Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:15:51Z",
+          "completed_at": "2026-10-23T11:15:51Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747077",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012322,
+      "runner_name": "GitHub Actions 1000012322",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747107,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNkYw",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747107",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747107",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:10:27Z",
+      "name": "run (18, F40/edit-b4d2,F40/edit-cafe)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:45Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:51Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:51Z",
+          "completed_at": "2026-10-23T10:54:53Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:53Z",
+          "completed_at": "2026-10-23T10:54:53Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:53Z",
+          "completed_at": "2026-10-23T11:10:23Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:10:23Z",
+          "completed_at": "2026-10-23T11:10:24Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:10:24Z",
+          "completed_at": "2026-10-23T11:10:24Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:10:24Z",
+          "completed_at": "2026-10-23T11:10:24Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:10:24Z",
+          "completed_at": "2026-10-23T11:10:25Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:10:25Z",
+          "completed_at": "2026-10-23T11:10:25Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747107",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012316,
+      "runner_name": "GitHub Actions 1000012316",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747113,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNkaQ",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747113",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747113",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T11:10:18Z",
+      "completed_at": "2026-10-23T11:35:12Z",
+      "name": "run (25, S/injury-70,S/hard-4)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T11:10:19Z",
+          "completed_at": "2026-10-23T11:10:20Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T11:10:20Z",
+          "completed_at": "2026-10-23T11:10:25Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T11:10:25Z",
+          "completed_at": "2026-10-23T11:10:25Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T11:10:25Z",
+          "completed_at": "2026-10-23T11:10:28Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T11:10:28Z",
+          "completed_at": "2026-10-23T11:10:29Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T11:10:29Z",
+          "completed_at": "2026-10-23T11:10:30Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T11:10:30Z",
+          "completed_at": "2026-10-23T11:35:07Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:35:07Z",
+          "completed_at": "2026-10-23T11:35:08Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:35:08Z",
+          "completed_at": "2026-10-23T11:35:08Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:35:08Z",
+          "completed_at": "2026-10-23T11:35:09Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:35:09Z",
+          "completed_at": "2026-10-23T11:35:09Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:35:09Z",
+          "completed_at": "2026-10-23T11:35:09Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747113",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012334,
+      "runner_name": "GitHub Actions 1000012334",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747121,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNkcQ",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747121",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747121",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:18:30Z",
+      "name": "run (15, F40/edit-0042,F40/edit-1111)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:46Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:46Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:53Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:53Z",
+          "completed_at": "2026-10-23T10:54:57Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:57Z",
+          "completed_at": "2026-10-23T10:54:58Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:58Z",
+          "completed_at": "2026-10-23T11:18:25Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:18:25Z",
+          "completed_at": "2026-10-23T11:18:27Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:18:27Z",
+          "completed_at": "2026-10-23T11:18:27Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:18:27Z",
+          "completed_at": "2026-10-23T11:18:27Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:18:27Z",
+          "completed_at": "2026-10-23T11:18:27Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:18:27Z",
+          "completed_at": "2026-10-23T11:18:27Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747121",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012325,
+      "runner_name": "GitHub Actions 1000012325",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747122,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNkcg",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747122",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747122",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:15:37Z",
+      "name": "run (12, F40/edit-4c1d,F40/edit-6a33)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:45Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:51Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:51Z",
+          "completed_at": "2026-10-23T10:54:53Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:53Z",
+          "completed_at": "2026-10-23T10:54:54Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:54Z",
+          "completed_at": "2026-10-23T11:15:33Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:15:33Z",
+          "completed_at": "2026-10-23T11:15:34Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:15:34Z",
+          "completed_at": "2026-10-23T11:15:34Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:15:34Z",
+          "completed_at": "2026-10-23T11:15:34Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:15:34Z",
+          "completed_at": "2026-10-23T11:15:35Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:15:35Z",
+          "completed_at": "2026-10-23T11:15:35Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747122",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012323,
+      "runner_name": "GitHub Actions 1000012323",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747134,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNkfg",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747134",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747134",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T11:15:40Z",
+      "completed_at": "2026-10-23T11:49:58Z",
+      "name": "run (28, S/ko-42-sudden-death,S/ko-30-extra-time)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T11:15:41Z",
+          "completed_at": "2026-10-23T11:15:42Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T11:15:42Z",
+          "completed_at": "2026-10-23T11:15:48Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T11:15:48Z",
+          "completed_at": "2026-10-23T11:15:49Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T11:15:49Z",
+          "completed_at": "2026-10-23T11:15:51Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T11:15:51Z",
+          "completed_at": "2026-10-23T11:15:52Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T11:15:52Z",
+          "completed_at": "2026-10-23T11:15:53Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T11:15:53Z",
+          "completed_at": "2026-10-23T11:49:52Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:49:52Z",
+          "completed_at": "2026-10-23T11:49:54Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:49:54Z",
+          "completed_at": "2026-10-23T11:49:54Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:49:54Z",
+          "completed_at": "2026-10-23T11:49:54Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:49:54Z",
+          "completed_at": "2026-10-23T11:49:55Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:49:55Z",
+          "completed_at": "2026-10-23T11:49:55Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747134",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012337,
+      "runner_name": "GitHub Actions 1000012337",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747137,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNkgQ",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747137",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747137",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T11:05:30Z",
+      "completed_at": "2026-10-23T11:22:50Z",
+      "name": "run (20, O8/c1-c2-friendly,O8/c1-c2-qualifier)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T11:05:31Z",
+          "completed_at": "2026-10-23T11:05:32Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T11:05:32Z",
+          "completed_at": "2026-10-23T11:05:37Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T11:05:37Z",
+          "completed_at": "2026-10-23T11:05:37Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T11:05:37Z",
+          "completed_at": "2026-10-23T11:05:39Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T11:05:39Z",
+          "completed_at": "2026-10-23T11:05:41Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T11:05:41Z",
+          "completed_at": "2026-10-23T11:05:42Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T11:05:42Z",
+          "completed_at": "2026-10-23T11:22:46Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:22:46Z",
+          "completed_at": "2026-10-23T11:22:47Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:22:47Z",
+          "completed_at": "2026-10-23T11:22:47Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:22:47Z",
+          "completed_at": "2026-10-23T11:22:48Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:22:48Z",
+          "completed_at": "2026-10-23T11:22:48Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:22:48Z",
+          "completed_at": "2026-10-23T11:22:48Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747137",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012329,
+      "runner_name": "GitHub Actions 1000012329",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747140,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNkhA",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747140",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747140",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T11:06:28Z",
+      "completed_at": "2026-10-23T11:16:52Z",
+      "name": "run (22, O8/c64-c90-friendly,O8/c64-c90-qualifier)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T11:06:28Z",
+          "completed_at": "2026-10-23T11:06:29Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T11:06:29Z",
+          "completed_at": "2026-10-23T11:06:33Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T11:06:33Z",
+          "completed_at": "2026-10-23T11:06:33Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T11:06:33Z",
+          "completed_at": "2026-10-23T11:06:35Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T11:06:35Z",
+          "completed_at": "2026-10-23T11:06:36Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T11:06:36Z",
+          "completed_at": "2026-10-23T11:06:36Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T11:06:36Z",
+          "completed_at": "2026-10-23T11:16:48Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:16:48Z",
+          "completed_at": "2026-10-23T11:16:49Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:16:49Z",
+          "completed_at": "2026-10-23T11:16:49Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:16:49Z",
+          "completed_at": "2026-10-23T11:16:49Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:16:49Z",
+          "completed_at": "2026-10-23T11:16:50Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:16:50Z",
+          "completed_at": "2026-10-23T11:16:50Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747140",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012331,
+      "runner_name": "GitHub Actions 1000012331",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747156,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNklA",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747156",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747156",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:05:28Z",
+      "name": "run (19, F40/edit-d00d,F40/edit-face)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:45Z",
+          "completed_at": "2026-10-23T10:54:49Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:49Z",
+          "completed_at": "2026-10-23T10:54:49Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:49Z",
+          "completed_at": "2026-10-23T10:54:51Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:51Z",
+          "completed_at": "2026-10-23T10:54:52Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:52Z",
+          "completed_at": "2026-10-23T10:54:53Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:53Z",
+          "completed_at": "2026-10-23T11:05:23Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:05:23Z",
+          "completed_at": "2026-10-23T11:05:25Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:05:25Z",
+          "completed_at": "2026-10-23T11:05:25Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:05:25Z",
+          "completed_at": "2026-10-23T11:05:25Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:05:25Z",
+          "completed_at": "2026-10-23T11:05:25Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:05:25Z",
+          "completed_at": "2026-10-23T11:05:25Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747156",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012315,
+      "runner_name": "GitHub Actions 1000012315",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747158,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNklg",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747158",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747158",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T11:10:50Z",
+      "completed_at": "2026-10-23T11:31:58Z",
+      "name": "run (27, S/decisions-quick-60,S/ko-39-budget-5)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T11:10:51Z",
+          "completed_at": "2026-10-23T11:10:52Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T11:10:52Z",
+          "completed_at": "2026-10-23T11:10:58Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T11:10:58Z",
+          "completed_at": "2026-10-23T11:10:58Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T11:10:58Z",
+          "completed_at": "2026-10-23T11:11:01Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T11:11:01Z",
+          "completed_at": "2026-10-23T11:11:03Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T11:11:03Z",
+          "completed_at": "2026-10-23T11:11:04Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T11:11:04Z",
+          "completed_at": "2026-10-23T11:31:53Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:31:53Z",
+          "completed_at": "2026-10-23T11:31:55Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:31:55Z",
+          "completed_at": "2026-10-23T11:31:55Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:31:55Z",
+          "completed_at": "2026-10-23T11:31:55Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:31:55Z",
+          "completed_at": "2026-10-23T11:31:55Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:31:55Z",
+          "completed_at": "2026-10-23T11:31:55Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747158",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012336,
+      "runner_name": "GitHub Actions 1000012336",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747163,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNkmw",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747163",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747163",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T11:10:29Z",
+      "completed_at": "2026-10-23T11:17:07Z",
+      "name": "run (26, S/quick-30,S/quick-1)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T11:10:30Z",
+          "completed_at": "2026-10-23T11:10:31Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T11:10:31Z",
+          "completed_at": "2026-10-23T11:10:36Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T11:10:36Z",
+          "completed_at": "2026-10-23T11:10:37Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T11:10:37Z",
+          "completed_at": "2026-10-23T11:10:38Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T11:10:38Z",
+          "completed_at": "2026-10-23T11:10:42Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T11:10:42Z",
+          "completed_at": "2026-10-23T11:10:42Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T11:10:42Z",
+          "completed_at": "2026-10-23T11:17:03Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:17:03Z",
+          "completed_at": "2026-10-23T11:17:04Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:17:04Z",
+          "completed_at": "2026-10-23T11:17:05Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:17:05Z",
+          "completed_at": "2026-10-23T11:17:05Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:17:05Z",
+          "completed_at": "2026-10-23T11:17:05Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:17:05Z",
+          "completed_at": "2026-10-23T11:17:05Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747163",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012335,
+      "runner_name": "GitHub Actions 1000012335",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747167,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNknw",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747167",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747167",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T11:06:10Z",
+      "completed_at": "2026-10-23T11:30:13Z",
+      "name": "run (21, O8/c30-c44-friendly,O8/c30-c44-qualifier)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T11:06:11Z",
+          "completed_at": "2026-10-23T11:06:12Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T11:06:12Z",
+          "completed_at": "2026-10-23T11:06:17Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T11:06:17Z",
+          "completed_at": "2026-10-23T11:06:18Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T11:06:18Z",
+          "completed_at": "2026-10-23T11:06:20Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T11:06:20Z",
+          "completed_at": "2026-10-23T11:06:21Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T11:06:21Z",
+          "completed_at": "2026-10-23T11:06:22Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T11:06:22Z",
+          "completed_at": "2026-10-23T11:30:07Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:30:07Z",
+          "completed_at": "2026-10-23T11:30:09Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:30:09Z",
+          "completed_at": "2026-10-23T11:30:09Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:30:09Z",
+          "completed_at": "2026-10-23T11:30:09Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:30:09Z",
+          "completed_at": "2026-10-23T11:30:10Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:30:10Z",
+          "completed_at": "2026-10-23T11:30:10Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747167",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012330,
+      "runner_name": "GitHub Actions 1000012330",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747200,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNkwA",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747200",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747200",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T10:54:43Z",
+      "completed_at": "2026-10-23T11:19:54Z",
+      "name": "run (16, F40/edit-3a5c,F40/edit-5e5e)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T10:54:44Z",
+          "completed_at": "2026-10-23T10:54:45Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T10:54:45Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:50Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T10:54:50Z",
+          "completed_at": "2026-10-23T10:54:51Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T10:54:51Z",
+          "completed_at": "2026-10-23T10:54:53Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T10:54:53Z",
+          "completed_at": "2026-10-23T10:54:54Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T10:54:54Z",
+          "completed_at": "2026-10-23T11:19:49Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:19:49Z",
+          "completed_at": "2026-10-23T11:19:51Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:19:51Z",
+          "completed_at": "2026-10-23T11:19:51Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:19:51Z",
+          "completed_at": "2026-10-23T11:19:51Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:19:51Z",
+          "completed_at": "2026-10-23T11:19:51Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:19:51Z",
+          "completed_at": "2026-10-23T11:19:51Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747200",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012326,
+      "runner_name": "GitHub Actions 1000012326",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747206,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNkxg",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747206",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747206",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T11:15:42Z",
+      "completed_at": "2026-10-23T11:30:19Z",
+      "name": "run (29, S/ko-9-quick,S/ko-53-quick)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T11:15:43Z",
+          "completed_at": "2026-10-23T11:15:44Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T11:15:44Z",
+          "completed_at": "2026-10-23T11:15:49Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T11:15:49Z",
+          "completed_at": "2026-10-23T11:15:49Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T11:15:49Z",
+          "completed_at": "2026-10-23T11:15:50Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T11:15:50Z",
+          "completed_at": "2026-10-23T11:15:51Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T11:15:51Z",
+          "completed_at": "2026-10-23T11:15:53Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T11:15:53Z",
+          "completed_at": "2026-10-23T11:30:16Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:30:16Z",
+          "completed_at": "2026-10-23T11:30:17Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:30:17Z",
+          "completed_at": "2026-10-23T11:30:17Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:30:17Z",
+          "completed_at": "2026-10-23T11:30:17Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:30:17Z",
+          "completed_at": "2026-10-23T11:30:18Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:30:18Z",
+          "completed_at": "2026-10-23T11:30:18Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747206",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012338,
+      "runner_name": "GitHub Actions 1000012338",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376747242,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNk6g",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376747242",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376747242",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:40Z",
+      "started_at": "2026-10-23T11:07:52Z",
+      "completed_at": "2026-10-23T11:20:33Z",
+      "name": "run (23, O8/c101-c120-friendly,O8/c101-c120-qualifier)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T11:07:53Z",
+          "completed_at": "2026-10-23T11:07:54Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T11:07:54Z",
+          "completed_at": "2026-10-23T11:07:59Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T11:07:59Z",
+          "completed_at": "2026-10-23T11:07:59Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T11:07:59Z",
+          "completed_at": "2026-10-23T11:08:00Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T11:08:00Z",
+          "completed_at": "2026-10-23T11:08:02Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T11:08:02Z",
+          "completed_at": "2026-10-23T11:08:03Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T11:08:03Z",
+          "completed_at": "2026-10-23T11:20:29Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:20:29Z",
+          "completed_at": "2026-10-23T11:20:30Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:20:30Z",
+          "completed_at": "2026-10-23T11:20:30Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:20:30Z",
+          "completed_at": "2026-10-23T11:20:30Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:20:30Z",
+          "completed_at": "2026-10-23T11:20:31Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:20:31Z",
+          "completed_at": "2026-10-23T11:20:31Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376747242",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012332,
+      "runner_name": "GitHub Actions 1000012332",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120376748962,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcBwNrog",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120376748962",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120376748962",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T10:54:41Z",
+      "started_at": "2026-10-23T11:15:55Z",
+      "completed_at": "2026-10-23T11:32:36Z",
+      "name": "run (30, S/ko-42-quick-g19,S/qualifier-21)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T11:15:56Z",
+          "completed_at": "2026-10-23T11:15:57Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T11:15:57Z",
+          "completed_at": "2026-10-23T11:16:02Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T11:16:02Z",
+          "completed_at": "2026-10-23T11:16:02Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T11:16:02Z",
+          "completed_at": "2026-10-23T11:16:03Z"
+        },
+        {
+          "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T11:16:03Z",
+          "completed_at": "2026-10-23T11:16:04Z"
+        },
+        {
+          "name": "Run gh release download E006 --repo \"$GITHUB_REPOSITORY\" --pattern e0afff6751747233-e006-1000-r0001.sav --dir .cache/dl",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T11:16:04Z",
+          "completed_at": "2026-10-23T11:16:05Z"
+        },
+        {
+          "name": "Run set -u",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T11:16:05Z",
+          "completed_at": "2026-10-23T11:32:33Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-23T11:32:33Z",
+          "completed_at": "2026-10-23T11:32:33Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T11:32:33Z",
+          "completed_at": "2026-10-23T11:32:34Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T11:32:34Z",
+          "completed_at": "2026-10-23T11:32:34Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-23T11:32:34Z",
+          "completed_at": "2026-10-23T11:32:34Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-23T11:32:34Z",
+          "completed_at": "2026-10-23T11:32:34Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120376748962",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012339,
+      "runner_name": "GitHub Actions 1000012339",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 120398107587,
+      "run_id": 39942367506,
+      "workflow_name": "E036 family run",
+      "head_branch": "task/T72-port-player-update",
+      "run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/runs/39942367506",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU6kuzs8AAAAcCElTww",
+      "head_sha": "6cb0153575faa620a7b691cc0e8f7408cbd4109b",
+      "url": "https://api.github.com/repos/diegoami/goal2-archaeology/actions/jobs/120398107587",
+      "html_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39942367506/job/120398107587",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-23T11:49:58Z",
+      "started_at": "2026-10-23T11:50:01Z",
+      "completed_at": "2026-10-23T11:50:14Z",
+      "name": "collect",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T11:50:01Z",
+          "completed_at": "2026-10-23T11:50:03Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T11:50:03Z",
+          "completed_at": "2026-10-23T11:50:07Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T11:50:07Z",
+          "completed_at": "2026-10-23T11:50:08Z"
+        },
+        {
+          "name": "Run actions/download-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T11:50:08Z",
+          "completed_at": "2026-10-23T11:50:09Z"
+        },
+        {
+          "name": "Run bash experiments/E036-match-port/collect_run.sh",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T11:50:09Z",
+          "completed_at": "2026-10-23T11:50:12Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-23T11:50:12Z",
+          "completed_at": "2026-10-23T11:50:12Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-23T11:50:12Z",
+          "completed_at": "2026-10-23T11:50:13Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-23T11:50:13Z",
+          "completed_at": "2026-10-23T11:50:13Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/diegoami/goal2-archaeology/check-runs/120398107587",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000012346,
+      "runner_name": "GitHub Actions 1000012346",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+sample-own-friendly-b.jsonl
+O8/c1-c2-friendly: score [2, 5] ticks 4564 draws 193140 cpu 14.351 s -> 11.033 s; identical
+1 matches expected identical, 1 pass, 0 fail
+sample-own-qualifier-a.jsonl
+O8/c1-c2-qualifier: score [2, 0] ticks 4587 draws 207919 cpu 14.449 s -> 10.871 s; identical
+1 matches expected identical, 1 pass, 0 fail
+sample-confidence-plus-one.jsonl
+O8/c1-c2-friendly: score [2, 5] ticks 4564 draws 193140 cpu 14.351 s -> 10.954 s; caught: first at result_sha256; also after.ranges.records
+1 matches expected differ, 1 pass, 0 fail
+O8/c1-c2-friendly: after.seed differs=False; after.ranges.records differs=True; board/draws/events/decisions unchanged=True
+sample-rolled-energy-plus-one.jsonl
+O8/c1-c2-friendly: score [2, 5] ticks 4564 draws 193140 cpu 14.351 s -> 10.947 s; caught: first at result_sha256; also after.ranges.records
+1 matches expected differ, 1 pass, 0 fail
+O8/c1-c2-friendly: after.seed differs=False; after.ranges.records differs=True; board/draws/events/decisions unchanged=True
+sample-recovered-energy-c30.jsonl
+O8/c30-c44-friendly: score [1, 1] ticks 4108 draws 183851 cpu 12.691 s -> 8.355 s; caught: first at result_sha256; also after.ranges.records
+1 matches expected differ, 1 pass, 0 fail
+O8/c30-c44-friendly: after.seed differs=False; after.ranges.records differs=True; board/draws/events/decisions unchanged=True
+sample-recovered-energy-plus-one.jsonl
+O8/c1-c2-qualifier: score [2, 0] ticks 4587 draws 207919 cpu 14.449 s -> 9.97 s; identical
+1 matches expected identical, 1 pass, 0 fail
+declared unreached control: 3651 has zero calls, so this sample is not an accepted falsifier
