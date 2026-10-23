@@ -65,6 +65,10 @@ CONTROLS=[
  ('C553 outgoing notice column shifted',D,"(6,29,'0791:C540'","(6,30,'0791:C540'"),
  ('1EDE tone divisor argument changed',D,'r.local16(6,r.ax)\n        r.al=ss16(mem,r,r.bp+6)&255','r.local16(6,r.ax+1)\n        r.al=ss16(mem,r,r.bp+6)&255'),
  ('1EC4 sound enable guard inverted',D,"if not mem.ds8(0xA9FC):\n        r=yield from guest(mem,r,'214B:1E75',ret='214B:1ECA')","if mem.ds8(0xA9FC):\n        r=yield from guest(mem,r,'214B:1E75',ret='214B:1ECA')"),
+ ('3DED false zone flag still writes marker',D,'if r.al:\n                r.al=attribute&255;colour=r.ax;r.di=0x3BD1','if True:\n                r.al=attribute&255;colour=r.ax;r.di=0x3BD1'),
+ ('449A injured fitness label reads fitness instead of zero energy',D,'r.al=rb(mem,r,14 if injured else 13)','r.al=rb(mem,r,13)'),
+ ('46C9 red icon colour changed',D,"(6,4,44,'46C5','46E1')","(6,5,44,'46C5','46E1')"),
+ ('96CA interactive table forced to one pass',D,'if not ss8(mem,r,r.bp+10) or mem.ds8(0xA976)==27:break','if True:break'),
 ]
 paths=['runtime','tests/test_e036_compare.py',F,C,'experiments/E036-match-port/families.py',
        'experiments/E036-match-port/records.py','experiments/E036-match-port/families']

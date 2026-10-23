@@ -1213,5 +1213,44 @@ class TeamPanelCompositeTests(unittest.TestCase):
                 self.assertEqual(flags,[] if colour_mode else [(2*i,r.mem.seg(0x1771),0x157B,13,i*2+8,r.mem.DS,0xA96E) for i in range(1,4)])
                 self.assertEqual(r.u16(BP0-2),8 if colour_mode else 3)
 
+class AdditionalUnreachedBranchTests(unittest.TestCase):
+    def test_marked_target_without_zone_flag_skips_only_the_zone_marker(self):
+        r=Rig();r.ds8(0xC1E,1);r.ds16(0x9B36,3)
+        for field,value in ((0,3),(6,4),(15,0),(16,0)):r.player(1,field,value)
+        r.player(2,6,5);r.ds16(0x9A3E+40+2*5,2)
+        def answer(q,m):
+            if q.target=='214B:0C57':return int(bool(q.args[1]&(1<<(q.args[0]-1))))
+            return 5 if q.target=='1771:3A82' else 0
+        r.run('1771:3BD3',(1,),answer=answer)
+        self.assertEqual(r.args('1771:2EE5'),[(2,16,43)])
+        self.assertEqual(r.args('214B:02C8'),[])
+
+    def test_injured_card_fitness_label_reads_energy_zero_instead_of_fitness(self):
+        for energy,label in ((0,0x6EC4),(20,0x6ED4)):
+            r=Rig();r.player(1,13,20);r.player(1,14,energy)
+            r.ds8(0x78D5,1);r.ds8(0x78D5+20,2)
+            r.run('1771:42BC',(1,))
+            cells=[a for a in r.args('214B:026D') if a[2:4]==(20,48)]
+            self.assertEqual(cells,[(r.mem.DS,label,20,48,r.mem.DS,0xA96E)])
+
+    def test_card_status_icons_keep_each_colour_and_column(self):
+        for status,colour,column in ((0,None,None),(8,14,40),(16,14,42),(32,4,44)):
+            r=Rig();r.player(1,14,1);r.player(1,16,status)
+            def answer(q,m):return int(bool(q.args[1]&(1<<(q.args[0]-1)))) if q.target=='214B:0C57' else 0
+            r.run('1771:42BC',(1,),answer=answer)
+            icons=[a for a in r.args('214B:02C8') if a[2]==0x4268]
+            self.assertEqual(icons,[] if colour is None else [(colour,r.mem.seg(0x1771),0x4268,10,column,r.mem.DS,0xA96E)])
+
+    def test_interactive_table_repeats_then_exits_on_second_escape_key(self):
+        r=Rig();keys=iter((120,27))
+        def answer(q,m):
+            if q.target=='23E4:08DF':m.regs['eflags']|=0x40
+            if q.target=='1771:8E9A':r.ds8(0xA976,next(keys))
+            return 0
+        r.run('1771:958D',(3,0,1),answer=answer)
+        self.assertEqual(r.args('1771:8939'),[(BP0,),(BP0,)])
+        self.assertEqual(r.args('1771:8E9A'),[(BP0,),(BP0,)])
+        self.assertEqual(r.mem.ds8(0xA976),27)
+
 if __name__ == '__main__':
     unittest.main()
