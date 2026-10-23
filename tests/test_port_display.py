@@ -719,5 +719,16 @@ class ClockDigitMemoryTests(unittest.TestCase):
                 self.assertEqual([a[1] for a in r.args('0791:04C9')],columns)
                 self.assertEqual([a[0]&255 for a in r.args('0791:04C9')],list(text))
 
+class DelayMemoryTests(unittest.TestCase):
+    def test_busy_wait_removed_but_final_unsigned_count_frame_preserved(self):
+        for count in (0,1,5,65535):
+            with self.subTest(count=count):
+                r=Rig();r.ds16(0xA9FF,3);r.ds16(0xAA01,1)
+                for off in (-8,-6,-4,-2):r.lin16(BP0+off,0xCAFE)
+                r.run('214B:1E09',(count,))
+                expected=[count,3,1,count] if count else [0xCAFE]*4
+                self.assertEqual([r.u16(BP0+off) for off in (-8,-6,-4,-2)],expected)
+                self.assertEqual(r.calls,[])
+
 if __name__ == '__main__':
     unittest.main()

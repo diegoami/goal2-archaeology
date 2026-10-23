@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {"0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
+    if address not in {"214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
         PORTS.stub(address, ret=ret, value=None, why="initial all-at-once display-removal candidate; classification pending")
 
 
@@ -1512,4 +1512,18 @@ def big_digits_memory(mem,variant):
     r.al=mem.u8(mem.ss_lin(line));r.ah=0;r.di=r.ax
     r.al=mem.u8(mem.ss_lin(line+r.di));digit=r.ax;r.ax=0x4B
     r=yield from guest(mem,r,'0791:04C9',digit,r.ax,r.bp,ret='0791:05C0',far=False)
+    return _end(r)
+
+
+@PORTS.port('214B:1E09',ret='retf 2')
+def delay_frame_memory(mem,variant):
+    """1E09-1E57: omit elapsed busy-wait work, retain its exact completed frame."""
+    r=Regs(mem);r.enter(8)
+    count=ss16(mem,r,r.bp+6)
+    if count:
+        r.ax=count;r.local16(-8,r.ax)
+        r.local16(-2,count)
+        r.ax=mem.ds16(0xA9FF);r.dx=mem.ds16(0xAA01)
+        r.local16(-6,r.ax);r.local16(-4,r.dx);r.es=r.dx
+        r.ax=count
     return _end(r)
