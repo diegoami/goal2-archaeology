@@ -635,7 +635,7 @@ void __cdecl16near penalty_shootout(void)
   }
   DS:831D = 1;
   local_21 = DS:831A;
-  f_0791_A841();
+  draw_setup_screen();
   sys_move_025D(4000,(int)DS:7C16,(int)((ulong)DS:7C16 >> 0x10),(int)DS:7C1E,
                 (int)((ulong)DS:7C1E >> 0x10));
   commentary_plain(CONCAT11(extraout_AH_00,0x3d));
@@ -721,9 +721,10 @@ void __stdcall16far initialize_pitch_player(undefined2 *param_1,undefined2 param
 }
 
 
-// ---- 0791:A375  f_0791_A375  (f_0791_A375; Ghidra 2000:A375, __stdcall16far; found by routines.tsv)
+// ---- 0791:A375  init_ball_record  (f_0791_A375; Ghidra 2000:A375, __stdcall16far; found by routines.tsv)
+// T70 (ported, exact on ALL; runtime/original_match/port/setup.py): (record far pointer) +0xA := 0, +4 := 0x0F07, +0xC := 0, +0xD := 0, +0 and +2 := DS:0640; the set-up A4A1 calls it on the ball DS:82F6  [likely; read code/seg_0791_17.asm:122]
 
-void __stdcall16far f_0791_A375(undefined2 *param_1)
+void __stdcall16far init_ball_record(undefined2 *param_1)
 
 {
   undefined2 *puVar1;
@@ -741,9 +742,10 @@ void __stdcall16far f_0791_A375(undefined2 *param_1)
 }
 
 
-// ---- 0791:A3B6  f_0791_A3B6  (f_0791_A3B6; Ghidra 2000:A3B6, __stdcall16far; found by routines.tsv)
+// ---- 0791:A3B6  init_point_record  (f_0791_A3B6; Ghidra 2000:A3B6, __stdcall16far; found by routines.tsv)
+// T70 (ported, exact on ALL; runtime/original_match/port/setup.py): (record far pointer) +4 := 0x0D01, +0 and +2 := DS:0644; the set-up A4A1 calls it on DS:82EE, 8304 and DS:82E2 + 6 side  [likely; read code/seg_0791_17.asm:146]
 
-void __stdcall16far f_0791_A3B6(undefined2 *param_1)
+void __stdcall16far init_point_record(undefined2 *param_1)
 
 {
   undefined2 uVar1;
@@ -757,7 +759,7 @@ void __stdcall16far f_0791_A3B6(undefined2 *param_1)
 
 
 // ---- 0791:A3DE  prepare_computer_sides  (f_0791_A3DE; Ghidra 2000:A3DE, __stdcall16near; found by routines.tsv)
-// match set-up for the computer sides: for t = 0 then 1, only when 0B77 is zero for the team, calls 0791:B11F, then 1771:34E7 (clear the players' +0xF and re-derive it), then 0791:BD83(t), in that order; a managed side is skipped  [established; F010]
+// T70 (ported, exact on ALL; runtime/original_match/port/setup.py): match set-up for the computer sides: for t = 0 then 1, only when 0B77 is zero for the team, calls 0791:B11F, then 1771:34E7 (clear the players' +0xF and re-derive it), then 0791:BD83(t), in that order; a managed side is skipped  [established; F010]
 
 void prepare_computer_sides(undefined4 param_1)
 
@@ -784,7 +786,7 @@ void prepare_computer_sides(undefined4 param_1)
   DS:9976 = *(undefined1 *)(iVar2 + 1);
   DS:7C2A._0_2_ = iVar2;
   DS:7C2A._2_2_ = uVar4;
-  f_0791_2648();
+  reseed_foul_draws();
   DS:9B3C = 0;
   local_3 = '\0';
   while( true ) {
@@ -802,7 +804,7 @@ void prepare_computer_sides(undefined4 param_1)
 
 
 // ---- 0791:A4A1  match_setup  (f_0791_A4A1; Ghidra 2000:A4A1, __stdcall16near; found by routines.tsv)
-// per-match set-up: clears the commentary ring and the quick flags, draws the kick-off side; also clears the tactic-change flags DS:8332 + t and DS:8334 + t  [established; F005; F010]
+// T70 (ported, exact on ALL; runtime/original_match/port/setup.py): per-match set-up (fixture far pointer): 0791:A3DE, DS:832C := 0xFFFF, the kit colours 1073, clears (214B:0018) of DS:9B08, 7C3E (0xFF), the statistics 7B7E, 7BD4, 80F2, 80F6, 9A40, the words 7C3A, 8332, 8334 and the commentary ring counter 80EE; DS:9A3D := kind is not 1; the kick-off coin DS:831A (214B:06FA); the ball A375 and the points A3B6; the 22 pitch records (A2E6); per side DS:80F0 + t := 0, the point DS:82E2 + 6t and the budget DS:9B3A + t := DS:066B[DS:9A3D] (A605); 230C and 2FB1; the clock and play state cleared; DS:80FD := either country managed (1771:0B77); DS:9978 cleared; the screen A841  [established; F005; F010]
 
 void match_setup(undefined4 param_1)
 
@@ -815,7 +817,7 @@ void match_setup(undefined4 param_1)
   uVar2 = (undefined2)((ulong)param_1 >> 0x10);
   prepare_computer_sides((int)param_1,uVar2);
   DS:832C = 0xffff;
-  f_0791_1073();
+  kit_colours();
   u214b_fill_bytes(0,0x28,(char *)match_form + 1,0xb000);
   man_of_the_match = 0;
   DS:8332 = 0;
@@ -834,9 +836,9 @@ void match_setup(undefined4 param_1)
   DS:830D = 0;
   pitch_records[0].state = 0;
   DS:7C39 = 0;
-  f_0791_A375((ball *)&ball_record,0xb000);
-  f_0791_A3B6((sprite *)&referee_record,0xb000);
-  f_0791_A3B6(0x8304,0xb000);
+  init_ball_record((ball *)&ball_record,0xb000);
+  init_point_record((sprite *)&referee_record,0xb000);
+  init_point_record(0x8304,0xb000);
   for (local_4 = 1; initialize_pitch_player((pitch *)pitch_records + local_4,0xb000,local_4),
       local_4 != 0x16; local_4 = local_4 + 1) {
   }
@@ -846,7 +848,7 @@ void match_setup(undefined4 param_1)
   local_5 = '\0';
   while( true ) {
     *(undefined1 *)((int)&pitch_records[0].destination + 1 + (int)local_5) = 0;
-    f_0791_A3B6(local_5 * 6 + -0x7d1e,0xb000);
+    init_point_record(local_5 * 6 + -0x7d1e,0xb000);
     ((char *)substitutions_left)[local_5] = *(char *)((char)fixture_not_friendly + 0x66b);
     if (local_5 == '\x01') break;
     local_5 = local_5 + '\x01';
@@ -873,7 +875,7 @@ void match_setup(undefined4 param_1)
   u214b_fill_bytes(0,0x14,0x9978,0xb000);
   DS:9A3E = 0;
   DS:9A3F = 0;
-  f_0791_A841();
+  draw_setup_screen();
   DS:7C37 = 0;
   DS:7C38 = 0;
   return;
@@ -903,7 +905,7 @@ void f_0791_A699(undefined4 param_1)
 
 
 // ---- 0791:A6E4  host_country  (f_0791_A6E4; Ghidra 2000:A6E4, __stdcall16near; found by routines.tsv)
-// the venue's host country for a fixture: the fixture's second team (+6) unless 1771:5A03 (fixture_kind_in_result_set) holds for the fixture, then the country stored at [A923] + 0x2C + 2 * continent, where continent is the fixture's second country's continent (country +0x2C, read at A72E), or slot 5 when [A923]+0x40 is set  [likely; F024; read code/seg_0791_17.asm:487-536]
+// T70 (ported, exact on ALL; runtime/original_match/port/setup.py): the venue's host country for a fixture: the fixture's second team (+6) unless 1771:5A03 (fixture_kind_in_result_set) holds for the fixture, then the country stored at [A923] + 0x2C + 2 * continent, where continent is the fixture's second country's continent (country +0x2C, read at A72E), or slot 5 when [A923]+0x40 is set  [established; F024; read code/seg_0791_17.asm:487-536]
 
 undefined2 host_country(undefined4 param_1)
 
@@ -985,9 +987,10 @@ void __cdecl16near f_0791_A75D(void)
 }
 
 
-// ---- 0791:A841  f_0791_A841  (f_0791_A841; Ghidra 2000:A841, __cdecl16near; found by routines.tsv)
+// ---- 0791:A841  draw_setup_screen  (f_0791_A841; Ghidra 2000:A841, __cdecl16near; found by routines.tsv)
+// T70 (ported, exact on ALL; runtime/original_match/port/setup.py): the match screen in the back buffer [DS:A96E]: three packed screens (214B:0329 of DS:6192, 613E, 5796), each country's name upper-cased (214B:009C of [DS:9B68] + 16 country) in its colour DS:832E + side at column DS:08CC + side, row 0xE (214B:02C8), the fixture kind's title (1771:580B, upper-cased) in colour 5 at row 0x21, the score (0712); then the buffer copied into the pitch picture [DS:7C1E] (214B:003C, 0xFA0 bytes), which is engine state; called by A4A1  [likely; read code/seg_0791_17.asm:638]
 
-void __cdecl16near f_0791_A841(void)
+void __cdecl16near draw_setup_screen(void)
 
 {
   undefined2 uVar1;
@@ -1022,7 +1025,7 @@ void __cdecl16near f_0791_A841(void)
   puVar3 = local_203;
   puVar2 = local_103;
   uVar4 = unaff_SS;
-  f_1771_580B(*(undefined1 *)((int)DS:7C2A + 2));
+  fixture_kind_title(*(undefined1 *)((int)DS:7C2A + 2));
   u214b_upcase_string(puVar2,unaff_SS);
   u214b_write_string_at_fwd_set_attr
             ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_00,0x21),
@@ -1031,36 +1034,4 @@ void __cdecl16near f_0791_A841(void)
   u214b_move_bytes(4000,(int)DS:7C1E,(int)((ulong)DS:7C1E >> 0x10),(int)DS:A96E,
                    (int)((ulong)DS:A96E >> 0x10));
   return;
-}
-
-
-// ---- 0791:A920  pitch_slot_of_player  (f_0791_A920; Ghidra 2000:A920, __stdcall16near; found by routines.tsv)
-// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): (player word): his index k in 1..11 among his country's squad words (the last that matches; 0 when none) plus DS:0668[his country = DS:9B36] when found: his pitch slot, 0 when he is not in the eleven  [established; F030; read code/seg_0791_17.asm:742]
-
-undefined4 pitch_slot_of_player(uint param_1)
-
-{
-  undefined2 uVar1;
-  undefined2 uVar2;
-  int local_8;
-  int local_6;
-  
-  uVar2 = (undefined2)((ulong)players >> 0x10);
-  uVar1 = 0;
-  local_8 = 0;
-  local_6 = 1;
-  while( true ) {
-    if (((country *)countries)[((player *)players + param_1)->country].squad[local_6 + -1] ==
-        param_1) {
-      local_8 = local_6;
-    }
-    if (local_6 == 0xb) break;
-    local_6 = local_6 + 1;
-  }
-  if (local_8 != 0) {
-    uVar1 = (undefined2)((ulong)param_1 * 0x14 >> 0x10);
-    local_8 = local_8 + (uint)*(byte *)(((&((player *)players)->country)
-                                         [(int)((ulong)param_1 * 0x14)] == DS:9B36) + 0x668);
-  }
-  return CONCAT22(uVar1,local_8);
 }

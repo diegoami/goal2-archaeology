@@ -78,93 +78,93 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 0791:0B7C	ask_do_you_want	established	decompiled	seg_0791_01.c	635	2000:0B7C	routines.tsv	
 0791:0C0B			decompiled	seg_0791_01.c	674	2000:0C0B	routines.tsv	
 0791:0C65	action_replay	likely	decompiled	seg_0791_01.c	694	2000:0C65	routines.tsv	
-0791:1073			decompiled	seg_0791_01.c	818	2000:1073	routines.tsv	
-0791:112C	view_saved_goal	likely	decompiled	seg_0791_01.c	848	2000:112C	routines.tsv	
-0791:15B9	snapshot_match_state	established	decompiled	seg_0791_01.c	994	2000:15B9	routines.tsv	
-0791:1829			decompiled	seg_0791_02.c	4	2000:1829	routines.tsv	
+0791:1073	kit_colours	likely	decompiled	seg_0791_01.c	818	2000:1073	routines.tsv	
+0791:112C	view_saved_goal	likely	decompiled	seg_0791_01.c	849	2000:112C	routines.tsv	
+0791:15B9	snapshot_match_state	established	decompiled	seg_0791_02.c	4	2000:15B9	routines.tsv	
+0791:1829			decompiled	seg_0791_02.c	71	2000:1829	routines.tsv	
 0791:1A04			failed			2000:1A04	routines.tsv	Exception while decompiling 2000:1a04: ghidra.program.model.address.AddressOutOfBoundsException: Offset must be between 0x0 and 0x10ffef, got 0xb0002e8e instead!
-0791:1C78	commentary_record_is_new	established	decompiled	seg_0791_02.c	72	2000:1C78	routines.tsv	
-0791:1D4A	write_commentary_line	established	decompiled	seg_0791_02.c	124	2000:1D4A	routines.tsv	
-0791:1E53	apply_perf_delta	established	decompiled	seg_0791_02.c	175	2000:1E53	routines.tsv	
-0791:1EB5	emit_commentary	established	decompiled	seg_0791_02.c	193	2000:1EB5	routines.tsv	
-0791:1F3C	best_leader_available	likely	decompiled	seg_0791_02.c	226	2000:1F3C	routines.tsv	
-0791:1FDD	pick_marker_by_skill	established	decompiled	seg_0791_02.c	262	2000:1FDD	routines.tsv	
-0791:20E3	assign_marking_slots	established	decompiled	seg_0791_02.c	308	2000:20E3	routines.tsv	
-0791:2218	swap_squad_slots	established	decompiled	seg_0791_02.c	357	2000:2218	routines.tsv	
-0791:230C	resort_pitch_and_bench	established	decompiled	seg_0791_02.c	382	2000:230C	routines.tsv	
-0791:261A	draw_table_byte	established	decompiled	seg_0791_02.c	505	2000:261A	routines.tsv	
-0791:2648			decompiled	seg_0791_02.c	524	2000:2648	routines.tsv	
-0791:26A0	set_message_word	likely	decompiled	seg_0791_02.c	547	2000:26A0	routines.tsv	
-0791:26C2	show_message_8304	likely	decompiled	seg_0791_02.c	564	2000:26C2	routines.tsv	
-0791:26D7	player_effective_tactic	established	decompiled	seg_0791_02.c	576	2000:26D7	routines.tsv	
-0791:278A	skill_of_pitch_record	established	decompiled	seg_0791_02.c	602	2000:278A	routines.tsv	
-0791:287C	skill_draw_passes	established	decompiled	seg_0791_02.c	654	2000:287C	routines.tsv	
-0791:28B2	all_players_in_state	likely	decompiled	seg_0791_02.c	669	2000:28B2	routines.tsv	
-0791:2929	fill_pitch_state	likely	decompiled	seg_0791_02.c	695	2000:2929	routines.tsv	
-0791:2956	player_unavailable_on_pitch	likely	decompiled	seg_0791_02.c	710	2000:2956	routines.tsv	
-0791:2974	pitch_slot_side	established	decompiled	seg_0791_02.c	723	2000:2974	routines.tsv	
-0791:2996	ball_holder_is_side0	likely	decompiled	seg_0791_02.c	733	2000:2996	routines.tsv	
-0791:29B3	ball_holder_farther_flag	likely	decompiled	seg_0791_02.c	743	2000:29B3	routines.tsv	
-0791:2A15	advance_unavailable_ball_slot	likely	decompiled	seg_0791_02.c	768	2000:2A15	routines.tsv	
-0791:2A6D	second_slot_in_side	likely	decompiled	seg_0791_02.c	795	2000:2A6D	routines.tsv	
-0791:2AA3	commentary_with_ball_slot	likely	decompiled	seg_0791_02.c	813	2000:2AA3	routines.tsv	
-0791:2AD4	commentary_with_both_slots	likely	decompiled	seg_0791_02.c	832	2000:2AD4	routines.tsv	
-0791:2B0F	commentary_plain	likely	decompiled	seg_0791_02.c	850	2000:2B0F	routines.tsv	
-0791:2B28	commentary_for_record	likely	decompiled	seg_0791_02.c	861	2000:2B28	routines.tsv	
-0791:2B51	slot_is_on_ball_side	established	decompiled	seg_0791_02.c	879	2000:2B51	routines.tsv	
-0791:2B7B	energy_gate_chance	established	decompiled	seg_0791_02.c	894	2000:2B7B	routines.tsv	
-0791:2BB1	slot_in_side	likely	decompiled	seg_0791_02.c	908	2000:2BB1	routines.tsv	
-0791:2BE5	attack_direction	likely	decompiled	seg_0791_02.c	933	2000:2BE5	routines.tsv	
-0791:2C29	slot_is_idle_ball_slot	likely	decompiled	seg_0791_02.c	956	2000:2C29	routines.tsv	
-0791:2C54	in_own_half	likely	decompiled	seg_0791_02.c	974	2000:2C54	routines.tsv	
-0791:2C86	mirror_to_team_frame	likely	decompiled	seg_0791_02.c	991	2000:2C86	routines.tsv	
-0791:2CC5			decompiled	seg_0791_02.c	1011	2000:2CC5	routines.tsv	
-0791:2CEC	player_at_ball	likely	decompiled	seg_0791_02.c	1020	2000:2CEC	routines.tsv	
-0791:2D10	ball_ahead_of_by	likely	decompiled	seg_0791_03.c	4	2000:2D10	routines.tsv	
-0791:2D6D	ahead_of_ball_by	likely	decompiled	seg_0791_03.c	37	2000:2D6D	routines.tsv	
-0791:2DCA			decompiled	seg_0791_03.c	69	2000:2DCA	routines.tsv	
-0791:2E00	on_pitch_wide	likely	decompiled	seg_0791_03.c	93	2000:2E00	routines.tsv	
-0791:2E36	in_own_goal_area	likely	decompiled	seg_0791_03.c	118	2000:2E36	routines.tsv	
-0791:2E82	in_penalty_strip	likely	decompiled	seg_0791_03.c	151	2000:2E82	routines.tsv	
-0791:2EB8	in_own_goal_strip	likely	decompiled	seg_0791_03.c	176	2000:2EB8	routines.tsv	
-0791:2EF0	in_opposing_goal_strip	likely	decompiled	seg_0791_03.c	195	2000:2EF0	routines.tsv	
-0791:2F28	in_attack_zone	likely	decompiled	seg_0791_03.c	214	2000:2F28	routines.tsv	
-0791:2FB1	find_nearest_to_ball	likely	decompiled	seg_0791_03.c	251	2000:2FB1	routines.tsv	
-0791:30EA	slot_in_record_side	likely	decompiled	seg_0791_03.c	317	2000:30EA	routines.tsv	
-0791:3111	pick_pass_target	likely	decompiled	seg_0791_03.c	330	2000:3111	routines.tsv	
-0791:3323	pass_to_selected_receiver	likely	decompiled	seg_0791_03.c	407	2000:3323	routines.tsv	
-0791:333F	mark_offside_candidate	likely	decompiled	seg_0791_03.c	423	2000:333F	routines.tsv	
-0791:34C1	launch_ball	likely	decompiled	seg_0791_03.c	480	2000:34C1	routines.tsv	
-0791:384C	move_ball_to_slot	likely	decompiled	seg_0791_03.c	675	2000:384C	routines.tsv	
-0791:3B15	long_ball_target	likely	decompiled	seg_0791_03.c	814	2000:3B15	routines.tsv	
-0791:3B9E	launch_to_slot_with_half_event	likely	decompiled	seg_0791_03.c	851	2000:3B9E	routines.tsv	
-0791:3BEE	choose_pass_or_long_ball	likely	decompiled	seg_0791_03.c	877	2000:3BEE	routines.tsv	
-0791:3C20	count_on_target	likely	decompiled	seg_0791_03.c	903	2000:3C20	routines.tsv	
-0791:3C3F	shot_or_header	likely	decompiled	seg_0791_03.c	916	2000:3C3F	routines.tsv	
-0791:3D38	find_cross_target	likely	decompiled	seg_0791_03.c	964	2000:3D38	routines.tsv	
-0791:3DF6	cross_to_candidate_or_random_point	likely	decompiled	seg_0791_03.c	1020	2000:3DF6	routines.tsv	
-0791:3EC5	take_shot	likely	decompiled	seg_0791_03.c	1056	2000:3EC5	routines.tsv	
-0791:3EDF	take_header	likely	decompiled	seg_0791_03.c	1067	2000:3EDF	routines.tsv	
-0791:3EF8	long_kick_target	likely	decompiled	seg_0791_03.c	1078	2000:3EF8	routines.tsv	
-0791:3FAD	clear_to_random_target	likely	decompiled	seg_0791_03.c	1124	2000:3FAD	routines.tsv	
-0791:408E	choose_clearance	likely	decompiled	seg_0791_03.c	1162	2000:408E	routines.tsv	
-0791:40BC	holder_in_advanced_central_strip	likely	decompiled	seg_0791_04.c	4	2000:40BC	routines.tsv	
-0791:4151	keeper_clearance_if_in_strip	likely	decompiled	seg_0791_04.c	49	2000:4151	routines.tsv	
-0791:419C	assign_start_posts	established	decompiled	seg_0791_04.c	72	2000:419C	routines.tsv	
-0791:42CB	position_group	likely	decompiled	seg_0791_04.c	131	2000:42CB	routines.tsv	
-0791:4354	set_destination_from_post	likely	decompiled	seg_0791_04.c	173	2000:4354	routines.tsv	
-0791:4438	near_post_zone	likely	decompiled	seg_0791_04.c	216	2000:4438	routines.tsv	
-0791:44C1	near_player_zone	likely	decompiled	seg_0791_04.c	258	2000:44C1	routines.tsv	
-0791:4532	depth_step_attack	likely	decompiled	seg_0791_04.c	292	2000:4532	routines.tsv	
-0791:4649	depth_step_defend	likely	decompiled	seg_0791_04.c	360	2000:4649	routines.tsv	
-0791:474D	adjust_depth_offset	likely	decompiled	seg_0791_04.c	413	2000:474D	routines.tsv	
-0791:47C5	choose_marking_target	established	decompiled	seg_0791_04.c	447	2000:47C5	routines.tsv	
-0791:4A28	update_marking_destination	established	decompiled	seg_0791_04.c	529	2000:4A28	routines.tsv	
-0791:4B64	update_player_destination	likely	decompiled	seg_0791_04.c	588	2000:4B64	routines.tsv	
-0791:4D3F	begin_chase	likely	decompiled	seg_0791_04.c	680	2000:4D3F	routines.tsv	
-0791:4DA9	challenger_would_foul	established	decompiled	seg_0791_04.c	707	2000:4DA9	routines.tsv	
-0791:4E28	holder_action_choice	established	decompiled	seg_0791_04.c	738	2000:4E28	routines.tsv	
-0791:500C	defending_keeper_in_state13	likely	decompiled	seg_0791_04.c	841	2000:500C	routines.tsv	
+0791:1C78	commentary_record_is_new	established	decompiled	seg_0791_02.c	139	2000:1C78	routines.tsv	
+0791:1D4A	write_commentary_line	established	decompiled	seg_0791_02.c	191	2000:1D4A	routines.tsv	
+0791:1E53	apply_perf_delta	established	decompiled	seg_0791_02.c	242	2000:1E53	routines.tsv	
+0791:1EB5	emit_commentary	established	decompiled	seg_0791_02.c	260	2000:1EB5	routines.tsv	
+0791:1F3C	best_leader_available	likely	decompiled	seg_0791_02.c	293	2000:1F3C	routines.tsv	
+0791:1FDD	pick_marker_by_skill	established	decompiled	seg_0791_02.c	329	2000:1FDD	routines.tsv	
+0791:20E3	assign_marking_slots	established	decompiled	seg_0791_02.c	375	2000:20E3	routines.tsv	
+0791:2218	swap_squad_slots	established	decompiled	seg_0791_02.c	424	2000:2218	routines.tsv	
+0791:230C	resort_pitch_and_bench	established	decompiled	seg_0791_02.c	449	2000:230C	routines.tsv	
+0791:261A	draw_table_byte	established	decompiled	seg_0791_02.c	572	2000:261A	routines.tsv	
+0791:2648	reseed_foul_draws	established	decompiled	seg_0791_02.c	591	2000:2648	routines.tsv	
+0791:26A0	set_message_word	likely	decompiled	seg_0791_02.c	615	2000:26A0	routines.tsv	
+0791:26C2	show_message_8304	likely	decompiled	seg_0791_02.c	632	2000:26C2	routines.tsv	
+0791:26D7	player_effective_tactic	established	decompiled	seg_0791_02.c	644	2000:26D7	routines.tsv	
+0791:278A	skill_of_pitch_record	established	decompiled	seg_0791_02.c	670	2000:278A	routines.tsv	
+0791:287C	skill_draw_passes	established	decompiled	seg_0791_02.c	722	2000:287C	routines.tsv	
+0791:28B2	all_players_in_state	likely	decompiled	seg_0791_02.c	737	2000:28B2	routines.tsv	
+0791:2929	fill_pitch_state	likely	decompiled	seg_0791_02.c	763	2000:2929	routines.tsv	
+0791:2956	player_unavailable_on_pitch	likely	decompiled	seg_0791_02.c	778	2000:2956	routines.tsv	
+0791:2974	pitch_slot_side	established	decompiled	seg_0791_02.c	791	2000:2974	routines.tsv	
+0791:2996	ball_holder_is_side0	likely	decompiled	seg_0791_02.c	801	2000:2996	routines.tsv	
+0791:29B3	ball_holder_farther_flag	likely	decompiled	seg_0791_02.c	811	2000:29B3	routines.tsv	
+0791:2A15	advance_unavailable_ball_slot	likely	decompiled	seg_0791_02.c	836	2000:2A15	routines.tsv	
+0791:2A6D	second_slot_in_side	likely	decompiled	seg_0791_02.c	863	2000:2A6D	routines.tsv	
+0791:2AA3	commentary_with_ball_slot	likely	decompiled	seg_0791_02.c	881	2000:2AA3	routines.tsv	
+0791:2AD4	commentary_with_both_slots	likely	decompiled	seg_0791_02.c	900	2000:2AD4	routines.tsv	
+0791:2B0F	commentary_plain	likely	decompiled	seg_0791_02.c	918	2000:2B0F	routines.tsv	
+0791:2B28	commentary_for_record	likely	decompiled	seg_0791_02.c	929	2000:2B28	routines.tsv	
+0791:2B51	slot_is_on_ball_side	established	decompiled	seg_0791_02.c	947	2000:2B51	routines.tsv	
+0791:2B7B	energy_gate_chance	established	decompiled	seg_0791_02.c	962	2000:2B7B	routines.tsv	
+0791:2BB1	slot_in_side	likely	decompiled	seg_0791_02.c	976	2000:2BB1	routines.tsv	
+0791:2BE5	attack_direction	likely	decompiled	seg_0791_03.c	4	2000:2BE5	routines.tsv	
+0791:2C29	slot_is_idle_ball_slot	likely	decompiled	seg_0791_03.c	27	2000:2C29	routines.tsv	
+0791:2C54	in_own_half	likely	decompiled	seg_0791_03.c	45	2000:2C54	routines.tsv	
+0791:2C86	mirror_to_team_frame	likely	decompiled	seg_0791_03.c	62	2000:2C86	routines.tsv	
+0791:2CC5			decompiled	seg_0791_03.c	82	2000:2CC5	routines.tsv	
+0791:2CEC	player_at_ball	likely	decompiled	seg_0791_03.c	91	2000:2CEC	routines.tsv	
+0791:2D10	ball_ahead_of_by	likely	decompiled	seg_0791_03.c	101	2000:2D10	routines.tsv	
+0791:2D6D	ahead_of_ball_by	likely	decompiled	seg_0791_03.c	134	2000:2D6D	routines.tsv	
+0791:2DCA			decompiled	seg_0791_03.c	166	2000:2DCA	routines.tsv	
+0791:2E00	on_pitch_wide	likely	decompiled	seg_0791_03.c	190	2000:2E00	routines.tsv	
+0791:2E36	in_own_goal_area	likely	decompiled	seg_0791_03.c	215	2000:2E36	routines.tsv	
+0791:2E82	in_penalty_strip	likely	decompiled	seg_0791_03.c	248	2000:2E82	routines.tsv	
+0791:2EB8	in_own_goal_strip	likely	decompiled	seg_0791_03.c	273	2000:2EB8	routines.tsv	
+0791:2EF0	in_opposing_goal_strip	likely	decompiled	seg_0791_03.c	292	2000:2EF0	routines.tsv	
+0791:2F28	in_attack_zone	likely	decompiled	seg_0791_03.c	311	2000:2F28	routines.tsv	
+0791:2FB1	find_nearest_to_ball	likely	decompiled	seg_0791_03.c	348	2000:2FB1	routines.tsv	
+0791:30EA	slot_in_record_side	likely	decompiled	seg_0791_03.c	414	2000:30EA	routines.tsv	
+0791:3111	pick_pass_target	likely	decompiled	seg_0791_03.c	427	2000:3111	routines.tsv	
+0791:3323	pass_to_selected_receiver	likely	decompiled	seg_0791_03.c	504	2000:3323	routines.tsv	
+0791:333F	mark_offside_candidate	likely	decompiled	seg_0791_03.c	520	2000:333F	routines.tsv	
+0791:34C1	launch_ball	likely	decompiled	seg_0791_03.c	577	2000:34C1	routines.tsv	
+0791:384C	move_ball_to_slot	likely	decompiled	seg_0791_03.c	772	2000:384C	routines.tsv	
+0791:3B15	long_ball_target	likely	decompiled	seg_0791_03.c	911	2000:3B15	routines.tsv	
+0791:3B9E	launch_to_slot_with_half_event	likely	decompiled	seg_0791_03.c	948	2000:3B9E	routines.tsv	
+0791:3BEE	choose_pass_or_long_ball	likely	decompiled	seg_0791_03.c	974	2000:3BEE	routines.tsv	
+0791:3C20	count_on_target	likely	decompiled	seg_0791_03.c	1000	2000:3C20	routines.tsv	
+0791:3C3F	shot_or_header	likely	decompiled	seg_0791_03.c	1013	2000:3C3F	routines.tsv	
+0791:3D38	find_cross_target	likely	decompiled	seg_0791_03.c	1061	2000:3D38	routines.tsv	
+0791:3DF6	cross_to_candidate_or_random_point	likely	decompiled	seg_0791_03.c	1117	2000:3DF6	routines.tsv	
+0791:3EC5	take_shot	likely	decompiled	seg_0791_03.c	1153	2000:3EC5	routines.tsv	
+0791:3EDF	take_header	likely	decompiled	seg_0791_03.c	1164	2000:3EDF	routines.tsv	
+0791:3EF8	long_kick_target	likely	decompiled	seg_0791_04.c	4	2000:3EF8	routines.tsv	
+0791:3FAD	clear_to_random_target	likely	decompiled	seg_0791_04.c	50	2000:3FAD	routines.tsv	
+0791:408E	choose_clearance	likely	decompiled	seg_0791_04.c	88	2000:408E	routines.tsv	
+0791:40BC	holder_in_advanced_central_strip	likely	decompiled	seg_0791_04.c	109	2000:40BC	routines.tsv	
+0791:4151	keeper_clearance_if_in_strip	likely	decompiled	seg_0791_04.c	154	2000:4151	routines.tsv	
+0791:419C	assign_start_posts	established	decompiled	seg_0791_04.c	177	2000:419C	routines.tsv	
+0791:42CB	position_group	likely	decompiled	seg_0791_04.c	236	2000:42CB	routines.tsv	
+0791:4354	set_destination_from_post	likely	decompiled	seg_0791_04.c	278	2000:4354	routines.tsv	
+0791:4438	near_post_zone	likely	decompiled	seg_0791_04.c	321	2000:4438	routines.tsv	
+0791:44C1	near_player_zone	likely	decompiled	seg_0791_04.c	363	2000:44C1	routines.tsv	
+0791:4532	depth_step_attack	likely	decompiled	seg_0791_04.c	397	2000:4532	routines.tsv	
+0791:4649	depth_step_defend	likely	decompiled	seg_0791_04.c	465	2000:4649	routines.tsv	
+0791:474D	adjust_depth_offset	likely	decompiled	seg_0791_04.c	518	2000:474D	routines.tsv	
+0791:47C5	choose_marking_target	established	decompiled	seg_0791_04.c	552	2000:47C5	routines.tsv	
+0791:4A28	update_marking_destination	established	decompiled	seg_0791_04.c	634	2000:4A28	routines.tsv	
+0791:4B64	update_player_destination	likely	decompiled	seg_0791_04.c	693	2000:4B64	routines.tsv	
+0791:4D3F	begin_chase	likely	decompiled	seg_0791_04.c	785	2000:4D3F	routines.tsv	
+0791:4DA9	challenger_would_foul	established	decompiled	seg_0791_04.c	812	2000:4DA9	routines.tsv	
+0791:4E28	holder_action_choice	established	decompiled	seg_0791_04.c	843	2000:4E28	routines.tsv	
+0791:500C	defending_keeper_in_state13	likely	decompiled	seg_0791_04.c	946	2000:500C	routines.tsv	
 0791:5049	energy_chance_branch	established	decompiled	seg_0791_05.c	4	2000:5049	routines.tsv	
 0791:533B	pass_receiver_destination	likely	decompiled	seg_0791_05.c	151	2000:533B	routines.tsv	
 0791:539F	foul_outcome_line	established	decompiled	seg_0791_05.c	189	2000:539F	routines.tsv	
@@ -267,36 +267,36 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 0791:A10A	penalty_shootout	established	decompiled	seg_0791_09.c	600	2000:A10A	routines.tsv	
 0791:A260	bind_pitch_player	established	decompiled	seg_0791_09.c	662	2000:A260	routines.tsv	
 0791:A2E6	initialize_pitch_player	established	decompiled	seg_0791_09.c	692	2000:A2E6	routines.tsv	
-0791:A375			decompiled	seg_0791_09.c	724	2000:A375	routines.tsv	
-0791:A3B6			decompiled	seg_0791_09.c	744	2000:A3B6	routines.tsv	
-0791:A3DE	prepare_computer_sides	established	decompiled	seg_0791_09.c	759	2000:A3DE	routines.tsv	
-0791:A4A1	match_setup	established	decompiled	seg_0791_09.c	804	2000:A4A1	routines.tsv	
-0791:A699			decompiled	seg_0791_09.c	883	2000:A699	routines.tsv	
-0791:A6E4	host_country	likely	decompiled	seg_0791_09.c	905	2000:A6E4	routines.tsv	
-0791:A75D			decompiled	seg_0791_09.c	940	2000:A75D	routines.tsv	
-0791:A841			decompiled	seg_0791_09.c	988	2000:A841	routines.tsv	
-0791:A920	pitch_slot_of_player	established	decompiled	seg_0791_09.c	1037	2000:A920	routines.tsv	
-0791:A9B8	pick_best_bench_keeper	established	decompiled	seg_0791_10.c	4	2000:A9B8	routines.tsv	
-0791:AAE8	pick_bench_by_formation	established	decompiled	seg_0791_10.c	66	2000:AAE8	routines.tsv	
-0791:AC67	bench_best_for_position	likely	decompiled	seg_0791_10.c	138	2000:AC67	routines.tsv	
-0791:AD8F	swap_bench_into_slot	likely	decompiled	seg_0791_10.c	177	2000:AD8F	routines.tsv	
-0791:AFA3	fill_starters_from_bench	likely	decompiled	seg_0791_10.c	271	2000:AFA3	routines.tsv	
-0791:B11F	choose_computer_lineup	likely	decompiled	seg_0791_10.c	333	2000:B11F	routines.tsv	
-0791:B15F	result_needs_winner	likely	decompiled	seg_0791_10.c	354	2000:B15F	routines.tsv	
-0791:B19D	roll_quick_goals	established	decompiled	seg_0791_10.c	376	2000:B19D	routines.tsv	
-0791:B27F	post_fixture_status_update	established	decompiled	seg_0791_10.c	418	2000:B27F	routines.tsv	
-0791:B364	adjust_player_confidence	established	decompiled	seg_0791_10.c	452	2000:B364	routines.tsv	
-0791:B3B7	update_top_scorers	likely	decompiled	seg_0791_10.c	474	2000:B3B7	routines.tsv	
-0791:B602	credit_silent_match_scorers	established	decompiled	seg_0791_10.c	549	2000:B602	routines.tsv	
-0791:B6CC	add_manager_delta	established	decompiled	seg_0791_10.c	592	2000:B6CC	routines.tsv	
-0791:B71C	fixture_confidence_delta	established	decompiled	seg_0791_10.c	614	2000:B71C	routines.tsv	
-0791:B7FA	update_fixture_player_state	established	decompiled	seg_0791_10.c	659	2000:B7FA	routines.tsv	
-0791:BA4E	update_pool_player_state	established	decompiled	seg_0791_10.c	756	2000:BA4E	routines.tsv	
-0791:BB2F	prepare_unplayed_match	established	decompiled	seg_0791_10.c	797	2000:BB2F	routines.tsv	
-0791:BBFF	set_team_tactics	established	decompiled	seg_0791_10.c	845	2000:BBFF	routines.tsv	
-0791:BC5D	reset_team_tactics	established	decompiled	seg_0791_10.c	870	2000:BC5D	routines.tsv	
-0791:BD03	team_strength_greater	established	decompiled	seg_0791_10.c	900	2000:BD03	routines.tsv	
-0791:BD83	computer_tactic_change	established	decompiled	seg_0791_10.c	926	2000:BD83	routines.tsv	
+0791:A375	init_ball_record	likely	decompiled	seg_0791_09.c	724	2000:A375	routines.tsv	
+0791:A3B6	init_point_record	likely	decompiled	seg_0791_09.c	745	2000:A3B6	routines.tsv	
+0791:A3DE	prepare_computer_sides	established	decompiled	seg_0791_09.c	761	2000:A3DE	routines.tsv	
+0791:A4A1	match_setup	established	decompiled	seg_0791_09.c	806	2000:A4A1	routines.tsv	
+0791:A699			decompiled	seg_0791_09.c	885	2000:A699	routines.tsv	
+0791:A6E4	host_country	established	decompiled	seg_0791_09.c	907	2000:A6E4	routines.tsv	
+0791:A75D			decompiled	seg_0791_09.c	942	2000:A75D	routines.tsv	
+0791:A841	draw_setup_screen	likely	decompiled	seg_0791_09.c	990	2000:A841	routines.tsv	
+0791:A920	pitch_slot_of_player	established	decompiled	seg_0791_10.c	4	2000:A920	routines.tsv	
+0791:A9B8	pick_best_bench_keeper	established	decompiled	seg_0791_10.c	36	2000:A9B8	routines.tsv	
+0791:AAE8	pick_bench_by_formation	established	decompiled	seg_0791_10.c	98	2000:AAE8	routines.tsv	
+0791:AC67	bench_best_for_position	established	decompiled	seg_0791_10.c	170	2000:AC67	routines.tsv	
+0791:AD8F	swap_bench_into_slot	established	decompiled	seg_0791_10.c	209	2000:AD8F	routines.tsv	
+0791:AFA3	fill_starters_from_bench	established	decompiled	seg_0791_10.c	303	2000:AFA3	routines.tsv	
+0791:B11F	choose_computer_lineup	established	decompiled	seg_0791_10.c	365	2000:B11F	routines.tsv	
+0791:B15F	result_needs_winner	likely	decompiled	seg_0791_10.c	386	2000:B15F	routines.tsv	
+0791:B19D	roll_quick_goals	established	decompiled	seg_0791_10.c	408	2000:B19D	routines.tsv	
+0791:B27F	post_fixture_status_update	established	decompiled	seg_0791_10.c	450	2000:B27F	routines.tsv	
+0791:B364	adjust_player_confidence	established	decompiled	seg_0791_10.c	484	2000:B364	routines.tsv	
+0791:B3B7	update_top_scorers	likely	decompiled	seg_0791_10.c	506	2000:B3B7	routines.tsv	
+0791:B602	credit_silent_match_scorers	established	decompiled	seg_0791_10.c	581	2000:B602	routines.tsv	
+0791:B6CC	add_manager_delta	established	decompiled	seg_0791_10.c	624	2000:B6CC	routines.tsv	
+0791:B71C	fixture_confidence_delta	established	decompiled	seg_0791_10.c	646	2000:B71C	routines.tsv	
+0791:B7FA	update_fixture_player_state	established	decompiled	seg_0791_10.c	691	2000:B7FA	routines.tsv	
+0791:BA4E	update_pool_player_state	established	decompiled	seg_0791_10.c	788	2000:BA4E	routines.tsv	
+0791:BB2F	prepare_unplayed_match	established	decompiled	seg_0791_10.c	829	2000:BB2F	routines.tsv	
+0791:BBFF	set_team_tactics	established	decompiled	seg_0791_10.c	877	2000:BBFF	routines.tsv	
+0791:BC5D	reset_team_tactics	established	decompiled	seg_0791_10.c	902	2000:BC5D	routines.tsv	
+0791:BD03	team_strength_greater	established	decompiled	seg_0791_10.c	932	2000:BD03	routines.tsv	
+0791:BD83	computer_tactic_change	established	decompiled	seg_0791_10.c	958	2000:BD83	routines.tsv	
 0791:BEC7	convert_forward_to_striker	established	decompiled	seg_0791_11.c	4	2000:BEC7	routines.tsv	
 0791:BF6B	computer_tactic_shift	established	decompiled	seg_0791_11.c	49	2000:BF6B	routines.tsv	
 0791:C01A	computer_include_tactics	established	decompiled	seg_0791_11.c	84	2000:C01A	routines.tsv	
@@ -317,7 +317,7 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 0791:D016			decompiled	seg_0791_11.c	795	2000:D016	routines.tsv	
 0791:D032			decompiled	seg_0791_11.c	812	2000:D032	routines.tsv	
 0791:D050			decompiled	seg_0791_11.c	826	2000:D050	routines.tsv	
-0791:D44C	second_team_is_host	likely	decompiled	seg_0791_11.c	957	2000:D44C	routines.tsv	
+0791:D44C	second_team_is_host	established	decompiled	seg_0791_11.c	957	2000:D44C	routines.tsv	
 0791:D47E	quick_result_silent	established	decompiled	seg_0791_11.c	972	2000:D47E	routines.tsv	
 0791:D5C1	roll_quick_foul	likely	decompiled	seg_0791_12.c	4	2000:D5C1	routines.tsv	
 0791:D733	quick_match_engine	established	decompiled	seg_0791_12.c	57	2000:D733	routines.tsv	
@@ -454,23 +454,23 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 1771:55FC	find_next_managed_fixture	established	decompiled	seg_1771_04.c	592	4000:55FC	routines.tsv	
 1771:56E4	continent_order_offset	likely	decompiled	seg_1771_04.c	639	4000:56E4	routines.tsv	
 1771:56FF	build_draw_order	established	decompiled	seg_1771_04.c	649	4000:56FF	routines.tsv	
-1771:580B			decompiled	seg_1771_04.c	683	4000:580B	routines.tsv	
-1771:59D8	stage_uses_finals_table	likely	decompiled	seg_1771_04.c	742	4000:59D8	routines.tsv	
-1771:5A03	fixture_kind_in_result_set	established	decompiled	seg_1771_04.c	756	4000:5A03	routines.tsv	
-1771:5A38	friendly_continents_differ	established	decompiled	seg_1771_04.c	770	4000:5A38	routines.tsv	
-1771:5A8F	recovery_route_gradual	likely	decompiled	seg_1771_04.c	798	4000:5A8F	routines.tsv	
-1771:5AC4			decompiled	seg_1771_04.c	816	4000:5AC4	routines.tsv	
-1771:5BF6			decompiled	seg_1771_04.c	874	4000:5BF6	routines.tsv	
-1771:5C60	fixture_absolute_margin	established	decompiled	seg_1771_04.c	893	4000:5C60	routines.tsv	
-1771:5C94	fixture_winner	likely	decompiled	seg_1771_04.c	909	4000:5C94	routines.tsv	
-1771:5CCB	fixture_loser	likely	decompiled	seg_1771_04.c	922	4000:5CCB	routines.tsv	
-1771:5D02	append_country_fixture	established	decompiled	seg_1771_04.c	935	4000:5D02	routines.tsv	
-1771:5D94	add_fixture	established	decompiled	seg_1771_04.c	961	4000:5D94	routines.tsv	
-1771:5E3A	add_fixture_with_bonus	likely	decompiled	seg_1771_04.c	996	4000:5E3A	routines.tsv	
-1771:5E99	set_manager_groups	likely	decompiled	seg_1771_04.c	1020	4000:5E99	routines.tsv	
-1771:5EE1	sort_countries_by_points	established	decompiled	seg_1771_04.c	1042	4000:5EE1	routines.tsv	
-1771:5FD1	add_placement_bonus	established	decompiled	seg_1771_04.c	1085	4000:5FD1	routines.tsv	
-1771:602D	world_placement_bonuses	established	decompiled	seg_1771_04.c	1107	4000:602D	routines.tsv	
+1771:580B	fixture_kind_title	likely	decompiled	seg_1771_04.c	683	4000:580B	routines.tsv	
+1771:59D8	stage_uses_finals_table	likely	decompiled	seg_1771_04.c	743	4000:59D8	routines.tsv	
+1771:5A03	fixture_kind_in_result_set	established	decompiled	seg_1771_04.c	757	4000:5A03	routines.tsv	
+1771:5A38	friendly_continents_differ	established	decompiled	seg_1771_04.c	771	4000:5A38	routines.tsv	
+1771:5A8F	recovery_route_gradual	likely	decompiled	seg_1771_04.c	799	4000:5A8F	routines.tsv	
+1771:5AC4			decompiled	seg_1771_04.c	817	4000:5AC4	routines.tsv	
+1771:5BF6			decompiled	seg_1771_04.c	875	4000:5BF6	routines.tsv	
+1771:5C60	fixture_absolute_margin	established	decompiled	seg_1771_04.c	894	4000:5C60	routines.tsv	
+1771:5C94	fixture_winner	likely	decompiled	seg_1771_04.c	910	4000:5C94	routines.tsv	
+1771:5CCB	fixture_loser	likely	decompiled	seg_1771_04.c	923	4000:5CCB	routines.tsv	
+1771:5D02	append_country_fixture	established	decompiled	seg_1771_04.c	936	4000:5D02	routines.tsv	
+1771:5D94	add_fixture	established	decompiled	seg_1771_04.c	962	4000:5D94	routines.tsv	
+1771:5E3A	add_fixture_with_bonus	likely	decompiled	seg_1771_04.c	997	4000:5E3A	routines.tsv	
+1771:5E99	set_manager_groups	likely	decompiled	seg_1771_04.c	1021	4000:5E99	routines.tsv	
+1771:5EE1	sort_countries_by_points	established	decompiled	seg_1771_04.c	1043	4000:5EE1	routines.tsv	
+1771:5FD1	add_placement_bonus	established	decompiled	seg_1771_04.c	1086	4000:5FD1	routines.tsv	
+1771:602D	world_placement_bonuses	established	decompiled	seg_1771_04.c	1108	4000:602D	routines.tsv	
 1771:6103	continent_placement_bonuses	established	decompiled	seg_1771_05.c	4	4000:6103	routines.tsv	
 1771:61F8	add_group_points	established	decompiled	seg_1771_05.c	38	4000:61F8	routines.tsv	
 1771:63A4	recompute_country_ranks	established	decompiled	seg_1771_05.c	111	4000:63A4	routines.tsv	

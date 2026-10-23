@@ -395,7 +395,7 @@ void __stdcall16far view_squad_screen(undefined2 param_1,int param_2)
 
 
 // ---- 1771:517A  quicksort_words  (f_1771_517A; Ghidra 4000:517A, __stdcall16near; found by routines.tsv)
-// a quicksort of words; 1771:52CC sorts the squad words with it, and it swaps each slot's saved position byte along with its squad word (214B:007B), so every player gets his own +6 back after the sort  [established; F010]
+// T70 (ported, exact on ALL; runtime/original_match/port/setup.py): a quicksort of words; 1771:52CC sorts the squad words with it, and it swaps each slot's saved position byte along with its squad word (214B:007B), so every player gets his own +6 back after the sort  [established; F010]
 
 void quicksort_words(int param_1,uint param_2,uint param_3)
 
@@ -445,7 +445,7 @@ void quicksort_words(int param_1,uint param_2,uint param_3)
 
 
 // ---- 1771:52CC  sort_squad_by_position  (f_1771_52CC; Ghidra 4000:52CC, __stdcall16far; found by routines.tsv)
-// sorts a country's 20 squad words in slots 1..11 and 12..20 (the bounds DS:0F3A and DS:0F3C) by position byte +6, ascending, through the quicksort 1771:517A; before sorting it saves each slot's +6 and writes 0x0E (last) for the players 1771:3216 reports unavailable, which for a managed country applies while 0B77 is nonzero at that moment; it reads neither +0x2D nor +0xF; called by 0791:BC5D  [established; F010]
+// T70 (ported, exact on ALL; runtime/original_match/port/setup.py): sorts a country's 20 squad words in slots 1..11 and 12..20 (the bounds DS:0F3A and DS:0F3C) by position byte +6, ascending, through the quicksort 1771:517A; before sorting it saves each slot's +6 and writes 0x0E (last) for the players 1771:3216 reports unavailable, which for a managed country applies while 0B77 is nonzero at that moment; it reads neither +0x2D nor +0xF; called by 0791:BC5D  [established; F010]
 
 void __stdcall16far sort_squad_by_position(int param_1)
 
@@ -680,9 +680,10 @@ void __cdecl16near build_draw_order(void)
 }
 
 
-// ---- 1771:580B  f_1771_580B  (f_1771_580B; Ghidra 4000:580B, __stdcall16far; found by routines.tsv)
+// ---- 1771:580B  fixture_kind_title  (f_1771_580B; Ghidra 4000:580B, __stdcall16far; found by routines.tsv)
+// T70 (ported, exact on ALL; runtime/original_match/port/setup.py): (kind; result string) the title of a fixture kind, a string constant of segment 1771 (CS:577F for kind 0, 5789 for 1, 5792 for 2 and 5, 579D for 6, 57A6 for 3 and 7, 57B2 for 0xC8, 57BC for 0x65 and 0xC9, 57C7 for 0x67 and 0xCB, 57CD for 0x66 and 0xCA, 57D7 for 8, 57DF, 57E6, 57EC, 57F7 for 0xFC to 0xFF, 57FF otherwise) stored with 23E4:0644 (at most 12 characters)  [likely; read code/seg_1771_08.asm:519]
 
-void __stdcall16far f_1771_580B(int param_1,undefined4 param_2)
+void __stdcall16far fixture_kind_title(int param_1,undefined4 param_2)
 
 {
   undefined2 uVar1;
