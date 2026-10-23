@@ -52,7 +52,7 @@ def analyze(reports):
         facts.append({'ds_offset':start,'length':length,
                       'writers':sorted(set().union(*(writers[i] for i in range(start,start+length)))),
                       'readers':sorted(set().union(*(readers.get(i,set()) for i in range(start,start+length))))})
-    return {'matches':sorted(seen),'observed_ds_spans':spans(observed),
+    return {'matches':sorted(seen),'observed_ds_ranges':[{'ds_offset':a,'length':n} for a,n in spans(observed)],
             'unobserved_bytes_are_unmaskable':True,
             'access_only_candidate_ranges':facts,
             'candidate_bytes':len(possible),
@@ -67,6 +67,8 @@ def main():
     a=ap.parse_args()
     root=Path(a.input)
     paths=sorted(root.rglob('*-accesses.json'))+sorted(root.rglob('*-accesses.json.gz'))
+    paths=[path for path in paths if path.suffix!='.gz' or
+           path.with_name(path.name.removesuffix('-accesses.json.gz')+'-profile.json').is_file()]
     reports=[];candidate={}
     declared=families.discover()
     specs={mid:sha for fam in declared.values() for mid,sha in fam.expected().items()}
