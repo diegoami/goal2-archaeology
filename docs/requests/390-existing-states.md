@@ -8,7 +8,8 @@ it makes no new game-rule finding and runs no new campaign. The findings below r
 ## Pull and verify
 
 The 21 files in [the inventory](../../notes/390/inventory.json) are copied unchanged into the
-owner's private Drive under `goal2-archaeology/390-existing-states-20261023/`, relative to
+owner's [private delivery folder](https://drive.google.com/drive/folders/19VahGbhN6YPiREXZ0uPAZbf7sCErSCLY)
+at `goal2-archaeology/390-existing-states-20261023/`, relative to
 [the owner artifact folder](https://drive.google.com/drive/folders/12fgdrQUQB4pHdq0ibY-NP-aU8jgNaRzc).
 Each inventory row supplies the exact filename, SHA-256, size, original meaning, source path,
 full immutable source commit, and rclone path. The sources are E031's `play-the-game-states`
