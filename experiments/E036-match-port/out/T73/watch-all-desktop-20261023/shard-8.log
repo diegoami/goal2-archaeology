@@ -1,0 +1,7 @@
+COMMAND: ['/home/diego/projects/goal2-archaeology/tools/heavy.sh', 'T73-watch-s8', '--', '/home/diego/.local/bin/python3.12', '-B', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/watch_accesses.py', '--only', 'F40/more-b4d2,F40/more-cafe', '--fast-pc', '--gzip', '--time-limit', '6000', '--out-dir', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-8']
+heavy: T73-watch-s8: waiting for a slot (3 ahead)
+heavy: T73-watch-s8: waiting for a slot (2 ahead)
+heavy: T73-watch-s8: waiting for a slot (1 ahead)
+heavy: T73-watch-s8: got slot 4 after 3 s
+F40/more-b4d2 completed 41241 attributed DS access sites/ranges
+F40/more-cafe completed 41561 attributed DS access sites/ranges

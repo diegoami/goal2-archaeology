@@ -1,0 +1,3 @@
+COMMAND: ['/home/diego/projects/goal2-archaeology/tools/heavy.sh', 'T73-watch-s1', '--', '/home/diego/.local/bin/python3.12', '-B', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/watch_accesses.py', '--only', 'F40/e032-2345,F40/e032-2b7e', '--fast-pc', '--gzip', '--time-limit', '6000', '--out-dir', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-1']
+F40/e032-2345 completed 40947 attributed DS access sites/ranges
+F40/e032-2b7e completed 40943 attributed DS access sites/ranges
