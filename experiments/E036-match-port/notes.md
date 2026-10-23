@@ -19,12 +19,20 @@ status (the issues' labels do).
 
 ## The acceptance rule every porting task uses
 
-A porting task is accepted when, with its ports hooked, every match of the families equals the unhooked reference that T57
-commits (score, ticks, every main-RNG draw by its digest and per minute, the board, the commentary's templates, the result,
+A porting task is accepted when, with its ports hooked, every match of the families equals its declared unhooked reference
+(the T57 baseline or the T73 display profile below: score, ticks, every main-RNG draw by its digest and per minute, the board, the commentary's templates, the result,
 the events, the records after the post-match update), and the same holds with every port merged on `main`; and when each of
 three falsifiers (a one-line mutation of a ported routine on a branch the families reach, the reach counted first, L105)
 changes or stops a match. A routine that stays non-exact after an hour of locating is accepted non-exact with its
 divergence recorded (the plan's one-hour rule); two such in one task go to the main session.
+Each task's Done-when and the owner's strict acceptance decisions take precedence over that historical fallback.
+
+T73 runs containing `display`, including `--ports all`, select the strict
+[display profile](families/display/profile.json). Compare these runs with `--no-screen`:
+the comparator uses the profile's bound unhooked reference, compares every DS block under its declared byte mask
+(currently `[]`), and excludes the screen digest and only the duplicate `full_time.data.screen_sha256` event field.
+Every other event field/count and every record, draw and seed remain compared. Ordinary unprofiled `--no-screen`
+keeps its legacy behavior. The original-access proof and reference provenance are in [T73's notes](notes/T73.md).
 
 The families (T57; T76 adds a set-piece scenario to S, T77 adds R): F40 (the reference fixture, Denmark v country 19 at
 calendar number 21 from E006-r0001: 20 seeds as they are and the same 20 with declared edits), O8 (other country pairs),
@@ -85,7 +93,7 @@ installed, 1,500-2,200 s a match in a cloud session, about 500-1,900 s on an Act
       gh api "repos/diegoami/goal2-archaeology/actions/workflows/family-run.yml/runs?per_page=3" \
         --jq '.workflow_runs[] | "\(.id) \(.status) \(.conclusion) \(.head_sha[0:8])"'
       git pull --ff-only origin <branch>
-      python3 -B experiments/E036-match-port/compare.py --family ALL --candidate out/T<nn>/all-actions-<id>/all-actions.jsonl
+      python3 -B experiments/E036-match-port/compare.py --family ALL --no-screen --candidate out/T<nn>/all-actions-<id>/all-actions.jsonl
 
   31 shards (the default) run at most 20 at a time; an integrated run took 40-50 min of wall time and 570-600
   runner-minutes, billable 0 on this public repository (each run's `GET .../actions/runs/<id>/timing`). The joined
@@ -113,7 +121,7 @@ code, so a record only compares with a reference made by the same declaration.
    without an error. A routine it calls that is still the original's is called as the listing calls it, `yield
    call(target, *args, ret_to=..., far=...)` (T59, port/guest.py), with the registers the listing hands the callee. A ported routine that holds one of the kit's sites (`match.py`: key-read return addresses, the polls,
    `F2E3`, `9B15`, `9D67`, `A1EF`, the table reads) fires it at the listing's point.
-2a. The stack is part of the acceptance (T60): the family digests cover the stack segment, so a port writes the frame the
+2a. The stack is part of the acceptance (T60): the family digests cover the stack segment, so a retained routine writes the frame the
    listing's code writes (saved BP, locals, the pushes and return addresses of the calls it makes, and the callees'
    frames), not only the data it changes. The proof leaves the dead frame out; the family comparison does not.
    `out/T60/fuzz.py` checks a port against the original on random inputs with the frame included.
@@ -123,8 +131,9 @@ code, so a record only compares with a reference made by the same declaration.
 4. The one-hour rule above; two non-exact routines in one task go to the main session.
 5. Annotation rows for each routine read (purpose; `established` when exact on ALL, else `likely`), `check_annotations.py`,
    and `named/` regenerated last, after rebasing (two tasks at once touch the same rows file).
-6. Family runs are detached (their own systemd unit, L103), one process while another task runs, two in all; outputs go
-   under `out/T<nn>/`, never overwritten, pushed after each batch and every 30 minutes.
+6. Family runs are detached (L103). Use the desktop/Actions sharding and heavy-slot capacity described in "Where a family
+   runs" above, with at most two workers per shard and checkpoints. Outputs go under `out/T<nn>/`, never overwritten,
+   pushed after each batch and every 30 minutes.
 7. The PR states the milestone number: the routines of the task's row ported and exact, and each one's calls per match.
 
 ## The sizes of the backlog (static, no run)
