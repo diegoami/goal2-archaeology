@@ -660,7 +660,7 @@ void __cdecl16near penalty_shootout(void)
 
 
 // ---- 0791:A260  bind_pitch_player  (f_0791_A260; Ghidra 2000:A260, __stdcall16far; found by routines.tsv)
-// writes the slot byte and pitch player_index from the corresponding country's current squad word; derives keeping extra (+0x11 = 1771:0AA7(country) + 0x20) and pitch +0x13 := 1771:3179(player), the flag that 0791:278A reads to halve the derived skill (F028); no player fitness/energy store  [established; F018; F028]
+// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): writes the slot byte and pitch player_index from the corresponding country's current squad word; derives keeping extra (+0x11 = 1771:0AA7(country) + 0x20) and pitch +0x13 := 1771:3179(player), the flag that 0791:278A reads to halve the derived skill (F028); no player fitness/energy store  [established; F018; F028; read code/seg_0791_17.asm:6]
 
 void __stdcall16far bind_pitch_player(undefined4 param_1,undefined1 param_2)
 
@@ -690,7 +690,7 @@ void __stdcall16far bind_pitch_player(undefined4 param_1,undefined1 param_2)
 
 
 // ---- 0791:A2E6  initialize_pitch_player  (f_0791_A2E6; Ghidra 2000:A2E6, __stdcall16far; found by routines.tsv)
-// calls A260 to bind squad word, initializes pitch coordinates and display fields; resets activity word +14 to zero and run_direction +F to 5; does not refill the incoming player's energy  [established; F018]
+// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): calls A260 to bind squad word, initializes pitch coordinates and display fields; resets activity word +14 to zero and run_direction +F to 5; does not refill the incoming player's energy  [established; F018; read code/seg_0791_17.asm:61]
 
 void __stdcall16far initialize_pitch_player(undefined2 *param_1,undefined2 param_2)
 
@@ -1034,9 +1034,10 @@ void __cdecl16near f_0791_A841(void)
 }
 
 
-// ---- 0791:A920  f_0791_A920  (f_0791_A920; Ghidra 2000:A920, __stdcall16near; found by routines.tsv)
+// ---- 0791:A920  pitch_slot_of_player  (f_0791_A920; Ghidra 2000:A920, __stdcall16near; found by routines.tsv)
+// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): (player word): his index k in 1..11 among his country's squad words (the last that matches; 0 when none) plus DS:0668[his country = DS:9B36] when found: his pitch slot, 0 when he is not in the eleven  [established; F030; read code/seg_0791_17.asm:742]
 
-undefined4 f_0791_A920(uint param_1)
+undefined4 pitch_slot_of_player(uint param_1)
 
 {
   undefined2 uVar1;

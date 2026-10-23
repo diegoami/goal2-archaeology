@@ -2,7 +2,7 @@
 // Headings give listing addresses (SEGMENT:OFFSET, as in ../code/). DS:XXXX is the data segment 2581. A segment number written in the code (a far pointer's segment, a far call's) is Ghidra's: listing=Ghidra 0000=0000, 000E=1000, 0791=2000, 16D6=3000, 1771=4000, 2138=5000, 2139=6000, 214B=7000, 235C=8000, 2382=9000, 23E4=A000, 2581=B000.
 
 // ---- 0791:8062  check_substitutions  (f_0791_8062; Ghidra 2000:8062, __cdecl16near; found by routines.tsv)
-// per side: a computer side (1771:0B77 = 0) with DS:9B3A[side] > 0 scans squad slots s = 11 down to 2 (pitch slot 0668[side]+s) and calls C88D when the player's +0x10 element 6 is clear, +0xE > 0, 1 < DS:831B < 0x23 and the player's signed +0x12 word < 0x5A - DS:831B; the scan stops at slot 1 after a substitution that exhausts the budget; a managed side acts only on DS:9B40 (0 throughout a quick match) via the prompt 7FCF/ED8A; called by the quick engine's D733 once per minute without a goal, and in the watched engine at each dead ball (61EC, 6E11, 6E6E, 6ECF, 6F01, 6F3E) and at each half's start (983F): E011 enters it 26 times, 81B1 (the test passed) twice  [established; F012; read decompiled/seg_0791_05.c; F027]
+// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): per side: a computer side (1771:0B77 = 0) with DS:9B3A[side] > 0 scans squad slots s = 11 down to 2 (pitch slot 0668[side]+s) and calls C88D when the player's +0x10 element 6 is clear, +0xE > 0, 1 < DS:831B < 0x23 and the player's signed +0x12 word < 0x5A - DS:831B; the scan stops at slot 1 after a substitution that exhausts the budget; a managed side acts only on DS:9B40 (0 throughout a quick match) via the prompt 7FCF/ED8A; called by the quick engine's D733 once per minute without a goal, and in the watched engine at each dead ball (61EC, 6E11, 6E6E, 6ECF, 6F01, 6F3E) and at each half's start (983F): E011 enters it 26 times, 81B1 (the test passed) twice  [established; F012; read decompiled/seg_0791_05.c; F027; read code/seg_0791_13.asm:905]
 
 void __cdecl16near check_substitutions(void)
 
@@ -73,7 +73,7 @@ void __cdecl16near check_substitutions(void)
 
 
 // ---- 0791:8206  watched_foul_sequence  (f_0791_8206; Ghidra 2000:8206, __stdcall16near; found by routines.tsv)
-// the watched engine's foul, from 5513 (the challenger lost the tackle roll and 4DA9 holds, then a coin) and from 5B36's duel branch (the keeper lost the roll, 4DA9, coin); arg = the fouler's pitch slot (+6) -> DS:830C = DS:830D; returns with no foul when 2EB8(the fouler's own position word, his record) holds and a coin (214B:06FA) holds; else commentary 2AA3(0x37) 'is brought down' and 2AD4(0x35) 'FOUL by', 7E60's animation, the Fouls count DS:7B84[side*10] += 1, then 7EEF (card or injury rolls); then, when 2EB8(the ball position DS:82F6, the fouler's record) holds, an unmanaged fouler gets 1771:33CD and 6ECF (penalty) runs, else 6FB6 (free kick). Not a substitution display (F012's reading): the strings are 'FOUL by' and 'is brought down' and E011's 3 entries equal DS:7B84 of both sides (2 + 1)  [established; F027; F012]
+// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): the watched engine's foul, from 5513 (the challenger lost the tackle roll and 4DA9 holds, then a coin) and from 5B36's duel branch (the keeper lost the roll, 4DA9, coin); arg = the fouler's pitch slot (+6) -> DS:830C = DS:830D; returns with no foul when 2EB8(the fouler's own position word, his record) holds and a coin (214B:06FA) holds; else commentary 2AA3(0x37) 'is brought down' and 2AD4(0x35) 'FOUL by', 7E60's animation, the Fouls count DS:7B84[side*10] += 1, then 7EEF (card or injury rolls); then, when 2EB8(the ball position DS:82F6, the fouler's record) holds, an unmanaged fouler gets 1771:33CD and 6ECF (penalty) runs, else 6FB6 (free kick). Not a substitution display (F012's reading): the strings are 'FOUL by' and 'is brought down' and E011's 3 entries equal DS:7B84 of both sides (2 + 1)  [established; F027; F012; read code/seg_0791_13.asm:1080]
 
 void watched_foul_sequence(byte param_1)
 
@@ -93,7 +93,7 @@ void watched_foul_sequence(byte param_1)
   if ((cVar2 == '\0') || (cVar2 = u214b_random_coin_flip(), cVar2 == '\0')) {
     commentary_with_ball_slot(0x37);
     commentary_with_both_slots(CONCAT11(extraout_AH,0x35));
-    f_0791_7E60(CONCAT11(extraout_AH_00,1));
+    foul_whistle(CONCAT11(extraout_AH_00,1));
     ((char *)match_stats + 6)[(DS:830C < 0xc) * 10] =
          ((char *)match_stats + 6)[(DS:830C < 0xc) * 10] + '\x01';
     cVar2 = in_own_goal_strip((pitch *)pitch_records + DS:830C,0xb000,ball_record._0_2_);
@@ -116,9 +116,10 @@ void watched_foul_sequence(byte param_1)
 }
 
 
-// ---- 0791:82EB  f_0791_82EB  (f_0791_82EB; Ghidra 2000:82EB, __cdecl16near; found by routines.tsv)
+// ---- 0791:82EB  offside  (f_0791_82EB; Ghidra 2000:82EB, __cdecl16near; found by routines.tsv)
+// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): offside of DS:830E: DS:830C := DS:830E, DS:830D := 0, line 2AD4(0x36), 26A0(2BE5 of his record < 0), 7E60(0), the ball DS:82F6 := DS:8317, DS:830B := DS:830C + 0xB * DS:7920[DS:830C < 0xC] (the other side's player of the same place), 2FB1 and the free kick 6FB6; called from the pass 3BEE and 384C, the challenge 5565, 6755, 67B6 and move_ball 83A2  [established; F013; read code/seg_0791_14.asm:6]
 
-void __cdecl16near f_0791_82EB(void)
+void __cdecl16near offside(void)
 
 {
   char cVar1;
@@ -129,7 +130,7 @@ void __cdecl16near f_0791_82EB(void)
   commentary_with_both_slots(0x36);
   cVar1 = attack_direction((pitch *)pitch_records + DS:830C,0xb000);
   set_message_word(cVar1 < '\0');
-  f_0791_7E60((uint)extraout_AH << 8);
+  foul_whistle((uint)extraout_AH << 8);
   ball_record.x = (byte)DS:8317;
   ball_record.y = DS:8317._1_1_;
   DS:830B = DS:830C + ((char *)form_delta)[DS:830C < 0xc] * '\v';
@@ -198,7 +199,7 @@ void __stdcall16far move_ball(char *param_1)
       if ((1 < iVar3) ||
          (cVar1 = attack_direction((pitch *)pitch_records + DS:830B,0xb000),
          (int)pcVar6[1] * (int)cVar1 < 0)) {
-        f_0791_82EB();
+        offside();
         return;
       }
     }

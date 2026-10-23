@@ -1,0 +1,18 @@
+{
+ "run_id": "39892235376",
+ "run_attempt": "1",
+ "workflow": "E036 family run",
+ "ref": "claude/gracious-fermat-eik7l4",
+ "sha": "7e3a874e53f57e8c861e45e7a95af70cf2e0b2df",
+ "inputs": {
+  "task": "T68",
+  "name": "falsifier-tactics-gap-1",
+  "family": "O8",
+  "ports": "discipline",
+  "variant": "discipline.tactics-gap-1",
+  "shards": "4",
+  "time_limit": "6000",
+  "stretch_limit": "600"
+ },
+ "run_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39892235376"
+}

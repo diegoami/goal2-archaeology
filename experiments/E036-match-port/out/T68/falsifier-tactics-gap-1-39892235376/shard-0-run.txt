@@ -1,0 +1,8 @@
+COMMAND: python3 -B experiments/E036-match-port/family.py --family O8 --only O8/c1-c2-friendly,O8/c1-c2-qualifier --workers 2 --time-limit 6000 --stretch-limit 600 --checkpoint .cache/checkpoints --out shard/shard-0.jsonl --ports discipline --variant discipline.tactics-gap-1
+HEAD: 7e3a874e53f57e8c861e45e7a95af70cf2e0b2df runner 4 CPUs  AMD EPYC 9V45 96-Core Processor started 2026-10-23T02:56:10Z
+ports: discipline.tactics-gap-1
+2 matches selected, 0 already in shard/shard-0.jsonl, 2 to run
+O8/c1-c2-friendly: completed; score [0, 2] ticks 4441 cpu 15.123 s; port 0791:7CC5 called 46; port 0791:7D56 called 0; port 0791:7E60 called 22; port 0791:7EEF called 2; port 0791:8062 called 41; port 0791:8206 called 2; port 0791:82EB called 20; port 0791:A260 called 199; port 0791:A2E6 called 23; port 0791:A920 called 398; port 0791:A9B8 called 0; port 0791:AAE8 called 12; port 0791:BBFF called 9; port 0791:BD03 called 4; port 0791:BD83 called 2; port 0791:BF6B called 1; port 0791:C173 called 2; port 0791:C5DC called 1; port 0791:C7EB called 1; port 0791:C88D called 1
+O8/c1-c2-qualifier: completed; score [1, 1] ticks 4560 cpu 15.512 s; port 0791:7CC5 called 46; port 0791:7D56 called 0; port 0791:7E60 called 19; port 0791:7EEF called 1; port 0791:8062 called 43; port 0791:8206 called 1; port 0791:82EB called 18; port 0791:A260 called 244; port 0791:A2E6 called 24; port 0791:A920 called 444; port 0791:A9B8 called 0; port 0791:AAE8 called 13; port 0791:BBFF called 8; port 0791:BD03 called 4; port 0791:BD83 called 2; port 0791:BF6B called 0; port 0791:C173 called 2; port 0791:C5DC called 2; port 0791:C7EB called 2; port 0791:C88D called 2
+2 of 2 matches in shard/shard-0.jsonl, 0 not completed
+exit 0 finished 2026-10-23T02:56:25Z

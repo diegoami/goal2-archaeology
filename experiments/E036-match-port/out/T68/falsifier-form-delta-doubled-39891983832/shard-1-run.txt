@@ -1,0 +1,10 @@
+COMMAND: python3 -B experiments/E036-match-port/family.py --family O8 --only O8/c30-c44-friendly,O8/c30-c44-qualifier --workers 2 --time-limit 6000 --stretch-limit 600 --checkpoint .cache/checkpoints --out shard/shard-1.jsonl --ports discipline --variant discipline.form-delta-doubled
+HEAD: fdd05908ff9933b13d2ae242fa9764e1aefc889e runner 4 CPUs  AMD EPYC 7763 64-Core Processor started 2026-10-23T02:53:23Z
+ports: discipline.form-delta-doubled
+2 matches selected, 0 already in shard/shard-1.jsonl, 2 to run
+O8/c30-c44-friendly: completed; score [5, 1] ticks 4369 cpu 30.875 s; port 0791:7CC5 called 138; port 0791:7D56 called 0; port 0791:7E60 called 9; port 0791:7EEF called 0; port 0791:8062 called 36; port 0791:8206 called 0; port 0791:82EB called 9; port 0791:A260 called 268; port 0791:A2E6 called 26; port 0791:A920 called 481; port 0791:A9B8 called 0; port 0791:AAE8 called 15; port 0791:BBFF called 9; port 0791:BD03 called 10; port 0791:BD83 called 5; port 0791:BF6B called 2; port 0791:C173 called 6; port 0791:C5DC called 4; port 0791:C7EB called 4; port 0791:C88D called 4
+O8/c30-c44-qualifier: decision substitution at minute 89 answered with port frames live: 0791:8206 waiting on its call of 0791:6FB6 (returning to 0791:82E5); 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c30-c44-qualifier: decision substitution at minute 90 answered with port frames live: 0791:8062 waiting on its call of 0791:7FCF (returning to 0791:80F0)
+O8/c30-c44-qualifier: completed; score [2, 1] ticks 4584 cpu 32.074 s; port 0791:7CC5 called 70; port 0791:7D56 called 1; port 0791:7E60 called 10; port 0791:7EEF called 3; port 0791:8062 called 43; port 0791:8206 called 3; port 0791:82EB called 7; port 0791:A260 called 222; port 0791:A2E6 called 24; port 0791:A920 called 407; port 0791:A9B8 called 0; port 0791:AAE8 called 13; port 0791:BBFF called 5; port 0791:BD03 called 8; port 0791:BD83 called 4; port 0791:BF6B called 0; port 0791:C173 called 3; port 0791:C5DC called 2; port 0791:C7EB called 2; port 0791:C88D called 2
+2 of 2 matches in shard/shard-1.jsonl, 0 not completed
+exit 0 finished 2026-10-23T02:53:51Z
