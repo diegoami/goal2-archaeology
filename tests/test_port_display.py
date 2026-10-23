@@ -689,5 +689,35 @@ class CommentaryMemoryTests(unittest.TestCase):
                 self.assertEqual(fills[0][1][2:],(27,32))
                 self.assertEqual(r.mem.u8(BP0-0x24),30)
 
+class ClockDigitMemoryTests(unittest.TestCase):
+    def test_vertical_segment_uses_parent_colour_and_adjacent_rows(self):
+        r=Rig();r.lin16(PARENT+4,0x1200);r.lin16(PARENT-10,0x100);r.lin16(PARENT-8,0x400)
+        r.run('0791:0481',(PARENT,75))
+        self.assertEqual(r.u16(0x4000+0x100+148),0x12DC)
+        self.assertEqual(r.u16(0x4000+0x100+308),0x12DB)
+
+    def test_seven_segment_table_drives_three_fills_and_four_verticals(self):
+        r=Rig();r.lin16(PARENT+4,0x1200);r.lin16(PARENT-10,0x100);r.lin16(PARENT-8,0x400)
+        for i in range(1,8):r.ds8(0x644+i*10+ord('8'),1);r.ds16(0x6C2+i*2,i*80)
+        r.run('0791:04C9',(PARENT,75,ord('8')))
+        self.assertEqual(len(r.args('214B:0000')),3)
+        self.assertEqual([a[2:] for a in r.args('214B:0000')],[(4,0x12DF)]*3)
+        self.assertEqual(r.args('0791:0481'),[(PARENT,75+i*80) for i in range(4,8)])
+        self.assertEqual(r.u16(BP0-2),7)
+
+    def test_formatter_retains_colour_shift_and_one_or_two_digit_calls(self):
+        for text,columns in ((b'7',[75]),(b'90',[69,75])):
+            with self.subTest(text=text):
+                r=Rig();r.ds16(0xA96A,0x100);r.ds16(0xA96C,0x400)
+                def answer(q,m):
+                    if q.target=='23E4:0644':
+                        seg,off=q.args[2:4];data=bytes([len(text)])+text
+                        m.memory[seg*16+off:seg*16+off+len(data)]=data
+                    return 0
+                r.run('0791:054C',(0x12,90),answer=answer)
+                self.assertEqual(r.u16(BP0+4),0x1200)
+                self.assertEqual([a[1] for a in r.args('0791:04C9')],columns)
+                self.assertEqual([a[2]&255 for a in r.args('0791:04C9')],list(text))
+
 if __name__ == '__main__':
     unittest.main()
