@@ -1,0 +1,8 @@
+COMMAND: python3 -B experiments/E036-match-port/family.py --family O8 --only O8/c1-c2-friendly,O8/c1-c2-qualifier --workers 2 --time-limit 6000 --stretch-limit 600 --checkpoint .cache/checkpoints --out shard/shard-0.jsonl --ports setup --variant setup.seed-year-not-incremented
+HEAD: 08937730ca81f064beb9bec3887f689ae4d9c4b2 runner 4 CPUs  AMD EPYC 7763 64-Core Processor started 2026-10-23T06:01:48Z
+ports: setup.seed-year-not-incremented
+2 matches selected, 0 already in shard/shard-0.jsonl, 2 to run
+O8/c1-c2-friendly: completed; score [1, 1] ticks 4414 cpu 32.857 s; port 0791:1073 called 1; port 0791:2648 called 1; port 0791:A375 called 1; port 0791:A3B6 called 4; port 0791:A3DE called 1; port 0791:A4A1 called 1; port 0791:A6E4 called 5; port 0791:A841 called 1; port 0791:AC67 called 14; port 0791:AD8F called 5; port 0791:AFA3 called 1; port 0791:B11F called 1; port 0791:D44C called 2; port 1771:517A called 26; port 1771:52CC called 2; port 1771:580B called 1
+O8/c1-c2-qualifier: completed; score [1, 3] ticks 4608 cpu 34.491 s; port 0791:1073 called 1; port 0791:2648 called 1; port 0791:A375 called 1; port 0791:A3B6 called 4; port 0791:A3DE called 1; port 0791:A4A1 called 1; port 0791:A6E4 called 5; port 0791:A841 called 1; port 0791:AC67 called 14; port 0791:AD8F called 5; port 0791:AFA3 called 1; port 0791:B11F called 1; port 0791:D44C called 2; port 1771:517A called 26; port 1771:52CC called 2; port 1771:580B called 1
+2 of 2 matches in shard/shard-0.jsonl, 0 not completed
+exit 0 finished 2026-10-23T06:02:19Z
