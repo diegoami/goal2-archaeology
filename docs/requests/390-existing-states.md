@@ -5,6 +5,11 @@ Delivery for [#390](https://github.com/diegoami/goal2-archaeology/issues/390), t
 it makes no new game-rule finding and runs no new campaign. The findings below retain their
 **proposed** status. No original bytes belong in either repository's Git history.
 
+The §14 goal2 handover is [goal2 #347](https://github.com/diegoami/goal2/issues/347), on
+branch `docs/register-existing-states-2026-10-23`, head
+`3162e0651872ab24c54488dead6d4d9424ad3566`. It changes only the assumption register and the
+handover document. goal2 opens and merges that docs-only PR after this delivery merges.
+
 ## Pull and verify
 
 The 21 files in [the inventory](../../notes/390/inventory.json) are copied unchanged into the
