@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {"1771:0947", "1771:0AF8", "1771:1527", "1771:13D0", "1771:4D8A", "1771:4E22", "1771:8A87", "1771:5AC4", "1771:0FB1", "1771:76FA", "1771:77C3", "1771:8E9A", "1771:8CA2", "1771:958D", "1771:8939", "0791:0441", "214B:1EF1", "214B:1F87", "214B:1E8D", "214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
+    if address not in {"1771:11E1", "1771:1289", "1771:0947", "1771:0AF8", "1771:1527", "1771:13D0", "1771:4D8A", "1771:4E22", "1771:8A87", "1771:5AC4", "1771:0FB1", "1771:76FA", "1771:77C3", "1771:8E9A", "1771:8CA2", "1771:958D", "1771:8939", "0791:0441", "214B:1EF1", "214B:1F87", "214B:1E8D", "214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
         PORTS.stub(address, ret=ret, value=None, why="initial all-at-once display-removal candidate; classification pending")
 
 
@@ -2041,4 +2041,58 @@ def team_aggregate_memory(mem,variant):
         r.ax=mem.ds16(address);r.dx=0;r.cx=11;dividend=r.ax;r.ax,r.dx=dividend//11,dividend%11
         mem.wds16(address,r.ax,'1771:'+at)
     if mem.ds16(0x9B5A)<1:mem.wds16(0x9B5A,1,'1771:151B')
+    return _end(r)
+
+
+@PORTS.port('1771:11E1',ret='ret 2')
+def line_strength_bars_memory(mem,variant):
+    """11E1-1288: signed line scaling, [1,256] clamping and four attribute bars."""
+    r=Regs(mem);r.enter(2)
+    for index in range(1,4):
+        r.local16(-2,index);r.di=index<<2;r.ax=mem.ds16(0x9B47+r.di);idiv_by(r,4)
+        r.di=index<<2;mem.wds16(0x9B47+r.di,r.ax,'1771:1209')
+    r.ax=0;r.local16(-2,r.ax)
+    for index in range(4):
+        if index:r.local16(-2,index)
+        r.di=index<<2;address=0x9B47+r.di
+        if s16(mem.ds16(address))<1:mem.wds16(address,1,'1771:1232')
+        elif s16(mem.ds16(address))>256:mem.wds16(address,256,'1771:1250')
+        r.ax=ss16(mem,r,r.bp+4)+index;row=r.ax;column=10
+        r.di=index<<2;r.ax=mem.ds16(0x9B47+r.di);r.cx=25;imul(r,r.cx);idiv_by(r,256)
+        r=yield from guest(mem,r,'214B:13C5',row,column,r.ax,ret='1771:127D')
+    return _end(r)
+
+
+@PORTS.port('1771:1289',ret='ret 2')
+def live_line_performance_memory(mem,variant):
+    """1289-13CF: eleven live performances distributed into the original role classes."""
+    r=Regs(mem);r.enter(14);r.di=0x9B45;r.ax=16;count=r.ax;r.ax=0
+    r=yield from guest(mem,r,'214B:0018',mem.DS,r.di,count,r.ax,ret='1771:12A0')
+    for slot in range(1,12):
+        r.local16(-2,slot);r.al=ss8(mem,r,r.bp+4);cbw(r);r.di=r.ax<<1
+        country=mem.ds16((0x9B34+r.di)&65535);squad_of(mem,r,country);squad=r.es,r.di
+        r.local16(-10,r.di);r.local16(-8,r.es)
+        r.ax=slot<<1;r.di=r.di+r.ax;word=rw(mem,r,-2)
+        r.al=ss8(mem,r,r.bp+4);cbw(r);r.di=r.ax<<1;live_country=mem.ds16((0x9B34+r.di)&65535)
+        r=yield from guest(mem,r,'1771:3A82',word,live_country,ret='1771:12E5')
+        r.local16(-4,r.ax)
+        r.ax=slot<<1;r.es,r.di=squad;r.di=r.di+r.ax;word=rw(mem,r,-2);player_of(mem,r,word)
+        r.ax=rw(mem,r,18)-55;value=r.ax;r.local16(-6,value)
+        if s16(value)>5000:value=(value-10000)&65535;r.local16(-6,value)
+        value=(value+100)&65535;r.local16(-6,value)
+        r.ax=slot<<1;r.es,r.di=squad;r.di=r.di+r.ax;word=rw(mem,r,-2);player_of(mem,r,word);player=r.es,r.di
+        r.local16(-14,r.di);r.local16(-12,r.es)
+        r.al=rb(mem,r,6);r.ah=0;r.di=r.ax;group=mem.ds8(0xD7C+r.di)
+        if group<4:
+            r.dx=ss16(mem,r,r.bp-6);r.es,r.di=player;r.al=rb(mem,r,6);r.ah=0;r.di=r.ax
+            r.al=mem.ds8(0xD7C+r.di);r.ah=0;r.di=r.ax<<2
+            mem.wds16(0x9B47+r.di,mem.ds16(0x9B47+r.di)+r.dx,'1771:1366')
+        else:
+            r.ax=ss16(mem,r,r.bp-6);idiv_by(r,2);r.local16(-6,r.ax)
+            for shift,at in ((3,'1395'),(2,'13B6')):
+                r.dx=ss16(mem,r,r.bp-6);r.es,r.di=player;r.al=rb(mem,r,6);r.ah=0;r.di=r.ax
+                r.al=mem.ds8(0xD7C+r.di);r.ah=0;r.ax=r.ax-shift;r.di=r.ax<<2
+                mem.wds16(0x9B47+r.di,mem.ds16(0x9B47+r.di)+r.dx,'1771:'+at)
+    r.ax=20
+    r=yield from guest(mem,r,'1771:11E1',r.ax,ret='1771:13CA',far=False)
     return _end(r)

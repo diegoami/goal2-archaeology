@@ -1136,5 +1136,36 @@ class TeamPanelHelperTests(unittest.TestCase):
                 self.assertEqual(len(r.args('1771:2FFB')),10 if blocked else 11)
                 self.assertEqual(r.u16(BP0-2),11)
 
+class TeamLineBarTests(unittest.TestCase):
+    def test_signed_line_division_clamps_and_preserves_interleaved_words(self):
+        for values,want,row in (((-1,-8,1028,1024),(1,1,256,256),15),((257,4,0,3),(256,1,1,1),20)):
+            r=Rig()
+            for index,value in enumerate(values):r.ds16(0x9B47+index*4,value);r.ds16(0x9B49+index*4,0xCAFE)
+            r.run('1771:11E1',(row,))
+            self.assertEqual([r.mem.ds16(0x9B47+i*4) for i in range(4)],list(want))
+            self.assertEqual([r.mem.ds16(0x9B49+i*4) for i in range(4)],[0xCAFE]*4)
+            self.assertEqual(r.args('214B:13C5'),[(row+i,10,value*25//256) for i,value in enumerate(want)])
+            self.assertEqual(r.u16(BP0-2),3)
+
+    def test_live_performance_role_splits_encoding_and_signed_half(self):
+        for side in (0,1):
+            for hybrid,want in ((54,[320,148,171,67]),(0xFF38,[320,22,45,67])):
+                r=Rig();r.ds16(0x9B34,3);r.ds16(0x9B36,4)
+                r.squad(3,list(range(1,12)));r.squad(4,list(range(1,12)))
+                for position in range(6):r.ds8(0xD7C+position,position)
+                performances=[55,54,10055,0,hybrid,0]+[65535]*5
+                for word,performance in enumerate(performances,1):
+                    r.player(word,6,word-1 if word<=6 else 0)
+                    r.lin16(PSEG*16+POFF+20*word+18,performance)
+                def answer(q,m):
+                    if q.target=='214B:0018':
+                        seg,off,count,value=q.args;m.memory[seg*16+off:seg*16+off+count]=bytes([value])*count
+                    return q.args[0] if q.target=='1771:3A82' else 0
+                r.run('1771:1289',(side,),answer=answer)
+                self.assertEqual([r.mem.ds16(0x9B47+i*4) for i in range(4)],want)
+                self.assertEqual(r.args('1771:3A82'),[(word,3+side) for word in range(1,12)])
+                self.assertEqual(r.args('1771:11E1'),[(20,)])
+                self.assertEqual(r.u16(BP0-2),11)
+
 if __name__ == '__main__':
     unittest.main()
