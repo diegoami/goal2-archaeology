@@ -993,5 +993,33 @@ class CompetitionGroupTests(unittest.TestCase):
             self.assertEqual(r.args('1771:8D84'),[(PARENT,)] if want_group==9 else [])
             self.assertEqual(r.args('214B:1560'),[(0,PARENT-4,9 if continent>2 and snapshot else 8)])
 
+class CompetitionFixtureTextTests(unittest.TestCase):
+    def test_right_aligned_country_placeholder_and_named_country_twin(self):
+        for country in (0,3):
+            r=Rig();r.ds8(0xD7A,0x70);r.ds16(0x9B68,0x100);r.ds16(0x9B6A,0x5400)
+            r.run('1771:0FB1',(54,8,country),answer=answers({'1771:0E24':7}))
+            expected=[(0x70,r.mem.DS,0xD6A,8,54,r.mem.DS,0xA96E)]
+            if country:expected.append((7,0x5400,0x130,8,54,r.mem.DS,0xA96E))
+            self.assertEqual(r.args('214B:0205'),expected)
+
+    def test_fixture_score_pending_guards_and_each_played_result_colour(self):
+        for kind,first,flag,want in ((0,3,0,9),(1,254,0,9),(1,3,0,7),(1,3,1,15),(1,3,2,6)):
+            r=Rig();r.fixture(kind,3,4);base=FXSEG*16+FXOFF
+            r.lin8(base,first);r.lin8(base+1,1);r.lin8(base+3,flag)
+            r.ds8(0xAAB2,9);r.ds8(0x1108,7);r.ds8(0x1109,15)
+            r.run('1771:76FA',(58,8,FXOFF,FXSEG))
+            played=bool(kind and first<254)
+            self.assertEqual(r.mem.ds8(0xAAB2),want)
+            self.assertEqual(r.args('214B:09DA'),[(0,1),(0,3)] if played else [])
+            self.assertEqual([a[2:4] for a in r.args('214B:01A3')],[(8,57)] if played else [])
+            self.assertEqual([a[2:4] for a in r.args('214B:026D')],[(8,59)] if played else [])
+
+    def test_fixture_row_country_order_and_score_pointer(self):
+        r=Rig();r.fixture(1,3,4)
+        r.run('1771:77C3',(58,8,FXOFF,FXSEG))
+        self.assertEqual(r.args('1771:0FB1'),[(4,8,54)])
+        self.assertEqual(r.args('1771:0F58'),[(3,8,62)])
+        self.assertEqual(r.args('1771:76FA'),[(FXSEG,FXOFF,8,58)])
+
 if __name__ == '__main__':
     unittest.main()

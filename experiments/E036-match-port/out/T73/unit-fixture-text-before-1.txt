@@ -1,0 +1,45 @@
+parenta69e775, current three fixture text tests
+FFF
+======================================================================
+FAIL: test_fixture_row_country_order_and_score_pointer (tests.test_port_display.CompetitionFixtureTextTests.test_fixture_row_country_order_and_score_pointer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp5479raxy/tests/test_port_display.py", line 1020, in test_fixture_row_country_order_and_score_pointer
+    self.assertEqual(r.args('1771:0FB1'),[(4,8,54)])
+AssertionError: Lists differ: [] != [(4, 8, 54)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(4, 8, 54)
+
+- []
++ [(4, 8, 54)]
+
+======================================================================
+FAIL: test_fixture_score_pending_guards_and_each_played_result_colour (tests.test_port_display.CompetitionFixtureTextTests.test_fixture_score_pending_guards_and_each_played_result_colour)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp5479raxy/tests/test_port_display.py", line 1012, in test_fixture_score_pending_guards_and_each_played_result_colour
+    self.assertEqual(r.mem.ds8(0xAAB2),want)
+AssertionError: 9 != 7
+
+======================================================================
+FAIL: test_right_aligned_country_placeholder_and_named_country_twin (tests.test_port_display.CompetitionFixtureTextTests.test_right_aligned_country_placeholder_and_named_country_twin)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp5479raxy/tests/test_port_display.py", line 1003, in test_right_aligned_country_placeholder_and_named_country_twin
+    self.assertEqual(r.args('214B:0205'),expected)
+AssertionError: Lists differ: [] != [(112, 9601, 3434, 8, 54, 9601, 43374)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(112, 9601, 3434, 8, 54, 9601, 43374)
+
+- []
++ [(112, 9601, 3434, 8, 54, 9601, 43374)]
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.043s
+
+FAILED (failures=3)
+exit 1
