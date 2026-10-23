@@ -8,10 +8,10 @@ The match-summary key site remains the kit's semantic board boundary.
 """
 from . import Registry
 from .contests import ss16, pop
-from .geometry import cbw, cwd, mul
+from .geometry import cbw, cwd, mul, imul
 from .mem import s16, s8
 from .postmatch import half
-from .restarts import _end
+from .restarts import _end, idiv_by
 from .runtime import Regs
 from .setup import guest, member, farg, w8, w16, rb, rw, squad_of, player_of
 
@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {"0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D"}:
+    if address not in {"0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
         PORTS.stub(address, ret=ret, value=None, why="initial all-at-once display-removal candidate; classification pending")
 
 
@@ -1121,4 +1121,280 @@ def lineup_memory(mem,variant):
     r=yield from guest(mem,r,'A6E4',r.es,r.di,ret='A82F',far=False)
     country=r.ax;r.ax=7;row=r.ax;r.ax=38
     r=yield from guest(mem,r,'1771:0F58',country,row,r.ax,ret='A83D')
+    return _end(r)
+
+
+@PORTS.port('214B:13C5',ret='retf 6')
+def highlight_memory(mem,variant):
+    r=Regs(mem);r.enter()
+    r.ax=ss16(mem,r,r.bp+8)<<1;r.cx=r.ax
+    r.ax=ss16(mem,r,r.bp+10);r.dx=160;mul(r,r.dx)
+    r.di,r.es=mem.ds16(0xA96E),mem.ds16(0xA970)
+    r.di=r.di+r.ax+r.cx-0xA2;destination=r.es,r.di;r.ax=0x70
+    r=yield from guest(mem,r,'214B:00DB',*destination,r.ax,ss16(mem,r,r.bp+6),ret='214B:13F0')
+    return _end(r)
+
+
+@PORTS.port('1771:3947',ret='ret 6')
+def skill_bars_memory(mem,variant):
+    r=Regs(mem);r.enter(10)
+    pseg,poff=player_of(mem,r,ss16(mem,r,r.bp+8))
+    r.local16(-10,poff);r.local16(-8,pseg)
+    mem.wds8(0xAAB2,0x70,'1771:3961')
+    r.al=rb(mem,r,4);r.ah=0;ability=r.ax;r.local16(-4,ability)
+    ability=(ability+1)&65535;r.local16(-4,ability)
+    for skill in range(1,13):
+        r.local16(-2,skill);r.ax=skill;r.cx=r.ax
+        r.es,r.di=pseg,poff;r.al=rb(mem,r,7);r.ah=0;r.dx=12;mul(r,r.dx)
+        r.di=r.ax+r.cx;r.al=mem.ds8((r.di+0x6D25)&65535);r.ah=0;r.cx=r.ax
+        r.es,r.di=pseg,poff;r.al=rb(mem,r,5);r.ah=0;r.dx=12;mul(r,r.dx)
+        r.di=r.ax+r.cx;r.al=mem.ds8((r.di+0x6DCD)&65535);r.ah=0
+        value=r.ax;r.local16(-6,value);mul(r,ability)
+        r.dx=0;r.cx=256;dividend=r.ax;r.ax,r.dx=dividend//256,dividend%256
+        amount=r.ax;r.local16(-6,amount)
+        r.ax=ss16(mem,r,r.bp+4)<<1;r.cx=r.ax
+        r.ax=ss16(mem,r,r.bp+6)+skill;r.dx=160;mul(r,r.dx)
+        r.di,r.es=mem.ds16(0xA96E),mem.ds16(0xA970)
+        r.di=r.di+r.ax+r.cx-0xA2;destination=r.es,r.di
+        r.al=mem.ds8(0xAAB2);r.ah=0
+        r=yield from guest(mem,r,'214B:00DB',*destination,r.ax,amount,ret='1771:39F7')
+    return _end(r)
+
+
+@PORTS.port('1771:3AE2',ret='ret 4')
+def mark_text_memory(mem,variant):
+    r=Regs(mem);r.enter();flag=ss16(mem,r,r.bp+6)&255
+    if mem.ds8(0xC1E) and flag:
+        r.di=0x3AD5;source=mem.seg(0x1771),r.di
+        r.al=16;row=r.ax;r.al=61
+        r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:01A3','1771:3B07')
+    else:
+        r.al=flag;cbw(r);r.dx=11;mul(r,r.dx);r.di=r.ax+0xE90;source=mem.DS,r.di
+        r.al=16;row=r.ax;r.al=61
+        r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:01A3','1771:3B2A')
+    return _end(r)
+
+
+@PORTS.port('1771:3B3F',ret='ret 2')
+def mark_row_memory(mem,variant):
+    r=Regs(mem);r.enter(8);r.di=ss16(mem,r,r.bp+4)
+    pseg,poff=player_of(mem,r,ss16(mem,r,r.di+4))
+    r.local16(-4,poff);r.local16(-2,pseg)
+    if rb(mem,r,6)>=2:
+        r.ax=7;r.al=rb(mem,r,0x10);r.ah=0
+        r=yield from guest(mem,r,'214B:0C57',7,r.ax,ret='1771:3B7C')
+        if r.al:
+            r.di=0x3B30;source=mem.seg(0x1771),r.di;r.al=16;row=r.ax;r.al=61
+            r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:01A3','1771:3B95')
+        else:
+            r.es,r.di=pseg,poff;r.al=rb(mem,r,0);r.ah=0
+            squad_of(mem,r,r.ax);r.local16(-8,r.di);r.local16(-6,r.es)
+            r.ax=8;r.al=rb(mem,r,0x2D);r.ah=0
+            r=yield from guest(mem,r,'214B:0C57',8,r.ax,ret='1771:3BC3')
+            r=yield from guest(mem,r,'1771:3AE2',r.ax,r.bp,ret='1771:3BC8',far=False)
+    return _end(r)
+
+
+@PORTS.port('1771:3BD3',ret='ret 2')
+def tactics_panel_memory(mem,variant):
+    r=Regs(mem);r.enter(0x20E);word=ss16(mem,r,r.bp+4)
+    pseg,poff=player_of(mem,r,word)
+    r.local16(-0x10D,poff);r.local16(-0x10B,pseg)
+    keeper=rb(mem,r,6)==0
+    saved=(r.bp-0x108)&65535
+    if keeper:
+        r.di=saved;r.ax=256
+        r=yield from guest(mem,r,'214B:003C',mem.DS,0x6AC0,r.ss,r.di,r.ax,ret='1771:3C0F')
+        for source,dest,ret in ((0xEA6,0x6AC0,'1771:3C22'),(0xEC6,0x6B00,'1771:3C35')):
+            r.di=dest;r.ax=32
+            r=yield from guest(mem,r,'214B:003C',mem.DS,source,mem.DS,r.di,r.ax,ret=ret)
+    for tactic in range(1,5):
+        r.local16(-2,tactic);r.ax=tactic+4
+        r.es,r.di=pseg,poff;r.al=rb(mem,r,0xF);r.ah=0
+        r=yield from guest(mem,r,'214B:0C57',tactic+4,r.ax,ret='1771:3C56')
+        override=bool(r.al)
+        if override:
+            r.di=(r.bp-0x20D)&65535;temporary=r.di;r.push(r.ss);r.push(temporary)
+            r.es,r.di=pseg,poff;r.al=rb(mem,r,0xF);r.ah=0
+            r=yield from guest(mem,r,'214B:0C57',tactic,r.ax,ret='1771:3C73')
+            cbw(r);half(r,'cx',4);r.ax=r.ax<<4
+            r.di=tactic;half(r,'cx',5);r.di=(r.di<<5)+r.ax+0x6AA0
+            r=yield from guest(mem,r,'23E4:062A',mem.DS,r.di,ret='1771:3C8C')
+            r.di=0x3BCE
+            r=yield from guest(mem,r,'23E4:06B7',mem.seg(0x1771),r.di,ret='1771:3C96')
+            r.ax=tactic+11;row=r.ax;r.al=61
+            r=yield from write_buffer_text(mem,r,(r.ss,temporary),row,r.ax,'214B:01A3','1771:3CAA',held=4)
+        else:
+            r.es,r.di=pseg,poff;r.al=rb(mem,r,0);r.ah=0
+            squad_of(mem,r,r.ax);r.local16(-0x111,r.di);r.local16(-0x10F,r.es)
+            r.al=rb(mem,r,0x2D);r.ah=0
+            r=yield from guest(mem,r,'214B:0C57',tactic,r.ax,ret='1771:3CDB')
+            cbw(r);half(r,'cx',4);r.ax=r.ax<<4
+            r.di=tactic;half(r,'cx',5);r.di=(r.di<<5)+r.ax+0x6AA0;source=mem.DS,r.di
+            r.ax=tactic+11;row=r.ax;r.al=61
+            r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:01A3','1771:3D03')
+    r.ax=0;slot=0;r.local16(-6,slot)
+    if not mem.ds8(0xC1E):
+        r=yield from guest(mem,r,'1771:3B3F',r.bp,ret='1771:3D1C',far=False)
+    else:
+        r.es,r.di=pseg,poff;r.al=rb(mem,r,0);r.ah=0
+        r=yield from guest(mem,r,'1771:3A82',word,r.ax,ret='1771:3D30')
+        slot=r.ax;r.local16(-6,slot)
+        r.es,r.di=pseg,poff;r.al=rb(mem,r,0);r.ah=0;r.al=int(r.ax==mem.ds16(0x9B36))
+        side=r.al;r.local8(-0x109,side)
+        marked=0
+        if slot:
+            r.ax=slot<<1;r.cx=r.ax;r.al=side;cbw(r);r.dx=40;mul(r,r.dx)
+            r.di=r.ax+r.cx;marked=mem.ds16((r.di+0x9A3E)&65535)
+        if not slot or not marked:
+            r=yield from guest(mem,r,'1771:3B3F',r.bp,ret='1771:3D72',far=False)
+        else:
+            r.al=mem.ds8(0xAAB2);r.ah=0;attribute=r.ax;r.local16(-4,attribute)
+            r.ax=slot<<1;r.cx=r.ax;r.al=side;cbw(r);r.dx=40;mul(r,r.dx)
+            r.di=r.ax+r.cx;r.ax=mem.ds16((r.di+0x9A3E)&65535);marked=r.ax;r.local16(-8,marked)
+            r.ax=16;row=r.ax;r.ax=43
+            r=yield from guest(mem,r,'1771:2EE5',marked,row,r.ax,ret='1771:3DA8')
+            player_of(mem,r,marked);r.al=rb(mem,r,6);r.ah=0;r.dx=19;mul(r,r.dx)
+            r.di=r.ax+0x69B6;source=mem.DS,r.di;r.al=17;row=r.ax;r.al=43
+            r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:026D','1771:3DD9')
+            r.ax=7;r.es,r.di=pseg,poff;r.al=rb(mem,r,0x10);r.ah=0
+            r=yield from guest(mem,r,'214B:0C57',7,r.ax,ret='1771:3DED')
+            if r.al:
+                r.al=attribute&255;colour=r.ax;r.di=0x3BD1;source=mem.seg(0x1771),r.di
+                r.al=16;row=r.ax;r.al=61
+                r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:02C8','1771:3E0A',colour)
+    r.es,r.di=pseg,poff
+    if rb(mem,r,6)==0:
+        r.di=0x6AC0;r.ax=256
+        r=yield from guest(mem,r,'214B:003C',r.ss,saved,mem.DS,r.di,r.ax,ret='1771:3E29')
+    return _end(r)
+
+
+@PORTS.port('1771:42BC',ret='retf 2')
+def player_card_memory(mem,variant):
+    """42BC-4856: compatibility memory effects of the original card, not a UI/backend."""
+    r=Regs(mem);r.enter(0x108);r.di=0xA96E
+    r=yield from guest(mem,r,'214B:0329',mem.DS,0x486E,mem.DS,r.di,ret='1771:42D2')
+    word=ss16(mem,r,r.bp+6)
+    if not word:return _end(r)
+    pseg,poff=player_of(mem,r,word);r.local16(-8,poff);r.local16(-6,pseg)
+    r.ax=8;row=r.ax;r.ax=2
+    r=yield from guest(mem,r,'1771:2EE5',word,row,r.ax,ret='1771:42FE')
+    for field,byte,column,formatted,written in ((1,True,19,'4316','4326'),(8,False,24,'433C','434C'),
+                                               (10,False,30,'4362','4372')):
+        r.di=(r.bp-0x108)&65535;temporary=r.di;r.push(r.ss);r.push(temporary)
+        r.es,r.di=pseg,poff
+        if byte:r.al=rb(mem,r,field);r.ah=0
+        else:r.ax=rw(mem,r,field)
+        r.dx=0
+        r=yield from guest(mem,r,'214B:09DA',r.dx,r.ax,ret='1771:'+formatted)
+        r.al=8;row=r.ax;r.al=column
+        r=yield from write_buffer_text(mem,r,(r.ss,temporary),row,r.ax,'214B:01A3','1771:'+written,held=4)
+    for remainder,column,height_ret,formatted,written,target in (
+            (False,33,'437F','438F','439F','214B:026D'),(True,36,'43AC','43BD','43CD','214B:01A3')):
+        r.di=(r.bp-0x108)&65535;temporary=r.di;r.push(r.ss);r.push(temporary)
+        r=yield from guest(mem,r,'1771:2FAD',word,ret='1771:'+height_ret)
+        r.dx=0;r.cx=12;dividend=r.ax;r.ax,r.dx=dividend//12,dividend%12
+        if remainder:r.ax,r.dx=r.dx,r.ax
+        r.dx=0
+        r=yield from guest(mem,r,'214B:09DA',r.dx,r.ax,ret='1771:'+formatted)
+        r.al=8;row=r.ax;r.al=column
+        r=yield from write_buffer_text(mem,r,(r.ss,temporary),row,r.ax,target,'1771:'+written,held=4)
+    r=yield from guest(mem,r,'1771:3041',word,ret='1771:43D4')
+    if r.al:
+        r.di=0x425D;source=mem.seg(0x1771),r.di;r.al=8;row=r.ax;r.al=40
+        r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:026D','1771:43ED')
+    else:
+        r=yield from guest(mem,r,'1771:3088',word,ret='1771:43F6')
+        cbw(r);r.di=r.ax<<1;r.si=r.di;r.di=(r.di<<1)+r.si+0xF2C
+        source=mem.DS,r.di;r.al=8;row=r.ax;r.al=40
+        r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:026D','1771:4417')
+    for field,column,ret in ((6,2,'1771:443D'),(7,21,'1771:4463')):
+        r.es,r.di=pseg,poff;r.al=rb(mem,r,field);r.ah=0;r.dx=19;mul(r,r.dx)
+        r.di=r.ax+0x69B6;source=mem.DS,r.di;r.al=10;row=r.ax;r.al=column
+        r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:026D',ret)
+
+    def label(table,row,ret):
+        r.di=r.ax;r.al=mem.ds8((r.di+table)&65535);r.ah=0;r.di=r.ax
+        half(r,'cx',4);r.di=(r.di<<4)+0x6EB4;source=mem.DS,r.di
+        r.al=row;rowword=r.ax;r.al=48
+        return (yield from write_buffer_text(mem,r,source,rowword,r.ax,'214B:026D',ret))
+
+    r=yield from guest(mem,r,'1771:2FFB',word,ret='1771:446A');r.ah=0
+    r=yield from label(0x78C4,19,'1771:4490')
+    r.es,r.di=pseg,poff;injured=rb(mem,r,14)==0
+    r.al=rb(mem,r,14 if injured else 13);cbw(r)
+    r=yield from label(0x78D5,20,'1771:44C6' if injured else '1771:44F4')
+    r.es,r.di=pseg,poff;r.al=rb(mem,r,14);cbw(r)
+    r=yield from label(0x78F6,21,'1771:4520')
+    r.es,r.di=pseg,poff;r.al=rb(mem,r,12);cbw(r);cwd(r);high,low=r.dx,r.ax
+    r.ax=32;r.dx=0
+    r=yield from guest(mem,r,'214B:0D1C',high,low,r.dx,r.ax,ret='1771:4537')
+    r=yield from label(0x78A3,22,'1771:455B')
+    r=yield from guest(mem,r,'1771:30D9',word,ret='1771:4562')
+    r=yield from label(0x7917,23,'1771:4586')
+    r.es,r.di=pseg,poff
+    if s8(rb(mem,r,12))<32:
+        r.ax=48;r.al=rb(mem,r,12);cbw(r);r.cx=14;imul(r,r.cx);idiv_by(r,32)
+        r=yield from guest(mem,r,'214B:13C5',22,48,r.ax,ret='1771:45B1')
+    r.es,r.di=pseg,poff
+    if rb(mem,r,14)!=0:
+        r.ax=48;r.al=rb(mem,r,13);cbw(r);r.cx=14;imul(r,r.cx);idiv_by(r,32)
+        r=yield from guest(mem,r,'214B:13C5',20,48,r.ax,ret='1771:45DC')
+    r.ax=48;r.es,r.di=pseg,poff;r.al=rb(mem,r,14);cbw(r);r.cx=14;imul(r,r.cx);idiv_by(r,32)
+    r=yield from guest(mem,r,'214B:13C5',21,48,r.ax,ret='1771:45FD')
+    r.ax=19;r.push(r.ax);r.ax=48;r.push(r.ax)
+    r=yield from guest(mem,r,'1771:2FFB',word,ret='1771:460C')
+    r.ah=0;r.cx=14;imul(r,r.cx);idiv_by(r,16);r.sp=r.sp+4
+    r=yield from guest(mem,r,'214B:13C5',19,48,r.ax,ret='1771:461F')
+    r.ax=23;r.push(r.ax);r.ax=48;r.push(r.ax)
+    r=yield from guest(mem,r,'1771:30D9',word,ret='1771:462E')
+    r.cx=14;mul(r,r.cx);r.dx=0;r.cx=7;dividend=r.ax;r.ax,r.dx=dividend//7,dividend%7;r.sp=r.sp+4
+    r=yield from guest(mem,r,'214B:13C5',23,48,r.ax,ret='1771:4640')
+    r=yield from guest(mem,r,'1771:3BD3',word,ret='1771:4646',far=False)
+    r.ax=11
+    r=yield from guest(mem,r,'1771:3947',word,r.ax,r.ax,ret='1771:4654',far=False)
+    for bit,colour,column,checked,written in ((4,14,40,'4667','4683'),(5,14,42,'4696','46B2'),(6,4,44,'46C5','46E1')):
+        r.ax=bit;r.es,r.di=pseg,poff;r.al=rb(mem,r,16);r.ah=0
+        r=yield from guest(mem,r,'214B:0C57',bit,r.ax,ret='1771:'+checked)
+        if r.al:
+            r.al=colour;attribute=r.ax;r.di=0x4268;source=mem.seg(0x1771),r.di
+            r.al=10;row=r.ax;r.al=column
+            r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:02C8','1771:'+written,attribute)
+    r.ax=8;r.es,r.di=pseg,poff;r.al=rb(mem,r,16);r.ah=0
+    r=yield from guest(mem,r,'214B:0C57',8,r.ax,ret='1771:46F4')
+    if r.al:
+        r.al=4;attribute=r.ax;r.di=0x426A;source=mem.seg(0x1771),r.di
+        r.al=10;row=r.ax;r.al=61
+        r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:0205','1771:4710',attribute)
+    else:
+        r.es,r.di=pseg,poff
+        if rb(mem,r,14)==0:
+            r.al=6;attribute=r.ax;r.di=0x4274;source=mem.seg(0x1771),r.di
+            r.al=10;row=r.ax;r.al=61
+            r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:0205','1771:4735',attribute)
+        else:
+            handled=False
+            for bit,colour,text,checked,written in ((5,5,0x427C,'474B','4767'),(6,4,0x4283,'477D','4799'),(3,15,0x428C,'47AF','47CB')):
+                r.ax=bit;r.es,r.di=pseg,poff;r.al=rb(mem,r,16);r.ah=0
+                r=yield from guest(mem,r,'214B:0C57',bit,r.ax,ret='1771:'+checked)
+                if r.al:
+                    r.al=colour;attribute=r.ax;r.di=text;source=mem.seg(0x1771),r.di
+                    r.al=10;row=r.ax;r.al=61
+                    r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:0205','1771:'+written,attribute)
+                    handled=True;break
+            if not handled:
+                mem.wds8(0xAAB2,15,'1771:47CD')
+                r.es,r.di=pseg,poff;r.al=rb(mem,r,0);r.ah=0
+                r=yield from guest(mem,r,'1771:3A82',word,r.ax,ret='1771:47E2')
+                if r.ax:
+                    if not mem.ds8(0xC1E):text,ret=0x4298,'1771:4802'
+                    else:
+                        r.es,r.di=pseg,poff;r.al=rb(mem,r,0);r.ah=0
+                        r=yield from guest(mem,r,'1771:3A82',word,r.ax,ret='1771:4814')
+                        text,ret=(0x42A6,'1771:482E') if r.ax<12 else (0x42AF,'1771:4845')
+                    r.di=text;source=mem.seg(0x1771),r.di;r.al=10;row=r.ax;r.al=61
+                    r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:01A3',ret)
+    r.ax=8;row=r.ax;r.ax=60
+    r=yield from guest(mem,r,'1771:3827',word,row,r.ax,ret='1771:4853',far=False)
     return _end(r)

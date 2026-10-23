@@ -1,0 +1,13 @@
+........F.....................
+======================================================================
+FAIL: test_player_card_zero_guard_and_status_routes_keep_performance_tail (tests.test_port_display.Display.test_player_card_zero_guard_and_status_routes_keep_performance_tail)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display.py", line 423, in test_player_card_zero_guard_and_status_routes_keep_performance_tail
+    self.assertIn(text,displayed,(status,energy,displayed))
+AssertionError: 17062 not found in [8, 8, 8, 8, 10] : (0, 20, [8, 8, 8, 8, 10])
+
+----------------------------------------------------------------------
+Ran 30 tests in 0.587s
+
+FAILED (failures=1)

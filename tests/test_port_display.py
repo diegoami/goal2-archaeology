@@ -390,6 +390,85 @@ class Display(Case):
         with self.assertRaises(PortError):r.run('0791:0C65')
 
 
+    def test_attribute_and_highlight_cells_keep_zero_negative_and_direction_behavior(self):
+        for count in (0,1,3,65535):
+            r=Rig();r.mem.regs.update(ax=0xABCD,cx=0x1234,eflags=0x602)
+            base=GSEG*16+GOFF;r.mem.memory[base:base+6]=bytes([65,7,66,7,67,7])
+            r.run('214B:00DB',[count,0x0570,GOFF,GSEG])
+            expected=bytes([65,0x70,66,0x70,67,0x70]) if count==3 else bytes([65,0x70,66,7,67,7]) if count==1 else bytes([65,7,66,7,67,7])
+            self.assertEqual(bytes(r.mem.memory[base:base+6]),expected)
+            self.assertEqual(r.mem.reg('ax'),0x0570 if 0<count<32768 else 0xABCD)
+            self.assertEqual(bool(r.mem.reg('eflags')&0x400),not(0<count<32768))
+        r=Rig();r.ds16(0xA96E,GOFF);r.ds16(0xA970,GSEG)
+        r.run('214B:13C5',[12,10,4])
+        self.assertEqual(r.args('214B:00DB'),[(GSEG,GOFF+4*160+20-0xA2,0x70,12)])
+
+    def test_player_card_zero_guard_and_status_routes_keep_performance_tail(self):
+        r=Rig();r.run('1771:42BC',[0])
+        self.assertEqual(r.args('214B:0329'),[(r.mem.DS,0x486E,r.mem.DS,0xA96E)])
+        self.assertEqual(r.args('1771:3827'),[])
+        for status,energy,text in ((0,20,0x42A6),(0x80,20,0x426A),(0,0,0x4274),
+                                   (0x10,20,0x427C),(0x20,20,0x4283),(0x04,20,0x428C)):
+            r=Rig();r.ds8(0xC1E,1)
+            for field,v in ((0,3),(1,25),(6,4),(7,4),(12,20),(13,20),(14,energy),(16,status)):
+                r.player(1,field,v)
+            def answer(c,mem):
+                if c.target=='214B:0C57':return int(bool(c.args[1]&(1<<(c.args[0]-1))))
+                return {'1771:2FAD':75,'1771:3041':0,'1771:3088':0,'1771:2FFB':16,'1771:30D9':4,'1771:3A82':5}.get(c.target,0)
+            r.run('1771:42BC',[1],answer)
+            self.assertEqual(r.args('1771:3827'),[(1,8,60)])
+            self.assertEqual(r.args('1771:3947'),[(1,11,11)])
+            self.assertEqual(r.args('1771:3BD3'),[(1,)])
+            displayed=[args[2] if target=='214B:0205' else args[1] for target,args,ret,far in r.calls if target in ('214B:01A3','214B:0205') and len(args)>=6]
+            self.assertIn(text,displayed,(status,energy,displayed))
+
+    def test_tactics_panel_keeps_keeper_swaps_and_override_string_frames(self):
+        for keeper,own in ((False,0),(True,255)):
+            r=Rig();r.ds8(0xC1E,1)
+            for field,v in ((0,3),(6,0 if keeper else 4),(15,own)):r.player(1,field,v)
+            r.country(3,0x2D,0xAA)
+            def answer(c,mem):
+                if c.target=='214B:0C57':return int(bool(c.args[1]&(1<<(c.args[0]-1))))
+                return 0
+            r.run('1771:3BD3',[1],answer)
+            self.assertEqual(len(r.args('214B:01A3')),4)
+            self.assertEqual(len(r.args('23E4:06B7')),4 if own else 0)
+            moves=r.args('214B:003C')
+            self.assertEqual(len(moves),4 if keeper else 0)
+            if keeper:
+                self.assertEqual(moves[0],(r.mem.DS,0x6AC0,0,BP0-0x108,256))
+                self.assertEqual(moves[-1],(0,BP0-0x108,r.mem.DS,0x6AC0,256))
+            self.assertEqual(r.args('1771:3B3F'),[(BP0,)])
+
+    def test_tactics_mark_target_uses_both_names_and_zone_marker(self):
+        r=Rig();r.ds8(0xC1E,1);r.ds16(0x9B36,3);r.ds8(0xAAB2,7)
+        for field,v in ((0,3),(6,4),(15,0),(16,0x40)):r.player(1,field,v)
+        r.player(2,6,5);r.ds16(0x9A3E+40+2*5,2)
+        def answer(c,mem):
+            if c.target=='214B:0C57':return int(bool(c.args[1]&(1<<(c.args[0]-1))))
+            return 5 if c.target=='1771:3A82' else 0
+        r.run('1771:3BD3',[1],answer)
+        self.assertEqual(r.args('1771:2EE5'),[(2,16,43)])
+        self.assertEqual(len(r.args('214B:02C8')),1)
+        self.assertEqual(r.args('214B:02C8')[0][2],0x3BD1)
+
+    def test_performance_buckets_keep_encoded_scores_and_sentinel(self):
+        for performance,want in ((0x7FFF,99),(4,1),(5,2),(54,2),(55,3),(104,3),(105,4),
+                                  (155,5),(205,6),(255,7),(355,8),(455,9),(10055,3)):
+            r=Rig();r.ds8(0xE86,99);r.lin16(PSEG*16+POFF+20+18,performance)
+            r.run('1771:3827',[60,8,1],answers({'1771:2E20':7}))
+            self.assertEqual(r.mem.ds8(0xE86),want,performance)
+            self.assertEqual(len(r.args('214B:01A3')),int(performance!=0x7FFF))
+
+    def test_skill_bars_keep_all_twelve_unclamped_unsigned_products(self):
+        r=Rig();r.player(1,4,255);r.player(1,5,0);r.player(1,7,0)
+        for k in range(1,13):r.ds8(0x6D25+k,k-1);r.ds8(0x6DCD+k-1,k+1)
+        r.ds16(0xA96E,GOFF);r.ds16(0xA970,GSEG)
+        r.run('1771:3947',[10,4,1])
+        self.assertEqual(len(r.args('214B:00DB')),12)
+        self.assertEqual([a[-1] for a in r.args('214B:00DB')],list(range(2,14)))
+
+
 class EventProjection(unittest.TestCase):
     def modules(self):
         sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'experiments/E036-match-port'))
