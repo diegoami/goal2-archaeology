@@ -1,0 +1,101 @@
+{
+  "changes": [
+    {
+      "finding": "findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md",
+      "before": "seg_0791_11.c:506",
+      "after": "seg_0791_11.c:552",
+      "same_text": "  uVar3 = (undefined2)((ulong)param_4 >> 0x10);"
+    },
+    {
+      "finding": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_0791_11.c:632",
+      "after": "seg_0791_11.c:678",
+      "same_text": "        ppVar2 = (player *)players;"
+    },
+    {
+      "finding": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_0791_11.c:674",
+      "after": "seg_0791_11.c:720",
+      "same_text": "  int iVar1;"
+    },
+    {
+      "finding": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_000E_05.c:605",
+      "after": "seg_000E_05.c:606",
+      "same_text": "        if (cVar2 != '\\0') {"
+    },
+    {
+      "finding": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_000E_05.c:605",
+      "after": "seg_000E_05.c:606",
+      "same_text": "        if (cVar2 != '\\0') {"
+    },
+    {
+      "finding": "findings/F023-the-stage-builders-write-the-competition-calendar-from-ranked-pots-and-a-points-sort-with-no-coin.md",
+      "before": "seg_000E_05.c:512",
+      "after": "seg_000E_05.c:513",
+      "same_text": "}"
+    },
+    {
+      "finding": "findings/F025-sacking-and-end-of-the-game.md",
+      "before": "seg_000E_05.c:725",
+      "after": "seg_000E_05.c:726",
+      "same_text": "                ((char *)s_phenomenal_b000_7094 + 5,0x4000,CONCAT11(extraout_AH,pbVar2[0x3c]));"
+    },
+    {
+      "finding": "findings/F025-sacking-and-end-of-the-game.md",
+      "before": "seg_000E_05.c:941",
+      "after": "seg_000E_05.c:942",
+      "same_text": "          uVar6 = (undefined2)((ulong)local_8 >> 0x10);"
+    },
+    {
+      "finding": "findings/F025-sacking-and-end-of-the-game.md",
+      "before": "seg_000E_05.c:989",
+      "after": "seg_000E_05.c:990",
+      "same_text": "    else if (DS:00B0 == 6) {"
+    },
+    {
+      "finding": "findings/F025-sacking-and-end-of-the-game.md",
+      "before": "seg_1771_05.c:770",
+      "after": "seg_1771_05.c:798",
+      "same_text": "  if (cVar1 == '\\x04') {"
+    },
+    {
+      "finding": "findings/F025-sacking-and-end-of-the-game.md",
+      "before": "seg_000E_05.c:725",
+      "after": "seg_000E_05.c:726",
+      "same_text": "                ((char *)s_phenomenal_b000_7094 + 5,0x4000,CONCAT11(extraout_AH,pbVar2[0x3c]));"
+    },
+    {
+      "finding": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_11.c:549",
+      "after": "seg_0791_11.c:595",
+      "same_text": "  }"
+    },
+    {
+      "finding": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_11.c:486",
+      "after": "seg_0791_11.c:532",
+      "same_text": "    local_4 = local_4 + 1;"
+    },
+    {
+      "finding": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_11.c:365",
+      "after": "seg_0791_11.c:411",
+      "same_text": "  u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x5f8c,0xb000);"
+    },
+    {
+      "finding": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_1771_07.c:334",
+      "after": "seg_1771_07.c:381",
+      "same_text": "    for (local_4 = 1; pcVar2[local_6].squad[local_4 + -1] = local_8 + local_4, local_4 != 0x14;"
+    },
+    {
+      "finding": "findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md",
+      "before": "seg_1771_07.c:370",
+      "after": "seg_1771_07.c:417",
+      "same_text": "  *(undefined1 *)(iVar1 + 0x41) = 1;"
+    }
+  ],
+  "unresolved": []
+}

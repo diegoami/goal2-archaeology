@@ -406,7 +406,8 @@ void simulate_fixture(int param_1)
             ((byte *)fixtures + *(int *)(iVar6 + 0x26) * 8 + -8,(int)((ulong)fixtures >> 0x10));
   credit_silent_match_scorers
             ((byte *)fixtures + *(int *)(iVar6 + 0x26) * 8 + -8,(int)((ulong)fixtures >> 0x10));
-  f_0791_D050((byte *)fixtures + *(int *)(iVar6 + 0x26) * 8 + -8,(int)((ulong)fixtures >> 0x10));
+  update_country_match_records
+            ((byte *)fixtures + *(int *)(iVar6 + 0x26) * 8 + -8,(int)((ulong)fixtures >> 0x10));
   for (local_3 = '\0';
       reset_team_tactics(*(undefined2 *)(pbVar7 + iVar3 * 8 + -8 + local_3 * 2 + 4)),
       local_3 != '\x01'; local_3 = local_3 + '\x01') {
@@ -418,7 +419,7 @@ void simulate_fixture(int param_1)
     sys_move_025D(4000,(int)DS:A96A,(int)((ulong)DS:A96A >> 0x10),(int)DS:A96E,
                   (int)((ulong)DS:A96E >> 0x10));
     u214b_read_key();
-    f_0791_E929((uint)extraout_AH << 8,*(undefined2 *)(pbVar7 + iVar3 * 8 + -2));
+    show_updated_group_tables((uint)extraout_AH << 8,*(undefined2 *)(pbVar7 + iVar3 * 8 + -2));
     *(int *)(iVar6 + 0x26) = *(int *)(iVar6 + 0x26) + 1;
     *(undefined1 *)(param_1 + -2) = 0;
   }

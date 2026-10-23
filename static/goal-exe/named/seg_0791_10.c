@@ -900,7 +900,7 @@ void set_team_tactics(byte param_1,int param_2)
 
 
 // ---- 0791:BC5D  reset_team_tactics  (f_0791_BC5D; Ghidra 2000:BC5D, __stdcall16far; found by routines.tsv)
-// per country: 1. clears +0xF of all 20 squad words, zero or not; 2. writes R008 (DS:9B7C + country) to +0x2D through 0791:BBFF, so the default set returns and the overrides are re-derived; 3. sorts the squad (1771:52CC, whose unavailable-sorts-last rule applies while 0B77 is nonzero at that moment); 4. sets +6 of slots 1..11 from R011 (DS:9F02 + 20 country + slot); called by 000E:01FA, 000E:6970 and 0791:E80D for both teams with no test of 0B77, and by 0791:BB2F and 0791:F1F6 only for a team 0B77 calls unmanaged (a managed team gets 0791:BA4E)  [established; F010; read decompiled/seg_0791_07.c]
+// T71 (runtime/original_match/port/postmatch.py): per country: 1. clears +0xF of all 20 squad words, zero or not; 2. writes R008 (DS:9B7C + country) to +0x2D through 0791:BBFF, so the default set returns and the overrides are re-derived; 3. sorts the squad (1771:52CC, whose unavailable-sorts-last rule applies while 0B77 is nonzero at that moment); 4. sets +6 of slots 1..11 from R011 (DS:9F02 + 20 country + slot); called by 000E:01FA, 000E:6970 and 0791:E80D for both teams with no test of 0B77, and by 0791:BB2F and 0791:F1F6 only for a team 0B77 calls unmanaged (a managed team gets 0791:BA4E)  [established; F010; read decompiled/seg_0791_07.c]
 
 void __stdcall16far reset_team_tactics(int param_1)
 
@@ -952,50 +952,4 @@ undefined2 team_strength_greater(int param_1,int param_2)
     local_5 = local_5 + 1;
   }
   return CONCAT11((char)(local_7 >> 8),local_9 < local_7);
-}
-
-
-// ---- 0791:BD83  computer_tactic_change  (f_0791_BD83; Ghidra 2000:BD83, __stdcall16near; found by routines.tsv)
-// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): the computer's in-match tactic change for team t: writes the country's R008 (DS:9B7C + country) to +0x2D through 0791:BBFF, so the default set returns and the overrides are re-derived without clearing +0xF; then, only when t = 1, DS:80FC is nonzero and 0791:BD03 says team 1's eleven outsums team 0's, it includes element 1 and writes +0x2D again; then, when the team's eleven outsums its opponent's, it includes rand(6) twice and writes again; in every case it clears DS:8332 + t and DS:8334 + t; called by the match set-up 0791:A3DE, by 0791:BF6B and by 0791:C173  [established; F010; read code/seg_0791_19.asm:584]
-
-/* WARNING: Removing unreachable block (0791:BDE9) */
-
-void computer_tactic_change(char param_1)
-
-{
-  int iVar1;
-  char cVar2;
-  undefined2 uVar3;
-  country *pcVar4;
-  undefined2 uVar5;
-  int local_4;
-  
-  iVar1 = ((undefined2 *)&DS:9B34)[param_1];
-  uVar5 = (undefined2)((ulong)countries >> 0x10);
-  pcVar4 = (country *)countries;
-  set_team_tactics(CONCAT11(param_1 >> 7,
-                            *(undefined1 *)(((undefined2 *)&DS:9B34)[param_1] + -0x6484)),
-                   ((undefined2 *)&DS:9B34)[param_1]);
-  if (((param_1 == '\x01') && ((char)pitch_records[0].activity != '\0')) &&
-     (cVar2 = team_strength_greater(DS:9B34,DS:9B36), cVar2 != '\0')) {
-    u214b_set_include_bit(&pcVar4[iVar1].default_team_tactic_set,uVar5,1);
-    set_team_tactics(pcVar4[iVar1].default_team_tactic_set,DS:9B36);
-  }
-  cVar2 = team_strength_greater
-                    (((undefined2 *)&DS:9B34)[param_1 == '\0'],
-                     ((undefined2 *)&DS:9B34)[param_1]);
-  if (cVar2 != '\0') {
-    local_4 = 1;
-    while( true ) {
-      uVar3 = u214b_random_1_to_n(6);
-      u214b_set_include_bit(&pcVar4[iVar1].default_team_tactic_set,uVar5,uVar3);
-      if (local_4 == 2) break;
-      local_4 = local_4 + 1;
-    }
-    set_team_tactics(CONCAT11(param_1 >> 7,pcVar4[iVar1].default_team_tactic_set),
-                     ((undefined2 *)&DS:9B34)[param_1]);
-  }
-  *(undefined1 *)((int)(undefined2 *)&DS:8332 + (int)param_1) = 0;
-  *(undefined1 *)((int)(undefined2 *)&DS:8334 + (int)param_1) = 0;
-  return;
 }

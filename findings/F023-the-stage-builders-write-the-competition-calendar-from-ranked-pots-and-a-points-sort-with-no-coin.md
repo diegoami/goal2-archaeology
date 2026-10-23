@@ -124,7 +124,7 @@
 - **Outputs**: the A table of the class with 32 groups (continent x group) of 4, the round lists, 768 or 640 fixtures.
   (static:static/goal-exe/code/seg_1771_09.asm:1525)
 - **Dates and matchdays**: none. A fixture has no date; the order of play is the fixture number, i.e. round-major, then continent, then group; a "matchday" is the run of fixtures between two fixtures of managed countries (`route_fixture` returns after a managed fixture, F010).
-  (static:static/goal-exe/named/seg_000E_05.c:512)
+  (static:static/goal-exe/named/seg_000E_05.c:513)
 
 ### 4. Stage 3: the continental finals groups (`1771:6B55`, asm seg_1771_10.asm:6-323)
 
