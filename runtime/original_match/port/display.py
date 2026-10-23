@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {"1771:8A87", "1771:5AC4", "1771:0FB1", "1771:76FA", "1771:77C3", "1771:8E9A", "1771:8CA2", "1771:958D", "1771:8939", "0791:0441", "214B:1EF1", "214B:1F87", "214B:1E8D", "214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
+    if address not in {"1771:4D8A", "1771:4E22", "1771:8A87", "1771:5AC4", "1771:0FB1", "1771:76FA", "1771:77C3", "1771:8E9A", "1771:8CA2", "1771:958D", "1771:8939", "0791:0441", "214B:1EF1", "214B:1F87", "214B:1E8D", "214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
         PORTS.stub(address, ret=ret, value=None, why="initial all-at-once display-removal candidate; classification pending")
 
 
@@ -1906,4 +1906,62 @@ def competition_stage_header_memory(mem,variant):
         r.ax=ss16(mem,r,r.bp-2);r.ax=r.ax<<1;r.es,r.di=game;r.di=r.di+r.ax;word=rw(mem,r,0x2C)
         r.ax=1;row=r.ax;r.ax=19
         r=yield from guest(mem,r,'1771:0F58',word,row,r.ax,ret='1771:5BF0')
+    return _end(r)
+
+
+@PORTS.port('1771:4D8A',ret='retf 2')
+def squad_list_memory(mem,variant):
+    """4D8A-4E21: all twenty squad rows and the gap before the reserves."""
+    r=Regs(mem);r.enter(6);country=ss16(mem,r,r.bp+6)
+    squad_of(mem,r,country);squad=r.es,r.di
+    r.local16(-6,r.di);r.local16(-4,r.es)
+    r.di=0x15A4;source=mem.DS,r.di;r.di=0xA96E
+    r=yield from guest(mem,r,'214B:0329',*source,mem.DS,r.di,ret='1771:4DB3')
+    r.ax=1;row=r.ax;r.ax=65
+    r=yield from guest(mem,r,'1771:0F58',country,row,r.ax,ret='1771:4DC2')
+    for slot in range(1,21):
+        r.local16(-2,slot);r.ax=slot<<1;r.es,r.di=squad;r.di=r.di+r.ax;word=rw(mem,r,-2)
+        r.ax=slot+(2 if slot<=11 else 3);row=r.ax;r.ax=65
+        r=yield from guest(mem,r,'1771:2F37',word,row,r.ax,ret='1771:4DE9' if slot<=11 else '1771:4E16')
+    return _end(r)
+
+
+@PORTS.port('1771:4E22',ret='retf 4')
+def squad_screen_memory(mem,variant):
+    """4E22-4F71: squad/card templates and selection, preserving the original caller ABI."""
+    r=Regs(mem);r.enter(0x106);country=ss16(mem,r,r.bp+8);mode=ss16(mem,r,r.bp+6)
+    squad_of(mem,r,country);squad=r.es,r.di;r.local16(-6,r.di);r.local16(-4,r.es)
+    r=yield from guest(mem,r,'1771:4D8A',country,ret='1771:4E44')
+    r.di=0x26F2;source=mem.DS,r.di;r.di=0xA96E
+    r=yield from guest(mem,r,'214B:0329',*source,mem.DS,r.di,ret='1771:4E53')
+    r.al=0
+    if mode==2:
+        r.di=0x269C;source=mem.DS,r.di;r.di=0xA96E
+        r=yield from guest(mem,r,'214B:0329',*source,mem.DS,r.di,ret='1771:4E6E')
+    r.di=0x268A;source=mem.DS,r.di;r.di=0xA96E
+    r=yield from guest(mem,r,'214B:0329',*source,mem.DS,r.di,ret='1771:4E7D')
+    if mode==1:
+        r.di=0x1AF6;source=mem.DS,r.di;r.di=0xA96E
+        r=yield from guest(mem,r,'214B:0329',*source,mem.DS,r.di,ret='1771:4E92')
+    if not mem.ds8(0xC1F):
+        managed=False
+        if mode!=1:
+            r=yield from guest(mem,r,'1771:0B77',country,ret='1771:4EA6')
+            managed=bool(r.al)
+        r.di=0x57F0 if managed else 0x5A1A;source=mem.DS,r.di;r.di=0xA96E
+        r=yield from guest(mem,r,'214B:0329',*source,mem.DS,r.di,ret='1771:4ECA' if managed else '1771:4EB9')
+    else:
+        for template,ret in ((0x5A1A,'1771:4EDB'),(0x1704,'1771:4EEA'),(0x47CC,'1771:4EF9')):
+            r.di=template;source=mem.DS,r.di;r.di=0xA96E
+            r=yield from guest(mem,r,'214B:0329',*source,mem.DS,r.di,ret=ret)
+        r.al=15;colour=r.ax;r.push(colour);temporary=(r.bp-0x106)&65535;r.di=temporary;r.push(r.ss);r.push(r.di)
+        r.ax=country;r.al=int(r.ax==mem.ds16(0x9B36));cbw(r);r.di=r.ax;r.al=mem.ds8(0x9B3A+r.di);r.ah=0;r.dx=0
+        r=yield from guest(mem,r,'214B:09DA',r.dx,r.ax,ret='1771:4F23')
+        r.al=5;row=r.ax;r.al=60
+        r=yield from write_buffer_text(mem,r,(r.ss,temporary),row,r.ax,'214B:02C8','1771:4F33',colour,6)
+    selected=mem.ds16(0xC1B);r.ax=selected<<1;r.es,r.di=squad;r.di=r.di+r.ax;word=rw(mem,r,-2)
+    r=yield from guest(mem,r,'1771:42BC',word,ret='1771:4F45')
+    r.al=int(mem.ds16(0xC1B)>11);r.ah=0;r.dx=r.ax;r.ax=mem.ds16(0xC1B)+2+r.dx;row=r.ax
+    r.ax=65;column=r.ax;r.ax=12
+    r=yield from guest(mem,r,'214B:13C5',row,column,r.ax,ret='1771:4F6C')
     return _end(r)

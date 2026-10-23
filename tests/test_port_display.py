@@ -1055,5 +1055,34 @@ class CompetitionRecordRenderingTests(unittest.TestCase):
             self.assertEqual(r.args('1771:0F58'),[(leader,1,19)] if leader else [])
             self.assertEqual(r.u16(BP0-2),index)
 
+class SquadScreenMemoryTests(unittest.TestCase):
+    def test_squad_list_retains_all_twenty_rows_and_reserve_gap(self):
+        r=Rig();r.squad(3,list(range(1,21)))
+        r.run('1771:4D8A',(3,))
+        self.assertEqual(r.args('214B:0329'),[(r.mem.DS,0x15A4,r.mem.DS,0xA96E)])
+        self.assertEqual(r.args('1771:0F58'),[(3,1,65)])
+        self.assertEqual(r.args('1771:2F37'),[(slot,slot+(2 if slot<=11 else 3),65) for slot in range(1,21)])
+        self.assertEqual(r.u16(BP0-2),20)
+
+    def test_nonlive_squad_modes_and_manager_templates(self):
+        for mode,managed,selected,tail in ((0,0,11,0x5A1A),(0,1,12,0x57F0),(1,1,1,0x5A1A),(2,0,20,0x5A1A)):
+            r=Rig();r.squad(3,list(range(1,21)));r.ds16(0xC1B,selected)
+            r.run('1771:4E22',(mode,3),answer=answers({'1771:0B77':managed}))
+            templates=[0x26F2]+([0x269C] if mode==2 else [])+[0x268A]+([0x1AF6] if mode==1 else [])+[tail]
+            self.assertEqual([a[1] for a in r.args('214B:0329')],templates)
+            self.assertEqual(r.args('1771:0B77'),[] if mode==1 else [(3,)])
+            self.assertEqual(r.args('1771:42BC'),[(selected,)])
+            self.assertEqual(r.args('214B:13C5'),[(selected+2+int(selected>11),65,12)])
+
+    def test_live_squad_uses_the_correct_side_substitution_count(self):
+        for second,count in ((3,2),(4,4)):
+            r=Rig();r.squad(3,list(range(1,21)));r.ds16(0xC1B,1);r.ds8(0xC1F,1)
+            r.ds16(0x9B36,second);r.ds8(0x9B3A,4);r.ds8(0x9B3B,2)
+            r.run('1771:4E22',(0,3))
+            self.assertEqual([a[1] for a in r.args('214B:0329')],[0x26F2,0x268A,0x5A1A,0x1704,0x47CC])
+            self.assertEqual(r.args('1771:0B77'),[])
+            self.assertEqual(r.args('214B:09DA'),[(0,count)])
+            self.assertEqual(r.args('214B:02C8')[0][3:5],(5,60))
+
 if __name__ == '__main__':
     unittest.main()
