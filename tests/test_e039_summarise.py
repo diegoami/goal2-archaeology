@@ -67,6 +67,19 @@ class Summarise(unittest.TestCase):
         ev["screen"] = ev["screen"].replace("Y/N", "Y/X", 1)
         self.assertEqual(run(record, trace)[0], 1)
 
+    def test_a_trace_missing_reads_or_holding_one_more_fails(self):
+        # #378: for both dates, no reads, the manager menu's read missing, or one read more
+        for rec, tr in CASES:
+            record, trace = load(rec, tr)
+            idx = [i for i, e in enumerate(trace["events"]) if e["kind"] == "read" and e["site"] != "214B:112B"]
+            cases = {"none": [e for i, e in enumerate(trace["events"]) if i not in idx],
+                     "last": [e for i, e in enumerate(trace["events"]) if i != idx[-1]],
+                     "more": trace["events"] + [copy.deepcopy(trace["events"][idx[-1]])]}
+            for how, events in cases.items():
+                with self.subTest(tr, how=how):
+                    code, out = run(record, dict(trace, events=events))
+                    self.assertEqual(code, 1, out)
+
 
 if __name__ == "__main__":
     unittest.main()

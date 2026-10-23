@@ -5,7 +5,9 @@
 
 For each kept state of the record that waits in 08DD's read: its site and callers (the record's frame) and its screen
 (the record's text) against the trace's read at the same position in the order of the record's screens; the seed
-words where the record holds them. Prints a table and exits 1 when any row differs."""
+words (DS:7B62, DS:7B64). The trace must hold exactly one read per screen of ORDER, the last at the manager menu: a
+read missing (a replay that stopped early) or one more fails (#378). Prints a table and exits 1 when any row differs,
+the seed words included (#379)."""
 import json
 import sys
 
@@ -33,6 +35,9 @@ def main(argv):
     # the trace's reads, one per screen of ORDER: the reads of the name entry (214B:112B) are not a kept state
     reads = [e for e in trace["events"] if e["kind"] == "read" and e["site"] != "214B:112B"]
     bad = 0
+    if len(reads) != len(ORDER):           # zip() below would stop at the shorter list and pass a truncated replay
+        print(f"the trace holds {len(reads)} reads outside the name entry, not {len(ORDER)} (one per screen of ORDER)")
+        bad += 1
     print("| screen | site (DOSBox-X) | site (trace) | callers equal | screen equal | DS:7B62 D / T | DS:7B64 D / T |")
     print("| --- | --- | --- | --- | --- | --- | --- |")
     for name, ev in zip(ORDER, reads):
@@ -41,7 +46,7 @@ def main(argv):
         site_d = callers[0]
         screen_eq = (ev.get("screen") == st["screen"]) if name != "manager-menu" else (trace["final_screen"] == st["screen"])
         callers_eq = callers[1:] == ev["callers"]
-        same = site_d == ev["site"] and callers_eq and screen_eq
+        same = site_d == ev["site"] and callers_eq and screen_eq and st["seed"] == ev["seed"] and st["seed2"] == ev["seed2"]
         bad += not same
         print(f"| {name} | {site_d} | {ev['site']} | {'yes' if callers_eq else 'NO'} | {'yes' if screen_eq else 'NO'} | "
               f"{st['seed']} / {ev['seed']} | {st['seed2']} / {ev['seed2']} |")
