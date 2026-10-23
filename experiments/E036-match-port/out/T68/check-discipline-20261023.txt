@@ -2,3 +2,5 @@ ports: discipline
 engine       PASS  19.6 s  
 interactive  PASS  39.1 s  {'straight': '0078fad9859d4b4083a88707785e2cf0a49e1b6cddfa48bfec5aa765590e592f', 'resumed': '0078fad9859d4b4083a88707785e2cf0a49e1b6cddfa48bfec5aa765590e592f', 'expected': '0078fad9859d4b4083a88707785e2cf0a49e1b6cddfa48bfec5aa765590e592f'}
 goals        PASS  28.1 s  
+knockout     PASS  85.7 s  {'digests': {'straight': '7de611c6dec2508bf8504a83a2c680fd253c1ff798ad2c9e1e6db79592034049', 'resumed at extra time': '7de611c6dec2508bf8504a83a2c680fd253c1ff798ad2c9e1e6db79592034049', 'resumed at the order': '7de611c6dec2508bf8504a83a2c680fd253c1ff798ad2c9e1e6db79592034049'}, 'expected': '7de611c6dec2508bf8504a83a2c680fd253c1ff798ad2c9e1e6db79592034049', 'problems': [], 'score': [0, 0], 'score_90': [0, 0], 'shootout': [3, 1], 'winner': 0}
+exit 0
