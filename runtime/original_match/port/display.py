@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {"1771:4D8A", "1771:4E22", "1771:8A87", "1771:5AC4", "1771:0FB1", "1771:76FA", "1771:77C3", "1771:8E9A", "1771:8CA2", "1771:958D", "1771:8939", "0791:0441", "214B:1EF1", "214B:1F87", "214B:1E8D", "214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
+    if address not in {"1771:0947", "1771:0AF8", "1771:1527", "1771:13D0", "1771:4D8A", "1771:4E22", "1771:8A87", "1771:5AC4", "1771:0FB1", "1771:76FA", "1771:77C3", "1771:8E9A", "1771:8CA2", "1771:958D", "1771:8939", "0791:0441", "214B:1EF1", "214B:1F87", "214B:1E8D", "214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
         PORTS.stub(address, ret=ret, value=None, why="initial all-at-once display-removal candidate; classification pending")
 
 
@@ -1964,4 +1964,81 @@ def squad_screen_memory(mem,variant):
     r.al=int(mem.ds16(0xC1B)>11);r.ah=0;r.dx=r.ax;r.ax=mem.ds16(0xC1B)+2+r.dx;row=r.ax
     r.ax=65;column=r.ax;r.ax=12
     r=yield from guest(mem,r,'214B:13C5',row,column,r.ax,ret='1771:4F6C')
+    return _end(r)
+
+
+@PORTS.port('1771:0947',ret='retf 2')
+def manager_name_memory(mem,variant):
+    """0947-0998: caller's hidden string result, with the original local expression."""
+    r=Regs(mem);r.enter(0x100);temporary=(r.bp-0x100)&65535
+    r.di=temporary;r.push(r.ss);r.push(r.di);manager=ss16(mem,r,r.bp+6);r.ax=manager
+    r.es,r.di=mem.ds16(0x9B7A),mem.ds16(0x9B78);r.di=r.di+r.ax;r.al=rb(mem,r,0)
+    r=yield from guest(mem,r,'23E4:075A',r.ax,ret='1771:0966')
+    r.di=0x945
+    r=yield from guest(mem,r,'23E4:06B7',mem.seg(0x1771),r.di,ret='1771:0970')
+    r.ax=manager;r.dx=13;mul(r,r.dx);r.es,r.di=mem.ds16(0x9B76),mem.ds16(0x9B74);r.di=r.di+r.ax
+    r=yield from guest(mem,r,'23E4:06B7',r.es,r.di,ret='1771:0985')
+    destination=farg(mem,r,8);r.ax=14;r.sp=r.sp+4
+    r=yield from guest(mem,r,'23E4:0644',r.ss,temporary,*destination,r.ax,ret='1771:0993')
+    return _end(r)
+
+
+@PORTS.port('1771:0AF8',ret='retf 6')
+def manager_status_memory(mem,variant):
+    r=Regs(mem);r.enter(4);manager=ss16(mem,r,r.bp+10);r.ax=manager;r.dx=3;mul(r,r.dx)
+    r.es,r.di=mem.ds16(0xA921),mem.ds16(0xA91F);r.di=r.di+r.ax
+    r.local16(-4,r.di);r.local16(-2,r.es)
+    if manager:
+        if not rb(mem,r,1):
+            r.di=0xAF0;source=mem.seg(0x1771),r.di;ret='1771:0B39'
+        else:
+            r.al=rb(mem,r,1);r.ah=0;r.ax=r.ax-1;idiv_by(r,8);r.di=r.ax
+            r.al=mem.ds8(0x7894+r.di);r.ah=0;r.di=r.ax;half(r,'cx',4);r.di=(r.di<<4)+0x6EB4
+            source=mem.DS,r.di;ret='1771:0B71'
+        r.al=ss8(mem,r,r.bp+8);row=r.ax;r.al=ss8(mem,r,r.bp+6)
+        r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:026D',ret)
+    return _end(r)
+
+
+@PORTS.port('1771:1527',ret='ret 6')
+def country_rating_label_memory(mem,variant):
+    r=Regs(mem);r.enter(4);country=ss16(mem,r,r.bp+8);squad_of(mem,r,country)
+    r.local16(-4,r.di);r.local16(-2,r.es)
+    r=yield from guest(mem,r,'1771:10E7',country,ret='1771:1548')
+    r.ax=r.ax-1;idiv_by(r,8);r.di=r.ax;r.al=mem.ds8((r.di+0x7884)&65535);r.ah=0
+    r.di=r.ax;half(r,'cx',4);r.di=(r.di<<4)+0x6EB4;source=mem.DS,r.di
+    r.al=ss8(mem,r,r.bp+6);row=r.ax;r.al=ss8(mem,r,r.bp+4)
+    r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:026D','1771:1575')
+    return _end(r)
+
+
+@PORTS.port('1771:13D0',ret='ret 2')
+def team_aggregate_memory(mem,variant):
+    """13D0-1526: six wrapping aggregates and their unsigned eleven-player quotients (F020/F021)."""
+    r=Regs(mem);r.enter(10);squad_of(mem,r,ss16(mem,r,r.bp+4));squad=r.es,r.di
+    r.local16(-6,r.di);r.local16(-4,r.es)
+    for address,at in ((0x9B5A,'13EA'),(0x9B5C,'13F0'),(0x9B5E,'13F6'),(0x9B60,'13FC'),(0x9B62,'1402'),(0x9B64,'1408')):
+        mem.wds16(address,6,'1771:'+at)
+    for slot in range(1,12):
+        r.local16(-2,slot);r.ax=slot<<1;r.es,r.di=squad;r.di=r.di+r.ax;word=rw(mem,r,-2)
+        r=yield from guest(mem,r,'1771:3216',word,ret='1771:142A')
+        if not r.al:
+            r.ax=slot<<1;r.es,r.di=squad;r.di=r.di+r.ax;word=rw(mem,r,-2);player_of(mem,r,word);player=r.es,r.di
+            r.local16(-10,r.di);r.local16(-8,r.es)
+            r.al=rb(mem,r,12);cbw(r);cwd(r);high,low=r.dx,r.ax;r.ax=32;r.dx=0
+            r=yield from guest(mem,r,'214B:0D1C',high,low,r.dx,r.ax,ret='1771:1467')
+            mem.wds16(0x9B5A,mem.ds16(0x9B5A)+r.ax,'1771:1467')
+            r.es,r.di=player
+            if s8(rb(mem,r,14))>0:
+                r.al=rb(mem,r,13);cbw(r);mem.wds16(0x9B5C,mem.ds16(0x9B5C)+r.ax,'1771:147D')
+            r.ax=slot<<1;r.es,r.di=squad;r.di=r.di+r.ax;word=rw(mem,r,-2)
+            r=yield from guest(mem,r,'1771:2FFB',word,ret='1771:1493')
+            r.ah=0;mem.wds16(0x9B5E,mem.ds16(0x9B5E)+r.ax,'1771:1495')
+            r.es,r.di=player;r.al=rb(mem,r,14);cbw(r);mem.wds16(0x9B60,mem.ds16(0x9B60)+r.ax,'1771:14A1')
+            r.al=rb(mem,r,1);r.ah=0;mem.wds16(0x9B62,mem.ds16(0x9B62)+r.ax,'1771:14AE')
+            r.ax=rw(mem,r,8);mem.wds16(0x9B64,mem.ds16(0x9B64)+r.ax,'1771:14B9')
+    for address,at in ((0x9B5A,'14D0'),(0x9B5C,'14DD'),(0x9B5E,'14EA'),(0x9B60,'14F7'),(0x9B62,'1504'),(0x9B64,'1511')):
+        r.ax=mem.ds16(address);r.dx=0;r.cx=11;dividend=r.ax;r.ax,r.dx=dividend//11,dividend%11
+        mem.wds16(address,r.ax,'1771:'+at)
+    if mem.ds16(0x9B5A)<1:mem.wds16(0x9B5A,1,'1771:151B')
     return _end(r)

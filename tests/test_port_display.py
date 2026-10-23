@@ -1084,5 +1084,57 @@ class SquadScreenMemoryTests(unittest.TestCase):
             self.assertEqual(r.args('214B:09DA'),[(0,count)])
             self.assertEqual(r.args('214B:02C8')[0][3:5],(5,60))
 
+class TeamPanelHelperTests(unittest.TestCase):
+    def test_manager_name_hidden_result_and_expression_calls(self):
+        r=Rig();r.ds16(0x9B78,0x100);r.ds16(0x9B7A,0x5600);r.lin8(0x56102,65)
+        r.ds16(0x9B74,0x200);r.ds16(0x9B76,0x5400)
+        r.run('1771:0947',(2,0x100,0x5800))
+        self.assertEqual(r.args('23E4:075A'),[(65,)])
+        self.assertEqual(r.args('23E4:06B7'),[(r.mem.seg(0x1771),0x945),(0x5400,0x21A)])
+        self.assertEqual(r.args('23E4:0644'),[(0,BP0-0x100,0x5800,0x100,14)])
+
+    def test_manager_status_zero_guard_and_status_band_boundaries(self):
+        for manager,status,want in ((0,0,None),(1,0,0xAF0),(130,0,0xAF0),(1,1,0x6EC4),(1,9,0x6ED4),(1,255,0x6EE4)):
+            r=Rig();r.ds16(0xA91F,0x100);r.ds16(0xA921,0x5400)
+            r.lin8(0x54100+manager*3+1,status)
+            for index,value in ((0,1),(1,2),(31,3)):r.ds8(0x7894+index,value)
+            r.run('1771:0AF8',(24,10,manager))
+            if want is None:self.assertEqual(r.calls,[])
+            else:
+                high=0x100 if manager==130 and status==0 else 0
+                self.assertEqual(r.args('214B:026D'),[(r.mem.seg(0x1771) if want==0xAF0 else r.mem.DS,want,high+10,high+24,r.mem.DS,0xA96E)])
+
+    def test_country_rating_signed_zero_and_eight_point_boundaries(self):
+        for rating,index in ((0,0),(1,0),(8,0),(9,1),(257,32)):
+            r=Rig()
+            for slot,value in ((0,1),(1,2),(32,3)):r.ds8(0x7884+slot,value)
+            r.run('1771:1527',(25,8,3),answer=answers({'1771:10E7':rating}))
+            expected=0x6EB4+16*{0:1,1:2,32:3}[index]
+            self.assertEqual(r.args('214B:026D'),[(r.mem.DS,expected,8,25,r.mem.DS,0xA96E)])
+
+    def test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter(self):
+        cases=((0,10,False,[1,20,8,10,25,5]),(128,10,False,[5946,20,8,10,25,5]),
+               (0,0,False,[1,18,8,9,25,5]),(0,128,False,[1,18,8,5955,25,5]),
+               (128,10,True,[1,18,7,9,23,5]))
+        for morale,energy,blocked,want in cases:
+            with self.subTest(morale=morale,energy=energy,blocked=blocked):
+                r=Rig();r.squad(3,list(range(1,12)))
+                for word in range(1,12):
+                    r.player(word,1,25);r.player(word,13,20);r.player(word,14,10)
+                    r.lin16(PSEG*16+POFF+word*20+8,5)
+                r.player(1,12,morale);r.player(1,14,energy)
+                def answer(q,m):
+                    if q.target=='1771:3216':return int(blocked and q.args[0]==1)
+                    if q.target=='1771:2FFB':return 8
+                    if q.target=='214B:0D1C':
+                        value=(q.args[0]<<16)|q.args[1];value=value-(1<<32) if value&(1<<31) else value
+                        result=min(value,32);m.regs['dx']=65535 if result<0 else 0;return result&65535
+                    return 0
+                r.run('1771:13D0',(3,),answer=answer)
+                self.assertEqual([r.mem.ds16(p) for p in range(0x9B5A,0x9B66,2)],want)
+                self.assertEqual(r.args('1771:3216'),[(word,) for word in range(1,12)])
+                self.assertEqual(len(r.args('1771:2FFB')),10 if blocked else 11)
+                self.assertEqual(r.u16(BP0-2),11)
+
 if __name__ == '__main__':
     unittest.main()
