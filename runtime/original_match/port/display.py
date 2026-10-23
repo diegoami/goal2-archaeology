@@ -1,10 +1,10 @@
-"""T73 display boundary: initial all-at-once removal candidate, under classification.
+"""T73 display boundary with the original memory and caller effects retained.
 
-Return cleanup is transcribed from each routine's listing (the independent inventory
-is out/T73/static-inventory.json). This first candidate deliberately removes all
-88 bodies together; acceptance requires independently justified masking and ports
-for every state-bearing operation. It is not an accepted classification yet.
-The match-summary key site remains the kit's semantic board boundary.
+The production profile compares every DS byte, including stack and text buffers.
+Pitch pictures and their copies remain engine state. Other entries omit display,
+sound or wait bodies with explicit listing return cleanup. The match-summary
+guest key site remains the kit board boundary. Classification and independent
+access evidence are recorded in experiments/E036-match-port/notes/T73.md.
 """
 from . import Registry
 from .contests import ss16, ss8, pop
@@ -110,7 +110,7 @@ RETURNS = {
 }
 for address, ret in RETURNS.items():
     if address not in {"1771:157D", "1771:11E1", "1771:1289", "1771:0947", "1771:0AF8", "1771:1527", "1771:13D0", "1771:4D8A", "1771:4E22", "1771:8A87", "1771:5AC4", "1771:0FB1", "1771:76FA", "1771:77C3", "1771:8E9A", "1771:8CA2", "1771:958D", "1771:8939", "0791:0441", "214B:1EF1", "214B:1F87", "214B:1E8D", "214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
-        PORTS.stub(address, ret=ret, value=None, why="initial all-at-once display-removal candidate; classification pending")
+        PORTS.stub(address, ret=ret, value=None, why="display/sound/wait body omitted; listing return cleanup and incoming result registers preserved")
 
 
 def write_buffer_text(mem, r, source, row, column, target, ret, colour=None, held=0):
@@ -124,6 +124,7 @@ def write_buffer_text(mem, r, source, row, column, target, ret, colour=None, hel
 @PORTS.port("0791:0106", ret="retf 2")
 def summary_boundary(mem, variant):
     """0106-0422: keep the board's concrete buffer/ABI effects and its original key site."""
+    if variant == 'omit-0791-0106': return
     r = Regs(mem)
     r.enter(0x108)
     flag = ss16(mem, r, r.bp + 6) & 255
@@ -307,6 +308,7 @@ def summary_boundary(mem, variant):
 @PORTS.port("0791:05C6", ret="ret 2")
 def pitch_glyph(mem, variant):
     """05C6-068E: glyph used by0691, reading0691's slot through the static link."""
+    if variant == 'omit-0791-05c6': return
     r = Regs(mem)
     r.enter(2)
     r.al = mem.ds8(0x66A)
@@ -377,6 +379,7 @@ def pitch_glyph(mem, variant):
 @PORTS.port("0791:0691", ret="ret")
 def refresh_pitch_glyphs(mem, variant):
     """0691-0711: glyph/colour words +4 of the22 engine pitch records."""
+    if variant == 'omit-0791-0691': return
     r = Regs(mem)
     r.enter(6)
     for slot in range(1, 23):
@@ -437,6 +440,7 @@ def grid_cell(mem, r, seg, off, row, column, pointer):
 @PORTS.port("0791:8F10", ret="retf 4")
 def draw_ball_state(mem, variant):
     """8F10-9076: ball previous-position/glyph and all occupancy-picture writes remain."""
+    if variant == 'omit-0791-8f10': return
     r = Regs(mem)
     r.enter()
     pseg, poff = farg(mem, r, 6)
@@ -485,6 +489,7 @@ def draw_ball_state(mem, variant):
 @PORTS.port("0791:9079", ret="retf 4")
 def reset_sprite_state(mem, variant):
     """9079-90C2: reset its record and restore the occupancy cell even though rendering is removed."""
+    if variant == 'omit-0791-9079': return
     r = Regs(mem)
     r.enter()
     r.ax = mem.ds16(0x644)
@@ -512,6 +517,7 @@ def reset_sprite_state(mem, variant):
 @PORTS.port("0791:A699", ret="ret 4")
 def save_pitch_copy(mem, variant):
     """A699-A6E1: the menu's saved pitch copy is engine state, including all4000 bytes."""
+    if variant == 'omit-0791-a699': return
     r = Regs(mem)
     r.enter()
     src = 0x7C22 if mem.ds8(0xC1F) else 0x7C1E
@@ -530,9 +536,10 @@ def save_pitch_copy(mem, variant):
 @PORTS.port("0791:94C9", ret="ret 2")
 def speaker_seed_step(mem, variant):
     """94C9-94E5: retain the second seed until original-reader evidence permits any display mask."""
+    if variant == 'omit-0791-94c9': return
     r = Regs(mem)
     r.enter(2)
-    r.di = 0x8336
+    r.di = 0x8336 if variant != "secondary-seed-adjacent" else 0x8338
     r = yield from guest(mem, r, '214B:0688', mem.DS, r.di, ss16(mem, r, r.bp + 4), ret='94DC')
     r.local16(-2, r.ax)
     return _end(r, value=True)
@@ -541,6 +548,7 @@ def speaker_seed_step(mem, variant):
 @PORTS.port("0791:94E8", ret="ret")
 def speaker_noise_state(mem, variant):
     """94E8-9543: retain RNG calls and their ordering; speaker output/delay are separate callees."""
+    if variant == 'omit-0791-94e8': return
     r = Regs(mem)
     r.enter()
     tone = False
@@ -571,6 +579,7 @@ def speaker_noise_state(mem, variant):
 @PORTS.port("0791:0C65", ret="ret")
 def replay_no_boundary(mem, variant):
     """0C65/0C6B/0C87: retain the original No-question path and its local memory effects."""
+    if variant == 'omit-0791-0c65': return
     r=Regs(mem);r.enter(8)
     mem.wds8(0x9B55,0,"0791:0C6B")
     r.di,r.es=mem.ds16(0xA923),mem.ds16(0xA925)
@@ -615,11 +624,13 @@ def _text_cells(mem, reverse):
 
 @PORTS.port('214B:00FF', ret='retf 12')
 def text_cells_forward(mem, variant):
+    if variant == 'omit-214b-00ff': return
     return _text_cells(mem, False)
 
 
 @PORTS.port('214B:0123', ret='ret 12')
 def text_cells_backward(mem, variant):
+    if variant == 'omit-214b-0123': return
     return _text_cells(mem, True)
 
 
@@ -669,27 +680,32 @@ def _string_cells(mem, backwards, set_attr, copied_ret, written_ret, attr_at):
 
 @PORTS.port('214B:01A3', ret='retf 12')
 def string_at_attr(mem, variant):
+    if variant == 'omit-214b-01a3': return
     return (yield from _string_cells(mem, True, False, '214B:01BE', '214B:01FF', None))
 
 
 @PORTS.port('214B:0205', ret='retf 14')
 def string_at_set_attr(mem, variant):
+    if variant == 'omit-214b-0205': return
     return (yield from _string_cells(mem, True, True, '214B:0220', '214B:0267', '214B:0223'))
 
 
 @PORTS.port('214B:026D', ret='retf 12')
 def string_forward_attr(mem, variant):
+    if variant == 'omit-214b-026d': return
     return (yield from _string_cells(mem, False, False, '214B:0288', '214B:02C2', None))
 
 
 @PORTS.port('214B:02C8', ret='retf 14')
 def string_forward_set_attr(mem, variant):
+    if variant == 'omit-214b-02c8': return
     return (yield from _string_cells(mem, False, True, '214B:02E3', '214B:0323', '214B:02E6'))
 
 
 @PORTS.port('0791:0712', ret='retf 4')
 def score_into_buffer(mem, variant):
     """0712-0773: the setup's score is copied into the engine background; keep the exact string writes."""
+    if variant == 'omit-0791-0712': return
     r = Regs(mem)
     r.enter(0x104)
     seg, off = farg(mem, r, 6)
@@ -721,6 +737,7 @@ def score_into_buffer(mem, variant):
 @PORTS.port('0791:15B9', ret='ret')
 def snapshot_state(mem, variant):
     """15B9-1826: preserve the snapshot's concrete copies; no blanket snapshot mask is assumed."""
+    if variant == 'omit-0791-15b9': return
     r = Regs(mem)
     r.enter(8)
     r.di = 0x8439
@@ -852,6 +869,7 @@ def snapshot_state(mem, variant):
 
 @PORTS.port('0791:0000', ret='ret')
 def shootout_board_numbers(mem, variant):
+    if variant == 'omit-0791-0000': return
     r=Regs(mem);r.enter(0x100)
     if mem.ds8(0x832D)!=0xFF:
         r.di=0xA96E
@@ -874,6 +892,7 @@ def shootout_board_numbers(mem, variant):
 
 @PORTS.port('0791:006C',ret='ret 8')
 def board_bar_attributes(mem,variant):
+    if variant == 'omit-0791-006c': return
     r=Regs(mem);r.enter(2)
     seg,off=farg(mem,r,8)
     r.ax=rw(mem,r,2)+rw(mem,r,0)
@@ -898,6 +917,7 @@ def board_bar_attributes(mem,variant):
 
 @PORTS.port('214B:00DB',ret='retf 8')
 def attribute_cells(mem,variant):
+    if variant == 'omit-214b-00db': return
     r=Regs(mem);r.enter()
     if s16(ss16(mem,r,r.bp+6))>0:
         r.push(mem.DS)
@@ -914,6 +934,7 @@ def attribute_cells(mem,variant):
 
 @PORTS.port('214B:0625',ret='retf')
 def save_bottom_line(mem,variant):
+    if variant == 'omit-214b-0625': return
     r=Regs(mem);r.enter()
     r.di,r.es=mem.ds16(0xA96A),mem.ds16(0xA96C)
     r.di=r.di+0xF00;source=r.es,r.di
@@ -924,6 +945,7 @@ def save_bottom_line(mem,variant):
 
 @PORTS.port('214B:0643',ret='retf')
 def restore_bottom_line(mem,variant):
+    if variant == 'omit-214b-0643': return
     r=Regs(mem);r.enter();r.di=0xAA04
     source=mem.DS,r.di
     r.di,r.es=mem.ds16(0xA96A),mem.ds16(0xA96C)
@@ -934,6 +956,7 @@ def restore_bottom_line(mem,variant):
 
 @PORTS.port('1771:3827',ret='ret 6')
 def performance_text_state(mem,variant):
+    if variant == 'omit-1771-3827': return
     r=Regs(mem);r.enter(8)
     word=ss16(mem,r,r.bp+8)
     pseg,poff=player_of(mem,r,word)
@@ -971,6 +994,7 @@ def performance_text_state(mem,variant):
 
 @PORTS.port('1771:2EE5',ret='retf 6')
 def player_name_memory(mem,variant):
+    if variant == 'omit-1771-2ee5': return
     r=Regs(mem);r.enter(0x104)
     word=ss16(mem,r,r.bp+10)
     player_of(mem,r,word)
@@ -989,6 +1013,7 @@ def player_name_memory(mem,variant):
 
 @PORTS.port('1771:2F37',ret='retf 6')
 def squad_row_memory(mem,variant):
+    if variant == 'omit-1771-2f37': return
     r=Regs(mem);r.enter(0x104)
     word=ss16(mem,r,r.bp+10)
     pseg,poff=player_of(mem,r,word)
@@ -1010,6 +1035,7 @@ def squad_row_memory(mem,variant):
 
 @PORTS.port('1771:0F58',ret='retf 6')
 def country_name_memory(mem,variant):
+    if variant == 'omit-1771-0f58': return
     r=Regs(mem);r.enter()
     word=ss16(mem,r,r.bp+10)
     r.al=mem.ds8(0xA964);cbw(r);r.di=r.ax
@@ -1032,6 +1058,7 @@ def country_name_memory(mem,variant):
 
 @PORTS.port('214B:0350',ret='retf 10')
 def message_line_memory(mem,variant):
+    if variant == 'omit-214b-0350': return
     r=Regs(mem);r.enter(0x15A)
     seg,off=farg(mem,r,10)
     r.di=(r.bp-0x51)&65535;line=r.di;r.ax=80
@@ -1092,6 +1119,7 @@ def message_line_memory(mem,variant):
 @PORTS.port('0791:A75D',ret='ret')
 def lineup_memory(mem,variant):
     """A75D-A840: the team menu's concrete buffer/ABI effects, without a user-facing backend."""
+    if variant == 'omit-0791-a75d': return
     r=Regs(mem);r.enter(0x108);r.di=0x534A
     r=yield from guest(mem,r,'A699',mem.DS,r.di,ret='A76C',far=False)
     for side in range(2):
@@ -1126,6 +1154,7 @@ def lineup_memory(mem,variant):
 
 @PORTS.port('214B:13C5',ret='retf 6')
 def highlight_memory(mem,variant):
+    if variant == 'omit-214b-13c5': return
     r=Regs(mem);r.enter()
     r.ax=ss16(mem,r,r.bp+8)<<1;r.cx=r.ax
     r.ax=ss16(mem,r,r.bp+10);r.dx=160;mul(r,r.dx)
@@ -1137,6 +1166,7 @@ def highlight_memory(mem,variant):
 
 @PORTS.port('1771:3947',ret='ret 6')
 def skill_bars_memory(mem,variant):
+    if variant == 'omit-1771-3947': return
     r=Regs(mem);r.enter(10)
     pseg,poff=player_of(mem,r,ss16(mem,r,r.bp+8))
     r.local16(-10,poff);r.local16(-8,pseg)
@@ -1163,6 +1193,7 @@ def skill_bars_memory(mem,variant):
 
 @PORTS.port('1771:3AE2',ret='ret 4')
 def mark_text_memory(mem,variant):
+    if variant == 'omit-1771-3ae2': return
     r=Regs(mem);r.enter();flag=ss16(mem,r,r.bp+6)&255
     if mem.ds8(0xC1E) and flag:
         r.di=0x3AD5;source=mem.seg(0x1771),r.di
@@ -1177,6 +1208,7 @@ def mark_text_memory(mem,variant):
 
 @PORTS.port('1771:3B3F',ret='ret 2')
 def mark_row_memory(mem,variant):
+    if variant == 'omit-1771-3b3f': return
     r=Regs(mem);r.enter(8);r.di=ss16(mem,r,r.bp+4)
     pseg,poff=player_of(mem,r,ss16(mem,r,r.di+4))
     r.local16(-4,poff);r.local16(-2,pseg)
@@ -1197,6 +1229,7 @@ def mark_row_memory(mem,variant):
 
 @PORTS.port('1771:3BD3',ret='ret 2')
 def tactics_panel_memory(mem,variant):
+    if variant == 'omit-1771-3bd3': return
     r=Regs(mem);r.enter(0x20E);word=ss16(mem,r,r.bp+4)
     pseg,poff=player_of(mem,r,word)
     r.local16(-0x10D,poff);r.local16(-0x10B,pseg)
@@ -1273,6 +1306,7 @@ def tactics_panel_memory(mem,variant):
 @PORTS.port('1771:42BC',ret='retf 2')
 def player_card_memory(mem,variant):
     """42BC-4856: compatibility memory effects of the original card, not a UI/backend."""
+    if variant == 'omit-1771-42bc': return
     r=Regs(mem);r.enter(0x108);r.di=0xA96E
     r=yield from guest(mem,r,'214B:0329',mem.DS,0x486E,mem.DS,r.di,ret='1771:42D2')
     word=ss16(mem,r,r.bp+6)
@@ -1403,6 +1437,7 @@ def player_card_memory(mem,variant):
 @PORTS.port('0791:1829',ret='ret 6')
 def commentary_line_memory(mem,variant):
     """1829-19E3: expand the commentary record, preserving its local and buffer writes."""
+    if variant == 'omit-0791-1829': return
     r=Regs(mem);r.enter(0x128)
     r.di=ss16(mem,r,r.bp+8)*6+0x7C38;record=r.di
     r.local16(-0x28,r.di);r.local16(-0x26,mem.DS)
@@ -1461,6 +1496,7 @@ def commentary_line_memory(mem,variant):
 
 @PORTS.port('0791:0481',ret='ret 4')
 def digit_vertical_memory(mem,variant):
+    if variant == 'omit-0791-0481': return
     r=Regs(mem);r.enter(0)
     parent=ss16(mem,r,r.bp+4)
     for delta,glyph,at in ((0,0xDC,'049E'),(80,0xDB,'04BF')):
@@ -1473,6 +1509,7 @@ def digit_vertical_memory(mem,variant):
 
 @PORTS.port('0791:04C9',ret='ret 6')
 def digit_segments_memory(mem,variant):
+    if variant == 'omit-0791-04c9': return
     r=Regs(mem);r.enter(2);r.local16(-2,1)
     parent=ss16(mem,r,r.bp+4)
     for index in range(1,8):
@@ -1494,6 +1531,7 @@ def digit_segments_memory(mem,variant):
 
 @PORTS.port('0791:054C',ret='ret 4')
 def big_digits_memory(mem,variant):
+    if variant == 'omit-0791-054c': return
     r=Regs(mem);r.enter(0x10C)
     r.di=mem.ds16(0xA96A);r.es=mem.ds16(0xA96C);r.ax=r.di;r.dx=r.es
     r.local16(-10,r.ax);r.local16(-8,r.dx)
@@ -1518,6 +1556,7 @@ def big_digits_memory(mem,variant):
 @PORTS.port('214B:1E09',ret='retf 2')
 def delay_frame_memory(mem,variant):
     """1E09-1E57: omit elapsed busy-wait work, retain its exact completed frame."""
+    if variant == 'omit-214b-1e09': return
     r=Regs(mem);r.enter(8)
     count=ss16(mem,r,r.bp+6)
     if count:
@@ -1532,6 +1571,7 @@ def delay_frame_memory(mem,variant):
 @PORTS.port('0791:C50C',ret='ret 4')
 def substitution_notice_memory(mem,variant):
     """C50C-C5DB: preserve the notice's buffer/ABI effects and original no-key path."""
+    if variant == 'omit-0791-c50c': return
     r=Regs(mem);r.enter(0)
     r=yield from guest(mem,r,'214B:0625',ret='0791:C514')
     r.di=0x5F8C;source=mem.DS,r.di;r.di=0xA96E
@@ -1562,6 +1602,7 @@ def substitution_notice_memory(mem,variant):
 @PORTS.port('214B:1EBC',ret='retf 2')
 def tone_frequency_memory(mem,variant):
     """1EBC-1EF0: keep the PIT divisor's argument/frame writes; omit device output."""
+    if variant == 'omit-214b-1ebc': return
     r=Regs(mem);r.enter()
     if not mem.ds8(0xA9FC):
         r=yield from guest(mem,r,'214B:1E75',ret='214B:1ECA')
@@ -1576,6 +1617,7 @@ def tone_frequency_memory(mem,variant):
 
 @PORTS.port('0791:0441',ret='ret 2')
 def whistle_memory(mem,variant):
+    if variant == 'omit-0791-0441': return
     r=Regs(mem);r.enter()
     r.es,r.di=mem.ds16(0xA923+2),mem.ds16(0xA923)
     if rb(mem,r,0x3F)>0:
@@ -1586,6 +1628,7 @@ def whistle_memory(mem,variant):
 @PORTS.port('214B:1E8D',ret='retf')
 def speaker_off_frame(mem,variant):
     """1E8D-1EA0: frame and AL on the kit's port61-read-zero path; device output removed."""
+    if variant == 'omit-214b-1e8d': return
     r=Regs(mem);r.enter()
     if not mem.ds8(0xA9FC):
         # Original kit return-register probe: speaker-returns-1.txt (IN61 is zero).
@@ -1596,6 +1639,7 @@ def speaker_off_frame(mem,variant):
 @PORTS.port('214B:1EF1',ret='retf 6')
 def note_memory(mem,variant):
     """1EF1-1F86: preserve transposition, real-library calls and note/delay frames."""
+    if variant == 'omit-214b-1ef1': return
     r=Regs(mem);r.enter(2)
     if not mem.ds8(0xA9FC):
         r.al=mem.ds8(0x7968);r.ah=0
@@ -1630,6 +1674,7 @@ def note_memory(mem,variant):
 @PORTS.port('214B:1F87',ret='retf 2')
 def jingle_memory(mem,variant):
     """1F87-1FFF: calibration-scaled note pairs, tempo and frame writes, without hardware output."""
+    if variant == 'omit-214b-1f87': return
     r=Regs(mem);r.enter(10)
     r=yield from guest(mem,r,'214B:1E75',ret='214B:1F91')
     r.ax=mem.ds16(0xA9FF);r.es=mem.ds16(0xAA01);r.dx=r.es;r.cx=10;r.bx=0
@@ -1653,6 +1698,7 @@ def jingle_memory(mem,variant):
 
 @PORTS.port('1771:8939',ret='ret 2')
 def competition_header_memory(mem,variant):
+    if variant == 'omit-1771-8939': return
     r=Regs(mem);r.enter(4)
     r.es,r.di=mem.ds16(0xA925),mem.ds16(0xA923)
     r.local16(-4,r.di);r.local16(-2,r.es)
@@ -1678,6 +1724,7 @@ def competition_header_memory(mem,variant):
 @PORTS.port('1771:958D',ret='retf 6')
 def competition_view_memory(mem,variant):
     """958D-96D2: preserve table selection/frame effects and its original key-driven callees."""
+    if variant == 'omit-1771-958d': return
     r=Regs(mem);r.enter(14)
     r.es,r.di=mem.ds16(0xA925),mem.ds16(0xA923);game=r.es,r.di
     r.local16(-13,r.di);r.local16(-11,r.es)
@@ -1688,7 +1735,7 @@ def competition_view_memory(mem,variant):
         squad_of(mem,r,country)
         continent_special=rb(mem,r,0x2C)>2
     if continent_special:r.local16(-4,9)
-    elif not ss16(mem,r,r.bp+8):r.local16(-4,1)
+    elif not ss16(mem,r,r.bp+8):r.local16(-4,2 if variant == 'table-default-group-two' else 1)
     else:
         r.ax=ss16(mem,r,r.bp+8);r.local16(-4,r.ax)
     r.ax=country;r.local16(-6,r.ax);r.es,r.di=game;r.al=rb(mem,r,0x3C);stageword=r.ax
@@ -1722,6 +1769,7 @@ def competition_view_memory(mem,variant):
 
 @PORTS.port('1771:8CA2',ret='ret 8')
 def competition_fixture_memory(mem,variant):
+    if variant == 'omit-1771-8ca2': return
     r=Regs(mem);r.enter()
     fixture=ss16(mem,r,r.bp+10)
     if fixture>0:
@@ -1734,6 +1782,7 @@ def competition_fixture_memory(mem,variant):
 @PORTS.port('1771:8E9A',ret='ret 2')
 def competition_groups_memory(mem,variant):
     """8E9A-9027: group table/fixtures and the original one-key selector boundary."""
+    if variant == 'omit-1771-8e9a': return
     r=Regs(mem);r.enter(6);parent=ss16(mem,r,r.bp+4)
     squad_of(mem,r,ss16(mem,r,parent-8));country=r.es,r.di
     r.local16(-6,r.di);r.local16(-4,r.es)
@@ -1781,6 +1830,7 @@ def competition_groups_memory(mem,variant):
 
 @PORTS.port('1771:0FB1',ret='ret 6')
 def country_name_right_memory(mem,variant):
+    if variant == 'omit-1771-0fb1': return
     r=Regs(mem);r.enter();word=ss16(mem,r,r.bp+8)
     r.al=mem.ds8(0xA964);cbw(r);r.di=r.ax;r.al=mem.ds8((r.di+0xD7A)&65535);colour=r.ax
     r.di=0xD6A;source=mem.DS,r.di;r.al=ss8(mem,r,r.bp+6);row=r.ax;r.al=ss8(mem,r,r.bp+4)
@@ -1796,6 +1846,7 @@ def country_name_right_memory(mem,variant):
 
 @PORTS.port('1771:76FA',ret='retf 8')
 def fixture_score_memory(mem,variant):
+    if variant == 'omit-1771-76fa': return
     r=Regs(mem);r.enter(0x104);fixture=farg(mem,r,10)
     r.local16(-4,r.di);r.local16(-2,r.es)
     r.al=5;colour=r.ax;r.di=0x76F8;source=mem.seg(0x1771),r.di
@@ -1818,6 +1869,7 @@ def fixture_score_memory(mem,variant):
 
 @PORTS.port('1771:77C3',ret='ret 8')
 def fixture_row_memory(mem,variant):
+    if variant == 'omit-1771-77c3': return
     r=Regs(mem);r.enter(4);fixture=farg(mem,r,8)
     r.local16(-4,r.di);r.local16(-2,r.es)
     country=rw(mem,r,6);row=ss16(mem,r,r.bp+6);r.ax=ss16(mem,r,r.bp+4)-4
@@ -1832,6 +1884,7 @@ def fixture_row_memory(mem,variant):
 @PORTS.port('1771:8A87',ret='ret 4')
 def group_rows_memory(mem,variant):
     """8A87-8CA1: four group records and their exact string temporaries."""
+    if variant == 'omit-1771-8a87': return
     r=Regs(mem);r.enter(0x10A);parent=ss16(mem,r,r.bp+4)
     squad_of(mem,r,ss16(mem,r,parent-8));country=r.es,r.di
     r.local16(-6,r.di);r.local16(-4,r.es)
@@ -1875,6 +1928,7 @@ def group_rows_memory(mem,variant):
 
 @PORTS.port('1771:5AC4',ret='ret 6')
 def competition_stage_header_memory(mem,variant):
+    if variant == 'omit-1771-5ac4': return
     r=Regs(mem);r.enter(0x106);r.es,r.di=mem.ds16(0xA925),mem.ds16(0xA923);game=r.es,r.di
     r.local16(-6,r.di);r.local16(-4,r.es)
     r.di=0x1726;source=mem.DS,r.di;r.di=0xA96E
@@ -1912,6 +1966,7 @@ def competition_stage_header_memory(mem,variant):
 @PORTS.port('1771:4D8A',ret='retf 2')
 def squad_list_memory(mem,variant):
     """4D8A-4E21: all twenty squad rows and the gap before the reserves."""
+    if variant == 'omit-1771-4d8a': return
     r=Regs(mem);r.enter(6);country=ss16(mem,r,r.bp+6)
     squad_of(mem,r,country);squad=r.es,r.di
     r.local16(-6,r.di);r.local16(-4,r.es)
@@ -1929,6 +1984,7 @@ def squad_list_memory(mem,variant):
 @PORTS.port('1771:4E22',ret='retf 4')
 def squad_screen_memory(mem,variant):
     """4E22-4F71: squad/card templates and selection, preserving the original caller ABI."""
+    if variant == 'omit-1771-4e22': return
     r=Regs(mem);r.enter(0x106);country=ss16(mem,r,r.bp+8);mode=ss16(mem,r,r.bp+6)
     squad_of(mem,r,country);squad=r.es,r.di;r.local16(-6,r.di);r.local16(-4,r.es)
     r=yield from guest(mem,r,'1771:4D8A',country,ret='1771:4E44')
@@ -1970,6 +2026,7 @@ def squad_screen_memory(mem,variant):
 @PORTS.port('1771:0947',ret='retf 2')
 def manager_name_memory(mem,variant):
     """0947-0998: caller's hidden string result, with the original local expression."""
+    if variant == 'omit-1771-0947': return
     r=Regs(mem);r.enter(0x100);temporary=(r.bp-0x100)&65535
     r.di=temporary;r.push(r.ss);r.push(r.di);manager=ss16(mem,r,r.bp+6);r.ax=manager
     r.es,r.di=mem.ds16(0x9B7A),mem.ds16(0x9B78);r.di=r.di+r.ax;r.al=rb(mem,r,0)
@@ -1985,6 +2042,7 @@ def manager_name_memory(mem,variant):
 
 @PORTS.port('1771:0AF8',ret='retf 6')
 def manager_status_memory(mem,variant):
+    if variant == 'omit-1771-0af8': return
     r=Regs(mem);r.enter(4);manager=ss16(mem,r,r.bp+10);r.ax=manager;r.dx=3;mul(r,r.dx)
     r.es,r.di=mem.ds16(0xA921),mem.ds16(0xA91F);r.di=r.di+r.ax
     r.local16(-4,r.di);r.local16(-2,r.es)
@@ -2002,6 +2060,7 @@ def manager_status_memory(mem,variant):
 
 @PORTS.port('1771:1527',ret='ret 6')
 def country_rating_label_memory(mem,variant):
+    if variant == 'omit-1771-1527': return
     r=Regs(mem);r.enter(4);country=ss16(mem,r,r.bp+8);squad_of(mem,r,country)
     r.local16(-4,r.di);r.local16(-2,r.es)
     r=yield from guest(mem,r,'1771:10E7',country,ret='1771:1548')
@@ -2015,6 +2074,7 @@ def country_rating_label_memory(mem,variant):
 @PORTS.port('1771:13D0',ret='ret 2')
 def team_aggregate_memory(mem,variant):
     """13D0-1526: six wrapping aggregates and their unsigned eleven-player quotients (F020/F021)."""
+    if variant == 'omit-1771-13d0': return
     r=Regs(mem);r.enter(10);squad_of(mem,r,ss16(mem,r,r.bp+4));squad=r.es,r.di
     r.local16(-6,r.di);r.local16(-4,r.es)
     for address,at in ((0x9B5A,'13EA'),(0x9B5C,'13F0'),(0x9B5E,'13F6'),(0x9B60,'13FC'),(0x9B62,'1402'),(0x9B64,'1408')):
@@ -2038,7 +2098,9 @@ def team_aggregate_memory(mem,variant):
             r.al=rb(mem,r,1);r.ah=0;mem.wds16(0x9B62,mem.ds16(0x9B62)+r.ax,'1771:14AE')
             r.ax=rw(mem,r,8);mem.wds16(0x9B64,mem.ds16(0x9B64)+r.ax,'1771:14B9')
     for address,at in ((0x9B5A,'14D0'),(0x9B5C,'14DD'),(0x9B5E,'14EA'),(0x9B60,'14F7'),(0x9B62,'1504'),(0x9B64,'1511')):
-        r.ax=mem.ds16(address);r.dx=0;r.cx=11;dividend=r.ax;r.ax,r.dx=dividend//11,dividend%11
+        r.ax=mem.ds16(address);r.dx=0
+        r.cx=10 if variant == 'aggregate-divisor-ten' and address==0x9B5A else 11
+        dividend=r.ax;r.ax,r.dx=dividend//r.cx,dividend%r.cx
         mem.wds16(address,r.ax,'1771:'+at)
     if mem.ds16(0x9B5A)<1:mem.wds16(0x9B5A,1,'1771:151B')
     return _end(r)
@@ -2047,6 +2109,7 @@ def team_aggregate_memory(mem,variant):
 @PORTS.port('1771:11E1',ret='ret 2')
 def line_strength_bars_memory(mem,variant):
     """11E1-1288: signed line scaling, [1,256] clamping and four attribute bars."""
+    if variant == 'omit-1771-11e1': return
     r=Regs(mem);r.enter(2)
     for index in range(1,4):
         r.local16(-2,index);r.di=index<<2;r.ax=mem.ds16(0x9B47+r.di);idiv_by(r,4)
@@ -2066,6 +2129,7 @@ def line_strength_bars_memory(mem,variant):
 @PORTS.port('1771:1289',ret='ret 2')
 def live_line_performance_memory(mem,variant):
     """1289-13CF: eleven live performances distributed into the original role classes."""
+    if variant == 'omit-1771-1289': return
     r=Regs(mem);r.enter(14);r.di=0x9B45;r.ax=16;count=r.ax;r.ax=0
     r=yield from guest(mem,r,'214B:0018',mem.DS,r.di,count,r.ax,ret='1771:12A0')
     for slot in range(1,12):
@@ -2101,6 +2165,7 @@ def live_line_performance_memory(mem,variant):
 @PORTS.port('1771:157D',ret='ret 2')
 def team_panel_memory(mem,variant):
     """157D-1933: team information, aggregates, tactic labels and live line bars."""
+    if variant == 'omit-1771-157d': return
     r=Regs(mem);r.enter(0x106);country=ss16(mem,r,r.bp+4);squad_of(mem,r,country);squad=r.es,r.di
     r.local16(-6,r.di);r.local16(-4,r.es);temporary=(r.bp-0x106)&65535
     r.di=0x4BBE;source=mem.DS,r.di;r.di=0xA96E
@@ -2165,3 +2230,13 @@ def team_panel_memory(mem,variant):
             r.al=13;row=r.ax;r.di=index;r.al=mem.ds8(0xD89+r.di)
             r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:02C8','1771:1928',colour)
     return _end(r)
+
+
+# A falsifier removes exactly the registered routine body, retaining the return ABI.
+for _address, _entry in sorted(PORTS.entries.items()):
+    if _entry.stub is None:
+        PORTS.variant('omit-'+_address.lower().replace(':','-'),
+                      _address+': omit the retained body and all its memory/call effects')
+PORTS.variant('secondary-seed-adjacent', '94CF: DI=8338 instead of8336 for the secondary seed')
+PORTS.variant('aggregate-divisor-ten', '14CB: the morale quotient divisor is10 instead of11')
+PORTS.variant('table-default-group-two', '95DE: the default group local is2 instead of1')
