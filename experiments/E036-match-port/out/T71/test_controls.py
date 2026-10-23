@@ -16,6 +16,7 @@ BASE = "a1f8a97dfd6593b8c88053083d1f33c113dff25b"
 P = "runtime/original_match/port/postmatch.py"
 CONTROLS = [
     ("fixed pre-task baseline", None, None),
+    ("8401 draw bonus omitted", '1 if variant == "group-points-bonus" else 0', '0 if variant == "group-points-bonus" else 0'),
     ("8480 outer sort bound widened", "for first in range(1, 4):", "for first in range(1, 5):"),
     ("59D8 zero AX returns no value", "return _end(r, value=True)", "return _end(r, r.ax)"),
     ("CB4E equal man replaces", 's16(perf) > s16(best)', 's16(perf) >= s16(best)'),

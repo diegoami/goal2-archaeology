@@ -425,5 +425,19 @@ class Postmatch(Case):
             r.run("0791:D050", [FXOFF, FXSEG], variant=variant)
             self.assertEqual(r.mem.memory[SQSEG * 16 + SQOFF + 3 * 0xBF + 0x3C], wins)
 
+    def test_group_draw_points_falsifier(self):
+        for variant, stats in ((None, [0, 1, 0, 1, 1, 1]), ("group-points-bonus", [1, 0, 0, 1, 1, 2])):
+            r = Rig()
+            tseg, toff, lseg, loff, fseg, foff = 0x5000, 0x20, 0x5200, 0x10, 0x5400, 0x20
+            for ptr, off, seg in ((0xA92F, loff, lseg), (0xA92B, foff, fseg)):
+                r.ds16(ptr, off)
+                r.ds16(ptr + 2, seg)
+            r.lin8(GSEG * 16 + GOFF + 0x3C, 2)
+            r.lin16(tseg * 16 + toff, 1)
+            r.lin16(lseg * 16 + loff + 0x48 + 24 * 2, 1)
+            r.mem.memory[fseg * 16 + foff:fseg * 16 + foff + 8] = bytes([1, 1, 2, 2, 1, 0, 2, 0])
+            r.run("1771:82BD", [toff, tseg], variant=variant)
+            self.assertEqual(list(r.mem.memory[tseg * 16 + toff + 2:tseg * 16 + toff + 8]), stats)
+
 if __name__ == "__main__":
     unittest.main()

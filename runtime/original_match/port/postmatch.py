@@ -18,6 +18,7 @@ PORTS.variant("man-best-reversed", "CB4E: reverse the signed comparison of perfo
 PORTS.variant("winner-count-two", "D0AE: increment a winning country's season wins by two instead of one")
 PORTS.variant("man-tie-replaces", "CB4E: replace the man of the match on equal performance")
 PORTS.variant("restore-energy-omitted", "CC14: omit the restoration of positive energy from fitness")
+PORTS.variant("group-points-bonus", "8401: add one to the computed group points, including a draw")
 PORTS.variant("group-points-one", "83FF: a win earns one point rather than two")
 M16 = 0xFFFF
 
@@ -611,7 +612,7 @@ def sort_group_table(mem, variant):
             r.al = int(rb(mem, r, 0) > (r.dx & 0xFF))
             r.ah = 0
             r.ax = r.ax << (0 if variant == "group-points-one" else 1)
-            r.ax = r.ax + r.cx
+            r.ax = r.ax + r.cx + (1 if variant == "group-points-bonus" else 0)
             points = r.ax
             r.local16(-6, points)
             r.es, r.di = eseg, eoff
