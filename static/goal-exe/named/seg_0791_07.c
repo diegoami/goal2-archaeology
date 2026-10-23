@@ -132,7 +132,7 @@ void __stdcall16far corner_state(undefined4 param_1)
 
 
 // ---- 0791:717F  goal_area_clear  (f_0791_717F; Ghidra 2000:717F, __stdcall16near; found by routines.tsv)
-// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): called by 71E8 with 7287's BP (unused): 1 unless an available slot (045D false) other than DS:830B stands in the holder's area (2EB8 of its point)  [established; F013; read code/seg_0791_12.asm:548]
+// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): called by 71E8 with 7287's BP (unused): 1 unless an outfield slot (045D false: not 1 or 12) other than DS:830B stands in the holder's area (2EB8 of its point)  [established; F013; read code/seg_0791_12.asm:548]
 
 undefined1 goal_area_clear(void)
 
@@ -204,7 +204,7 @@ void goal_kick_taker(int param_1)
 
 
 // ---- 0791:7287  goal_kick_state  (f_0791_7287; Ghidra 2000:7287, __stdcall16far; found by routines.tsv)
-// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): state 8 of 8AE9 (a goal kick, or 6FB6's free kick from the area): the taker 71E8; an unavailable slot (045D) 4354; a slot in the holder's area (2EB8) y := 0; the others 4B64  [established; F013; read code/seg_0791_12.asm:664]
+// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): state 8 of 8AE9 (a goal kick, or 6FB6's free kick from the area): the taker 71E8; a goalkeeper's slot (045D: 1 or 12) 4354; a slot in the holder's area (2EB8) y := 0; the others 4B64  [established; F013; read code/seg_0791_12.asm:664]
 
 void __stdcall16far goal_kick_state(undefined2 *param_1)
 

@@ -5,7 +5,8 @@
 
 For each kept read state of the record, in E038's order: the site and callers, the screen, DS:A9FD (the DOS year),
 DS:7B62 and DS:7B64 (F004), and from the manager menu's state the game record's +0x38..+0x41 (start year +0x3A,
-stage +0x3C, +0x40); these must be equal (exit 1 otherwise). DS:A9FF (the start-up's delay calibration) and DS:8336
+stage +0x3C, +0x40); these must be equal (exit 1 otherwise), and the trace must hold exactly one read per screen of
+ORDER, the last at the manager menu: a read missing or one more fails (#378). DS:A9FF (the start-up's delay calibration) and DS:8336
 (the BIOS tick read at 0791:F3F2) are printed, not required equal: the trace's come from derive.py's modelled tick."""
 import json
 import sys
@@ -34,6 +35,9 @@ def main(argv):
     states = kept(record)
     reads = [e for e in trace["events"] if e["kind"] == "read" and e["site"] != "214B:112B"]
     bad = 0
+    if len(reads) != len(ORDER):           # zip() below would stop at the shorter list and pass a truncated replay
+        print(f"the trace holds {len(reads)} reads outside the name entry, not {len(ORDER)} (one per screen of ORDER)")
+        bad += 1
     print("| screen | site D / T | callers | screen | DS:A9FD D / T | DS:7B62 D / T | DS:7B64 D / T | game +38..+41 D / T | DS:A9FF D / T | DS:8336 D / T |")
     print("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
     for name, ev in zip(ORDER, reads):
