@@ -16,6 +16,7 @@ BASE = "a1f8a97dfd6593b8c88053083d1f33c113dff25b"
 P = "runtime/original_match/port/postmatch.py"
 CONTROLS = [
     ("fixed pre-task baseline", None, None),
+    ("59D8 zero AX returns no value", "return _end(r, value=True)", "return _end(r, r.ax)"),
     ("CB4E equal man replaces", 's16(perf) > s16(best)', 's16(perf) >= s16(best)'),
     ("CB41 performance not decoded", 'if s16(perf) > 5000:', 'if False:'),
     ("CB25 bench bit ignored", 'if not r.al:\n                    continue', 'if False:\n                    continue'),

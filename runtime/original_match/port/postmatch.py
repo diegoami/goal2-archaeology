@@ -463,7 +463,7 @@ def stage_uses_finals_table(mem, variant):
     r = yield from guest(mem, r, "23E4:08DF", r.ax, mem.seg(0x1771), r.di, ret="1771:59F1")
     r.al = int(member(mem))
     r.local8(-1, r.al)
-    return _end(r, r.ax)
+    return _end(r, value=True)
 
 
 @PORTS.port("1771:8757", ret="retf")

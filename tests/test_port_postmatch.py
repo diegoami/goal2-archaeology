@@ -234,14 +234,16 @@ class Postmatch(Case):
 
     def test_finals_set_true_and_false(self):
         for belongs in (False, True):
-            r = Rig()
-            r.lin8(GSEG * 16 + GOFF + 0x3C, 5)
-            def reply(c, mem):
-                mem.regs['eflags'] = 0 if belongs else 0x40
-                return 0xABCD
-            result = r.run("1771:59D8", answer=reply)
-            self.assertEqual(result & 0xFF, int(belongs))
-            self.assertEqual(r.mem.memory[BP0 - 1], int(belongs))
+            for high in (0, 0xAB):
+                r = Rig()
+                r.lin8(GSEG * 16 + GOFF + 0x3C, 5)
+                def reply(c, mem):
+                    mem.regs['eflags'] = 0 if belongs else 0x40
+                    return (high << 8) | 0xCD
+                result = r.run("1771:59D8", answer=reply)
+                self.assertIsInstance(result, int)
+                self.assertEqual(result, (high << 8) | int(belongs))
+                self.assertEqual(r.mem.memory[BP0 - 1], int(belongs))
 
     def test_country_totals_streaks_and_best_results(self):
         for outcome in (0, 1, 2):
