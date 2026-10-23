@@ -1,0 +1,24 @@
+{
+  "candidate_source_sha256": "e67eed8962d16f118eafd571199b471f5e84b9ce69609a48ff9b60556408955b",
+  "warning": "Diagnostic differences are NOT mask evidence",
+  "regions": {
+    "DS": [
+      {
+        "start": 59862,
+        "length": 2,
+        "original_sha256": "0755dc6db676d97410b2b27a8c34ad0add52a88b20b2f74e977d5374fb96fc92",
+        "candidate_sha256": "c89951a24c6ca28c13fd1cfdc646b2b656d69e61a92b91023be7eb58eb914b6b"
+      },
+      {
+        "start": 60024,
+        "length": 2,
+        "original_sha256": "102b51b9765a56a3e899f7cf0ee38e5251f9c503b357b330a49183eb7b155604",
+        "candidate_sha256": "7674d479e8af7268c24660e56a393ff2e5d9b076e562eb296487d288210b4803"
+      }
+    ],
+    "records": [],
+    "w5c8a0": [],
+    "w5eb30": [],
+    "pitch_background": []
+  }
+}
