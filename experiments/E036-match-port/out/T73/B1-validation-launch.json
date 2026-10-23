@@ -1,0 +1,10 @@
+{
+  "head": "34dbb0b7b9372fe21d48bacf93eff77b9344fa86",
+  "runtime_sha256": "d8e91c17cea942985a326ecb3c84cb0a2de80bc673223aa767f414765dd806b5",
+  "tests_sha256": "0e59588501a1b4966d60d97e3165959f78f8fcc68ccf1e3f6700f5a06f9cae64",
+  "full_suite": "tools/heavy.sh T73-final-full-suite-B -- /home/diego/.local/bin/python3.12 -B -m unittest discover -s tests -v",
+  "full_suite_pid": 1081620,
+  "integrated_spot": "family.py --family ALL --only S/quick-1,S/quick-30 --ports all --count <all88 T73 entries> --workers 2 --checkpoint .cache/checkpoints/T73-integrated-counted-spot-B1 --time-limit 6000 --stretch-limit 1200",
+  "integrated_spot_pid": 1081639,
+  "scheduling": "Only two spot workers alongside one suite; defer the32-slot family batches until GUI/full-suite completion."
+}
