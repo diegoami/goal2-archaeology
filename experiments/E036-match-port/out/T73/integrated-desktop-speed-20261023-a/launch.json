@@ -1,0 +1,29 @@
+{
+  "purpose": "Diagnostic speed sample, not final acceptance",
+  "head": "585891d8e3c62d3a9a33e60a14fb53456b2579f2",
+  "archive_sha256": "19a9955f1206d623ef09e9286984cbe24eba4485a68f4d56eb678866ed2b001d",
+  "temporary_test_bundle": "/tmp/T73-integrated-speed-585891d8e3c62d3a9a33e60a14fb53456b2579f2",
+  "command": [
+    "/home/diego/.local/bin/python3.12",
+    "-B",
+    "/tmp/T73-integrated-speed-585891d8e3c62d3a9a33e60a14fb53456b2579f2/experiments/E036-match-port/family.py",
+    "--family",
+    "ALL",
+    "--only",
+    "S/quick-1,S/quick-30",
+    "--ports",
+    "all",
+    "--workers",
+    "2",
+    "--cache",
+    "/home/diego/projects/goal2-archaeology/.cache/dl",
+    "--checkpoint",
+    "/home/diego/projects/goal2-archaeology/.cache/checkpoints/T73-speed-a",
+    "--time-limit",
+    "6000",
+    "--stretch-limit",
+    "1200",
+    "--out",
+    "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/integrated-desktop-speed-20261023-a/sample.jsonl"
+  ]
+}
