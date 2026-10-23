@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {"0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350"}:
+    if address not in {"0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D"}:
         PORTS.stub(address, ret=ret, value=None, why="initial all-at-once display-removal candidate; classification pending")
 
 
@@ -570,8 +570,20 @@ def speaker_noise_state(mem, variant):
 
 @PORTS.port("0791:0C65", ret="ret")
 def replay_no_boundary(mem, variant):
-    """0C65: retain the live pending-change clear; the kit's display policy requests no replay."""
-    mem.wds8(0x9B55, 0, "0791:0C6B")
+    """0C65/0C6B/0C87: retain the original No-question path and its local memory effects."""
+    r=Regs(mem);r.enter(8)
+    mem.wds8(0x9B55,0,"0791:0C6B")
+    r.di,r.es=mem.ds16(0xA923),mem.ds16(0xA925)
+    if rb(mem,r,0x41):
+        if not mem.ds8(0xC1E):
+            from .mem import PortError
+            raise PortError("automatic replay is outside the kit's No-replay boundary")
+        r.di=0xC42
+        r=yield from guest(mem,r,'0B7C',mem.seg(0x0791),r.di,ret='0C8A',far=False)
+        if r.al:
+            from .mem import PortError
+            raise PortError("accepted replay is outside the kit's No-replay boundary")
+    return _end(r)
 
 
 def _text_cells(mem, reverse):
@@ -1074,4 +1086,39 @@ def message_line_memory(mem,variant):
             r.di=r.di+r.ax+r.cx-0xA2;destination=r.es,r.di
             r.al=mem.ds8(0x7923);r.ah=0;colour=r.ax;r.ax=1
             r=yield from guest(mem,r,'214B:00DB',*destination,colour,r.ax,ret=ret)
+    return _end(r)
+
+
+@PORTS.port('0791:A75D',ret='ret')
+def lineup_memory(mem,variant):
+    """A75D-A840: the team menu's concrete buffer/ABI effects, without a user-facing backend."""
+    r=Regs(mem);r.enter(0x108);r.di=0x534A
+    r=yield from guest(mem,r,'A699',mem.DS,r.di,ret='A76C',far=False)
+    for side in range(2):
+        r.local8(-1,side)
+        r.al=side;cbw(r);r.di=r.ax<<1
+        sqseg,sqoff=squad_of(mem,r,mem.ds16((r.di+0x9B34)&65535))
+        r.local16(-7,sqoff);r.local16(-5,sqseg)
+        r.al=side;cbw(r);r.di=r.ax<<1;country=mem.ds16((r.di+0x9B34)&65535)
+        r.ax=8;row=r.ax;r.al=side;cbw(r);r.di=r.ax
+        r.al=mem.ds8((r.di+0x8C6)&65535);r.ah=0
+        r=yield from guest(mem,r,'1771:0F58',country,row,r.ax,ret='A7B4')
+        r.al=7;colour=r.ax;r.push(colour)
+        r.di=(r.bp-0x107)&65535;temporary=r.di;r.push(r.ss);r.push(temporary)
+        r.al=side;cbw(r);r.di=r.ax<<1
+        country=mem.ds16((r.di+0x9B34)&65535)
+        r=yield from guest(mem,r,'1771:0E6C',country,ret='A7CE')
+        r.al=11;row=r.ax;r.al=side;cbw(r);r.di=r.ax
+        r.al=mem.ds8((r.di+0x8CA)&65535)
+        r=yield from write_buffer_text(mem,r,(r.ss,temporary),row,r.ax,'214B:0205','A7E6',colour,6)
+        for slot in range(1,12):
+            r.local16(-3,slot)
+            r.ax=slot<<1;r.es,r.di=sqseg,sqoff+r.ax;word=rw(mem,r,-2)
+            r.ax=slot+12;row=r.ax;r.al=side;cbw(r);r.di=r.ax
+            r.al=mem.ds8((r.di+0x8C8)&65535);r.ah=0
+            r=yield from guest(mem,r,'1771:2F37',word,row,r.ax,ret='A817')
+    r.di,r.es=mem.ds16(0x7C2A),mem.ds16(0x7C2C)
+    r=yield from guest(mem,r,'A6E4',r.es,r.di,ret='A82F',far=False)
+    country=r.ax;r.ax=7;row=r.ax;r.ax=38
+    r=yield from guest(mem,r,'1771:0F58',country,row,r.ax,ret='A83D')
     return _end(r)

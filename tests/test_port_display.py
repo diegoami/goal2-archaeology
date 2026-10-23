@@ -362,6 +362,34 @@ class Display(Case):
             self.assertEqual(r.written('0791:041A'),[(0xA976,1,0)])
 
 
+    def test_lineup_body_keeps_template_all_eleven_rows_and_formation_abi(self):
+        r=Rig();r.ds16(0x9B34,3);r.ds16(0x9B36,4)
+        r.squad(3,list(range(1,12)));r.squad(4,list(range(21,32)))
+        for off,value in ((0x8C6,2),(0x8C7,40),(0x8C8,4),(0x8C9,42),(0x8CA,3),(0x8CB,41)):
+            r.ds8(off,value)
+        r.run('0791:A75D',answer=answers({'1771:0F58':0xABCD,'1771:0E6C':0x1200,'0791:A6E4':9}))
+        self.assertEqual(r.args('0791:A699'),[(r.mem.DS,0x534A)])
+        self.assertEqual(r.args('1771:0E6C'),[(3,),(4,)])
+        self.assertEqual(r.args('1771:0F58'),[(3,8,2),(4,8,40),(9,7,38)])
+        self.assertEqual(r.args('1771:2F37'),[(i,i+12,4) for i in range(1,12)]+
+                         [(20+i,i+12,42) for i in range(1,12)])
+        self.assertEqual(r.args('214B:0205'),[(0xAB07,0,BP0-0x107,0x120B,3,r.mem.DS,0xA96E),
+                                            (0xAB07,0,BP0-0x107,0x120B,41,r.mem.DS,0xA96E)])
+
+    def test_replay_no_path_preserves_the_original_question_call(self):
+        from original_match.port.mem import PortError
+        for enabled in (False,True):
+            r=Rig();r.ds8(0x9B55,1);r.ds8(0xC1E,1)
+            r.lin8(GSEG*16+GOFF+0x41,int(enabled))
+            r.run('0791:0C65',answer=answers({'0791:0B7C':0}))
+            self.assertEqual(r.mem.ds8(0x9B55),0)
+            self.assertEqual(r.args('0791:0B7C'),[(r.mem.seg(0x0791),0xC42)] if enabled else [])
+        r=Rig();r.ds8(0xC1E,1);r.lin8(GSEG*16+GOFF+0x41,1)
+        with self.assertRaises(PortError):r.run('0791:0C65',answer=answers({'0791:0B7C':1}))
+        r=Rig();r.ds8(0xC1E,0);r.lin8(GSEG*16+GOFF+0x41,1)
+        with self.assertRaises(PortError):r.run('0791:0C65')
+
+
 class EventProjection(unittest.TestCase):
     def modules(self):
         sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'experiments/E036-match-port'))
