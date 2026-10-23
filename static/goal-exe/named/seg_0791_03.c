@@ -805,7 +805,7 @@ void __stdcall16far move_ball_to_slot(undefined4 param_1,uint param_2)
     }
   }
   else {
-    f_0791_82EB();
+    offside();
   }
   return;
 }
@@ -894,7 +894,7 @@ void __stdcall16far choose_pass_or_long_ball(undefined4 param_1)
     }
   }
   else {
-    f_0791_82EB();
+    offside();
   }
   return;
 }

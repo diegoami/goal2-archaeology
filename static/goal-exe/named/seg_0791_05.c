@@ -369,7 +369,7 @@ undefined1 challenge_duel(int param_1)
       }
     }
     else {
-      f_0791_82EB();
+      offside();
     }
   }
   return local_3;

@@ -463,7 +463,7 @@ void ball_over_goal_line(void)
     dead_ball_goal_kick_or_free_kick(uVar3 & 0xff00,uVar3);
   }
   else {
-    f_0791_82EB();
+    offside();
   }
   return;
 }
@@ -516,7 +516,7 @@ void goal_scored(void)
       commentary_with_ball_slot(CONCAT11(extraout_AH_00,uVar5));
       pcVar1 = (char *)((int)(undefined2 *)&DS:9B3C + (int)local_5);
       *pcVar1 = *pcVar1 + -1;
-      f_0791_82EB();
+      offside();
       draw_score((undefined4 *)&DS:A96A,0xb000);
       return;
     }

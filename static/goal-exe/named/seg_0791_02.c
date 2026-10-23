@@ -286,8 +286,9 @@ void pick_marker_by_skill(int param_1,undefined2 param_2,char param_3)
     if (cVar2 == '\0') {
       if (*(int *)((undefined1 *)&DS:9976 + param_3 * 10 + param_1 * 2) != 0) {
         uVar7 = param_2;
-        iVar4 = f_0791_A920(*(undefined2 *)
-                             ((undefined1 *)&DS:9976 + param_3 * 10 + param_1 * 2),param_2);
+        iVar4 = pitch_slot_of_player
+                          (*(undefined2 *)
+                            ((undefined1 *)&DS:9976 + param_3 * 10 + param_1 * 2),param_2);
         uVar5 = skill_of_pitch_record((pitch *)pitch_records + iVar4,0xb000,uVar7);
         uVar6 = skill_of_pitch_record((pitch *)pitch_records + iVar3,0xb000,param_2);
         if (uVar6 <= uVar5) goto LAB_0791_20D4;

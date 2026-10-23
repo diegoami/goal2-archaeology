@@ -758,7 +758,7 @@ void __stdcall16far send_off(undefined4 param_1)
 
 
 // ---- 0791:7CC5  adjust_player_form  (f_0791_7CC5; Ghidra 2000:7CC5, __stdcall16far; found by routines.tsv)
-// (pitch, flag, delta): sets live +0xC to clamp(s8(+0xC)+delta,1,255); nonzero flag writes min(32,s8(new live)) to DS:9B07[side*20+slot] via 2BB1/2974, not a card draw; scorer 6443 uses flag one, team-wide 65FE uses zero; the calling convention is push(delta_high, delta_low, pitch_high, pitch_low, cs), then near call; the routine reads [bp + 6] = pitch_low, [bp + 8] = pitch_high, [bp + 0xc] = delta_high (the addend), and the LOW BYTE of [bp + 0xa] = delta_low as the persist flag (whether to write DS:9B07); send_off head (7B77) and injure (7D56) push (0xfffe, 0x0001) so delta_high=-2 and flag=1; send_off tail (7B77) pushes (2, 0) over the OTHER side's available pitch slots so delta_high=+2 and flag=0; scorer (6443) pushes s8(DS:0x7920[side_of_credit]) and 0x0001; team reaction (65FE) pushes s8(DS:0x7920[side_of_ball]) and 0x0000  [established; F012; F019; F020; F021]
+// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): (pitch, flag, delta): sets live +0xC to clamp(s8(+0xC)+delta,1,255); nonzero flag writes min(32,s8(new live)) to DS:9B07[side*20+slot] via 2BB1/2974, not a card draw; scorer 6443 uses flag one, team-wide 65FE uses zero; the calling convention is push(delta_high, delta_low, pitch_high, pitch_low, cs), then near call; the routine reads [bp + 6] = pitch_low, [bp + 8] = pitch_high, [bp + 0xc] = delta_high (the addend), and the LOW BYTE of [bp + 0xa] = delta_low as the persist flag (whether to write DS:9B07); send_off head (7B77) and injure (7D56) push (0xfffe, 0x0001) so delta_high=-2 and flag=1; send_off tail (7B77) pushes (2, 0) over the OTHER side's available pitch slots so delta_high=+2 and flag=0; scorer (6443) pushes s8(DS:0x7920[side_of_credit]) and 0x0001; team reaction (65FE) pushes s8(DS:0x7920[side_of_ball]) and 0x0000  [established; F012; F019; F020; F021; read code/seg_0791_13.asm:482]
 
 void __stdcall16far adjust_player_form(undefined4 param_1,char param_2,int param_3)
 
@@ -794,7 +794,7 @@ void __stdcall16far adjust_player_form(undefined4 param_1,char param_2,int param
 
 
 // ---- 0791:7D56  injure  (f_0791_7D56; Ghidra 2000:7D56, __stdcall16far; found by routines.tsv)
-// the injury: emits 2B28(0x34), sets +0xE := 0 (the injury store, F018), walks the player off (7881), then calls 7CC5(pitch, delta_high=-2, flag=1) so the player's +0xC becomes clamp(s8(+0xC)-2,1,255) and DS:9B07[side*20+slot] is set; DS:8321 (matches-bookings tally) is incremented if below 5; for unmanaged sides (1771:0B77 false) calls C88D substitute_player (with the freshly unavailable slot, slot+5, country record) which calls C5DC refresh_pitch_slot to bring a bench player on, otherwise sets DS:9B40 = 1 to surface a managed-side in-match menu. The -2 confidence change is the same as send_off head; +0xE := 0 is the injury store (F018); the walk-off 7881 (7DAA) runs unconditionally once 7A43 allowed the injury (it stores the off-pitch position DS:0640 into the pitch record, 796C), so a managed side with no substitutions left and an outfield injury gets no bench prompt but the player is off the pitch and keeps his squad slot  [established; F018; F020; F027]
+// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): the injury (the record): unless it is unavailable (2956) or its side may lose no more players (7A43): line 2B28(0x34), the player's +0xE := 0 (the injury store, F018), the walk off 7881, then 7CC5(the record, delta -2, flag 1) so +0xC := clamp(s8(+0xC) - 2, 1, 255) and DS:9B07[side*20 + slot in side] is set; DS:8321 +1 when below 5; the side's injuries DS:7B87 + 10 side +1 at 7DD9 (the kit's injury event); an unmanaged side (1771:0B77 0) substitutes him: C88D(its squad, his slot +6, side, 1); a managed side gets DS:9B40 := 1 (8062's notice at the next stoppage) when he is a keeper (+6 = 0) or the side has a substitution left (DS:9B3A + side), so a managed side with no substitution left and an outfield injury gets no prompt, the player off the pitch keeping his squad slot  [established; F018; F020; F027; read code/seg_0791_13.asm:550]
 
 void __stdcall16far injure(undefined4 param_1)
 
@@ -847,9 +847,10 @@ void __stdcall16far injure(undefined4 param_1)
 }
 
 
-// ---- 0791:7E60  f_0791_7E60  (f_0791_7E60; Ghidra 2000:7E60, __stdcall16near; found by routines.tsv)
+// ---- 0791:7E60  foul_whistle  (f_0791_7E60; Ghidra 2000:7E60, __stdcall16near; found by routines.tsv)
+// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): (flag): DS:8325 := 0 (the clock stops), the whistle 0441(4), ten passes of DS:830B's and DS:830C's pictures (8537), each followed by the delay 0425(4 * the speed setting [A923]+0x3F), and the referee 9119(flag, DS:82EE); then 26C2 and DS:830A := 0; called by 8206 (flag 1) and 82EB (flag 0)  [established; F027; read code/seg_0791_13.asm:674]
 
-void f_0791_7E60(undefined1 param_1)
+void foul_whistle(undefined1 param_1)
 
 {
   undefined1 extraout_AH;
@@ -874,7 +875,7 @@ void f_0791_7E60(undefined1 param_1)
 
 
 // ---- 0791:7EEF  foul_dispatch  (f_0791_7EEF; Ghidra 2000:7EEF, __cdecl16near; found by routines.tsv)
-// the card and injury rolls of one foul on the fouling slot DS:830C (victim DS:830B): draw1 = the next byte of the 255-entry table at DS:8337 (261A; DS:8437 is the index, 1..255 wrapping); draw1 < 4 -> a booking (798D), or a sending off (7B77) when the player's +0x10 element 5 is already set; else a chance 1/32 (06D0(0x20)) of a sending off (7B77); then draw2 = the next table byte, and draw2 == 1 -> 7D56 on the player of lower hardness (1771:2FFB) of DS:830C and DS:830B, a tie injuring DS:830B (7F99 cmp al, dl; jbe). Called only from 8206 (watched) and D5C1 (quick); 798D, 7B77 and 7D56 have no other caller. The table holds rand(16) - 1 (0..15), so 4/16 and 1/16 are expectations of the table, not of every match (E011's table: 66/255 below 4, 13/255 equal to 1). The routine writes no +0xC; the callees do  [established; F020; F027]
+// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): the card and injury rolls of one foul on the fouling slot DS:830C (victim DS:830B): draw1 = the next byte of the 255-entry table at DS:8337 (261A; DS:8437 is the index, 1..255 wrapping); draw1 < 4 -> a booking (798D), or a sending off (7B77) when the player's +0x10 element 5 is already set; else a chance 1/32 (06D0(0x20)) of a sending off (7B77); then draw2 = the next table byte, and draw2 == 1 -> 7D56 on the player of lower hardness (1771:2FFB) of DS:830C and DS:830B, a tie injuring DS:830B (7F99 cmp al, dl; jbe). Called only from 8206 (watched) and D5C1 (quick); 798D, 7B77 and 7D56 have no other caller. The table holds rand(16) - 1 (0..15), so 4/16 and 1/16 are expectations of the table, not of every match (E011's table: 66/255 below 4, 13/255 equal to 1). The routine writes no +0xC; the callees do  [established; F020; F027; read code/seg_0791_13.asm:737]
 
 void __cdecl16near foul_dispatch(void)
 

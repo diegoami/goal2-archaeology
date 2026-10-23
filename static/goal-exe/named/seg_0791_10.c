@@ -2,7 +2,7 @@
 // Headings give listing addresses (SEGMENT:OFFSET, as in ../code/). DS:XXXX is the data segment 2581. A segment number written in the code (a far pointer's segment, a far call's) is Ghidra's: listing=Ghidra 0000=0000, 000E=1000, 0791=2000, 16D6=3000, 1771=4000, 2138=5000, 2139=6000, 214B=7000, 235C=8000, 2382=9000, 23E4=A000, 2581=B000.
 
 // ---- 0791:A9B8  pick_best_bench_keeper  (f_0791_A9B8; Ghidra 2000:A9B8, __stdcall16near; found by routines.tsv)
-// the best bench squad slot 12..20 by DS:0x8D5[14*pos + role], where pos is the POSITION ARGUMENT (the outgoing keeper's +6, AA56), the value halved when the candidate is not two-footed and its foot differs from the expectation (count > 3); skips the unavailable  [established; F012]
+// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): the best bench squad slot 12..20 by DS:0x8D5[14*pos + role], where pos is the POSITION ARGUMENT (the outgoing keeper's +6, AA56), the value halved when the candidate is not two-footed and its foot differs from the expectation (count > 3); skips the unavailable  [established; F012; read code/seg_0791_17.asm:808]
 
 uint pick_best_bench_keeper(uint param_1,uint param_2,int param_3)
 
@@ -64,7 +64,7 @@ uint pick_best_bench_keeper(uint param_1,uint param_2,int param_3)
 
 
 // ---- 0791:AAE8  pick_bench_by_formation  (f_0791_AAE8; Ghidra 2000:AAE8, __stdcall16near; found by routines.tsv)
-// the bench squad slot for the outgoing player's position: walks the formation table DS:0x99A + 8*(outgoing +6) (byte 0 the count, then +7 roles), taking a candidate when C7EB's map holds the role and the foot matches (two-footed exempt; the expected foot is 1 when Pos() of the position char exceeds 3); the LAST passing entry wins (the store is overwritten); with a count of 0 the walk skips the foot check; the keeper fallback is 0791:A9B8  [established; F012]
+// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): the bench squad slot for the outgoing player's position: walks the formation table DS:0x99A + 8*(outgoing +6) (byte 0 the count, then +7 roles), taking a candidate when C7EB's map holds the role and the foot matches (two-footed exempt; the expected foot is 1 when Pos() of the position char exceeds 3); the LAST passing entry wins (the store is overwritten); with a count of 0 the walk skips the foot check; the keeper fallback is 0791:A9B8  [established; F012; read code/seg_0791_17.asm:932]
 
 uint pick_bench_by_formation(undefined4 param_1,int param_2)
 
@@ -843,7 +843,7 @@ void __stdcall16far prepare_unplayed_match(undefined1 *param_1)
 
 
 // ---- 0791:BBFF  set_team_tactics  (f_0791_BBFF; Ghidra 2000:BBFF, __stdcall16near; found by routines.tsv)
-// stores its first argument as country +0x2D (the default team tactic set) and calls 1771:3431 for each of the country's 20 squad words that is nonzero, without clearing the players' +0xF; called by 0791:BC5D and the computer's in-match tactic changes 0791:BD83, BF6B, C01A and C0DF  [established; F010; read decompiled/seg_0791_07.c]
+// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): stores its first argument as country +0x2D (the default team tactic set) and calls 1771:3431 for each of the country's 20 squad words that is nonzero, without clearing the players' +0xF; called by 0791:BC5D and the computer's in-match tactic changes 0791:BD83, BF6B, C01A and C0DF  [established; F010; read decompiled/seg_0791_07.c; read code/seg_0791_19.asm:426]
 
 void set_team_tactics(byte param_1,int param_2)
 
@@ -898,7 +898,7 @@ void __stdcall16far reset_team_tactics(int param_1)
 
 
 // ---- 0791:BD03  team_strength_greater  (f_0791_BD03; Ghidra 2000:BD03, __stdcall16near; found by routines.tsv)
-// 1 when the sum of 1771:377E over a's first 11 squad words exceeds b's (unsigned; the first team is the deeper stack argument); the comparison 0791:BD83 acts on  [established; F010; F021]
+// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): 1 when the sum of 1771:377E over a's first 11 squad words exceeds b's (unsigned; the first team is the deeper stack argument); the comparison 0791:BD83 acts on  [established; F010; F021; read code/seg_0791_19.asm:530]
 
 undefined2 team_strength_greater(int param_1,int param_2)
 
@@ -924,7 +924,7 @@ undefined2 team_strength_greater(int param_1,int param_2)
 
 
 // ---- 0791:BD83  computer_tactic_change  (f_0791_BD83; Ghidra 2000:BD83, __stdcall16near; found by routines.tsv)
-// the computer's in-match tactic change for team t: writes the country's R008 (DS:9B7C + country) to +0x2D through 0791:BBFF, so the default set returns and the overrides are re-derived without clearing +0xF; then, only when t = 1, DS:80FC is nonzero and 0791:BD03 says team 1's eleven outsums team 0's, it includes element 1 and writes +0x2D again; then, when the team's eleven outsums its opponent's, it includes rand(6) twice and writes again; in every case it clears DS:8332 + t and DS:8334 + t; called by the match set-up 0791:A3DE, by 0791:BF6B and by 0791:C173  [established; F010]
+// T68 (ported, exact on ALL; runtime/original_match/port/discipline.py): the computer's in-match tactic change for team t: writes the country's R008 (DS:9B7C + country) to +0x2D through 0791:BBFF, so the default set returns and the overrides are re-derived without clearing +0xF; then, only when t = 1, DS:80FC is nonzero and 0791:BD03 says team 1's eleven outsums team 0's, it includes element 1 and writes +0x2D again; then, when the team's eleven outsums its opponent's, it includes rand(6) twice and writes again; in every case it clears DS:8332 + t and DS:8334 + t; called by the match set-up 0791:A3DE, by 0791:BF6B and by 0791:C173  [established; F010; read code/seg_0791_19.asm:584]
 
 /* WARNING: Removing unreachable block (0791:BDE9) */
 
@@ -965,50 +965,5 @@ void computer_tactic_change(char param_1)
   }
   *(undefined1 *)((int)(undefined2 *)&DS:8332 + (int)param_1) = 0;
   *(undefined1 *)((int)(undefined2 *)&DS:8334 + (int)param_1) = 0;
-  return;
-}
-
-
-// ---- 0791:BEC7  convert_forward_to_striker  (f_0791_BEC7; Ghidra 2000:BEC7, __stdcall16near; found by routines.tsv)
-// re-places only the FIRST available squad player of positions {9,10,11} (forward midfield and the two wingers; the set at CS:0xBEA7 = 00 0E): +6 := DS:0xA28[2FAD >= 0x48 ? 1 : 0] = 13 (striker) when his height is below 72 inches, 12 (centre forward) from 72, where 2FAD = DS:0xE54[w % 12] + DS:0xE46[+7]; BF5A jumps to the return, so at most one player moves; C01A's tail calls it, only when the ninth squad player is not a code 12 or 13 (CS:BFFA = 00 30); the earlier name replace_first_back_four was wrong (F028)  [established; F012; F028]
-
-void convert_forward_to_striker(undefined4 param_1)
-
-{
-  int iVar1;
-  char cVar2;
-  uint uVar3;
-  int iVar4;
-  undefined2 uVar5;
-  undefined2 uVar6;
-  undefined2 uVar7;
-  bool bVar8;
-  int local_4;
-  
-  local_4 = 1;
-  uVar6 = 0x2000;
-  while( true ) {
-    uVar5 = (undefined2)((ulong)param_1 >> 0x10);
-    iVar4 = (int)param_1;
-    iVar1 = *(int *)(iVar4 + local_4 * 2 + -2);
-    bVar8 = (player *)players + iVar1 == (player *)0x0;
-    uVar7 = 0xa000;
-    sys_set_bit_mask_08DF
-              (0xbea7,uVar6,
-               CONCAT11((char)((uint)(iVar1 * 0x14) >> 8),((player *)players)[iVar1].position));
-    if (!bVar8) {
-      uVar7 = 0x4000;
-      cVar2 = player_unavailable(*(undefined2 *)(iVar4 + local_4 * 2 + -2));
-      if (cVar2 == '\0') {
-        uVar3 = player_height(*(undefined2 *)(iVar4 + local_4 * 2 + -2));
-        ((player *)players)[*(int *)(iVar4 + local_4 * 2 + -2)].position =
-             *(byte *)((0x47 < uVar3) + 0xa28);
-        return;
-      }
-    }
-    if (local_4 == 0xb) break;
-    local_4 = local_4 + 1;
-    uVar6 = uVar7;
-  }
   return;
 }
