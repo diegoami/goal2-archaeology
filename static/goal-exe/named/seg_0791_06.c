@@ -578,7 +578,7 @@ LAB_0791_6976:
 
 
 // ---- 0791:698E  ball_out_at_goal_line  (f_0791_698E; Ghidra 2000:698E, __cdecl16near; found by routines.tsv)
-// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): the ball out over a goal line from 83A2: with the holder's slot available (045D) or a coin (06FA) the corner 6E6E; else DS:8327 := 0, DS:7C39 := 1 (the own-goal flag) and 690C  [established; F013; read code/seg_0791_11.asm:750]
+// T67 (ported, exact on ALL; runtime/original_match/port/restarts.py): the ball out over a goal line from 83A2: with the holder a goalkeeper (DS:830B's slot 1 or 12, 045D) or a coin (06FA) the corner 6E6E; else DS:8327 := 0, DS:7C39 := 1 (the own-goal flag) and 690C  [established; F013; read code/seg_0791_11.asm:750]
 
 void __cdecl16near ball_out_at_goal_line(void)
 
