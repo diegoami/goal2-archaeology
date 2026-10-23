@@ -1167,5 +1167,51 @@ class TeamLineBarTests(unittest.TestCase):
                 self.assertEqual(r.args('1771:11E1'),[(20,)])
                 self.assertEqual(r.u16(BP0-2),11)
 
+class TeamPanelCompositeTests(unittest.TestCase):
+    def render(self,c1e=1,c1f=1,second=4,colour_mode=0):
+        r=Rig();r.ds8(0xC1E,c1e);r.ds8(0xC1F,c1f);r.ds16(0x9B36,second);r.ds8(0xA964,colour_mode)
+        for field,value in ((0x2E,2),(0x2B,11),(0x29,22),(0x2A,33),(0x28,44),(0x2C,2),(0x2D,0xAA)):r.country(3,field,value)
+        aggregates=[32,16,8,24,25,5]
+        for index in range(1,9):r.ds8(0x6BBF+index,index)
+        for index in range(1,4):r.ds8(0xD89+index,index*2+8);r.ds8(0x9D7F+9+index,index*2)
+        r.ds8(0x6905+2,0x2A)
+        for table,value,label in ((0x78C4,8,1),(0x78D5,16,2),(0x78F6,24,3),(0x78A3,32,4)):r.ds8(table+value,label)
+        def answer(q,m):
+            if q.target=='1771:13D0':
+                for off,value in zip(range(0x9B5A,0x9B66,2),aggregates):r.ds16(off,value)
+            if q.target=='214B:0C57':return int(bool(q.args[1]&(1<<(q.args[0]-1))))
+            return 0
+        r.run('1771:157D',(3,),answer=answer)
+        return r
+
+    def test_panel_manager_ranks_formation_and_numeric_columns(self):
+        r=self.render()
+        self.assertEqual(r.args('214B:0329'),[(r.mem.DS,0x4BBE,r.mem.DS,0xA96E)])
+        self.assertEqual(r.args('1771:0F58'),[(3,8,2)])
+        self.assertEqual(r.args('1771:1527'),[(3,8,25)])
+        self.assertEqual(r.args('1771:0947'),[(2,)])
+        self.assertEqual(r.args('1771:0AF8'),[(2,10,24)])
+        self.assertEqual(r.args('1771:0E6C'),[(3,)])
+        self.assertEqual(r.args('214B:09DA'),[(0,n) for n in (11,22,33,44,5,25)])
+        self.assertEqual([a[2:4] for a in r.args('214B:01A3')[:5]],[(12,12),(12,16),(13,12),(13,16),(12,33)])
+
+    def test_panel_aggregate_labels_bars_and_all_eight_tactic_rows(self):
+        r=self.render()
+        self.assertEqual([a[1] for a in r.args('214B:026D')[1:5]],[0x6EC4,0x6ED4,0x6EE4,0x6EF4])
+        self.assertEqual(r.args('214B:13C5'),[(20,46,8),(21,46,8),(22,46,12),(23,46,16)])
+        self.assertEqual(r.args('1771:0BC4'),[(3,1,0)])
+        self.assertEqual(r.args('1771:11E1'),[(15,)])
+        self.assertEqual(r.args('214B:01A3')[-8:],[(r.mem.DS,0x6AA0+32*i+16*int(i%2==0),i+8+int(i>3),61,r.mem.DS,0xA96E) for i in range(1,9)])
+
+    def test_panel_live_gate_second_side_and_country_flag_column_branches(self):
+        for c1e,c1f,second in ((0,0,4),(1,0,4),(0,1,4),(1,1,4),(1,1,3)):
+            for colour_mode in (0,1):
+                r=self.render(c1e,c1f,second,colour_mode)
+                self.assertEqual(r.args('1771:1289'),[(int(second==3),)] if c1e and c1f else [])
+                self.assertEqual(r.args('214B:02C8')[0],(0x2A,r.mem.DS,0x6EA2,13,2,r.mem.DS,0xA96E))
+                flags=r.args('214B:02C8')[1:]
+                self.assertEqual(flags,[] if colour_mode else [(2*i,r.mem.seg(0x1771),0x157B,13,i*2+8,r.mem.DS,0xA96E) for i in range(1,4)])
+                self.assertEqual(r.u16(BP0-2),8 if colour_mode else 3)
+
 if __name__ == '__main__':
     unittest.main()

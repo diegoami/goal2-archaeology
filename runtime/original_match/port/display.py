@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {"1771:11E1", "1771:1289", "1771:0947", "1771:0AF8", "1771:1527", "1771:13D0", "1771:4D8A", "1771:4E22", "1771:8A87", "1771:5AC4", "1771:0FB1", "1771:76FA", "1771:77C3", "1771:8E9A", "1771:8CA2", "1771:958D", "1771:8939", "0791:0441", "214B:1EF1", "214B:1F87", "214B:1E8D", "214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
+    if address not in {"1771:157D", "1771:11E1", "1771:1289", "1771:0947", "1771:0AF8", "1771:1527", "1771:13D0", "1771:4D8A", "1771:4E22", "1771:8A87", "1771:5AC4", "1771:0FB1", "1771:76FA", "1771:77C3", "1771:8E9A", "1771:8CA2", "1771:958D", "1771:8939", "0791:0441", "214B:1EF1", "214B:1F87", "214B:1E8D", "214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
         PORTS.stub(address, ret=ret, value=None, why="initial all-at-once display-removal candidate; classification pending")
 
 
@@ -2095,4 +2095,73 @@ def live_line_performance_memory(mem,variant):
                 mem.wds16(0x9B47+r.di,mem.ds16(0x9B47+r.di)+r.dx,'1771:'+at)
     r.ax=20
     r=yield from guest(mem,r,'1771:11E1',r.ax,ret='1771:13CA',far=False)
+    return _end(r)
+
+
+@PORTS.port('1771:157D',ret='ret 2')
+def team_panel_memory(mem,variant):
+    """157D-1933: team information, aggregates, tactic labels and live line bars."""
+    r=Regs(mem);r.enter(0x106);country=ss16(mem,r,r.bp+4);squad_of(mem,r,country);squad=r.es,r.di
+    r.local16(-6,r.di);r.local16(-4,r.es);temporary=(r.bp-0x106)&65535
+    r.di=0x4BBE;source=mem.DS,r.di;r.di=0xA96E
+    r=yield from guest(mem,r,'214B:0329',*source,mem.DS,r.di,ret='1771:15A7')
+    r.ax=8;row=r.ax;r.ax=2
+    r=yield from guest(mem,r,'1771:0F58',country,row,r.ax,ret='1771:15B6')
+    r.ax=8;row=r.ax;r.ax=25
+    r=yield from guest(mem,r,'1771:1527',country,row,r.ax,ret='1771:15C4',far=False)
+    r.di=temporary;r.push(r.ss);r.push(r.di);r.es,r.di=squad;r.al=rb(mem,r,0x2E);r.ah=0
+    r=yield from guest(mem,r,'1771:0947',r.ax,ret='1771:15D8')
+    r.al=10;row=r.ax;r.al=2
+    r=yield from write_buffer_text(mem,r,(r.ss,temporary),row,r.ax,'214B:026D','1771:15E8',held=4)
+    r.es,r.di=squad;r.al=rb(mem,r,0x2E);r.ah=0;manager=r.ax;r.ax=10;row=r.ax;r.ax=24
+    r=yield from guest(mem,r,'1771:0AF8',manager,row,r.ax,ret='1771:15FE')
+    for field,row,column,formatted,written in ((0x2B,12,12,'1616','1626'),(0x29,12,16,'163E','164E'),
+                                               (0x2A,13,12,'1666','1676'),(0x28,13,16,'168E','169E')):
+        r.di=temporary;r.push(r.ss);r.push(r.di);r.es,r.di=squad;r.al=rb(mem,r,field);r.ah=0;r.dx=0
+        r=yield from guest(mem,r,'214B:09DA',r.dx,r.ax,ret='1771:'+formatted)
+        r.al=row;rowword=r.ax;r.al=column
+        r=yield from write_buffer_text(mem,r,(r.ss,temporary),rowword,r.ax,'214B:01A3','1771:'+written,held=4)
+    r.di=temporary;r.push(r.ss);r.push(r.di)
+    r=yield from guest(mem,r,'1771:0E6C',country,ret='1771:16AB')
+    r.al=12;row=r.ax;r.al=33
+    r=yield from write_buffer_text(mem,r,(r.ss,temporary),row,r.ax,'214B:01A3','1771:16BB',held=4)
+    r=yield from guest(mem,r,'1771:13D0',country,ret='1771:16C1',far=False)
+    for word,table,row,ret in ((0x9B5E,0x78C4,20,'16E7'),(0x9B5C,0x78D5,21,'170D'),
+                               (0x9B60,0x78F6,22,'1733'),(0x9B5A,0x78A3,23,'1759')):
+        r.di=mem.ds16(word);r.al=mem.ds8((r.di+table)&65535);r.ah=0;r.di=r.ax;half(r,'cx',4);r.di=(r.di<<4)+0x6EB4
+        source=mem.DS,r.di;r.al=row;rowword=r.ax;r.al=46
+        r=yield from write_buffer_text(mem,r,source,rowword,r.ax,'214B:026D','1771:'+ret)
+    for word,row,divisor,ret in ((0x9B5E,20,16,'1776'),(0x9B5C,21,32,'1793'),(0x9B60,22,32,'17B0'),(0x9B5A,23,32,'17CD')):
+        r.ax=mem.ds16(word);r.cx=4;r.ax=r.ax<<4;r.dx=0;r.cx=divisor;value=r.ax;r.ax,r.dx=value//divisor,value%divisor
+        r=yield from guest(mem,r,'214B:13C5',row,46,r.ax,ret='1771:'+ret)
+    for word,column,formatted,written in ((0x9B64,49,'17DF','17EF'),(0x9B62,59,'1801','1811')):
+        r.di=temporary;r.push(r.ss);r.push(r.di);r.ax=mem.ds16(word);r.dx=0
+        r=yield from guest(mem,r,'214B:09DA',r.dx,r.ax,ret='1771:'+formatted)
+        r.al=19;row=r.ax;r.al=column
+        r=yield from write_buffer_text(mem,r,(r.ss,temporary),row,r.ax,'214B:026D','1771:'+written,held=4)
+    for index in range(1,9):
+        r.local16(-2,index);r.di=index;r.al=mem.ds8(0x6BBF+r.di);r.ah=0;bit=r.ax
+        r.es,r.di=squad;r.al=rb(mem,r,0x2D);r.ah=0
+        r=yield from guest(mem,r,'214B:0C57',bit,r.ax,ret='1771:1834')
+        cbw(r);half(r,'cx',4);r.ax=r.ax<<4;r.dx=r.ax;r.di=index;r.al=mem.ds8(0x6BBF+r.di);r.ah=0
+        r.di=r.ax;half(r,'cx',5);r.di=(r.di<<5)+r.dx+0x6AA0;source=mem.DS,r.di
+        r.al=int(index>3);r.ah=0;r.dx=r.ax;r.ax=index+8+r.dx;row=r.ax;r.al=61
+        r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:01A3','1771:1878')
+    r.al=1;first=r.ax;r.al=0
+    r=yield from guest(mem,r,'1771:0BC4',country,first,r.ax,ret='1771:188B')
+    r.ax=15
+    r=yield from guest(mem,r,'1771:11E1',r.ax,ret='1771:1892',far=False)
+    if mem.ds8(0xC1E) and mem.ds8(0xC1F):
+        r.ax=mem.ds16(0x9B36);r.al=int(r.ax==country)
+        r=yield from guest(mem,r,'1771:1289',r.ax,ret='1771:18B2',far=False)
+    r.es,r.di=squad;r.al=rb(mem,r,0x2C);r.ah=0;r.di=r.ax;r.al=mem.ds8(0x6905+r.di);colour=r.ax
+    r.es,r.di=squad;r.al=rb(mem,r,0x2C);r.ah=0;r.di=r.ax;half(r,'cx',3);r.di=(r.di<<3)+0x6E92;source=mem.DS,r.di
+    r.al=13;row=r.ax;r.al=2
+    r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:02C8','1771:18E7',colour)
+    if not mem.ds8(0xA964):
+        for index in range(1,4):
+            r.local16(-2,index);r.ax=index;r.cx=r.ax;r.ax=country;r.dx=3;mul(r,r.dx);r.di=r.ax+r.cx
+            r.al=mem.ds8((0x9D7F+r.di)&65535);colour=r.ax;r.di=0x157B;source=mem.seg(0x1771),r.di
+            r.al=13;row=r.ax;r.di=index;r.al=mem.ds8(0xD89+r.di)
+            r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:02C8','1771:1928',colour)
     return _end(r)
