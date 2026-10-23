@@ -101,10 +101,10 @@ unless its original-routine check is explicitly stated.
   in that order (`static:static/goal-exe/named/seg_000E_05.c:392`). B602 adds +1 per selected
   scorer after result clipping (`static:static/goal-exe/named/seg_0791_09.c:97`).
   On the watched/managed route, F1F6 saves +0xC, plays, and restores through
-  CB7D before pool updates (`static:static/goal-exe/named/seg_0791_11.c:632, static:static/goal-exe/named/seg_0791_11.c:674`). BA4E
+  CB7D before pool updates (`static:static/goal-exe/named/seg_0791_11.c:678, static:static/goal-exe/named/seg_0791_11.c:720`). BA4E
   gives each managed-pool word independent `draw(4)-draw(4)`
   (`static:static/goal-exe/named/seg_0791_09.c:302`), before the caller's B7FA result update
-  (`static:static/goal-exe/named/seg_000E_05.c:605`). Overlapping pool/squad words receive both.
+  (`static:static/goal-exe/named/seg_000E_05.c:606`). Overlapping pool/squad words receive both.
 
 - Restoration does **not** imply every in-match change disappears. 7CC5
   clamps live signed +0xC plus delta to 1..255, and its nonzero flag writes
@@ -115,7 +115,7 @@ unless its original-routine check is explicitly stated.
   event order matters. `match_form` models the write given that order.
 
 - BB2F's unplayed branch applies `draw(2)-draw(4)`, never B71C
-  (`static:static/goal-exe/named/seg_0791_09.c:345`; router `static:static/goal-exe/named/seg_000E_05.c:605`).
+  (`static:static/goal-exe/named/seg_0791_09.c:345`; router `static:static/goal-exe/named/seg_000E_05.c:606`).
   This is the listing's unplayed route; a distinct abandoned-match confidence
   rule is **not established** by these lines. The result updater is shared
   by routed fixtures, with the explicit kind predicate above; arranging a

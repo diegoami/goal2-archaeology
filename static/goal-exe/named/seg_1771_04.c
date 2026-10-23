@@ -741,7 +741,7 @@ void __stdcall16far fixture_kind_title(int param_1,undefined4 param_2)
 
 
 // ---- 1771:59D8  stage_uses_finals_table  (f_1771_59D8; Ghidra 4000:59D8, __cdecl16far; found by routines.tsv)
-// true when the stage byte is in the set CS:59B8 = {3, 4, 7, 8} (bytes 98 01): the group tables of those stages live in table 1 (+0x700), the B table of finals groups  [likely; F023; read code/seg_1771_08.asm]
+// T71 (runtime/original_match/port/postmatch.py): true when the stage byte is in the set CS:59B8 = {3, 4, 7, 8} (bytes 98 01): the group tables of those stages live in table 1 (+0x700), the B table of finals groups  [likely; F023; read code/seg_1771_08.asm]
 
 bool __cdecl16far stage_uses_finals_table(void)
 
@@ -1101,33 +1101,5 @@ void add_placement_bonus(undefined2 param_1,char param_2,int param_3,int param_4
   pcVar2[param_5].points = pcVar2[param_5].points + param_4;
   pcVar1 = (char *)((int)pcVar2[param_5].squad + param_3 + param_2 * 4 + 0x32);
   *pcVar1 = *pcVar1 + '\x01';
-  return;
-}
-
-
-// ---- 1771:602D  world_placement_bonuses  (f_1771_602D; Ghidra 4000:602D, __stdcall16near; found by routines.tsv)
-// 1771:5FD1 for the winner and loser (1771:5C94/5CCB) of two fixtures of [A92B] indexed by [A923]+0x2A: 800 and 600, then 400 and 200, flag 1  [established; F017; read code/seg_1771_09.asm]
-
-void world_placement_bonuses(undefined2 param_1)
-
-{
-  int iVar1;
-  undefined2 uVar2;
-  undefined2 uVar3;
-  
-  uVar3 = (undefined2)((ulong)DS:A923 >> 0x10);
-  iVar1 = (int)DS:A923;
-  uVar2 = fixture_winner((byte *)fixtures + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
-                         (int)((ulong)fixtures >> 0x10));
-  add_placement_bonus(param_1,1,1,800,uVar2);
-  uVar2 = fixture_loser((byte *)fixtures + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
-                        (int)((ulong)fixtures >> 0x10));
-  add_placement_bonus(param_1,1,2,600,uVar2);
-  uVar2 = fixture_winner((byte *)fixtures + (*(int *)(iVar1 + 0x2a) + 0xe) * 8 + -8,
-                         (int)((ulong)fixtures >> 0x10));
-  add_placement_bonus(param_1,1,3,400,uVar2);
-  uVar2 = fixture_loser((byte *)fixtures + (*(int *)(iVar1 + 0x2a) + 0xe) * 8 + -8,
-                        (int)((ulong)fixtures >> 0x10));
-  add_placement_bonus(param_1,1,4,200,uVar2);
   return;
 }

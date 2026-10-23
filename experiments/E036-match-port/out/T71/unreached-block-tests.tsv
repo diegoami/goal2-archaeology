@@ -1,0 +1,24 @@
+address	test in tests.test_port_postmatch.Postmatch	method
+0791:F344	test_run_match_tail_quick_save_and_manager_branches	fake guest answers save yes/no; verifies exact call of 0A6B
+1771:59F7	test_finals_set_true_and_false	set helper answers both flags; finals AL 1/0
+1771:834D	test_sort_group_table_all_fixture_filters_and_outcomes	zero fixture word skipped, twins played/wrong-kind/unplayed
+1771:8489	test_sort_group_table_tie_break_order	statically unreachable: first loop 1..3 makes first+1 <=4; six row orderings exercise entire exchange-sort boundary
+1771:85F7	test_aggregate_winners_totals_and_tie	original-v-port corroboration: aggregate_differential.py, 50 pairs incl dead stack
+1771:860C	test_aggregate_unplayed_and_index_exit	entry/loop termination, paired with completed aggregate
+1771:8620	test_aggregate_unplayed_and_index_exit	index below next fixture exits
+1771:8623	test_aggregate_unplayed_and_index_exit	index includes fixture
+1771:863F	test_aggregate_unplayed_and_index_exit	fixture unplayed exits, played twin
+1771:8642	test_aggregate_winners_totals_and_tie	pair aggregation
+1771:86F5	test_aggregate_winners_totals_and_tie	smaller or equal aggregate total twin to greater
+1771:8704	test_aggregate_winners_totals_and_tie	equal totals, compare away goals
+1771:870C	test_aggregate_winners_totals_and_tie	second home below first home; unequal twin to equality
+1771:8714	test_aggregate_winners_totals_and_tie	statically unreachable: 870A falls through only for second_home<first_home, 8712 then requires equality; strict/equal boundary twins
+1771:871F	test_aggregate_winners_totals_and_tie	winner 0 versus winner 1
+1771:8723	test_aggregate_winners_totals_and_tie	winner 1 from greater aggregate or >= away goal
+1771:8725	test_aggregate_winners_totals_and_tie	winner byte stored
+1771:8733	test_aggregate_unplayed_and_index_exit	return from exhausted/unplayed pair
+1771:877B	test_group_stage_dispatch_dimensions_and_empty_tables	stage1 not a group stage vs stage2 member
+1771:878C	test_group_stage_dispatch_dimensions_and_empty_tables	stage7 uses second dimension byte vs stage2 first
+1771:87A2	test_group_stage_dispatch_dimensions_and_empty_tables	zero continent bound vs four
+1771:87BB	test_group_stage_dispatch_dimensions_and_empty_tables	stage3 group count vs stage2
+1771:8838	test_group_stage_dispatch_dimensions_and_empty_tables	stage6 dispatches aggregate routine vs stage1
