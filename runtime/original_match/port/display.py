@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {"0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65"}:
+    if address not in {"0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8"}:
         PORTS.stub(address, ret=ret, value=None, why="initial all-at-once display-removal candidate; classification pending")
 
 
@@ -390,4 +390,136 @@ def speaker_noise_state(mem, variant):
 @PORTS.port("0791:0C65", ret="ret")
 def replay_no_boundary(mem, variant):
     """0C65: retain the live pending-change clear; the kit's display policy requests no replay."""
-    mem.wds8(0x9B55, 0, "0791:0C6C")
+    mem.wds8(0x9B55, 0, "0791:0C6B")
+
+
+def _text_cells(mem, reverse):
+    """214B:00FF/0123: these writes also feed A841's engine-background copy, so remain exact."""
+    r = Regs(mem)
+    r.enter()
+    r.push(mem.DS)
+    k = 4 if reverse else 6
+    r.si = ss16(mem, r, r.bp + k + 4)
+    source_seg = ss16(mem, r, r.bp + k + 6)
+    if reverse:
+        r.std()
+    else:
+        r.cld()
+    r.cx = ss16(mem, r, r.bp + k)
+    if r.cx:
+        r.di = ss16(mem, r, r.bp + k + 8)
+        r.es = ss16(mem, r, r.bp + k + 10)
+        r.ax = ss16(mem, r, r.bp + k + 2)
+        r.ax = ((r.ax & 255) << 8) | (r.ax >> 8)
+        while r.cx:
+            r.al = mem.u8(mem.addr(source_seg, r.si))
+            r.si = r.si + (-1 if reverse else 1)
+            w16(mem, r, 0, r.ax, '214B:013D' if reverse else '214B:0119')
+            r.di = r.di + (-2 if reverse else 2)
+            r.cx = r.cx - 1
+    return _end(r)
+
+
+@PORTS.port('214B:00FF', ret='retf 12')
+def text_cells_forward(mem, variant):
+    return _text_cells(mem, False)
+
+
+@PORTS.port('214B:0123', ret='ret 12')
+def text_cells_backward(mem, variant):
+    return _text_cells(mem, True)
+
+
+def _string_cells(mem, backwards, set_attr, copied_ret, written_ret, attr_at):
+    r = Regs(mem)
+    r.enter(0x100)
+    seg, off = farg(mem, r, 0xE)
+    r.di = (r.bp - 0x100) & 65535
+    temporary = r.di
+    r.ax = 0xFF
+    r = yield from guest(mem, r, '23E4:0644', seg, off, r.ss, temporary, r.ax, ret=copied_ret)
+    if set_attr:
+        r.al = ss16(mem, r, r.bp + 0x12) & 255
+        mem.wds8(0xAAB2, r.al, attr_at)
+    r.al = ss16(mem, r, r.bp + 0xA) & 255
+    r.ah = 0
+    r.ax = r.ax << 1
+    r.cx = r.ax
+    r.al = ss16(mem, r, r.bp + 0xC) & 255
+    r.ah = 0
+    r.dx = 0xA0
+    mul(r, r.dx)
+    farg(mem, r, 6)
+    ptr = mem.addr(r.es, r.di)
+    r.di, r.es = mem.u16(ptr), mem.u16(ptr + 2)
+    r.di = r.di + r.ax + r.cx - 0xA2
+    destination = r.es, r.di
+    r.flush()
+    length = mem.u8(mem.ss_lin(temporary))
+    if backwards:
+        r.al = length
+        r.ah = 0
+        r.di = r.ax
+        r.di = r.bp + r.di - 0x100
+    else:
+        r.di = r.bp - 0xFF
+    source = r.ss, r.di
+    r.al = mem.ds8(0xAAB2)
+    r.ah = 0
+    colour = r.ax
+    r.al = length
+    r.ah = 0
+    r = yield from guest(mem, r, '214B:0123' if backwards else '214B:00FF',
+                         *destination, *source, colour, r.ax, ret=written_ret, far=not backwards)
+    return _end(r)
+
+
+@PORTS.port('214B:01A3', ret='retf 12')
+def string_at_attr(mem, variant):
+    return (yield from _string_cells(mem, True, False, '214B:01BE', '214B:01FF', None))
+
+
+@PORTS.port('214B:0205', ret='retf 14')
+def string_at_set_attr(mem, variant):
+    return (yield from _string_cells(mem, True, True, '214B:0220', '214B:0267', '214B:0223'))
+
+
+@PORTS.port('214B:026D', ret='retf 12')
+def string_forward_attr(mem, variant):
+    return (yield from _string_cells(mem, False, False, '214B:0288', '214B:02C2', None))
+
+
+@PORTS.port('214B:02C8', ret='retf 14')
+def string_forward_set_attr(mem, variant):
+    return (yield from _string_cells(mem, False, True, '214B:02E3', '214B:0323', '214B:02E6'))
+
+
+@PORTS.port('0791:0712', ret='retf 4')
+def score_into_buffer(mem, variant):
+    """0712-0773: the setup's score is copied into the engine background; keep the exact string writes."""
+    r = Regs(mem)
+    r.enter(0x104)
+    seg, off = farg(mem, r, 6)
+    r.local16(-4, off)
+    r.local16(-2, seg)
+    for score, row, formatted, written in ((0x9B3D, 2, '0739', '0749'), (0x9B3C, 4, '0760', '0770')):
+        r.al = 0x70
+        colour = r.ax
+        r.push(colour)
+        r.di = (r.bp - 0x104) & 65535
+        temporary = r.di
+        r.push(r.ss)
+        r.push(temporary)
+        r.al = mem.ds8(score)
+        r.ah = 0
+        r.dx = 0
+        r = yield from guest(mem, r, '214B:09DA', r.dx, r.ax, ret=formatted)
+        r.al = row
+        row_word = r.ax
+        r.al = 0x1F
+        column_word = r.ax
+        r.es, r.di = seg, off
+        r.sp = r.sp + 6
+        r = yield from guest(mem, r, '214B:0205', colour, r.ss, temporary, row_word, column_word,
+                             seg, off, ret=written)
+    return _end(r)

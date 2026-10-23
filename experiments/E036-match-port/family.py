@@ -153,6 +153,22 @@ def digest_memory(m, mask):
     return out
 
 
+def display_events_digest(events):
+    """Display-profile event digest: only full_time.data.screen_sha256 is excluded.
+
+    The ordinary producer continues using records.events_digest unchanged. This
+    projection is for both new display-profile original references and candidates;
+    every event, its metadata and every other data field remain in the digest.
+    Input event objects are never mutated.
+    """
+    projected = []
+    for kind, minute, score, data in events:
+        if kind == "full_time" and "screen_sha256" in data:
+            data = {key: value for key, value in data.items() if key != "screen_sha256"}
+        projected.append((kind, minute, score, data))
+    return records.events_digest(projected)
+
+
 def play(m, spec, deadline, say=None, state=None, checkpoint=None):
     """Drive a Match with the spec's answer policy; (events, decisions, strays, stopped_at_board). say(line): told of
     each decision answered while a port's frame waits on a call of the original's code (T59). state: this loop's own
