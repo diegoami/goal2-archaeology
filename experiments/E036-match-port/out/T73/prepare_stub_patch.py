@@ -48,8 +48,10 @@ def build_tests(source):
     """Checks the declared Python stub, never original branch-PC execution."""
     case.assertIsNotNone(port._module_registry('display').entries[address].stub)
     rig.mem.regs.update(ax=0xA55A,dx=0x5AA5,eflags=0x602)
-    rig.run(address,words)
-    before=bytes(rig.mem.memory);registers=dict(rig.mem.regs)
+    initial_registers=dict(rig.mem.regs)
+    case.assertIsNone(rig.run(address,words))
+    case.assertEqual(rig.mem.regs,initial_registers)
+    before=bytes(rig.mem.memory);registers=initial_registers
     case.assertIsNone(rig.run(address,words))
     case.assertEqual(bytes(rig.mem.memory),before)
     case.assertEqual(rig.mem.regs,registers)
@@ -101,6 +103,14 @@ def build_tests(source):
         self.assertEqual(r.u16(BP0),0xCAFE)
 '''}
  result=replace_methods(source,replacements)
+ original='''                    r.run(address,words)
+                    before=bytes(r.mem.memory);registers=dict(r.mem.regs)'''
+ fixed='''                    initial_registers=dict(r.mem.regs)
+                    self.assertIsNone(r.run(address,words))
+                    self.assertEqual(r.mem.regs,initial_registers)
+                    before=bytes(r.mem.memory);registers=initial_registers'''
+ assert result.count(original)==1
+ result=result.replace(original,fixed,1)
  assert result.count('class Case(unittest.TestCase):')==1
  result=result.replace('class Case(unittest.TestCase):',helper+'class Case(unittest.TestCase):',1)
  ast.parse(result);return result
@@ -145,8 +155,19 @@ def main():
   p=into/'experiments/E036-match-port/out/T73/static-inventory.json';p.write_bytes((ROOT/'experiments/E036-match-port/out/T73/static-inventory.json').read_bytes())
   result=subprocess.run([sys.executable,'-B','-m','unittest','tests.test_port_display'],cwd=into,capture_output=True,text=True,timeout=180)
   (out/'unit.log').write_text(result.stdout+result.stderr+'exit '+str(result.returncode)+'\n')
+  probe='''import unittest
+from tests.test_port_display import port, Rig, assert_explicit_void_removal
+entry=port._module_registry('display').entries['0791:006C']
+def bad(mem,variant):mem.regs['ax']=1
+entry.fn=bad
+try:assert_explicit_void_removal(unittest.TestCase(),Rig(),'0791:006C',(0,4,0x100,0x4000))
+except AssertionError:print('idempotent first-call AX clobber: caught')
+else:raise AssertionError('idempotent first-call AX clobber escaped')
+'''
+  negative=subprocess.run([sys.executable,'-B','-c',probe],cwd=into,capture_output=True,text=True,timeout=30)
+  (out/'first-call-register-control.log').write_text(negative.stdout+negative.stderr+'exit '+str(negative.returncode)+'\n')
  assert all((ROOT/n).read_text()==text for n,text in before.items()),'active source changed'
- receipt={'purpose':'prospective only; no active changes; requires full ALL ablation proof and main review before apply','head':head,'source_sha256':{n:sha(v) for n,v in before.items()},'proposed_sha256':{n:sha(v) for n,v in after.items()},'removed_routines':sorted(REMOVED),'unit_exit':result.returncode,'active_sources_unchanged':True,'all_50_instruction_controls_have_unique_targets':True,'baseline':'255de405b9c6a730960dcae23ed423ae433ad9f5'}
+ receipt={'purpose':'prospective only; no active changes; requires full ALL ablation proof and main review before apply','head':head,'source_sha256':{n:sha(v) for n,v in before.items()},'proposed_sha256':{n:sha(v) for n,v in after.items()},'removed_routines':sorted(REMOVED),'unit_exit':result.returncode,'first_call_register_control_exit':negative.returncode,'active_sources_unchanged':True,'all_50_instruction_controls_have_unique_targets':True,'baseline':'255de405b9c6a730960dcae23ed423ae433ad9f5'}
  (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
- print(json.dumps(receipt,indent=2),flush=True);return result.returncode
+ print(json.dumps(receipt,indent=2),flush=True);return result.returncode or negative.returncode
 if __name__=='__main__':sys.exit(main())

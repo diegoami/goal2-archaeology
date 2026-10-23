@@ -1,0 +1,27 @@
+{
+  "purpose": "prospective only; no active changes; requires full ALL ablation proof and main review before apply",
+  "head": "52cba347a6a0ba8343e110ff192c911f192551a8",
+  "source_sha256": {
+    "runtime/original_match/port/display.py": "81a8fe8613aaaa1062f6e468f92989b683dfde52c2c0b12d11b56ed2cdab42fe",
+    "tests/test_port_display.py": "785c49cdaac37ea59405d1f5b8edd39af461562900d3488afbcbd447d740daa1",
+    "experiments/E036-match-port/out/T73/test_controls.py": "c2721755f256366168ed2290fdc1e8fc1ba232006aa6f3b90b34588e0f8974d3"
+  },
+  "proposed_sha256": {
+    "runtime/original_match/port/display.py": "d8e91c17cea942985a326ecb3c84cb0a2de80bc673223aa767f414765dd806b5",
+    "tests/test_port_display.py": "0e59588501a1b4966d60d97e3165959f78f8fcc68ccf1e3f6700f5a06f9cae64",
+    "experiments/E036-match-port/out/T73/test_controls.py": "b82719ffbd1ecbcaa44a4358cd46fb3ec6479694f76948215eb555f49b3d3ef1"
+  },
+  "removed_routines": [
+    "0791:006C",
+    "1771:0AF8",
+    "1771:1527",
+    "1771:3947",
+    "214B:1E8D",
+    "214B:1EBC"
+  ],
+  "unit_exit": 0,
+  "first_call_register_control_exit": 0,
+  "active_sources_unchanged": true,
+  "all_50_instruction_controls_have_unique_targets": true,
+  "baseline": "255de405b9c6a730960dcae23ed423ae433ad9f5"
+}
