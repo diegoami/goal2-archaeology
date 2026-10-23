@@ -7,7 +7,7 @@ for every state-bearing operation. It is not an accepted classification yet.
 The match-summary key site remains the kit's semantic board boundary.
 """
 from . import Registry
-from .contests import ss16, pop
+from .contests import ss16, ss8, pop
 from .geometry import cbw, cwd, mul, imul
 from .mem import s16, s8
 from .postmatch import half
@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {"0791:0441", "214B:1EF1", "214B:1F87", "214B:1E8D", "214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
+    if address not in {"1771:958D", "1771:8939", "0791:0441", "214B:1EF1", "214B:1F87", "214B:1E8D", "214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
         PORTS.stub(address, ret=ret, value=None, why="initial all-at-once display-removal candidate; classification pending")
 
 
@@ -1648,4 +1648,73 @@ def jingle_memory(mem,variant):
             r=yield from guest(mem,r,'214B:1EF1',6,7,r.ax,ret='214B:1FEE')
             r.ax=index
     r=yield from guest(mem,r,'214B:1E8D',ret='214B:1FFA')
+    return _end(r)
+
+
+@PORTS.port('1771:8939',ret='ret 2')
+def competition_header_memory(mem,variant):
+    r=Regs(mem);r.enter(4)
+    r.es,r.di=mem.ds16(0xA925),mem.ds16(0xA923)
+    r.local16(-4,r.di);r.local16(-2,r.es)
+    r=yield from guest(mem,r,'214B:05DB',ret='1771:894E')
+    r.di=0x26F2;source=mem.DS,r.di;r.di=0xA96E
+    r=yield from guest(mem,r,'214B:0329',*source,mem.DS,r.di,ret='1771:895D')
+    parent=ss16(mem,r,r.bp+4)
+    if not ss8(mem,r,parent+10):
+        source,ret=0x14A6,'1771:8976'
+        r.di=source;source_ptr=mem.DS,r.di;r.di=0xA96E
+        r=yield from guest(mem,r,'214B:0329',*source_ptr,mem.DS,r.di,ret=ret)
+    else:
+        r.di=0x2E36;source=mem.DS,r.di;r.di=0xA96E
+        r=yield from guest(mem,r,'214B:0329',*source,mem.DS,r.di,ret='1771:8987')
+        r.es=ss16(mem,r,r.bp-2);r.di=ss16(mem,r,r.bp-4)
+        if rw(mem,r,0x38)>0:
+            source,ret=(0x2E0C,'1771:89AA') if ss8(mem,r,parent-9) else (0x2DE4,'1771:89BB')
+            r.di=source;source_ptr=mem.DS,r.di;r.di=0xA96E
+            r=yield from guest(mem,r,'214B:0329',*source_ptr,mem.DS,r.di,ret=ret)
+    return _end(r)
+
+
+@PORTS.port('1771:958D',ret='retf 6')
+def competition_view_memory(mem,variant):
+    """958D-96D2: preserve table selection/frame effects and its original key-driven callees."""
+    r=Regs(mem);r.enter(14)
+    r.es,r.di=mem.ds16(0xA925),mem.ds16(0xA923);game=r.es,r.di
+    r.local16(-13,r.di);r.local16(-11,r.es)
+    r.ax=ss16(mem,r,r.bp+6);country=r.ax;r.local16(-8,r.ax)
+    if rb(mem,r,0x3C)>=7:r.local16(-8,1)
+    continent_special=False
+    if rb(mem,r,0x3C)==6:
+        squad_of(mem,r,country)
+        continent_special=rb(mem,r,0x2C)>2
+    if continent_special:r.local16(-4,9)
+    elif not ss16(mem,r,r.bp+8):r.local16(-4,1)
+    else:
+        r.ax=ss16(mem,r,r.bp+8);r.local16(-4,r.ax)
+    r.ax=country;r.local16(-6,r.ax);r.es,r.di=game;r.al=rb(mem,r,0x3C);stageword=r.ax
+    r.di=0x956D
+    r=yield from guest(mem,r,'23E4:08DF',stageword,mem.seg(0x1771),r.di,ret='1771:9603')
+    r.al=int(member(mem));r.ah=0;r.push(r.ax)
+    r=yield from guest(mem,r,'1771:59D8',ret='1771:9612')
+    r.ah=0;r.ax=r.ax+1;r.dx=pop(mem,r);r.ax=r.ax+r.dx;r.local16(-2,r.ax)
+    r.es,r.di=game;r.al=rb(mem,r,0x40);r.local8(-9,r.al)
+    while True:
+        r=yield from guest(mem,r,'1771:8939',r.bp,ret='1771:9629',far=False)
+        r.ax=ss16(mem,r,r.bp-2)
+        if r.ax==1:r=yield from guest(mem,r,'1771:8E9A',r.bp,ret='1771:9635',far=False)
+        elif r.ax==2:r=yield from guest(mem,r,'1771:9028',r.bp,ret='1771:9640',far=False)
+        elif r.ax==3:r=yield from guest(mem,r,'1771:9509',r.bp,ret='1771:964B',far=False)
+        r.al=mem.ds8(0xA976)
+        if r.al==32:
+            r.di=(r.bp-8)&65535;destination=r.ss,r.di;r.ax=1;lo=r.ax;r.ax=128;hi=r.ax;r.ax=32
+            r=yield from guest(mem,r,'214B:1C86',*destination,lo,hi,r.ax,ret='1771:9668')
+        elif r.al in (0xAE,0xAF):
+            r.di=(r.bp-2)&65535;destination=r.ss,r.di;r.ax=1;lo=r.ax;r.ax=3;hi=r.ax
+            r.al=int(mem.ds8(0xA976)==0xAF);cbw(r);r.di=r.ax;r.al=mem.ds8(0x7920+r.di);cbw(r)
+            r=yield from guest(mem,r,'214B:1C86',*destination,lo,hi,r.ax,ret='1771:969A')
+        elif r.al in (0xB6,0xB7):
+            r.es,r.di=game
+            if rw(mem,r,0x38)>0:
+                r.al=int(not ss8(mem,r,r.bp-9));r.local8(-9,r.al)
+        if not ss8(mem,r,r.bp+10) or mem.ds8(0xA976)==27:break
     return _end(r)

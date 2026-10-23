@@ -918,5 +918,48 @@ class SoundChainMemoryTests(unittest.TestCase):
                 self.assertEqual(r.args('214B:1EF1'),[(6,9,1),(6,7,1)]*want)
                 self.assertEqual(r.targets()[-1],('214B:1E8D','214B:1FFA'))
 
+class CompetitionBoundaryTests(unittest.TestCase):
+    def test_header_one_pass_and_interactive_snapshot_template_branches(self):
+        for interactive,remaining,snapshot,expected in ((0,0,0,[0x26F2,0x14A6]),
+                (1,0,0,[0x26F2,0x2E36]),(1,1,0,[0x26F2,0x2E36,0x2DE4]),
+                (1,1,1,[0x26F2,0x2E36,0x2E0C])):
+            r=Rig();r.lin16(PARENT+10,interactive);r.lin8(PARENT-9,snapshot)
+            r.lin16(GSEG*16+GOFF+0x38,remaining)
+            r.run('1771:8939',(PARENT,))
+            self.assertEqual(r.targets()[0],('214B:05DB','1771:894E'))
+            self.assertEqual([a[1] for a in r.args('214B:0329')],expected)
+
+    def test_table_selection_membership_and_finals_branches_keep_local_frame(self):
+        for membership,finals,target in ((False,0,'1771:8E9A'),(True,0,'1771:9028'),(True,1,'1771:9509')):
+            r=Rig();r.ds8(0xA976,27)
+            def answer(q,m):
+                if q.target=='23E4:08DF':m.regs['eflags']=(m.reg('eflags')&~0x40)|(0 if membership else 0x40)
+                return finals if q.target=='1771:59D8' else 0
+            r.run('1771:958D',(3,0,0),answer=answer)
+            self.assertEqual(r.args(target),[(BP0,)])
+            self.assertEqual((r.u16(BP0-8),r.u16(BP0-6),r.u16(BP0-4)),(3,3,1))
+            self.assertEqual(r.u16(BP0-2),1+membership+finals)
+
+    def test_special_continent_and_late_stage_display_country(self):
+        for stage,continent,group,want_country,want_group in ((6,3,0,3,9),(6,2,4,3,4),(7,0,0,1,1)):
+            r=Rig();r.lin8(GSEG*16+GOFF+0x3C,stage);r.country(3,0x2C,continent)
+            def answer(q,m):
+                if q.target=='23E4:08DF':m.regs['eflags']|=0x40
+                return 0
+            r.run('1771:958D',(3,group,0),answer=answer)
+            self.assertEqual((r.u16(BP0-8),r.u16(BP0-6),r.u16(BP0-4)),(want_country,3,want_group))
+
+    def test_table_navigation_and_snapshot_toggle_callees(self):
+        for key in (32,0xAE,0xAF,0xB6,0xB7):
+            r=Rig();r.ds8(0xA976,key);r.ds8(0x7920,255);r.ds8(0x7921,1)
+            r.lin16(GSEG*16+GOFF+0x38,1);r.lin8(GSEG*16+GOFF+0x40,int(key==0xB7))
+            def answer(q,m):
+                if q.target=='23E4:08DF':m.regs['eflags']|=0x40
+                return 0
+            r.run('1771:958D',(3,0,0),answer=answer)
+            if key==32:self.assertEqual(r.args('214B:1C86'),[(0,BP0-8,1,128,32)])
+            elif key in (0xAE,0xAF):self.assertEqual(r.args('214B:1C86'),[(0,BP0-2,1,3,65535 if key==0xAE else 1)])
+            else:self.assertEqual(r.mem.u8(BP0-9),int(key==0xB6))
+
 if __name__ == '__main__':
     unittest.main()

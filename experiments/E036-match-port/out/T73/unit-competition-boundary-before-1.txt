@@ -1,0 +1,62 @@
+parent6bd3fd5, current four competition boundary tests
+EFFF
+======================================================================
+ERROR: test_header_one_pass_and_interactive_snapshot_template_branches (tests.test_port_display.CompetitionBoundaryTests.test_header_one_pass_and_interactive_snapshot_template_branches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpuj3m3e9o/tests/test_port_display.py", line 929, in test_header_one_pass_and_interactive_snapshot_template_branches
+    self.assertEqual(r.targets()[0],('214B:05DB','1771:894E'))
+                     ~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+FAIL: test_special_continent_and_late_stage_display_country (tests.test_port_display.CompetitionBoundaryTests.test_special_continent_and_late_stage_display_country)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpuj3m3e9o/tests/test_port_display.py", line 950, in test_special_continent_and_late_stage_display_country
+    self.assertEqual((r.u16(BP0-8),r.u16(BP0-6),r.u16(BP0-4)),(want_country,3,want_group))
+AssertionError: Tuples differ: (0, 0, 0) != (3, 3, 9)
+
+First differing element 0:
+0
+3
+
+- (0, 0, 0)
++ (3, 3, 9)
+
+======================================================================
+FAIL: test_table_navigation_and_snapshot_toggle_callees (tests.test_port_display.CompetitionBoundaryTests.test_table_navigation_and_snapshot_toggle_callees)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpuj3m3e9o/tests/test_port_display.py", line 960, in test_table_navigation_and_snapshot_toggle_callees
+    if key==32:self.assertEqual(r.args('214B:1C86'),[(0,BP0-8,1,128,32)])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != [(0, 12278, 1, 128, 32)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(0, 12278, 1, 128, 32)
+
+- []
++ [(0, 12278, 1, 128, 32)]
+
+======================================================================
+FAIL: test_table_selection_membership_and_finals_branches_keep_local_frame (tests.test_port_display.CompetitionBoundaryTests.test_table_selection_membership_and_finals_branches_keep_local_frame)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpuj3m3e9o/tests/test_port_display.py", line 939, in test_table_selection_membership_and_finals_branches_keep_local_frame
+    self.assertEqual(r.args(target),[(BP0,)])
+AssertionError: Lists differ: [] != [(12286,)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(12286,)
+
+- []
++ [(12286,)]
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.061s
+
+FAILED (failures=3, errors=1)
+exit 1
