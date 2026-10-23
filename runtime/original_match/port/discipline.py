@@ -33,6 +33,9 @@ from .mem import s8, s16
 
 PORTS = Registry("discipline", "fouls, cards, injuries and form; substitutions and the computer manager in play: "
                                "7CC5-835E, A260-A374, A920-AC66, BBFF-C24C, C5DC-CAAF, row T68's 20 routines (T68)")
+PORTS.variant("form-delta-doubled", "7CC5 at 7CEB: the delta [bp+0xC] is added twice to the player's form +0xC")
+PORTS.variant("offside-same-side", "82EB at 8350: DS:830B := DS:830C, the offender's own slot, not the other side's player")
+PORTS.variant("run-direction-4", "A2E6 at A36A: the bound record's +0xF := 4, not 5")
 M16 = 0xFFFF
 
 
@@ -133,6 +136,8 @@ def adjust_player_form(mem, variant):
     r.al = rb(mem, r, 0xC)                                       # 7CE6
     cbw(r)
     r.ax = r.ax + arg16(mem, r, 0xC)                             # 7CEB
+    if variant == "form-delta-doubled":
+        r.ax = r.ax + arg16(mem, r, 0xC)
     r.local16(0xC, r.ax)                                         # 7CEE
     r.di = r.bp + 0xC                                            # 7CF1 lea di, [bp + 0xc]
     r.ax = 1                                                     # 7CF6
@@ -542,7 +547,8 @@ def offside(mem, variant):
     r.dx = r.ax                                                  # 8349
     r.al = mem.ds8(0x830C)                                       # 834B
     r.ah = 0
-    r.ax = r.ax + r.dx                                           # 8350
+    if variant != "offside-same-side":
+        r.ax = r.ax + r.dx                                       # 8350
     mem.wds8(0x830B, r.al, "0791:8352")
     r = yield from guest(mem, r, "2FB1", ret="8358", far=False)
     r = yield from guest(mem, r, "6FB6", ret="835B", far=False)
@@ -627,7 +633,7 @@ def initialize_pitch_player(mem, variant):
     r.ax = 0                                                     # A361
     ww(mem, r, 0x14, 0, "A363")
     own(mem, r)                                                  # A367
-    wb(mem, r, 0xF, 5, "A36A")
+    wb(mem, r, 0xF, 4 if variant == "run-direction-4" else 5, "A36A")
     return _end(r)
 
 
