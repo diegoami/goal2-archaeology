@@ -1,0 +1,137 @@
+{
+  "changes": [
+    {
+      "finding": "findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md",
+      "before": "seg_0791_11.c:552",
+      "after": "seg_0791_11.c:578",
+      "same_text": "  uVar3 = (undefined2)((ulong)param_4 >> 0x10);"
+    },
+    {
+      "finding": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_0791_09.c:222",
+      "after": "seg_0791_09.c:248",
+      "same_text": "  DS:8325 = 0;"
+    },
+    {
+      "finding": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_0791_09.c:97",
+      "after": "seg_0791_09.c:123",
+      "same_text": "  } while( true );"
+    },
+    {
+      "finding": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_0791_11.c:678",
+      "after": "seg_0791_11.c:704",
+      "same_text": "        ppVar2 = (player *)players;"
+    },
+    {
+      "finding": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_0791_11.c:720",
+      "after": "seg_0791_11.c:746",
+      "same_text": "  int iVar1;"
+    },
+    {
+      "finding": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_0791_09.c:302",
+      "after": "seg_0791_09.c:328",
+      "same_text": "                    ((country *)countries + ((undefined2 *)&DS:9B34)[cVar1],"
+    },
+    {
+      "finding": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_0791_09.c:345",
+      "after": "seg_0791_09.c:371",
+      "same_text": "  DS:9B41 = 1;"
+    },
+    {
+      "finding": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "before": "seg_0791_09.c:604",
+      "after": "seg_0791_09.c:630",
+      "same_text": ""
+    },
+    {
+      "finding": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "before": "seg_0791_09.c:626",
+      "after": "seg_0791_09.c:652",
+      "same_text": "    cVar2 = is_managed(((undefined2 *)&DS:9B34)[local_21]);"
+    },
+    {
+      "finding": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "before": "seg_0791_09.c:628",
+      "after": "seg_0791_09.c:654",
+      "same_text": "      pick_shootout_takers(&stack0xfffe);"
+    },
+    {
+      "finding": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "before": "seg_0791_09.c:628",
+      "after": "seg_0791_09.c:654",
+      "same_text": "      pick_shootout_takers(&stack0xfffe);"
+    },
+    {
+      "finding": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_09.c:237",
+      "after": "seg_0791_09.c:263",
+      "same_text": "  int local_4;"
+    },
+    {
+      "finding": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_10.c:570",
+      "after": "seg_0791_10.c:620",
+      "same_text": "          *(uint *)(iVar2 + local_4 * 0x60 + (local_6 - 1) * 0x10 + -100)) {"
+    },
+    {
+      "finding": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_11.c:595",
+      "after": "seg_0791_11.c:621",
+      "same_text": "  }"
+    },
+    {
+      "finding": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_11.c:532",
+      "after": "seg_0791_11.c:558",
+      "same_text": "    local_4 = local_4 + 1;"
+    },
+    {
+      "finding": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_11.c:411",
+      "after": "seg_0791_11.c:437",
+      "same_text": "  u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x5f8c,0xb000);"
+    },
+    {
+      "finding": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_02.c:363",
+      "after": "seg_0791_02.c:364",
+      "same_text": "      *(undefined2 *)((undefined1 *)&DS:9976 + param_3 * 10 + param_1 * 2) ="
+    },
+    {
+      "finding": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_1771_07.c:381",
+      "after": "seg_1771_07.c:473",
+      "same_text": "    for (local_4 = 1; pcVar2[local_6].squad[local_4 + -1] = local_8 + local_4, local_4 != 0x14;"
+    },
+    {
+      "finding": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_01.c:724",
+      "after": "seg_0791_01.c:730",
+      "same_text": "    local_3 = '\\0';"
+    },
+    {
+      "finding": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_01.c:949",
+      "after": "seg_0791_01.c:955",
+      "same_text": "      }"
+    },
+    {
+      "finding": "findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md",
+      "before": "seg_1771_07.c:417",
+      "after": "seg_1771_07.c:509",
+      "same_text": "  *(undefined1 *)(iVar1 + 0x41) = 1;"
+    },
+    {
+      "finding": "findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md",
+      "before": "seg_0791_01.c:888",
+      "after": "seg_0791_01.c:894",
+      "same_text": "      uVar1 = *(undefined1 *)(iVar6 + 1);"
+    }
+  ],
+  "unresolved": []
+}

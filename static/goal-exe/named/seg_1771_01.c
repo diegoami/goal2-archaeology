@@ -455,9 +455,10 @@ void __cdecl16far f_1771_090F(void)
 }
 
 
-// ---- 1771:0947  f_1771_0947  (f_1771_0947; Ghidra 4000:0947, __stdcall16far; found by routines.tsv)
+// ---- 1771:0947  format_manager_name  (f_1771_0947; Ghidra 4000:0947, __stdcall16far; found by routines.tsv)
+// Builds a manager marker from DS:9B78, the separator at CS:0945 and the manager string at DS:9B74 plus13 times manager; stores at most14 characters through the hidden caller result pointer  [likely; read code/seg_1771_01.asm:1036]
 
-void __stdcall16far f_1771_0947(int param_1,undefined4 param_2)
+void __stdcall16far format_manager_name(int param_1,undefined4 param_2)
 
 {
   undefined2 unaff_SS;
@@ -501,7 +502,7 @@ void __stdcall16far f_1771_09A0(int param_1,undefined1 param_2,int param_3)
   }
   puVar3 = local_112;
   uVar4 = unaff_SS;
-  f_1771_0947(param_3);
+  format_manager_name(param_3);
   sys_str_store_max_0644(0xf,&local_12,unaff_SS,puVar3,uVar4);
   iVar2 = param_1 + 0xe;
   uVar1 = iVar2 == 0;
@@ -513,7 +514,7 @@ void __stdcall16far f_1771_09A0(int param_1,undefined1 param_2,int param_3)
   puVar3 = local_112;
   uVar4 = unaff_SS;
   uVar6 = unaff_SS;
-  f_1771_0947(param_3);
+  format_manager_name(param_3);
   sys_str_compare_072F(puVar3,uVar4,pcVar5,uVar6);
   if (!(bool)uVar1) {
     *(undefined1 *)((int)DS:9B78 + param_3) = local_11;
@@ -541,9 +542,10 @@ int __stdcall16far manager_bonus(int param_1)
 }
 
 
-// ---- 1771:0AF8  f_1771_0AF8  (f_1771_0AF8; Ghidra 4000:0AF8, __stdcall16far; found by routines.tsv)
+// ---- 1771:0AF8  draw_manager_status  (f_1771_0AF8; Ghidra 4000:0AF8, __stdcall16far; found by routines.tsv)
+// Manager0 draws nothing; status byte+1 of the three-byte manager record chooses a fixed CS:0AF0 string at zero or a DS:7894 band indexed by (status-1)/8  [likely; read code/seg_1771_02.asm:39]
 
-void __stdcall16far f_1771_0AF8(undefined1 param_1,undefined1 param_2,int param_3)
+void __stdcall16far draw_manager_status(undefined1 param_1,undefined1 param_2,int param_3)
 
 {
   int iVar1;
@@ -794,9 +796,10 @@ void __stdcall16far draw_country_name(undefined1 param_1,undefined1 param_2,int 
 }
 
 
-// ---- 1771:0FB1  f_1771_0FB1  (f_1771_0FB1; Ghidra 4000:0FB1, __stdcall16near; found by routines.tsv)
+// ---- 1771:0FB1  draw_country_name_right  (f_1771_0FB1; Ghidra 4000:0FB1, __stdcall16near; found by routines.tsv)
+// Writes the DS:0D6A placeholder with the DS:A964 palette, then a nonzero country's DS:9B68 name using0E24 colour and the backward string writer0205  [likely; read code/seg_1771_02.asm:557]
 
-void f_1771_0FB1(undefined1 param_1,undefined1 param_2,int param_3)
+void draw_country_name_right(undefined1 param_1,undefined1 param_2,int param_3)
 
 {
   char cVar2;
@@ -916,9 +919,10 @@ undefined4 __stdcall16far f_1771_114B(uint param_1)
 }
 
 
-// ---- 1771:11E1  f_1771_11E1  (f_1771_11E1; Ghidra 4000:11E1, __stdcall16near; found by routines.tsv)
+// ---- 1771:11E1  draw_team_line_strength_bars  (f_1771_11E1; Ghidra 4000:11E1, __stdcall16near; found by routines.tsv)
+// Divides DS:9B4B/9B4F/9B53 signed words by4, clamps all four words beginning DS:9B47 at stride4 to1..256, then draws four attribute bars of value times25 divided by256  [likely; read code/seg_1771_02.asm:798]
 
-void f_1771_11E1(int param_1)
+void draw_team_line_strength_bars(int param_1)
 
 {
   int local_4;
@@ -945,9 +949,10 @@ void f_1771_11E1(int param_1)
 }
 
 
-// ---- 1771:1289  f_1771_1289  (f_1771_1289; Ghidra 4000:1289, __stdcall16near; found by routines.tsv)
+// ---- 1771:1289  draw_live_team_line_performance  (f_1771_1289; Ghidra 4000:1289, __stdcall16near; found by routines.tsv)
+// Clears DS:9B45..9B54, accumulates eleven starter performances into the role words at DS:9B47 using DS:0D7C (hybrid roles split a signed half), then calls11E1 at row20  [likely; read code/seg_1771_02.asm:870]
 
-void f_1771_1289(char param_1)
+void draw_live_team_line_performance(char param_1)
 
 {
   word wVar1;
@@ -990,7 +995,7 @@ void f_1771_1289(char param_1)
     if (local_4 == 0xb) break;
     local_4 = local_4 + 1;
   }
-  f_1771_11E1(0x14);
+  draw_team_line_strength_bars(0x14);
   return;
 }
 
@@ -1054,9 +1059,10 @@ void team_panel_aggregate(int param_1)
 }
 
 
-// ---- 1771:1527  f_1771_1527  (f_1771_1527; Ghidra 4000:1527, __stdcall16near; found by routines.tsv)
+// ---- 1771:1527  draw_country_rating_label  (f_1771_1527; Ghidra 4000:1527, __stdcall16near; found by routines.tsv)
+// Calls10E7 for the country, indexes DS:7884 with signed (result-1)/8, and draws the selected16-byte DS:6EB4 label at the requested row/column  [likely; read code/seg_1771_03.asm:6]
 
-void f_1771_1527(undefined1 param_1,undefined1 param_2,undefined2 param_3)
+void draw_country_rating_label(undefined1 param_1,undefined1 param_2,undefined2 param_3)
 
 {
   int iVar1;

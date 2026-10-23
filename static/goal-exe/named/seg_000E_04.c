@@ -945,7 +945,7 @@ void f_000E_5AC5(int param_1)
   sys_str_store_062A(0x5ab8,uVar4);
   puVar6 = local_123;
   uVar4 = unaff_SS;
-  f_1771_0947(((country *)_local_23)->manager);
+  format_manager_name(((country *)_local_23)->manager);
   sys_str_concat_06B7(puVar6,uVar4);
   f_000E_075F(0x5abd,0xa000,local_1b,unaff_SS,puVar7,uVar5);
   f_000E_05F6((uint)extraout_AH << 8,(uint)extraout_AH << 8,(uint)extraout_AH << 8);
@@ -1050,7 +1050,7 @@ void news_failed_to_qualify(int param_1)
   puVar4 = local_10a;
   uVar5 = unaff_SS;
   uVar6 = unaff_SS;
-  f_1771_0947(((country *)_local_6)->manager);
+  format_manager_name(((country *)_local_6)->manager);
   f_000E_062F(0x5e4c,0x4000,puVar4,uVar5,iVar3,uVar6);
   uVar1 = *(uint *)(param_1 + -0x21);
   if ((uVar1 < 0x19) || (0x20 < uVar1)) {
@@ -1068,7 +1068,7 @@ void news_failed_to_qualify(int param_1)
   if (cVar2 == '\0') {
     puVar4 = local_10a;
     uVar5 = unaff_SS;
-    f_1771_0947(((country *)_local_6)->manager);
+    format_manager_name(((country *)_local_6)->manager);
     f_000E_075F((int)DS:9B68 + *(int *)(param_1 + 6) * 0x10,
                 (int)((ulong)DS:9B68 >> 0x10),param_1 + -0x15,unaff_SS,puVar4,uVar5);
   }

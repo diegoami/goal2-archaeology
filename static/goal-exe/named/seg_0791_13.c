@@ -20,7 +20,7 @@ undefined1 __stdcall16far ask_watch_match(undefined1 *param_1)
   
   match_setup((undefined1 *)param_1,(int)((ulong)param_1 >> 0x10));
   do {
-    f_0791_A75D();
+    draw_match_lineups();
     u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x3a36,0xb000);
     u214b_fill_back_attr_70
               ((DS:0ABE == 1) + '\x04',*(undefined1 *)((DS:0ABE == 1) + 0xac0),0x10);
@@ -69,7 +69,7 @@ void __stdcall16far show_updated_group_tables(undefined1 param_1,undefined2 para
   undefined1 extraout_AH;
   
   update_group_tables();
-  f_1771_958D(param_2,DS:9976,CONCAT11(extraout_AH,param_1));
+  competition_table_view(param_2,DS:9976,CONCAT11(extraout_AH,param_1));
   return;
 }
 
@@ -291,7 +291,7 @@ void in_match_menu(char param_1)
       local_4 = local_9 < 6;
     }
     local_7 = ((undefined2 *)&DS:9B34)[local_4];
-    f_0791_A75D();
+    draw_match_lineups();
     if (DS:066D != '\0') {
       u214b_write_string_at_fwd_set_attr
                 ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH,0x27),

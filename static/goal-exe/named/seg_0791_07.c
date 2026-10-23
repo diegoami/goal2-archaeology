@@ -613,7 +613,7 @@ void __stdcall16far booking(undefined4 param_1)
             (CONCAT11((char)((uint)(*(int *)(iVar2 + 0xd) * 0x14) >> 8),0x32),ppVar5,uVar4);
   place_offside_marker(0x8304,0xb000,referee_record._0_2_,0xefe);
   match_delay((uint)*(byte *)((int)DS:A923 + 0x3f) * 200);
-  f_0791_9079(0x8304,0xb000);
+  restore_pitch_sprite_cell(0x8304,0xb000);
   u214b_set_include_bit(&ppVar5->status,uVar4,5);
   cVar1 = pitch_slot_side(iVar2,uVar3);
   ((char *)match_stats + 7)[cVar1 * 10] = ((char *)match_stats + 7)[cVar1 * 10] + '\x01';
@@ -727,7 +727,7 @@ void __stdcall16far send_off(undefined4 param_1)
     if (added_time < 5) {
       added_time = added_time + 1;
     }
-    f_0791_9079(0x8304,0xb000);
+    restore_pitch_sprite_cell(0x8304,0xb000);
     adjust_player_form(iVar5,uVar7,0xff01,0xfffe);
     local_4 = 1;
     while( true ) {

@@ -564,7 +564,7 @@ void f_000E_0ACB(int param_1,undefined4 param_2)
   undefined1 local_102 [256];
   
   puVar1 = local_102;
-  f_1771_0947(((country *)countries)[*(int *)(param_1 + 8)].manager);
+  format_manager_name(((country *)countries)[*(int *)(param_1 + 8)].manager);
   sys_str_store_max_0644(0xf,(int)param_2,(int)((ulong)param_2 >> 0x10),puVar1,unaff_SS);
   return;
 }

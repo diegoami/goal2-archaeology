@@ -615,9 +615,10 @@ void __cdecl16far update_group_tables(void)
 }
 
 
-// ---- 1771:883F  f_1771_883F  (f_1771_883F; Ghidra 4000:883F, __stdcall16near; found by routines.tsv)
+// ---- 1771:883F  draw_competition_leaderboard  (f_1771_883F; Ghidra 4000:883F, __stdcall16near; found by routines.tsv)
+// Selects three16-byte DS:A93F entries by continent or snapshot; nonzero word+0E draws marker byte0, string+1 and count word+0C; sets DS:AAB2 to7  [likely; read code/seg_1771_12.asm:795]
 
-void f_1771_883F(int param_1)
+void draw_competition_leaderboard(int param_1)
 
 {
   int iVar1;
@@ -666,9 +667,10 @@ void f_1771_883F(int param_1)
 }
 
 
-// ---- 1771:8939  f_1771_8939  (f_1771_8939; Ghidra 4000:8939, __stdcall16near; found by routines.tsv)
+// ---- 1771:8939  draw_competition_view_frame  (f_1771_8939; Ghidra 4000:8939, __stdcall16near; found by routines.tsv)
+// Clears/expands the base screen, then selects one-pass or interactive templates and the current/snapshot legend according to the parent frame and game+38  [likely; read code/seg_1771_12.asm:901]
 
-void f_1771_8939(int param_1)
+void draw_competition_view_frame(int param_1)
 
 {
   int iVar1;
@@ -697,9 +699,10 @@ void f_1771_8939(int param_1)
 }
 
 
-// ---- 1771:89C1  f_1771_89C1  (f_1771_89C1; Ghidra 4000:89C1, __stdcall16near; found by routines.tsv)
+// ---- 1771:89C1  highlight_competition_view_selector  (f_1771_89C1; Ghidra 4000:89C1, __stdcall16near; found by routines.tsv)
+// Expands DS:2D7A and highlights the row23 selector using DS:1113/1116 indexed by the parent view-kind local  [likely; read code/seg_1771_12.asm:963]
 
-void f_1771_89C1(int param_1)
+void highlight_competition_view_selector(int param_1)
 
 {
   undefined2 unaff_SS;
@@ -712,9 +715,10 @@ void f_1771_89C1(int param_1)
 }
 
 
-// ---- 1771:89FE  f_1771_89FE  (f_1771_89FE; Ghidra 4000:89FE, __stdcall16near; found by routines.tsv)
+// ---- 1771:89FE  highlight_competition_continent_selector  (f_1771_89FE; Ghidra 4000:89FE, __stdcall16near; found by routines.tsv)
+// Highlights the continent selector using the parent country's continent and the DS:1119/111D/1121 coordinate tables  [likely; read code/seg_1771_12.asm:991]
 
-void f_1771_89FE(int param_1)
+void highlight_competition_continent_selector(int param_1)
 
 {
   int iVar1;
@@ -733,23 +737,25 @@ void f_1771_89FE(int param_1)
 }
 
 
-// ---- 1771:8A5D  f_1771_8A5D  (f_1771_8A5D; Ghidra 4000:8A5D, __stdcall16near; found by routines.tsv)
+// ---- 1771:8A5D  draw_competition_selectors  (f_1771_8A5D; Ghidra 4000:8A5D, __stdcall16near; found by routines.tsv)
+// Expands DS:2C68, draws the view selector with89C1, and optionally highlights the continent selector with89FE  [likely; read code/seg_1771_12.asm:1030]
 
-void f_1771_8A5D(undefined2 param_1,char param_2)
+void draw_competition_selectors(undefined2 param_1,char param_2)
 
 {
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x2c68,0xb000);
-  f_1771_89C1(param_1);
+  highlight_competition_view_selector(param_1);
   if (param_2 != '\0') {
-    f_1771_89FE(param_1);
+    highlight_competition_continent_selector(param_1);
   }
   return;
 }
 
 
-// ---- 1771:8A87  f_1771_8A87  (f_1771_8A87; Ghidra 4000:8A87, __stdcall16near; found by routines.tsv)
+// ---- 1771:8A87  draw_competition_group_table  (f_1771_8A87; Ghidra 4000:8A87, __stdcall16near; found by routines.tsv)
+// Draws four eight-byte DS:A933 group records, including country, played/won/drawn/lost bytes, goals and points; address selection includes group, continent, phase and snapshot offsets  [likely; read code/seg_1771_12.asm:1052]
 
-void f_1771_8A87(int param_1,char param_2)
+void draw_competition_group_table(int param_1,char param_2)
 
 {
   undefined1 extraout_AH;
@@ -835,22 +841,27 @@ void f_1771_8A87(int param_1,char param_2)
 }
 
 
-// ---- 1771:8CA2  f_1771_8CA2  (f_1771_8CA2; Ghidra 4000:8CA2, __stdcall16near; found by routines.tsv)
+// ---- 1771:8CA2  draw_competition_fixture_reference  (f_1771_8CA2; Ghidra 4000:8CA2, __stdcall16near; found by routines.tsv)
+// Fixture index0 is skipped; otherwise resolves DS:A92B plus8 times index minus8 and calls77C3 with the supplied row/column  [likely; read code/seg_1771_13.asm:6]
 
-void f_1771_8CA2(undefined2 param_1,undefined2 param_2,undefined2 param_3,int param_4)
+void draw_competition_fixture_reference
+               (undefined2 param_1,undefined2 param_2,undefined2 param_3,int param_4)
 
 {
   if (param_4 != 0) {
-    f_1771_77C3(param_2,param_3,(byte *)fixtures + param_4 * 8 + -8,(int)((ulong)fixtures >> 0x10));
+    draw_fixture_row(param_2,param_3,(byte *)fixtures + param_4 * 8 + -8,
+                     (int)((ulong)fixtures >> 0x10));
   }
   return;
 }
 
 
-// ---- 1771:8CCF  f_1771_8CCF  (f_1771_8CCF; Ghidra 4000:8CCF, __stdcall16near; found by routines.tsv)
+// ---- 1771:8CCF  draw_competition_bracket_fixture  (f_1771_8CCF; Ghidra 4000:8CCF, __stdcall16near; found by routines.tsv)
+// For a nonzero fixture index, draws both countries and scores at bracket coordinates, then the winner marker for a played fixture whose kind is not6  [likely; read code/seg_1771_13.asm:30]
 
-void f_1771_8CCF(undefined2 param_1,undefined2 param_2,undefined2 param_3,int param_4,int param_5,
-                int param_6)
+void draw_competition_bracket_fixture
+               (undefined2 param_1,undefined2 param_2,undefined2 param_3,int param_4,int param_5,
+               int param_6)
 
 {
   undefined1 extraout_AH;
@@ -863,9 +874,10 @@ void f_1771_8CCF(undefined2 param_1,undefined2 param_2,undefined2 param_3,int pa
     uVar3 = (undefined2)((ulong)fixtures >> 0x10);
     pbVar2 = (byte *)fixtures;
     local_6 = (byte *)CONCAT22(uVar3,pbVar2 + param_6 * 8 + -8);
-    f_1771_0FB1(param_4 + 0xe,param_5,*(undefined2 *)(pbVar2 + param_6 * 8 + -2));
-    f_1771_0FB1(param_4 + 0xe,param_5 + 1,*(undefined2 *)(pbVar2 + param_6 * 8 + -4));
-    f_1771_76FA(param_2,param_3,(byte *)fixtures + param_6 * 8 + -8,(int)((ulong)fixtures >> 0x10));
+    draw_country_name_right(param_4 + 0xe,param_5,*(undefined2 *)(pbVar2 + param_6 * 8 + -2));
+    draw_country_name_right(param_4 + 0xe,param_5 + 1,*(undefined2 *)(pbVar2 + param_6 * 8 + -4));
+    draw_fixture_score(param_2,param_3,(byte *)fixtures + param_6 * 8 + -8,
+                       (int)((ulong)fixtures >> 0x10));
     if ((*local_6 < 0xfe) && (pbVar2[param_6 * 8 + -6] != 6)) {
       if (pbVar2[param_6 * 8 + -5] == 0) {
         uVar1 = CONCAT11(extraout_AH,1);
@@ -882,9 +894,10 @@ void f_1771_8CCF(undefined2 param_1,undefined2 param_2,undefined2 param_3,int pa
 }
 
 
-// ---- 1771:8D84  f_1771_8D84  (f_1771_8D84; Ghidra 4000:8D84, __stdcall16near; found by routines.tsv)
+// ---- 1771:8D84  draw_competition_extra_group_fixtures  (f_1771_8D84; Ghidra 4000:8D84, __stdcall16near; found by routines.tsv)
+// Outside game stage5 draws the extra-group eight fixtures, their paired bracket fixtures and finished winners, using the parent country/continent and frame state  [likely; read code/seg_1771_13.asm:109]
 
-void f_1771_8D84(int param_1)
+void draw_competition_extra_group_fixtures(int param_1)
 
 {
   int iVar1;
@@ -903,10 +916,12 @@ void f_1771_8D84(int param_1)
     local_4 = 1;
     while( true ) {
       uVar2 = ((((country *)countries)[*(int *)(param_1 + -8)].continent - 3) * 8 + local_4) - 1;
-      f_1771_8CA2(param_1,0x3d,*(undefined1 *)(local_4 + 0x1125),*(int *)(iVar1 + 0x2c) + uVar2);
+      draw_competition_fixture_reference
+                (param_1,0x3d,*(undefined1 *)(local_4 + 0x1125),*(int *)(iVar1 + 0x2c) + uVar2);
       if ((bool)((byte)local_4 & 1)) {
-        f_1771_8CCF(param_1,0x17,*(undefined1 *)((local_4 + 1U) / 2 + 0x112d),4,local_4 + 8,
-                    uVar2 / 2 + 0x961);
+        draw_competition_bracket_fixture
+                  (param_1,0x17,*(undefined1 *)((local_4 + 1U) / 2 + 0x112d),4,local_4 + 8,
+                   uVar2 / 2 + 0x961);
         iVar3 = uVar2 / 2 + 0x961;
         uVar6 = (undefined2)((ulong)fixtures >> 0x10);
         pbVar4 = (byte *)fixtures + iVar3 * 8 + -8;
@@ -925,9 +940,10 @@ void f_1771_8D84(int param_1)
 }
 
 
-// ---- 1771:8E9A  f_1771_8E9A  (f_1771_8E9A; Ghidra 4000:8E9A, __stdcall16near; found by routines.tsv)
+// ---- 1771:8E9A  draw_competition_group_view  (f_1771_8E9A; Ghidra 4000:8E9A, __stdcall16near; found by routines.tsv)
+// Draws a primary group table and twelve fixture rows, or the special ninth-group fixtures; normalizes unavailable group9 to1 and finishes with the original group selector/key call  [likely; read code/seg_1771_13.asm:226]
 
-void f_1771_8E9A(int param_1)
+void draw_competition_group_view(int param_1)
 
 {
   byte extraout_AH;
@@ -967,25 +983,27 @@ void f_1771_8E9A(int param_1)
     }
   }
   if (*(char *)(param_1 + 10) != '\0') {
-    f_1771_8A5D(param_1,CONCAT11(bVar2,1));
+    draw_competition_selectors(param_1,CONCAT11(bVar2,1));
     bVar2 = extraout_AH_03;
   }
-  f_1771_5AC4(pcVar3[iVar1].continent,CONCAT11(bVar2,*(undefined1 *)(param_1 + -9)),(uint)bVar2 << 8
-             );
+  draw_competition_stage_header
+            (pcVar3[iVar1].continent,CONCAT11(bVar2,*(undefined1 *)(param_1 + -9)),(uint)bVar2 << 8)
+  ;
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x142a,0xb000);
   if (*(int *)(param_1 + -4) == 9) {
-    f_1771_8D84(param_1);
+    draw_competition_extra_group_fixtures(param_1);
   }
   else {
-    f_1771_8A87(param_1,(uint)extraout_AH_04 << 8);
+    draw_competition_group_table(param_1,(uint)extraout_AH_04 << 8);
     for (local_4 = 1;
-        f_1771_8CA2(param_1,0x3a,local_4 + 7,
-                    *(undefined2 *)
-                     ((byte *)group_tables +
-                     local_4 * 2 +
-                     *(int *)(param_1 + -4) * 0x38 +
-                     (uint)pcVar3[iVar1].continent * 0x1c0 + *(char *)(param_1 + -9) * 0xe00 +
-                     -0x1da)), local_4 != 0xc; local_4 = local_4 + 1) {
+        draw_competition_fixture_reference
+                  (param_1,0x3a,local_4 + 7,
+                   *(undefined2 *)
+                    ((byte *)group_tables +
+                    local_4 * 2 +
+                    *(int *)(param_1 + -4) * 0x38 +
+                    (uint)pcVar3[iVar1].continent * 0x1c0 + *(char *)(param_1 + -9) * 0xe00 + -0x1da
+                    )), local_4 != 0xc; local_4 = local_4 + 1) {
     }
   }
   if ((*(char *)(param_1 + -9) == '\0') || (pcVar3[iVar1].continent < 3)) {
@@ -995,87 +1013,5 @@ void f_1771_8E9A(int param_1)
     iVar1 = 1;
   }
   u214b_menu_read_key_and_move(iVar1 + 8,param_1 + -4,unaff_SS);
-  return;
-}
-
-
-// ---- 1771:9028  f_1771_9028  (f_1771_9028; Ghidra 4000:9028, __stdcall16near; found by routines.tsv)
-
-void f_1771_9028(int param_1)
-
-{
-  char extraout_AL;
-  undefined1 extraout_AH;
-  byte extraout_AH_00;
-  int iVar1;
-  undefined1 extraout_AH_01;
-  undefined1 uVar3;
-  undefined1 extraout_AH_02;
-  undefined2 uVar2;
-  undefined1 extraout_AH_03;
-  undefined2 unaff_SS;
-  undefined1 *puVar4;
-  undefined2 uVar5;
-  undefined1 local_10c [256];
-  undefined4 local_c;
-  undefined2 local_8;
-  uint local_6;
-  int local_4;
-  
-  local_c = DS:A923;
-  local_8 = *(undefined2 *)(param_1 + -8);
-  if (*(char *)(param_1 + -9) != '\0') {
-    *(undefined2 *)(param_1 + -8) = 1;
-  }
-  local_6 = (uint)*(byte *)(*(char *)(param_1 + -9) + 0x1136);
-  f_1771_5AC4(((country *)countries)[*(int *)(param_1 + -8)].continent,*(undefined1 *)(param_1 + -9)
-              ,1);
-  f_1771_883F(param_1);
-  if (local_6 < *(uint *)(param_1 + -4)) {
-    *(undefined2 *)(param_1 + -4) = 1;
-  }
-  u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x386e,0xb000);
-  uVar3 = extraout_AH;
-  if (*(char *)(param_1 + 10) != '\0') {
-    u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x2d5a,0xb000);
-    if (*(char *)(param_1 + -9) == '\0') {
-      iVar1 = CONCAT11(extraout_AH_00,1);
-    }
-    else {
-      iVar1 = (uint)extraout_AH_00 << 8;
-    }
-    f_1771_8A5D(param_1,iVar1);
-    uVar3 = extraout_AH_01;
-  }
-  if (*(char *)(param_1 + -9) == *(char *)((int)local_c + 0x40)) {
-    stage_uses_finals_table();
-    uVar3 = extraout_AH_02;
-    if (extraout_AL == '\0') {
-      uVar2 = CONCAT11(extraout_AH_02,7);
-      puVar4 = local_10c;
-      uVar5 = unaff_SS;
-      sys_char_to_str_075A(*(int *)(param_1 + -4) + 0x40);
-      u214b_write_string_at_fwd_set_attr
-                ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_03,0xb),
-                 CONCAT11(extraout_AH_03,9),puVar4,uVar5,uVar2);
-      goto LAB_1771_91AD;
-    }
-  }
-  f_1771_8A87(param_1,CONCAT11(uVar3,1));
-  local_4 = 1;
-  while( true ) {
-    f_1771_8CA2(param_1,0x3a,*(undefined1 *)(local_4 + 0x1137),
-                *(undefined2 *)
-                 ((byte *)group_tables +
-                 local_4 * 2 +
-                 *(int *)(param_1 + -4) * 0x38 +
-                 (uint)((country *)countries)[*(int *)(param_1 + -8)].continent * 0x1c0 +
-                 *(char *)(param_1 + -9) * 0xe00 + 0x526));
-    if (local_4 == 6) break;
-    local_4 = local_4 + 1;
-  }
-LAB_1771_91AD:
-  u214b_menu_read_key_and_move(local_6,param_1 + -4,unaff_SS);
-  *(undefined2 *)(param_1 + -8) = local_8;
   return;
 }

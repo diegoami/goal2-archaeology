@@ -68,9 +68,10 @@ void __cdecl16near snapshot_match_state(void)
 }
 
 
-// ---- 0791:1829  f_0791_1829  (f_0791_1829; Ghidra 2000:1829, __stdcall16near; found by routines.tsv)
+// ---- 0791:1829  draw_commentary_ring_line  (f_0791_1829; Ghidra 2000:1829, __stdcall16near; found by routines.tsv)
+// Expands a six-byte DS:7C38 commentary record and player-name markers into a padded30-character local string; writes via DS:A96A and also DS:A972 for rows at most4  [likely; read code/seg_0791_03.asm:274]
 
-void f_0791_1829(undefined1 param_1,uint param_2,int param_3)
+void draw_commentary_ring_line(undefined1 param_1,uint param_2,int param_3)
 
 {
   char cVar1;
@@ -277,7 +278,7 @@ void emit_commentary(undefined1 param_1,undefined2 param_2,undefined2 param_3,un
       local_4 = pitch_records[0]._6_2_;
       while( true ) {
         if (0 < local_4) {
-          f_0791_1829(0x21,4 - (pitch_records[0]._6_2_ - local_4),local_4);
+          draw_commentary_ring_line(0x21,4 - (pitch_records[0]._6_2_ - local_4),local_4);
         }
         if (local_4 == iVar2) break;
         local_4 = local_4 + -1;
@@ -558,7 +559,7 @@ void __cdecl16near resort_pitch_and_bench(void)
     local_3 = local_3 + '\x01';
   }
   set_marking_words();
-  f_0791_0691();
+  update_pitch_player_glyphs();
   assign_marking_slots();
   assign_start_posts();
   pitch_records[1].x_offset = 0;
@@ -635,7 +636,7 @@ void set_message_word(char param_1)
 void __cdecl16near show_message_8304(void)
 
 {
-  f_0791_9079(0x8304,0xb000);
+  restore_pitch_sprite_cell(0x8304,0xb000);
   DS:8328 = 0;
   return;
 }

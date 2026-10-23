@@ -744,9 +744,10 @@ void __stdcall16far draw_ball(int *param_1)
 }
 
 
-// ---- 0791:9079  f_0791_9079  (f_0791_9079; Ghidra 2000:9079, __stdcall16far; found by routines.tsv)
+// ---- 0791:9079  restore_pitch_sprite_cell  (f_0791_9079; Ghidra 2000:9079, __stdcall16far; found by routines.tsv)
+// Sets the sprite record position from DS:0644; outside quick mode calls8E24 and restores the matching occupancy word from the background picture to DS:7C16  [likely; read code/seg_0791_15.asm:392]
 
-void __stdcall16far f_0791_9079(undefined2 *param_1)
+void __stdcall16far restore_pitch_sprite_cell(undefined2 *param_1)
 
 {
   *param_1 = DS:0644;
@@ -929,7 +930,7 @@ void __cdecl16near match_key_poll(void)
           u214b_wrap_add_in_range_byte
                     ((int)((char *)form_delta)[DS:A976 == -0x4f],CONCAT11(bVar3,4),
                      (uint)bVar3 << 8,0x66a,0xb000);
-          f_0791_0691();
+          update_pitch_player_glyphs();
         }
         else if ((cVar1 == '\r') || (cVar1 == '\x1b')) {
           in_match_menu(CONCAT11(bVar3,1));
@@ -969,30 +970,4 @@ undefined2 speaker_rng_step(undefined2 param_1)
   
   uVar1 = u214b_lcg_step(param_1,(undefined *)&DS:8336,0xb000);
   return uVar1;
-}
-
-
-// ---- 0791:94E8  speaker_noise  (f_0791_94E8; Ghidra 2000:94E8, __cdecl16near; found by routines.tsv)
-// sounds the speaker at a pitch drawn from 0791:94C9; that stream's only caller  [established; F004; F006]
-
-void __cdecl16near speaker_noise(void)
-
-{
-  uint uVar1;
-  int iVar2;
-  
-  if (DS:832A != 0) {
-    uVar1 = speaker_rng_step(0x32);
-    if ((((int)uVar1 < 0 && (int)uVar1 >> 0xf < 1) ||
-        (((int)uVar1 >> 0xf < 1 && (uVar1 < DS:832A)))) &&
-       (*(char *)((int)DS:A923 + 0x3f) != '\0')) {
-      iVar2 = speaker_rng_step(DS:832A + 300);
-      u214b_speaker_set_frequency(iVar2 + 100);
-      goto LAB_0791_9532;
-    }
-  }
-  u214b_speaker_off();
-LAB_0791_9532:
-  match_delay(*(undefined1 *)((int)DS:A923 + 0x3f));
-  return;
 }

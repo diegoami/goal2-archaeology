@@ -814,9 +814,10 @@ undefined1 __stdcall16far recovery_route_gradual(undefined4 param_1,undefined2 p
 }
 
 
-// ---- 1771:5AC4  f_1771_5AC4  (f_1771_5AC4; Ghidra 4000:5AC4, __stdcall16near; found by routines.tsv)
+// ---- 1771:5AC4  draw_competition_stage_header  (f_1771_5AC4; Ghidra 4000:5AC4, __stdcall16near; found by routines.tsv)
+// Composes the continent/snapshot header templates, the stage label at DS:0F5E and the number2*game+38+game+3A-2*(snapshot!=game+40); optionally draws the stored leader country  [likely; read code/seg_1771_08.asm:858]
 
-void f_1771_5AC4(int param_1,byte param_2,char param_3)
+void draw_competition_stage_header(int param_1,byte param_2,char param_3)
 
 {
   undefined1 extraout_AH;
@@ -885,8 +886,9 @@ void __cdecl16far f_1771_5BF6(void)
   iVar1 = (int)DS:A923;
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x26f2,0xb000);
   uVar2 = stage_uses_finals_table();
-  f_1771_5AC4(((country *)countries)[((byte *)manager_countries)[(*(byte *)(iVar1 + 1) + 0x80) * 3]]
-              .continent,4 < *(byte *)(iVar1 + 0x3c),uVar2);
+  draw_competition_stage_header
+            (((country *)countries)[((byte *)manager_countries)[(*(byte *)(iVar1 + 1) + 0x80) * 3]].
+             continent,4 < *(byte *)(iVar1 + 0x3c),uVar2);
   return;
 }
 
