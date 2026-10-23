@@ -409,6 +409,12 @@ def update_fixture_player_state(mem, variant):
         managed = bool(r.al)
     r.al = int(managed)
     r.local8(-5, r.al)
+    def squad_arg(k):
+        # A pushed memory word leaves AX at 2*k; its AH is part of a following byte flag.
+        r.ax = k << 1
+        r.es, r.di = sqseg, sqoff + r.ax
+        return rw(mem, r, -2)
+
     for side in range(2):
         r.local8(-7, side)
         r.al = side
@@ -456,19 +462,19 @@ def update_fixture_player_state(mem, variant):
             if participant:
                 r.es, r.di = pseg, poff
                 w16(mem, r, 8, rw(mem, r, 8) + 1, "B908")
-                word = squad_word(mem, r, sqseg, sqoff, k)
+                word = squad_arg(k)
                 if gradual:
                     r.al = 1
                     r = yield from guest(mem, r, "1771:3651", word, r.ax, ret="B928")
                 else:
                     r = yield from guest(mem, r, "1771:3558", word, ret="B93D")
-                word = squad_word(mem, r, sqseg, sqoff, k)
+                word = squad_arg(k)
                 r = yield from guest(mem, r, "B364", word, delta, ret="B951", far=False)
                 if k > 11:
                     r.ax = 3
                     r.es, r.di = pseg, poff + 0x10
                     r = yield from guest(mem, r, "214B:0CA1", 3, r.es, r.di, ret="B969")
-                    word = squad_word(mem, r, sqseg, sqoff, k)
+                    word = squad_arg(k)
                     r.push(word)
                     r.ax = 2
                     r = yield from guest(mem, r, "214B:06B1", r.ax, ret="B980")
@@ -480,7 +486,7 @@ def update_fixture_player_state(mem, variant):
                     word = pop(mem, r)
                     r = yield from guest(mem, r, "B364", word, r.ax, ret="B991", far=False)
             else:
-                word = squad_word(mem, r, sqseg, sqoff, k)
+                word = squad_arg(k)
                 r.push(word)
                 r.ax = 4
                 r = yield from guest(mem, r, "214B:06B1", r.ax, ret="B9AA")
@@ -491,13 +497,13 @@ def update_fixture_player_state(mem, variant):
                 r.ax = r.ax - r.dx
                 word = pop(mem, r)
                 r = yield from guest(mem, r, "B364", word, r.ax, ret="B9BB", far=False)
-                word = squad_word(mem, r, sqseg, sqoff, k)
+                word = squad_arg(k)
                 if gradual:
                     r.al = 0
                     r = yield from guest(mem, r, "1771:3651", word, r.ax, ret="B9D7")
                 else:
                     r = yield from guest(mem, r, "1771:3558", word, ret="B9EC")
-            word = squad_word(mem, r, sqseg, sqoff, k)
+            word = squad_arg(k)
             r = yield from guest(mem, r, "B27F", word, ret="B9FD", far=False)
             if k > 11 and not managed:
                 player_at(mem, r, sqseg, sqoff, k)
