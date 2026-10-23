@@ -428,7 +428,7 @@ void f_1771_1D5C(int param_1)
                  CONCAT11(extraout_AH_05,(undefined1)local_a),puVar5,uVar4);
       puVar5 = local_1a4;
       uVar4 = unaff_SS;
-      f_1771_580B(*local_a4);
+      fixture_kind_title(*local_a4);
       u214b_write_string_at_attr_var
                 ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_06,0x26),
                  CONCAT11(extraout_AH_06,(undefined1)local_a),puVar5,uVar4);

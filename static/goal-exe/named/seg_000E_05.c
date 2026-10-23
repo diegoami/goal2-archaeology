@@ -848,7 +848,7 @@ void __cdecl16near f_000E_724A(void)
       f_000E_715E(&stack0xfffe,0x13,local_6);
       puVar3 = local_123;
       uVar2 = unaff_SS;
-      f_1771_580B(((byte *)fixtures)[next_fixture_number * 8 + -6]);
+      fixture_kind_title(((byte *)fixtures)[next_fixture_number * 8 + -6]);
       sys_str_store_max_0644(0x14,local_1b,unaff_SS,puVar3,uVar2);
       if ((local_23[2] != 0) &&
          ((local_23[2] == 1 || (cVar1 = stage_uses_finals_table(), cVar1 == '\0')))) {

@@ -767,7 +767,7 @@ void __cdecl16near action_replay(void)
     DS:9B41 = DS:9B42;
     *rng_word_ptr = DS:9974;
     sys_move_025D(0x14,0x9978,0xb000,0x998c,0xb000);
-    f_0791_A841();
+    draw_setup_screen();
     sys_move_025D(4000,(int)DS:7C16,(int)((ulong)DS:7C16 >> 0x10),(int)DS:7C1E,
                   (int)((ulong)DS:7C1E >> 0x10));
     local_5 = 1;
@@ -815,9 +815,10 @@ void __cdecl16near action_replay(void)
 }
 
 
-// ---- 0791:1073  f_0791_1073  (f_0791_1073; Ghidra 2000:1073, __cdecl16near; found by routines.tsv)
+// ---- 0791:1073  kit_colours  (f_0791_1073; Ghidra 2000:1073, __cdecl16near; found by routines.tsv)
+// T70 (ported, exact on ALL; runtime/original_match/port/setup.py): the two sides' colours DS:832E (team 0), 832F (team 1) and the second colours 8330, 8331: with DS:A964 set the fixed 4, 1, 0xC, 9; else bytes 0 and 2 of each country's three at DS:9D80 + 3 country, then team 0 takes its byte 1 for a colour equal to team 1's (832E first, else 8330), and team 1 its byte 1 for 8331 when it equals 832E; called by the set-up A4A1  [likely; read code/seg_0791_02.asm:768]
 
-void __cdecl16near f_0791_1073(void)
+void __cdecl16near kit_colours(void)
 
 {
   if (DS:A964 == '\0') {
@@ -931,7 +932,7 @@ void __cdecl16far view_saved_goal(void)
                  CONCAT11(extraout_AH,*(undefined1 *)((int)DS:7C2A + 2)));
       DS:7C36 = !(bool)uVar9;
       DS:7C39 = 0;
-      f_0791_1073();
+      kit_colours();
       DS:9B40 = 0;
       match_set_up = 1;
       in_match_menu_used = 1;
@@ -987,72 +988,5 @@ void __cdecl16far view_saved_goal(void)
     }
     cVar4 = u214b_report_dos_file_error(uVar5 & 0xff00);
   } while (cVar4 != '\0');
-  return;
-}
-
-
-// ---- 0791:15B9  snapshot_match_state  (f_0791_15B9; Ghidra 2000:15B9, __cdecl16near; found by routines.tsv)
-// copies the live match state into the replay snapshot buffers (the reverse of the restore in 0791:0C65): 0x7FB bytes DS:7C3E to DS:8439, then for t = 0, 1 the country record 0xBF bytes to DS:8C34 + 0xBF t, the manager's 3-byte and 13-byte entries and flag, each of the 20 squad players' 0x14-byte records with their name and flag, the statistics DS:7B6A, DS:7B92, the fixture words, DS:9A40 (0x50) and the match_form words (0x28), the substitution counters DS:9B38, the score DS:9B3E, DS:9B42 and the RNG word DS:9974; it never writes the live squad words; called by the tick loop 97D0 when DS:9B55 is set and no goal is pending (DS:7C37 clear; when both are set 97D0 runs action_replay and skips this routine), and once by run_match after the match when it was watched  [established; F029; read code/seg_0791_03.asm:8-120; read code/seg_0791_16.asm:105-113; read code/seg_0791_23.asm:1146]
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-void __cdecl16near snapshot_match_state(void)
-
-{
-  int iVar1;
-  country *pcVar2;
-  undefined2 uVar3;
-  int local_5;
-  char local_3;
-  
-  sys_move_025D(0x7fb,0x8439,0xb000,0x7c3e,0xb000);
-  local_3 = '\0';
-  while( true ) {
-    iVar1 = ((undefined2 *)&DS:9B34)[local_3];
-    uVar3 = (undefined2)((ulong)countries >> 0x10);
-    pcVar2 = (country *)countries;
-    sys_move_025D(0xbf,local_3 * 0xbf + -0x73cc,0xb000,
-                  pcVar2 + ((undefined2 *)&DS:9B34)[local_3],uVar3);
-    sys_move_025D(3,local_3 * 3 + -0x66d0,0xb000,
-                  (byte *)manager_countries + (uint)pcVar2[iVar1].manager * 3,
-                  (int)((ulong)manager_countries >> 0x10));
-    sys_str_store_max_0644
-              (0xc,local_3 * 0xd + -0x66c4,0xb000,
-               (int)DS:9B74 + (uint)pcVar2[iVar1].manager * 0xd,
-               (int)((ulong)DS:9B74 >> 0x10));
-    *(undefined1 *)(local_3 + -0x6690) =
-         *(undefined1 *)((int)DS:9B78 + (uint)pcVar2[iVar1].manager);
-    local_5 = 1;
-    while( true ) {
-      sys_move_025D(0x14,local_3 * 400 + local_5 * 0x14 + -0x70e4,0xb000,
-                    (player *)players + pcVar2[iVar1].squad[local_5 + -1],
-                    (int)((ulong)players >> 0x10));
-      sys_str_store_max_0644
-                (10,local_3 * 0xdc + local_5 * 0xb + -0x6a9b,0xb000,
-                 (int)DS:9B6C + pcVar2[iVar1].squad[local_5 + -1] * 0xb,
-                 (int)((ulong)DS:9B6C >> 0x10));
-      *(undefined1 *)(local_3 * 0x14 + local_5 + -0x6721) =
-           *(undefined1 *)((int)DS:9B70 + pcVar2[iVar1].squad[local_5 + -1]);
-      if (local_5 == 0x14) break;
-      local_5 = local_5 + 1;
-    }
-    if (local_3 == '\x01') break;
-    local_3 = local_3 + '\x01';
-  }
-  sys_move_025D(0x14,0x7b6a,0xb000,(char *)match_stats,0xb000);
-  sys_move_025D(0x42,0x7b92,0xb000,0x7bd4,0xb000);
-  sys_move_025D(8,0x7c2e,0xb000,(int)DS:7C2A,(int)((ulong)DS:7C2A >> 0x10));
-  DS:9A3C = fixture_not_friendly;
-  sys_move_025D(0x50,0x9a90,0xb000,0x9a40,0xb000);
-  sys_move_025D(0x28,0x9ae0,0xb000,(char *)match_form + 1,0xb000);
-  DS:9B32 = (undefined2)((ulong)DS:9B34 >> 0x10);
-  DS:9B30 = (undefined2)DS:9B34;
-  DS:9B38[0] = substitutions_left[0];
-  DS:9B38[1] = substitutions_left[1];
-  DS:9B3E = DS:9B3C;
-  DS:9B42 = DS:9B41;
-  DS:9974 = *rng_word_ptr;
-  sys_move_025D(0x14,0x998c,0xb000,0x9978,0xb000);
-  u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96A,0xb000,0x6120,0xb000);
   return;
 }

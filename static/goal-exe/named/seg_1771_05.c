@@ -932,7 +932,7 @@ void __stdcall16far f_1771_7812(int param_1,undefined2 param_2,char *param_3)
     DS:AAB2 = ((undefined1 *)&DS:110A)[pcVar1[2] == '\x01'];
   }
   puVar3 = local_106;
-  f_1771_580B(pcVar1[2]);
+  fixture_kind_title(pcVar1[2]);
   u214b_write_string_at_fwd
             ((undefined4 *)&DS:A96E,0xb000,param_1 + 0x16,
              CONCAT11(extraout_AH,(undefined1)param_2),puVar3,unaff_SS);
