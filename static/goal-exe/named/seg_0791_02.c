@@ -332,7 +332,7 @@ void __cdecl16near assign_marking_slots(void)
     }
     else if (in_match_menu_used != 0) {
       cVar3 = player_unavailable(*(undefined2 *)(local_3 * 10 + -0x6688));
-      if ((cVar3 != '\0') || (uVar5 = f_0791_6B65(1,local_3), 0xb < uVar5)) {
+      if ((cVar3 != '\0') || (uVar5 = taker_squad_index(1,local_3), 0xb < uVar5)) {
         uVar4 = choose_captain_or_taker(1,local_3);
         *(undefined2 *)(local_3 * 10 + -0x6688) = uVar4;
       }
