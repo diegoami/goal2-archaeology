@@ -1,0 +1,35 @@
+fixed pre-task baseline: exit 1, caught
+B395 confidence floor zero: exit 1, caught
+B3A2 confidence ceiling31: exit 1, caught
+B6FA manager floor minus128: exit 1, caught
+B707 manager upper126: exit 1, caught
+B2A6 old suspension kept: exit 1, caught
+B347 carried booking not cleared: exit 1, caught
+113D rating divisor3: exit 1, caught
+110C continent base4: exit 1, caught
+B764 expectation divisor16: exit 1, caught
+B7E6 result not doubled: exit 1, caught
+5C84 margin not absolute: exit 1, caught
+5A4F friendly kind2: exit 1, caught
+5AA3 set route not consulted: exit 1, caught
+357B roll age margin3: exit 1, caught
+35C7 managed draw2B: exit 1, caught
+3626 roll upper31: exit 1, caught
+3646 roll lower floor zero: exit 1, caught
+367E injured test reversed: exit 1, caught
+36DD rest bonus omitted: exit 1, caught
+36F6 cap age margin4: exit 1, caught
+3768 healing reversed: exit 1, caught
+B8E9 bench all participants: exit 1, caught
+B920 recovery flag AH from playerword: exit 1, caught
+B871 manager credit even for friendlies: exit 1, caught
+BA09 unused positions not restored: exit 1, caught
+BB09 kind0 serves a ban: exit 1, caught
+BA9F wrapped pool bound not refused: exit 0, NOT CAUGHT
+...............
+----------------------------------------------------------------------
+Ran 15 tests in 0.096s
+
+OK
+
+a control was not caught

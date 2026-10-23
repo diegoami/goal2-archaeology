@@ -357,5 +357,27 @@ class Update(Case):
             r.run("1771:3651", [1, 1], answers({"214B:06B1": [1, 1]}), variant=variant)
             self.assertEqual(r.mem.memory[PSEG * 16 + POFF + 20 + 0xE], expected)
 
+    def test_every_fixture_kind_injury_recovery_route(self):
+        # F027 section6: result-set kinds3,4,7,8..203; a cross-continent friendly adds sideA only.
+        # 5A03 is an earlier port's set service. 5A38 below is the actual T72 routine, not an oracle.
+        for kind in range(256):
+            for same in (False, True):
+                for country in (3, 4):
+                    r = Rig()
+                    r.fixture(kind, 3, 4)
+                    special = kind in (3, 4, 7) or 8 <= kind <= 203
+                    def reply(c, mem):
+                        if c.target == "1771:5A38":
+                            child = Rig()
+                            child.fixture(kind, 3, 4)
+                            child.country(3, 0x2C, 1)
+                            child.country(4, 0x2C, 1 if same else 2)
+                            return child.run("1771:5A38", [FXOFF, FXSEG, country])
+                        if c.target == "1771:5A03":
+                            return int(special)
+                        return 0
+                    got = r.run("1771:5A8F", [FXOFF, FXSEG, country], reply)
+                    self.assertEqual(got & 255, int(special or (kind == 1 and not same and country == 3)))
+
 if __name__ == "__main__":
     unittest.main()

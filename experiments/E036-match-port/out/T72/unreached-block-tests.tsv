@@ -1,0 +1,14 @@
+address	test in tests.test_port_update.Update	method
+0791:B328	test_status_ban_served_red_and_two_bookings	second carried booking versus first booking, Pascal bits and suspension retained
+0791:B6CC	test_manager_signed_clips_and_word_wrap	100 actual-original differential cases including dead frame and AX/DX in manager_differential.py
+0791:B6FA	test_manager_signed_clips_and_word_wrap	signed lower clamp -127 versus in-range and upper clamps
+0791:B701	test_manager_signed_clips_and_word_wrap	in-range and upper clamp versus lower clamp
+0791:B707	test_manager_signed_clips_and_word_wrap	upper clamp127 versus boundary127 and lower clamp
+0791:B70C	test_manager_signed_clips_and_word_wrap	stored byte and word wrap cases
+0791:B829	test_fixture_update_managed_short_circuit_and_bench_roles	neither side managed versus first or second side managed
+0791:B871	test_fixture_update_managed_short_circuit_and_bench_roles	neither managed, friendly versus non-friendly
+0791:B87B	test_fixture_update_managed_short_circuit_and_bench_roles	manager credit for each non-friendly team only when neither side managed
+0791:B8C3	test_fixture_update_managed_short_circuit_and_bench_roles	zero squad words skipped beside XI and both bench roles
+0791:BA09	test_fixture_update_managed_short_circuit_and_bench_roles	bench position restored from club position when neither managed, managed twin unchanged
+0791:BAA1	test_pool_eighty_entries_status_kind_and_wrapped_bound	start+79 wraps16 bits and refuses empty range, ordinary80-entry twin
+1771:36E6	test_recovery_lower_floor_bypasses_zero_upper_cap	negative fitness result floors1 and bypasses cap0, ordinary cap cases in recovery_model test
