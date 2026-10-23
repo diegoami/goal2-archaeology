@@ -14,6 +14,8 @@ from .runtime import Regs
 from .setup import guest, member, farg, wd8, wd16, w8, w16, rb, rw, squad_of, player_of, squad_word, player_at
 
 PORTS = Registry("postmatch", "run_match, man of the match, restored players, tactics, country records and group tables (T71)")
+PORTS.variant("man-best-reversed", "CB4E: reverse the signed comparison of performance with best (greater to less)")
+PORTS.variant("winner-count-two", "D0AE: increment a winning country's season wins by two instead of one")
 PORTS.variant("man-tie-replaces", "CB4E: replace the man of the match on equal performance")
 PORTS.variant("restore-energy-omitted", "CC14: omit the restoration of positive energy from fitness")
 PORTS.variant("group-points-one", "83FF: a win earns one point rather than two")
@@ -165,7 +167,10 @@ def select_man_of_the_match(mem, variant):
                 perf = (perf - 10000) & M16
                 r.local16(-7, perf)
             r.ax = perf
-            if s16(perf) > s16(best) or (variant == "man-tie-replaces" and perf == best):
+            better = s16(perf) > s16(best)
+            if variant == "man-best-reversed":
+                better = s16(perf) < s16(best)
+            if better or (variant == "man-tie-replaces" and perf == best):
                 squad_word(mem, r, sqseg, sqoff, k)
                 wd16(mem, 0x7C3A, r.ax, "CB5E")
                 r.ax, best = perf, perf
@@ -311,7 +316,7 @@ def update_country_match_records(mem, variant):
             r.al = rb(mem, r, 3)
             r.es, r.di = cseg, rec
             k, at = (1, "D0AE") if r.al == side else (3, "D0B7")
-            w8(mem, r, k, rb(mem, r, k) + 1, at)
+            w8(mem, r, k, rb(mem, r, k) + (2 if variant == "winner-count-two" and k == 1 else 1), at)
         r.al = side
         cbw(r)
         fixture(r.ax)

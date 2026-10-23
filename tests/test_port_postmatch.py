@@ -68,13 +68,13 @@ class Rig:
         self.mem.memory[base:base + 8] = bytes([0xFE, 0, kind, 0]) + first.to_bytes(2, "little") + \
             second.to_bytes(2, "little")
 
-    def run(self, address, words=(), answer=None):
+    def run(self, address, words=(), answer=None, variant=None):
         entry = port._module_registry("postmatch").entries[address]
         for i, value in enumerate([0x5678] + ([0x9ABC] if entry.far else []) + list(words)):
             self.mem.memory[0x3000 + i * 2:0x3002 + i * 2] = (value & 0xFFFF).to_bytes(2, "little")
         self.mem._entries.append((0x3000, entry.far))
         try:
-            value = entry.fn(self.mem, None)
+            value = entry.fn(self.mem, variant)
             if hasattr(value, "send"):
                 gen, sent = value, None
                 while True:
@@ -407,6 +407,23 @@ class Postmatch(Case):
                         self.assertEqual(r.mem.memory[GSEG * 16 + GOFF + 1], 1)
                         self.assertEqual(r.args("0791:F098"), [(BP0,)])
                         self.assertEqual(len(r.args("23E4:025D")), 3)
+
+    def test_strong_falsifiers_change_their_reached_writes(self):
+        for variant, winner in ((None, 2), ("man-best-reversed", 0)):
+            r = Rig()
+            r.ds16(0x9B34, 1)
+            r.ds16(0x9B36, 2)
+            r.squad(1, [1, 2])
+            r.lin16(PSEG * 16 + POFF + 20 + 0x12, 55)
+            r.lin16(PSEG * 16 + POFF + 40 + 0x12, 60)
+            r.run("0791:CAB0", variant=variant)
+            self.assertEqual(r.mem.ds16(0x7C3A), winner)
+        for variant, wins in ((None, 1), ("winner-count-two", 2)):
+            r = Rig()
+            r.fixture(1, 3, 4)
+            r.lin8(FXSEG * 16 + FXOFF + 3, 0)
+            r.run("0791:D050", [FXOFF, FXSEG], variant=variant)
+            self.assertEqual(r.mem.memory[SQSEG * 16 + SQOFF + 3 * 0xBF + 0x3C], wins)
 
 if __name__ == "__main__":
     unittest.main()
