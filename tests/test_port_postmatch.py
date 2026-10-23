@@ -365,5 +365,44 @@ class Postmatch(Case):
             self.assertEqual(list(r.mem.memory[base:base + 2]), [a + d, b + c])
             self.assertEqual(r.mem.memory[base + 3], winner)
 
+    def test_run_match_tail_quick_save_and_manager_branches(self):
+        for quick in (False, True):
+            for save in (False, True):
+                for kind in (1, 2):
+                    for managed in (0, 1):
+                        r = Rig()
+                        r.fixture(kind, 1, 2)
+                        r.ds16(0x9B34, 1)
+                        r.ds16(0x9B36, 2)
+                        r.ds8(0x9A3E, int(quick))
+                        r.squad(1, [1] + [0] * 19)
+                        r.player(1, 0xC, 44)
+                        r.lin16(PSEG * 16 + POFF + 20 + 0x12, 0x7777)
+                        trace = []
+                        r.mem.sites[r.mem.lin("0791:F2E3")] = [lambda: trace.append("MATCH_PLAYED")]
+                        def reply(c, mem):
+                            trace.append(c.target)
+                            if c.target == "23E4:08DF":
+                                mem.regs['eflags'] = 0 if quick else 0x40
+                            return int(save) if c.target == "0791:0B7C" else (managed if c.target == "1771:0B77" else 0)
+                        r.run("0791:F1F6", [FXOFF, FXSEG], reply)
+                        self.assertIn("MATCH_PLAYED", trace)
+                        self.assertEqual(trace.index("MATCH_PLAYED"), trace.index("0791:F098") + 1)
+                        self.assertEqual(trace[trace.index("MATCH_PLAYED") + 1], "23E4:025D")
+                        self.assertEqual(len(r.args("0791:15B9")), int(not quick))
+                        self.assertEqual(len(r.args("0791:0B7C")), int(not quick))
+                        self.assertEqual(len(r.args("0791:0A6B")), int(save and not quick))
+                        self.assertEqual(len(r.args("0791:ED8A")), 2 if quick else 1)
+                        self.assertEqual(len(r.args("0791:E929")), int(kind != 1))
+                        self.assertEqual(r.args("0791:BC5D"), [(1,), (2,)] if not managed else [])
+                        self.assertEqual(r.args("0791:BA4E"), [(1,), (2,)] if managed else [])
+                        self.assertEqual(r.mem.ds8(0x9B08), 44)
+                        self.assertEqual(r.u16(PSEG * 16 + POFF + 20 + 0x12), 0x37)
+                        self.assertEqual(r.mem.ds8(0x66D), 0)
+                        self.assertEqual(r.mem.ds8(0xC20), 0)
+                        self.assertEqual(r.mem.memory[GSEG * 16 + GOFF + 1], 1)
+                        self.assertEqual(r.args("0791:F098"), [(BP0,)])
+                        self.assertEqual(len(r.args("23E4:025D")), 3)
+
 if __name__ == "__main__":
     unittest.main()

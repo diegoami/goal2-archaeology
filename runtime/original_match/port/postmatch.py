@@ -2,7 +2,7 @@
 
 The instruction offsets in comments and write sites refer to code/seg_0791_19.asm (BC5D),
 seg_0791_20.asm (CAB0-CB7D), seg_0791_21.asm (D016-D050), seg_0791_23.asm
-(E929), seg_0791_24.asm (F1F6), and seg_1771_08/12/13.asm (59D8, 82BD-8757).
+(E929 and F1F6), and seg_1771_08/12.asm (59D8, 82BD-8757).
 Guest calls preserve the listing's arguments, return addresses, registers and dead stack frames.
 """
 from . import Registry
