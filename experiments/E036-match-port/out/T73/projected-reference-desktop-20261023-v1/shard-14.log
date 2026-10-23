@@ -1,0 +1,11 @@
+COMMAND: ['/home/diego/.local/bin/python3.12', '-B', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/family.py', '--family', 'ALL', '--only', 'S/ko-42-sudden-death,S/ko-30-extra-time,S/ko-9-quick', '--mask', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/families/display/mask.json', '--workers', '2', '--time-limit', '6000', '--stretch-limit', '1200', '--out', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/projected-reference-desktop-20261023-v1/shard-14.jsonl']
+heavy: family: waiting for a slot (6 ahead)
+heavy: family: waiting for a slot (4 ahead)
+heavy: family: waiting for a slot (2 ahead)
+heavy: family: waiting for a slot (1 ahead)
+heavy: family: got slot 12 13 after 7 s
+3 matches selected, 0 already in /home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/projected-reference-desktop-20261023-v1/shard-14.jsonl, 3 to run
+S/ko-42-sudden-death: completed; score [0, 0] ticks 5644 cpu 59.077 s
+S/ko-30-extra-time: completed; score [3, 2] ticks 5809 cpu 56.882 s
+S/ko-9-quick: completed; score [1, 1] ticks 2290 cpu 33.35 s
+3 of 3 matches in /home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/projected-reference-desktop-20261023-v1/shard-14.jsonl, 0 not completed

@@ -1,0 +1,20 @@
+COMMAND: ['/home/diego/.local/bin/python3.12', '-B', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/family.py', '--family', 'ALL', '--only', 'S/quick-30,S/quick-1,S/decisions-quick-60,S/ko-39-budget-5', '--mask', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/families/display/mask.json', '--workers', '2', '--time-limit', '6000', '--stretch-limit', '1200', '--out', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/projected-reference-desktop-20261023-v1/shard-13.jsonl']
+heavy: family: waiting for a slot (13 ahead)
+heavy: family: waiting for a slot (12 ahead)
+heavy: family: waiting for a slot (11 ahead)
+heavy: family: waiting for a slot (10 ahead)
+heavy: family: waiting for a slot (9 ahead)
+heavy: family: waiting for a slot (8 ahead)
+heavy: family: waiting for a slot (7 ahead)
+heavy: family: waiting for a slot (6 ahead)
+heavy: family: waiting for a slot (5 ahead)
+heavy: family: waiting for a slot (3 ahead)
+heavy: family: waiting for a slot (2 ahead)
+heavy: family: waiting for a slot (1 ahead)
+heavy: family: got slot 28 29 after 15 s
+4 matches selected, 0 already in /home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/projected-reference-desktop-20261023-v1/shard-13.jsonl, 4 to run
+S/quick-30: completed; score [1, 2] ticks 1408 cpu 13.371 s
+S/quick-1: completed; score [1, 1] ticks 140 cpu 1.154 s
+S/decisions-quick-60: completed; score [1, 2] ticks 2747 cpu 29.233 s
+S/ko-39-budget-5: completed; score [0, 0] ticks 6033 cpu 71.975 s
+4 of 4 matches in /home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/projected-reference-desktop-20261023-v1/shard-13.jsonl, 0 not completed
