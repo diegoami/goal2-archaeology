@@ -36,6 +36,7 @@ PORTS = Registry("discipline", "fouls, cards, injuries and form; substitutions a
 PORTS.variant("form-delta-doubled", "7CC5 at 7CEB: the delta [bp+0xC] is added twice to the player's form +0xC")
 PORTS.variant("offside-same-side", "82EB at 8350: DS:830B := DS:830C, the offender's own slot, not the other side's player")
 PORTS.variant("run-direction-4", "A2E6 at A36A: the bound record's +0xF := 4, not 5")
+PORTS.variant("tactics-gap-1", "C173 at C1B3: |DS:9B3C - DS:9B3D| is compared with 1, not 2 (a one-goal gap goes to C0DF / C01A)")
 M16 = 0xFFFF
 
 
@@ -1115,7 +1116,7 @@ def update_computer_tactics(mem, variant):
         squad = squad_of_side(mem, r, side)                      # C191-C199
         r = yield from guest(mem, r, "1771:0B77", squad, ret="C1A2")
         if r.al == 0:                                            # C1A2 or al, al; je C1A9
-            if gap() < 2:                                        # C1A9-C1B6 cmp ax, 2; jge C1C1
+            if gap() < (1 if variant == "tactics-gap-1" else 2):     # C1A9-C1B6 cmp ax, 2; jge C1C1
                 r.al = side                                      # C1B8
                 r = yield from guest(mem, r, "BD83", r.ax, ret="C1BF", far=False)
             elif gap() == 2:                                     # C1C1-C1CE cmp ax, 2; jne C20B
