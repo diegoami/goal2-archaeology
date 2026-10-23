@@ -54,7 +54,7 @@ def main():
         cmd = [sys.executable, '-B', str(E036 / 'family.py'), '--family', 'ALL', '--only', row['only'],
                '--ports', 'display', '--variant', 'display.' + name, '--count', row['routine'],
                '--workers', '1', '--checkpoint', str(ROOT / '.cache/checkpoints' / out.name / name),
-               '--time-limit', '6000', '--stretch-limit', '1200', '--out', str(out / f'{name}.jsonl')]
+               '--time-limit', '600', '--stretch-limit', '120', '--out', str(out / f'{name}.jsonl')]
         with (out / f'{name}.log').open('x') as log:
             log.write('COMMAND: ' + repr(cmd) + '\n')
             log.flush()
