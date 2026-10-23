@@ -1,0 +1,39 @@
+#390 / T84 validation receipt, 2026-10-23
+Implementation commit: aba7487749f6a122bf78d2403750b27a8c9e9038
+No guest execution or memory edits. Original artifacts remain ignored.
+
+python3 notes/390/inventory.py --assets .cache/390/assets --check notes/390/inventory.json
+21 artifacts verified; shootout screen, key wait and caller frame match
+
+python3 notes/390/inventory.py --assets .cache/390/drive-readback --check notes/390/inventory.json
+21 artifacts verified; shootout screen, key wait and caller frame match
+Private upload and download used rclone, not a remote hash label.
+
+Baseline: origin/main has no notes/390/inventory.py (git cat-file -e fails).
+Negative check: all 21 artifact paths copied as references into a temporary directory;
+G1A.GL replaced there with a same-size copy, final byte XOR 1. Inventory exits nonzero
+with hash mismatch. Original files are unchanged. Temporary directory discarded.
+
+python3 tools/check_links.py
+links and JSON ok (5882 files)
+
+tools/heavy.sh 390-ageing -- python3 experiments/E014-q013-ageing/check_ageing.py
+aborted: E014-r0001..r0004: one capture each, no pair
+observed variance: 262 continuing players
+captures in 6 record(s), 5 consecutive pair(s)
+match: 300/300
+
+tools/heavy.sh 390-recreate -- python3 experiments/E016-q014-retirement/check_recreate.py
+not in captures: exact +0x03, instantaneous +0x06, retained bits of +0x0F
+r0005 captures 0-1: 9 re-creates, recovered entry RNG 0xbb1a
+r0006 captures 0-1: 8 re-creates, recovered entry RNG 0xfdf6
+r0006 captures 1-2: 6 re-creates, recovered entry RNG 0x8827
+r0006 captures 2-3: 7 re-creates, recovered entry RNG 0x36ca
+r0006 captures 3-4: 8 re-creates, recovered entry RNG 0x1a42
+Each pair: exactly 1 of 65536 candidate RNG words reproduces its drawn bytes.
+comparisons: 300 squad words across 5 consecutive pair(s) of 6 record(s); 0 mismatch(es)
+re-creates: 38, of which 38 reproduced exactly from a recovered RNG word
+match: 38/38
+
+These rerun existing checks on committed captures; they produce no new campaign evidence.
+This receipt transcribes the check outputs and records the mutation procedure.
