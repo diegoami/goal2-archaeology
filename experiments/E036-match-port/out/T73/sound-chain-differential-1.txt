@@ -1,0 +1,15 @@
+0 214B:1E8D [] 0 0 0 differences [] scratch []
+1 214B:1E8D [] 1 0 0 differences [] scratch []
+2 214B:1EF1 [2, 11, 6] 1 255 3 differences [] scratch []
+3 214B:1EF1 [1, 7, 6] 0 0 3 differences [] scratch []
+4 214B:1EF1 [1, 11, 6] 0 1 3 differences [] scratch []
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/sound_chain_differential.py", line 26, in <module>
+    sp,reason=fuzz.run_one(m,target[:4]=='214B',target,args,{'ax':0xBEEF,'dx':0x1234},10)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/runtime/original_match/machine.py", line 416, in run
+    raise GuestError(f"the run ended at {self.where(self.reg('cs'), self.reg('ip'))} without reaching its end "
+original_match.machine.GuestError: the run ended at F9E4:66CA without reaching its end (time limit 10 s)

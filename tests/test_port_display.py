@@ -866,5 +866,57 @@ class ToneMemoryTests(unittest.TestCase):
         self.assertEqual(r.u16(BP0),0x1234)
         self.assertEqual((r.mem.reg('ax'),r.mem.reg('dx')),(0xBEEF,0x1234))
 
+class SoundChainMemoryTests(unittest.TestCase):
+    def test_whistle_gate_keeps_the_exact_jingle_call(self):
+        for speed in (0,1):
+            r=Rig();r.lin8(GSEG*16+GOFF+0x3F,speed)
+            r.run('0791:0441',(7,))
+            self.assertEqual(r.args('214B:1F87'),[(7,)] if speed else [])
+
+    def test_speaker_off_keeps_kit_return_byte_and_saved_frame(self):
+        for disabled,want in ((0,0x1200),(1,0x1234)):
+            r=Rig();r.ds8(0xA9FC,disabled);r.mem.regs.update(ax=0x1234,dx=0xABCD)
+            r.run('214B:1E8D')
+            self.assertEqual(r.mem.reg('ax'),want)
+            self.assertEqual(r.mem.reg('dx'),0xABCD)
+            self.assertEqual(r.u16(BP0),0x1234)
+
+    def test_note_transposition_real_calls_local_and_wrapped_duration(self):
+        for note,transpose,octave,want_note,want_octave in ((11,1,6,0,7),(9,255,6,0,28)):
+            r=Rig();r.ds8(0xA9FC,0);r.ds8(0x7968,transpose);r.ds16(0x7966,7)
+            r.run('214B:1EF1',(3,note,octave),answer=answers({'23E4:0CC5':0xABCD}))
+            self.assertEqual((r.u16(BP0+8),r.u16(BP0+10)),(want_note,want_octave))
+            self.assertEqual(r.u16(BP0-2),0xABCD)
+            self.assertEqual([t for t,_,_,_ in r.calls],['23E4:0CB9','23E4:0CAB','23E4:0CB9','23E4:0C93',
+                             '23E4:0E67','23E4:0CA5','23E4:0F10','23E4:0CC5','214B:1E09'])
+            self.assertEqual(r.args('214B:1E09'),[(21,)])
+
+    def test_disabled_note_still_delays_but_leaves_transposition_untouched(self):
+        r=Rig();r.ds8(0xA9FC,1);r.ds8(0x7968,255);r.ds16(0x7966,2)
+        r.lin16(BP0-2,0xCAFE)
+        r.run('214B:1EF1',(65535,11,6))
+        self.assertEqual(r.targets(),[('214B:1E09','214B:1F81')])
+        self.assertEqual(r.args('214B:1E09'),[(65534,)])
+        self.assertEqual((r.u16(BP0+8),r.u16(BP0+10),r.u16(BP0-2)),(11,6,0xCAFE))
+
+    def test_jingle_scaled_bound_pairs_and_zero_bound_twin(self):
+        for calibration,count,want in ((9,5,0),(10,1,1),(50,2,10)):
+            with self.subTest(calibration=calibration,count=count):
+                r=Rig();r.ds16(0xA9FF,calibration);r.ds16(0xAA01,0);r.ds16(0x7966,99)
+                r.lin16(BP0-2,0xCAFE)
+                def answer(q,m):
+                    if q.target in ('23E4:0294','23E4:0279'):
+                        lhs=(m.reg('dx')<<16)|m.reg('ax');rhs=(m.reg('bx')<<16)|m.reg('cx')
+                        result=lhs//rhs if q.target=='23E4:0294' else lhs*rhs
+                        m.regs['dx']=(result>>16)&65535;return result&65535
+                    return 0
+                r.run('214B:1F87',(count,),answer=answer)
+                self.assertEqual(r.mem.ds16(0x7966),1)
+                self.assertEqual(r.u16(BP0+6),want)
+                self.assertEqual(r.u16(BP0-10),want)
+                self.assertEqual(r.u16(BP0-2),want if want else 0xCAFE)
+                self.assertEqual(r.args('214B:1EF1'),[(6,9,1),(6,7,1)]*want)
+                self.assertEqual(r.targets()[-1],('214B:1E8D','214B:1FFA'))
+
 if __name__ == '__main__':
     unittest.main()

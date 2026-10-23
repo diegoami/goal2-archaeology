@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {"214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
+    if address not in {"0791:0441", "214B:1EF1", "214B:1F87", "214B:1E8D", "214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
         PORTS.stub(address, ret=ret, value=None, why="initial all-at-once display-removal candidate; classification pending")
 
 
@@ -1571,4 +1571,81 @@ def tone_frequency_memory(mem,variant):
         r.local16(6,r.ax)
         r.al=ss16(mem,r,r.bp+6)&255
         r.al=(ss16(mem,r,r.bp+6)>>8)&255
+    return _end(r)
+
+
+@PORTS.port('0791:0441',ret='ret 2')
+def whistle_memory(mem,variant):
+    r=Regs(mem);r.enter()
+    r.es,r.di=mem.ds16(0xA923+2),mem.ds16(0xA923)
+    if rb(mem,r,0x3F)>0:
+        r=yield from guest(mem,r,'214B:1F87',ss16(mem,r,r.bp+4),ret='0791:0457')
+    return _end(r)
+
+
+@PORTS.port('214B:1E8D',ret='retf')
+def speaker_off_frame(mem,variant):
+    """1E8D-1EA0: frame and AL on the kit's port61-read-zero path; device output removed."""
+    r=Regs(mem);r.enter()
+    if not mem.ds8(0xA9FC):
+        # Original kit return-register probe: speaker-returns-1.txt (IN61 is zero).
+        r.al=0
+    return _end(r)
+
+
+@PORTS.port('214B:1EF1',ret='retf 6')
+def note_memory(mem,variant):
+    """1EF1-1F86: preserve transposition, real-library calls and note/delay frames."""
+    r=Regs(mem);r.enter(2)
+    if not mem.ds8(0xA9FC):
+        r.al=mem.ds8(0x7968);r.ah=0
+        note=(ss16(mem,r,r.bp+8)+r.ax)&65535;r.local16(8,note)
+        while note>11:
+            r.local16(10,ss16(mem,r,r.bp+10)+1)
+            note=(note-12)&65535;r.local16(8,note)
+        r.ax=11-note;r.dx=0
+        r=yield from guest(mem,r,'23E4:0CB9',ret='214B:1F22')
+        r.cx=0x84;r.si=0;r.di=0x4000
+        r=yield from guest(mem,r,'23E4:0CAB',ret='214B:1F2F')
+        r.push(r.dx);r.push(r.bx);r.push(r.ax)
+        r.ax=15-ss16(mem,r,r.bp+10);r.dx=0
+        r=yield from guest(mem,r,'23E4:0CB9',ret='214B:1F3F')
+        r.cx=pop(mem,r);r.si=pop(mem,r);r.di=pop(mem,r)
+        r=yield from guest(mem,r,'23E4:0C93',ret='214B:1F47')
+        r.push(r.dx);r.push(r.bx);r.push(r.ax)
+        r.ax=0x82;r.bx=0;r.dx=0
+        r=yield from guest(mem,r,'23E4:0E67',ret='214B:1F56')
+        r.cx=pop(mem,r);r.si=pop(mem,r);r.di=pop(mem,r)
+        r=yield from guest(mem,r,'23E4:0CA5',ret='214B:1F5E')
+        r=yield from guest(mem,r,'23E4:0F10',ret='214B:1F63')
+        r=yield from guest(mem,r,'23E4:0CC5',ret='214B:1F68')
+        r.local16(-2,r.ax)
+        r.al=ss16(mem,r,r.bp-2)&255
+        r.al=(ss16(mem,r,r.bp-2)>>8)&255
+    r.ax=ss16(mem,r,r.bp+6);mul(r,mem.ds16(0x7966))
+    r=yield from guest(mem,r,'214B:1E09',r.ax,ret='214B:1F81')
+    return _end(r)
+
+
+@PORTS.port('214B:1F87',ret='retf 2')
+def jingle_memory(mem,variant):
+    """1F87-1FFF: calibration-scaled note pairs, tempo and frame writes, without hardware output."""
+    r=Regs(mem);r.enter(10)
+    r=yield from guest(mem,r,'214B:1E75',ret='214B:1F91')
+    r.ax=mem.ds16(0xA9FF);r.es=mem.ds16(0xAA01);r.dx=r.es;r.cx=10;r.bx=0
+    r=yield from guest(mem,r,'23E4:0294',ret='214B:1FA1')
+    r.cx=r.ax;r.bx=r.dx;r.ax=ss16(mem,r,r.bp+6);r.dx=0
+    r=yield from guest(mem,r,'23E4:0279',ret='214B:1FAF')
+    r.local16(6,r.ax);mem.wds16(0x7966,1,'214B:1FB2')
+    count=ss16(mem,r,r.bp+6);r.ax=count;r.local16(-10,count);r.ax=1
+    if count:
+        r.local16(-2,1)
+        for index in range(1,count+1):
+            if index!=1:r.local16(-2,index)
+            r.ax=1
+            r=yield from guest(mem,r,'214B:1EF1',6,9,r.ax,ret='214B:1FDE')
+            r.ax=1
+            r=yield from guest(mem,r,'214B:1EF1',6,7,r.ax,ret='214B:1FEE')
+            r.ax=index
+    r=yield from guest(mem,r,'214B:1E8D',ret='214B:1FFA')
     return _end(r)
