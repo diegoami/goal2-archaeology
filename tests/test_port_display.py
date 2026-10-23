@@ -772,7 +772,8 @@ class UnreachedStateBranchTests(unittest.TestCase):
             with self.subTest(first=first,second=second):
                 r=Rig();r.lin16(0x40100,first);r.lin16(0x40102,second)
                 r.ds16(0xA96E,0x200);r.ds16(0xA970,0x500)
-                r.run('0791:006C',(0,4,0x100,0x4000))
+                try:r.run('0791:006C',(0,4,0x100,0x4000))
+                except ZeroDivisionError:self.fail('an empty bar must bypass division')
                 self.assertEqual([a[-1] for a in r.args('214B:00DB')],want)
 
     def test_empty_squad_row_and_nonempty_reached_twin(self):
@@ -806,7 +807,7 @@ class UnreachedStateBranchTests(unittest.TestCase):
             def answer(q,m):return int(bool(q.args[1]&(1<<(q.args[0]-1))))
             r.run('1771:3B3F',(PARENT,),answer=answer)
             if want_zone is None:self.assertEqual(r.calls,[])
-            elif want_zone:self.assertEqual(r.args('214B:01A3')[0][1],0x3B30)
+            elif want_zone:self.assertEqual([a[1] for a in r.args('214B:01A3')],[0x3B30])
             else:self.assertEqual(r.args('1771:3AE2'),[(1,BP0)])
 
     def test_tactics_nonmatch_default_mark_row_skips_live_slot_lookup(self):
@@ -838,6 +839,32 @@ class UnreachedStateBranchTests(unittest.TestCase):
             r.run('214B:0350',(0xA96E,r.mem.DS,0x100,0x400,25),answer=answer)
             self.assertEqual(r.args('214B:02C8')[0][0],want)
             self.assertEqual([a[-2:] for a in r.args('214B:00DB')],[(0x70,1),(0x70,1)])
+
+class ToneMemoryTests(unittest.TestCase):
+    def test_tone_divisor_argument_and_return_high_byte_are_preserved(self):
+        for frequency in (1,440,32768,65535):
+            r=Rig();r.ds8(0xA9FC,0)
+            def answer(q,m):
+                if q.target=='23E4:0294':
+                    dividend=(m.reg('dx')<<16)|m.reg('ax')
+                    divisor=(m.reg('bx')<<16)|m.reg('cx')
+                    quotient=dividend//divisor;m.regs['dx']=quotient>>16
+                    return quotient&65535
+                return 0
+            r.run('214B:1EBC',(frequency,),answer=answer)
+            quotient=0x1234DD//frequency;low=quotient&65535
+            self.assertEqual(r.u16(BP0+6),low)
+            self.assertEqual(r.mem.reg('ax'),(low&0xFF00)|(low>>8))
+            self.assertEqual(r.mem.reg('dx'),quotient>>16)
+            self.assertEqual(r.targets(),[('214B:1E75','214B:1ECA'),('23E4:0294','214B:1EDE')])
+
+    def test_disabled_sound_skips_division_even_for_zero_frequency(self):
+        r=Rig();r.ds8(0xA9FC,1);r.mem.regs.update(ax=0xBEEF,dx=0x1234)
+        r.run('214B:1EBC',(0,))
+        self.assertEqual(r.calls,[])
+        self.assertEqual(r.u16(BP0+6),0)
+        self.assertEqual(r.u16(BP0),0x1234)
+        self.assertEqual((r.mem.reg('ax'),r.mem.reg('dx')),(0xBEEF,0x1234))
 
 if __name__ == '__main__':
     unittest.main()

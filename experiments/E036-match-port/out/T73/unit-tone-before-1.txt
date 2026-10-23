@@ -1,0 +1,23 @@
+parent6a66ebb, current two tone tests
+FF
+======================================================================
+FAIL: test_disabled_sound_skips_division_even_for_zero_frequency (tests.test_port_display.ToneMemoryTests.test_disabled_sound_skips_division_even_for_zero_frequency)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpqfhcox9i/tests/test_port_display.py", line 866, in test_disabled_sound_skips_division_even_for_zero_frequency
+    self.assertEqual(r.u16(BP0),0x1234)
+AssertionError: 0 != 4660
+
+======================================================================
+FAIL: test_tone_divisor_argument_and_return_high_byte_are_preserved (tests.test_port_display.ToneMemoryTests.test_tone_divisor_argument_and_return_high_byte_are_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpqfhcox9i/tests/test_port_display.py", line 856, in test_tone_divisor_argument_and_return_high_byte_are_preserved
+    self.assertEqual(r.u16(BP0+6),low)
+AssertionError: 1 != 13533
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.051s
+
+FAILED (failures=2)
+exit 1

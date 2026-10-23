@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {"0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
+    if address not in {"214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
         PORTS.stub(address, ret=ret, value=None, why="initial all-at-once display-removal candidate; classification pending")
 
 
@@ -1556,4 +1556,19 @@ def substitution_notice_memory(mem,variant):
     if r.al:
         r=yield from guest(mem,r,'214B:08DD',ret='0791:C5D1')
     r=yield from guest(mem,r,'214B:0643',ret='0791:C5D6')
+    return _end(r)
+
+
+@PORTS.port('214B:1EBC',ret='retf 2')
+def tone_frequency_memory(mem,variant):
+    """1EBC-1EF0: keep the PIT divisor's argument/frame writes; omit device output."""
+    r=Regs(mem);r.enter()
+    if not mem.ds8(0xA9FC):
+        r=yield from guest(mem,r,'214B:1E75',ret='214B:1ECA')
+        r.ax=ss16(mem,r,r.bp+6);r.dx=0;r.cx=r.ax;r.bx=r.dx
+        r.ax=0x34DD;r.dx=0x12
+        r=yield from guest(mem,r,'23E4:0294',ret='214B:1EDE')
+        r.local16(6,r.ax)
+        r.al=ss16(mem,r,r.bp+6)&255
+        r.al=(ss16(mem,r,r.bp+6)>>8)&255
     return _end(r)

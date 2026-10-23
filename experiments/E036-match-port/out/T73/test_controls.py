@@ -63,6 +63,8 @@ CONTROLS=[
  ('05B8 last digit column shifted',D,'digit=r.ax;r.ax=0x4B','digit=r.ax;r.ax=0x4C'),
  ('19B2 top-row boundary excludes row4',D,'if pointer==0xA972 and ss16(mem,r,r.bp+6)>4:','if pointer==0xA972 and ss16(mem,r,r.bp+6)>=4:'),
  ('C553 outgoing notice column shifted',D,"(6,29,'0791:C540'","(6,30,'0791:C540'"),
+ ('1EDE tone divisor argument changed',D,'r.local16(6,r.ax)\n        r.al=ss16(mem,r,r.bp+6)&255','r.local16(6,r.ax+1)\n        r.al=ss16(mem,r,r.bp+6)&255'),
+ ('1EC4 sound enable guard inverted',D,'if not mem.ds8(0xA9FC):','if mem.ds8(0xA9FC):'),
 ]
 paths=['runtime','tests/test_e036_compare.py',F,C,'experiments/E036-match-port/families.py',
        'experiments/E036-match-port/records.py','experiments/E036-match-port/families']
