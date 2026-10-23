@@ -1,0 +1,18 @@
+{
+ "run_id": "39891997938",
+ "run_attempt": "1",
+ "workflow": "E036 family run",
+ "ref": "claude/gracious-fermat-eik7l4",
+ "sha": "fdd05908ff9933b13d2ae242fa9764e1aefc889e",
+ "inputs": {
+  "task": "T68",
+  "name": "falsifier-run-direction-4",
+  "family": "O8",
+  "ports": "discipline",
+  "variant": "discipline.run-direction-4",
+  "shards": "4",
+  "time_limit": "6000",
+  "stretch_limit": "600"
+ },
+ "run_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/39891997938"
+}
