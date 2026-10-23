@@ -1,0 +1,13 @@
+.F...............................
+======================================================================
+FAIL: test_leading_and_two_trailing_name_markers_follow_listing_calls (tests.test_port_display.CommentaryMemoryTests.test_leading_and_two_trailing_name_markers_follow_listing_calls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display.py", line 672, in test_leading_and_two_trailing_name_markers_follow_listing_calls
+    self.assertEqual(r.targets().count('23E4:06B7'),5)
+AssertionError: 0 != 5
+
+----------------------------------------------------------------------
+Ran 33 tests in 0.621s
+
+FAILED (failures=1)

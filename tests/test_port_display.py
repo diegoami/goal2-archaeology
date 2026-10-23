@@ -654,6 +654,23 @@ class CommentaryMemoryTests(unittest.TestCase):
         self.assertEqual(r.u16(BP0-0x28),0x7C38+12)
         self.assertEqual(r.u16(BP0-0x26),r.mem.DS)
 
+    def test_leading_and_two_trailing_name_markers_follow_listing_calls(self):
+        r=Rig();r.ds8(0x7C38,3);r.ds16(0x7C39,2);r.ds16(0x7C3B,4)
+        r.ds16(0x9B6C,0x600);r.ds16(0x9B6E,0x400)
+        lines=iter((b'\x03\x01a\x01',b'\x02b\x01',b'\x02c\x02',b'\x02ok'))
+        def answer(q,m):
+            if q.target=='23E4:0644':
+                data=next(lines);seg,off=q.args[2:4]
+                m.memory[seg*16+off:seg*16+off+len(data)]=data
+            return 0
+        r.run('0791:1829',(33,4,0),answer=answer)
+        stores=[q for q in r.calls if q[0]=='23E4:0644']
+        self.assertEqual([q[1][-1] for q in stores],[35]*4)
+        self.assertEqual([q[2] for q in stores],['0791:1873','0791:18BD','0791:190E','0791:195F'])
+        names=[q for q in r.calls if q[0] in ('23E4:062A','23E4:06B7') and q[1][0]==0x400]
+        self.assertEqual([q[1] for q in names],[(0x400,0x616),(0x400,0x616),(0x400,0x62C)])
+        self.assertEqual(len(r.args('23E4:06B7')),5)
+
     def test_padding_and_top_rows_update_both_buffers(self):
         for row,expected in ((4,[0xA96A,0xA972]),(5,[0xA96A])):
             with self.subTest(row=row):
