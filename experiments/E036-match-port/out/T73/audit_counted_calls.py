@@ -3,6 +3,8 @@
 Removed routines may eliminate nested calls: equality is against the candidate's
 independent entry counters, not historical unhooked totals.
 """
+import hashlib
+import inspect
 import json
 from pathlib import Path
 import sys
@@ -12,6 +14,7 @@ E036 = ROOT / 'experiments/E036-match-port'
 sys.path.insert(0, str(E036))
 import compare
 import families
+import family
 
 
 def main():
@@ -21,7 +24,14 @@ def main():
     assert set(candidate) == set(expected), 'Not the complete ALL family'
     entries = [r['address'] for r in json.loads((E036 / 'out/T73/static-inventory.json').read_text())]
     assert len(set(entries)) == 88
-    assert compare.candidate_display_profile(candidate, True) is not None, 'Strict display profile required'
+    profile = compare.candidate_display_profile(candidate, True)
+    assert profile is not None, 'Strict display profile required'
+    assert profile['mask'] == [], 'T73 preserves every DS byte'
+    baseline = json.loads((E036 / 'out/T73/projected-reference-desktop-20261023-v1/audit.json').read_text())
+    ref_digest = hashlib.sha256((ROOT / profile['reference']).read_bytes()).hexdigest()
+    projector_digest = hashlib.sha256(inspect.getsource(family.display_events_digest).encode()).hexdigest()
+    assert ref_digest == baseline['reference_sha256'], 'Frozen unhooked reference changed'
+    assert projector_digest == baseline['projector_sha256'], 'Frozen event projector changed'
     totals = {entry: 0 for entry in entries}
     checks = 0
     for mid, rec in candidate.items():
@@ -34,6 +44,8 @@ def main():
             totals[entry] += calls
             checks += 1
     print(json.dumps({'matches': len(candidate), 'routines': len(entries), 'entry_checks': checks,
+                      'mask': profile['mask'], 'reference_sha256': ref_digest,
+                      'projector_sha256': projector_digest,
                       'mismatches': 0, 'total_calls_by_routine': totals}, indent=2))
     return 0
 
