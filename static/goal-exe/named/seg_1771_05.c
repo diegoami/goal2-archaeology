@@ -875,9 +875,10 @@ void __cdecl16far run_stage(void)
 }
 
 
-// ---- 1771:76FA  f_1771_76FA  (f_1771_76FA; Ghidra 4000:76FA, __stdcall16far; found by routines.tsv)
+// ---- 1771:76FA  draw_fixture_score  (f_1771_76FA; Ghidra 4000:76FA, __stdcall16far; found by routines.tsv)
+// Draws the CS:76F8 score marker; only nonzero fixture kind and score byte0 below FE produce score strings from bytes1/0 and the flag-dependent DS:AAB2 colour  [likely; read code/seg_1771_11.asm:50]
 
-void __stdcall16far f_1771_76FA(uint param_1,undefined1 param_2,byte *param_3)
+void __stdcall16far draw_fixture_score(uint param_1,undefined1 param_2,byte *param_3)
 
 {
   undefined1 extraout_AH;
@@ -919,9 +920,10 @@ void __stdcall16far f_1771_76FA(uint param_1,undefined1 param_2,byte *param_3)
 }
 
 
-// ---- 1771:77C3  f_1771_77C3  (f_1771_77C3; Ghidra 4000:77C3, __stdcall16near; found by routines.tsv)
+// ---- 1771:77C3  draw_fixture_row  (f_1771_77C3; Ghidra 4000:77C3, __stdcall16near; found by routines.tsv)
+// Draws fixture country+6 four columns left with0FB1, country+4 four columns right with0F58, and the two score cells with76FA  [likely; read code/seg_1771_11.asm:143]
 
-void f_1771_77C3(int param_1,undefined2 param_2,undefined4 param_3)
+void draw_fixture_row(int param_1,undefined2 param_2,undefined4 param_3)
 
 {
   int iVar1;
@@ -929,9 +931,9 @@ void f_1771_77C3(int param_1,undefined2 param_2,undefined4 param_3)
   
   uVar2 = (undefined2)((ulong)param_3 >> 0x10);
   iVar1 = (int)param_3;
-  f_1771_0FB1(param_1 + -4,param_2,*(undefined2 *)(iVar1 + 6));
+  draw_country_name_right(param_1 + -4,param_2,*(undefined2 *)(iVar1 + 6));
   draw_country_name(param_1 + 4,param_2,*(undefined2 *)(iVar1 + 4));
-  f_1771_76FA(param_1,param_2,iVar1,uVar2);
+  draw_fixture_score(param_1,param_2,iVar1,uVar2);
   return;
 }
 
@@ -964,7 +966,7 @@ void __stdcall16far f_1771_7812(int param_1,undefined2 param_2,char *param_3)
   u214b_write_string_at_fwd
             ((undefined4 *)&DS:A96E,0xb000,param_1 + 0x16,
              CONCAT11(extraout_AH,(undefined1)param_2),puVar3,unaff_SS);
-  f_1771_77C3(param_1,param_2,pcVar1,uVar2);
+  draw_fixture_row(param_1,param_2,pcVar1,uVar2);
   if ((*local_6 == -2) && (((char *)local_6)[2] != '\0')) {
     u214b_write_string_at_fwd_set_attr
               ((undefined4 *)&DS:A96E,0xb000,param_1 + 0x23,

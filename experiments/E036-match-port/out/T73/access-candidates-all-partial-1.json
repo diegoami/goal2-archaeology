@@ -1,0 +1,251 @@
+{
+  "matches": [
+    "F40/e032-0101",
+    "F40/e032-1234",
+    "F40/e032-2345",
+    "F40/e032-2b7e",
+    "F40/e032-4c1d",
+    "F40/e032-6a33",
+    "F40/e032-8e05",
+    "F40/e032-a1f0",
+    "F40/e032-c3c3",
+    "F40/e032-e719",
+    "F40/edit-0042",
+    "F40/edit-0101",
+    "F40/edit-1111",
+    "F40/edit-1234",
+    "F40/edit-2345",
+    "F40/edit-2b7e",
+    "F40/edit-3a5c",
+    "F40/edit-4c1d",
+    "F40/edit-5e5e",
+    "F40/edit-6a33",
+    "F40/edit-7f31",
+    "F40/edit-8e05",
+    "F40/edit-9abc",
+    "F40/edit-a1f0",
+    "F40/edit-b4d2",
+    "F40/edit-c3c3",
+    "F40/edit-cafe",
+    "F40/edit-d00d",
+    "F40/edit-e719",
+    "F40/edit-face",
+    "F40/more-0042",
+    "F40/more-1111",
+    "F40/more-3a5c",
+    "F40/more-5e5e",
+    "F40/more-7f31",
+    "F40/more-9abc",
+    "F40/more-b4d2",
+    "F40/more-cafe",
+    "F40/more-d00d",
+    "F40/more-face",
+    "O8/c1-c2-friendly",
+    "O8/c1-c2-qualifier",
+    "O8/c101-c120-friendly",
+    "O8/c101-c120-qualifier",
+    "O8/c30-c44-friendly",
+    "O8/c30-c44-qualifier",
+    "O8/c64-c90-friendly",
+    "O8/c64-c90-qualifier",
+    "S/decisions-70",
+    "S/decisions-quick-60",
+    "S/hard-4",
+    "S/injury-70",
+    "S/ko-30-extra-time",
+    "S/ko-39-budget-5",
+    "S/ko-42-quick-g19",
+    "S/ko-42-sudden-death",
+    "S/ko-53-quick",
+    "S/ko-9-quick",
+    "S/qualifier-21",
+    "S/quick-1",
+    "S/quick-30",
+    "S/reference"
+  ],
+  "observed_ds_ranges": [
+    {
+      "ds_offset": 0,
+      "length": 44304
+    },
+    {
+      "ds_offset": 60688,
+      "length": 4848
+    }
+  ],
+  "unobserved_bytes_are_unmaskable": true,
+  "access_only_candidate_ranges": [
+    {
+      "ds_offset": 31078,
+      "length": 2,
+      "writers": [
+        "214B:1F87"
+      ],
+      "readers": [
+        "214B:1EF1"
+      ]
+    },
+    {
+      "ds_offset": 39136,
+      "length": 40,
+      "writers": [
+        "0791:15B9"
+      ],
+      "readers": []
+    },
+    {
+      "ds_offset": 39280,
+      "length": 2,
+      "writers": [
+        "0791:15B9"
+      ],
+      "readers": []
+    },
+    {
+      "ds_offset": 39284,
+      "length": 2,
+      "writers": [
+        "0791:15B9"
+      ],
+      "readers": []
+    },
+    {
+      "ds_offset": 39484,
+      "length": 1,
+      "writers": [
+        "0791:15B9"
+      ],
+      "readers": []
+    },
+    {
+      "ds_offset": 39728,
+      "length": 4,
+      "writers": [
+        "0791:15B9"
+      ],
+      "readers": []
+    },
+    {
+      "ds_offset": 39736,
+      "length": 2,
+      "writers": [
+        "0791:15B9"
+      ],
+      "readers": []
+    },
+    {
+      "ds_offset": 39742,
+      "length": 2,
+      "writers": [
+        "0791:15B9"
+      ],
+      "readers": []
+    },
+    {
+      "ds_offset": 39746,
+      "length": 1,
+      "writers": [
+        "0791:15B9"
+      ],
+      "readers": []
+    },
+    {
+      "ds_offset": 39770,
+      "length": 12,
+      "writers": [
+        "1771:13D0"
+      ],
+      "readers": [
+        "1771:13D0",
+        "1771:157D"
+      ]
+    },
+    {
+      "ds_offset": 43698,
+      "length": 1,
+      "writers": [
+        "0791:0106",
+        "1771:3827",
+        "1771:3947",
+        "1771:42BC",
+        "214B:0205",
+        "214B:02C8"
+      ],
+      "readers": [
+        "1771:3947",
+        "1771:3BD3",
+        "214B:01A3",
+        "214B:0205",
+        "214B:026D",
+        "214B:02C8"
+      ]
+    }
+  ],
+  "candidate_bytes": 69,
+  "warning": "Each range requires a separate static/semantic audit; state-bearing bytes remain protected.",
+  "comparison_tail": "62 matches expected identical, 62 pass, 0 fail",
+  "source_reports": [
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-0/F40__e032-0101-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-0/F40__e032-1234-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-1/F40__e032-2345-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-1/F40__e032-2b7e-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-10/F40__edit-0101-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-10/F40__edit-1234-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-11/F40__edit-2345-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-11/F40__edit-2b7e-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-12/F40__edit-4c1d-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-12/F40__edit-6a33-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-13/F40__edit-8e05-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-13/F40__edit-a1f0-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-14/F40__edit-c3c3-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-14/F40__edit-e719-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-15/F40__edit-0042-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-15/F40__edit-1111-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-16/F40__edit-3a5c-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-16/F40__edit-5e5e-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-17/F40__edit-7f31-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-17/F40__edit-9abc-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-18/F40__edit-b4d2-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-18/F40__edit-cafe-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-19/F40__edit-d00d-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-19/F40__edit-face-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-2/F40__e032-4c1d-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-2/F40__e032-6a33-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-20/O8__c1-c2-friendly-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-20/O8__c1-c2-qualifier-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-21/O8__c30-c44-friendly-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-21/O8__c30-c44-qualifier-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-22/O8__c64-c90-friendly-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-22/O8__c64-c90-qualifier-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-23/O8__c101-c120-friendly-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-23/O8__c101-c120-qualifier-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-24/S__decisions-70-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-24/S__reference-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-25/S__hard-4-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-25/S__injury-70-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-26/S__quick-1-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-26/S__quick-30-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-27/S__decisions-quick-60-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-27/S__ko-39-budget-5-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-28/S__ko-30-extra-time-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-28/S__ko-42-sudden-death-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-29/S__ko-53-quick-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-29/S__ko-9-quick-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-3/F40__e032-8e05-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-3/F40__e032-a1f0-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-30/S__ko-42-quick-g19-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-31/S__qualifier-21-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-4/F40__e032-c3c3-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-4/F40__e032-e719-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-5/F40__more-0042-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-5/F40__more-1111-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-6/F40__more-3a5c-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-6/F40__more-5e5e-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-7/F40__more-7f31-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-7/F40__more-9abc-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-8/F40__more-b4d2-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-8/F40__more-cafe-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-9/F40__more-d00d-accesses.json.gz",
+    "experiments/E036-match-port/out/T73/watch-all-desktop-20261023/shard-9/F40__more-face-accesses.json.gz"
+  ]
+}

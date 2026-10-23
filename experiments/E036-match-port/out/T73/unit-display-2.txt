@@ -1,0 +1,13 @@
+................F.
+======================================================================
+FAIL: test_profile_reference_missing_or_mask_mismatched_is_malformed (tests.test_port_display.StrictDisplayProfile.test_profile_reference_missing_or_mask_mismatched_is_malformed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display.py", line 438, in test_profile_reference_missing_or_mask_mismatched_is_malformed
+    self.assertEqual(compare.main(args),0)
+AssertionError: 2 != 0
+
+----------------------------------------------------------------------
+Ran 18 tests in 1.685s
+
+FAILED (failures=1)

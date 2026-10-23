@@ -258,7 +258,7 @@ B7FA selects 3651 when 5A8F returns nonzero, otherwise 3558. It passes flag 1
 for starting XI or status bit 3 (participated), flag 0 for unused bench players
 (seg_0791_19.asm:103–135,171–205); BA4E passes flag 0 for the manager's 80
 pool words, with the same selector (245–301). BB2F's unplayed-match path always
-calls 3558 for its squad words (named/seg_0791_09.c:320–358). The flag is an
+calls 3558 for its squad words (named/seg_0791_09.c:346–358). The flag is an
 actual caller input, not inferred by the recovery model from the final energy.
 
 3558 redraws from B=DS:0E82[age>peak_age+4] (357B,

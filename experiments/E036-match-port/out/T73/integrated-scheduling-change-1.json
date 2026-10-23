@@ -1,0 +1,9 @@
+{
+  "reason": "Full32-slot local integration is substantially slower than the identical two-case counted B spot; switch the final full family to Actions after dispatch confirmation.",
+  "local_elapsed_seconds": 973,
+  "local_closed_records": 0,
+  "counted_B_spot": "integrated-counted-spot-B1-audit.json",
+  "local_output_preserved": "experiments/E036-match-port/out/T73/all-desktop-20261023-v1",
+  "local_pid": 1445347,
+  "replacement": "31 Actions shards, two workers each, max20 concurrent jobs; same frozen B source and88 counters"
+}

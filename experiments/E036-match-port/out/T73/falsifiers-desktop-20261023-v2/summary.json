@@ -1,0 +1,48 @@
+{
+  "source_changes": [],
+  "results": [
+    {
+      "variant": "omit-1771-3827",
+      "routine": "1771:3827",
+      "runner_exit": 0,
+      "caught": false,
+      "completed": {
+        "F40/e032-6a33": true,
+        "S/decisions-quick-60": true,
+        "S/ko-9-quick": true
+      },
+      "differences": {
+        "F40/e032-6a33": [],
+        "S/decisions-quick-60": [
+          [
+            "after.ds",
+            "DS+0x0C00"
+          ]
+        ],
+        "S/ko-9-quick": [
+          [
+            "after.ds",
+            "DS+0x0C00"
+          ]
+        ]
+      }
+    },
+    {
+      "variant": "omit-1771-3947",
+      "routine": "1771:3947",
+      "runner_exit": 0,
+      "caught": false,
+      "completed": {
+        "F40/e032-6a33": true,
+        "S/decisions-quick-60": true,
+        "S/ko-9-quick": true
+      },
+      "differences": {
+        "F40/e032-6a33": [],
+        "S/decisions-quick-60": [],
+        "S/ko-9-quick": []
+      }
+    }
+  ],
+  "all_caught": false
+}

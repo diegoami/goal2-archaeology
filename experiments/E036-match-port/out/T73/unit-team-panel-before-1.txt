@@ -1,0 +1,46 @@
+parent9a1a4859, current three team-panel tests
+FEF
+======================================================================
+ERROR: test_panel_live_gate_second_side_and_country_flag_column_branches (tests.test_port_display.TeamPanelCompositeTests.test_panel_live_gate_second_side_and_country_flag_column_branches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpjwya6una/tests/test_port_display.py", line 1211, in test_panel_live_gate_second_side_and_country_flag_column_branches
+    self.assertEqual(r.args('214B:02C8')[0],(0x2A,r.mem.DS,0x6EA2,13,2,r.mem.DS,0xA96E))
+                     ~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+FAIL: test_panel_aggregate_labels_bars_and_all_eight_tactic_rows (tests.test_port_display.TeamPanelCompositeTests.test_panel_aggregate_labels_bars_and_all_eight_tactic_rows)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpjwya6una/tests/test_port_display.py", line 1200, in test_panel_aggregate_labels_bars_and_all_eight_tactic_rows
+    self.assertEqual([a[1] for a in r.args('214B:026D')[1:5]],[0x6EC4,0x6ED4,0x6EE4,0x6EF4])
+AssertionError: Lists differ: [] != [28356, 28372, 28388, 28404]
+
+Second list contains 4 additional elements.
+First extra element 0:
+28356
+
+- []
++ [28356, 28372, 28388, 28404]
+
+======================================================================
+FAIL: test_panel_manager_ranks_formation_and_numeric_columns (tests.test_port_display.TeamPanelCompositeTests.test_panel_manager_ranks_formation_and_numeric_columns)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpjwya6una/tests/test_port_display.py", line 1189, in test_panel_manager_ranks_formation_and_numeric_columns
+    self.assertEqual(r.args('214B:0329'),[(r.mem.DS,0x4BBE,r.mem.DS,0xA96E)])
+AssertionError: Lists differ: [] != [(9601, 19390, 9601, 43374)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(9601, 19390, 9601, 43374)
+
+- []
++ [(9601, 19390, 9601, 43374)]
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.053s
+
+FAILED (failures=2, errors=1)
+exit 1

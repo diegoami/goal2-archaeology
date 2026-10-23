@@ -1,0 +1,22 @@
+............E................................................
+======================================================================
+ERROR: test_zero_fixture_and_positive_fixture_pointer_twin (tests.test_port_display.CompetitionGroupTests.test_zero_fixture_and_positive_fixture_pointer_twin)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display.py", line 968, in test_zero_fixture_and_positive_fixture_pointer_twin
+    r.run('1771:8CA2',(PARENT,58,10,index))
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display.py", line 82, in run
+    request = gen.send(sent)
+              ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/runtime/original_match/port/display.py", line 1728, in competition_fixture_memory
+    r.ax=fixture;r.cl=3;r.ax=r.ax<<3
+                 ^^^^
+  File "/home/diego/projects/goal2-archaeology/runtime/original_match/port/runtime.py", line 101, in __setattr__
+    object.__setattr__(self, name, value)     # al, ah
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Regs' object has no attribute 'cl'
+
+----------------------------------------------------------------------
+Ran 61 tests in 0.740s
+
+FAILED (errors=1)

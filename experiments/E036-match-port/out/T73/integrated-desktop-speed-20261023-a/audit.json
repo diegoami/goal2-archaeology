@@ -1,0 +1,20 @@
+{
+  "purpose": "Diagnostic speed and composition sample, not final T73 acceptance",
+  "strict_exact": true,
+  "cases": {
+    "S/quick-30": {
+      "desktop_cpu_s": 191.965,
+      "desktop_wall_s": 180.837,
+      "previous_T72_actions_cpu_s": 425.601,
+      "previous_T72_actions_wall_s": 380.103
+    },
+    "S/quick-1": {
+      "desktop_cpu_s": 10.457,
+      "desktop_wall_s": 9.786,
+      "previous_T72_actions_cpu_s": 23.293,
+      "previous_T72_actions_wall_s": 20.415
+    }
+  },
+  "comparison_limit": "Previous Actions record ran T72 source; this is an indicative scheduling comparison, not a controlled same-source machine benchmark.",
+  "scheduling_choice": "Desktop 32-slot sharding for the final integrated run; run after freezing final source and integrating main."
+}

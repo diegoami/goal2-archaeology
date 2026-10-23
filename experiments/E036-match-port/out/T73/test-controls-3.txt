@@ -1,0 +1,97 @@
+snapshot hashes {'runtime/original_match/port/display.py': 'efe579b728aefa394ca0ef6277ba4ecee93b7e51b4f032f2ea8bf6aa023607c7', 'experiments/E036-match-port/family.py': '9feff83d61a82c0d948d506fc2aa3af53f4fefb159ac5ccf7aa664f13810677f', 'experiments/E036-match-port/compare.py': '77d3c5d9c6114a27f19f0061dee4e24b83ff359b4e00de50d65d2e6195c8ef92'}
+tests sha256 a31fd5e926835d1e09baa7ccbd8c8d4989781559568067741b7c2ce3533aa592
+fixed pre-task baseline: exit 1, caught
+041A board key clear omitted: exit 1, caught
+0691 last pitch slot omitted: exit 1, caught
+0682 numbered glyph offset shifted: exit 1, caught
+0640 half glyph OR instead of XOR: exit 1, caught
+8FAF erased old cell changed: exit 1, caught
+8F66 erase membership ignored: exit 1, caught
+8FD7 high-ball boundary inclusive: exit 1, caught
+9045 occupied new cell overwritten: exit 1, caught
+9085 quick reset branch inverted: exit 1, caught
+A6AF pitch copy shorter: exit 1, caught
+94CF wrong secondary seed: exit 1, caught
+950B noise threshold equality changed: exit 1, caught
+012B backward DF cleared: exit 1, caught
+0116 text attribute unswapped: exit 1, caught
+010C text nonempty loop skipped: exit 1, caught
+01DB text column offset changed: exit 1, caught
+072B score sides swapped: exit 1, caught
+0C6B pending flag not cleared: exit 1, caught
+16B1 snapshot last squad slot omitted: exit 1, caught
+17FE snapshot seed destination changed: exit 1, caught
+screen projection applied to every event kind: exit 1, caught
+screen projection drops seed too: exit 1, caught
+empty selected profile falls back: exit 1, caught
+raw runs accidentally projected: exit 1, caught
+CLI declared mask not selected: exit 1, caught
+profile checkpoint identity omitted: exit 1, caught
+strict profile inherits coarse block skip: exit 1, caught
+mismatched display mask allowed: exit 1, caught
+display profile reference override allowed: exit 1, caught
+removed void routine returns a value: exit 1, caught
+0083 empty statistics bar executes writes: exit 1, NOT CAUGHT
+.........................................EE.....
+======================================================================
+ERROR: test_empty_statistics_bar_and_nonempty_reached_twin (tests.test_port_display.UnreachedStateBranchTests.test_empty_statistics_bar_and_nonempty_reached_twin) (first=0, second=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpq3rsipe7/tests/test_port_display.py", line 775, in test_empty_statistics_bar_and_nonempty_reached_twin
+    r.run('0791:006C',(0,4,0x100,0x4000))
+  File "/tmp/tmpq3rsipe7/tests/test_port_display.py", line 82, in run
+    request = gen.send(sent)
+              ^^^^^^^^^^^^^^
+  File "/tmp/tmpq3rsipe7/runtime/original_match/port/display.py", line 883, in board_bar_attributes
+    r.dx=0;r.ax=r.ax//r.bx;amount=r.ax;r.local16(-2,amount)
+                ~~~~^^~~~~
+ZeroDivisionError: integer division or modulo by zero
+
+======================================================================
+ERROR: test_empty_statistics_bar_and_nonempty_reached_twin (tests.test_port_display.UnreachedStateBranchTests.test_empty_statistics_bar_and_nonempty_reached_twin) (first=1, second=65535)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpq3rsipe7/tests/test_port_display.py", line 775, in test_empty_statistics_bar_and_nonempty_reached_twin
+    r.run('0791:006C',(0,4,0x100,0x4000))
+  File "/tmp/tmpq3rsipe7/tests/test_port_display.py", line 82, in run
+    request = gen.send(sent)
+              ^^^^^^^^^^^^^^
+  File "/tmp/tmpq3rsipe7/runtime/original_match/port/display.py", line 883, in board_bar_attributes
+    r.dx=0;r.ax=r.ax//r.bx;amount=r.ax;r.local16(-2,amount)
+                ~~~~^^~~~~
+ZeroDivisionError: integer division or modulo by zero
+
+----------------------------------------------------------------------
+Ran 47 tests in 0.743s
+
+FAILED (errors=2)
+
+2F58 empty player row executes name call: exit 1, caught
+3916 live slot brightness includes bench12: exit 1, caught
+3B09 mark flag guard inverted: exit 1, caught
+3B80 zone branch excludes position2: exit 1, NOT CAUGHT
+..........................................E....
+======================================================================
+ERROR: test_mark_row_position_zone_and_country_default_branches (tests.test_port_display.UnreachedStateBranchTests.test_mark_row_position_zone_and_country_default_branches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpdbawpt7_/tests/test_port_display.py", line 809, in test_mark_row_position_zone_and_country_default_branches
+    elif want_zone:self.assertEqual(r.args('214B:01A3')[0][1],0x3B30)
+                                    ~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+----------------------------------------------------------------------
+Ran 47 tests in 0.739s
+
+FAILED (errors=1)
+
+3D18 nonmatch branch inverted: exit 1, caught
+43D8 both-feet branch inverted: exit 1, caught
+044B special message colour changed: exit 1, caught
+1E18 delay local count incremented: exit 1, caught
+04BF second digit row shifted: exit 1, caught
+0540 seventh segment omitted: exit 1, caught
+05B8 last digit column shifted: exit 1, caught
+19B2 top-row boundary excludes row4: exit 1, caught
+C553 outgoing notice column shifted: exit 1, caught
+a control was not caught

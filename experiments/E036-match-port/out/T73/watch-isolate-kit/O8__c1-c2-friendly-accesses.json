@@ -1,0 +1,2967 @@
+{
+  "schema": 1,
+  "match": "O8/c1-c2-friendly",
+  "ports": [],
+  "display_entries": {},
+  "guest_accesses": [],
+  "kit_reads": [
+    {
+      "category": "measurement",
+      "origin": "digest_memory",
+      "ds_offset": 0,
+      "size": 65536,
+      "count": 1
+    },
+    {
+      "category": "measurement",
+      "origin": "digest_memory",
+      "ds_offset": 31586,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "measurement",
+      "origin": "far",
+      "ds_offset": 43370,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "measurement",
+      "origin": "far",
+      "ds_offset": 43372,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "measurement",
+      "origin": "run_match",
+      "ds_offset": 0,
+      "size": 65536,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "_board",
+      "ds_offset": 31586,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "_board",
+      "ds_offset": 31614,
+      "size": 20,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "_board",
+      "ds_offset": 31802,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "_board",
+      "ds_offset": 33010,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "_board",
+      "ds_offset": 33012,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "_board",
+      "ds_offset": 33014,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "_board",
+      "ds_offset": 33016,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "_board",
+      "ds_offset": 39740,
+      "size": 1,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "_board",
+      "ds_offset": 39741,
+      "size": 1,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "_decide",
+      "ds_offset": 39738,
+      "size": 1,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "_declare",
+      "ds_offset": 31586,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "_finish",
+      "ds_offset": 31586,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "_finish",
+      "ds_offset": 33008,
+      "size": 1,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "_finish",
+      "ds_offset": 33009,
+      "size": 1,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31700,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31702,
+      "size": 1,
+      "count": 2108
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31703,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31705,
+      "size": 1,
+      "count": 1334
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31706,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31709,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31712,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31715,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31718,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31721,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31724,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31727,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31730,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31733,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31735,
+      "size": 1,
+      "count": 3286
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31736,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31738,
+      "size": 1,
+      "count": 2992
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31739,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31741,
+      "size": 1,
+      "count": 2568
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31742,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31744,
+      "size": 1,
+      "count": 1616
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31745,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31747,
+      "size": 1,
+      "count": 231
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31748,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31751,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31754,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31757,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31760,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31763,
+      "size": 2,
+      "count": 4572
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31806,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31812,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31818,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31824,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31830,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31836,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31842,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31848,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31854,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31860,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31866,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31872,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31878,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31884,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31890,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31896,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31902,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31908,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31914,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31920,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31926,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31932,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31938,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31944,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31950,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31956,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31962,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31968,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31974,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31980,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31986,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31992,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 31998,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32004,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32010,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32016,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32022,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32028,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32034,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32040,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32046,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32052,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32058,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32064,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32070,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32076,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32082,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32088,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32094,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32100,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32106,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32112,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32118,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32124,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32130,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32136,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32142,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32148,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32154,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32160,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32166,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32172,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32178,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32184,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32190,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32196,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32202,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32208,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32214,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32220,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32226,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32232,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32238,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32244,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32250,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32256,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32262,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32268,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32274,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32280,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32286,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32292,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32298,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32304,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32310,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32316,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32322,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32328,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32334,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32340,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32346,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32352,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32358,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32364,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32370,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32376,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32382,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32388,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32394,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32400,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32406,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32412,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32418,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32424,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32430,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32436,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32442,
+      "size": 6,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32448,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32454,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32460,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32466,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32472,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32478,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32484,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32490,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32496,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32502,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32508,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32514,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32520,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32526,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32532,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32538,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32544,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32550,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32556,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32562,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32568,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32574,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32580,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32586,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32592,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32598,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32604,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32610,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32616,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32622,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32628,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32634,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32640,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32646,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32652,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32658,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32664,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32670,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32676,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32682,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32688,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32694,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32700,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32706,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32712,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32718,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32724,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32730,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32736,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32742,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32748,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32754,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32760,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32766,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32772,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32778,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32784,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32790,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32796,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32802,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32808,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32814,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32820,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32826,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32832,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32838,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32844,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32850,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32856,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32862,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32868,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32874,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32880,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32886,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32892,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32898,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32904,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32910,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32916,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32922,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32928,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32934,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32940,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32946,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32952,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32958,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32964,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32970,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32976,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32982,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32988,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 32994,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_flush",
+      "ds_offset": 33000,
+      "size": 6,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "_on_play",
+      "ds_offset": 39738,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "_on_readkey",
+      "ds_offset": 31150,
+      "size": 1,
+      "count": 7
+    },
+    {
+      "category": "semantic",
+      "origin": "_on_score",
+      "ds_offset": 33567,
+      "size": 2,
+      "count": 7
+    },
+    {
+      "category": "semantic",
+      "origin": "_on_wait",
+      "ds_offset": 31586,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "_stamp",
+      "ds_offset": 33567,
+      "size": 2,
+      "count": 1204
+    },
+    {
+      "category": "semantic",
+      "origin": "_stamp",
+      "ds_offset": 39740,
+      "size": 1,
+      "count": 1204
+    },
+    {
+      "category": "semantic",
+      "origin": "_stamp",
+      "ds_offset": 39741,
+      "size": 1,
+      "count": 1204
+    },
+    {
+      "category": "semantic",
+      "origin": "_team_menu_key",
+      "ds_offset": 39745,
+      "size": 1,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "far",
+      "ds_offset": 39788,
+      "size": 2,
+      "count": 1393
+    },
+    {
+      "category": "semantic",
+      "origin": "far",
+      "ds_offset": 39790,
+      "size": 2,
+      "count": 1393
+    },
+    {
+      "category": "semantic",
+      "origin": "far",
+      "ds_offset": 43287,
+      "size": 2,
+      "count": 9154
+    },
+    {
+      "category": "semantic",
+      "origin": "far",
+      "ds_offset": 43289,
+      "size": 2,
+      "count": 9154
+    },
+    {
+      "category": "semantic",
+      "origin": "far",
+      "ds_offset": 43291,
+      "size": 2,
+      "count": 121
+    },
+    {
+      "category": "semantic",
+      "origin": "far",
+      "ds_offset": 43293,
+      "size": 2,
+      "count": 121
+    },
+    {
+      "category": "semantic",
+      "origin": "far",
+      "ds_offset": 43299,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "far",
+      "ds_offset": 43301,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "far",
+      "ds_offset": 43370,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "far",
+      "ds_offset": 43372,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "far",
+      "ds_offset": 43374,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "far",
+      "ds_offset": 43376,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "far",
+      "ds_offset": 43378,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "far",
+      "ds_offset": 43380,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "frame_word",
+      "ds_offset": 59998,
+      "size": 2,
+      "count": 2400
+    },
+    {
+      "category": "semantic",
+      "origin": "frame_word",
+      "ds_offset": 60004,
+      "size": 2,
+      "count": 1800
+    },
+    {
+      "category": "semantic",
+      "origin": "frame_word",
+      "ds_offset": 60046,
+      "size": 2,
+      "count": 600
+    },
+    {
+      "category": "semantic",
+      "origin": "frame_word",
+      "ds_offset": 60152,
+      "size": 2,
+      "count": 300
+    },
+    {
+      "category": "semantic",
+      "origin": "frame_word",
+      "ds_offset": 60210,
+      "size": 2,
+      "count": 300
+    },
+    {
+      "category": "semantic",
+      "origin": "frame_word",
+      "ds_offset": 60248,
+      "size": 2,
+      "count": 1000
+    },
+    {
+      "category": "semantic",
+      "origin": "frame_word",
+      "ds_offset": 60254,
+      "size": 2,
+      "count": 1000
+    },
+    {
+      "category": "semantic",
+      "origin": "frame_word",
+      "ds_offset": 60262,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "frame_word",
+      "ds_offset": 60298,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "frame_word",
+      "ds_offset": 60300,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "frame_word",
+      "ds_offset": 60302,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "frame_word",
+      "ds_offset": 60319,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "frame_word",
+      "ds_offset": 60322,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "frame_word",
+      "ds_offset": 60324,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "frame_word",
+      "ds_offset": 60326,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "frame_word",
+      "ds_offset": 60343,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "hook",
+      "ds_offset": 31621,
+      "size": 3,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "hook",
+      "ds_offset": 31631,
+      "size": 3,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "hook",
+      "ds_offset": 33006,
+      "size": 2,
+      "count": 1108
+    },
+    {
+      "category": "semantic",
+      "origin": "hook",
+      "ds_offset": 33567,
+      "size": 2,
+      "count": 92
+    },
+    {
+      "category": "semantic",
+      "origin": "hook",
+      "ds_offset": 39738,
+      "size": 2,
+      "count": 4
+    },
+    {
+      "category": "semantic",
+      "origin": "hook",
+      "ds_offset": 39740,
+      "size": 2,
+      "count": 8
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 190,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 211,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 232,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 253,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 274,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 295,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 316,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 337,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 358,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 379,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 400,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 421,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 442,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 463,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 484,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 505,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 526,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 547,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 568,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 589,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 610,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 631,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 652,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 673,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 694,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 715,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 736,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 757,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 778,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 799,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 820,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 841,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 862,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 883,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 904,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 925,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 946,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 967,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 988,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1009,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1030,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1051,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1072,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1093,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1114,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1135,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1156,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1177,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1198,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1219,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1240,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1261,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1282,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1303,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1324,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1345,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1366,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1387,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1408,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1429,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1450,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1471,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1492,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1513,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1534,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1555,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "names_and_templates",
+      "ds_offset": 1576,
+      "size": 21,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "seed_write",
+      "ds_offset": 31586,
+      "size": 2,
+      "count": 193140
+    },
+    {
+      "category": "semantic",
+      "origin": "seed_write",
+      "ds_offset": 33565,
+      "size": 2,
+      "count": 193140
+    },
+    {
+      "category": "semantic",
+      "origin": "seed_write",
+      "ds_offset": 33567,
+      "size": 2,
+      "count": 193140
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 59254,
+      "size": 2,
+      "count": 17
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 59278,
+      "size": 2,
+      "count": 34
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 59988,
+      "size": 2,
+      "count": 4800
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 59990,
+      "size": 2,
+      "count": 4800
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 59994,
+      "size": 2,
+      "count": 3600
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 59996,
+      "size": 2,
+      "count": 3600
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 59998,
+      "size": 2,
+      "count": 8
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60000,
+      "size": 2,
+      "count": 8
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60004,
+      "size": 2,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60006,
+      "size": 2,
+      "count": 6
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60036,
+      "size": 2,
+      "count": 1200
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60038,
+      "size": 2,
+      "count": 1200
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60046,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60048,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60056,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60058,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60080,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60082,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60142,
+      "size": 2,
+      "count": 600
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60144,
+      "size": 2,
+      "count": 600
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60152,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60154,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60200,
+      "size": 2,
+      "count": 600
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60202,
+      "size": 2,
+      "count": 600
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60210,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60212,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60238,
+      "size": 2,
+      "count": 2000
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60240,
+      "size": 2,
+      "count": 2000
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60244,
+      "size": 2,
+      "count": 2000
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60246,
+      "size": 2,
+      "count": 2000
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60248,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60250,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60252,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60254,
+      "size": 2,
+      "count": 4
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60256,
+      "size": 2,
+      "count": 2
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60262,
+      "size": 2,
+      "count": 5
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60264,
+      "size": 2,
+      "count": 4
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60270,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60272,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60276,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60278,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60284,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60286,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60294,
+      "size": 2,
+      "count": 3
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60296,
+      "size": 2,
+      "count": 3
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60298,
+      "size": 2,
+      "count": 99880
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60300,
+      "size": 2,
+      "count": 99880
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60304,
+      "size": 2,
+      "count": 100936
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60306,
+      "size": 2,
+      "count": 100936
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60314,
+      "size": 2,
+      "count": 3872
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60316,
+      "size": 2,
+      "count": 3872
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60318,
+      "size": 2,
+      "count": 4
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60320,
+      "size": 2,
+      "count": 3348
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60322,
+      "size": 2,
+      "count": 3344
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60328,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "category": "semantic",
+      "origin": "stack_word",
+      "ds_offset": 60352,
+      "size": 2,
+      "count": 2
+    }
+  ],
+  "kit_writes": [
+    {
+      "ds_offset": 31586,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "ds_offset": 43382,
+      "size": 2,
+      "count": 6
+    },
+    {
+      "ds_offset": 60368,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "ds_offset": 60370,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "ds_offset": 60372,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "ds_offset": 60374,
+      "size": 2,
+      "count": 1
+    }
+  ]
+}

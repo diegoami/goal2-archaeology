@@ -1,0 +1,4 @@
+S/decisions-quick-60: score [1, 2] ticks 2747 draws 117314 cpu 29.233 s -> 39.042 s; caught: first at after.ds (DS+0x0C00)
+F40/e032-6a33: score [0, 2] ticks 4159 draws 184733 cpu 34.903 s -> 149.63 s; NOT CAUGHT: identical: FAIL
+S/ko-9-quick: score [1, 1] ticks 2290 draws 110835 cpu 33.35 s -> 47.707 s; caught: first at after.ds (DS+0x0C00)
+3 matches expected differ, 2 pass, 1 fail

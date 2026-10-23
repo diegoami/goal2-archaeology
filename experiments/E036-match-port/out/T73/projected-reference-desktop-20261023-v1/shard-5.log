@@ -1,0 +1,10 @@
+COMMAND: ['/home/diego/.local/bin/python3.12', '-B', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/family.py', '--family', 'ALL', '--only', 'F40/edit-0101,F40/edit-1234,F40/edit-2345,F40/edit-2b7e', '--mask', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/families/display/mask.json', '--workers', '2', '--time-limit', '6000', '--stretch-limit', '1200', '--out', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/projected-reference-desktop-20261023-v1/shard-5.jsonl']
+heavy: family: waiting for a slot (3 ahead)
+heavy: family: waiting for a slot (1 ahead)
+heavy: family: got slot 6 7 after 3 s
+4 matches selected, 0 already in /home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/projected-reference-desktop-20261023-v1/shard-5.jsonl, 4 to run
+F40/edit-0101: completed; score [1, 0] ticks 4142 cpu 37.971 s
+F40/edit-1234: completed; score [6, 0] ticks 4576 cpu 37.77 s
+F40/edit-2345: completed; score [3, 0] ticks 4410 cpu 50.013 s
+F40/edit-2b7e: completed; score [2, 1] ticks 4180 cpu 48.244 s
+4 of 4 matches in /home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/projected-reference-desktop-20261023-v1/shard-5.jsonl, 0 not completed

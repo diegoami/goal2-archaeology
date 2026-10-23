@@ -1,0 +1,936 @@
+{
+  "schema": 1,
+  "match": "O8/c1-c2-friendly",
+  "ports": [],
+  "display_entries": {},
+  "guest_accesses": [
+    {
+      "kind": "read",
+      "routine": "0791:0776",
+      "display_context": "-",
+      "instruction": "0791:0779",
+      "ds_offset": 60326,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "0791:0776",
+      "display_context": "-",
+      "instruction": "0791:077C",
+      "ds_offset": 60340,
+      "size": 1,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "0791:0776",
+      "display_context": "-",
+      "instruction": "0791:0783",
+      "ds_offset": 60330,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "0791:0776",
+      "display_context": "-",
+      "instruction": "0791:0783",
+      "ds_offset": 60332,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "0791:0776",
+      "display_context": "-",
+      "instruction": "0791:0788",
+      "ds_offset": 60328,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "0791:A3DE",
+      "display_context": "-",
+      "instruction": "0791:A3E4",
+      "ds_offset": 60340,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "0791:A3DE",
+      "display_context": "-",
+      "instruction": "0791:A3E4",
+      "ds_offset": 60342,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "0791:A3DE",
+      "display_context": "-",
+      "instruction": "0791:A3ED",
+      "ds_offset": 60331,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "0791:A3DE",
+      "display_context": "-",
+      "instruction": "0791:A3ED",
+      "ds_offset": 60333,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "0791:A3DE",
+      "display_context": "-",
+      "instruction": "0791:A3FD",
+      "ds_offset": 60331,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "0791:A3DE",
+      "display_context": "-",
+      "instruction": "0791:A3FD",
+      "ds_offset": 60333,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "0791:A4A1",
+      "display_context": "-",
+      "instruction": "0791:A4A7",
+      "ds_offset": 60352,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "0791:A4A1",
+      "display_context": "-",
+      "instruction": "0791:A4A7",
+      "ds_offset": 60354,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "0791:F1F6",
+      "display_context": "-",
+      "instruction": "0791:F1FC",
+      "ds_offset": 60372,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "0791:F1F6",
+      "display_context": "-",
+      "instruction": "0791:F1FC",
+      "ds_offset": 60374,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B4D",
+      "ds_offset": 60316,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B53",
+      "ds_offset": 43684,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B5C",
+      "ds_offset": 60318,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B5C",
+      "ds_offset": 60320,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B64",
+      "ds_offset": 60318,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B64",
+      "ds_offset": 60320,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B70",
+      "ds_offset": 43684,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B76",
+      "ds_offset": 60316,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:0000",
+      "display_context": "-",
+      "instruction": "235C:0000",
+      "ds_offset": 60282,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:0000",
+      "display_context": "-",
+      "instruction": "235C:0001",
+      "ds_offset": 60284,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:0000",
+      "display_context": "-",
+      "instruction": "235C:0002",
+      "ds_offset": 60286,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:0000",
+      "display_context": "-",
+      "instruction": "235C:0003",
+      "ds_offset": 60288,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0019",
+      "ds_offset": 60288,
+      "size": 1,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0024",
+      "ds_offset": 60284,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0024",
+      "ds_offset": 60286,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0028",
+      "ds_offset": 60290,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:002A",
+      "ds_offset": 60292,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:002D",
+      "ds_offset": 60294,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0030",
+      "ds_offset": 60296,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0033",
+      "ds_offset": 60298,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0036",
+      "ds_offset": 60300,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0038",
+      "ds_offset": 60302,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:003B",
+      "ds_offset": 60304,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:003D",
+      "ds_offset": 60306,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0040",
+      "ds_offset": 60260,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0041",
+      "ds_offset": 60262,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0042",
+      "ds_offset": 60264,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0044",
+      "ds_offset": 60266,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0044",
+      "ds_offset": 60268,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "23E4:08DF",
+      "display_context": "-",
+      "instruction": "23E4:08E1",
+      "ds_offset": 60324,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "23E4:08DF",
+      "display_context": "-",
+      "instruction": "23E4:08E1",
+      "ds_offset": 60326,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "23E4:08DF",
+      "display_context": "-",
+      "instruction": "23E4:08E5",
+      "ds_offset": 60328,
+      "size": 1,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "23E4:08DF",
+      "display_context": "-",
+      "instruction": "23E4:08FA",
+      "ds_offset": 26938,
+      "size": 1,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "23E4:08DF",
+      "display_context": "-",
+      "instruction": "23E4:08FD",
+      "ds_offset": 60320,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "read",
+      "routine": "23E4:08DF",
+      "display_context": "-",
+      "instruction": "23E4:08FD",
+      "ds_offset": 60322,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:0776",
+      "display_context": "-",
+      "instruction": "0791:0776",
+      "ds_offset": 60322,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:0776",
+      "display_context": "-",
+      "instruction": "0791:0786",
+      "ds_offset": 60320,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:0776",
+      "display_context": "-",
+      "instruction": "0791:0787",
+      "ds_offset": 60318,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:0776",
+      "display_context": "-",
+      "instruction": "0791:0788",
+      "ds_offset": 60316,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:0776",
+      "display_context": "-",
+      "instruction": "0791:078B",
+      "ds_offset": 60312,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:0776",
+      "display_context": "-",
+      "instruction": "0791:078B",
+      "ds_offset": 60314,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:07BA",
+      "display_context": "-",
+      "instruction": "0791:0900",
+      "ds_offset": 60328,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:07BA",
+      "display_context": "-",
+      "instruction": "0791:0901",
+      "ds_offset": 60326,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:07BA",
+      "display_context": "-",
+      "instruction": "0791:0902",
+      "ds_offset": 60324,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:A3DE",
+      "display_context": "-",
+      "instruction": "0791:A3DE",
+      "ds_offset": 60336,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:A3DE",
+      "display_context": "-",
+      "instruction": "0791:A3E7",
+      "ds_offset": 60331,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:A3DE",
+      "display_context": "-",
+      "instruction": "0791:A3EA",
+      "ds_offset": 60333,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:A3DE",
+      "display_context": "-",
+      "instruction": "0791:A3F6",
+      "ds_offset": 39732,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:A3DE",
+      "display_context": "-",
+      "instruction": "0791:A3F9",
+      "ds_offset": 39734,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:A3DE",
+      "display_context": "-",
+      "instruction": "0791:A404",
+      "ds_offset": 60328,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:A3DE",
+      "display_context": "-",
+      "instruction": "0791:A408",
+      "ds_offset": 60326,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:A3DE",
+      "display_context": "-",
+      "instruction": "0791:A409",
+      "ds_offset": 60324,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:A3DE",
+      "display_context": "-",
+      "instruction": "0791:A40A",
+      "ds_offset": 60320,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:A3DE",
+      "display_context": "-",
+      "instruction": "0791:A40A",
+      "ds_offset": 60322,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:A4A1",
+      "display_context": "-",
+      "instruction": "0791:A4A1",
+      "ds_offset": 60348,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:A4A1",
+      "display_context": "-",
+      "instruction": "0791:A4AA",
+      "ds_offset": 60342,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:A4A1",
+      "display_context": "-",
+      "instruction": "0791:A4AB",
+      "ds_offset": 60340,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:A4A1",
+      "display_context": "-",
+      "instruction": "0791:A4AC",
+      "ds_offset": 60338,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:F1F6",
+      "display_context": "-",
+      "instruction": "0791:F1F6",
+      "ds_offset": 60366,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:F1F6",
+      "display_context": "-",
+      "instruction": "0791:F1FF",
+      "ds_offset": 60354,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:F1F6",
+      "display_context": "-",
+      "instruction": "0791:F200",
+      "ds_offset": 60352,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "0791:F1F6",
+      "display_context": "-",
+      "instruction": "0791:F201",
+      "ds_offset": 60350,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B47",
+      "ds_offset": 60310,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B61",
+      "ds_offset": 60304,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B69",
+      "ds_offset": 60296,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B6C",
+      "ds_offset": 60291,
+      "size": 1,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B73",
+      "ds_offset": 60292,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B79",
+      "ds_offset": 60294,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B7F",
+      "ds_offset": 60288,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B80",
+      "ds_offset": 60286,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B81",
+      "ds_offset": 60282,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "214B:1B47",
+      "display_context": "-",
+      "instruction": "214B:1B81",
+      "ds_offset": 60284,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "235C:0000",
+      "display_context": "-",
+      "instruction": "235C:0006",
+      "ds_offset": 60288,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "235C:0000",
+      "display_context": "-",
+      "instruction": "235C:0007",
+      "ds_offset": 60286,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "235C:0000",
+      "display_context": "-",
+      "instruction": "235C:0008",
+      "ds_offset": 60284,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "235C:0000",
+      "display_context": "-",
+      "instruction": "235C:0009",
+      "ds_offset": 60282,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "235C:0000",
+      "display_context": "-",
+      "instruction": "235C:000A",
+      "ds_offset": 60280,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:000B",
+      "ds_offset": 60278,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:000C",
+      "ds_offset": 60276,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:000F",
+      "ds_offset": 60274,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0013",
+      "ds_offset": 60272,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0014",
+      "ds_offset": 60270,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0022",
+      "ds_offset": 60268,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0023",
+      "ds_offset": 60266,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0029",
+      "ds_offset": 60264,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:0037",
+      "ds_offset": 60262,
+      "size": 2,
+      "count": 1
+    },
+    {
+      "kind": "write",
+      "routine": "235C:000B",
+      "display_context": "-",
+      "instruction": "235C:003C",
+      "ds_offset": 60260,
+      "size": 2,
+      "count": 1
+    }
+  ],
+  "kit_reads": [
+    {
+      "category": "measurement",
+      "origin": "run_match",
+      "ds_offset": 0,
+      "size": 65536,
+      "count": 1
+    }
+  ],
+  "kit_writes": []
+}

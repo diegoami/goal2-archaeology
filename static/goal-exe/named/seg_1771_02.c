@@ -31,14 +31,14 @@ void draw_team_panel(int param_1)
   local_8 = (country *)countries + param_1;
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x4bbe,0xb000);
   draw_country_name(2,8,param_1);
-  f_1771_1527(0x19,8,param_1);
+  draw_country_rating_label(0x19,8,param_1);
   puVar4 = local_108;
   uVar5 = unaff_SS;
-  f_1771_0947(local_8->manager);
+  format_manager_name(local_8->manager);
   u214b_write_string_at_fwd
             ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH,2),CONCAT11(extraout_AH,10),
              puVar4,uVar5);
-  f_1771_0AF8(0x18,10,local_8->manager);
+  draw_manager_status(0x18,10,local_8->manager);
   puVar4 = local_108;
   uVar5 = unaff_SS;
   u214b_number_to_string(local_8->world_rank,0);
@@ -109,9 +109,9 @@ void draw_team_panel(int param_1)
     local_4 = local_4 + 1;
   }
   compute_team_line_strengths((uint)extraout_AH_07 << 8,CONCAT11(extraout_AH_07,1),param_1);
-  f_1771_11E1(0xf);
+  draw_team_line_strength_bars(0xf);
   if ((match_set_up != 0) && (in_match_menu_used != 0)) {
-    f_1771_1289(DS:9B36 == param_1);
+    draw_live_team_line_performance(DS:9B36 == param_1);
   }
   u214b_write_string_at_fwd_set_attr
             ((undefined4 *)&DS:A96E,0xb000,2,0xd,(uint)local_8->continent * 8 + 0x6e92,0xb000,
@@ -443,8 +443,8 @@ void f_1771_1D5C(int param_1)
       iVar3 = local_6 * 8 + local_f * 0x18;
       local_a4 = (undefined1 *)CONCAT22(uStack_9e,(int)local_a0->squad + iVar3 + 0x77);
       if (*(int *)((int)local_a0->squad + iVar3 + 0x7d) != 0) {
-        f_1771_76FA(*(undefined1 *)(local_f + 0xda8),*(undefined1 *)(local_6 + 0xdaa),
-                    (int)local_a0->squad + local_6 * 8 + local_f * 0x18 + 0x77,uStack_9e);
+        draw_fixture_score(*(undefined1 *)(local_f + 0xda8),*(undefined1 *)(local_6 + 0xdaa),
+                           (int)local_a0->squad + local_6 * 8 + local_f * 0x18 + 0x77,uStack_9e);
         local_10 = '\0';
         while( true ) {
           uVar4 = (undefined2)((ulong)local_a4 >> 0x10);

@@ -1,0 +1,45 @@
+parent1b29df9, current three competition group tests
+FFF
+======================================================================
+FAIL: test_ninth_group_requires_continent_and_snapshot_then_uses_special_body (tests.test_port_display.CompetitionGroupTests.test_ninth_group_requires_continent_and_snapshot_then_uses_special_body)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp0zuc6j3n/tests/test_port_display.py", line 989, in test_ninth_group_requires_continent_and_snapshot_then_uses_special_body
+    self.assertEqual(r.u16(PARENT-4),want_group)
+AssertionError: 9 != 1
+
+======================================================================
+FAIL: test_regular_group_keeps_all_twelve_fixture_rows_and_selector (tests.test_port_display.CompetitionGroupTests.test_regular_group_keeps_all_twelve_fixture_rows_and_selector)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp0zuc6j3n/tests/test_port_display.py", line 976, in test_regular_group_keeps_all_twelve_fixture_rows_and_selector
+    self.assertEqual([a[1] for a in r.args('214B:0329')],[0x351E,0x142A])
+AssertionError: Lists differ: [] != [13598, 5162]
+
+Second list contains 2 additional elements.
+First extra element 0:
+13598
+
+- []
++ [13598, 5162]
+
+======================================================================
+FAIL: test_zero_fixture_and_positive_fixture_pointer_twin (tests.test_port_display.CompetitionGroupTests.test_zero_fixture_and_positive_fixture_pointer_twin)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp0zuc6j3n/tests/test_port_display.py", line 969, in test_zero_fixture_and_positive_fixture_pointer_twin
+    self.assertEqual(r.args('1771:77C3'),want)
+AssertionError: Lists differ: [] != [(21504, 288, 10, 58)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(21504, 288, 10, 58)
+
+- []
++ [(21504, 288, 10, 58)]
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.044s
+
+FAILED (failures=3)
+exit 1

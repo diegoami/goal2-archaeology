@@ -351,7 +351,7 @@ void __stdcall16far welcome_new_manager(int param_1)
   f_000E_070B(0x6877,0x1000,3);
   puVar1 = local_117;
   uVar2 = unaff_SS;
-  f_1771_0947(((country *)countries)[param_1].manager);
+  format_manager_name(((country *)countries)[param_1].manager);
   sys_str_store_max_0644(0x14,local_17,unaff_SS,puVar1,uVar2);
   uVar6 = 0xa000;
   uVar5 = 0x687f;
@@ -826,11 +826,11 @@ void __cdecl16near f_000E_724A(void)
   }
   puVar3 = local_11f;
   uVar2 = unaff_SS;
-  f_1771_0947(*(byte *)(local_1f + 1) + 0x80);
+  format_manager_name(*(byte *)(local_1f + 1) + 0x80);
   u214b_write_string_at_fwd
             ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH,4),CONCAT11(extraout_AH,8),
              puVar3,uVar2);
-  f_1771_0AF8(0x13,8,*(byte *)(local_1f + 1) + 0x80);
+  draw_manager_status(0x13,8,*(byte *)(local_1f + 1) + 0x80);
   uVar2 = shareware_limit_reached();
   cVar1 = draw_template_if(&stack0xfffe,0x19d6,0xb000,uVar2);
   if ((cVar1 == '\0') &&
@@ -919,7 +919,7 @@ void main_menu_loop(void)
                 }
                 puVar7 = local_10a;
                 uVar6 = unaff_SS;
-                f_1771_0947(local_4 + 0x80);
+                format_manager_name(local_4 + 0x80);
                 u214b_write_string_at_fwd
                           ((undefined4 *)&DS:A96E,0xb000,
                            CONCAT11((char)(local_4 + 10 >> 8),0x1a),local_4 + 10,puVar7,uVar6);
@@ -977,7 +977,7 @@ void main_menu_loop(void)
       f_000E_0000();
     }
     else if (DS:00B0 == 3) {
-      f_1771_958D(pbVar4[(pbVar3[1] + 0x80) * 3],pbVar3[pbVar3[1] + 1],1);
+      competition_table_view(pbVar4[(pbVar3[1] + 0x80) * 3],pbVar3[pbVar3[1] + 1],1);
     }
     else if (DS:00B0 == 4) {
       country_list_screen(3);

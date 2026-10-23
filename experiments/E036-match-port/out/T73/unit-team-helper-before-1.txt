@@ -1,0 +1,127 @@
+parentd87854e1, current four team helper tests
+FFFFFFFF
+======================================================================
+FAIL: test_country_rating_signed_zero_and_eight_point_boundaries (tests.test_port_display.TeamPanelHelperTests.test_country_rating_signed_zero_and_eight_point_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpnxhgdrkm/tests/test_port_display.py", line 1113, in test_country_rating_signed_zero_and_eight_point_boundaries
+    self.assertEqual(r.args('214B:026D'),[(r.mem.DS,expected,8,25,r.mem.DS,0xA96E)])
+AssertionError: Lists differ: [] != [(9601, 28356, 8, 25, 9601, 43374)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(9601, 28356, 8, 25, 9601, 43374)
+
+- []
++ [(9601, 28356, 8, 25, 9601, 43374)]
+
+======================================================================
+FAIL: test_manager_name_hidden_result_and_expression_calls (tests.test_port_display.TeamPanelHelperTests.test_manager_name_hidden_result_and_expression_calls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpnxhgdrkm/tests/test_port_display.py", line 1092, in test_manager_name_hidden_result_and_expression_calls
+    self.assertEqual(r.args('23E4:075A'),[(65,)])
+AssertionError: Lists differ: [] != [(65,)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(65,)
+
+- []
++ [(65,)]
+
+======================================================================
+FAIL: test_manager_status_zero_guard_and_status_band_boundaries (tests.test_port_display.TeamPanelHelperTests.test_manager_status_zero_guard_and_status_band_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpnxhgdrkm/tests/test_port_display.py", line 1105, in test_manager_status_zero_guard_and_status_band_boundaries
+    self.assertEqual(r.args('214B:026D'),[(r.mem.seg(0x1771) if want==0xAF0 else r.mem.DS,want,high+10,high+24,r.mem.DS,0xA96E)])
+AssertionError: Lists differ: [] != [(6001, 2800, 10, 24, 9601, 43374)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(6001, 2800, 10, 24, 9601, 43374)
+
+- []
++ [(6001, 2800, 10, 24, 9601, 43374)]
+
+======================================================================
+FAIL: test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter (tests.test_port_display.TeamPanelHelperTests.test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter) (morale=0, energy=10, blocked=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpnxhgdrkm/tests/test_port_display.py", line 1134, in test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter
+    self.assertEqual([r.mem.ds16(p) for p in range(0x9B5A,0x9B66,2)],want)
+AssertionError: Lists differ: [0, 0, 0, 0, 0, 0] != [1, 20, 8, 10, 25, 5]
+
+First differing element 0:
+0
+1
+
+- [0, 0, 0, 0, 0, 0]
++ [1, 20, 8, 10, 25, 5]
+
+======================================================================
+FAIL: test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter (tests.test_port_display.TeamPanelHelperTests.test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter) (morale=128, energy=10, blocked=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpnxhgdrkm/tests/test_port_display.py", line 1134, in test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter
+    self.assertEqual([r.mem.ds16(p) for p in range(0x9B5A,0x9B66,2)],want)
+AssertionError: Lists differ: [0, 0, 0, 0, 0, 0] != [5946, 20, 8, 10, 25, 5]
+
+First differing element 0:
+0
+5946
+
+- [0, 0, 0, 0, 0, 0]
++ [5946, 20, 8, 10, 25, 5]
+
+======================================================================
+FAIL: test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter (tests.test_port_display.TeamPanelHelperTests.test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter) (morale=0, energy=0, blocked=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpnxhgdrkm/tests/test_port_display.py", line 1134, in test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter
+    self.assertEqual([r.mem.ds16(p) for p in range(0x9B5A,0x9B66,2)],want)
+AssertionError: Lists differ: [0, 0, 0, 0, 0, 0] != [1, 18, 8, 9, 25, 5]
+
+First differing element 0:
+0
+1
+
+- [0, 0, 0, 0, 0, 0]
++ [1, 18, 8, 9, 25, 5]
+
+======================================================================
+FAIL: test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter (tests.test_port_display.TeamPanelHelperTests.test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter) (morale=0, energy=128, blocked=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpnxhgdrkm/tests/test_port_display.py", line 1134, in test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter
+    self.assertEqual([r.mem.ds16(p) for p in range(0x9B5A,0x9B66,2)],want)
+AssertionError: Lists differ: [0, 0, 0, 0, 0, 0] != [1, 18, 8, 5955, 25, 5]
+
+First differing element 0:
+0
+1
+
+- [0, 0, 0, 0, 0, 0]
++ [1, 18, 8, 5955, 25, 5]
+
+======================================================================
+FAIL: test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter (tests.test_port_display.TeamPanelHelperTests.test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter) (morale=128, energy=10, blocked=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpnxhgdrkm/tests/test_port_display.py", line 1134, in test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter
+    self.assertEqual([r.mem.ds16(p) for p in range(0x9B5A,0x9B66,2)],want)
+AssertionError: Lists differ: [0, 0, 0, 0, 0, 0] != [1, 18, 7, 9, 23, 5]
+
+First differing element 0:
+0
+1
+
+- [0, 0, 0, 0, 0, 0]
++ [1, 18, 7, 9, 23, 5]
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.055s
+
+FAILED (failures=8)
+exit 1

@@ -1,0 +1,4 @@
+S/reference: score [1, 1] ticks 4149 draws 182188 cpu 41.621 s -> 43.125 s; DIFFER: first at after.ds (DS+0x7800): FAIL
+S/quick-30: score [1, 2] ticks 1408 draws 60523 cpu 13.371 s -> 14.525 s; DIFFER: first at after.ds (DS+0x7800): FAIL
+2 matches expected identical, 0 pass, 2 fail
+acceptance=False

@@ -1,0 +1,37 @@
+parentf4a0613, current two group record rendering tests
+FF
+======================================================================
+FAIL: test_four_group_records_keep_phase_snapshot_offsets_and_all_columns (tests.test_port_display.CompetitionRecordRenderingTests.test_four_group_records_keep_phase_snapshot_offsets_and_all_columns)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpzbjx67nu/tests/test_port_display.py", line 1037, in test_four_group_records_keep_phase_snapshot_offsets_and_all_columns
+    self.assertEqual(r.args('1771:0F58'),[(i+3,i+10,4) for i in range(1,5)])
+AssertionError: Lists differ: [] != [(4, 11, 4), (5, 12, 4), (6, 13, 4), (7, 14, 4)]
+
+Second list contains 4 additional elements.
+First extra element 0:
+(4, 11, 4)
+
+- []
++ [(4, 11, 4), (5, 12, 4), (6, 13, 4), (7, 14, 4)]
+
+======================================================================
+FAIL: test_stage_header_snapshot_round_and_leader_branches (tests.test_port_display.CompetitionRecordRenderingTests.test_stage_header_snapshot_round_and_leader_branches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpzbjx67nu/tests/test_port_display.py", line 1051, in test_stage_header_snapshot_round_and_leader_branches
+    self.assertEqual([a[1] for a in r.args('214B:0329')],[0x1726,0x1190] if snapshot else [0x1726,0x1296,0x1230])
+AssertionError: Lists differ: [] != [5926, 4758, 4656]
+
+Second list contains 3 additional elements.
+First extra element 0:
+5926
+
+- []
++ [5926, 4758, 4656]
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.045s
+
+FAILED (failures=2)
+exit 1

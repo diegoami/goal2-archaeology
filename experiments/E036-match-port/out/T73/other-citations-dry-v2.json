@@ -1,0 +1,264 @@
+{
+  "changes": [
+    {
+      "finding": "experiments/E014-q013-ageing/notes.md",
+      "before": "seg_0791_09.c:28",
+      "after": "seg_0791_09.c:54",
+      "same_text": "      iVar4 = local_4;"
+    },
+    {
+      "finding": "experiments/E014-q013-ageing/notes.md",
+      "before": "seg_1771_06.c:953",
+      "after": "seg_1771_06.c:969",
+      "same_text": "  if (*(int *)(param_1 + -4) == 9) {"
+    },
+    {
+      "finding": "experiments/E014-q013-ageing/notes.md",
+      "before": "seg_0791_09.c:393",
+      "after": "seg_0791_09.c:419",
+      "same_text": "  DS:9B41 = 1;"
+    },
+    {
+      "finding": "experiments/E017-q015-energy/notes.md",
+      "before": "seg_0791_09.c:320",
+      "after": "seg_0791_09.c:346",
+      "same_text": "  undefined1 extraout_AH;"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:219",
+      "after": "seg_0791_09.c:245",
+      "same_text": "    }"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_11.c:674",
+      "after": "seg_0791_11.c:700",
+      "same_text": "      if (((country *)countries)[((undefined2 *)&DS:9B34)[local_3]].squad[local_5 + -1] != 0)"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_11.c:632",
+      "after": "seg_0791_11.c:658",
+      "same_text": "        local_9 = ppVar5[wVar2].performance;"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:96",
+      "after": "seg_0791_09.c:122",
+      "same_text": "    local_4 = local_4 + 1;"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:324",
+      "after": "seg_0791_09.c:350",
+      "same_text": "  player *ppVar3;"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_01.c:549",
+      "after": "seg_1771_01.c:551",
+      "same_text": "  int iVar1;"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_01.c:1049",
+      "after": "seg_1771_01.c:1054",
+      "same_text": "  DS:9B64 = DS:9B64 / 0xb;"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_02.c:539",
+      "after": "seg_0791_02.c:540",
+      "same_text": "    local_7 = 0xc;"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_10.c:62",
+      "after": "seg_0791_10.c:112",
+      "same_text": "  puVar4 = local_112;"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_11.c:632",
+      "after": "seg_0791_11.c:658",
+      "same_text": "        local_9 = ppVar5[wVar2].performance;"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_01.c:1016",
+      "after": "seg_1771_01.c:1021",
+      "same_text": "  DS:9B5A = 6;"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:104",
+      "after": "seg_0791_09.c:130",
+      "same_text": "undefined1 match_clock(void)"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:297",
+      "after": "seg_0791_09.c:323",
+      "same_text": "  DS:831B = 0x5b;"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:340",
+      "after": "seg_0791_09.c:366",
+      "same_text": "    }"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_11.c:674",
+      "after": "seg_0791_11.c:700",
+      "same_text": "      if (((country *)countries)[((undefined2 *)&DS:9B34)[local_3]].squad[local_5 + -1] != 0)"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:214",
+      "after": "seg_0791_09.c:240",
+      "same_text": "    local_3 = '\\0';"
+    },
+    {
+      "finding": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_0791_02.c:539",
+      "after": "seg_0791_02.c:540",
+      "same_text": "    local_7 = 0xc;"
+    },
+    {
+      "finding": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_0791_10.c:62",
+      "after": "seg_0791_10.c:112",
+      "same_text": "  puVar4 = local_112;"
+    },
+    {
+      "finding": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_0791_11.c:632",
+      "after": "seg_0791_11.c:658",
+      "same_text": "        local_9 = ppVar5[wVar2].performance;"
+    },
+    {
+      "finding": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_0791_09.c:104",
+      "after": "seg_0791_09.c:130",
+      "same_text": "undefined1 match_clock(void)"
+    },
+    {
+      "finding": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_0791_09.c:297",
+      "after": "seg_0791_09.c:323",
+      "same_text": "  DS:831B = 0x5b;"
+    },
+    {
+      "finding": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_0791_09.c:340",
+      "after": "seg_0791_09.c:366",
+      "same_text": "    }"
+    },
+    {
+      "finding": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_0791_11.c:674",
+      "after": "seg_0791_11.c:700",
+      "same_text": "      if (((country *)countries)[((undefined2 *)&DS:9B34)[local_3]].squad[local_5 + -1] != 0)"
+    },
+    {
+      "finding": "experiments/E024-computer-managers/notes.md",
+      "before": "seg_0791_11.c:506",
+      "after": "seg_0791_11.c:532",
+      "same_text": ""
+    },
+    {
+      "finding": "spec/competitions.md",
+      "before": "seg_0791_10.c:419",
+      "after": "seg_0791_10.c:469",
+      "same_text": "  "
+    },
+    {
+      "finding": "spec/competitions.md",
+      "before": "seg_0791_10.c:419",
+      "after": "seg_0791_10.c:469",
+      "same_text": "  "
+    },
+    {
+      "finding": "spec/countries.md",
+      "before": "seg_0791_01.c:814",
+      "after": "seg_0791_01.c:820",
+      "same_text": "  return;"
+    },
+    {
+      "finding": "spec/friendlies.md",
+      "before": "seg_0791_09.c:189",
+      "after": "seg_0791_09.c:215",
+      "same_text": ""
+    },
+    {
+      "finding": "spec/friendlies.md",
+      "before": "seg_0791_10.c:717",
+      "after": "seg_0791_10.c:767",
+      "same_text": "  if ((cVar4 == '\\0') && (cVar4 = is_managed(*(undefined2 *)(iVar2 + 6)), cVar4 == '\\0')) {"
+    }
+  ],
+  "unresolved": [
+    {
+      "finding": "experiments/E017-q015-energy/notes.md",
+      "citation": "named/seg_0791_10.c:969",
+      "text": "<out-of-range in pre-T73 named view>"
+    },
+    {
+      "finding": "experiments/E017-q015-energy/notes.md",
+      "citation": "named/seg_1771_05.c:1035",
+      "text": "<out-of-range in pre-T73 named view>"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "citation": "named/seg_0791_08.c:1118",
+      "text": "<out-of-range in pre-T73 named view>"
+    },
+    {
+      "finding": "experiments/E018-q016-confidence/notes.md",
+      "citation": "named/seg_1771_06.c:1001",
+      "text": ""
+    },
+    {
+      "finding": "experiments/E019-q017-events-morale/notes.md",
+      "citation": "named/seg_0791_08.c:1118",
+      "text": "<out-of-range in pre-T73 named view>"
+    },
+    {
+      "finding": "experiments/E019-q017-events-morale/notes.md",
+      "citation": "named/seg_1771_06.c:1001",
+      "text": ""
+    },
+    {
+      "finding": "spec/competitions.md",
+      "citation": "named/seg_1771_05.c:934",
+      "text": "  f_1771_76FA(param_1,param_2,iVar1,uVar2);"
+    },
+    {
+      "finding": "spec/competitions.md",
+      "citation": "named/seg_1771_05.c:934",
+      "text": "  f_1771_76FA(param_1,param_2,iVar1,uVar2);"
+    },
+    {
+      "finding": "spec/discipline.md",
+      "citation": "named/seg_0791_08.c:1092",
+      "text": "<out-of-range in pre-T73 named view>"
+    },
+    {
+      "finding": "spec/discipline.md",
+      "citation": "named/seg_0791_10.c:978",
+      "text": "<out-of-range in pre-T73 named view>"
+    },
+    {
+      "finding": "spec/friendlies.md",
+      "citation": "named/seg_1771_05.c:934",
+      "text": "  f_1771_76FA(param_1,param_2,iVar1,uVar2);"
+    },
+    {
+      "finding": "spec/friendlies.md",
+      "citation": "named/seg_1771_05.c:1021",
+      "text": "<out-of-range in pre-T73 named view>"
+    }
+  ]
+}

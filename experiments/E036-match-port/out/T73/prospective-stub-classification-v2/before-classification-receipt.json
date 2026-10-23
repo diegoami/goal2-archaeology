@@ -1,0 +1,17 @@
+{
+  "head": "54729e7e3becd9a261eee80ce905e47cba9453bd",
+  "scope": "prospective tests on old63-body runtime; no active edits",
+  "runtime_sha256": "81a8fe8613aaaa1062f6e468f92989b683dfde52c2c0b12d11b56ed2cdab42fe",
+  "proposed_tests_sha256": "0e59588501a1b4966d60d97e3165959f78f8fcc68ccf1e3f6700f5a06f9cae64",
+  "unit_exit": 1,
+  "expected_failing_tests": [
+    "test_skill_bar_removal_preserves_even_nonzero_skill_inputs",
+    "test_removed_statistics_bar_preserves_zero_and_nonzero_inputs",
+    "test_removed_manager_status_preserves_all_argument_bands",
+    "test_removed_rating_label_calls_no_rating_or_text_helpers",
+    "test_removed_speaker_off_keeps_incoming_result_and_creates_no_frame",
+    "test_removed_tone_frequency_preserves_enabled_and_disabled_inputs",
+    "test_removed_tone_preserves_zero_frequency_and_creates_no_frame"
+  ],
+  "all_seven_replacement_tests_fail_before_classification": true
+}

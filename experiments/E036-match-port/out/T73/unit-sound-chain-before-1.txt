@@ -1,0 +1,84 @@
+parent1e92c0b, current five sound-chain tests
+FFFFFFF
+======================================================================
+FAIL: test_disabled_note_still_delays_but_leaves_transposition_untouched (tests.test_port_display.SoundChainMemoryTests.test_disabled_note_still_delays_but_leaves_transposition_untouched)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp6bya_gqr/tests/test_port_display.py", line 898, in test_disabled_note_still_delays_but_leaves_transposition_untouched
+    self.assertEqual(r.targets(),[('214B:1E09','214B:1F81')])
+AssertionError: Lists differ: [] != [('214B:1E09', '214B:1F81')]
+
+Second list contains 1 additional elements.
+First extra element 0:
+('214B:1E09', '214B:1F81')
+
+- []
++ [('214B:1E09', '214B:1F81')]
+
+======================================================================
+FAIL: test_jingle_scaled_bound_pairs_and_zero_bound_twin (tests.test_port_display.SoundChainMemoryTests.test_jingle_scaled_bound_pairs_and_zero_bound_twin) (calibration=9, count=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp6bya_gqr/tests/test_port_display.py", line 914, in test_jingle_scaled_bound_pairs_and_zero_bound_twin
+    self.assertEqual(r.mem.ds16(0x7966),1)
+AssertionError: 99 != 1
+
+======================================================================
+FAIL: test_jingle_scaled_bound_pairs_and_zero_bound_twin (tests.test_port_display.SoundChainMemoryTests.test_jingle_scaled_bound_pairs_and_zero_bound_twin) (calibration=10, count=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp6bya_gqr/tests/test_port_display.py", line 914, in test_jingle_scaled_bound_pairs_and_zero_bound_twin
+    self.assertEqual(r.mem.ds16(0x7966),1)
+AssertionError: 99 != 1
+
+======================================================================
+FAIL: test_jingle_scaled_bound_pairs_and_zero_bound_twin (tests.test_port_display.SoundChainMemoryTests.test_jingle_scaled_bound_pairs_and_zero_bound_twin) (calibration=50, count=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp6bya_gqr/tests/test_port_display.py", line 914, in test_jingle_scaled_bound_pairs_and_zero_bound_twin
+    self.assertEqual(r.mem.ds16(0x7966),1)
+AssertionError: 99 != 1
+
+======================================================================
+FAIL: test_note_transposition_real_calls_local_and_wrapped_duration (tests.test_port_display.SoundChainMemoryTests.test_note_transposition_real_calls_local_and_wrapped_duration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp6bya_gqr/tests/test_port_display.py", line 888, in test_note_transposition_real_calls_local_and_wrapped_duration
+    self.assertEqual((r.u16(BP0+8),r.u16(BP0+10)),(want_note,want_octave))
+AssertionError: Tuples differ: (11, 6) != (0, 7)
+
+First differing element 0:
+11
+0
+
+- (11, 6)
++ (0, 7)
+
+======================================================================
+FAIL: test_speaker_off_keeps_kit_return_byte_and_saved_frame (tests.test_port_display.SoundChainMemoryTests.test_speaker_off_keeps_kit_return_byte_and_saved_frame)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp6bya_gqr/tests/test_port_display.py", line 880, in test_speaker_off_keeps_kit_return_byte_and_saved_frame
+    self.assertEqual(r.mem.reg('ax'),want)
+AssertionError: 4660 != 4608
+
+======================================================================
+FAIL: test_whistle_gate_keeps_the_exact_jingle_call (tests.test_port_display.SoundChainMemoryTests.test_whistle_gate_keeps_the_exact_jingle_call)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp6bya_gqr/tests/test_port_display.py", line 874, in test_whistle_gate_keeps_the_exact_jingle_call
+    self.assertEqual(r.args('214B:1F87'),[(7,)] if speed else [])
+AssertionError: Lists differ: [] != [(7,)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(7,)
+
+- []
++ [(7,)]
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.100s
+
+FAILED (failures=7)
+exit 1

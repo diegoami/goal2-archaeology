@@ -1,0 +1,19 @@
+COMMAND: ['/home/diego/.local/bin/python3.12', '-B', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/family.py', '--family', 'ALL', '--only', 'O8/c1-c2-friendly,O8/c1-c2-qualifier,O8/c30-c44-friendly,O8/c30-c44-qualifier', '--mask', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/families/display/mask.json', '--workers', '2', '--time-limit', '6000', '--stretch-limit', '1200', '--out', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/projected-reference-desktop-20261023-v1/shard-10.jsonl']
+heavy: family: waiting for a slot (12 ahead)
+heavy: family: waiting for a slot (11 ahead)
+heavy: family: waiting for a slot (10 ahead)
+heavy: family: waiting for a slot (9 ahead)
+heavy: family: waiting for a slot (8 ahead)
+heavy: family: waiting for a slot (7 ahead)
+heavy: family: waiting for a slot (6 ahead)
+heavy: family: waiting for a slot (5 ahead)
+heavy: family: waiting for a slot (4 ahead)
+heavy: family: waiting for a slot (2 ahead)
+heavy: family: waiting for a slot (1 ahead)
+heavy: family: got slot 26 27 after 14 s
+4 matches selected, 0 already in /home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/projected-reference-desktop-20261023-v1/shard-10.jsonl, 4 to run
+O8/c1-c2-friendly: completed; score [2, 5] ticks 4564 cpu 46.862 s
+O8/c1-c2-qualifier: completed; score [2, 0] ticks 4587 cpu 46.873 s
+O8/c30-c44-friendly: completed; score [1, 1] ticks 4108 cpu 44.115 s
+O8/c30-c44-qualifier: completed; score [2, 3] ticks 4568 cpu 44.651 s
+4 of 4 matches in /home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/projected-reference-desktop-20261023-v1/shard-10.jsonl, 0 not completed

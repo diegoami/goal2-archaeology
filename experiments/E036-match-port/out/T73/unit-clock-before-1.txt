@@ -1,0 +1,39 @@
+parentf68645f, current new clock tests
+FFFF
+======================================================================
+FAIL: test_formatter_retains_colour_shift_and_one_or_two_digit_calls (tests.test_port_display.ClockDigitMemoryTests.test_formatter_retains_colour_shift_and_one_or_two_digit_calls) (text=b'7')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpajxo_zro/tests/test_port_display.py", line 718, in test_formatter_retains_colour_shift_and_one_or_two_digit_calls
+    self.assertEqual(r.u16(BP0+4),0x1200)
+AssertionError: 18 != 4608
+
+======================================================================
+FAIL: test_formatter_retains_colour_shift_and_one_or_two_digit_calls (tests.test_port_display.ClockDigitMemoryTests.test_formatter_retains_colour_shift_and_one_or_two_digit_calls) (text=b'90')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpajxo_zro/tests/test_port_display.py", line 718, in test_formatter_retains_colour_shift_and_one_or_two_digit_calls
+    self.assertEqual(r.u16(BP0+4),0x1200)
+AssertionError: 18 != 4608
+
+======================================================================
+FAIL: test_seven_segment_table_drives_three_fills_and_four_verticals (tests.test_port_display.ClockDigitMemoryTests.test_seven_segment_table_drives_three_fills_and_four_verticals)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpajxo_zro/tests/test_port_display.py", line 703, in test_seven_segment_table_drives_three_fills_and_four_verticals
+    self.assertEqual(len(r.args('214B:0000')),3)
+AssertionError: 0 != 3
+
+======================================================================
+FAIL: test_vertical_segment_uses_parent_colour_and_adjacent_rows (tests.test_port_display.ClockDigitMemoryTests.test_vertical_segment_uses_parent_colour_and_adjacent_rows)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpajxo_zro/tests/test_port_display.py", line 696, in test_vertical_segment_uses_parent_colour_and_adjacent_rows
+    self.assertEqual(r.u16(0x4000+0x100+148),0x12DC)
+AssertionError: 0 != 4828
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.039s
+
+FAILED (failures=4)
+exit 1

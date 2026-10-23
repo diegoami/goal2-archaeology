@@ -1,0 +1,27 @@
+{
+  "purpose": "Restore corrupt checkout metadata without changing task history or working files",
+  "head_before_and_after": "b819942fe4749049aff04b93a2d2f3e92362392b",
+  "published_pr": 391,
+  "empty_objects": [
+    ".git/objects/89/2786244550e352295fc5e84d1560316f03d3a8",
+    ".git/objects/35/33f596bd6d148e61a06223c0f0a468b0d60313",
+    ".git/objects/ec/75404ae31f695262fcb2504f00cfed7cd6a671",
+    ".git/objects/15/86fdda0da4de6dee0133895b23d08c29bfa5e6",
+    ".git/objects/45/fec85cda3a1eda7d577df1ebcd152fc1140721",
+    ".git/objects/64/44dd877b5b5286bd0066ae2ae8d71060544963",
+    ".git/objects/03/06c5027c2d2fe3ee58a346b98f5f5d0a8654ed",
+    ".git/objects/4d/c2a48d4bfdb8713b75408f00322027121e5cf2",
+    ".git/objects/56/6861b5b0acc472b15f9b01cb1e99f802e9dff7",
+    ".git/objects/84/e5f5f6ce3d2d79ed8ae0e6902ae4e0f8e329f1",
+    ".git/objects/26/920defd7afe4ed388aebf1f631aec6d0662bac",
+    ".git/objects/b8/19942fe4749049aff04b93a2d2f3e92362392b"
+  ],
+  "recovery_source": "fresh single-branch bare clone of origin/task/T73-display-boundary",
+  "recovery_clone_fsck_exit": 0,
+  "repaired_checkout_fsck_exit": 0,
+  "fsck_note": "Only preexisting dangling objects reported; no missing or corrupt reachable objects",
+  "backup_local_path": "/tmp/goal2-archaeology-corruption-backup-20261023",
+  "working_tree_after_repair": "clean",
+  "branch_refs_changed": false,
+  "working_files_changed": false
+}

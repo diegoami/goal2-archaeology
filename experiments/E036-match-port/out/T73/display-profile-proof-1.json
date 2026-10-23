@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "decision": "Empty DS mask: all DS bytes, including unobserved stack and text buffers, remain compared",
+  "mask": [],
+  "masked_byte_count": 0,
+  "owner_decisions": {
+    "2026-10-23": [
+      "Strict display profile; preserve legacy behavior",
+      "Preserve byte-exactness; port needed memory effects"
+    ]
+  },
+  "original_watch": {
+    "cases": 62,
+    "strict_reference_exact": 62,
+    "native_entry_checks": 5456,
+    "entry_mismatches": 0,
+    "observer_sha256": "5b6e10b70f5a5390f99ed500d728e8e85a868bf6afb09a0ea25a10b882899635",
+    "access_constraints": "experiments/E036-match-port/out/T73/access-candidates-all-complete-1.json"
+  },
+  "access_only_candidates_are_not_exclusions": 69,
+  "projector": {
+    "version": 1,
+    "file": "experiments/E036-match-port/family.py",
+    "function": "display_events_digest",
+    "source_sha256": "696aef9a91950d895037d22876d18482c699a783455646c1aceee9c41e8971c8",
+    "only_excluded_path": "full_time.data.screen_sha256",
+    "event_count_and_all_other_fields_retained": true,
+    "actual_field_proof": "experiments/E036-match-port/out/T73/event-fields-a/summary.json"
+  },
+  "reference_generation": "Unhooked family.py, --mask pointing at declared families/display/mask.json; explicit profile selection even for []",
+  "reference_not_present_until_measured": true
+}

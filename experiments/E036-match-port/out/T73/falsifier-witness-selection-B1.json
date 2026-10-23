@@ -1,0 +1,863 @@
+{
+  "purpose": "Historical caughtness chooses inputs only; same-source B normal/mutant validation is still required",
+  "runtime_source_sha256": "d8e91c17cea942985a326ecb3c84cb0a2de80bc673223aa767f414765dd806b5",
+  "variants": 60,
+  "completed_witnesses": 59,
+  "witnesses": [
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/aggregate-divisor-ten.jsonl",
+      "source_sha256": "cbc34ef70e4be32e728adb2bcc4ccad56f6464181ba4583386258740074777a7",
+      "match": "S/decisions-quick-60",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0x9800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v3/omit-0791-0000.jsonl",
+      "source_sha256": "9d8c65fc0a6800dab2893a1a873b62bd879c57bb353c94b19a70ca8f4a6fbd9f",
+      "match": "O8/c1-c2-friendly",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xFC00"
+        ]
+      ],
+      "error": null,
+      "cohort": 3
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-0106.jsonl",
+      "source_sha256": "24b83f22fb52d4b3f4c282ffae8b4bbfe09d06cfa2fa4df7fd97f4d79520ec45",
+      "match": "S/quick-1",
+      "completed": false,
+      "differences": [],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-0441.jsonl",
+      "source_sha256": "aeeb28f2ed7988d38a77e5467f4d5d78b7261582f5075cb60f34c23f58e52b62",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0x7800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-0481.jsonl",
+      "source_sha256": "33043f3215c2ccf34818408178c6bc136b87ba3c9b0f874decf752940d2dc03d",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-04c9.jsonl",
+      "source_sha256": "7b995b793591fc7eb80e9a4684e3d30a99de1dcbe1b9e39dbcbf4e44194acbad",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-054c.jsonl",
+      "source_sha256": "49aede8274f806c3a233bd48413ef46c098cac0bb11efc72c5a5f8846a5385cc",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-05c6.jsonl",
+      "source_sha256": "b6276a24e3a339a2cf80e0d77d59df957637cf2747a394bdcdc96a170eb1e5be",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0x8000"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-0691.jsonl",
+      "source_sha256": "feefff845d3406f50a7d627139c99bb4cdde772f6267f10bf21244d23e198ff2",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0x8000"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-0712.jsonl",
+      "source_sha256": "380286481c1cc4835bad38af65a3c3b87347f7e4601722fb3f3bdec8c1ea6c42",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ],
+        [
+          "after.ranges.pitch_background",
+          "pitch_background+0x0000"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-0c65.jsonl",
+      "source_sha256": "48bc207433034c6343db21aecc644fdc0623be1e3f3a0aed5b9defe80f78ebfe",
+      "match": "S/quick-30",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xA800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-15b9.jsonl",
+      "source_sha256": "b1c93b6ef61382651802dca929bf0181326bb03d11ec6020c2e224f5de372289",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0x7800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-1829.jsonl",
+      "source_sha256": "462f9d22c1fbe9890a80c0cb072025c4f18031838fc6239dd93457521ec5df2c",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-8f10.jsonl",
+      "source_sha256": "8482978aebc48bc2eae359a07067ddf520b06371873520399d73b4c382580ef6",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0x8000"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-9079.jsonl",
+      "source_sha256": "c60c5ef4105f38d91bea3d838cdac9674db44b18a2703fd611076975bc15030b",
+      "match": "S/quick-30",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0x8000"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-94c9.jsonl",
+      "source_sha256": "c587b6f86efcf6e69115934fc11b606b9098bfea209df706308b9afd0bb86790",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0x8000"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-94e8.jsonl",
+      "source_sha256": "cd8b6878091f3dcd31f69f49694a2054df65003540d3945daa87b0a9275baa6b",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0x8000"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-a699.jsonl",
+      "source_sha256": "17052ee34602406f62930ec089e71e248f75b463f13ba0245398a9afc378c5a4",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-0791-a75d.jsonl",
+      "source_sha256": "727b501bb2fa9f8baed8042d3d0078c9cdd69f508a8a8d2d5935eaf35a659ac9",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE400"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v3/omit-0791-c50c.jsonl",
+      "source_sha256": "c46bb5ea5e19387b7d86cf03f02bf5636749e07fe377d53d545c73848b8f3e1c",
+      "match": "O8/c1-c2-friendly",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ]
+      ],
+      "error": null,
+      "cohort": 3
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v3/omit-1771-0947.jsonl",
+      "source_sha256": "c3bf35f401f1cc45e14508023f3a736656ffc7efc6e4863a38c3358a3a390fce",
+      "match": "S/ko-39-budget-5",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ]
+      ],
+      "error": null,
+      "cohort": 3
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-0f58.jsonl",
+      "source_sha256": "49085575dfe99707808f4d639cddcc03d919012338e7f0b8f9ce2c20c04708bf",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-0fb1.jsonl",
+      "source_sha256": "6c4dbbc8bdd2fc37cc7c48c309915ca809f863de578345e2ad237268b31ea9c6",
+      "match": "S/ko-9-quick",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v3/omit-1771-11e1.jsonl",
+      "source_sha256": "b5f7194c7ec08b46fedeb720f7ba2f88aec7c703f3aa0ab496c6c2fdde834a68",
+      "match": "S/decisions-70",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0x9800"
+        ]
+      ],
+      "error": null,
+      "cohort": 3
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v3/omit-1771-1289.jsonl",
+      "source_sha256": "38bcf8ff32aecde0e10b3d07f48985eb070c4d83d87cd44969efe0db9d780def",
+      "match": "S/decisions-70",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0x9800"
+        ]
+      ],
+      "error": null,
+      "cohort": 3
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-13d0.jsonl",
+      "source_sha256": "1e7c03234103787ff9e73767d5884561f6a309f662a8b622750868db75581842",
+      "match": "S/decisions-quick-60",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0x9800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-157d.jsonl",
+      "source_sha256": "c5d12b5d460cc89b6b1c7f6b36a5a9251f812aebbfa311ab9cd4769f75f840ea",
+      "match": "S/decisions-quick-60",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0x9800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-2ee5.jsonl",
+      "source_sha256": "c07c0ca6a66678de52e369894698334cc2658db1e8ad0b37f6d380a95a70f61e",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE400"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-2f37.jsonl",
+      "source_sha256": "d53e09761436bc85aa4687d85d8a3449ab95e4626ca18fc3d0ce84e4fa7b1989",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE400"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v2/omit-1771-3827.jsonl",
+      "source_sha256": "104afa8c423ae72dc4425e86bc5844678b05ca40b908f09714160bbef31dc64b",
+      "match": "S/ko-9-quick",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0x0C00"
+        ]
+      ],
+      "error": null,
+      "cohort": 2
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-3ae2.jsonl",
+      "source_sha256": "8046c6ac1932cc4248430011559e2ef68bbbfc434661b0fab694ee38e24fa46e",
+      "match": "S/ko-9-quick",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE400"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-3b3f.jsonl",
+      "source_sha256": "b830910695e95551ae69ca541f84772d8aaf3ce8334f8fa175a6b54a2dd50174",
+      "match": "S/ko-9-quick",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE400"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-3bd3.jsonl",
+      "source_sha256": "0fb0d9841dfe871c0a1c4eb4379af809e284693ece6d2b3f83f59fc0580b69b8",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE400"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-42bc.jsonl",
+      "source_sha256": "9bd06038d463b2843ef5b31e7a45edf001ac51a654dd925407de2defce3390dc",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE400"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v3/omit-1771-4d8a.jsonl",
+      "source_sha256": "9f2356d61d679855967a092c9b567e0fca57268e60d4ae54b96b91d48af6fc4c",
+      "match": "S/decisions-70",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE400"
+        ]
+      ],
+      "error": null,
+      "cohort": 3
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-4e22.jsonl",
+      "source_sha256": "115cf5940fe9fe93bbd2ab855037b0bb027da035b5daee76f9138e58ecbf32b1",
+      "match": "S/decisions-quick-60",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE400"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-5ac4.jsonl",
+      "source_sha256": "6cfc653ec85a79610937e3d0c57272e086c4e3734351d486b1b64bd5f148ac0c",
+      "match": "S/ko-9-quick",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-76fa.jsonl",
+      "source_sha256": "321849613fa03cc90d5d3d61bf0472a93a96b99f60dc40733dbb5024475c93f3",
+      "match": "S/ko-9-quick",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xA800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-77c3.jsonl",
+      "source_sha256": "5dc9d51ad5b28cfcb9a71da95456774a50e1aeac14290b71f6f30593e2fd3729",
+      "match": "S/ko-9-quick",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xA800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-8939.jsonl",
+      "source_sha256": "460595d5a116a8c7d76fa5c2bf7315ddde6f348e82cd9e74d5be71dd0f737ec6",
+      "match": "S/ko-9-quick",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xEC00"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-8a87.jsonl",
+      "source_sha256": "e4426f7d4b2ca3198b58832a16016ec2cc152808ab9e6578257ada0e9fc9299c",
+      "match": "S/ko-9-quick",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-8ca2.jsonl",
+      "source_sha256": "0847adaf2bfa937f0941bb634e8e5c4a86a744468b70e7f2a80d277547986b53",
+      "match": "S/ko-9-quick",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xA800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-8e9a.jsonl",
+      "source_sha256": "19660787348cc2826412168fcb435eb03e345165fe5d3d750b202208e81e957e",
+      "match": "S/ko-9-quick",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xA800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-1771-958d.jsonl",
+      "source_sha256": "2595db9e649983bb6cf12507b6411df26c12758b44b349371333fe6a65ff7964",
+      "match": "S/ko-9-quick",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xA800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-214b-00db.jsonl",
+      "source_sha256": "e7f4f1d760c7dcdf074f6968f995db55aa7360ce98f8a4d89b45662a6928ff8a",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xF800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-214b-00ff.jsonl",
+      "source_sha256": "4849b544e5dba32577058909881ffd896ead5e25055f3a9350cabf737a6e0ace",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE400"
+        ],
+        [
+          "after.ranges.pitch_background",
+          "pitch_background+0x0000"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-214b-0123.jsonl",
+      "source_sha256": "c00fdad50b2679d28d8d4051a73ea8966f827d4e83325804cf79264fccdba731",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ],
+        [
+          "after.ranges.pitch_background",
+          "pitch_background+0x0000"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v3/omit-214b-01a3.jsonl",
+      "source_sha256": "b562dae6c7264912dd0296d0d88cb24a01beb81216c8a331f7e47eafc4eccd55",
+      "match": "S/decisions-70",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE400"
+        ]
+      ],
+      "error": null,
+      "cohort": 3
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-214b-0205.jsonl",
+      "source_sha256": "39a6e1e0f06e9a03668f980c12ffa8e2b104d2d939092b6e0afb1a173b28e578",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ],
+        [
+          "after.ranges.pitch_background",
+          "pitch_background+0x0000"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v3/omit-214b-026d.jsonl",
+      "source_sha256": "3499b4088931a40d14bdc6313520237ea499fab8dd5f9b4b33d1ea0d8c5d2fa8",
+      "match": "O8/c1-c2-friendly",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE400"
+        ]
+      ],
+      "error": null,
+      "cohort": 3
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-214b-02c8.jsonl",
+      "source_sha256": "bfca6ac4bda10847aae892de7f23ae0e14f30e44d0f1942c5ad96dfdf50bc43a",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE400"
+        ],
+        [
+          "after.ranges.pitch_background",
+          "pitch_background+0x0000"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-214b-0350.jsonl",
+      "source_sha256": "c52a6783ab2fbf706ffe72e4e29f9198408b97ce4244503d9164f1cf60b39b75",
+      "match": "S/quick-30",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE400"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-214b-0625.jsonl",
+      "source_sha256": "5c57d862680c9e7eceb37d6ad693a52a908fb65312a33b6286a09c858d1ac48c",
+      "match": "S/quick-30",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xA800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-214b-0643.jsonl",
+      "source_sha256": "d13a9a5994add8a3e4e867f3f7a6a68dc8214bf1cef9f09309015bca93b58cda",
+      "match": "S/quick-30",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xA800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-214b-13c5.jsonl",
+      "source_sha256": "b8cc732631eb825f6ea694af3a0f25d943ff6218bbfe256a9d9c6645e5373f5e",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xF800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v3/omit-214b-1e09.jsonl",
+      "source_sha256": "79940790f0517b3995c3c53c63d0998180d8919c809c1c249e7644cc9a7e16b5",
+      "match": "O8/c1-c2-friendly",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ]
+      ],
+      "error": null,
+      "cohort": 3
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v3/omit-214b-1ef1.jsonl",
+      "source_sha256": "c8044849a1d53680f9eca0f6c22e3d9e1ba3605758e8197d08481411ebd652ac",
+      "match": "S/reference",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ]
+      ],
+      "error": null,
+      "cohort": 3
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/omit-214b-1f87.jsonl",
+      "source_sha256": "45dcffe989dd6579e51582770d10782bb78dd2158fa483d0e9b009e6fc4e8dd5",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0x7800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/secondary-seed-adjacent.jsonl",
+      "source_sha256": "96811034f086c219789b7017f530d8e55d54c70c2ea9bfcb4998cc2f3072cf84",
+      "match": "S/quick-1",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0x8000"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    },
+    {
+      "source": "experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-v1/table-default-group-two.jsonl",
+      "source_sha256": "3c865b71fab41c16a2225abb0a628934096edba806e36dd678edfd2c1124c81a",
+      "match": "S/qualifier-21",
+      "completed": true,
+      "differences": [
+        [
+          "after.ds",
+          "DS+0xE800"
+        ]
+      ],
+      "error": null,
+      "cohort": 1
+    }
+  ]
+}

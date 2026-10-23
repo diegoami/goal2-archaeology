@@ -1,0 +1,37 @@
+parent585891d8, current two team-line tests
+FF
+======================================================================
+FAIL: test_live_performance_role_splits_encoding_and_signed_half (tests.test_port_display.TeamLineBarTests.test_live_performance_role_splits_encoding_and_signed_half)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpv9fi7jcb/tests/test_port_display.py", line 1165, in test_live_performance_role_splits_encoding_and_signed_half
+    self.assertEqual([r.mem.ds16(0x9B47+i*4) for i in range(4)],want)
+AssertionError: Lists differ: [0, 0, 0, 0] != [320, 148, 171, 67]
+
+First differing element 0:
+0
+320
+
+- [0, 0, 0, 0]
++ [320, 148, 171, 67]
+
+======================================================================
+FAIL: test_signed_line_division_clamps_and_preserves_interleaved_words (tests.test_port_display.TeamLineBarTests.test_signed_line_division_clamps_and_preserves_interleaved_words)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpv9fi7jcb/tests/test_port_display.py", line 1145, in test_signed_line_division_clamps_and_preserves_interleaved_words
+    self.assertEqual([r.mem.ds16(0x9B47+i*4) for i in range(4)],list(want))
+AssertionError: Lists differ: [65535, 65528, 1028, 1024] != [1, 1, 256, 256]
+
+First differing element 0:
+65535
+1
+
+- [65535, 65528, 1028, 1024]
++ [1, 1, 256, 256]
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.065s
+
+FAILED (failures=2)
+exit 1

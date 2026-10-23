@@ -1,0 +1,412 @@
+{
+  "warning": "Port-prioritization diagnostic ONLY; never mask eligibility evidence",
+  "original_trace_sha256": "164869c6de7cc0de46329a64db435bd30ae77d2efa61b9ff91c1dbc04d68e09a",
+  "candidate_diff_sha256": "2bdf82307de450fc80cd61411d425e632e38d4bc31c8d8c8baa456076374fa52",
+  "covered_bytes": 603,
+  "uncovered_offsets": [
+    59629,
+    59631,
+    59649,
+    59651,
+    59657,
+    59944
+  ],
+  "groups": [
+    {
+      "region": "nonstack",
+      "writer": [
+        "guest",
+        "23E4:025D",
+        "23E4:026E",
+        "0791:A6B8",
+        "0791:A699"
+      ],
+      "bytes": 180
+    },
+    {
+      "region": "nonstack",
+      "writer": [
+        "guest",
+        "23E4:025D",
+        "23E4:026E",
+        "0791:EDAB",
+        "0791:ED8A"
+      ],
+      "bytes": 180
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "23E4:0644",
+        "23E4:0661",
+        "214B:02E3",
+        "214B:02C8"
+      ],
+      "bytes": 28
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "0791:1829",
+        "0791:19D9",
+        "-",
+        "-"
+      ],
+      "bytes": 20
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "23E4:06B7",
+        "23E4:06DC",
+        "-",
+        "-"
+      ],
+      "bytes": 14
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "23E4:0644",
+        "23E4:0661",
+        "0791:18BD",
+        "0791:1829"
+      ],
+      "bytes": 13
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "214B:00FF",
+        "214B:00FF",
+        "-",
+        "-"
+      ],
+      "bytes": 12
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "214B:02C8",
+        "214B:0320",
+        "-",
+        "-"
+      ],
+      "bytes": 11
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "214B:00FF",
+        "214B:0102",
+        "-",
+        "-"
+      ],
+      "bytes": 10
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "0791:1829",
+        "0791:19D8",
+        "-",
+        "-"
+      ],
+      "bytes": 10
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "23E4:062A",
+        "23E4:063D",
+        "-",
+        "-"
+      ],
+      "bytes": 10
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "214B:02C8",
+        "214B:02C8",
+        "-",
+        "-"
+      ],
+      "bytes": 10
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "214B:02C8",
+        "214B:031F",
+        "-",
+        "-"
+      ],
+      "bytes": 8
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "0791:1829",
+        "0791:19D7",
+        "-",
+        "-"
+      ],
+      "bytes": 8
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "0791:1829",
+        "0791:183F",
+        "-",
+        "-"
+      ],
+      "bytes": 8
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "0791:1829",
+        "0791:19D3",
+        "-",
+        "-"
+      ],
+      "bytes": 7
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "0791:1829",
+        "0791:19CF",
+        "-",
+        "-"
+      ],
+      "bytes": 7
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "214B:02C8",
+        "214B:0311",
+        "-",
+        "-"
+      ],
+      "bytes": 6
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "0791:1829",
+        "0791:19CB",
+        "-",
+        "-"
+      ],
+      "bytes": 6
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "0791:1829",
+        "0791:19CA",
+        "-",
+        "-"
+      ],
+      "bytes": 6
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "0791:1829",
+        "0791:1842",
+        "-",
+        "-"
+      ],
+      "bytes": 6
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "214B:02C8",
+        "214B:030A",
+        "-",
+        "-"
+      ],
+      "bytes": 5
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "214B:02C8",
+        "214B:031E",
+        "-",
+        "-"
+      ],
+      "bytes": 5
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "0791:1829",
+        "0791:19C6",
+        "-",
+        "-"
+      ],
+      "bytes": 5
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "214B:02C8",
+        "214B:0317",
+        "-",
+        "-"
+      ],
+      "bytes": 4
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "214B:02C8",
+        "214B:0310",
+        "-",
+        "-"
+      ],
+      "bytes": 4
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "23E4:0644",
+        "23E4:065C",
+        "214B:02E3",
+        "214B:02C8"
+      ],
+      "bytes": 3
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "214B:02C8",
+        "214B:030B",
+        "-",
+        "-"
+      ],
+      "bytes": 3
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "0791:1829",
+        "0791:1988",
+        "-",
+        "-"
+      ],
+      "bytes": 3
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "23E4:06B7",
+        "23E4:06CA",
+        "-",
+        "-"
+      ],
+      "bytes": 2
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "23E4:12F6",
+        "23E4:130D",
+        "-",
+        "-"
+      ],
+      "bytes": 2
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "214B:1E09",
+        "214B:1E18",
+        "-",
+        "-"
+      ],
+      "bytes": 2
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "23E4:0644",
+        "23E4:0661",
+        "0791:1873",
+        "0791:1829"
+      ],
+      "bytes": 2
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "23E4:12F6",
+        "23E4:130A",
+        "-",
+        "-"
+      ],
+      "bytes": 1
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "23E4:11E4",
+        "23E4:122B",
+        "-",
+        "-"
+      ],
+      "bytes": 1
+    },
+    {
+      "region": "stack",
+      "writer": [
+        "guest",
+        "23E4:0644",
+        "23E4:0661",
+        "0791:190E",
+        "0791:1829"
+      ],
+      "bytes": 1
+    }
+  ]
+}

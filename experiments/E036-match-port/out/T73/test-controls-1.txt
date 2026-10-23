@@ -1,0 +1,31 @@
+fixed pre-task baseline: exit 1, caught
+041A board key clear omitted: exit 1, caught
+0691 last pitch slot omitted: exit 1, caught
+0682 numbered glyph offset shifted: exit 1, caught
+0640 half glyph OR instead of XOR: exit 1, caught
+8FAF erased old cell changed: exit 1, caught
+8F66 erase membership ignored: exit 1, caught
+8FD7 high-ball boundary inclusive: exit 1, caught
+9045 occupied new cell overwritten: exit 1, caught
+9085 quick reset branch inverted: exit 1, caught
+A6AF pitch copy shorter: exit 1, caught
+94CF wrong secondary seed: exit 1, caught
+950B noise threshold equality changed: exit 1, caught
+012B backward DF cleared: exit 1, caught
+0116 text attribute unswapped: exit 1, caught
+010C text nonempty loop skipped: exit 1, caught
+01DB text column offset changed: exit 1, caught
+072B score sides swapped: exit 1, caught
+0C6B pending flag not cleared: exit 1, caught
+16B1 snapshot last squad slot omitted: exit 1, caught
+17FE snapshot seed destination changed: exit 1, caught
+screen projection applied to every event kind: exit 1, caught
+screen projection drops seed too: exit 1, caught
+empty selected profile falls back: exit 1, caught
+raw runs accidentally projected: exit 1, caught
+CLI declared mask not selected: exit 1, caught
+profile checkpoint identity omitted: exit 1, caught
+strict profile inherits coarse block skip: exit 1, caught
+mismatched display mask allowed: exit 1, caught
+display profile reference override allowed: exit 1, caught
+all controls caught

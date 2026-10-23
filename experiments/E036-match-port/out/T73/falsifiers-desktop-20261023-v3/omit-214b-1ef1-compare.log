@@ -1,0 +1,4 @@
+S/reference: score [1, 1] ticks 4149 draws 182188 cpu 41.621 s -> 89.078 s; caught: first at after.ds (DS+0xE800)
+S/decisions-70: score [1, 2] ticks 4204 draws 181654 cpu 44.893 s -> 61.787 s; NOT CAUGHT: identical: FAIL
+S/ko-42-sudden-death: score [0, 0] ticks 5644 draws 254901 cpu 59.077 s -> 75.008 s; caught: first at after.ds (DS+0xE800)
+3 matches expected differ, 2 pass, 1 fail

@@ -32,12 +32,12 @@ player words. These probe B7FA, not the entire watched fixture route.
   participants; participating bench additionally receives draw(2)-draw(2),
   in that call order (first draw is subtracted). An unused bench player
   instead receives draw(2)-draw(4), not the result term. Empty words are
-  ignored. `named/seg_0791_09.c:219–279`,
+  ignored. `named/seg_0791_09.c:245–279`,
   `code/seg_0791_19.asm:9` onward.
 * BA4E applies draw(4)-draw(4) independently to every word in the managed
   pool. It precedes the result term on the watched/managed route, not after
   it: F1F6 calls BA4E, then its caller 000E:6CA7 calls B7FA.
-  `named/seg_0791_11.c:674–700`, `named/seg_000E_05.c:605–640`.
+  `named/seg_0791_11.c:700–700`, `named/seg_000E_05.c:605–640`.
   Pool overlap with squad words therefore matters; clipping each call is
   not equivalent to clipping the sum once.
 
@@ -45,7 +45,7 @@ player words. These probe B7FA, not the entire watched fixture route.
 
 * F1F6 copies the squads' morale to DS:9B07[20*side+slot]. Its CB7D call
   restores those bytes after play, before pool and fixture updates.
-  `named/seg_0791_11.c:632–649,674`; assembly
+  `named/seg_0791_11.c:658–649,674`; assembly
   `seg_0791_23.asm:1035` onward and `seg_0791_20.asm:973` onward.
   Not all in-match changes disappear: 7CC5's nonzero flag updates this
   saved array (see inventory below). Ordinary team-wide goal reactions
@@ -53,9 +53,9 @@ player words. These probe B7FA, not the entire watched fixture route.
 * Silent quick results: 000E:6970 calls D47E, B7FA, B602, D050 in order.
   B602 then grants each selected goal scorer +1 via B364. This is after
   result clipping and is not restored on this route.
-  `named/seg_000E_05.c:392–406`, `named/seg_0791_09.c:96–116`.
+  `named/seg_000E_05.c:392–406`, `named/seg_0791_09.c:122–116`.
 * Unplayed fixtures: BB2F calls fitness rolling and B364 with
-  draw(2)-draw(4), without B71C. `named/seg_0791_09.c:324` onward;
+  draw(2)-draw(4), without B71C. `named/seg_0791_09.c:350` onward;
   `code/seg_0791_19.asm:337` onward. The router selects this branch for
   fixture +2 = 0 on the 6E15 path (`named/seg_000E_05.c:605–612`).
 
@@ -75,11 +75,11 @@ direct/indirect table-reference sweep.
 ### Table readers (all references to the 6EB4 root in the code listing)
 
 * `1771:0AF8`, manager description: `code/seg_1771_02.asm:82`
-  (0B59), `named/seg_1771_01.c:549–562`.
+  (0B59), `named/seg_1771_01.c:551–562`.
 * `1771:157D`, team panel, four descriptions: `code/seg_1771_03.asm:201,218,235,252`
   (16D1,16F7,171D,1743), `named/seg_1771_02.c:73–84`.
 * The preceding player-quality text routine: `code/seg_1771_03.asm:31`
-  (155D), `named/seg_1771_01.c:1049–1061`.
+  (155D), `named/seg_1771_01.c:1054–1061`.
 * `1771:42BC`, player panel, hardness/fitness/energy/morale/leadership:
   `code/seg_1771_06.asm:1048,1071,1093,1114,1142,1162`
   (447A,44B0,44DE,450A,4545,4570), `named/seg_1771_03.c:862–889`.
@@ -98,29 +98,29 @@ unchanged, not a second confidence rule.
 
 | Routine | Reads / writes | Listing lines |
 | --- | --- | --- |
-| 0791:278A | reads signed +C for the skill blend | named/seg_0791_02.c:539–549; code/seg_0791_04.asm, 27A2–27BC (F015) |
+| 0791:278A | reads signed +C for the skill blend | named/seg_0791_02.c:540–549; code/seg_0791_04.asm, 27A2–27BC (F015) |
 | 0791:7CC5 | reads live +C; writes clamp(s8(live)+delta,1,255); nonzero flag writes min(32,s8(new live)) to DS:9B07[side*20+slot] | named/seg_0791_06.c:610–625 |
 | 0791:B364 | reads/writes signed +C, clamp1..32 | code/seg_0791_18.asm:621 onward; named/seg_0791_08.c:1118–1126 |
-| 0791:CB7D | writes +C from saved DS:9B07 | code/seg_0791_20.asm:973 onward; named/seg_0791_10.c:62–83 |
-| 0791:F1F6 | reads +C into saved DS:9B07 | code/seg_0791_23.asm:1035 onward; named/seg_0791_11.c:632–649 |
-| 1771:13D0 | reads capped +C into team aggregate DS:9B5A | named/seg_1771_01.c:1016–1038 |
+| 0791:CB7D | writes +C from saved DS:9B07 | code/seg_0791_20.asm:973 onward; named/seg_0791_10.c:112–83 |
+| 0791:F1F6 | reads +C into saved DS:9B07 | code/seg_0791_23.asm:1035 onward; named/seg_0791_11.c:658–649 |
+| 1771:13D0 | reads capped +C into team aggregate DS:9B5A | named/seg_1771_01.c:1021–1038 |
 | 1771:377E | reads signed +C into player strength, special branch >=32 | named/seg_1771_03.c:308–325 |
 | 1771:42BC | reads +C for description and bar | code/seg_1771_06.asm:1114–1142; named/seg_1771_03.c:881–892 |
 | 1771:96D3 | writes draw(32) at player creation | named/seg_1771_06.c:1001–1006 |
 
 ### Callers that cause field or saved-field writes
 
-* B364: B602 goal scorer (+1; `named/seg_0791_09.c:104–112`),
+* B364: B602 goal scorer (+1; `named/seg_0791_09.c:130–112`),
   B7FA result/bench (`code/seg_0791_19.asm:137–187`), BA4E managed
-  pool (`named/seg_0791_09.c:297–312`), BB2F unplayed fixture
-  (`named/seg_0791_09.c:340` onward).
+  pool (`named/seg_0791_09.c:323–312`), BB2F unplayed fixture
+  (`named/seg_0791_09.c:366` onward).
 * 7CC5: 6443 scorer with flag one (`named/seg_0791_05.c:543–545`);
   65FE team-wide goal reaction with flag zero (`:628–643`);
   card/removal paths 7A9D and 7D56 (`named/seg_0791_06.c:565–572,656`).
   Cards/injuries are not inferred here, but their field writer is named.
 * 96D3 is reached by creation and retirement/replacement (F007/F016);
   it is not a post-match result-relative update.
-* CB7D is called by F1F6 after the summary (`named/seg_0791_11.c:674`).
+* CB7D is called by F1F6 after the summary (`named/seg_0791_11.c:700`).
 
 ### B71C's term outside player +0C (for T33)
 
@@ -129,7 +129,7 @@ to the byte [DS:A91F]+3*manager+2 and clamps the sum to -127..127
 (`code/seg_0791_18.asm:979` onward, B6E9-B712). Two callers pass it:
 B7FA, for each side, when neither country is managed (1771:0B77 false for
 both, B81C-B82F) and fixture +2 is not 1 (B86B-B889,
-`code/seg_0791_19.asm:20–66`; `named/seg_0791_09.c:214–230`); and the
+`code/seg_0791_19.asm:20–66`; `named/seg_0791_09.c:240–230`); and the
 000E:6E15 route after `run_match`, when its local flag is set and fixture
 +2 is not 1 (`named/seg_000E_05.c:614–624`). 1771:63A4 later folds that
 byte into the manager byte +1 and clears it (annotation row, F017). This

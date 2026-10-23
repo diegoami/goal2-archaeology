@@ -1,0 +1,24 @@
+{
+  "source": "experiments/E036-match-port/out/T73/coverage-unported-desktop-20261023/coverage-unported.jsonl",
+  "source_sha256": "75d8690088e5c39462642c1decea65ba2a5abc51116ca13efe11ced65fee055c",
+  "rows": [
+    {
+      "match": "S/quick-1",
+      "instruction": "0791:94CF",
+      "counted_basic_block": "0791:94C9",
+      "unhooked_executions": 1900
+    },
+    {
+      "match": "S/decisions-quick-60",
+      "instruction": "1771:14CB",
+      "counted_basic_block": "1771:14C6",
+      "unhooked_executions": 8
+    },
+    {
+      "match": "S/qualifier-21",
+      "instruction": "1771:95DE",
+      "counted_basic_block": "1771:95DE",
+      "unhooked_executions": 1
+    }
+  ]
+}

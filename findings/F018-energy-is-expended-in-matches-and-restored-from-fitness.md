@@ -161,7 +161,7 @@ line numbers, not decompiler line numbers. Each paragraph states its own limit.
   and reset the pitch activity/direction, not player fitness or energy
   (`static:static/goal-exe/code/seg_0791_20.asm:661, static:static/goal-exe/code/seg_0791_20.asm:490`;
   `static:static/goal-exe/code/seg_0791_17.asm:6`; F012's C88D trace). The manual E022 swap also calls
-  C5DC (`static:static/goal-exe/named/seg_0791_11.c:552`). He brings his own E,
+  C5DC (`static:static/goal-exe/named/seg_0791_11.c:578`). He brings his own E,
   normally unspent while on the bench, rather than receiving 32 or a D-to-E
   copy at the substitution. "Full" may describe that ordinary bench state;
   it is not an unconditional instruction-path refill.

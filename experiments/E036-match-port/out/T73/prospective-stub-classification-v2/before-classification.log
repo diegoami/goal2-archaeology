@@ -1,0 +1,76 @@
+.....................................F..............F................FF.FF......F.
+======================================================================
+FAIL: test_skill_bar_removal_preserves_even_nonzero_skill_inputs (tests.test_port_display.Display.test_skill_bar_removal_preserves_even_nonzero_skill_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t73-before-stubs-obmgvp39/tests/test_port_display.py", line 482, in test_skill_bar_removal_preserves_even_nonzero_skill_inputs
+    assert_explicit_void_removal(self,r,'1771:3947',(10,4,1))
+  File "/tmp/t73-before-stubs-obmgvp39/tests/test_port_display.py", line 108, in assert_explicit_void_removal
+    case.assertIsNotNone(port._module_registry('display').entries[address].stub)
+AssertionError: unexpectedly None
+
+======================================================================
+FAIL: test_removed_speaker_off_keeps_incoming_result_and_creates_no_frame (tests.test_port_display.SoundChainMemoryTests.test_removed_speaker_off_keeps_incoming_result_and_creates_no_frame)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t73-before-stubs-obmgvp39/tests/test_port_display.py", line 882, in test_removed_speaker_off_keeps_incoming_result_and_creates_no_frame
+    assert_explicit_void_removal(self,r,'214B:1E8D',())
+  File "/tmp/t73-before-stubs-obmgvp39/tests/test_port_display.py", line 108, in assert_explicit_void_removal
+    case.assertIsNotNone(port._module_registry('display').entries[address].stub)
+AssertionError: unexpectedly None
+
+======================================================================
+FAIL: test_removed_manager_status_preserves_all_argument_bands (tests.test_port_display.TeamPanelHelperTests.test_removed_manager_status_preserves_all_argument_bands)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t73-before-stubs-obmgvp39/tests/test_port_display.py", line 1102, in test_removed_manager_status_preserves_all_argument_bands
+    assert_explicit_void_removal(self,r,'1771:0AF8',(24,10,manager))
+  File "/tmp/t73-before-stubs-obmgvp39/tests/test_port_display.py", line 108, in assert_explicit_void_removal
+    case.assertIsNotNone(port._module_registry('display').entries[address].stub)
+AssertionError: unexpectedly None
+
+======================================================================
+FAIL: test_removed_rating_label_calls_no_rating_or_text_helpers (tests.test_port_display.TeamPanelHelperTests.test_removed_rating_label_calls_no_rating_or_text_helpers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t73-before-stubs-obmgvp39/tests/test_port_display.py", line 1108, in test_removed_rating_label_calls_no_rating_or_text_helpers
+    assert_explicit_void_removal(self,r,'1771:1527',(25,8,country))
+  File "/tmp/t73-before-stubs-obmgvp39/tests/test_port_display.py", line 108, in assert_explicit_void_removal
+    case.assertIsNotNone(port._module_registry('display').entries[address].stub)
+AssertionError: unexpectedly None
+
+======================================================================
+FAIL: test_removed_tone_frequency_preserves_enabled_and_disabled_inputs (tests.test_port_display.ToneMemoryTests.test_removed_tone_frequency_preserves_enabled_and_disabled_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t73-before-stubs-obmgvp39/tests/test_port_display.py", line 862, in test_removed_tone_frequency_preserves_enabled_and_disabled_inputs
+    assert_explicit_void_removal(self,r,'214B:1EBC',(frequency,))
+  File "/tmp/t73-before-stubs-obmgvp39/tests/test_port_display.py", line 108, in assert_explicit_void_removal
+    case.assertIsNotNone(port._module_registry('display').entries[address].stub)
+AssertionError: unexpectedly None
+
+======================================================================
+FAIL: test_removed_tone_preserves_zero_frequency_and_creates_no_frame (tests.test_port_display.ToneMemoryTests.test_removed_tone_preserves_zero_frequency_and_creates_no_frame)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t73-before-stubs-obmgvp39/tests/test_port_display.py", line 867, in test_removed_tone_preserves_zero_frequency_and_creates_no_frame
+    assert_explicit_void_removal(self,r,'214B:1EBC',(0,))
+  File "/tmp/t73-before-stubs-obmgvp39/tests/test_port_display.py", line 108, in assert_explicit_void_removal
+    case.assertIsNotNone(port._module_registry('display').entries[address].stub)
+AssertionError: unexpectedly None
+
+======================================================================
+FAIL: test_removed_statistics_bar_preserves_zero_and_nonzero_inputs (tests.test_port_display.UnreachedStateBranchTests.test_removed_statistics_bar_preserves_zero_and_nonzero_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t73-before-stubs-obmgvp39/tests/test_port_display.py", line 790, in test_removed_statistics_bar_preserves_zero_and_nonzero_inputs
+    assert_explicit_void_removal(self,r,'0791:006C',(0,4,0x100,0x4000))
+  File "/tmp/t73-before-stubs-obmgvp39/tests/test_port_display.py", line 108, in assert_explicit_void_removal
+    case.assertIsNotNone(port._module_registry('display').entries[address].stub)
+AssertionError: unexpectedly None
+
+----------------------------------------------------------------------
+Ran 82 tests in 3.209s
+
+FAILED (failures=7)
+exit 1

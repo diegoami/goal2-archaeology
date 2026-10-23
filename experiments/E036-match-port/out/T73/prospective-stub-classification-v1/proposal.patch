@@ -1,0 +1,328 @@
+--- a/runtime/original_match/port/display.py
++++ b/runtime/original_match/port/display.py
+@@ -109,7 +109,7 @@
+     "2382:0608": "ret",
+ }
+ for address, ret in RETURNS.items():
+-    if address not in {"1771:157D", "1771:11E1", "1771:1289", "1771:0947", "1771:0AF8", "1771:1527", "1771:13D0", "1771:4D8A", "1771:4E22", "1771:8A87", "1771:5AC4", "1771:0FB1", "1771:76FA", "1771:77C3", "1771:8E9A", "1771:8CA2", "1771:958D", "1771:8939", "0791:0441", "214B:1EF1", "214B:1F87", "214B:1E8D", "214B:1EBC", "0791:C50C", "214B:1E09", "0791:0481", "0791:04C9", "0791:054C", "0791:1829", "0791:0106", "0791:05C6", "0791:0691", "0791:8F10", "0791:9079", "0791:A699", "0791:94C9", "0791:94E8", "0791:0C65", "0791:0712", "214B:00FF", "214B:0123", "214B:01A3", "214B:0205", "214B:026D", "214B:02C8", "0791:15B9", "0791:0000", "0791:006C", "214B:00DB", "214B:0625", "214B:0643", "1771:3827", "1771:2EE5", "1771:2F37", "1771:0F58", "214B:0350", "0791:A75D", "1771:3947", "1771:3AE2", "1771:3B3F", "1771:3BD3", "1771:42BC", "214B:13C5"}:
++    if address not in {'1771:157D', '1771:11E1', '1771:1289', '1771:0947', '1771:13D0', '1771:4D8A', '1771:4E22', '1771:8A87', '1771:5AC4', '1771:0FB1', '1771:76FA', '1771:77C3', '1771:8E9A', '1771:8CA2', '1771:958D', '1771:8939', '0791:0441', '214B:1EF1', '214B:1F87', '0791:C50C', '214B:1E09', '0791:0481', '0791:04C9', '0791:054C', '0791:1829', '0791:0106', '0791:05C6', '0791:0691', '0791:8F10', '0791:9079', '0791:A699', '0791:94C9', '0791:94E8', '0791:0C65', '0791:0712', '214B:00FF', '214B:0123', '214B:01A3', '214B:0205', '214B:026D', '214B:02C8', '0791:15B9', '0791:0000', '214B:00DB', '214B:0625', '214B:0643', '1771:3827', '1771:2EE5', '1771:2F37', '1771:0F58', '214B:0350', '0791:A75D', '1771:3AE2', '1771:3B3F', '1771:3BD3', '1771:42BC', '214B:13C5'}:
+         PORTS.stub(address, ret=ret, value=None, why="display/sound/wait body omitted; listing return cleanup and incoming result registers preserved")
+ 
+ 
+@@ -890,29 +890,6 @@
+     return _end(r)
+ 
+ 
+-@PORTS.port('0791:006C',ret='ret 8')
+-def board_bar_attributes(mem,variant):
+-    if variant == 'omit-0791-006c': return
+-    r=Regs(mem);r.enter(2)
+-    seg,off=farg(mem,r,8)
+-    r.ax=rw(mem,r,2)+rw(mem,r,0)
+-    if r.ax:
+-        r.ax=rw(mem,r,2)+rw(mem,r,0);r.bx=r.ax
+-        r.ax=rw(mem,r,2);r.cx=24;mul(r,r.cx)
+-        r.dx=0;r.ax=r.ax//r.bx;amount=r.ax;r.local16(-2,amount)
+-        r.ax=ss16(mem,r,r.bp+6);r.dx=160;mul(r,r.dx)
+-        r.di,r.es=mem.ds16(0xA96E),mem.ds16(0xA970)
+-        r.di=r.di+r.ax-0x5C;destination=r.es,r.di
+-        r.al=mem.ds8(0x832F);r.ah=0
+-        r=yield from guest(mem,r,'214B:00DB',*destination,r.ax,amount,ret='00C9')
+-        r.ax=(amount+35)<<1;r.cx=r.ax
+-        r.ax=ss16(mem,r,r.bp+6);r.dx=160;mul(r,r.dx)
+-        r.di,r.es=mem.ds16(0xA96E),mem.ds16(0xA970)
+-        r.di=r.di+r.ax+r.cx-0xA2;destination=r.es,r.di
+-        r.al=mem.ds8(0x832E);r.ah=0;colour=r.ax
+-        r.ax=24-amount
+-        r=yield from guest(mem,r,'214B:00DB',*destination,colour,r.ax,ret='00FB')
+-    return _end(r)
+ 
+ 
+ @PORTS.port('214B:00DB',ret='retf 8')
+@@ -1164,31 +1141,6 @@
+     return _end(r)
+ 
+ 
+-@PORTS.port('1771:3947',ret='ret 6')
+-def skill_bars_memory(mem,variant):
+-    if variant == 'omit-1771-3947': return
+-    r=Regs(mem);r.enter(10)
+-    pseg,poff=player_of(mem,r,ss16(mem,r,r.bp+8))
+-    r.local16(-10,poff);r.local16(-8,pseg)
+-    mem.wds8(0xAAB2,0x70,'1771:3961')
+-    r.al=rb(mem,r,4);r.ah=0;ability=r.ax;r.local16(-4,ability)
+-    ability=(ability+1)&65535;r.local16(-4,ability)
+-    for skill in range(1,13):
+-        r.local16(-2,skill);r.ax=skill;r.cx=r.ax
+-        r.es,r.di=pseg,poff;r.al=rb(mem,r,7);r.ah=0;r.dx=12;mul(r,r.dx)
+-        r.di=r.ax+r.cx;r.al=mem.ds8((r.di+0x6D25)&65535);r.ah=0;r.cx=r.ax
+-        r.es,r.di=pseg,poff;r.al=rb(mem,r,5);r.ah=0;r.dx=12;mul(r,r.dx)
+-        r.di=r.ax+r.cx;r.al=mem.ds8((r.di+0x6DCD)&65535);r.ah=0
+-        value=r.ax;r.local16(-6,value);mul(r,ability)
+-        r.dx=0;r.cx=256;dividend=r.ax;r.ax,r.dx=dividend//256,dividend%256
+-        amount=r.ax;r.local16(-6,amount)
+-        r.ax=ss16(mem,r,r.bp+4)<<1;r.cx=r.ax
+-        r.ax=ss16(mem,r,r.bp+6)+skill;r.dx=160;mul(r,r.dx)
+-        r.di,r.es=mem.ds16(0xA96E),mem.ds16(0xA970)
+-        r.di=r.di+r.ax+r.cx-0xA2;destination=r.es,r.di
+-        r.al=mem.ds8(0xAAB2);r.ah=0
+-        r=yield from guest(mem,r,'214B:00DB',*destination,r.ax,amount,ret='1771:39F7')
+-    return _end(r)
+ 
+ 
+ @PORTS.port('1771:3AE2',ret='ret 4')
+@@ -1599,20 +1551,6 @@
+     return _end(r)
+ 
+ 
+-@PORTS.port('214B:1EBC',ret='retf 2')
+-def tone_frequency_memory(mem,variant):
+-    """1EBC-1EF0: keep the PIT divisor's argument/frame writes; omit device output."""
+-    if variant == 'omit-214b-1ebc': return
+-    r=Regs(mem);r.enter()
+-    if not mem.ds8(0xA9FC):
+-        r=yield from guest(mem,r,'214B:1E75',ret='214B:1ECA')
+-        r.ax=ss16(mem,r,r.bp+6);r.dx=0;r.cx=r.ax;r.bx=r.dx
+-        r.ax=0x34DD;r.dx=0x12
+-        r=yield from guest(mem,r,'23E4:0294',ret='214B:1EDE')
+-        r.local16(6,r.ax)
+-        r.al=ss16(mem,r,r.bp+6)&255
+-        r.al=(ss16(mem,r,r.bp+6)>>8)&255
+-    return _end(r)
+ 
+ 
+ @PORTS.port('0791:0441',ret='ret 2')
+@@ -1625,15 +1563,6 @@
+     return _end(r)
+ 
+ 
+-@PORTS.port('214B:1E8D',ret='retf')
+-def speaker_off_frame(mem,variant):
+-    """1E8D-1EA0: frame and AL on the kit's port61-read-zero path; device output removed."""
+-    if variant == 'omit-214b-1e8d': return
+-    r=Regs(mem);r.enter()
+-    if not mem.ds8(0xA9FC):
+-        # Original kit return-register probe: speaker-returns-1.txt (IN61 is zero).
+-        r.al=0
+-    return _end(r)
+ 
+ 
+ @PORTS.port('214B:1EF1',ret='retf 6')
+@@ -2040,35 +1969,8 @@
+     return _end(r)
+ 
+ 
+-@PORTS.port('1771:0AF8',ret='retf 6')
+-def manager_status_memory(mem,variant):
+-    if variant == 'omit-1771-0af8': return
+-    r=Regs(mem);r.enter(4);manager=ss16(mem,r,r.bp+10);r.ax=manager;r.dx=3;mul(r,r.dx)
+-    r.es,r.di=mem.ds16(0xA921),mem.ds16(0xA91F);r.di=r.di+r.ax
+-    r.local16(-4,r.di);r.local16(-2,r.es)
+-    if manager:
+-        if not rb(mem,r,1):
+-            r.di=0xAF0;source=mem.seg(0x1771),r.di;ret='1771:0B39'
+-        else:
+-            r.al=rb(mem,r,1);r.ah=0;r.ax=r.ax-1;idiv_by(r,8);r.di=r.ax
+-            r.al=mem.ds8(0x7894+r.di);r.ah=0;r.di=r.ax;half(r,'cx',4);r.di=(r.di<<4)+0x6EB4
+-            source=mem.DS,r.di;ret='1771:0B71'
+-        r.al=ss8(mem,r,r.bp+8);row=r.ax;r.al=ss8(mem,r,r.bp+6)
+-        r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:026D',ret)
+-    return _end(r)
+-
+-
+-@PORTS.port('1771:1527',ret='ret 6')
+-def country_rating_label_memory(mem,variant):
+-    if variant == 'omit-1771-1527': return
+-    r=Regs(mem);r.enter(4);country=ss16(mem,r,r.bp+8);squad_of(mem,r,country)
+-    r.local16(-4,r.di);r.local16(-2,r.es)
+-    r=yield from guest(mem,r,'1771:10E7',country,ret='1771:1548')
+-    r.ax=r.ax-1;idiv_by(r,8);r.di=r.ax;r.al=mem.ds8((r.di+0x7884)&65535);r.ah=0
+-    r.di=r.ax;half(r,'cx',4);r.di=(r.di<<4)+0x6EB4;source=mem.DS,r.di
+-    r.al=ss8(mem,r,r.bp+6);row=r.ax;r.al=ss8(mem,r,r.bp+4)
+-    r=yield from write_buffer_text(mem,r,source,row,r.ax,'214B:026D','1771:1575')
+-    return _end(r)
++
++
+ 
+ 
+ @PORTS.port('1771:13D0',ret='ret 2')
+--- a/tests/test_port_display.py
++++ b/tests/test_port_display.py
+@@ -101,6 +101,19 @@
+     def written(self, writer):
+         lin = self.mem.lin(writer)
+         return [(off, size, value) for off, size, value, at in self.writes if at == lin]
++
++
++def assert_explicit_void_removal(case, rig, address, words):
++    """Checks the declared Python stub, never original branch-PC execution."""
++    case.assertIsNotNone(port._module_registry('display').entries[address].stub)
++    rig.mem.regs.update(ax=0xA55A,dx=0x5AA5,eflags=0x602)
++    rig.run(address,words)
++    before=bytes(rig.mem.memory);registers=dict(rig.mem.regs)
++    case.assertIsNone(rig.run(address,words))
++    case.assertEqual(bytes(rig.mem.memory),before)
++    case.assertEqual(rig.mem.regs,registers)
++    case.assertEqual(rig.calls,[])
++    case.assertEqual(rig.writes,[])
+ 
+ 
+ class Case(unittest.TestCase):
+@@ -460,13 +473,12 @@
+             self.assertEqual(r.mem.ds8(0xE86),want,performance)
+             self.assertEqual(len(r.args('214B:01A3')),int(performance!=0x7FFF))
+ 
+-    def test_skill_bars_keep_all_twelve_unclamped_unsigned_products(self):
++    def test_skill_bar_removal_preserves_even_nonzero_skill_inputs(self):
+         r=Rig();r.player(1,4,255);r.player(1,5,0);r.player(1,7,0)
+         for k in range(1,13):r.ds8(0x6D25+k,k-1);r.ds8(0x6DCD+k-1,k+1)
+         r.ds16(0xA96E,GOFF);r.ds16(0xA970,GSEG)
+-        r.run('1771:3947',[10,4,1])
+-        self.assertEqual(len(r.args('214B:00DB')),12)
+-        self.assertEqual([a[-1] for a in r.args('214B:00DB')],list(range(2,14)))
++        assert_explicit_void_removal(self,r,'1771:3947',(10,4,1))
++
+ 
+ 
+ class EventProjection(unittest.TestCase):
+@@ -767,14 +779,12 @@
+                     self.assertEqual(r.calls,[])
+ 
+ class UnreachedStateBranchTests(unittest.TestCase):
+-    def test_empty_statistics_bar_and_nonempty_reached_twin(self):
+-        for first,second,want in ((0,0,[]),(1,65535,[]),(1,3,[18,6])):
+-            with self.subTest(first=first,second=second):
+-                r=Rig();r.lin16(0x40100,first);r.lin16(0x40102,second)
+-                r.ds16(0xA96E,0x200);r.ds16(0xA970,0x500)
+-                try:r.run('0791:006C',(0,4,0x100,0x4000))
+-                except ZeroDivisionError:self.fail('an empty bar must bypass division')
+-                self.assertEqual([a[-1] for a in r.args('214B:00DB')],want)
++    def test_removed_statistics_bar_preserves_zero_and_nonzero_inputs(self):
++        for first,second in ((0,0),(1,65535),(1,3)):
++            r=Rig();r.lin16(0x40100,first);r.lin16(0x40102,second)
++            r.ds16(0xA96E,0x200);r.ds16(0xA970,0x500)
++            assert_explicit_void_removal(self,r,'0791:006C',(0,4,0x100,0x4000))
++
+ 
+     def test_empty_squad_row_and_nonempty_reached_twin(self):
+         for word,want in ((0,[]),(1,[(1,4,2)])):
+@@ -841,30 +851,19 @@
+             self.assertEqual([a[-2:] for a in r.args('214B:00DB')],[(0x70,1),(0x70,1)])
+ 
+ class ToneMemoryTests(unittest.TestCase):
+-    def test_tone_divisor_argument_and_return_high_byte_are_preserved(self):
+-        for frequency in (1,440,32768,65535):
+-            r=Rig();r.ds8(0xA9FC,0)
+-            def answer(q,m):
+-                if q.target=='23E4:0294':
+-                    dividend=(m.reg('dx')<<16)|m.reg('ax')
+-                    divisor=(m.reg('bx')<<16)|m.reg('cx')
+-                    quotient=dividend//divisor;m.regs['dx']=quotient>>16
+-                    return quotient&65535
+-                return 0
+-            r.run('214B:1EBC',(frequency,),answer=answer)
+-            quotient=0x1234DD//frequency;low=quotient&65535
+-            self.assertEqual(r.u16(BP0+6),low)
+-            self.assertEqual(r.mem.reg('ax'),(low&0xFF00)|(low>>8))
+-            self.assertEqual(r.mem.reg('dx'),quotient>>16)
+-            self.assertEqual(r.targets(),[('214B:1E75','214B:1ECA'),('23E4:0294','214B:1EDE')])
+-
+-    def test_disabled_sound_skips_division_even_for_zero_frequency(self):
+-        r=Rig();r.ds8(0xA9FC,1);r.mem.regs.update(ax=0xBEEF,dx=0x1234)
+-        r.run('214B:1EBC',(0,))
+-        self.assertEqual(r.calls,[])
++    def test_removed_tone_frequency_preserves_enabled_and_disabled_inputs(self):
++        for disabled in (0,1):
++            for frequency in (1,440,32768,65535):
++                r=Rig();r.ds8(0xA9FC,disabled)
++                assert_explicit_void_removal(self,r,'214B:1EBC',(frequency,))
++
++
++    def test_removed_tone_preserves_zero_frequency_and_creates_no_frame(self):
++        r=Rig();r.ds8(0xA9FC,1);r.lin16(BP0,0xCAFE)
++        assert_explicit_void_removal(self,r,'214B:1EBC',(0,))
+         self.assertEqual(r.u16(BP0+6),0)
+-        self.assertEqual(r.u16(BP0),0x1234)
+-        self.assertEqual((r.mem.reg('ax'),r.mem.reg('dx')),(0xBEEF,0x1234))
++        self.assertEqual(r.u16(BP0),0xCAFE)
++
+ 
+ class SoundChainMemoryTests(unittest.TestCase):
+     def test_whistle_gate_keeps_the_exact_jingle_call(self):
+@@ -873,13 +872,12 @@
+             r.run('0791:0441',(7,))
+             self.assertEqual(r.args('214B:1F87'),[(7,)] if speed else [])
+ 
+-    def test_speaker_off_keeps_kit_return_byte_and_saved_frame(self):
+-        for disabled,want in ((0,0x1200),(1,0x1234)):
+-            r=Rig();r.ds8(0xA9FC,disabled);r.mem.regs.update(ax=0x1234,dx=0xABCD)
+-            r.run('214B:1E8D')
+-            self.assertEqual(r.mem.reg('ax'),want)
+-            self.assertEqual(r.mem.reg('dx'),0xABCD)
+-            self.assertEqual(r.u16(BP0),0x1234)
++    def test_removed_speaker_off_keeps_incoming_result_and_creates_no_frame(self):
++        for disabled in (0,1):
++            r=Rig();r.ds8(0xA9FC,disabled);r.lin16(BP0,0xCAFE)
++            assert_explicit_void_removal(self,r,'214B:1E8D',())
++            self.assertEqual(r.u16(BP0),0xCAFE)
++
+ 
+     def test_note_transposition_real_calls_local_and_wrapped_duration(self):
+         for note,transpose,octave,want_note,want_octave in ((11,1,6,0,7),(9,255,6,0,28)):
+@@ -1093,24 +1091,18 @@
+         self.assertEqual(r.args('23E4:06B7'),[(r.mem.seg(0x1771),0x945),(0x5400,0x21A)])
+         self.assertEqual(r.args('23E4:0644'),[(0,BP0-0x100,0x5800,0x100,14)])
+ 
+-    def test_manager_status_zero_guard_and_status_band_boundaries(self):
+-        for manager,status,want in ((0,0,None),(1,0,0xAF0),(130,0,0xAF0),(1,1,0x6EC4),(1,9,0x6ED4),(1,255,0x6EE4)):
++    def test_removed_manager_status_preserves_all_argument_bands(self):
++        for manager,status in ((0,0),(1,0),(130,0),(1,1),(1,9),(1,255)):
+             r=Rig();r.ds16(0xA91F,0x100);r.ds16(0xA921,0x5400)
+             r.lin8(0x54100+manager*3+1,status)
+-            for index,value in ((0,1),(1,2),(31,3)):r.ds8(0x7894+index,value)
+-            r.run('1771:0AF8',(24,10,manager))
+-            if want is None:self.assertEqual(r.calls,[])
+-            else:
+-                high=0x100 if manager==130 and status==0 else 0
+-                self.assertEqual(r.args('214B:026D'),[(r.mem.seg(0x1771) if want==0xAF0 else r.mem.DS,want,high+10,high+24,r.mem.DS,0xA96E)])
+-
+-    def test_country_rating_signed_zero_and_eight_point_boundaries(self):
+-        for rating,index in ((0,0),(1,0),(8,0),(9,1),(257,32)):
+-            r=Rig()
+-            for slot,value in ((0,1),(1,2),(32,3)):r.ds8(0x7884+slot,value)
+-            r.run('1771:1527',(25,8,3),answer=answers({'1771:10E7':rating}))
+-            expected=0x6EB4+16*{0:1,1:2,32:3}[index]
+-            self.assertEqual(r.args('214B:026D'),[(r.mem.DS,expected,8,25,r.mem.DS,0xA96E)])
++            assert_explicit_void_removal(self,r,'1771:0AF8',(24,10,manager))
++
++
++    def test_removed_rating_label_calls_no_rating_or_text_helpers(self):
++        for country in (0,3,128):
++            r=Rig();r.ds8(0x7884,1);r.ds8(0x7885,2)
++            assert_explicit_void_removal(self,r,'1771:1527',(25,8,country))
++
+ 
+     def test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter(self):
+         cases=((0,10,False,[1,20,8,10,25,5]),(128,10,False,[5946,20,8,10,25,5]),
+--- a/experiments/E036-match-port/out/T73/test_controls.py
++++ b/experiments/E036-match-port/out/T73/test_controls.py
+@@ -49,7 +49,7 @@
+  ('mismatched display mask allowed',C,'if required and not all(matching):','if False:'),
+  ('display profile reference override allowed',C,'if supplied.resolve() != bound.resolve():','if False:'),
+  ('removed void routine returns a value',D,'value=None, why=','value=1, why='),
+- ('0083 empty statistics bar executes writes',D,'r.ax=rw(mem,r,2)+rw(mem,r,0)\n    if r.ax:','r.ax=rw(mem,r,2)+rw(mem,r,0)\n    if True:'),
++ ('006C removed-body return cleanup shortened',D,'"0791:006C": "ret 8"','"0791:006C": "ret 6"'),
+  ('2F58 empty player row executes name call',D,"if word:\n        r=yield from guest(mem,r,'1771:2EE5'","if True:\n        r=yield from guest(mem,r,'1771:2EE5'"),
+  ('3916 live slot brightness includes bench12',D,'bright=r.ax<12','bright=r.ax<=12'),
+  ('3B09 mark flag guard inverted',D,'if mem.ds8(0xC1E) and flag:','if not mem.ds8(0xC1E) and flag:'),
+@@ -63,8 +63,8 @@
+  ('05B8 last digit column shifted',D,'digit=r.ax;r.ax=0x4B','digit=r.ax;r.ax=0x4C'),
+  ('19B2 top-row boundary excludes row4',D,'if pointer==0xA972 and ss16(mem,r,r.bp+6)>4:','if pointer==0xA972 and ss16(mem,r,r.bp+6)>=4:'),
+  ('C553 outgoing notice column shifted',D,"(6,29,'0791:C540'","(6,30,'0791:C540'"),
+- ('1EDE tone divisor argument changed',D,'r.local16(6,r.ax)\n        r.al=ss16(mem,r,r.bp+6)&255','r.local16(6,r.ax+1)\n        r.al=ss16(mem,r,r.bp+6)&255'),
+- ('1EC4 sound enable guard inverted',D,"if not mem.ds8(0xA9FC):\n        r=yield from guest(mem,r,'214B:1E75',ret='214B:1ECA')","if mem.ds8(0xA9FC):\n        r=yield from guest(mem,r,'214B:1E75',ret='214B:1ECA')"),
++ ('1EBC removed-body return cleanup widened',D,'"214B:1EBC": "retf 2"','"214B:1EBC": "retf 4"'),
++ ('1E8D removed-body far return changed to near',D,'"214B:1E8D": "retf"','"214B:1E8D": "ret"'),
+  ('3DED false zone flag still writes marker',D,'if r.al:\n                r.al=attribute&255;colour=r.ax;r.di=0x3BD1','if True:\n                r.al=attribute&255;colour=r.ax;r.di=0x3BD1'),
+  ('449A injured fitness label reads fitness instead of zero energy',D,'r.al=rb(mem,r,14 if injured else 13)','r.al=rb(mem,r,13)'),
+  ('46C9 red icon colour changed',D,"(6,4,44,'46C5','46E1')","(6,5,44,'46C5','46E1')"),

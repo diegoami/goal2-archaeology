@@ -1,0 +1,32 @@
+COMMAND: ['/home/diego/.local/bin/python3.12', '-B', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/family.py', '--family', 'ALL', '--only', 'S/quick-1', '--ports', 'display', '--variant', 'display.omit-0791-054c', '--count', '0791:054C', '--workers', '1', '--checkpoint', '/home/diego/projects/goal2-archaeology/.cache/checkpoints/falsifiers-desktop-20261023-B1/omit-0791-054c', '--time-limit', '600', '--stretch-limit', '120', '--out', '/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-B1/omit-0791-054c.jsonl']
+heavy: family: waiting for a slot (30 ahead)
+heavy: family: waiting for a slot (28 ahead)
+heavy: family: waiting for a slot (27 ahead)
+heavy: family: waiting for a slot (26 ahead)
+heavy: family: waiting for a slot (25 ahead)
+heavy: family: waiting for a slot (24 ahead)
+heavy: family: waiting for a slot (23 ahead)
+heavy: family: waiting for a slot (22 ahead)
+heavy: family: waiting for a slot (21 ahead)
+heavy: family: waiting for a slot (20 ahead)
+heavy: family: waiting for a slot (19 ahead)
+heavy: family: waiting for a slot (18 ahead)
+heavy: family: waiting for a slot (17 ahead)
+heavy: family: waiting for a slot (16 ahead)
+heavy: family: waiting for a slot (15 ahead)
+heavy: family: waiting for a slot (14 ahead)
+heavy: family: waiting for a slot (12 ahead)
+heavy: family: waiting for a slot (11 ahead)
+heavy: family: waiting for a slot (10 ahead)
+heavy: family: waiting for a slot (9 ahead)
+heavy: family: waiting for a slot (8 ahead)
+heavy: family: waiting for a slot (6 ahead)
+heavy: family: waiting for a slot (4 ahead)
+heavy: family: waiting for a slot (3 ahead)
+heavy: family: waiting for a slot (2 ahead)
+heavy: family: waiting for a slot (0 ahead)
+heavy: family: got slot 4 after 577 s
+ports: display.omit-0791-054c
+1 matches selected, 0 already in /home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-B1/omit-0791-054c.jsonl, 1 to run
+S/quick-1: completed; score [1, 1] ticks 140 cpu 7.341 s; 0791:054C executed 183; port 0791:0000 called 0; port 0791:006C called 0; port 0791:0106 called 5; port 0791:0425 called 1061; port 0791:0441 called 7; port 0791:0481 called 0; port 0791:04C9 called 0; port 0791:054C called 183; port 0791:05C6 called 280; port 0791:0691 called 14; port 0791:0712 called 97; port 0791:0C65 called 0; port 0791:15B9 called 2; port 0791:1829 called 30; port 0791:8F10 called 1107; port 0791:9079 called 0; port 0791:94C9 called 1900; port 0791:94E8 called 1059; port 0791:A699 called 10; port 0791:A75D called 4; port 0791:C50C called 0; port 1771:0947 called 0; port 1771:0AF8 called 0; port 1771:0F58 called 13; port 1771:0FB1 called 0; port 1771:11E1 called 0; port 1771:1289 called 0; port 1771:13D0 called 0; port 1771:1527 called 0; port 1771:157D called 0; port 1771:2EE5 called 107; port 1771:2F37 called 99; port 1771:3827 called 1; port 1771:3947 called 1; port 1771:3AE2 called 0; port 1771:3B3F called 0; port 1771:3BD3 called 1; port 1771:42BC called 1; port 1771:4D8A called 0; port 1771:4E22 called 0; port 1771:50F1 called 0; port 1771:5AC4 called 0; port 1771:5C94 called 0; port 1771:5CCB called 0; port 1771:76FA called 0; port 1771:77C3 called 0; port 1771:883F called 0; port 1771:8939 called 0; port 1771:89C1 called 0; port 1771:89FE called 0; port 1771:8A5D called 0; port 1771:8A87 called 0; port 1771:8CA2 called 0; port 1771:8CCF called 0; port 1771:8D84 called 0; port 1771:8E9A called 0; port 1771:9028 called 0; port 1771:91CE called 0; port 1771:937C called 0; port 1771:9509 called 0; port 1771:958D called 0; port 214B:00DB called 10; port 214B:00FF called 322; port 214B:0123 called 217; port 214B:01A3 called 15; port 214B:0205 called 202; port 214B:026D called 11; port 214B:02C8 called 311; port 214B:0350 called 0; port 214B:0625 called 0; port 214B:0643 called 0; port 214B:0661 called 0; port 214B:0755 called 0; port 214B:13C5 called 10; port 214B:1E09 called 8; port 214B:1E5A called 0; port 214B:1E75 called 1; port 214B:1E8D called 323; port 214B:1EA1 called 1; port 214B:1EBC called 841; port 214B:1EF1 called 8; port 214B:1F87 called 1; port 2382:0099 called 0; port 2382:00E7 called 0; port 2382:016D called 0; port 2382:0215 called 0; port 2382:04FC called 0; port 2382:0608 called 0
+1 of 1 matches in /home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T73/falsifiers-desktop-20261023-B1/omit-0791-054c.jsonl, 0 not completed
