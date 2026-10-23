@@ -62,6 +62,9 @@ GitHub tools, or `gh api` (REST), for example:
 - open a PR: `gh api repos/diegoami/goal2-archaeology/pulls -f title=... -f head=<branch> -f base=main -F draft=true -F body=@<file>`
   (`-F`, not `-f`: only `-F` reads a file after `@`; `-f body=@<file>` posts the path as the text, 2026-10-22);
 - the login check: `gh api user --jq .login`.
+- a PR's `checks` job skips a push made while the PR is a draft, and marking it ready afterwards did not always
+  start a run (2026-10-22, #370): mark the PR ready first, then push; or toggle it back to draft and ready again, which
+  fires `ready_for_review` (the GitHub tools' `update_pull_request` with `draft`; the REST API cannot change it).
 
 Release assets come over plain HTTPS from the public release (the setup falls back to it); their
 downloads redirect to `release-assets.githubusercontent.com`, which the network settings must allow.
@@ -74,6 +77,8 @@ every PR merges with a merge commit (process.md §3).
 ## Limits
 
 - Runs are CPU-bound; a cloud session has few cores, so heavy jobs queue through `tools/heavy.sh`.
+- Full family runs (own62, falsifiers, the integrated `--ports all` run of a port task) go to GitHub Actions, not
+  the container: `experiments/E036-match-port/notes.md`, "Where a family runs".
 - [designed: owner, 2026-10-22] A cloud container restarts often, killing every running job (the first
   restart came mid-run on 2026-10-22, T63). There, measured outputs are committed and pushed about **every
   5 minutes** while runs go (CLAUDE.md rule 20's "at least every 30 minutes" is the local floor): a small
