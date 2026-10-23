@@ -74,7 +74,7 @@ from .mem import s16
 PORTS.doc = ("the dead-ball restarts: the throw-in 0791:6E11 (T59); kick-offs, restarts and set pieces, the walk-off and "
              "the booking: 690C-7B21, row T67's 25 routines (T67)")
 PORTS.variant("kickoff-depth-dropped", "69BD at 69FD: the kick-off depth DS:0812[position] is not added to y (+8)")
-PORTS.variant("corner-stat-shifted", "6DEA at 6E07: the restart's statistics byte is DS:7B7F + 10 side + n, not DS:7B7E")
+PORTS.variant("restart-count-shifted", "6DEA at 6E07: the restart's statistics byte is DS:7B7F + 10 side + n, not DS:7B7E")
 PORTS.variant("throw-step-3", "7069 at 70AE: the throw-in's x offset is DS:82F6 / 3, not / 2")
 M16 = 0xFFFF
 
@@ -534,7 +534,7 @@ def restart_line_and_count(mem, variant):
     r.di = r.ax
     r.ax = pop(mem, r)                                           # 6E04
     r.di = r.di + r.ax
-    table = 0x7B7F if variant == "corner-stat-shifted" else 0x7B7E
+    table = 0x7B7F if variant == "restart-count-shifted" else 0x7B7E
     mem.wds8(r.di + table, mem.ds8((r.di + table) & M16) + 1, "0791:6E07")
     return _end(r)
 
