@@ -1,0 +1,54 @@
+{
+  "warning": "NEVER mask evidence",
+  "source_sha256": "8806670bd9624741e041884a8a1e7cba2ca99fe37737709ea2477fca02e72429",
+  "original_exact": true,
+  "reports": {
+    "original": {
+      "entries": 6901,
+      "target_entry": {
+        "return": "214B:0323",
+        "sp_ds_offset": 59864,
+        "bp_ds_offset": 60136,
+        "bp_ss_offset": 15832
+      },
+      "native_writes": 41,
+      "host_writes": 0,
+      "port_writes": 0,
+      "last_write": {
+        "kind": "native",
+        "entry": {
+          "return": "214B:0323",
+          "sp_ds_offset": 59864,
+          "bp_ds_offset": 60136,
+          "bp_ss_offset": 15832
+        },
+        "equals_entry_bp": true,
+        "word_sha256": "0755dc6db676d97410b2b27a8c34ad0add52a88b20b2f74e977d5374fb96fc92",
+        "port_frames": [],
+        "host_functions": [],
+        "instruction_P_offset": 136623
+      }
+    },
+    "display": {
+      "entries": 6899,
+      "target_entry": null,
+      "native_writes": 39,
+      "host_writes": 0,
+      "port_writes": 0,
+      "last_write": {
+        "kind": "native",
+        "entry": {
+          "return": "214B:0323",
+          "sp_ds_offset": 59608,
+          "bp_ds_offset": 59880,
+          "bp_ss_offset": 15576
+        },
+        "equals_entry_bp": false,
+        "word_sha256": "c89951a24c6ca28c13fd1cfdc646b2b656d69e61a92b91023be7eb58eb914b6b",
+        "port_frames": [],
+        "host_functions": [],
+        "instruction_P_offset": 112007
+      }
+    }
+  }
+}
