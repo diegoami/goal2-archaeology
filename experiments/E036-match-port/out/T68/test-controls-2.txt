@@ -1,0 +1,18 @@
+discipline.py absent (main before T68): exit 1, FAILED (errors=26), caught
+7F35: a second booking books: exit 1, FAILED (failures=1), caught
+7F99: a tie injures the fouler: exit 1, FAILED (failures=1), caught
+7D76: 7A43's refusal ignored: exit 1, FAILED (failures=1), caught
+C899: a budget of 0 read as one left: exit 1, FAILED (failures=1), caught
+C8C9: +0xE < 1 read as < 2: exit 1, FAILED (failures=1), caught
+8111: a computer side with no budget scanned: exit 1, FAILED (failures=2), caught
+C1D0: ahead and behind swapped: exit 1, FAILED (failures=2), caught
+BF9F: the direction ignored: exit 1, FAILED (failures=1), caught
+7D7A: an unavailable player injured: exit 1, FAILED (failures=1), caught
+AA07: no bench slot read as one: exit 1, FAILED (failures=1), caught
+AAA9: the foot never halves: exit 1, FAILED (failures=1), caught
+AB6E: an empty row walked: timed out, NOT CAUGHT
+C215: ahead and behind swapped beyond 2: exit 1, FAILED (failures=2), caught
+C76E: the captain word never replaced: exit 1, FAILED (failures=1), caught
+7DD9: the injury written as another instruction: exit 1, FAILED (failures=1), caught
+C7DC: the substitution written as another instruction: exit 1, FAILED (failures=1), caught
+a control was not caught

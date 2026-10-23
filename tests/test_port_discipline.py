@@ -1,8 +1,11 @@
-"""T68: the branches of the discipline port that no match of ALL reaches (out/T68/coverage-summary.tsv), run on synthetic
-memory with the listing's values, each with a reached twin: the substitution budget at 0 (C88D, 8062), a second yellow
-card (7EEF), the computer's tactic shift in each direction (C173, BF6B); and the kit's two event writes of the row, the
-injury (7DD9) and the substitution (C7DC), which the kit reads as events only from those writers (match.py WRITERS).
-No byte of the original."""
+"""T68: the branches of the discipline port that no match of ALL reaches (out/T68/coverage-summary.tsv: 7D7A, AA07, AA71,
+AA88, AAA3, AAA7, AAA9, AAAD, AB6E, C1DA, C215, C76E and C7BF are executed 0 times in the 62 matches; BDE9 cannot be
+reached, notes/T68.md), run on synthetic memory with the listing's values, each with a reached twin; the branches the
+task names, which ALL turned out to reach in a few matches (the substitution budget at 0: C8A0 in 2 matches, 8118 in 37;
+a second yellow card: 7F39 in 2; the computer's tactic shift in each direction: C1F1 in 7, C1FE in 14, BFA5 in 14, BFBF
+in 7); and the kit's two event writes of the row, the injury (7DD9) and the substitution (C7DC), which the kit reads as
+events only from those writers (match.py WRITERS). No byte of the original."""
+import signal
 import sys
 import unittest
 from pathlib import Path
@@ -82,6 +85,8 @@ class Rig:
                         value = stop.value
                         break
                     self.calls.append((request.target, request.args, request.ret_to, request.far))
+                    if len(self.calls) > 5000:           # a loop that does not end (a test of a loop's bound)
+                        raise AssertionError(f"more than 5000 calls, the last {request.target}")
                     sent = answer(request, self.mem) if answer else 0
                     self.mem.regs["ax"] = sent & 0xFFFF
         finally:
@@ -96,6 +101,21 @@ class Rig:
 
     def written(self, writer):
         return [(off, size, value) for off, size, value, at in self.writes if at == writer]
+
+
+class Case(unittest.TestCase):
+    """A test that cannot hang: a loop that does not end (a test of a loop's bound) fails after 20 s."""
+
+    def setUp(self):
+        if hasattr(signal, "SIGALRM"):
+            def timed_out(signum, frame):
+                raise AssertionError("the routine did not return within 20 s")
+            signal.signal(signal.SIGALRM, timed_out)
+            signal.alarm(20)
+
+    def tearDown(self):
+        if hasattr(signal, "SIGALRM"):
+            signal.alarm(0)
 
 
 def answers(table):
@@ -119,7 +139,7 @@ def foul_rig(status):
     return r, rec
 
 
-class FoulDispatch(unittest.TestCase):
+class FoulDispatch(Case):
     def test_second_yellow_sends_off(self):
         """7F0E-7F42: a table byte below 4 (261A) with the fouler's status +0x10 holding element 5 (a booking already,
         214B:0C57(5, status) true) sends him off: 7B77(his record), never 798D."""
@@ -161,7 +181,7 @@ def substitute_rig(budget, fitness):
     return r, side, slot, country
 
 
-class SubstitutionBudget(unittest.TestCase):
+class SubstitutionBudget(Case):
     def test_budget_0_injured_only_the_forced_swap(self):
         """C899-C8DB: with no substitution left (DS:9B3A + side = 0) and the outgoing player injured (+0xE < 1) the
         only call is the forced swap C48D(squad, slot); nothing is picked and no count is written."""
@@ -204,7 +224,7 @@ class SubstitutionBudget(unittest.TestCase):
 
 
 # -- C173 and BF6B: the computer's tactic shift ----------------------------------------------------------------------
-class TacticShift(unittest.TestCase):
+class TacticShift(Case):
     def shift(self, mine, theirs):
         r = Rig()
         r.ds8(0x9B3C, mine)
@@ -252,7 +272,7 @@ class TacticShift(unittest.TestCase):
 
 
 # -- the kit's events: the injury (7DD9) and the substitution (C7DC) --------------------------------------------------
-class EventWriters(unittest.TestCase):
+class EventWriters(Case):
     def test_injury_written_as_7dd9(self):
         """7DD1-7DD9: the side's injuries DS:7B87 + 10 side +1, written by 7DD9 (match.py WRITERS["injury"]) and by no
         other instruction; the player's +0xE := 0 (7D9B); a managed side's keeper raises DS:9B40 (7E55)."""
@@ -287,6 +307,125 @@ class EventWriters(unittest.TestCase):
         self.assertEqual([w for w in r.writes if w[0] in (0x9B3A, 0x9B3B) and w[3] != "0791:C7DC"], [])
         self.assertEqual(r.written("0791:C7E0"), [(0x9B55, 1, 1)])
         self.assertEqual(r.args("0791:A2E6"), [(15, r.mem.DS, rec)])
+
+
+
+# -- the branches no match of ALL reaches ----------------------------------------------------------------------------
+class Unreached(Case):
+    def test_injury_of_an_unavailable_player(self):
+        """7D65-7D7A: the record is unavailable (2956 true): nothing is asked or written."""
+        r = Rig()
+        rec = r.pitch(14, 9)
+        r.run("0791:7D56", [rec, r.mem.DS], answers({"0791:2956": 1}))
+        self.assertEqual(r.targets(), [("0791:2956", "0791:7D65")])
+        self.assertEqual(r.writes, [])
+
+    def keeper_rig(self, last, pos, two_footed, feet):
+        r = Rig()
+        country = 4
+        r.squad(country, [0x60 + k for k in range(1, 21)])
+        for k, role, value in ((12, 1, 0x40), (13, 2, 0x30)):
+            r.player(0x60 + k, 7, role)
+            r.ds8(0x8D5 + 0xE * 3 + role, value)
+        r.run("0791:A9B8", [last, 3, country],
+              answers({"1771:3216": 0, "23E4:06E3": pos, "1771:3041": two_footed, "1771:3088": feet}))
+        return r
+
+    def test_keeper_pick_with_no_bench_slot(self):
+        """A9FF-AA07: the last squad slot below 12: no slot is tested, the answer 0."""
+        r = self.keeper_rig(0xB, 0, 0, 0)
+        self.assertEqual(r.targets(), [("23E4:075A", "0791:A9EC"), ("23E4:06E3", "0791:A9F6")])
+        self.assertEqual(r.mem.regs["ax"], 0)
+
+    def test_keeper_pick_with_a_foot(self):
+        """AA6B-AAB7: the position has a foot (Pos 5 > 3: foot 1): slot 12 (0x40), one-footed (3041 0) with foot 0, is
+        halved to 0x20; slot 13 (0x30), two-footed, keeps it: the pick is 13."""
+        r = self.keeper_rig(0xD, 5, [0, 1], [0])
+        self.assertEqual(r.mem.regs["ax"], 13)
+        self.assertEqual(r.targets(), [("23E4:075A", "0791:A9EC"), ("23E4:06E3", "0791:A9F6"),
+                                       ("1771:3216", "0791:AA25"), ("1771:3041", "0791:AA84"),
+                                       ("1771:3088", "0791:AA9B"), ("1771:3216", "0791:AA25"),
+                                       ("1771:3041", "0791:AA84")])
+        self.assertEqual(r.mem.u16(BP0 - 0xA), 0x30)                         # [bp - 0xa], the last value
+
+    def test_keeper_pick_foot_matches(self):
+        """AAA3: Pos 2 (not above 3: foot 0) and slot 12's foot 0: not halved, 0x40 beats 0x30: the pick is 12."""
+        r = self.keeper_rig(0xD, 2, [0, 0], [0, 1])
+        self.assertEqual(r.mem.regs["ax"], 12)
+
+    def test_keeper_pick_without_a_foot(self):
+        """The reached twin (AA6F jbe AABA): Pos 0: no foot test, the higher value wins: 12."""
+        r = self.keeper_rig(0xD, 0, 0, 0)
+        self.assertEqual(r.mem.regs["ax"], 12)
+        self.assertEqual(r.args("1771:3041"), [])
+
+    def formation_rig(self, pos, count):
+        r = Rig()
+        r.player(0x30, 6, 2)                           # the outgoing player's position 2: the row DS:099A + 16
+        r.ds8(0x99A + 16, count)
+        r.ds8(0x99A + 16 + 1, 5)                       # entry 1: role 5
+        r.ds8(0x99A2 + 5, 14)                          # C7EB's map: role 5 -> bench slot 14
+        r.run("0791:AAE8", [SQOFF, SQSEG, 0x30], answers({"23E4:06E3": pos, "1771:3041": 1}))
+        return r
+
+    def test_formation_row_empty_with_a_foot(self):
+        """AB66-AB6E: a foot for the position (Pos 2) and a row of 0 entries: nothing is tested, the answer 0."""
+        r = self.formation_rig(2, 0)
+        self.assertEqual(r.targets(), [("23E4:075A", "0791:AB36"), ("23E4:06E3", "0791:AB40")])
+        self.assertEqual(r.mem.regs["ax"], 0)
+
+    def test_formation_row_with_a_foot(self):
+        """The reached twin (AB71): one entry, its bench slot 14 two-footed (3041): the pick is 14."""
+        r = self.formation_rig(2, 1)
+        self.assertEqual(r.targets()[2:], [("1771:3041", "0791:ABB4")])
+        self.assertEqual(r.mem.regs["ax"], 14)
+
+    def big_gap(self, mine, theirs):
+        r = Rig()
+        r.ds8(0x9B3C, mine)
+        r.ds8(0x9B3D, theirs)
+        r.run("0791:C173", [0x1111], answers({"1771:0B77": [0, 1]}))
+        return r
+
+    def test_three_ahead_excludes(self):
+        """C20B-C234 for side 0 (C215): more than two goals ahead: C0DF(side, C173's BP)."""
+        r = self.big_gap(4, 1)
+        self.assertEqual(r.targets()[1], ("0791:C0DF", "0791:C234"))
+        self.assertEqual([(a[0] & 0xFF, a[1]) for a in r.args("0791:C0DF")], [(0, BP0)])
+
+    def test_three_behind_includes(self):
+        """C236-C23E: more than two goals behind: C01A(side, C173's BP)."""
+        r = self.big_gap(0, 3)
+        self.assertEqual(r.targets()[1], ("0791:C01A", "0791:C23E"))
+
+    def test_one_goal_gap_resets(self):
+        """The reached twin (C1B8): a gap below 2: BD83(side)."""
+        r = self.big_gap(1, 0)
+        self.assertEqual(r.targets()[1], ("0791:BD83", "0791:C1BF"))
+
+    def captain_rig(self, unavailable):
+        r = Rig()
+        rec = r.pitch(15, 0x44)
+        r.ds8(0x9B3A + 1, 3)
+        r.ds16(0x9B34, 4)                               # side 0's country
+        r.squad(4, [0x61, 0x62])
+        r.ds16(0x9978, 0x55)                            # side 0's word DS:9978
+        r.run("0791:C5DC", [7, 15, 1], answers({"1771:0B77": [1, 1, 0], "1771:3216": unavailable}))
+        return r, rec
+
+    def test_unavailable_captain_word_replaced_around_230c(self):
+        """C76A-C79D and C7B9-C7CC: a managed side whose word DS:9978 + 10 side is unavailable (3216): the word := its
+        country's first squad word, flagged at [bp - 6 + side], 230C, then the word := 0."""
+        r, rec = self.captain_rig(1)
+        self.assertEqual(r.written("0791:C79D"), [(0x9978, 2, 0x61)])
+        self.assertEqual(r.written("0791:C7CC"), [(0x9978, 2, 0)])
+        self.assertEqual(r.targets()[-1], ("0791:230C", "0791:C7AA"))
+        self.assertEqual(r.mem.u8(BP0 - 6), 1)
+
+    def test_available_captain_word_kept(self):
+        """The reached twin (C76C je C7A1): the word available: neither written."""
+        r, rec = self.captain_rig(0)
+        self.assertEqual(r.written("0791:C79D") + r.written("0791:C7CC"), [])
 
 
 if __name__ == "__main__":

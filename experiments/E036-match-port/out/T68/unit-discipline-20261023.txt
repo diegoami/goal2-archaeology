@@ -1,0 +1,57 @@
+test_injury_written_as_7dd9 (tests.test_port_discipline.EventWriters.test_injury_written_as_7dd9)
+7DD1-7DD9: the side's injuries DS:7B87 + 10 side +1, written by 7DD9 (match.py WRITERS["injury"]) and by no ... ok
+test_no_injury_when_the_side_may_lose_no_more (tests.test_port_discipline.EventWriters.test_no_injury_when_the_side_may_lose_no_more)
+The twin at 7D76: 7A43 answers 0: nothing is written. ... ok
+test_substitution_written_as_c7dc (tests.test_port_discipline.EventWriters.test_substitution_written_as_c7dc)
+C7D6-C7DC: the side's substitutions left DS:9B3A + side -1, written by C7DC (WRITERS["substitution"]) and by ... ok
+test_first_yellow_books (tests.test_port_discipline.FoulDispatch.test_first_yellow_books)
+The reached twin (7F44): no booking yet (0C57 false): 798D(his record). ... ok
+test_second_yellow_sends_off (tests.test_port_discipline.FoulDispatch.test_second_yellow_sends_off)
+7F0E-7F42: a table byte below 4 (261A) with the fouler's status +0x10 holding element 5 (a booking already, ... ok
+test_the_softer_player_is_injured (tests.test_port_discipline.FoulDispatch.test_the_softer_player_is_injured)
+7F65-7FC8: a second table byte of 1 injures (7D56) the one of DS:830C and DS:830B of lower hardness ... ok
+test_budget_0_fit_player_goes_on (tests.test_port_discipline.SubstitutionBudget.test_budget_0_fit_player_goes_on)
+The twin past C8CE (+0xE = 1, signed >= 1): the map is cleared (214B:0018 on DS:99A2, 14 bytes), C7EB and ... ok
+test_budget_0_injured_only_the_forced_swap (tests.test_port_discipline.SubstitutionBudget.test_budget_0_injured_only_the_forced_swap)
+C899-C8DB: with no substitution left (DS:9B3A + side = 0) and the outgoing player injured (+0xE < 1) the ... ok
+test_computer_side_with_budget_0_is_not_scanned (tests.test_port_discipline.SubstitutionBudget.test_computer_side_with_budget_0_is_not_scanned)
+8111-8118: an unmanaged side (1771:0B77 0) with DS:9B3A + side = 0 is skipped: no status test 214B:0C57. ... ok
+test_computer_side_with_budget_1_is_scanned (tests.test_port_discipline.SubstitutionBudget.test_computer_side_with_budget_1_is_scanned)
+The reached twin (811B): side 1 with one substitution left: squad slots 11 down to 1 tested (0C57(6, status), ... ok
+test_ahead_takes_three_elements_out (tests.test_port_discipline.TacticShift.test_ahead_takes_three_elements_out)
+BFBF-BFD7: the direction clear: the three elements taken out (214B:0CA1). ... ok
+test_behind_adds_three_elements (tests.test_port_discipline.TacticShift.test_behind_adds_three_elements)
+BF9F-BFBD: the direction set: BD83(side), then three rand(6) elements added to the country's tactics +0x2D ... ok
+test_two_ahead_shifts_back (tests.test_port_discipline.TacticShift.test_two_ahead_shifts_back)
+C1C1-C1FC: a computer side two goals ahead (|DS:9B3C - DS:9B3D| = 2, its goals above the other's) calls ... ok
+test_two_behind_shifts_forward (tests.test_port_discipline.TacticShift.test_two_behind_shifts_forward)
+C1FE-C209: two goals behind: BF6B(1, side, C173's BP). ... ok
+test_available_captain_word_kept (tests.test_port_discipline.Unreached.test_available_captain_word_kept)
+The reached twin (C76C je C7A1): the word available: neither written. ... ok
+test_formation_row_empty_with_a_foot (tests.test_port_discipline.Unreached.test_formation_row_empty_with_a_foot)
+AB66-AB6E: a foot for the position (Pos 2) and a row of 0 entries: nothing is tested, the answer 0. ... ok
+test_formation_row_with_a_foot (tests.test_port_discipline.Unreached.test_formation_row_with_a_foot)
+The reached twin (AB71): one entry, its bench slot 14 two-footed (3041): the pick is 14. ... ok
+test_injury_of_an_unavailable_player (tests.test_port_discipline.Unreached.test_injury_of_an_unavailable_player)
+7D65-7D7A: the record is unavailable (2956 true): nothing is asked or written. ... ok
+test_keeper_pick_foot_matches (tests.test_port_discipline.Unreached.test_keeper_pick_foot_matches)
+AAA3: Pos 2 (not above 3: foot 0) and slot 12's foot 0: not halved, 0x40 beats 0x30: the pick is 12. ... ok
+test_keeper_pick_with_a_foot (tests.test_port_discipline.Unreached.test_keeper_pick_with_a_foot)
+AA6B-AAB7: the position has a foot (Pos 5 > 3: foot 1): slot 12 (0x40), one-footed (3041 0) with foot 0, is ... ok
+test_keeper_pick_with_no_bench_slot (tests.test_port_discipline.Unreached.test_keeper_pick_with_no_bench_slot)
+A9FF-AA07: the last squad slot below 12: no slot is tested, the answer 0. ... ok
+test_keeper_pick_without_a_foot (tests.test_port_discipline.Unreached.test_keeper_pick_without_a_foot)
+The reached twin (AA6F jbe AABA): Pos 0: no foot test, the higher value wins: 12. ... ok
+test_one_goal_gap_resets (tests.test_port_discipline.Unreached.test_one_goal_gap_resets)
+The reached twin (C1B8): a gap below 2: BD83(side). ... ok
+test_three_ahead_excludes (tests.test_port_discipline.Unreached.test_three_ahead_excludes)
+C20B-C234 for side 0 (C215): more than two goals ahead: C0DF(side, C173's BP). ... ok
+test_three_behind_includes (tests.test_port_discipline.Unreached.test_three_behind_includes)
+C236-C23E: more than two goals behind: C01A(side, C173's BP). ... ok
+test_unavailable_captain_word_replaced_around_230c (tests.test_port_discipline.Unreached.test_unavailable_captain_word_replaced_around_230c)
+C76A-C79D and C7B9-C7CC: a managed side whose word DS:9978 + 10 side is unavailable (3216): the word := its ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 0.562s
+
+OK
