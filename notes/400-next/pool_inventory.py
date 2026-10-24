@@ -1,7 +1,7 @@
 """Read-only second inventory, includes the original manager's80 pool words.
 
 1771:027B block14 is pool_indices; the table DS:6D1A..6D24 gives
-1,81,161,241,321,401 for managers1..6 (data/ds_2581_02.hex).
+1,81,161,241,321,401 for managers1..6 (data/ds_2581_03.hex).
 """
 import hashlib,json,subprocess
 from pathlib import Path

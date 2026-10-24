@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Bounded native original-key collection from an existing hash-verified .GL.
 
-No guest-memory/register edits or native-state restore. Every observation is
+No guest-memory/register edits; normal replay requires verified identical mounts. Every observation is
 kept privately and every key/CPU/caller observation is recorded append-only.
 """
 import hashlib,json,shutil,subprocess,sys,time
@@ -40,6 +40,7 @@ def main():
     targets=(3,4) if resume else (3,4,5);rec['target_roles']=targets
     game=private/'game';work=private/'driver';start_state=None
     if resume:
+        rec['method']='Normal replay of a genuine native input on verified identical C/D mounts; original keys; no guest edits or CPU entry manipulation'
         previous=resume.parent;old=json.loads((ROOT/'notes/400-next'/previous.name/'record.json').read_text());assert old['status']=='target captured'
         game=previous/'game';work=previous/'driver';conf=(work/'dosbox.conf').read_bytes()
         mounts=[l for l in conf.decode().splitlines() if l.startswith('mount ')]

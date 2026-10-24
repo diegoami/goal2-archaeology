@@ -1,0 +1,205 @@
+{
+  "schema": "T89-original-inputs/1",
+  "covered_roles": [
+    5
+  ],
+  "remaining": [
+    "role3_penalty",
+    "role4_free_kick",
+    "E062_no_player",
+    "EC60_vacancy"
+  ],
+  "source": "G3B.GL",
+  "source_sha256": "e7bedd5507e4b16f38973b8fc9b113da01435f74935f5c8eb5e61ce843faeb8c",
+  "inputs": [
+    {
+      "step": 20,
+      "file": "t89-cd047f4a697e5244-goal-kick-before-space.sav",
+      "sha256": "cd047f4a697e5244ea11e1609138ca45d8d070754ce857ea89f6459f78eef482",
+      "preceding_file": "t89-40587fe09717d687-preceding-20.sav",
+      "preceding_sha256": "40587fe09717d687fe4ed1c9979dc9dc17aabce93bd1a89f227d8d0b7fc9e771",
+      "frame": {
+        "cpu": "214B:1E4A",
+        "site": "CC2E delay before CC4F/CC54",
+        "ss": 14453,
+        "sp": 15928,
+        "anchor": "saved CPU BP",
+        "chain": [
+          {
+            "bp": 15936,
+            "parent": 15948,
+            "return_offset": 52325
+          },
+          {
+            "bp": 15948,
+            "parent": 15968,
+            "return_offset": 52953
+          },
+          {
+            "bp": 15968,
+            "parent": 15978,
+            "return_offset": 28020
+          }
+        ],
+        "role": 5,
+        "side": 0,
+        "country": 20,
+        "country_name": "Holland",
+        "highlight": 4,
+        "selection": 383,
+        "stored": 383,
+        "eleven": [
+          381,
+          393,
+          384,
+          383,
+          382,
+          395,
+          2575,
+          387,
+          388,
+          2748,
+          400
+        ],
+        "selected_status": 0,
+        "selected_position": 2,
+        "minute": 6,
+        "rng_main": 31813,
+        "rng_aux": 0,
+        "build_problems": []
+      },
+      "private": "goal2drive:goal2-archaeology/400-next-inputs-20261024/t89-cd047f4a697e5244-goal-kick-before-space.sav",
+      "readback": ".cache/400-next/readback/t89-cd047f4a697e5244-goal-kick-before-space.sav",
+      "preceding_readback": ".cache/400-next/readback/t89-40587fe09717d687-preceding-20.sav"
+    },
+    {
+      "step": 21,
+      "file": "t89-21e794f7867309dc-goal-kick-CF3A.sav",
+      "sha256": "21e794f7867309dcacb2d6d034878a76fedef972619cf490e947b55dded96710",
+      "preceding_file": "t89-cd047f4a697e5244-preceding-21.sav",
+      "preceding_sha256": "cd047f4a697e5244ea11e1609138ca45d8d070754ce857ea89f6459f78eef482",
+      "frame": {
+        "cpu": "F000:CFAB",
+        "site": "0791:CF3A",
+        "ss": 14453,
+        "sp": 15908,
+        "anchor": "live08DD frame in current BIOS read",
+        "chain": [
+          {
+            "bp": 15948,
+            "parent": 15968,
+            "return_offset": 53050
+          },
+          {
+            "bp": 15968,
+            "parent": 15978,
+            "return_offset": 28020
+          }
+        ],
+        "role": 5,
+        "side": 0,
+        "country": 20,
+        "country_name": "Holland",
+        "highlight": 4,
+        "selection": 383,
+        "stored": 383,
+        "eleven": [
+          381,
+          393,
+          384,
+          383,
+          382,
+          395,
+          2575,
+          387,
+          388,
+          2748,
+          400
+        ],
+        "selected_status": 0,
+        "selected_position": 2,
+        "minute": 6,
+        "rng_main": 31813,
+        "rng_aux": 0,
+        "build_problems": []
+      },
+      "private": "goal2drive:goal2-archaeology/400-next-inputs-20261024/t89-21e794f7867309dc-goal-kick-CF3A.sav",
+      "readback": ".cache/400-next/readback/t89-21e794f7867309dc-goal-kick-CF3A.sav",
+      "preceding_readback": ".cache/400-next/readback/t89-cd047f4a697e5244-preceding-21.sav"
+    },
+    {
+      "step": 22,
+      "file": "t89-58c1d8107a1269ec-goal-kick-after-pitch.sav",
+      "sha256": "58c1d8107a1269ec90988104fa82473748b5eda4d25c5ba9a08b26bb498039bf",
+      "preceding_file": "t89-21e794f7867309dc-preceding-22.sav",
+      "preceding_sha256": "21e794f7867309dcacb2d6d034878a76fedef972619cf490e947b55dded96710",
+      "frame": {
+        "cpu": "214B:1E40",
+        "site": "CC2E delay before CC4F/CC54",
+        "ss": 14453,
+        "sp": 15928,
+        "anchor": "saved CPU BP",
+        "chain": [
+          {
+            "bp": 15936,
+            "parent": 15948,
+            "return_offset": 52325
+          },
+          {
+            "bp": 15948,
+            "parent": 15968,
+            "return_offset": 52953
+          },
+          {
+            "bp": 15968,
+            "parent": 15978,
+            "return_offset": 28020
+          }
+        ],
+        "role": 5,
+        "side": 0,
+        "country": 20,
+        "country_name": "Holland",
+        "highlight": 4,
+        "selection": 383,
+        "stored": 383,
+        "eleven": [
+          381,
+          393,
+          384,
+          383,
+          382,
+          395,
+          2575,
+          387,
+          388,
+          2748,
+          400
+        ],
+        "selected_status": 0,
+        "selected_position": 2,
+        "minute": 6,
+        "rng_main": 31813,
+        "rng_aux": 0,
+        "build_problems": []
+      },
+      "private": "goal2drive:goal2-archaeology/400-next-inputs-20261024/t89-58c1d8107a1269ec-goal-kick-after-pitch.sav",
+      "readback": ".cache/400-next/readback/t89-58c1d8107a1269ec-goal-kick-after-pitch.sav",
+      "preceding_readback": ".cache/400-next/readback/t89-21e794f7867309dc-preceding-22.sav"
+    }
+  ],
+  "package": {
+    "sha256": "56d3b7e1a551667e19166b33f28ceccf374eb0fc8c4b80ae4d72f465d7709844",
+    "bytes": 28594535,
+    "private": "goal2drive:goal2-archaeology/400-next-inputs-20261024/t89-all-attempts-private.zip",
+    "readback": ".cache/400-next/readback/t89-all-attempts-private.zip"
+  },
+  "core_inventory_package": {
+    "sha256": "8ab0dd07a782cbaece52240b2742e0a76dd4f68b442df222f10a9b25af10a41e",
+    "bytes": 2455034,
+    "private": "goal2drive:goal2-archaeology/400-next-inputs-20261024/t89-core-vacancy-inventory-private.zip",
+    "readback": ".cache/400-next/readback/t89-core-vacancy-inventory-private.zip"
+  },
+  "private_folder_url": "https://drive.google.com/drive/folders/1TDVXoWa1EV1HRl6EeUkY6d3EHYFmmJP2",
+  "readback_verified": true
+}
