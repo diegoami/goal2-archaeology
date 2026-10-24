@@ -146,7 +146,7 @@ def main():
    m.stop_reason='read';row=key(13)
    assert 'There is no player here' in row['text']
    assert row['reason']=='read'
-   row=key(13);assert row['reason']=='read' and row['site']=='0791:E654'
+   row=key(13);assert row['reason']=='read' and row['site']=='0791:E61F'
   else:
    row=run('EA09 from synthetic call frame; original ordered checks')
    assert 'has a vacancy in the first team' in row['text'] and row['reason']=='read'
