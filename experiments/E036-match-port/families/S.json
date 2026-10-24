@@ -1,6 +1,6 @@
 {
   "family": "S",
-  "reference": "experiments/E036-match-port/families/S-no-managed-side-reference-20261024-v1.jsonl",
+  "reference": "experiments/E036-match-port/families/S-set-piece-taker-reference-20261024-v1.jsonl",
   "description": "The kit's scenarios as code: E033's stamps.py and paths.py (decisions at pauses and half time, seed 70's injury, seed 4 going in hard for sendings off, quick results from minutes 1 and 30, a quick result after answers) and E034's stamps_competitive.py (kind 200 at calendar numbers 39 with goal2's budget of 5, 42 with sudden death, 30 decided in extra time, quick results at 9 and 53, goal2 managing country 19, a qualifier), with the answer policy of each (families.py). The speed byte is left as the image holds it, as those scripts did.",
   "base": {"fixture": [7, 19, 21, 1], "managed": 7, "seed": null, "delay_byte": null, "substitutions": null, "edits": [], "policy": {"name": "PlayOn", "contexts": ["half_time", "substitution"]}},
   "edit_sets": {"go-in-hard": [{"target": "country", "country": 7, "offset": 45, "op": "or", "value": 8}]},
@@ -19,6 +19,7 @@
     {"id": "S/ko-9-quick", "fixture": [7, 19, 9, 200], "policy": {"name": "QuickAtHalfTime", "contexts": ["half_time", "substitution", "extra_time", "shootout_order"]}},
     {"id": "S/ko-53-quick", "fixture": [7, 19, 53, 200], "policy": {"name": "QuickAtHalfTime", "contexts": ["half_time", "substitution", "extra_time", "shootout_order"]}},
     {"id": "S/ko-42-quick-g19", "fixture": [7, 19, 42, 200], "managed": 19, "policy": {"name": "QuickAtHalfTime", "contexts": ["half_time", "substitution", "extra_time", "shootout_order"]}},
-    {"id": "S/qualifier-21", "fixture": [7, 19, 21, 2]}
+    {"id": "S/qualifier-21", "fixture": [7, 19, 21, 2]},
+    {"id": "S/set-piece-taker", "policy": {"name": "SetPieceTaker", "contexts": ["half_time", "substitution", "set_piece"]}}
   ]
 }

@@ -114,6 +114,38 @@ class ScreenDriverTests(unittest.TestCase):
         self.assertEqual(len(q.refused), 1)
 
 
+@unittest.skipUnless(IMAGE.is_file(), "the E006-r0001 image (.cache/dl) missing")
+class SetPieceTests(unittest.TestCase):
+    def test_original_accepts_chosen_taker_and_unanswered_keeps_pick(self):
+        from original_match import Match, Fixture
+        image = Image.from_savestate(IMAGE.read_bytes())
+        for choose in (False, True):
+            m = Match(image, Fixture(7, 19, index=21), managed=7, set_piece=True)
+            accepted = []
+            m.m.at("0791:D010", lambda replay: replay or accepted.append(m.m.reg("ax")))
+            decision = None
+            for ev in m.events():
+                if ev.kind == "decision":
+                    if ev.data["context"] == "set_piece":
+                        decision = ev.data
+                        target = next(w for w in reversed(decision["available"]) if w != decision["current"])
+                        with self.assertRaises(ValueError):
+                            m.answer(taker=0)
+                        with self.assertRaises(ValueError):
+                            m.answer(taker=target, quick=True)
+                        m.answer(taker=target) if choose else m.answer()
+                    else:
+                        m.answer()
+                elif ev.kind == "set_piece":
+                    self.assertIsNotNone(decision)
+                    self.assertEqual(ev.data["player"], target if choose else decision["current"])
+                    self.assertEqual(ev.data["role"], decision["role"])
+                    self.assertEqual(accepted[-1], ev.data["player"])
+                    break
+            else:
+                self.fail("the original never accepted a set-piece taker")
+
+
 class ImageTests(unittest.TestCase):
     def test_load_segment_from_mcb(self):
         memory = bytearray(0x110000)
