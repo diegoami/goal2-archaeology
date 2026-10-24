@@ -850,7 +850,7 @@ void __stdcall16far u214b_delay_ms(int param_1)
 
 
 // ---- 214B:1E5A  u214b_sound_toggle_mute  (f_214B_1E5A; Ghidra 7000:1E5A, __cdecl16far; found by routines.tsv)
-// Turns the speaker off (1E8D) and flips the sound-disabled flag DS:A9FC  [likely; read decompiled/seg_214B_02.c]
+// Python port retains the sound-disabled byte, caller frame and 1E8D call; turns the speaker off and flips DS:A9FC (ordinary watched-match key A7 at 0791:9499)  [likely; read decompiled/seg_214B_02.c; read code/seg_214B_04.asm:113-158; read code/seg_0791_15.asm]
 
 void __cdecl16far u214b_sound_toggle_mute(void)
 
@@ -879,7 +879,7 @@ void __cdecl16far u214b_speaker_on(void)
 
 
 // ---- 214B:1E8D  u214b_speaker_off  (f_214B_1E8D; Ghidra 7000:1E8D, __cdecl16far; found by routines.tsv)
-// If sound enabled: clears port 61h bits 0 and 1 (speaker off)  [likely; read decompiled/seg_214B_02.c]
+// Python port retains the saved frame and AL result of the kit's unhandled port input (zero when sound enabled); hardware speaker output is omitted; original clears port 61h bits 0 and 1 when DS:A9FC is zero  [likely; read decompiled/seg_214B_02.c; read code/seg_214B_04.asm:146-158]
 
 void __cdecl16far u214b_speaker_off(void)
 

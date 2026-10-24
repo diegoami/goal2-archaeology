@@ -1,0 +1,21 @@
+[
+  "/home/diego/.local/bin/python3.12",
+  "-B",
+  "experiments/E036-match-port/family.py",
+  "--family",
+  "ALL",
+  "--only",
+  "F40/e032-0101,F40/e032-1234,F40/e032-2345",
+  "--ports",
+  "all",
+  "--count",
+  "214B:1E5A,214B:1E8D",
+  "--workers",
+  "2",
+  "--time-limit",
+  "1800",
+  "--stretch-limit",
+  "300",
+  "--out",
+  "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/m4-408/samples-1/shard-0.jsonl"
+]

@@ -1,0 +1,1 @@
+{"command": ["tools/heavy.sh", "--slots", "8", "m4-408-static-unit", "--", "/home/diego/.local/bin/python3.12", "-B", "-m", "unittest", "tests.static.test_annotations", "tests.test_port_display"], "exit": 0}

@@ -1,0 +1,1727 @@
+{
+  "owner_decision": "2026-10-24: statically check all 31 original B removals for state writes, including unvisited routines",
+  "candidate_reviewed": "6342c48dda5c513dca8df39101475695134683fb",
+  "method": "Named bodies then raw listings and direct callers; transitive writes are explicitly listed, not excluded by a direct-store scan",
+  "original_census": "experiments/E036-match-port/out/T73/coverage-unported-desktop-20261023/coverage-unported.jsonl",
+  "census_sha256": "75d8690088e5c39462642c1decea65ba2a5abc51116ca13efe11ced65fee055c",
+  "census_matches": 62,
+  "audited": 31,
+  "mask_changed": false,
+  "scope_warning": "This is a static inventory. Zero calls do not prove unreachability or removability. Unreached stateful stubs remain an explicit coverage limit; no arbitrary-input or standalone equivalence is claimed.",
+  "rows": [
+    {
+      "address": "0791:006C",
+      "classification": "observed-output-elision",
+      "original_nonstack_and_callee_effects": "Local ratio/frame; two 00DB calls write attributes through DS:A96E. No direct global scalar store.",
+      "scope_and_limit": "Sole caller 0106 replaces scratch result; output/stack equivalence is bounded by the B ablation and joint ALL62, not arbitrary destinations.",
+      "native_ALL62_calls": 232,
+      "raw": {
+        "file": "static/goal-exe/code/seg_0791_01.asm",
+        "line": 62,
+        "sha256": "a785c7efdfb54bab19ca5b3eea73a19548a61a46512f79c653559e1cba080688"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_0791_01.c",
+        "line": 38
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "00A4",
+          "line": 86,
+          "instruction": "mov word ptr [bp - 2], ax"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "00C4",
+          "line": 99,
+          "instruction": "call far 214B:00DB"
+        },
+        {
+          "pc": "00F6",
+          "line": 119,
+          "instruction": "call far 214B:00DB"
+        }
+      ],
+      "direct_callers": [
+        "0791:0106"
+      ],
+      "direct_callees": [
+        "214B:00DB"
+      ]
+    },
+    {
+      "address": "0791:0425",
+      "classification": "observed-output-elision",
+      "original_nonstack_and_callee_effects": "Saved BP and optional 1E09 busy-wait/frame; no direct persistent scalar store.",
+      "scope_and_limit": "Calls from 72F2,798D,7E60,94E8,970C; omission is the declared elapsed-delay boundary, not a no-stack-write claim.",
+      "native_ALL62_calls": 5874294,
+      "raw": {
+        "file": "static/goal-exe/code/seg_0791_01.asm",
+        "line": 483,
+        "sha256": "a785c7efdfb54bab19ca5b3eea73a19548a61a46512f79c653559e1cba080688"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_0791_01.c",
+        "line": 193
+      },
+      "explicit_memory_destination_instructions": [],
+      "calls_or_interrupts": [
+        {
+          "pc": "0436",
+          "line": 491,
+          "instruction": "call far 214B:1E09"
+        }
+      ],
+      "direct_callers": [
+        "0791:72F2",
+        "0791:798D",
+        "0791:7E60",
+        "0791:94E8",
+        "0791:970C"
+      ],
+      "direct_callees": [
+        "214B:1E09"
+      ]
+    },
+    {
+      "address": "1771:0AF8",
+      "classification": "observed-output-elision",
+      "original_nonstack_and_callee_effects": "Local manager pointer; 026D writes a status string through DS:A96E.",
+      "scope_and_limit": "157D reloads the next country expression; zero-manager and visited status bands bound the existing ALL proof.",
+      "native_ALL62_calls": 21,
+      "raw": {
+        "file": "static/goal-exe/code/seg_1771_02.asm",
+        "line": 39,
+        "sha256": "22d7089c0f0bc9b7dcb78d51531e127ec9e13db7c8c5d5627aca26b0103a21ec"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_1771_01.c",
+        "line": 545
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "0B0C",
+          "line": 49,
+          "instruction": "mov word ptr [bp - 4], di"
+        },
+        {
+          "pc": "0B0F",
+          "line": 50,
+          "instruction": "mov word ptr [bp - 2], es"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "0B34",
+          "line": 66,
+          "instruction": "call far 214B:026D"
+        },
+        {
+          "pc": "0B6C",
+          "line": 92,
+          "instruction": "call far 214B:026D"
+        }
+      ],
+      "direct_callers": [
+        "000E:724A",
+        "1771:157D"
+      ],
+      "direct_callees": [
+        "214B:026D"
+      ]
+    },
+    {
+      "address": "1771:1527",
+      "classification": "observed-output-elision",
+      "original_nonstack_and_callee_effects": "Local country pointer; 10E7 is read-only except its frame; 026D writes the rating label through DS:A96E.",
+      "scope_and_limit": "157D reloads a manager byte after this call. Buffer/stack omission remains observational, not state-free.",
+      "native_ALL62_calls": 21,
+      "raw": {
+        "file": "static/goal-exe/code/seg_1771_03.asm",
+        "line": 6,
+        "sha256": "3061f1a54d1ab95422f7c76708f2a1951e5a41eb4eee8a5e074b579caf94ac27"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_1771_01.c",
+        "line": 1062
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "153B",
+          "line": 16,
+          "instruction": "mov word ptr [bp - 4], di"
+        },
+        {
+          "pc": "153E",
+          "line": 17,
+          "instruction": "mov word ptr [bp - 2], es"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "1545",
+          "line": 20,
+          "instruction": "call 0x10e7"
+        },
+        {
+          "pc": "1570",
+          "line": 41,
+          "instruction": "call far 214B:026D"
+        }
+      ],
+      "direct_callers": [
+        "1771:157D"
+      ],
+      "direct_callees": [
+        "1771:10E7",
+        "214B:026D"
+      ]
+    },
+    {
+      "address": "1771:3947",
+      "classification": "observed-overwritten-global",
+      "original_nonstack_and_callee_effects": "Direct DS:AAB2=70h at 3961; locals and twelve 00DB attribute writes through DS:A96E.",
+      "scope_and_limit": "Sole caller 42BC:4651. Later status paths set an explicit attribute or AAB2=15 at 47CD before further current-attribute reads; see frozen ablation-static-1.md. Not a no-global-write routine.",
+      "native_ALL62_calls": 638,
+      "raw": {
+        "file": "static/goal-exe/code/seg_1771_05.asm",
+        "line": 955,
+        "sha256": "4a856a9af9dee3d93fe6e6275ead612d2d3ba4c81363389c68fa5424ca8483d9"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_1771_03.c",
+        "line": 427
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "395B",
+          "line": 965,
+          "instruction": "mov word ptr [bp - 0xa], di"
+        },
+        {
+          "pc": "395E",
+          "line": 966,
+          "instruction": "mov word ptr [bp - 8], es"
+        },
+        {
+          "pc": "3961",
+          "line": 967,
+          "instruction": "mov byte ptr [0xaab2], 0x70"
+        },
+        {
+          "pc": "396F",
+          "line": 971,
+          "instruction": "mov word ptr [bp - 4], ax"
+        },
+        {
+          "pc": "3972",
+          "line": 972,
+          "instruction": "inc word ptr [bp - 4]"
+        },
+        {
+          "pc": "3975",
+          "line": 973,
+          "instruction": "mov word ptr [bp - 2], 1"
+        },
+        {
+          "pc": "397C",
+          "line": 976,
+          "instruction": "inc word ptr [bp - 2]"
+        },
+        {
+          "pc": "39B6",
+          "line": 999,
+          "instruction": "mov word ptr [bp - 6], ax"
+        },
+        {
+          "pc": "39C6",
+          "line": 1005,
+          "instruction": "mov word ptr [bp - 6], ax"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "39F2",
+          "line": 1023,
+          "instruction": "call far 214B:00DB"
+        }
+      ],
+      "direct_callers": [
+        "1771:42BC"
+      ],
+      "direct_callees": [
+        "214B:00DB"
+      ]
+    },
+    {
+      "address": "1771:50F1",
+      "classification": "unreached-stateful",
+      "original_nonstack_and_callee_effects": "Via 1560, writes DS:0C1B cursor and key state. Conditional 4859 edits player-name data; 4E22 writes display buffers. Own locals also change.",
+      "scope_and_limit": "Callers E949 and 26B9. E949 unmanaged branch enters it; no ordinary-input witness is supplied by ALL62. Not proved generally removable.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_1771_07.asm",
+        "line": 948,
+        "sha256": "e943fc49b22bc84c0fc8713195182361a989da17106912ef01312611af04ecf5"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_1771_04.c",
+        "line": 385
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "5105",
+          "line": 958,
+          "instruction": "mov word ptr [bp - 7], di"
+        },
+        {
+          "pc": "5108",
+          "line": 959,
+          "instruction": "mov word ptr [bp - 5], es"
+        },
+        {
+          "pc": "5130",
+          "line": 978,
+          "instruction": "mov byte ptr [bp - 1], al"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "5112",
+          "line": 964,
+          "instruction": "call 0x4e22"
+        },
+        {
+          "pc": "511E",
+          "line": 970,
+          "instruction": "call far 214B:1560"
+        },
+        {
+          "pc": "5137",
+          "line": 981,
+          "instruction": "call far 23E4:19B2"
+        },
+        {
+          "pc": "5157",
+          "line": 994,
+          "instruction": "call 0x4859"
+        },
+        {
+          "pc": "516D",
+          "line": 1006,
+          "instruction": "call 0x4faa"
+        }
+      ],
+      "direct_callers": [
+        "0791:E949",
+        "1771:26B9"
+      ],
+      "direct_callees": [
+        "1771:4859",
+        "1771:4E22",
+        "1771:4FAA",
+        "214B:1560",
+        "23E4:19B2"
+      ]
+    },
+    {
+      "address": "1771:5C94",
+      "classification": "unreached-return-value",
+      "original_nonstack_and_callee_effects": "Frame/locals and AX fixture-winner result; no direct heap/global store.",
+      "scope_and_limit": "Return is meaningful to campaign and bracket callers. Incoming-AX stub is not a general implementation; census supplies no execution proof.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_1771_08.asm",
+        "line": 1073,
+        "sha256": "095098013452e8206c929eb558f8e96fab7483d63e2911924601ac1eaefa8bb4"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_1771_04.c",
+        "line": 929
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "5C9D",
+          "line": 1079,
+          "instruction": "mov word ptr [bp - 6], di"
+        },
+        {
+          "pc": "5CA0",
+          "line": 1080,
+          "instruction": "mov word ptr [bp - 4], es"
+        },
+        {
+          "pc": "5CBF",
+          "line": 1094,
+          "instruction": "mov word ptr [bp - 2], ax"
+        }
+      ],
+      "calls_or_interrupts": [],
+      "direct_callers": [
+        "000E:6685",
+        "1771:602D",
+        "1771:6103",
+        "1771:6E59",
+        "1771:71B2",
+        "1771:74BE",
+        "1771:91CE",
+        "1771:937C"
+      ],
+      "direct_callees": []
+    },
+    {
+      "address": "1771:5CCB",
+      "classification": "unreached-return-value",
+      "original_nonstack_and_callee_effects": "Frame/locals and AX fixture-loser result; no direct heap/global store.",
+      "scope_and_limit": "Return is meaningful to campaign and bracket callers. Incoming-AX stub is not a general implementation; census supplies no execution proof.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_1771_08.asm",
+        "line": 1100,
+        "sha256": "095098013452e8206c929eb558f8e96fab7483d63e2911924601ac1eaefa8bb4"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_1771_04.c",
+        "line": 942
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "5CD4",
+          "line": 1106,
+          "instruction": "mov word ptr [bp - 6], di"
+        },
+        {
+          "pc": "5CD7",
+          "line": 1107,
+          "instruction": "mov word ptr [bp - 4], es"
+        },
+        {
+          "pc": "5CF6",
+          "line": 1121,
+          "instruction": "mov word ptr [bp - 2], ax"
+        }
+      ],
+      "calls_or_interrupts": [],
+      "direct_callers": [
+        "000E:6685",
+        "1771:602D",
+        "1771:6103",
+        "1771:6E59",
+        "1771:74BE",
+        "1771:91CE",
+        "1771:937C"
+      ],
+      "direct_callees": []
+    },
+    {
+      "address": "1771:883F",
+      "classification": "unreached-stateful",
+      "original_nonstack_and_callee_effects": "Direct DS:AAB2=7 at 8881. 0329/026D/01A3 write template/text; number/character helpers write local strings.",
+      "scope_and_limit": "Callers 9028 and 9509 are also unvisited. This is stateful, not proved pure by a zero count.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_1771_12.asm",
+        "line": 795,
+        "sha256": "94e9f817c8415a94d81e51695c8afe66fb6533268488e160fed1c363268ac892"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_1771_06.c",
+        "line": 618
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "885F",
+          "line": 810,
+          "instruction": "mov word ptr [bp - 4], 5"
+        },
+        {
+          "pc": "887E",
+          "line": 821,
+          "instruction": "mov word ptr [bp - 4], ax"
+        },
+        {
+          "pc": "8881",
+          "line": 823,
+          "instruction": "mov byte ptr [0xaab2], 7"
+        },
+        {
+          "pc": "8886",
+          "line": 824,
+          "instruction": "mov word ptr [bp - 2], 1"
+        },
+        {
+          "pc": "888D",
+          "line": 827,
+          "instruction": "inc word ptr [bp - 2]"
+        },
+        {
+          "pc": "88AD",
+          "line": 840,
+          "instruction": "mov word ptr [bp - 8], di"
+        },
+        {
+          "pc": "88B0",
+          "line": 841,
+          "instruction": "mov word ptr [bp - 6], es"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "8850",
+          "line": 806,
+          "instruction": "call far 214B:0329"
+        },
+        {
+          "pc": "88CA",
+          "line": 851,
+          "instruction": "call far 23E4:075A"
+        },
+        {
+          "pc": "88DE",
+          "line": 860,
+          "instruction": "call far 214B:026D"
+        },
+        {
+          "pc": "88FB",
+          "line": 873,
+          "instruction": "call far 214B:026D"
+        },
+        {
+          "pc": "8911",
+          "line": 882,
+          "instruction": "call far 214B:09DA"
+        },
+        {
+          "pc": "8925",
+          "line": 891,
+          "instruction": "call far 214B:01A3"
+        }
+      ],
+      "direct_callers": [
+        "1771:9028",
+        "1771:9509"
+      ],
+      "direct_callees": [
+        "214B:01A3",
+        "214B:026D",
+        "214B:0329",
+        "214B:09DA",
+        "23E4:075A"
+      ]
+    },
+    {
+      "address": "1771:89C1",
+      "classification": "unreached-stateful",
+      "original_nonstack_and_callee_effects": "0329 writes the DS:A96E target; 13C5 writes selector attributes.",
+      "scope_and_limit": "Reached only through unvisited competition selector/bracket paths in this census. No general no-write claim.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_1771_12.asm",
+        "line": 963,
+        "sha256": "94e9f817c8415a94d81e51695c8afe66fb6533268488e160fed1c363268ac892"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_1771_06.c",
+        "line": 702
+      },
+      "explicit_memory_destination_instructions": [],
+      "calls_or_interrupts": [
+        {
+          "pc": "89CE",
+          "line": 973,
+          "instruction": "call far 214B:0329"
+        },
+        {
+          "pc": "89F3",
+          "line": 986,
+          "instruction": "call far 214B:13C5"
+        }
+      ],
+      "direct_callers": [
+        "1771:8A5D",
+        "1771:937C"
+      ],
+      "direct_callees": [
+        "214B:0329",
+        "214B:13C5"
+      ]
+    },
+    {
+      "address": "1771:89FE",
+      "classification": "unreached-stateful",
+      "original_nonstack_and_callee_effects": "13C5 writes selector attributes via the current buffer pointer; own frame/local pointer writes.",
+      "scope_and_limit": "89FE is called by 8A5D. Zero execution is not a proof that buffer effects are disposable.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_1771_12.asm",
+        "line": 991,
+        "sha256": "94e9f817c8415a94d81e51695c8afe66fb6533268488e160fed1c363268ac892"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_1771_06.c",
+        "line": 718
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "8A16",
+          "line": 1002,
+          "instruction": "mov word ptr [bp - 4], di"
+        },
+        {
+          "pc": "8A19",
+          "line": 1003,
+          "instruction": "mov word ptr [bp - 2], es"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "8A52",
+          "line": 1025,
+          "instruction": "call far 214B:13C5"
+        }
+      ],
+      "direct_callers": [
+        "1771:8A5D"
+      ],
+      "direct_callees": [
+        "214B:13C5"
+      ]
+    },
+    {
+      "address": "1771:8A5D",
+      "classification": "unreached-stateful",
+      "original_nonstack_and_callee_effects": "0329 template writes plus the 89C1/89FE attribute writes.",
+      "scope_and_limit": "Callers include retained 8E9A and unvisited 9028/91CE. No static unreachability claim is made.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_1771_12.asm",
+        "line": 1030,
+        "sha256": "94e9f817c8415a94d81e51695c8afe66fb6533268488e160fed1c363268ac892"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_1771_06.c",
+        "line": 740
+      },
+      "explicit_memory_destination_instructions": [],
+      "calls_or_interrupts": [
+        {
+          "pc": "8A6A",
+          "line": 1040,
+          "instruction": "call far 214B:0329"
+        },
+        {
+          "pc": "8A72",
+          "line": 1042,
+          "instruction": "call 0x89c1"
+        },
+        {
+          "pc": "8A7E",
+          "line": 1046,
+          "instruction": "call 0x89fe"
+        }
+      ],
+      "direct_callers": [
+        "1771:8E9A",
+        "1771:9028",
+        "1771:91CE"
+      ],
+      "direct_callees": [
+        "1771:89C1",
+        "1771:89FE",
+        "214B:0329"
+      ]
+    },
+    {
+      "address": "1771:8CCF",
+      "classification": "unreached-stateful",
+      "original_nonstack_and_callee_effects": "Fixture/name/score drawing writes buffers; conditional 02C8 also sets DS:AAB2. Own fixture pointer locals change.",
+      "scope_and_limit": "Bracket callers 8D84/91CE/937C; no execution witness in ALL62.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_1771_13.asm",
+        "line": 30,
+        "sha256": "a26df2cd5199eadad256aca26bf2ad3507eedddb171823069d54bc4e3ff1127d"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_1771_06.c",
+        "line": 859
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "8CEF",
+          "line": 45,
+          "instruction": "mov word ptr [bp - 4], di"
+        },
+        {
+          "pc": "8CF2",
+          "line": 46,
+          "instruction": "mov word ptr [bp - 2], es"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "8D06",
+          "line": 53,
+          "instruction": "call 0xfb1"
+        },
+        {
+          "pc": "8D1C",
+          "line": 62,
+          "instruction": "call 0xfb1"
+        },
+        {
+          "pc": "8D39",
+          "line": 74,
+          "instruction": "call 0x76fa"
+        },
+        {
+          "pc": "8D79",
+          "line": 103,
+          "instruction": "call far 214B:02C8"
+        }
+      ],
+      "direct_callers": [
+        "1771:8D84",
+        "1771:91CE",
+        "1771:937C"
+      ],
+      "direct_callees": [
+        "1771:0FB1",
+        "1771:76FA",
+        "214B:02C8"
+      ]
+    },
+    {
+      "address": "1771:8D84",
+      "classification": "unreached-stateful",
+      "original_nonstack_and_callee_effects": "Locals; transitive name/fixture/8CCF rendering, including the latter conditional AAB2 store.",
+      "scope_and_limit": "Called by retained 8E9A. This audit does not infer unreachability from the sample.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_1771_13.asm",
+        "line": 109,
+        "sha256": "a26df2cd5199eadad256aca26bf2ad3507eedddb171823069d54bc4e3ff1127d"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_1771_06.c",
+        "line": 897
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "8D8E",
+          "line": 115,
+          "instruction": "mov word ptr [bp - 8], di"
+        },
+        {
+          "pc": "8D91",
+          "line": 116,
+          "instruction": "mov word ptr [bp - 6], es"
+        },
+        {
+          "pc": "8DA1",
+          "line": 122,
+          "instruction": "mov word ptr [bp - 2], 1"
+        },
+        {
+          "pc": "8DA8",
+          "line": 125,
+          "instruction": "inc word ptr [bp - 2]"
+        },
+        {
+          "pc": "8DCF",
+          "line": 140,
+          "instruction": "mov word ptr [bp - 4], ax"
+        },
+        {
+          "pc": "8E4D",
+          "line": 192,
+          "instruction": "mov word ptr [bp - 0xc], di"
+        },
+        {
+          "pc": "8E50",
+          "line": 193,
+          "instruction": "mov word ptr [bp - 0xa], es"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "8DEE",
+          "line": 152,
+          "instruction": "call 0x8ca2"
+        },
+        {
+          "pc": "8E2F",
+          "line": 181,
+          "instruction": "call 0x8ccf"
+        },
+        {
+          "pc": "8E88",
+          "line": 216,
+          "instruction": "call 0xf58"
+        }
+      ],
+      "direct_callers": [
+        "1771:8E9A"
+      ],
+      "direct_callees": [
+        "1771:0F58",
+        "1771:8CA2",
+        "1771:8CCF"
+      ]
+    },
+    {
+      "address": "1771:9028",
+      "classification": "unreached-stateful",
+      "original_nonstack_and_callee_effects": "Writes parent SS country/group locals (including 9050,90A5,91C4); 1560 changes parent selection/key state; 883F writes AAB2; renderers write buffers.",
+      "scope_and_limit": "Called by retained 958D. Parent-frame and key effects make it stateful even without a direct default-DS scalar store.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_1771_13.asm",
+        "line": 394,
+        "sha256": "a26df2cd5199eadad256aca26bf2ad3507eedddb171823069d54bc4e3ff1127d"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_1771_07.c",
+        "line": 4
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "9033",
+          "line": 400,
+          "instruction": "mov word ptr [bp - 0xa], di"
+        },
+        {
+          "pc": "9036",
+          "line": 401,
+          "instruction": "mov word ptr [bp - 8], es"
+        },
+        {
+          "pc": "9040",
+          "line": 404,
+          "instruction": "mov word ptr [bp - 6], ax"
+        },
+        {
+          "pc": "9050",
+          "line": 409,
+          "instruction": "mov word ptr ss:[di - 8], 1"
+        },
+        {
+          "pc": "9066",
+          "line": 417,
+          "instruction": "mov word ptr [bp - 4], ax"
+        },
+        {
+          "pc": "90A5",
+          "line": 440,
+          "instruction": "mov word ptr ss:[di - 4], 1"
+        },
+        {
+          "pc": "9137",
+          "line": 504,
+          "instruction": "mov word ptr [bp - 2], 1"
+        },
+        {
+          "pc": "913E",
+          "line": 507,
+          "instruction": "inc word ptr [bp - 2]"
+        },
+        {
+          "pc": "91C4",
+          "line": 559,
+          "instruction": "mov word ptr ss:[di - 8], ax"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "908D",
+          "line": 432,
+          "instruction": "call 0x5ac4"
+        },
+        {
+          "pc": "9093",
+          "line": 434,
+          "instruction": "call 0x883f"
+        },
+        {
+          "pc": "90B5",
+          "line": 448,
+          "instruction": "call far 214B:0329"
+        },
+        {
+          "pc": "90CE",
+          "line": 458,
+          "instruction": "call far 214B:0329"
+        },
+        {
+          "pc": "90E7",
+          "line": 469,
+          "instruction": "call 0x8a5d"
+        },
+        {
+          "pc": "90FB",
+          "line": 477,
+          "instruction": "call 0x59d8"
+        },
+        {
+          "pc": "9116",
+          "line": 489,
+          "instruction": "call far 23E4:075A"
+        },
+        {
+          "pc": "9126",
+          "line": 497,
+          "instruction": "call far 214B:02C8"
+        },
+        {
+          "pc": "9134",
+          "line": 503,
+          "instruction": "call 0x8a87"
+        },
+        {
+          "pc": "91A4",
+          "line": 547,
+          "instruction": "call 0x8ca2"
+        },
+        {
+          "pc": "91B9",
+          "line": 556,
+          "instruction": "call far 214B:1560"
+        }
+      ],
+      "direct_callers": [
+        "1771:958D"
+      ],
+      "direct_callees": [
+        "1771:59D8",
+        "1771:5AC4",
+        "1771:883F",
+        "1771:8A5D",
+        "1771:8A87",
+        "1771:8CA2",
+        "214B:02C8",
+        "214B:0329",
+        "214B:1560",
+        "23E4:075A"
+      ]
+    },
+    {
+      "address": "1771:91CE",
+      "classification": "unreached-stateful",
+      "original_nonstack_and_callee_effects": "Own locals and transitive template/selectors/bracket buffer writes; child 8CCF may set AAB2. Winner/loser results are consumed.",
+      "scope_and_limit": "Called by 9509; no execution witness. Not classified pure merely because the outputs are text.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_1771_13.asm",
+        "line": 564,
+        "sha256": "a26df2cd5199eadad256aca26bf2ad3507eedddb171823069d54bc4e3ff1127d"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_1771_07.c",
+        "line": 89
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "9214",
+          "line": 591,
+          "instruction": "mov word ptr [bp - 6], di"
+        },
+        {
+          "pc": "9217",
+          "line": 592,
+          "instruction": "mov word ptr [bp - 4], es"
+        },
+        {
+          "pc": "9252",
+          "line": 615,
+          "instruction": "mov word ptr [bp - 2], 7"
+        },
+        {
+          "pc": "9259",
+          "line": 618,
+          "instruction": "inc word ptr [bp - 2]"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "9224",
+          "line": 599,
+          "instruction": "call far 214B:0329"
+        },
+        {
+          "pc": "9241",
+          "line": 608,
+          "instruction": "call 0x8a5d"
+        },
+        {
+          "pc": "92B1",
+          "line": 659,
+          "instruction": "call 0x8ccf"
+        },
+        {
+          "pc": "92F6",
+          "line": 686,
+          "instruction": "call 0x5c94"
+        },
+        {
+          "pc": "9303",
+          "line": 693,
+          "instruction": "call 0x10f58"
+        },
+        {
+          "pc": "931E",
+          "line": 704,
+          "instruction": "call 0x5ccb"
+        },
+        {
+          "pc": "932B",
+          "line": 711,
+          "instruction": "call 0x10f58"
+        },
+        {
+          "pc": "9346",
+          "line": 722,
+          "instruction": "call 0x5c94"
+        },
+        {
+          "pc": "9353",
+          "line": 729,
+          "instruction": "call 0x10f58"
+        }
+      ],
+      "direct_callers": [
+        "1771:9509"
+      ],
+      "direct_callees": [
+        "1771:0F58",
+        "1771:5C94",
+        "1771:5CCB",
+        "1771:8A5D",
+        "1771:8CCF",
+        "214B:0329"
+      ]
+    },
+    {
+      "address": "1771:937C",
+      "classification": "unreached-stateful",
+      "original_nonstack_and_callee_effects": "Own locals and transitive selector/bracket/template writes, including conditional AAB2; meaningful fixture winner/loser reads.",
+      "scope_and_limit": "Called by 9509; no execution witness. Not a general void-equivalent body.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_1771_13.asm",
+        "line": 738,
+        "sha256": "a26df2cd5199eadad256aca26bf2ad3507eedddb171823069d54bc4e3ff1127d"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_1771_07.c",
+        "line": 138
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "9386",
+          "line": 744,
+          "instruction": "mov word ptr [bp - 6], di"
+        },
+        {
+          "pc": "9389",
+          "line": 745,
+          "instruction": "mov word ptr [bp - 4], es"
+        },
+        {
+          "pc": "93CA",
+          "line": 771,
+          "instruction": "mov word ptr [bp - 2], 1"
+        },
+        {
+          "pc": "93D1",
+          "line": 774,
+          "instruction": "inc word ptr [bp - 2]"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "9396",
+          "line": 752,
+          "instruction": "call far 214B:0329"
+        },
+        {
+          "pc": "93B0",
+          "line": 759,
+          "instruction": "call 0x89c1"
+        },
+        {
+          "pc": "93C0",
+          "line": 767,
+          "instruction": "call far 23E4:08DF"
+        },
+        {
+          "pc": "942C",
+          "line": 809,
+          "instruction": "call 0x8ccf"
+        },
+        {
+          "pc": "947D",
+          "line": 841,
+          "instruction": "call far 214B:0329"
+        },
+        {
+          "pc": "949D",
+          "line": 853,
+          "instruction": "call 0x5c94"
+        },
+        {
+          "pc": "94AA",
+          "line": 860,
+          "instruction": "call 0x10f58"
+        },
+        {
+          "pc": "94C8",
+          "line": 872,
+          "instruction": "call 0x5ccb"
+        },
+        {
+          "pc": "94D5",
+          "line": 879,
+          "instruction": "call 0x10f58"
+        },
+        {
+          "pc": "94F3",
+          "line": 891,
+          "instruction": "call 0x5c94"
+        },
+        {
+          "pc": "9500",
+          "line": 898,
+          "instruction": "call 0x10f58"
+        }
+      ],
+      "direct_callers": [
+        "1771:9509"
+      ],
+      "direct_callees": [
+        "1771:0F58",
+        "1771:5C94",
+        "1771:5CCB",
+        "1771:89C1",
+        "1771:8CCF",
+        "214B:0329",
+        "23E4:08DF"
+      ]
+    },
+    {
+      "address": "1771:9509",
+      "classification": "unreached-stateful",
+      "original_nonstack_and_callee_effects": "883F and brackets change attribute/buffer state; 025D copies 4000 bytes A96E to A96A; 08DD changes key state.",
+      "scope_and_limit": "Called by retained 958D. A copy/read boundary cannot be declared pure from its zero count.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_1771_13.asm",
+        "line": 904,
+        "sha256": "a26df2cd5199eadad256aca26bf2ad3507eedddb171823069d54bc4e3ff1127d"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_1771_07.c",
+        "line": 196
+      },
+      "explicit_memory_destination_instructions": [],
+      "calls_or_interrupts": [
+        {
+          "pc": "9530",
+          "line": 922,
+          "instruction": "call 0x5ac4"
+        },
+        {
+          "pc": "9536",
+          "line": 924,
+          "instruction": "call 0x883f"
+        },
+        {
+          "pc": "9544",
+          "line": 929,
+          "instruction": "call 0x937c"
+        },
+        {
+          "pc": "954A",
+          "line": 933,
+          "instruction": "call 0x91ce"
+        },
+        {
+          "pc": "955D",
+          "line": 943,
+          "instruction": "call far 23E4:025D"
+        },
+        {
+          "pc": "9562",
+          "line": 944,
+          "instruction": "call far 214B:08DD"
+        }
+      ],
+      "direct_callers": [
+        "1771:958D"
+      ],
+      "direct_callees": [
+        "1771:5AC4",
+        "1771:883F",
+        "1771:91CE",
+        "1771:937C",
+        "214B:08DD",
+        "23E4:025D"
+      ]
+    },
+    {
+      "address": "214B:0661",
+      "classification": "unreached-device-boundary",
+      "original_nonstack_and_callee_effects": "Register packet in its SS frame; 235C:000B INT10 cursor operation may write packet results.",
+      "scope_and_limit": "Startup/DOS-shell callers 0813/206A; no observed in-match execution. Hardware output and stack effects are separate categories.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_214B_01.asm",
+        "line": 852,
+        "sha256": "ed15ac0ba645c502a0c113cf3cfef4e9c7636c1bef800fcd3432993586d14bad"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_214B_01.c",
+        "line": 569
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "0667",
+          "line": 857,
+          "instruction": "mov byte ptr [bp - 0x13], 2"
+        },
+        {
+          "pc": "066B",
+          "line": 858,
+          "instruction": "mov byte ptr [bp - 0x11], 0"
+        },
+        {
+          "pc": "066F",
+          "line": 859,
+          "instruction": "mov byte ptr [bp - 0xd], 0x1a"
+        },
+        {
+          "pc": "0673",
+          "line": 860,
+          "instruction": "mov byte ptr [bp - 0xe], 1"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "067F",
+          "line": 866,
+          "instruction": "call far 235C:000B"
+        }
+      ],
+      "direct_callers": [
+        "214B:0813",
+        "214B:206A"
+      ],
+      "direct_callees": [
+        "235C:000B"
+      ]
+    },
+    {
+      "address": "214B:0755",
+      "classification": "unreached-stateful",
+      "original_nonstack_and_callee_effects": "Direct DS:A964 and DS:A96A/A96C screen pointer stores; conditional 2382:016D also changes CRT globals.",
+      "scope_and_limit": "Callers 0813/206A are startup/DOS-shell paths; no normal-match witness. Not a state-free routine.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_214B_01.asm",
+        "line": 989,
+        "sha256": "ed15ac0ba645c502a0c113cf3cfef4e9c7636c1bef800fcd3432993586d14bad"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_214B_01.c",
+        "line": 659
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "076B",
+          "line": 1002,
+          "instruction": "mov byte ptr [0xa964], al"
+        },
+        {
+          "pc": "0775",
+          "line": 1005,
+          "instruction": "mov word ptr [0xa96a], 0"
+        },
+        {
+          "pc": "077B",
+          "line": 1006,
+          "instruction": "mov word ptr [0xa96c], 0xb000"
+        },
+        {
+          "pc": "0799",
+          "line": 1017,
+          "instruction": "mov word ptr [0xa96a], 0"
+        },
+        {
+          "pc": "079F",
+          "line": 1018,
+          "instruction": "mov word ptr [0xa96c], 0xb800"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "0794",
+          "line": 1015,
+          "instruction": "call far 2382:016D"
+        }
+      ],
+      "direct_callers": [
+        "214B:0813",
+        "214B:206A"
+      ],
+      "direct_callees": [
+        "2382:016D"
+      ]
+    },
+    {
+      "address": "214B:1E5A",
+      "classification": "corrected-by-408",
+      "original_nonstack_and_callee_effects": "Direct DS:A9FC toggle at 1E6E; frame and 1E8D call/return effects.",
+      "scope_and_limit": "Ordinary 9372 A7 input reproduced despite zero census calls. Retained now; native differential and actual key-poll proof cover it.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_214B_04.asm",
+        "line": 112,
+        "sha256": "72371b7e8793207f1e000ec28e5b89f2d0e7cf26f9b1f700e4b49ae1a680b086"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_214B_02.c",
+        "line": 852
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "1E6E",
+          "line": 125,
+          "instruction": "mov byte ptr [0xa9fc], al"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "1E5E",
+          "line": 117,
+          "instruction": "call 0x1e8d"
+        }
+      ],
+      "direct_callers": [
+        "0791:9372"
+      ],
+      "direct_callees": [
+        "214B:1E8D"
+      ]
+    },
+    {
+      "address": "214B:1E75",
+      "classification": "observed-device-elision",
+      "original_nonstack_and_callee_effects": "Saved BP, conditional IN/OUT and AL/flags. No direct non-stack memory store.",
+      "scope_and_limit": "Used by jingle/frequency paths. Hardware omission is deliberate; preserved incoming registers are a scoped reduction, not standalone CPU equivalence.",
+      "native_ALL62_calls": 103276,
+      "raw": {
+        "file": "static/goal-exe/code/seg_214B_04.asm",
+        "line": 130,
+        "sha256": "72371b7e8793207f1e000ec28e5b89f2d0e7cf26f9b1f700e4b49ae1a680b086"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_214B_02.c",
+        "line": 864
+      },
+      "explicit_memory_destination_instructions": [],
+      "calls_or_interrupts": [],
+      "direct_callers": [
+        "000E:04F5",
+        "1771:06F3",
+        "214B:1EBC",
+        "214B:1F87"
+      ],
+      "direct_callees": []
+    },
+    {
+      "address": "214B:1E8D",
+      "classification": "corrected-by-408",
+      "original_nonstack_and_callee_effects": "Saved frame and conditional AL input result/flags; no direct persistent DS scalar store.",
+      "scope_and_limit": "Now retained so its caller-frame/return effects match the original, including the new A7 path. Only hardware output remains omitted.",
+      "native_ALL62_calls": 5839281,
+      "raw": {
+        "file": "static/goal-exe/code/seg_214B_04.asm",
+        "line": 146,
+        "sha256": "72371b7e8793207f1e000ec28e5b89f2d0e7cf26f9b1f700e4b49ae1a680b086"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_214B_02.c",
+        "line": 881
+      },
+      "explicit_memory_destination_instructions": [],
+      "calls_or_interrupts": [],
+      "direct_callers": [
+        "000E:04F5",
+        "000E:0572",
+        "0791:112C",
+        "0791:8062",
+        "0791:9372",
+        "0791:94E8",
+        "0791:983F",
+        "0791:98C4",
+        "0791:9955",
+        "0791:C5DC",
+        "0791:CC2E",
+        "1771:07B4",
+        "214B:1E5A",
+        "214B:1EA1",
+        "214B:1F87"
+      ],
+      "direct_callees": []
+    },
+    {
+      "address": "214B:1EA1",
+      "classification": "observed-device-elision",
+      "original_nonstack_and_callee_effects": "Frame; frequency child overwrites its copied argument; delay/off children have stack/register effects. No direct persistent scalar store.",
+      "scope_and_limit": "34C1/539F do not retain a tone result; original B ablation/joint match bounds the omission.",
+      "native_ALL62_calls": 38257,
+      "raw": {
+        "file": "static/goal-exe/code/seg_214B_04.asm",
+        "line": 160,
+        "sha256": "72371b7e8793207f1e000ec28e5b89f2d0e7cf26f9b1f700e4b49ae1a680b086"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_214B_02.c",
+        "line": 897
+      },
+      "explicit_memory_destination_instructions": [],
+      "calls_or_interrupts": [
+        {
+          "pc": "1EA8",
+          "line": 166,
+          "instruction": "call 0x1ebc"
+        },
+        {
+          "pc": "1EAF",
+          "line": 169,
+          "instruction": "call 0x1e09"
+        },
+        {
+          "pc": "1EB3",
+          "line": 171,
+          "instruction": "call 0x1e8d"
+        }
+      ],
+      "direct_callers": [
+        "0791:34C1",
+        "0791:539F"
+      ],
+      "direct_callees": [
+        "214B:1E09",
+        "214B:1E8D",
+        "214B:1EBC"
+      ]
+    },
+    {
+      "address": "214B:1EBC",
+      "classification": "observed-device-elision",
+      "original_nonstack_and_callee_effects": "Frame and copied stack argument overwritten by divisor at 1EDE; speaker-on/division effects; hardware port writes.",
+      "scope_and_limit": "94E8 reloads speed/clears AH; 1EA1 proceeds to delay/off. Neither reuses the popped argument. Not a general no-memory-write body.",
+      "native_ALL62_calls": 102695,
+      "raw": {
+        "file": "static/goal-exe/code/seg_214B_04.asm",
+        "line": 176,
+        "sha256": "72371b7e8793207f1e000ec28e5b89f2d0e7cf26f9b1f700e4b49ae1a680b086"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_214B_02.c",
+        "line": 910
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "1EDE",
+          "line": 191,
+          "instruction": "mov word ptr [bp + 6], ax"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "1EC7",
+          "line": 183,
+          "instruction": "call 0x1e75"
+        },
+        {
+          "pc": "1ED9",
+          "line": 190,
+          "instruction": "call far 23E4:0294"
+        }
+      ],
+      "direct_callers": [
+        "0791:94E8",
+        "214B:1EA1"
+      ],
+      "direct_callees": [
+        "214B:1E75",
+        "23E4:0294"
+      ]
+    },
+    {
+      "address": "2382:0099",
+      "classification": "unreached-stateful",
+      "original_nonstack_and_callee_effects": "Explicit ES=0040 BIOS byte 0087 AND/OR stores, plus INT10 device effects. Stack pushes preserve AX.",
+      "scope_and_limit": "CRT initialization/text-mode callers; this is a non-DS memory writer, not pure output by default.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_2382_01.asm",
+        "line": 84,
+        "sha256": "2ae8650c185a9bf902a749c06652221b70287ec4c4cf45983f91ec48cddb1394"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_2382_01.c",
+        "line": 40
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "009E",
+          "line": 88,
+          "instruction": "and byte ptr es:[0x87], 0xfe"
+        },
+        {
+          "pc": "00D0",
+          "line": 110,
+          "instruction": "or byte ptr es:[0x87], 1"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "00B1",
+          "line": 97,
+          "instruction": "call 0x608"
+        },
+        {
+          "pc": "00BE",
+          "line": 103,
+          "instruction": "call 0x608"
+        },
+        {
+          "pc": "00C8",
+          "line": 107,
+          "instruction": "call 0x608"
+        },
+        {
+          "pc": "00DC",
+          "line": 113,
+          "instruction": "call 0x608"
+        },
+        {
+          "pc": "00E3",
+          "line": 116,
+          "instruction": "call 0x608"
+        }
+      ],
+      "direct_callers": [
+        "2382:0030",
+        "2382:016D"
+      ],
+      "direct_callees": [
+        "2382:0608"
+      ]
+    },
+    {
+      "address": "2382:00E7",
+      "classification": "unreached-stateful",
+      "original_nonstack_and_callee_effects": "Direct DS:AAB0,AABA,AAAF,AAAE,AAB4,AAB6 stores and INT10 calls.",
+      "scope_and_limit": "CRT initialization/016D callers; no execution witness. Globals cannot be ignored as if the body were empty.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_2382_01.asm",
+        "line": 120,
+        "sha256": "2ae8650c185a9bf902a749c06652221b70287ec4c4cf45983f91ec48cddb1394"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_2382_01.c",
+        "line": 67
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "0115",
+          "line": 146,
+          "instruction": "mov word ptr [0xaab0], ax"
+        },
+        {
+          "pc": "0118",
+          "line": 147,
+          "instruction": "mov word ptr [0xaaba], dx"
+        },
+        {
+          "pc": "011C",
+          "line": 148,
+          "instruction": "mov byte ptr [0xaaaf], cl"
+        },
+        {
+          "pc": "0120",
+          "line": 149,
+          "instruction": "mov byte ptr [0xaaae], 1"
+        },
+        {
+          "pc": "0127",
+          "line": 151,
+          "instruction": "mov word ptr [0xaab4], ax"
+        },
+        {
+          "pc": "012A",
+          "line": 152,
+          "instruction": "mov word ptr [0xaab6], dx"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "00E9",
+          "line": 123,
+          "instruction": "call 0x608"
+        },
+        {
+          "pc": "00F4",
+          "line": 128,
+          "instruction": "call 0x608"
+        }
+      ],
+      "direct_callers": [
+        "2382:0030",
+        "2382:016D"
+      ],
+      "direct_callees": [
+        "2382:0608"
+      ]
+    },
+    {
+      "address": "2382:016D",
+      "classification": "unreached-stateful",
+      "original_nonstack_and_callee_effects": "Direct DS:AAB2 from AABC; transitive BIOS byte and CRT global stores via 0099/00E7.",
+      "scope_and_limit": "0755 text-mode initialization caller; no normal-match witness. Explicit stateful boundary.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_2382_01.asm",
+        "line": 180,
+        "sha256": "2ae8650c185a9bf902a749c06652221b70287ec4c4cf45983f91ec48cddb1394"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_2382_01.c",
+        "line": 129
+      },
+      "explicit_memory_destination_instructions": [
+        {
+          "pc": "017C",
+          "line": 187,
+          "instruction": "mov byte ptr [0xaab2], al"
+        }
+      ],
+      "calls_or_interrupts": [
+        {
+          "pc": "0173",
+          "line": 184,
+          "instruction": "call 0x99"
+        },
+        {
+          "pc": "0176",
+          "line": 185,
+          "instruction": "call 0xe7"
+        }
+      ],
+      "direct_callers": [
+        "214B:0755"
+      ],
+      "direct_callees": [
+        "2382:0099",
+        "2382:00E7"
+      ]
+    },
+    {
+      "address": "2382:0215",
+      "classification": "unreached-device-boundary",
+      "original_nonstack_and_callee_effects": "Window bounds are read; 04FC/0608 performs cursor INT10 and register saves. No direct scalar store.",
+      "scope_and_limit": "0813/136B callers; no observed match execution. Device/stack effects remain documented.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_2382_01.asm",
+        "line": 201,
+        "sha256": "2ae8650c185a9bf902a749c06652221b70287ec4c4cf45983f91ec48cddb1394"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_2382_01.c",
+        "line": 142
+      },
+      "explicit_memory_destination_instructions": [],
+      "calls_or_interrupts": [
+        {
+          "pc": "023B",
+          "line": 216,
+          "instruction": "call 0x4fc"
+        }
+      ],
+      "direct_callers": [
+        "214B:0813",
+        "214B:136B"
+      ],
+      "direct_callees": [
+        "2382:04FC"
+      ]
+    },
+    {
+      "address": "2382:04FC",
+      "classification": "unreached-device-boundary",
+      "original_nonstack_and_callee_effects": "Sets AH/BH and tail-jumps to 0608; transitive saved registers/INT10.",
+      "scope_and_limit": "Tail control transfer is not a ret body; retained return metadata records it. No general CPU-equivalence claim.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_2382_01.asm",
+        "line": 453,
+        "sha256": "2ae8650c185a9bf902a749c06652221b70287ec4c4cf45983f91ec48cddb1394"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_2382_01.c",
+        "line": 384
+      },
+      "explicit_memory_destination_instructions": [],
+      "calls_or_interrupts": [
+        {
+          "pc": "0500",
+          "line": 457,
+          "instruction": "jmp 0x608"
+        }
+      ],
+      "direct_callers": [
+        "2382:0215",
+        "2382:047B"
+      ],
+      "direct_callees": []
+    },
+    {
+      "address": "2382:0608",
+      "classification": "unreached-device-boundary",
+      "original_nonstack_and_callee_effects": "Push/pop SI,DI,BP,ES around INT10; potential device state, no explicit persistent scalar store.",
+      "scope_and_limit": "CRT unit callers; no execution witness. Device and stack effects are not inferred absent.",
+      "native_ALL62_calls": 0,
+      "raw": {
+        "file": "static/goal-exe/code/seg_2382_01.asm",
+        "line": 477,
+        "sha256": "2ae8650c185a9bf902a749c06652221b70287ec4c4cf45983f91ec48cddb1394"
+      },
+      "named": {
+        "file": "static/goal-exe/named/seg_2382_01.c",
+        "line": 395
+      },
+      "explicit_memory_destination_instructions": [],
+      "calls_or_interrupts": [
+        {
+          "pc": "060C",
+          "line": 483,
+          "instruction": "int 0x10"
+        }
+      ],
+      "direct_callers": [
+        "2382:0030",
+        "2382:0099",
+        "2382:00E7",
+        "2382:047B",
+        "2382:04D4"
+      ],
+      "direct_callees": []
+    }
+  ]
+}

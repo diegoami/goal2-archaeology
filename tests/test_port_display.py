@@ -870,17 +870,32 @@ class ToneMemoryTests(unittest.TestCase):
 
 
 class SoundChainMemoryTests(unittest.TestCase):
+    def test_sound_key_toggles_mute_and_keeps_speaker_call_and_writer(self):
+        for disabled in (0,1,255):
+            with self.subTest(disabled=disabled):
+                r=Rig();r.ds8(0xA9FC,disabled);r.mem.regs['ax']=0xBEEF
+                r.run('214B:1E5A',answer=lambda q,m:m.reg('ax'))
+                self.assertEqual(r.targets(),[('214B:1E8D','214B:1E61')])
+                self.assertEqual(r.mem.ds8(0xA9FC),int(disabled==0))
+                self.assertEqual(r.mem.reg('ax'),0xBE00|int(disabled==0))
+                self.assertEqual(r.written('214B:1E6E'),[(0xA9FC,1,int(disabled==0))])
+                self.assertEqual(r.u16(BP0),0x1234)
+
     def test_whistle_gate_keeps_the_exact_jingle_call(self):
         for speed in (0,1):
             r=Rig();r.lin8(GSEG*16+GOFF+0x3F,speed)
             r.run('0791:0441',(7,))
             self.assertEqual(r.args('214B:1F87'),[(7,)] if speed else [])
 
-    def test_removed_speaker_off_keeps_incoming_result_and_creates_no_frame(self):
+    def test_speaker_off_keeps_original_frame_and_kit_input_result(self):
         for disabled in (0,1):
             r=Rig();r.ds8(0xA9FC,disabled);r.lin16(BP0,0xCAFE)
-            assert_explicit_void_removal(self,r,'214B:1E8D',())
-            self.assertEqual(r.u16(BP0),0xCAFE)
+            r.mem.regs['ax']=0xBEEF
+            r.run('214B:1E8D')
+            self.assertEqual(r.mem.reg('ax'),0xBEEF if disabled else 0xBE00)
+            self.assertEqual(r.mem.ds8(0xA9FC),disabled)
+            self.assertEqual(r.u16(BP0),0x1234)
+            self.assertEqual(r.calls,[])
 
 
     def test_note_transposition_real_calls_local_and_wrapped_duration(self):

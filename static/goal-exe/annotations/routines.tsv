@@ -275,9 +275,9 @@ address	name	purpose	confidence	basis
 214B:1D6F	u214b_wrap_add_in_range_byte	Byte wrapper of 1C86: wraps a byte variable by a delta inside [lo, hi]	likely	read decompiled/seg_214B_02.c
 214B:1DA7	u214b_calibrate_delay	Counts loop passes during one BIOS tick (0040:006C), divides by 55 and stores at DS:A9FF (delay calibration)	likely	F004; read code/seg_214B_04.asm
 214B:1E09	u214b_delay_ms	Calibrated busy-wait: param_1 times a loop of [DS:A9FF] counts (per millisecond)	established	F005
-214B:1E5A	u214b_sound_toggle_mute	Turns the speaker off (1E8D) and flips the sound-disabled flag DS:A9FC	likely	read decompiled/seg_214B_02.c
+214B:1E5A	u214b_sound_toggle_mute	Python port retains the sound-disabled byte, caller frame and 1E8D call; turns the speaker off and flips DS:A9FC (ordinary watched-match key A7 at 0791:9499)	likely	read decompiled/seg_214B_02.c; read code/seg_214B_04.asm:113-158; read code/seg_0791_15.asm
 214B:1E75	u214b_speaker_on	If sound enabled (DS:A9FC = 0): out 43h,B6h (PIT channel 2 square wave) and sets port 61h bits 0 and 1 (gate and speaker on)	likely	read decompiled/seg_214B_02.c
-214B:1E8D	u214b_speaker_off	If sound enabled: clears port 61h bits 0 and 1 (speaker off)	likely	read decompiled/seg_214B_02.c
+214B:1E8D	u214b_speaker_off	Python port retains the saved frame and AL result of the kit's unhandled port input (zero when sound enabled); hardware speaker output is omitted; original clears port 61h bits 0 and 1 when DS:A9FC is zero	likely	read decompiled/seg_214B_02.c; read code/seg_214B_04.asm:146-158
 214B:1EA1	u214b_beep_tone_delay	Sets a tone with 1EBC, delays param_1 ms with 1E09, then speaker off (one beep)	likely	read decompiled/seg_214B_02.c
 214B:1EBC	u214b_speaker_set_frequency	Speaker routine: turns speaker on and writes a 16-bit divisor (from a 23E4 helper) to PIT port 42h low then high byte	likely	F004; read decompiled/seg_214B_02.c
 214B:1EF1	u214b_play_note	Plays a note: note number plus transposition DS:7968 reduced mod 12 into a PIT divisor by real-number (23E4 float) arithmetic, writes it to port 42h, then delays param*DS:7966 ms	likely	read decompiled/seg_214B_02.c
