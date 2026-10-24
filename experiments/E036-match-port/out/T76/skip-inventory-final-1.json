@@ -1,0 +1,69 @@
+{
+  "fixed_baseline": "411fdefa0287f984e5c0efc1fb1c585263c67690",
+  "historical_T75_tests": 2027,
+  "preexisting_T85_tests": 5,
+  "T76_added_tests": 11,
+  "expected_current_tests": 2043,
+  "historical_T75_skips": {
+    "test_driver_keys.KeySending.test_a_custom_save_hold_is_honoured_at_call_time": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_a_function_key_is_sent_as_itself_without_alt": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_a_key_that_would_need_a_modifier_or_does_not_exist_is_refused": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_a_raw_key_the_display_cannot_send_is_refused_before_the_emulator_starts": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_an_upper_case_letter_is_sent_with_shift_around_it_and_nothing_else": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_every_function_key_arrives_alone": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_legacy_keys_is_the_old_fault_kept_to_reproduce_it": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_the_default_hold_of_the_savestate_key_is_the_old_read_pace": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_the_keys_the_callers_send_are_single_keys": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_the_savestate_key_is_one_key_and_never_f12_or_alt": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_the_sendable_check_never_opens_a_display_the_driver_did_not_start": "'needs Xvfb, xinput and xmodmap'",
+    "test_known_sets.DriverSetTest.test_the_driver_constants_set_id_is_the_successor": "\"the successor's release copy is not in .cache/artifacts/goal2-67cf27d6\"",
+    "test_known_sets.DriverSetTest.test_verify_release_verifies_and_names_the_successor": "\"the successor's release copy is not in .cache/artifacts/goal2-67cf27d6\""
+  },
+  "preexisting_baseline_T85_skips": {
+    "test_build_guard_mutable.OriginalCheckpoint.test_adjacent_immutable_data_corruption_is_still_refused": "'private unchanged E031 checkpoint absent; see notes/396/README.md'",
+    "test_build_guard_mutable.OriginalCheckpoint.test_code_and_relocation_corruption_are_still_refused": "'private unchanged E031 checkpoint absent; see notes/396/README.md'",
+    "test_build_guard_mutable.OriginalCheckpoint.test_real_shootout_checkpoint_is_accepted_without_any_memory_edits": "'private unchanged E031 checkpoint absent; see notes/396/README.md'"
+  },
+  "expected_current_skips": {
+    "test_build_guard_mutable.OriginalCheckpoint.test_adjacent_immutable_data_corruption_is_still_refused": "'private unchanged E031 checkpoint absent; see notes/396/README.md'",
+    "test_build_guard_mutable.OriginalCheckpoint.test_code_and_relocation_corruption_are_still_refused": "'private unchanged E031 checkpoint absent; see notes/396/README.md'",
+    "test_build_guard_mutable.OriginalCheckpoint.test_real_shootout_checkpoint_is_accepted_without_any_memory_edits": "'private unchanged E031 checkpoint absent; see notes/396/README.md'",
+    "test_driver_keys.KeySending.test_a_custom_save_hold_is_honoured_at_call_time": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_a_function_key_is_sent_as_itself_without_alt": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_a_key_that_would_need_a_modifier_or_does_not_exist_is_refused": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_a_raw_key_the_display_cannot_send_is_refused_before_the_emulator_starts": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_an_upper_case_letter_is_sent_with_shift_around_it_and_nothing_else": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_every_function_key_arrives_alone": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_legacy_keys_is_the_old_fault_kept_to_reproduce_it": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_the_default_hold_of_the_savestate_key_is_the_old_read_pace": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_the_keys_the_callers_send_are_single_keys": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_the_savestate_key_is_one_key_and_never_f12_or_alt": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_the_sendable_check_never_opens_a_display_the_driver_did_not_start": "'needs Xvfb, xinput and xmodmap'",
+    "test_known_sets.DriverSetTest.test_the_driver_constants_set_id_is_the_successor": "\"the successor's release copy is not in .cache/artifacts/goal2-67cf27d6\"",
+    "test_known_sets.DriverSetTest.test_verify_release_verifies_and_names_the_successor": "\"the successor's release copy is not in .cache/artifacts/goal2-67cf27d6\""
+  },
+  "baseline_T85_source_unchanged": true,
+  "baseline_T85_sha256": "903df4fd937ab93bc2badf8f1af203fbdb45eb4b369d787fbb744c2e1d760868",
+  "T76_new_skips": [],
+  "added_test_methods": {
+    "tests/test_port_takers.py": [
+      "test_enter_chooses_highlight_escape_retains_current_and_c_computes",
+      "test_order_escape_removes_last_pick_and_final_down_is_pushed_back",
+      "test_speed_byte_bounds",
+      "test_ten_listing_entries_and_returns",
+      "test_unavailable_and_outside_eleven_stored_taker_falls_back",
+      "test_unavailable_captain_uses_leadership_before_general_taker_validation",
+      "test_wait_zero_timeout_and_key_poll",
+      "test_yes_no_with_and_without_a_waiting_key"
+    ],
+    "tests/test_original_match.py": [
+      "test_original_accepts_chosen_taker_and_unanswered_keeps_pick"
+    ],
+    "tests/test_e036_family.py": [
+      "test_set_piece_context_is_the_only_runner_opt_in",
+      "test_t76_preserves_old_reference_bytes_and_spec_digests"
+    ],
+    "tests/test_e036_compare.py": []
+  },
+  "final_sources_unchanged": true
+}
