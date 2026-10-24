@@ -1,0 +1,28 @@
+[
+  {
+    "target": "experiments/E036-match-port/families/R.reference-20261024-v2.jsonl",
+    "sources_in_order": [
+      "experiments/E036-match-port/out/T77/R-native-1.jsonl",
+      "experiments/E036-match-port/out/T77/R-native-extension-2.jsonl"
+    ],
+    "exact_byte_concatenation": true,
+    "sha256": {
+      "experiments/E036-match-port/families/R.reference-20261024-v2.jsonl": "47f424d76bcb43e575cb599dcf8c44a20f2d0c58dc7f121e6fd2d9225a7c4b35",
+      "experiments/E036-match-port/out/T77/R-native-1.jsonl": "e6257f5ad1e57279c1c31f92e260493f80c0b3a4e4265a6759b158b522a89489",
+      "experiments/E036-match-port/out/T77/R-native-extension-2.jsonl": "eb29361bffca81d9dfc43367a7581f572235d6c0c49a8030cd6b1975377d9213"
+    }
+  },
+  {
+    "target": "experiments/E036-match-port/families/display/reference-all-rare-20261024-v1.jsonl",
+    "sources_in_order": [
+      "experiments/E036-match-port/families/display/reference-all-set-piece-20261024-v2.jsonl",
+      "experiments/E036-match-port/out/T77/R-display-original-1.jsonl"
+    ],
+    "exact_byte_concatenation": true,
+    "sha256": {
+      "experiments/E036-match-port/families/display/reference-all-rare-20261024-v1.jsonl": "d59284f41dfcc8584284fa9f669d6561b6e9fdd30a9600228e3db1b795f3be32",
+      "experiments/E036-match-port/families/display/reference-all-set-piece-20261024-v2.jsonl": "7fd664eec8ad0f00b1578c87f807e472a75ba8fdc3b2b14de93068104400db7c",
+      "experiments/E036-match-port/out/T77/R-display-original-1.jsonl": "e199170b67e72d5cb7710861c6859bac5dee38d1fa50013a478b44a41961431d"
+    }
+  }
+]

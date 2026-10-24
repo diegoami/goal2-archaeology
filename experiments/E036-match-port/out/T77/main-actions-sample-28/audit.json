@@ -1,0 +1,45 @@
+{
+  "run": 40090586451,
+  "head": "f90dada50cf2d0b2f65b3da5e75a26f5053a79e4",
+  "artifact_id": 12559547835,
+  "zip_sha256": "14dc9a63ea31459b267c48adaee6fe0122f917dbf55e87e40db808334be5ae2c",
+  "strict_exact_matches": 2,
+  "matches": [
+    "R/watched-away-hard-4",
+    "R/quick-zero-budget-28"
+  ],
+  "mask": [],
+  "skipped_ds_blocks": [],
+  "native_physical_python_triples": 34,
+  "modules": [
+    "attributes",
+    "ball",
+    "contests",
+    "discipline",
+    "display",
+    "duels",
+    "frame",
+    "geometry",
+    "menus",
+    "motion",
+    "pilot",
+    "positioning",
+    "postmatch",
+    "quick",
+    "rare",
+    "restarts",
+    "runtime",
+    "selection",
+    "setup",
+    "takers",
+    "update"
+  ],
+  "source_log_valid": true,
+  "sha256": {
+    "shard-28-run.txt": "ad323e3794ec84488295a6a5f3e756a9e3bb8b239d85de4c366ce80d765ea367",
+    "shard-28.zip": "14dc9a63ea31459b267c48adaee6fe0122f917dbf55e87e40db808334be5ae2c",
+    "artifact-metadata.json": "51e0a281f70d530dd0c113c4a81fc85f9da900033bf96cdcf2f1769093a607aa",
+    "shard-28.jsonl": "b821631500cfe5479d452adf58e2e1ce25840d00965e6e2ade47f106aa67a519",
+    "compare.log": "5eb06d2b3472b82b54b2064c19ddf4972441c733329b21078e782b4a17035a40"
+  }
+}
