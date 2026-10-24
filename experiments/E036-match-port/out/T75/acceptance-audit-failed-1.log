@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T75/audit_acceptance_1.py", line 50, in <module>
+    for rel,value in controls['sources'].items():assert digest(ROOT/rel)==value,rel
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: runtime/original_match/README.md

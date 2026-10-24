@@ -1,0 +1,10 @@
+[
+  "/home/diego/.local/bin/python3.12",
+  "-B",
+  "experiments/E036-match-port/compare.py",
+  "--family",
+  "ALL",
+  "--candidate",
+  "experiments/E036-match-port/out/T75/all-actions-1-40079183920/all-actions-1.jsonl",
+  "--no-screen"
+]
