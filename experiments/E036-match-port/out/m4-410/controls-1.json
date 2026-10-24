@@ -1,0 +1,67 @@
+{
+  "baseline": "ba67abd14521e9d0d5af6d635150bf0df830af89",
+  "runtime_sha256": "588b6fc3430a0e674664d9bf8f165bdf31779f240ac783f0490e5f4c5be1d66e",
+  "new_test_sha256": "0d0e18ecb525ca8bdad6ef32dc6ec7f3f37dd0aa786a51786e576f6281bc1e45",
+  "results": [
+    {
+      "control": "correct",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "correct",
+      "tests": "new",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "all-available",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "all-available",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    },
+    {
+      "control": "stops-before-slot11",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "stops-before-slot11",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    },
+    {
+      "control": "starts-at-slot3",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "starts-at-slot3",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    },
+    {
+      "control": "includes-slot1",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "includes-slot1",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    }
+  ]
+}
