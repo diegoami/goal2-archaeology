@@ -92,3 +92,4 @@ exists.
 | T82 | goal2 request (stage 3, G10): a savestate at the new-game screens in the key read, and the interrupts to the first manager menu | #367 | — |
 | T83 | goal2 request (stage 3): the start year as an input to the core: a state before the DOS date read, and the path to the title's read | #369 | — |
 | T84 | goal2 G13/G16: deliver existing E031/E014 states and identify evidence gaps | #390 | — |
+| T85 | goal2 G13: correct mutable DS:066A in the original-match build guard | #396 | — |
