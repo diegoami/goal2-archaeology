@@ -1,0 +1,38 @@
+"""Read-only current retained core-file discovery; no Core/guest execution or payload copy."""
+import hashlib,json,subprocess,sys,zlib
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[2]
+sys.path.insert(0,str(ROOT/'notes/400-next'))
+from core_inventory import observe
+sha=lambda b:hashlib.sha256(b).hexdigest()
+paths=subprocess.check_output(['rg','--files','--hidden','-g','*.g2core','/home/diego/projects/goal2/.cache','/home/diego/projects/goal2-keep'],text=True).splitlines()
+prior={r['sha256'] for r in json.loads((ROOT/'notes/400-next/core-inventory-r1.json').read_text())['inputs']}
+found={}
+for p in sorted(paths):
+ b=Path(p).read_bytes();h=sha(b)
+ if h in found:found[h]['sources'].append(p);continue
+ item=dict(sha256=h,sources=[p],in_T89_inventory=h in prior)
+ try:
+  assert b[:4]==b'G2C1';n=int.from_bytes(b[4:8],'little');s=json.loads(b[8:8+n]);m=zlib.decompress(b[8+n:]);r=s['regs'];load=s['load'];ds=(load+0x2581)*16;ss=r['SS']*16;sp=r['ESP']&65535;bp=r['EBP']&65535
+  w=lambda a:int.from_bytes(m[a:a+2],'little')
+  item.update(cpu=f'{r["CS"]-load:04X}:{r["EIP"]:04X}',managed=observe(b),minute=w(ds+0x831F),stack_return=f'{w(ss+sp+2)-load:04X}:{w(ss+sp):04X}')
+  chain=[];seen=set()
+  while 0<bp<65520 and bp not in seen and len(chain)<16:
+   seen.add(bp);parent=w(ss+bp);ret=w(ss+bp+2)
+   chain.append(dict(bp=bp,parent=parent,near_return=f'{ret:04X}',role_low=m[ss+bp+4],side_low=m[ss+bp+6]))
+   if parent<=bp:break
+   bp=parent
+  item['saved_bp_chain']=chain
+  item['target_wrapper_candidates']=[f for f in chain if f['near_return']=='6D74' and f['role_low'] in (3,4) and f['side_low'] in (0,1)]
+  page=m[0xB8000:0xB8000+4000];text='\n'.join(bytes(page[row*160:row*160+160:2]).decode('cp437') for row in range(25))
+  import re
+  item['target_caption_matches']=re.findall(r'select\s+(?:PENALTY|FREE\s*KICK)\s+taker',text,re.I)
+  item['terminal_captions']=[name for name in ('FULL TIME','HALF TIME','select CAPTAIN','Nice try','There is no player here') if name.lower() in text.lower()]
+ except Exception as e:item['parse_error']=repr(e)
+ found[h]=item
+out=ROOT/'notes/400-reassessment/core-inventory-r2.json';assert not out.exists()
+out.write_text(json.dumps(dict(schema='T91-retained-core-discovery/1',head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),scanner_sha256=sha(Path(__file__).read_bytes()),guest_executions=0,payload_copies=0,paths=len(paths),inputs=list(found.values()),limits=['Saved BP words can be stale; a candidate still requires actual CPU/caller validation.','Caption scan uses saved VGA bytes, not a reconstructed screenshot.','No exhaustive event proximity or historical frame audit.']),indent=2)+'\n')
+print('paths',len(paths),'distinct',len(found),'outside T89',sum(not x['in_T89_inventory'] for x in found.values()),'parse errors',sum('parse_error' in x for x in found.values()))
+for i in found.values():
+ if i.get('target_wrapper_candidates') or i.get('target_caption_matches') or any(c['empty_squad_slots'] or c['empty_pool_rows'] for c in i.get('managed',[])):print('CANDIDATE',i['sha256'],i)
+print('No payload copy or guest execution')

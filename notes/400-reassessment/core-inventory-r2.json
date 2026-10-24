@@ -1,0 +1,2559 @@
+{
+  "schema": "T91-retained-core-discovery/1",
+  "head": "e809fb70ae23aaf3648cca3cd7d1fab16d3d8299",
+  "scanner_sha256": "c0335bc444bc56a0bd2abbf35818e4716115fcf6874e0adb6bb818c43c676868",
+  "guest_executions": 0,
+  "payload_copies": 0,
+  "paths": 91,
+  "inputs": [
+    {
+      "sha256": "09cbbfc7711205354127cd3f737c7ab8393def11224411fc34009c0894fdb17e",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-eleven-preflight-20261023/files/g13-09cbbfc771120535-halftime-no-keeper.g2core",
+        "/home/diego/projects/goal2/.cache/g13-09cbbfc771120535-halftime-no-keeper.g2core"
+      ],
+      "in_T89_inventory": true,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 46,
+      "stack_return": "214B:157C",
+      "saved_bp_chain": [
+        {
+          "bp": 15994,
+          "parent": 16022,
+          "near_return": "EE9F",
+          "role_low": 180,
+          "side_low": 10
+        },
+        {
+          "bp": 16022,
+          "parent": 16038,
+          "near_return": "9AE3",
+          "role_low": 0,
+          "side_low": 73
+        },
+        {
+          "bp": 16038,
+          "parent": 16046,
+          "near_return": "F0A7",
+          "role_low": 160,
+          "side_low": 0
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F2E3",
+          "role_low": 190,
+          "side_low": 192
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 22
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 5,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 4,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": [
+        "HALF TIME"
+      ]
+    },
+    {
+      "sha256": "5e303b5839883b2cdacfc825c21793459a4e1d0b136e9ce0c72d24d95dbc472f",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-eleven-preflight-20261023/files/g13-5e303b5839883b2c-too-many-defenders.g2core",
+        "/home/diego/projects/goal2/.cache/g13-5e303b5839883b2c-too-many-defenders.g2core",
+        "/home/diego/projects/goal2/.cache/g13-eleven-probe/too-many-defenders.g2core"
+      ],
+      "in_T89_inventory": true,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 6664,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "cb6443bbe76d3a5a507392c470d48308280304eaa5dbc922562f9c6a7a74d38d",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-eleven-preflight-20261023/files/g13-cb6443bbe76d3a5a-no-keeper.g2core",
+        "/home/diego/projects/goal2/.cache/g13-cb6443bbe76d3a5a-no-keeper.g2core",
+        "/home/diego/projects/goal2/.cache/g13-eleven-probe/no-keeper.g2core"
+      ],
+      "in_T89_inventory": true,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 6664,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "fc5b0f392a66334c3395605d0113d56f67788c7b4a7b4b176364fb028ce119e2",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-eleven-preflight-20261023/files/g13-fc5b0f392a66334c-stoppage-positions.g2core",
+        "/home/diego/projects/goal2/.cache/g13-fc5b0f392a66334c-stoppage-positions.g2core"
+      ],
+      "in_T89_inventory": true,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 43,
+      "stack_return": "214B:157C",
+      "saved_bp_chain": [
+        {
+          "bp": 15914,
+          "parent": 15942,
+          "near_return": "EE9F",
+          "role_low": 180,
+          "side_low": 10
+        },
+        {
+          "bp": 15942,
+          "parent": 15960,
+          "near_return": "8103",
+          "role_low": 1,
+          "side_low": 0
+        },
+        {
+          "bp": 15960,
+          "parent": 16018,
+          "near_return": "DAE5",
+          "role_low": 209,
+          "side_low": 91
+        },
+        {
+          "bp": 16018,
+          "parent": 16022,
+          "near_return": "97DD",
+          "role_low": 158,
+          "side_low": 127
+        },
+        {
+          "bp": 16022,
+          "parent": 16030,
+          "near_return": "987F",
+          "role_low": 0,
+          "side_low": 0
+        },
+        {
+          "bp": 16030,
+          "parent": 16038,
+          "near_return": "99E8",
+          "role_low": 71,
+          "side_low": 87
+        },
+        {
+          "bp": 16038,
+          "parent": 16046,
+          "near_return": "F0A1",
+          "role_low": 160,
+          "side_low": 0
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F2E3",
+          "role_low": 190,
+          "side_low": 164
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 6
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 5,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 4,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "2c927e5f3a564090b5c565b55747da8d0f6b41836dd2978df5bd49d58a2545c6",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-inputs-20261024/g13-2c927e5f3a564090-extra-time-start.g2core",
+        "/home/diego/projects/goal2/.cache/g13-2c927e5f3a564090-extra-time-start.g2core",
+        "/home/diego/projects/goal2/.cache/g13-extra-menu-collect-r1/extra-start.g2core",
+        "/home/diego/projects/goal2/.cache/g13-private-readback/extra-start.g2core"
+      ],
+      "in_T89_inventory": true,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 20,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 89,
+      "stack_return": "214B:157C",
+      "saved_bp_chain": [
+        {
+          "bp": 16004,
+          "parent": 16032,
+          "near_return": "EE9F",
+          "role_low": 180,
+          "side_low": 10
+        },
+        {
+          "bp": 16032,
+          "parent": 16038,
+          "near_return": "9B42",
+          "role_low": 1,
+          "side_low": 174
+        },
+        {
+          "bp": 16038,
+          "parent": 16046,
+          "near_return": "F114",
+          "role_low": 190,
+          "side_low": 180
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F2E3",
+          "role_low": 190,
+          "side_low": 6
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 190
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 14,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 8,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 30
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": [
+        "FULL TIME"
+      ]
+    },
+    {
+      "sha256": "9effe6a326935971a08195d726436ed13cab3d0c48fb49d0d71a85f5cdb23858",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-inputs-20261024/g13-9effe6a326935971-g4c-halftime.g2core",
+        "/home/diego/projects/goal2/.cache/g13-9effe6a326935971-g4c-halftime.g2core",
+        "/home/diego/projects/goal2/.cache/g13-g4c-continue-r1/half-time.g2core",
+        "/home/diego/projects/goal2/.cache/g13-g4c-continue-r2/half-time.g2core",
+        "/home/diego/projects/goal2/.cache/g13-private-readback/9eff.g2core"
+      ],
+      "in_T89_inventory": true,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 20,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 46,
+      "stack_return": "214B:157C",
+      "saved_bp_chain": [
+        {
+          "bp": 15994,
+          "parent": 16022,
+          "near_return": "EE9F",
+          "role_low": 180,
+          "side_low": 10
+        },
+        {
+          "bp": 16022,
+          "parent": 16038,
+          "near_return": "9AE3",
+          "role_low": 0,
+          "side_low": 45
+        },
+        {
+          "bp": 16038,
+          "parent": 16046,
+          "near_return": "F0A7",
+          "role_low": 160,
+          "side_low": 0
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F2E3",
+          "role_low": 190,
+          "side_low": 6
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 190
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 14,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 8,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 30
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": [
+        "HALF TIME"
+      ]
+    },
+    {
+      "sha256": "ecc7c9f3df3f5092254e4583864f3a345ecbe600f2af30601d8dc5f79f80b79c",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-inputs-20261024/g13-ecc7c9f3df3f5092-g4c-before-injury.g2core",
+        "/home/diego/projects/goal2/.cache/g13-ecc7c9f3df3f5092-g4c-before-injury.g2core",
+        "/home/diego/projects/goal2/.cache/g13-g4c-natural-taker-r1/before.g2core",
+        "/home/diego/projects/goal2/.cache/g13-private-readback/ecc7.g2core"
+      ],
+      "in_T89_inventory": true,
+      "cpu": "214B:0723",
+      "managed": [
+        {
+          "country": 20,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 33,
+      "stack_return": "0791:93C2",
+      "saved_bp_chain": [
+        {
+          "bp": 16006,
+          "parent": 16018,
+          "near_return": "96EA",
+          "role_low": 138,
+          "side_low": 164
+        },
+        {
+          "bp": 16018,
+          "parent": 16022,
+          "near_return": "980E",
+          "role_low": 158,
+          "side_low": 127
+        },
+        {
+          "bp": 16022,
+          "parent": 16030,
+          "near_return": "987F",
+          "role_low": 0,
+          "side_low": 0
+        },
+        {
+          "bp": 16030,
+          "parent": 16038,
+          "near_return": "99E8",
+          "role_low": 250,
+          "side_low": 87
+        },
+        {
+          "bp": 16038,
+          "parent": 16046,
+          "near_return": "F0A1",
+          "role_low": 160,
+          "side_low": 0
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F2E3",
+          "role_low": 190,
+          "side_low": 6
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 190
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 14,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 8,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 30
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "fcf77812110b99b4fd76550fab04f6463dfaa57b81db89a5a34a1fe10cb20cd0",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-inputs-20261024/g13-fcf77812110b99b4-extra-time-half.g2core",
+        "/home/diego/projects/goal2/.cache/g13-extra-menu-collect-r1/extra-half.g2core",
+        "/home/diego/projects/goal2/.cache/g13-fcf77812110b99b4-extra-time-half.g2core",
+        "/home/diego/projects/goal2/.cache/g13-private-readback/extra-half.g2core"
+      ],
+      "in_T89_inventory": true,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 20,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 105,
+      "stack_return": "214B:157C",
+      "saved_bp_chain": [
+        {
+          "bp": 16004,
+          "parent": 16032,
+          "near_return": "EE9F",
+          "role_low": 180,
+          "side_low": 10
+        },
+        {
+          "bp": 16032,
+          "parent": 16038,
+          "near_return": "9B70",
+          "role_low": 1,
+          "side_low": 174
+        },
+        {
+          "bp": 16038,
+          "parent": 16046,
+          "near_return": "F117",
+          "role_low": 190,
+          "side_low": 180
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F2E3",
+          "role_low": 190,
+          "side_low": 6
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 190
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 14,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 8,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 30
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": [
+        "FULL TIME",
+        "HALF TIME"
+      ]
+    },
+    {
+      "sha256": "78a03f2f42b4c68bc7c5e3ca368271ec75365c29c0cc9d9e9c88c956213a66cd",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-pause-preflight-20261023/files/g13-78a03f2f42b4c68b-round-pause.g2core",
+        "/home/diego/projects/goal2/.cache/g13-78a03f2f42b4c68b-round-pause.g2core",
+        "/home/diego/projects/goal2/.cache/g13-round-pause-source.g2core"
+      ],
+      "in_T89_inventory": true,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 95,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "e382ed69a1b194f90973f0af3976f07dc1743b1ee856d4cc3d9ff32452720a37",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-preflight-20261023/files/before-01.g2core",
+        "/home/diego/projects/goal2/.cache/g13-preflight/before-01.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 96,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "0873679aab496dbc606729a0792b151b8c3e46705a3aeb67ae63f3427941c8f7",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-preflight-20261023/files/before-02.g2core",
+        "/home/diego/projects/goal2/.cache/g13-preflight/before-02.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 94,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "de47ba6cf754168878d143864531c5ab5f7278a98b434a1bed6a9283cf039f69",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-preflight-20261023/files/before-03.g2core",
+        "/home/diego/projects/goal2-keep/T111-20261023/files/t111-de47ba6cf7541688-qualifying-end.g2core",
+        "/home/diego/projects/goal2/.cache/g13-preflight/before-03.g2core",
+        "/home/diego/projects/goal2/.cache/t111-de47ba6cf7541688-qualifying-end.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 95,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "9ccc3afce77e4c935b0b52ec5f032342b833a15357318a5e94f38683e945c58f",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-preflight-20261023/files/before-04.g2core",
+        "/home/diego/projects/goal2-keep/T111-20261023/files/t111-9ccc3afce77e4c93-continental-groups.g2core",
+        "/home/diego/projects/goal2/.cache/g13-preflight/before-04.g2core",
+        "/home/diego/projects/goal2/.cache/t111-9ccc3afce77e4c93-continental-groups.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 0,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "ac799ac2954d108568b334cafce278a20bff0b95e01e3bde9f49f160742cc02a",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-preflight-20261023/files/before-05.g2core",
+        "/home/diego/projects/goal2/.cache/g13-preflight/before-05.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 91,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "f3a65602386e6c517c7e721b413a81f3970d1ee570037070022bdfa47f1cb7ee",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-preflight-20261023/files/before-06.g2core",
+        "/home/diego/projects/goal2/.cache/g13-preflight/before-06.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 91,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "ba458ee2f2e17e39d21183b0bee1baf536444fbc23348cb93536bd03aabfc293",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-preflight-20261023/files/before-07.g2core",
+        "/home/diego/projects/goal2/.cache/g13-preflight/before-07.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 91,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "5cc7c4f900e9e6e9aaa261c8befae06531e58c0c683adaa87e1a1fb8e1350355",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-preflight-20261023/files/before-08.g2core",
+        "/home/diego/projects/goal2/.cache/g13-preflight/before-08.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 91,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "92d9393c059c325246e0000208d52cab254bf89ec1bd671aefdcb4e3f8a9ec58",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-preflight-20261023/files/before-09.g2core",
+        "/home/diego/projects/goal2/.cache/g13-preflight/before-09.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 91,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "18c5e257d7fca66fde9c304ecc83f6af1ee3b5fcb647e1d33105196d39f8d158",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-preflight-20261023/files/before-10.g2core",
+        "/home/diego/projects/goal2/.cache/g13-preflight/before-10.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 91,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "6e075bd8e06073337a3e61fe4e79afd222b04da6704a930493ec3ff89a944c88",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-preflight-20261023/files/before-11.g2core",
+        "/home/diego/projects/goal2/.cache/g13-preflight/before-11.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 91,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "0fd0e6856a26da74ceddc655d68523e793efdbd40c2fd509c8ea95bdbce832f8",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-preflight-20261023/files/before-12.g2core",
+        "/home/diego/projects/goal2/.cache/g13-preflight/before-12.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 91,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "7aee2329aa044af58c53f7d5c7c69e7919869dc1501c369d1341221be8223584",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-preflight-20261023/files/before-13.g2core",
+        "/home/diego/projects/goal2/.cache/g13-preflight/before-13.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 91,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "74e921f211b23e716370c320279acce9dd9f94e5a784306e6fbfa87bc260780e",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-preflight-20261023/files/before-14.g2core",
+        "/home/diego/projects/goal2-keep/T111-20261023/files/t111-74e921f211b23e71-continental-bracket.g2core",
+        "/home/diego/projects/goal2/.cache/g13-preflight/before-14.g2core",
+        "/home/diego/projects/goal2/.cache/t111-74e921f211b23e71-continental-bracket.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 91,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "b0c134d3b8c5f194e4c2e64727e9b1ca147dafdb45e0539ba4c910e0d9183151",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-preflight-20261023/files/start-notice.g2core",
+        "/home/diego/projects/goal2/.cache/g13-preflight/start-notice.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:0723",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 43,
+      "stack_return": "0791:CC54",
+      "saved_bp_chain": [
+        {
+          "bp": 15934,
+          "parent": 15940,
+          "near_return": "8042",
+          "role_low": 144,
+          "side_low": 88
+        },
+        {
+          "bp": 15940,
+          "parent": 15960,
+          "near_return": "80F0",
+          "role_low": 0,
+          "side_low": 0
+        },
+        {
+          "bp": 15960,
+          "parent": 16018,
+          "near_return": "DAE5",
+          "role_low": 209,
+          "side_low": 91
+        },
+        {
+          "bp": 16018,
+          "parent": 16022,
+          "near_return": "97DD",
+          "role_low": 158,
+          "side_low": 127
+        },
+        {
+          "bp": 16022,
+          "parent": 16030,
+          "near_return": "987F",
+          "role_low": 0,
+          "side_low": 0
+        },
+        {
+          "bp": 16030,
+          "parent": 16038,
+          "near_return": "99E8",
+          "role_low": 71,
+          "side_low": 87
+        },
+        {
+          "bp": 16038,
+          "parent": 16046,
+          "near_return": "F0A1",
+          "role_low": 160,
+          "side_low": 0
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F2E3",
+          "role_low": 190,
+          "side_low": 164
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 6
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 5,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 4,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "b988d01213441df26cefe209bcee8e15a81e6d0c7971f302f2a5922f2a5da591",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-save-name-preflight-20261024/g13-fresh-f7-manager.g2core",
+        "/home/diego/projects/goal2/.cache/g13-fresh-f7-manager.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 20,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 6664,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "eeea2f27f96f481248f2fb2377990e7923f6b2fc7e80422ef8d6e5ddcfb20e8f",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-taker-inputs-20261024/t88-eeea2f27f96f4812-before-nice-try.g2core",
+        "/home/diego/projects/goal2/.cache/t88-eeea2f27f96f4812-before-nice-try.g2core",
+        "/home/diego/projects/goal2/.cache/taker-ci-root-readback/t88-eeea2f27f96f4812-before-nice-try.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 43,
+      "stack_return": "0791:E61F",
+      "saved_bp_chain": [
+        {
+          "bp": 15912,
+          "parent": 15920,
+          "near_return": "E99C",
+          "role_low": 180,
+          "side_low": 7
+        },
+        {
+          "bp": 15920,
+          "parent": 15942,
+          "near_return": "EF71",
+          "role_low": 70,
+          "side_low": 0
+        },
+        {
+          "bp": 15942,
+          "parent": 15960,
+          "near_return": "8103",
+          "role_low": 1,
+          "side_low": 0
+        },
+        {
+          "bp": 15960,
+          "parent": 16018,
+          "near_return": "DAE5",
+          "role_low": 209,
+          "side_low": 91
+        },
+        {
+          "bp": 16018,
+          "parent": 16022,
+          "near_return": "97DD",
+          "role_low": 158,
+          "side_low": 127
+        },
+        {
+          "bp": 16022,
+          "parent": 16030,
+          "near_return": "987F",
+          "role_low": 0,
+          "side_low": 0
+        },
+        {
+          "bp": 16030,
+          "parent": 16038,
+          "near_return": "99E8",
+          "role_low": 71,
+          "side_low": 87
+        },
+        {
+          "bp": 16038,
+          "parent": 16046,
+          "near_return": "F0A1",
+          "role_low": 160,
+          "side_low": 0
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F2E3",
+          "role_low": 190,
+          "side_low": 164
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 6
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 5,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 4,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "cd58b8dc67a847042c40ba2e0ab65f3d975eced5c64d04e354d7b4bc7f2bd3d3",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-world-preflight-20261023/files/after-phase5-next.g2core",
+        "/home/diego/projects/goal2/.cache/g13-preflight/after-phase5-next.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 0,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "16dc77de414aff2b2a71ac36c82b2dfdf490209a8ecf5baaf8ee5bf4588a9126",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-world-preflight-20261023/files/g13-16dc77de414aff2b-world-finals.g2core",
+        "/home/diego/projects/goal2/.cache/g13-16dc77de414aff2b-world-finals.g2core",
+        "/home/diego/projects/goal2/.cache/g13-world-finals.g2core"
+      ],
+      "in_T89_inventory": true,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 91,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "7d9bbeefe3ff5f04d29b59345e2d07febd6e735704b2feb0da30df38bd60f57c",
+      "sources": [
+        "/home/diego/projects/goal2-keep/G13-world-preflight-20261023/files/g13-7d9bbeefe3ff5f04-world-knockout.g2core",
+        "/home/diego/projects/goal2/.cache/g13-7d9bbeefe3ff5f04-world-knockout.g2core",
+        "/home/diego/projects/goal2/.cache/g13-world-probe/last-menu.g2core"
+      ],
+      "in_T89_inventory": true,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 91,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "ef463846c4653c8053b6a7988cd004627f9692263557a01674f7644b12ca9ebf",
+      "sources": [
+        "/home/diego/projects/goal2-keep/T115-20261024/g13-ef463846c4653c80-round-pause-captain.g2core",
+        "/home/diego/projects/goal2/.cache/g13-ef463846c4653c80-round-pause-captain.g2core"
+      ],
+      "in_T89_inventory": true,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 91,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "50fd458e21ce59d1324cfe59fb16458346a39a39acd0f4b1980108420178e5a6",
+      "sources": [
+        "/home/diego/projects/goal2/.cache/g13-g4c-natural-taker-r1/start.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:0723",
+      "managed": [
+        {
+          "country": 20,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 0,
+      "stack_return": "0791:93C2",
+      "saved_bp_chain": [
+        {
+          "bp": 16006,
+          "parent": 16018,
+          "near_return": "96EA",
+          "role_low": 254,
+          "side_low": 164
+        },
+        {
+          "bp": 16018,
+          "parent": 16022,
+          "near_return": "980E",
+          "role_low": 158,
+          "side_low": 127
+        },
+        {
+          "bp": 16022,
+          "parent": 16030,
+          "near_return": "987F",
+          "role_low": 0,
+          "side_low": 0
+        },
+        {
+          "bp": 16030,
+          "parent": 16038,
+          "near_return": "99E8",
+          "role_low": 250,
+          "side_low": 87
+        },
+        {
+          "bp": 16038,
+          "parent": 16046,
+          "near_return": "F0A1",
+          "role_low": 160,
+          "side_low": 0
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F2E3",
+          "role_low": 190,
+          "side_low": 6
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 190
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 14,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 8,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 30
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "c1b945ed5a839f33ce37362120b49253f814ed1c0f1aa2fd95eaf9cdc36f1550",
+      "sources": [
+        "/home/diego/projects/goal2/.cache/g13-natural-taker-20261024/last.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 46,
+      "stack_return": "214B:157C",
+      "saved_bp_chain": [
+        {
+          "bp": 15994,
+          "parent": 16022,
+          "near_return": "EE9F",
+          "role_low": 180,
+          "side_low": 10
+        },
+        {
+          "bp": 16022,
+          "parent": 16038,
+          "near_return": "9AE3",
+          "role_low": 0,
+          "side_low": 61
+        },
+        {
+          "bp": 16038,
+          "parent": 16046,
+          "near_return": "F0A7",
+          "role_low": 160,
+          "side_low": 0
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F2E3",
+          "role_low": 190,
+          "side_low": 117
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 6
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 5,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 4,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": [
+        "HALF TIME"
+      ]
+    },
+    {
+      "sha256": "8fa9a41261494174e5d1a94ea4a1252fd81ab588445c30d6774ccc7abe44e170",
+      "sources": [
+        "/home/diego/projects/goal2/.cache/g13-natural-taker-20261024/start.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:0723",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 0,
+      "stack_return": "0791:93C2",
+      "saved_bp_chain": [
+        {
+          "bp": 16006,
+          "parent": 16018,
+          "near_return": "96EA",
+          "role_low": 218,
+          "side_low": 164
+        },
+        {
+          "bp": 16018,
+          "parent": 16022,
+          "near_return": "980E",
+          "role_low": 158,
+          "side_low": 127
+        },
+        {
+          "bp": 16022,
+          "parent": 16030,
+          "near_return": "987F",
+          "role_low": 0,
+          "side_low": 0
+        },
+        {
+          "bp": 16030,
+          "parent": 16038,
+          "near_return": "99E8",
+          "role_low": 51,
+          "side_low": 87
+        },
+        {
+          "bp": 16038,
+          "parent": 16046,
+          "near_return": "F0A1",
+          "role_low": 160,
+          "side_low": 0
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F2E3",
+          "role_low": 190,
+          "side_low": 117
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 6
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 5,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 4,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "f600357622420f8dd8b2d60dea7f769b7e302aeb6734fd682a696299c2a30259",
+      "sources": [
+        "/home/diego/projects/goal2/.cache/g13-natural-taker-half2-20261024/last.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 94,
+      "stack_return": "214B:157C",
+      "saved_bp_chain": [
+        {
+          "bp": 16018,
+          "parent": 16046,
+          "near_return": "EE9F",
+          "role_low": 180,
+          "side_low": 10
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F331",
+          "role_low": 1,
+          "side_low": 117
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 6
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 5,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 4,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": [
+        "FULL TIME"
+      ]
+    },
+    {
+      "sha256": "8df5c21123037ab1269a86ad1271e193633723a4cfcff1e8904e735f89eb0acd",
+      "sources": [
+        "/home/diego/projects/goal2/.cache/g13-natural-taker-half2-20261024/start.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:0723",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 46,
+      "stack_return": "0791:93C2",
+      "saved_bp_chain": [
+        {
+          "bp": 16000,
+          "parent": 16012,
+          "near_return": "96EA",
+          "role_low": 204,
+          "side_low": 164
+        },
+        {
+          "bp": 16012,
+          "parent": 16016,
+          "near_return": "980E",
+          "role_low": 152,
+          "side_low": 127
+        },
+        {
+          "bp": 16016,
+          "parent": 16024,
+          "near_return": "987F",
+          "role_low": 0,
+          "side_low": 166
+        },
+        {
+          "bp": 16024,
+          "parent": 16038,
+          "near_return": "9B08",
+          "role_low": 61,
+          "side_low": 91
+        },
+        {
+          "bp": 16038,
+          "parent": 16046,
+          "near_return": "F0A7",
+          "role_low": 160,
+          "side_low": 0
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F2E3",
+          "role_low": 190,
+          "side_low": 117
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 6
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 5,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 4,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": [
+        "HALF TIME"
+      ]
+    },
+    {
+      "sha256": "48fa3a34645b86a29583da19520f42c9748fec1a306b788b666048ca0ba0ecf7",
+      "sources": [
+        "/home/diego/projects/goal2/.cache/g13-preflight/phase5.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 0,
+      "stack_return": "000E:75D1",
+      "saved_bp_chain": [
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "822000590482acf541421921a5f57be86ed76a25cfba76793043f8a5ed649abf",
+      "sources": [
+        "/home/diego/projects/goal2/.cache/g13-taker-probe/e010-resume.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:08DD",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 91,
+      "stack_return": "214B:157C",
+      "saved_bp_chain": [
+        {
+          "bp": 16018,
+          "parent": 16046,
+          "near_return": "EE9F",
+          "role_low": 180,
+          "side_low": 10
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F331",
+          "role_low": 1,
+          "side_low": 192
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 22
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 5,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 4,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": [
+        "FULL TIME"
+      ]
+    },
+    {
+      "sha256": "af426d9a37067efd54afc17923fd30065821e437a39931483e068e5b012343c3",
+      "sources": [
+        "/home/diego/projects/goal2/.cache/g13-taker-probe/e010-start.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:0723",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 46,
+      "stack_return": "0791:93C2",
+      "saved_bp_chain": [
+        {
+          "bp": 15954,
+          "parent": 16012,
+          "near_return": "DAF4",
+          "role_low": 73,
+          "side_low": 91
+        },
+        {
+          "bp": 16012,
+          "parent": 16016,
+          "near_return": "97DD",
+          "role_low": 152,
+          "side_low": 127
+        },
+        {
+          "bp": 16016,
+          "parent": 16024,
+          "near_return": "987F",
+          "role_low": 0,
+          "side_low": 166
+        },
+        {
+          "bp": 16024,
+          "parent": 16038,
+          "near_return": "9B08",
+          "role_low": 73,
+          "side_low": 91
+        },
+        {
+          "bp": 16038,
+          "parent": 16046,
+          "near_return": "F0A7",
+          "role_low": 160,
+          "side_low": 0
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F2E3",
+          "role_low": 190,
+          "side_low": 192
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 22
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 5,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 4,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": [
+        "HALF TIME"
+      ]
+    },
+    {
+      "sha256": "dcdb6f59f05169eb44e688595bf87f94f03a1cb76d6c28244fe4cca650cae557",
+      "sources": [
+        "/home/diego/projects/goal2/.cache/g13-taker-probe/start.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:0723",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 0,
+      "stack_return": "0791:93C2",
+      "saved_bp_chain": [
+        {
+          "bp": 16006,
+          "parent": 16018,
+          "near_return": "96EA",
+          "role_low": 204,
+          "side_low": 164
+        },
+        {
+          "bp": 16018,
+          "parent": 16022,
+          "near_return": "980E",
+          "role_low": 158,
+          "side_low": 127
+        },
+        {
+          "bp": 16022,
+          "parent": 16030,
+          "near_return": "987F",
+          "role_low": 0,
+          "side_low": 0
+        },
+        {
+          "bp": 16030,
+          "parent": 16038,
+          "near_return": "99E8",
+          "role_low": 51,
+          "side_low": 87
+        },
+        {
+          "bp": 16038,
+          "parent": 16046,
+          "near_return": "F0A1",
+          "role_low": 160,
+          "side_low": 0
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F2E3",
+          "role_low": 190,
+          "side_low": 117
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 6
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 5,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 4,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    },
+    {
+      "sha256": "eb3528edd9dfd8f559aca5b6465b5b40cef13b270938f5595c2805655a41ccd8",
+      "sources": [
+        "/home/diego/projects/goal2/.cache/t109-checkpoint.g2core"
+      ],
+      "in_T89_inventory": false,
+      "cpu": "214B:0723",
+      "managed": [
+        {
+          "country": 7,
+          "manager": 1,
+          "empty_squad_slots": [],
+          "empty_pool_rows": []
+        }
+      ],
+      "minute": 93,
+      "stack_return": "0791:93C2",
+      "saved_bp_chain": [
+        {
+          "bp": 16000,
+          "parent": 16012,
+          "near_return": "96EA",
+          "role_low": 138,
+          "side_low": 164
+        },
+        {
+          "bp": 16012,
+          "parent": 16016,
+          "near_return": "980E",
+          "role_low": 152,
+          "side_low": 127
+        },
+        {
+          "bp": 16016,
+          "parent": 16024,
+          "near_return": "987F",
+          "role_low": 0,
+          "side_low": 166
+        },
+        {
+          "bp": 16024,
+          "parent": 16038,
+          "near_return": "9B08",
+          "role_low": 61,
+          "side_low": 91
+        },
+        {
+          "bp": 16038,
+          "parent": 16046,
+          "near_return": "F0A7",
+          "role_low": 160,
+          "side_low": 0
+        },
+        {
+          "bp": 16046,
+          "parent": 16062,
+          "near_return": "F2E3",
+          "role_low": 190,
+          "side_low": 117
+        },
+        {
+          "bp": 16062,
+          "parent": 16094,
+          "near_return": "6F1D",
+          "role_low": 49,
+          "side_low": 6
+        },
+        {
+          "bp": 16094,
+          "parent": 16106,
+          "near_return": "70D4",
+          "role_low": 5,
+          "side_low": 6
+        },
+        {
+          "bp": 16106,
+          "parent": 16374,
+          "near_return": "77C2",
+          "role_low": 4,
+          "side_low": 32
+        },
+        {
+          "bp": 16374,
+          "parent": 16382,
+          "near_return": "00CB",
+          "role_low": 35,
+          "side_low": 1
+        },
+        {
+          "bp": 16382,
+          "parent": 0,
+          "near_return": "0720",
+          "role_low": 40,
+          "side_low": 99
+        }
+      ],
+      "target_wrapper_candidates": [],
+      "target_caption_matches": [],
+      "terminal_captions": []
+    }
+  ],
+  "limits": [
+    "Saved BP words can be stale; a candidate still requires actual CPU/caller validation.",
+    "Caption scan uses saved VGA bytes, not a reconstructed screenshot.",
+    "No exhaustive event proximity or historical frame audit."
+  ]
+}
