@@ -1,0 +1,40 @@
+{
+  "scope": "integrated two-case shootout sample; full64 still required",
+  "run": 40084230548,
+  "head": "27b339421e4dda084eeb044c9e1aecdacbe0a831",
+  "artifact_id": 12557399836,
+  "zip_sha256": "75532b4d5e8c1775d7d261efc91c554f7b6ef38031be53615b9eceba99cc0582",
+  "strict_exact_matches": 2,
+  "mask": [],
+  "skipped_ds_blocks": [],
+  "candidate_entry_call_checks": 20,
+  "all_ten_bodies_reached": true,
+  "native_entry_differences": [],
+  "modules": [
+    "attributes",
+    "ball",
+    "contests",
+    "discipline",
+    "display",
+    "duels",
+    "frame",
+    "geometry",
+    "menus",
+    "motion",
+    "pilot",
+    "positioning",
+    "postmatch",
+    "restarts",
+    "runtime",
+    "selection",
+    "setup",
+    "takers",
+    "update"
+  ],
+  "member_sha256": {
+    "shard-28-run.txt": "12d602db3901e7035a6a775a0ef8e7f97f2f7d1a702e726bde0577e10ecb3cb1",
+    "shard-28.zip": "75532b4d5e8c1775d7d261efc91c554f7b6ef38031be53615b9eceba99cc0582",
+    "shard-28.jsonl": "9cf002de3ac3d1a58e64be452d58fa45be1abbb6b91f55113fe5f355f7717206",
+    "compare.log": "e171520ae8bf8c020a27f772aba1c369b1ab8d4b13e082a9d22dd4baa2e83b5e"
+  }
+}

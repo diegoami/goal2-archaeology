@@ -1,0 +1,73 @@
+{
+  "milestone": {
+    "ported_exact": 10
+  },
+  "matches_each_mode": 64,
+  "mask": [],
+  "integrated_profile": {
+    "schema": 1,
+    "mask": [],
+    "reference": "experiments/E036-match-port/families/display/reference-all-set-piece-20261024-v2.jsonl",
+    "proof": "experiments/E036-match-port/out/T73/display-profile-proof-1.json"
+  },
+  "integrated_sha256": "38184bf5d98d821cb57305215d1dd18fe4b991fe3eda4ef4f2e05255cc0a4514",
+  "own_sha256": "e1cffa7b8ce7ef4222caa7fe2c433a75d60835edb1a827135f359e0ac88ec5ae",
+  "native_sha256": "9f336749609f809afdde084b5fbd8bbcccba5f0b3f96887c27f052d42202dc96",
+  "entry_call_checks_total": 1280,
+  "dispatch": "27b339421e4dda084eeb044c9e1aecdacbe0a831",
+  "fixed_baseline": "411fdefa0287f984e5c0efc1fb1c585263c67690",
+  "unit_controls_caught": 14,
+  "full_suite": {
+    "tests": 2043,
+    "seconds": 1159.389,
+    "skips": 16
+  },
+  "source_bound_validation": true,
+  "source_bound_static": true,
+  "old63_prefixes_and_specs_preserved": true,
+  "current_main_integrated": "810cf9136435750c7653afa9a3e83300703b0e8c",
+  "integration_protected_hashes_unchanged": 323,
+  "chosen_taker_observations": [
+    {
+      "minute": 52,
+      "role": 5,
+      "current": 123,
+      "requested": 131,
+      "returned": 131,
+      "event_player": 131,
+      "stored": 131
+    },
+    {
+      "minute": 77,
+      "role": 5,
+      "current": 131,
+      "requested": 130,
+      "returned": 130,
+      "event_player": 130,
+      "stored": 130
+    }
+  ],
+  "falsifiers": {
+    "enter-keeps-current": {
+      "caught": true,
+      "completed": true,
+      "match": "S/set-piece-taker",
+      "original_branch": "0791:CFAF",
+      "original_reach": 3
+    },
+    "extra-time-short": {
+      "caught": true,
+      "completed": true,
+      "match": "S/ko-42-sudden-death",
+      "original_branch": "0791:9B0F",
+      "original_reach": 1
+    },
+    "order-no-pushback": {
+      "caught": true,
+      "completed": true,
+      "match": "S/ko-42-sudden-death",
+      "original_branch": "0791:9E5B",
+      "original_reach": 11
+    }
+  }
+}
