@@ -1,0 +1,56 @@
+{
+ "exe_packed_sha256": "a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664",
+ "exe_unpacked_sha256": "6fd8c5ef995358ff8e5e47d60de61dccd7bdf8e73f2f584018fcfe4c8c713188",
+ "relocations": 1916,
+ "code_bytes": 153616,
+ "code_blocks": 38,
+ "listing_bytes_compared": 146077,
+ "listing_differences": 0,
+ "extract_bytes_compared": 31600,
+ "extract_differences": 0,
+ "data_bytes": 10168,
+ "data_ranges": 300,
+ "data_blocks": 24,
+ "data_left_out_as_changed_in_an_image": [
+  "DS:066A",
+  "DS:7968"
+ ],
+ "statically_mutable_data": {
+  "DS:066A": "0791:9422\u20139443 -> 214B:1D6F writes the live display-mode byte"
+ },
+ "image_inputs": {
+  "0095cee949724990-E010-r0006-halftime.sav": "0095cee949724990db81740c5d1e73858137a79d47de274b756c7c459816fe5a",
+  "092f5f74bc5dc0c0-E011-r0001-halftime.sav": "092f5f74bc5dc0c0f133709ca46be04122d3813a716c54fd23a686e9194ab9ff",
+  "111e38da1a3bc674-E010-r0004-halftime.sav": "111e38da1a3bc6747b1bc7f66fbd187d711a5fccb8892aeec6657fe49a5cd6b9",
+  "224e63c18380c3ff-E010-r0002-halftime.sav": "224e63c18380c3ff13ab9245fc23166f7ed568d97d0701e994896dacee6ad569",
+  "3c7983fa4869d327-E010-r0010-halftime.sav": "3c7983fa4869d3278fe9f1f6140e5ca1b84f602e97b5862f547c6332d086e1e6",
+  "3ea57029282b849f-g1-03874-shootout-start.sav": "3ea57029282b849fd3114a995178f35e48c420c768f0702b9d3b7d48600dc1fc",
+  "5497b6d4d367ac2d-E010-r0005-halftime.sav": "5497b6d4d367ac2d8653d962de0301d552d2362bc5fe7159c72d64f721c01988",
+  "8a4ebd41b1c576a8-E010-r0007-halftime.sav": "8a4ebd41b1c576a81350d3a2e1cfba58880029aea44d3db9e5df0d6c0f8a1a17",
+  "91e815687fb73288-E010-r0009-halftime.sav": "91e815687fb732882ca2aa72841bcaacd54e16f6ace25ae63a4e96e2b195d1b0",
+  "ae2935b9c4907454-E010-r0008-halftime.sav": "ae2935b9c490745450462b981eb133e611bc72de4abfb11aba3e850caf4e9949",
+  "b732ed79429f2bb8-E010-r0003-halftime.sav": "b732ed79429f2bb8ae3241d1bff4ab8273676a63024e50a2433063f5ab9c7c62",
+  "d68e48c734a742a6-E011-r0001-watchstart.sav": "d68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9",
+  "e0afff6751747233-e006-1000-r0001.sav": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d",
+  "e1dee7e2f5ad443e-E010-r0001-halftime.sav": "e1dee7e2f5ad443ee0d62eb6dd203394ef81f43732845aa04d969f422b556920"
+ },
+ "reads_record": "experiments/E033-original-match-kit/out/ds-reads-20261016f2.json",
+ "images": {
+  "0095cee949724990-E010-r0006-halftime.sav": [],
+  "092f5f74bc5dc0c0-E011-r0001-halftime.sav": [],
+  "111e38da1a3bc674-E010-r0004-halftime.sav": [],
+  "224e63c18380c3ff-E010-r0002-halftime.sav": [],
+  "3c7983fa4869d327-E010-r0010-halftime.sav": [],
+  "3ea57029282b849f-g1-03874-shootout-start.sav": [],
+  "5497b6d4d367ac2d-E010-r0005-halftime.sav": [],
+  "8a4ebd41b1c576a8-E010-r0007-halftime.sav": [],
+  "91e815687fb73288-E010-r0009-halftime.sav": [],
+  "ae2935b9c4907454-E010-r0008-halftime.sav": [],
+  "b732ed79429f2bb8-E010-r0003-halftime.sav": [],
+  "d68e48c734a742a6-E011-r0001-watchstart.sav": [],
+  "e0afff6751747233-e006-1000-r0001.sav": [],
+  "e1dee7e2f5ad443e-E010-r0001-halftime.sav": []
+ },
+ "generated": "runtime/original_match/build.py",
+ "generated_sha256": "e3b7c45b7442115361a6bfbded6f954749eea4e31e4f45714684bc2b071a6b41"
+}

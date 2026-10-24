@@ -1,0 +1,10 @@
+test_only_the_proven_mutable_byte_is_removed_and_all_code_is_retained (__main__.Coverage.test_only_the_proven_mutable_byte_is_removed_and_all_code_is_retained) ... ok
+test_regeneration_cannot_reintroduce_the_observed_key_writer (__main__.Coverage.test_regeneration_cannot_reintroduce_the_observed_key_writer) ... ok
+test_adjacent_immutable_data_corruption_is_still_refused (__main__.OriginalCheckpoint.test_adjacent_immutable_data_corruption_is_still_refused) ... ok
+test_code_and_relocation_corruption_are_still_refused (__main__.OriginalCheckpoint.test_code_and_relocation_corruption_are_still_refused) ... ok
+test_real_shootout_checkpoint_is_accepted_without_any_memory_edits (__main__.OriginalCheckpoint.test_real_shootout_checkpoint_is_accepted_without_any_memory_edits) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.101s
+
+OK
