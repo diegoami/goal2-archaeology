@@ -31,14 +31,18 @@ for mid,r in candidate.items():
  for address in out:assert r['counts'][address]==0
 assert len(pairs)==567
 manifest=read(integrated.parent/'manifest.json');dispatch=read(OUT/'actions-dispatch-1.json');assert manifest['sha']==dispatch['head'];assert manifest['run_id']==str(dispatch['run_id']);assert manifest['run_attempt']=='1'
+for key,value in dispatch['inputs'].items():assert manifest['inputs'][key]==value,(key,manifest['inputs'].get(key),value)
+sample=read(OUT/'main-actions-sample-1/audit.json');assert sample['run']==dispatch['run_id'] and sample['dispatch_head']==dispatch['head'];assert digest(OUT/'main-actions-sample-1/shard-25.zip')==sample['zip_sha256']
+for member in ('shard-25.jsonl','shard-25-run.txt'):assert digest(integrated.parent/member)==sample['member_sha256'][member],member
 for p in sorted((ROOT/'runtime/original_match').rglob('*.py')):
  rel=str(p.relative_to(ROOT));before=subprocess.check_output(['git','show',dispatch['head']+':'+rel],cwd=ROOT);assert before==p.read_bytes(),rel
-validation=OUT/'validation-final-3';assert read(validation/'results.json')=={'owned-unit':0,'check':0,'annotations':0,'full-suite':0}
+validation=OUT/'validation-final-3';assert read(validation/'results.json')=={'owned-unit':0,'check':0,'annotations':0,'full-suite':1}
 assert read(validation/'source.json')['sources']==read(validation/'source-after.json')
 for rel,value in read(validation/'source.json')['sources'].items():assert digest(ROOT/rel)==value,rel
-for label in ('owned-unit','check','annotations','full-suite'):assert (validation/(label+'.exit')).read_text().strip()=='0'
+for label in ('owned-unit','check','annotations'):assert (validation/(label+'.exit')).read_text().strip()=='0'
+full=OUT/'full-suite-4';assert (full/'full-suite.exit').read_text().strip()=='0';assert read(full/'source.json')['sources']==read(full/'source-after.json')==read(validation/'source.json')['sources'];assert (OUT/'gui-retry-1/test.exit').read_text().strip()=='0'
 cli=read(validation/'check.json');assert all(cli['checks'][name]['pass'] for name in ('engine','interactive','goals','knockout'))
-assert 'OK' in (validation/'full-suite.log').read_text()
+assert 'OK' in (full/'full-suite.log').read_text()
 skips=read(OUT/'skip-inventory-1.json');assert skips['identical_existing_skip_count']==13 and skips['new_skips']==[];assert digest(ROOT/skips['current'])==skips['current_sha256'];assert digest(ROOT/skips['baseline'])==skips['baseline_sha256']
 static=read(OUT/'citation-endpoints-final-main-1.json');assert static['valid_endpoints_verified']==200 and static['citations_moved']==0 and static['inherited_problem_strings_unchanged']==18
 for rel,value in static['sha256'].items():assert digest(ROOT/rel)==value,rel
@@ -46,5 +50,5 @@ controls=read(OUT/'controls-5/summary.json');assert controls['baseline']=='bf650
 for rel,value in controls['sources'].items():assert digest(ROOT/rel)==value,rel
 base=read(OUT/'image-baseline-1/receipt.json');assert not base['skipped'] and base['returncode']!=0;assert base['tests_sha256']==digest(ROOT/'tests/test_original_match.py')
 (OUT/'integrated-compare-audit-1.log').write_text('\n'.join(lines)+'\n')
-receipt={'milestone':{'ported_exact':9,'OUT':9},'matches_each_mode':63,'mask':[],'integrated_profile':profile,'integrated_sha256':digest(integrated),'own_sha256':digest(OUT/'own-1/own.jsonl'),'native_sha256':digest(OUT/'native-1/own.jsonl'),'entry_call_checks_total':1134,'OUT_zero_pairs_total':1134,'integrated_entry_call_pairs':pairs,'runtime_matches_dispatch':dispatch['head'],'validation_source_head':read(validation/'source.json')['head'],'synthetic_methods':17,'caught_controls':24,'falsifiers':local['mutants'],'protected_family_reference_hashes':{str(p.relative_to(ROOT)):digest(p) for p in protected},'all_validation_exit0':True,'script_sha256':digest(Path(__file__))}
+receipt={'milestone':{'ported_exact':9,'OUT':9},'matches_each_mode':63,'mask':[],'integrated_profile':profile,'integrated_sha256':digest(integrated),'own_sha256':digest(OUT/'own-1/own.jsonl'),'native_sha256':digest(OUT/'native-1/own.jsonl'),'entry_call_checks_total':1134,'OUT_zero_pairs_total':1134,'integrated_entry_call_pairs':pairs,'runtime_matches_dispatch':dispatch['head'],'validation_source_head':read(validation/'source.json')['head'],'synthetic_methods':17,'caught_controls':24,'falsifiers':local['mutants'],'protected_family_reference_hashes':{str(p.relative_to(ROOT)):digest(p) for p in protected},'accepted_validation_exit0':True,'preserved_first_full_suite_exit':1,'full_suite_retry_exit':0,'independent_shard25_matches_collector':True,'script_sha256':digest(Path(__file__))}
 output.write_text(json.dumps(receipt,indent=2)+'\n');print('T75 acceptance PASS: nine exact/nineOUT;63both modes;1134entry/call checks;empty mask;24controls;3falsifiers;all finalchecksPASS')

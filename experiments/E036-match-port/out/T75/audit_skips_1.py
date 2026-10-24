@@ -1,7 +1,7 @@
 import hashlib,json
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[4];OUT=Path(__file__).resolve().parent
-old=ROOT/'experiments/E036-match-port/out/T74/validation-final-1/full-suite.log';new=OUT/'validation-final-3/full-suite.log'
+old=ROOT/'experiments/E036-match-port/out/T74/validation-final-1/full-suite.log';new=OUT/'full-suite-4/full-suite.log'
 extract=lambda p:[line for line in p.read_text().splitlines() if ' ... skipped ' in line]
 a,b=extract(old),extract(new)
 assert len(a)==13 and a==b,(a,b)
