@@ -164,13 +164,20 @@ class _PortKeys:
         self._unprovable(site)
         k = self.match
         m, mem = k.m, k.ports.mem
-        if site == SITE_BOARD:
+        cached = getattr(k, "_ported_key", None)
+        if site == SITE_BOARD and cached is None:
             k._on_board()
         if m.rd(PUSHED_BACK, 1):
             mem.wds8(PUSHED_BACK, 0, "214B:08EA")
             key = m.rd(KEY, 1)
         else:
-            key = k._key_for(site)
+            if cached is not None:
+                if cached[0] != site:
+                    raise MatchError(f"cached menu key for {cached[0]}, read at {site}")
+                key = cached[1]
+                del k._ported_key
+            else:
+                key = k._key_for(site)
             if key is None:
                 return None             # stopped for a decision: mem.read_key refuses it (PortError)
             mem.wds8(KEY, key, "214B:0947")
@@ -603,7 +610,12 @@ class Match:
         if self._menu is not None:
             self._menu.last_message = text
 
+    def _menus_ported(self):
+        return self.ports is not None and any(n.split(".")[0] == "menus" for n in self.ports.names)
+
     def _on_keypressed(self, replay):
+        if self._menus_ported():
+            return                      # the port implements the same key service
         m = self.m
         has = self._key_waiting(m.where(m.stack_word(2), m.stack_word(0)))
         m.set_reg("ax", (m.reg("ax") & 0xFF00) | (1 if has else 0))
@@ -638,6 +650,9 @@ class Match:
         key = self._key_for(site)      # 9B93's last Down, 9E5B, passes the full-time board)
         if key is None:
             return                     # stopped for a decision
+        if self._menus_ported():
+            self._ported_key = (site, key)  # decision preflight precedes the Python port
+            return
         m.wr(KEY, key | (key << 8))    # DS:A976 the key, DS:A977 the last key
         m.return_from(True, 0)
 
@@ -716,7 +731,11 @@ class Match:
             plan = None
         if plan is None:
             context = st["menu_context"]
-            if context in DECIDED_AT_MENU or (context == "substitution" and st.get("refused")):
+            if self.side is None:
+                # run_match still visits its menu for two computer sides. Keep
+                # its sorting/validation and choose play, with no human answer.
+                self._menu = S.MenuPlan(1)
+            elif context in DECIDED_AT_MENU or (context == "substitution" and st.get("refused")):
                 if st["answer"] is None:
                     self._decide(context, substitutions_now=bool(self.m.rd(S.SUBS_ALLOWED, 1)),
                                  refused=st.get("refused"))

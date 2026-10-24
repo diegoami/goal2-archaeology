@@ -1,0 +1,33 @@
+{
+  "unhooked_source_commit": "7be4cf2a468d27ced5b4a7968dcabc9a17f19238",
+  "runtime_match_sha256": "82013d42c21958b1b08c125acdc6a95bc47219e3d513bc78a4961c9e7d4c21f6",
+  "notes": "References run with ports=[] before menus module registration; uncommitted key-plumbing code inert without menus. Full source content captured below. Original raw3 and display1 completed independently; old reference bytes retained as exact prefixes.",
+  "sources": {
+    "runtime/original_match/match.py": {
+      "sha256": "82013d42c21958b1b08c125acdc6a95bc47219e3d513bc78a4961c9e7d4c21f6"
+    },
+    "experiments/E036-match-port/families.py": {
+      "sha256": "b60e950ce9a8bf3faad99b186f457baf16959a8779bd3f9644ac8f01eb7ca43c"
+    },
+    "experiments/E036-match-port/families/S.json": {
+      "sha256": "9ecba3ab1739ce8dbf8a2b30324cb19c8a5e95fcb4b62dba85d23a538320d219"
+    }
+  },
+  "references": {
+    "experiments/E036-match-port/out/T57/reference.jsonl": "0ed325db5d45718e9d947fe2a1c507f24873c6513f00a4850a40c1c40146db4b",
+    "experiments/E036-match-port/families/display/reference-all-20261023-v1.jsonl": "69db748fc71827a1cb96ee8c2146b0c6510d97f9ffa7ac92b61a6aa86e21d83e",
+    "experiments/E036-match-port/out/T74/no-managed-original-raw-3.jsonl": "4ca7b9e133dd63400ffbf70fe3592dcfac533624907b7220b7aa3209a0fa6d05",
+    "experiments/E036-match-port/out/T74/no-managed-original-display-1.jsonl": "e94f9bfafaa311d10306e04d981b2ec7f6163e94215b212bad73b3401853e2d9",
+    "experiments/E036-match-port/families/S-no-managed-side-reference-20261024-v1.jsonl": "da7c626f053f54b013eaed8a9e9893baa7673cc997db1aac994f8098802b6b8c",
+    "experiments/E036-match-port/families/display/reference-all-20261024-v1.jsonl": "4a5736317e80dcc1c526b4effdf15545b0175f449f809d0acc4d6281ddd1a860"
+  },
+  "correction": "v1 source fingerprint names the display launch source, not raw3: raw3 imported before the inert key handoff edit. Both exact snapshots preserved separately.",
+  "raw_match_source": {
+    "path": "experiments/E036-match-port/out/T74/reference-source-match-raw-1.py",
+    "sha256": "fe41de8a78fbfda1614d3892c8bdaae2b205f023ed87b143a9e562f2203ab172"
+  },
+  "display_match_source": {
+    "path": "experiments/E036-match-port/out/T74/reference-source-match-1.py",
+    "sha256": "82013d42c21958b1b08c125acdc6a95bc47219e3d513bc78a4961c9e7d4c21f6"
+  }
+}
