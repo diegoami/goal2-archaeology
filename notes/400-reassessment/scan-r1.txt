@@ -1,0 +1,68 @@
+"""T91 read-only assessment. Run with python3; no guest is instantiated/executed.
+Requires T90 archives extracted using the merged portable recipe. Writes once.
+"""
+import hashlib,json,re,subprocess,sys
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[2]
+sys.path[:0]=[str(ROOT/'runtime'),str(ROOT/'runtime/driver'),str(ROOT/'notes/400-next')]
+from original_match.image import Image
+from inventory import SIZES
+sha=lambda b:hashlib.sha256(b).hexdigest()
+def walk(obj):
+ if isinstance(obj,dict):
+  for k,v in obj.items():
+   if k=='screen' and isinstance(v,str):yield v
+   else:yield from walk(v)
+ elif isinstance(obj,list):
+  for v in obj:yield from walk(v)
+def strings(obj):
+ if isinstance(obj,dict):
+  for v in obj.values():yield from strings(v)
+ elif isinstance(obj,list):
+  for v in obj:yield from strings(v)
+ elif isinstance(obj,str):yield obj
+pat=re.compile(r'select\s+(PENALTY|FREE\s*KICK)\s+taker',re.I)
+rows=[]
+for p in sorted((ROOT/'runs').glob('E*/E*-r*.json')):
+ b=p.read_bytes();d=json.loads(b);hits=[m.group(0) for s in strings(d) for m in pat.finditer(s)]
+ rows.append(dict(file=str(p.relative_to(ROOT)),sha256=sha(b),target_captions=hits))
+steps=[]
+for base in ('400-remaining','400-next','400-last'):
+ for p in sorted((ROOT/'notes'/base).glob('*/steps.jsonl')):
+  b=p.read_bytes();data=[json.loads(l) for l in b.splitlines()];screens=[s for d in data for s in walk(d)]
+  steps.append(dict(file=str(p.relative_to(ROOT)),sha256=sha(b),observations=len(data),screen_fields=len(screens),target_captions=[m.group(0) for s in screens for m in pat.finditer(s)]))
+old=json.loads((ROOT/'notes/400-last/record-search-r1.json').read_text())
+oldmap={r['file']:r['sha256'] for r in old['records']};newmap={r['file']:r['sha256'] for r in rows}
+sources=[]
+for item in json.loads((ROOT/'notes/390/inventory.json').read_text())['assets']:
+ if not item['file'].endswith('.GL'):continue
+ b=(ROOT/'.cache/400-last/assets'/item['file']).read_bytes();assert sha(b)==item['sha256'] and len(b)==sum(SIZES)
+ cs=b[sum(SIZES[:10]):sum(SIZES[:11])];managed=[]
+ for c in range(1,129):
+  r=cs[c*191:(c+1)*191]
+  if r[46]>128:managed.append(dict(country=c,manager_flag=r[46],empty_squad_slots=[i+1 for i in range(20) if int.from_bytes(r[2*i:2*i+2],'little')==0]))
+ sources.append(dict(file=item['file'],sha256=sha(b),managed=managed))
+lineups=[]
+for item in json.loads((ROOT/'notes/400-last/observed-starting-keepers-r1.json').read_text())['inputs']:
+ b=(ROOT/item['source']).read_bytes();assert sha(b)==item['sha256'];im=Image.from_savestate(b);m=im.memory;ds=im.DS*16
+ w=lambda a:int.from_bytes(m[a:a+2],'little')
+ far=lambda o:w(ds+o)+16*w(ds+o+2)
+ teams=[]
+ for side in (0,1):
+  c=w(ds+0x9B34+2*side);cs=far(0xA917)+191*c;xi=[]
+  for i in range(11):
+   p=w(cs+2*i);r=m[far(0xA91B)+20*p:far(0xA91B)+20*p+20]
+   xi.append(dict(slot=i+1,player=p,position=r[6],hardness=r[5]-(r[3]&1),energy=r[14],status=r[16]))
+  t=dict(side=side,country=c,manager_flag=m[cs+46],eleven=xi);teams.append(t)
+  prior=item['teams'][side];assert c==prior['country'] and xi[0]['player']==prior['keeper'] and xi[0]['hardness']==prior['hardness']
+ lineups.append(dict(attempt=item['attempt'],source=item['source'],sha256=sha(b),teams=teams))
+files=['notes/400-last/delivery.json','notes/400-last/retained-target-scan-r1.json','notes/400-last/vacancy-path-reading.md','notes/400-next/inventory-r1.json','notes/400-next/core-inventory-r1.json']
+files += ['static/goal-exe/named/'+n for n in ['seg_0791_02.c','seg_0791_04.c','seg_0791_06.c','seg_0791_08.c','seg_0791_11.c','seg_0791_12.c','seg_0791_13.c','seg_1771_01.c','seg_1771_03.c']]
+files += ['static/goal-exe/code/'+n for n in ['seg_0791_12.asm','seg_0791_13.asm','seg_0791_20.asm','seg_0791_22.asm','seg_0791_23.asm']]
+pins=[dict(file=f,sha256=sha((ROOT/f).read_bytes())) for f in files if (ROOT/f).exists()]
+result=dict(schema='T91-readonly-assessment/1',head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),scanner_sha256=sha(Path(__file__).read_bytes()),guest_executions=0,decoded_records=rows,changed_or_new_decoded_records=[f for f,h in newmap.items() if oldmap.get(f)!=h],removed_decoded_records=sorted(set(oldmap)-set(newmap)),step_records=steps,original_saves=sources,actual_post_setup_lineups=lineups,pins=pins,qualifying_inputs=[],decision='No closer input established; no new guest trial justified by this retained-source assessment. Keep four conditional contracts and stop at checkpoint.',limits=['Caption search is not an exhaustive savestate or live-frame search.','T90 retained stack scan is reused as reviewed evidence, not a new scan of all historical machine inputs.','A post-setup lineup verifies actual traits but is not itself a before-foul state.','No exhaustive player-slot write/alias reachability audit.'])
+out=ROOT/'notes/400-reassessment/assessment-r1.json';assert not out.exists();out.write_text(json.dumps(result,indent=2)+'\n')
+print('decoded',len(rows),'new/changed',result['changed_or_new_decoded_records'],'captions',sum(len(r['target_captions']) for r in rows))
+print('step groups',len(steps),'observations',sum(r['observations'] for r in steps),'target captions',sum(len(r['target_captions']) for r in steps))
+print('saves',len(sources),'empty managed squad slots',sum(len(c['empty_squad_slots']) for s in sources for c in s['managed']))
+print('post-setup lineups',len(lineups)*2,'guest executions',0)
