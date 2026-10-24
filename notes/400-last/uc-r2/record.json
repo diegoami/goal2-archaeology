@@ -1,0 +1,62 @@
+{
+  "head": "6e09821b19f1b0ae2b6993450287fbeb30ebb637",
+  "collector_sha256": "8b0f86754324ed9a4bd468ba05aba1f41acce71cd737e6fc69a415fed2695c4b",
+  "source": ".cache/400-last/uc-r1/0046.g2core",
+  "source_sha256": "068a47729a3b1822ae6d3df7777eb99880bbcf74315e22098869ccaeac29ad28",
+  "core_source_commit": "5061474420b842ee98a4a1e4c9c2673c0764b1f2",
+  "bound_s": 120,
+  "fixture_bound": 1,
+  "status": "full time without target",
+  "keys": [
+    27,
+    176,
+    13,
+    175,
+    175,
+    175,
+    175,
+    175,
+    175,
+    13,
+    13,
+    176,
+    13,
+    13,
+    13,
+    13,
+    13
+  ],
+  "host_alias_roles": [
+    2,
+    5
+  ],
+  "method": "Exact saved CPU and original memory import; native VRAM loaded from its saved component when needed; original game code and unchanged Core keyboard services; host labels only for already-delivered roles2/5",
+  "runtime_files": {
+    "goal2/core/__init__.py": "a89702a4719522cdb9be9f66e4e0f873bf50c9313dfa034b490018309199be70",
+    "goal2/core/driver.py": "6e114fecd8778297a61b7cd2644e4be65021f7d7a94a02f0536ff8fa419524ef",
+    "goal2/core/runner.py": "d86465519b8f7fbc52dca7378b6b169c7973c4cd3ea3fe46d385adf16bcbddb4",
+    "goal2/core/screens.py": "9b291b70f2211b71e0eab3e8f602fe0768261f530e1f531b5f87045b71c24155",
+    "goal2/core/views.py": "1f44577508bd4a76fed57d27e21d4b595b50062307d51435af0f6b61b3a82492",
+    "goal2/engine/original_match/__init__.py": "b1286fdd13e3862f5e21c91c9879a1de078199c6180328e78bcde28f5ac12d5c",
+    "goal2/engine/original_match/assets.py": "a3dd00e87b213662c4188eecb9a4e2e88265ad6a8f2f6b84a70c3950895d43b7",
+    "goal2/engine/original_match/build.py": "e3b7c45b7442115361a6bfbded6f954749eea4e31e4f45714684bc2b071a6b41",
+    "goal2/engine/original_match/check.py": "ab6f41283784a5b78dba23d05b8d39b65343a22a660bb41f3b35b915fb64f3ae",
+    "goal2/engine/original_match/example.py": "d17a104f8c08635fb8a3ff61f6113aa56a902b88aef5fcceaf32ab27790bbacf",
+    "goal2/engine/original_match/image.py": "0b6c8a98c0d4fabdfe63be52561dd2afc56a4f0a8238e8ccc06dfd33e78e35a9",
+    "goal2/engine/original_match/machine.py": "3951626402e0f5de690ca5400ad2c6d2fa7d7e26c4fb2143bf7abacac5631fa8",
+    "goal2/engine/original_match/match.py": "635f2dc9f54515452bd3c262c61899b1e36829186266af4d88db54c9b659bb45",
+    "goal2/engine/original_match/screens.py": "45c220305d3e9bbbb4680edbb29fee6d6526d6521fbeea67a969d7b8daf7b304"
+  },
+  "initial_import": {
+    "cpu_unchanged": true,
+    "game_memory_unchanged": true,
+    "video_projection": null
+  },
+  "existing_effective_tactics": {
+    "push_forward": true,
+    "quick_pass": false
+  },
+  "live_frames": 4637,
+  "elapsed_s": 29.531100751999475,
+  "observations": 46
+}
