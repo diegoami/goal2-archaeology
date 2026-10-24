@@ -1,0 +1,58 @@
+...FFFF.
+======================================================================
+FAIL: test_sound_key_toggles_mute_and_keeps_speaker_call_and_writer (tests.test_port_display.SoundChainMemoryTests.test_sound_key_toggles_mute_and_keeps_speaker_call_and_writer) (disabled=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display.py", line 878, in test_sound_key_toggles_mute_and_keeps_speaker_call_and_writer
+    self.assertEqual(r.targets(),[('214B:1E8D','214B:1E61')])
+AssertionError: Lists differ: [] != [('214B:1E8D', '214B:1E61')]
+
+Second list contains 1 additional elements.
+First extra element 0:
+('214B:1E8D', '214B:1E61')
+
+- []
++ [('214B:1E8D', '214B:1E61')]
+
+======================================================================
+FAIL: test_sound_key_toggles_mute_and_keeps_speaker_call_and_writer (tests.test_port_display.SoundChainMemoryTests.test_sound_key_toggles_mute_and_keeps_speaker_call_and_writer) (disabled=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display.py", line 878, in test_sound_key_toggles_mute_and_keeps_speaker_call_and_writer
+    self.assertEqual(r.targets(),[('214B:1E8D','214B:1E61')])
+AssertionError: Lists differ: [] != [('214B:1E8D', '214B:1E61')]
+
+Second list contains 1 additional elements.
+First extra element 0:
+('214B:1E8D', '214B:1E61')
+
+- []
++ [('214B:1E8D', '214B:1E61')]
+
+======================================================================
+FAIL: test_sound_key_toggles_mute_and_keeps_speaker_call_and_writer (tests.test_port_display.SoundChainMemoryTests.test_sound_key_toggles_mute_and_keeps_speaker_call_and_writer) (disabled=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display.py", line 878, in test_sound_key_toggles_mute_and_keeps_speaker_call_and_writer
+    self.assertEqual(r.targets(),[('214B:1E8D','214B:1E61')])
+AssertionError: Lists differ: [] != [('214B:1E8D', '214B:1E61')]
+
+Second list contains 1 additional elements.
+First extra element 0:
+('214B:1E8D', '214B:1E61')
+
+- []
++ [('214B:1E8D', '214B:1E61')]
+
+======================================================================
+FAIL: test_speaker_off_keeps_original_frame_and_kit_input_result (tests.test_port_display.SoundChainMemoryTests.test_speaker_off_keeps_original_frame_and_kit_input_result)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display.py", line 895, in test_speaker_off_keeps_original_frame_and_kit_input_result
+    self.assertEqual(r.mem.reg('ax'),0xBEEF if disabled else 0xBE00)
+AssertionError: 48879 != 48640
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.027s
+
+FAILED (failures=4)

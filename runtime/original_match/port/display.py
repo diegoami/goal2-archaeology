@@ -12,7 +12,7 @@ from .geometry import cbw, cwd, mul, imul
 from .mem import s16, s8
 from .postmatch import half
 from .restarts import _end, idiv_by
-from .runtime import Regs
+from .runtime import Regs, sub_flags
 from .setup import guest, member, farg, w8, w16, rb, rw, squad_of, player_of
 
 PORTS = Registry("display", "the 88-routine display boundary (T73)")
@@ -109,7 +109,7 @@ RETURNS = {
     "2382:0608": "ret",
 }
 for address, ret in RETURNS.items():
-    if address not in {'1771:157D', '1771:11E1', '1771:1289', '1771:0947', '1771:13D0', '1771:4D8A', '1771:4E22', '1771:8A87', '1771:5AC4', '1771:0FB1', '1771:76FA', '1771:77C3', '1771:8E9A', '1771:8CA2', '1771:958D', '1771:8939', '0791:0441', '214B:1EF1', '214B:1F87', '0791:C50C', '214B:1E09', '0791:0481', '0791:04C9', '0791:054C', '0791:1829', '0791:0106', '0791:05C6', '0791:0691', '0791:8F10', '0791:9079', '0791:A699', '0791:94C9', '0791:94E8', '0791:0C65', '0791:0712', '214B:00FF', '214B:0123', '214B:01A3', '214B:0205', '214B:026D', '214B:02C8', '0791:15B9', '0791:0000', '214B:00DB', '214B:0625', '214B:0643', '1771:3827', '1771:2EE5', '1771:2F37', '1771:0F58', '214B:0350', '0791:A75D', '1771:3AE2', '1771:3B3F', '1771:3BD3', '1771:42BC', '214B:13C5'}:
+    if address not in {'1771:157D', '1771:11E1', '1771:1289', '1771:0947', '1771:13D0', '1771:4D8A', '1771:4E22', '1771:8A87', '1771:5AC4', '1771:0FB1', '1771:76FA', '1771:77C3', '1771:8E9A', '1771:8CA2', '1771:958D', '1771:8939', '0791:0441', '214B:1EF1', '214B:1F87', '0791:C50C', '214B:1E09', '0791:0481', '0791:04C9', '0791:054C', '0791:1829', '0791:0106', '0791:05C6', '0791:0691', '0791:8F10', '0791:9079', '0791:A699', '0791:94C9', '0791:94E8', '0791:0C65', '0791:0712', '214B:00FF', '214B:0123', '214B:01A3', '214B:0205', '214B:026D', '214B:02C8', '0791:15B9', '0791:0000', '214B:00DB', '214B:0625', '214B:0643', '1771:3827', '1771:2EE5', '1771:2F37', '1771:0F58', '214B:0350', '0791:A75D', '1771:3AE2', '1771:3B3F', '1771:3BD3', '1771:42BC', '214B:13C5', '214B:1E5A', '214B:1E8D'}:
         PORTS.stub(address, ret=ret, value=None, why="display/sound/wait body omitted; listing return cleanup and incoming result registers preserved")
 
 
@@ -1551,6 +1551,32 @@ def substitution_notice_memory(mem,variant):
     return _end(r)
 
 
+
+
+@PORTS.port('214B:1E5A',ret='retf')
+def toggle_sound_memory(mem,variant):
+    """1E5A-1E74: speaker-off call, saved frame and the persistent mute byte."""
+    r=Regs(mem);r.enter()
+    r=yield from guest(mem,r,'214B:1E8D',ret='214B:1E61')
+    disabled=mem.ds8(0xA9FC)
+    r.arith(sub_flags(disabled,0,8))                 # 1E61 cmp byte [A9FC],0
+    r.al=int(disabled==0)
+    mem.wds8(0xA9FC,r.al,'214B:1E6E')
+    return _end(r)
+
+
+@PORTS.port('214B:1E8D',ret='retf')
+def speaker_off_memory(mem,variant):
+    """1E8D-1EA0: preserve the frame and AL; omit only the hardware output.
+
+    Machine has no port-input hook: Unicorn's unhandled IN 61h supplies zero,
+    also observed in out/T73/speaker-returns-1.txt. A disabled speaker skips IN.
+    """
+    r=Regs(mem);r.enter()
+    disabled=mem.ds8(0xA9FC)
+    r.arith(sub_flags(disabled,0,8))                 # 1E90 cmp byte [A9FC],0
+    if not disabled:r.al=0                         # 1E97 in al,61h; 1E99 and al,FCh
+    return _end(r)
 
 
 @PORTS.port('0791:0441',ret='ret 2')
