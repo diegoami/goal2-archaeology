@@ -22,6 +22,7 @@ SOURCE_SHA='06af479da77db6e1da7847de929bf43531349f2fcddcaeac3ba93e8b16da304d'
 def manager_frame(raw):
     image=Image.from_savestate(raw);regs=cpu_state(raw)
     ss,sp=regs['SS'],regs['ESP']&0xffff
+    # [confirmed: static/goal-exe/code/seg_000E_09.asm, 75CC call214B:08DD returns75D1, main menu7439]
     pair=(0x75D1).to_bytes(2,'little')+((image.load+0x000E)&0xffff).to_bytes(2,'little')
     hits=[o-2 for o in range(sp,0xfffc,2) if image.memory[ss*16+o:ss*16+o+4]==pair]
     return image,regs,hits
@@ -44,6 +45,8 @@ def main():
              max_intervention='I3: explicit DOS date/time; I2 original keys and savestate observation',
              head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
              keys=[],checkpoints=[])
+    rec['collector_sha256']=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+    shutil.copy2(Path(__file__),public/'collector.py')
     start=time.monotonic()
     def observe(label):
         times,state,raw=d.read();text=state.screen().text()

@@ -23,5 +23,16 @@ def main():
    assert 'Holland' in steps[-1]['screen'] and 'Belgium' in steps[-1]['screen']
   records.append((folder.name,rec['status'],len(rec['checkpoints'])))
  assert len(records)==3 and sum(n for _,_,n in records)==1
+ delivery=json.loads((ROOT/'notes/400/delivery.json').read_text())
+ assert delivery['source_sha256']==SOURCE_SHA and delivery['readback_verified'] is True
+ raw=(ROOT/delivery['readback_file']).read_bytes()
+ digest=hashlib.sha256(raw).hexdigest();assert digest==delivery['sha256']
+ assert delivery['file']==f'g13-{digest[:16]}-g4c-loaded-manager.sav'
+ assert delivery['private']=='goal2drive:'+delivery['file']
+ accepted=json.loads((ROOT/'notes/400/load-r3/record.json').read_text())['checkpoints'][0]
+ assert accepted['sha256']==digest
+ image,_,hits=manager_frame(raw);assert len(hits)==1 and not image.build_problems()
+ ds=image.DS*16
+ assert delivery['post_load_rng']=={f'DS:{o:04X}':int.from_bytes(image.memory[ds+o:ds+o+2],'little') for o in (0x7B62,0x7B64)}
  print('PASS original G4C source hash, unchanged copies, complete key/screen trace, build guard and unique manager read frame:',records)
 if __name__=='__main__':main()

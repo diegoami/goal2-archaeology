@@ -12,5 +12,10 @@
     "timed set-piece taker roles2..5",
     "extra-time menus",
     "remaining E022/EA09 warnings"
-  ]
+  ],
+  "readback_file": ".cache/400/readback-manager.sav",
+  "post_load_rng": {
+    "DS:7B62": 0,
+    "DS:7B64": 0
+  }
 }

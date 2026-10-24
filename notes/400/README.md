@@ -31,3 +31,10 @@ This delivery captures **only the original-loaded manager menu**, not yet a take
 menu or vacancy warning. It supplies a cheap starting point for a short original-key core
 continuation. Do not call the missing decision cases completed or use the .GL as their CPU
 state. Their original contracts remain the T84 static evidence until reached.
+
+Review supplements (raw attempts remain untouched): `collector-provenance.json` pins the
+unchanged r3 collector as committed after that run. The earlier two aborted revisions were
+not pinned and are not retroactively claimed identical. Future attempts now record the
+collector's own hash and archive it before launch. The delivery verifier checks the manifest,
+local private readback, delivered name/hash and the actual post-load RNG words (F004).
+The wider request #400 remains open; this PR references it and supplies only a starting input.
