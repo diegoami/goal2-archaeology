@@ -1,0 +1,20 @@
+{
+  "attempt": "native-r3",
+  "head": "d498f718fc75f9c311724908ead57db67e34ae72",
+  "collector_sha256": "3896f0f5633547b32b2aa03f4f5e4c94162a559e74400ec6511495df01b3cf9d",
+  "source_sha256": "06af479da77db6e1da7847de929bf43531349f2fcddcaeac3ba93e8b16da304d",
+  "runtime": "DOSBox-X 2024.03.01; fixed 8000; original raw XTEST keys; nohost mapper; explicit DOS date/time",
+  "bound_s": 900,
+  "status": "running",
+  "resume": {
+    "file": ".cache/400-remaining/native-r2/00265.sav",
+    "sha256": "b57ddc15ee0ccab58cc074b2cf9beca3635c9bcd656543c5772590128ada585d",
+    "game_dir": "/tmp/goal2-archaeology-400/.cache/400-remaining/native-r2/game",
+    "workdir": "/tmp/goal2-archaeology-400/.cache/400-remaining/native-r2/driver",
+    "verified_mounts": [
+      "mount c /tmp/goal2-archaeology-400/.cache/400-remaining/native-r2/game",
+      "mount d /tmp/goal2-archaeology-400/.cache/400-remaining/native-r2/driver/dosclock"
+    ],
+    "basis": "same absolute native C and D mounts, previously original-loaded G4C; old driver files retained privately"
+  }
+}
