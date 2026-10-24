@@ -31,6 +31,8 @@ oldraw=ROOT/'experiments/E036-match-port/out/T57/reference.jsonl'
 olddisplay=ROOT/'experiments/E036-match-port/families/display/reference-all-20261023-v1.jsonl'
 assert rawref.read_bytes().startswith(oldraw.read_bytes())
 assert displayref.read_bytes().startswith(olddisplay.read_bytes())
+assert set(compare.load(rawref))==set(compare.load(displayref))==set(specs)
+assert len(compare.load(oldraw))==len(compare.load(olddisplay))==62
 for old in (oldraw,olddisplay):
     baseline=subprocess.check_output(['git','show','53b011249446c4a562624b573b84640726134c6b:'+str(old.relative_to(ROOT))],cwd=ROOT)
     assert baseline==old.read_bytes()
@@ -81,16 +83,23 @@ controls=read(OUT/'controls-4/summary.json');assert len(controls['results'])==42
 assert controls['baseline']=='53b011249446c4a562624b573b84640726134c6b'
 assert controls['menus_sha256']==digest(ROOT/'runtime/original_match/port/menus.py')
 assert controls['tests_sha256']==digest(ROOT/'tests/test_port_menus.py')
-mapdata=read(OUT/'unreached-map-3.json');assert mapdata['unreached_blocks']==209
+mapdata=read(OUT/'unreached-map-4.json');assert mapdata['unreached_blocks']==209
 assert mapdata['tests_sha256']==digest(ROOT/'tests/test_port_menus.py')
 validation=OUT/'validation-final-1';assert source_matches(read(validation/'source.json'))
 assert read(validation/'results.json')=={'owned-unit':0,'check':0,'annotations':0,'full-suite':0}
 for name in ('owned-unit','check','annotations','full-suite'):
     assert (validation/(name+'.exit')).read_text().strip()=='0'
 assert 'OK' in (validation/'full-suite.log').read_text()
+static=read(OUT/'citation-endpoints-final-main-2.json')
+assert static['original_valid_endpoints_reverified']==200 and static['citations_moved_overall']==7
+assert static['inherited_problem_citations_preserved']==18 and static['latest_regeneration']==3
+assert static['runtime_changed'] is False
+assert all(digest(ROOT/p)==value for p,value in static['sha256'].items())
+assert (OUT/'static-after-regeneration-3.exit').read_text().strip()=='0'
+assert 'Ran 47 tests' in (OUT/'static-after-regeneration-3.log').read_text()
 report={'dispatch_head':dispatch,'comparisons':reports,'entry_call_checks':len(counter_rows),
         'menu_entries':27,'port_modules':17,'mask':[],'falsifiers':proof,'controls_caught':42,
         'unit_methods':42,'unvisited_blocks_mapped':209,'references':{str(p.relative_to(ROOT)):digest(p) for p in (rawref,displayref,oldraw,olddisplay)},
-        'sources_match':True,'known_limit':'https://github.com/diegoami/goal2-archaeology/issues/394'}
+        'sources_match':True,'static_receipt_sha256':digest(OUT/'citation-endpoints-final-main-2.json'),'known_limit':'https://github.com/diegoami/goal2-archaeology/issues/394'}
 output.write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))

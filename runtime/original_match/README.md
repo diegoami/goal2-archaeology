@@ -345,20 +345,25 @@ and pauses require a participating managed side. For a computer-only fixture,
 the draw transcript and optional seed/delay inputs begin at `play_match` entry
 after setup, since there is no human captain prompt.
 
-With `--ports menus`, the Python translations own all27 menu/key routines. The
+With `--ports menus`, the Python translations own all 27 menu/key routines. The
 existing `MenuPlan` supplies compatibility keys to the Python menu bodies; cursor
-transitions and their frame/buffer effects remain exact. A decision stops in the
+transitions and their frame/buffer effects remain exact. SELECT TEAM's outer loop
+and substitution routines remain explicit guest callees for T75. T74's tactics,
+position, marking and own-tactic writes occur in their Python bodies at the
+original sites. A decision stops in the
 08DD entry hook before Python runs, then its successful key is consumed once by
 the port. Save/resume therefore keeps the existing parked guest-call mechanism.
-The DOS.MsDos wrapper235C:0000 retains its original shifted return frame: literal
-shared `retf6` at entrySP-2 gives effective argument cleanup4. Its IVT call uses
+The DOS.MsDos wrapper 235C:0000 retains its original shifted return frame: literal
+shared `retf 6` at entry SP - 2 gives effective argument cleanup 4. Its IVT call uses
 the ordinary guest-call FLAGS/CS/IP frame and an actual IRET return.
 
-Known limit: direct side-by-side `Prover` runs of DOS.MsDos235C:0000 do not yet
+Known limit: direct side-by-side `Prover` runs of DOS.MsDos 235C:0000 do not yet
 account for its nonzero return-stack displacement. Both Prover return-SP
 predictions currently use entrySP+return-size+cleanup, without the displacement.
-Actual IVT/IRET runner tests pass; ordinary ALL matches never reach this wrapper.
+This is a static prediction mismatch; an end-to-end Prover reproduction has not
+been run. Actual IVT/IRET runner tests pass separately, and ordinary ALL matches
+never reach this wrapper.
 The separate [T74 follow-up #394](https://github.com/diegoami/goal2-archaeology/issues/394)
-requires the actual MSDOS side-by-side proof, including original0000-to000B
+requires the actual MSDOS side-by-side proof, including original 0000-to-000B
 fallthrough sequencing versus the Python common helper; propagating the delta
 in both return predictions alone is not assumed sufficient.
