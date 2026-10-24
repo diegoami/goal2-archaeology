@@ -3501,4 +3501,20 @@ test_three_named_cells_have_their_attribute_colours (test_screens_render.Synthet
 test_a_black_frame_has_no_grid_and_decodes_to_blank (test_screens_video.DecodeCropTests.test_a_black_frame_has_no_grid_and_decodes_to_blank) ... ok
 test_a_cell_whose_ink_is_the_majority_colour_keeps_fg_and_bg (test_screens_video.DecodeCropTests.test_a_cell_whose_ink_is_the_majority_colour_keeps_fg_and_bg) ... ok
 test_a_wrong_grid_offset_is_not_read_as_exact (test_screens_video.DecodeCropTests.test_a_wrong_grid_offset_is_not_read_as_exact) ... ok
-test_find_grid_locates_the_offset (test_screens_video.DecodeCropTests.test_find_grid_locates_the_offset) ... 
+test_find_grid_locates_the_offset (test_screens_video.DecodeCropTests.test_find_grid_locates_the_offset) ... ok
+test_find_grid_sees_ink_in_the_blue_channel_alone (test_screens_video.DecodeCropTests.test_find_grid_sees_ink_in_the_blue_channel_alone) ... ok
+test_text_and_foreground_are_read_exactly (test_screens_video.DecodeCropTests.test_text_and_foreground_are_read_exactly) ... ok
+test_canonical_set_hash_is_exposed (test_validate_runs.ValidateRunsTest.test_canonical_set_hash_is_exposed) ... ok
+test_directory_validates_each_json_document (test_validate_runs.ValidateRunsTest.test_directory_validates_each_json_document) ... ok
+test_duplicate_json_key_is_invalid (test_validate_runs.ValidateRunsTest.test_duplicate_json_key_is_invalid) ... ok
+test_help_prints_usage_and_runs_directory_behaves_as_before (test_validate_runs.ValidateRunsTest.test_help_prints_usage_and_runs_directory_behaves_as_before) ... ok
+test_invalid_example_exits_1 (test_validate_runs.ValidateRunsTest.test_invalid_example_exits_1) ... ok
+test_missing_path_invalid_json_and_unknown_schema_exit_1 (test_validate_runs.ValidateRunsTest.test_missing_path_invalid_json_and_unknown_schema_exit_1) ... ok
+test_semantic_rule_is_applied (test_validate_runs.ValidateRunsTest.test_semantic_rule_is_applied) ... ok
+test_valid_evidence_manifest_exits_0 (test_validate_runs.ValidateRunsTest.test_valid_evidence_manifest_exits_0) ... ok
+test_valid_example_exits_0 (test_validate_runs.ValidateRunsTest.test_valid_example_exits_0) ... ok
+
+----------------------------------------------------------------------
+Ran 2070 tests in 1842.909s
+
+OK (skipped=13)

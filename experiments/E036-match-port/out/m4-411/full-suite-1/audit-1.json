@@ -1,0 +1,16 @@
+{
+  "tests": 2070,
+  "seconds": 1842.909,
+  "inherited_skips": 13,
+  "new_skips": [],
+  "resolved_skips": [
+    "test_build_guard_mutable.OriginalCheckpoint.test_adjacent_immutable_data_corruption_is_still_refused",
+    "test_build_guard_mutable.OriginalCheckpoint.test_code_and_relocation_corruption_are_still_refused",
+    "test_build_guard_mutable.OriginalCheckpoint.test_real_shootout_checkpoint_is_accepted_without_any_memory_edits"
+  ],
+  "all_real_checkpoint_controls_passed": true,
+  "real_GUI_first_attempt": true,
+  "source_count": 235,
+  "before_after_current_identical": true,
+  "suite_sha256": "100415c7a69e5cdf2a9d0fe40f772dd4ce09fdc062b4b850dec23333dfc268e9"
+}
