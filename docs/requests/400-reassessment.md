@@ -136,3 +136,6 @@ that PR. The §14 handover will cite the merged T91 head and preserve consumer L
 cells and F029/F030 proposed status in a two-file register/handover branch from latest
 main. Goal2 owns its docs PR/reviewer/merge. Stop at this investigation's checkpoint;
 no next task starts automatically.
+
+The complete §14 consumer prompt and post-merge branch/checkpoint links are on
+[goal2#383](https://github.com/diegoami/goal2/issues/383).
