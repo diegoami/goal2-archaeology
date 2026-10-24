@@ -155,7 +155,7 @@ def main(argv=None):
             if a.match not in log:
                 raise Refused(f"{a.match} is not in the {what}")
             r = log[a.match]
-            if r["spec_sha256"] != spec.sha256 or r["image_sha256"] != families.image_sha256():
+            if r["spec_sha256"] != spec.sha256 or r["image_sha256"] != spec.image_sha256:
                 raise Refused(f"the {what}'s {a.match} is not the declared match on the declared image")
         ref, cand = ref_log[a.match], cand_log[a.match]
         if compare.completed(ref):

@@ -1,0 +1,34 @@
+{
+  "family": "FS",
+  "reference": "experiments/E036-match-port/out/m4-419/FS-native-raw-1.jsonl",
+  "description": "Genuine source snapshot; ordinary Match API constructs its declared Holland-Belgium fixture. Public E031 is a shootout-time snapshot restarted through that API, not an untouched original-key continuation. T86 is the genuine outside-match loaded-manager source. No source memory edits.",
+  "base": {
+    "fixture": [
+      20,
+      3,
+      2392,
+      8
+    ],
+    "managed": 20,
+    "seed": null,
+    "delay_byte": null,
+    "substitutions": null,
+    "edits": [],
+    "image": "E031-stage8",
+    "policy": {
+      "name": "PlayOn",
+      "contexts": [
+        "half_time",
+        "substitution",
+        "extra_time",
+        "shootout_order"
+      ]
+    }
+  },
+  "edit_sets": {},
+  "matches": [
+    {
+      "id": "FS/public-stage8-holland-belgium"
+    }
+  ]
+}
