@@ -28,6 +28,7 @@ def target(path):
 def records():
     results={}
     for folder in sorted((ROOT/'notes/400-last').glob('uc-r*')):
+        if not folder.is_dir():continue
         rec=json.loads((folder/'record.json').read_text());src=json.loads((folder/'source.json').read_text());code=(folder/'collector.py').read_bytes()
         assert sha(code)==rec['collector_sha256']==src['collector_sha256']
         assert subprocess.check_output(['git','show',rec['head']+':notes/400-last/collect_unicorn.py'],cwd=ROOT)==code
