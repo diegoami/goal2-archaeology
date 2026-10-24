@@ -1,0 +1,45 @@
+{
+  "run": 40090586451,
+  "head": "f90dada50cf2d0b2f65b3da5e75a26f5053a79e4",
+  "artifact_id": 12559345744,
+  "zip_sha256": "45f2f45b8276c20b1292b072b3cb563ef5f0e8b26b9484937af0cd29c84be491",
+  "strict_exact_matches": 2,
+  "matches": [
+    "F40/edit-0042",
+    "F40/edit-1111"
+  ],
+  "mask": [],
+  "skipped_ds_blocks": [],
+  "native_physical_python_triples": 34,
+  "modules": [
+    "attributes",
+    "ball",
+    "contests",
+    "discipline",
+    "display",
+    "duels",
+    "frame",
+    "geometry",
+    "menus",
+    "motion",
+    "pilot",
+    "positioning",
+    "postmatch",
+    "quick",
+    "rare",
+    "restarts",
+    "runtime",
+    "selection",
+    "setup",
+    "takers",
+    "update"
+  ],
+  "source_log_valid": true,
+  "sha256": {
+    "shard-15.jsonl": "9b53f3e51e864fd1fcc326851dc7f52c25e1c57b55faa1abe755ccd71b2709f7",
+    "shard-15-run.txt": "0df054778fcfec6e6a6c4a4f10f11a879b8ec13b92c2bd0083b5cc7d750c95a8",
+    "shard-15.zip": "45f2f45b8276c20b1292b072b3cb563ef5f0e8b26b9484937af0cd29c84be491",
+    "artifact-metadata.json": "9eadc525b00200ef3082a71fd8e960668fd240acbc933bcc786733b81c74520d",
+    "compare.log": "5dd97d388961c4f08e026f32d6ebd0c7f3a82d021568111bb0eb330a7c37a5f3"
+  }
+}
