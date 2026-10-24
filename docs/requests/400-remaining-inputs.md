@@ -120,6 +120,8 @@ EA09, then their original listings. Static contracts cannot supply genuine machi
 which is why these bounded runs were needed. Cost was assessed before each continuation;
 only two existing fixtures were played, with no campaign advancement beyond them.
 
+T89 subsequently delivered the role 5 goal-kick input; see [its delivery and reproduction](400-next.md). The table below records T88's collection limits, not the combined coverage of later deliveries.
+
 | Still unavailable | Exact limit and cheaper §15 assumption |
 | --- | --- |
 | Role 3 penalty | No retained original penalty-taker input in either fixture. A penalty cannot be promised within another short run. Keep F030's role-3 contract as static-only evidence. |
