@@ -88,6 +88,16 @@ def main():
     assert rows[-1]['reason']=='continuation-boundary' and rows[-1]['regs']['EAX']&255==0
     # Actual counter1 and single available keeper at message wait (EA09 frame).
     frame=message['frames'][-1]['bp'];assert m[ss+frame-2]==1 and m[ss+frame-16]==1
+ for folder in ['clean-reproduction-r1','independent-review-r1']:
+  for p in (ROOT/'notes/400-synthetic'/folder).iterdir():
+   if not p.is_dir():continue
+   case=next(c for c in ['role3','role4','E062','EC60'] if p.name.startswith(c))
+   original=case+('-r1' if case=='EC60' else '-r2')
+   reference=ROOT/'notes/400-synthetic'/original
+   assert (p/'steps.jsonl').read_bytes()==(reference/'steps.jsonl').read_bytes()
+   a=load(p/'record.json');b=load(reference/'record.json')
+   assert a['status']=='passed' and a['keys']==b['keys'] and a['events']==b['events']
+   assert a['constructed_sha256']==b['constructed_sha256']
  for p in [ROOT/'.cache/400-synthetic/t92-fixtures-v2-private.zip',ROOT/'.cache/400-synthetic/readback/t92-fixtures-v2-private.zip']:
   assert sha(p.read_bytes())=='ab1864e3449a643bdc6119650e09b9d29e90ab01476aa9eace468d6834f9eeae'
  print(f'PASS: four synthetic fixtures / {count} immutable stopped machines, all edits and original code bytes verified; independent selector controls + actual CF3A; both original message waits/dismissals; E062-r1 failed assertion preserved; private package/readback hashes match')
