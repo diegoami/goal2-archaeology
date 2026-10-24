@@ -482,6 +482,25 @@ class OriginalTests(unittest.TestCase):
         self.assertTrue(m.over)
 
 
+    def test_selection_port_refused_eleven_keeps_swap_and_original_message(self):
+        from original_match import Match, Fixture
+        m = Match(self.image, Fixture(7, 19, index=21), managed=7, ports=["menus", "selection"])
+        refusals = []
+        swapped_before_refusal = []
+        for ev in m.events():
+            if ev.kind == "decision" and ev.data["context"] == "half_time":
+                if ev.data.get("refused"):
+                    refusals.append(ev.data["refused"])
+                    swapped_before_refusal.append((130 not in ev.data["eleven"], 132 in ev.data["eleven"]))
+                    m.answer(substitutions=[(121, 133)])
+                else:
+                    m.answer(substitutions=[(130, 132)])     # the reserve keeper: two keepers
+        self.assertEqual(refusals, ["Denmark has too many goalkeepers"])
+        self.assertTrue(m.over)
+        self.assertEqual(swapped_before_refusal, [(True, True)])
+        self.assertGreater(m.ports.calls.get("0791:EA09", 0), 0)
+
+
 def knockout_events(image, index, policy, **kw):
     from original_match import Match, Fixture
     m = Match(image, Fixture(7, 19, index=index, kind=200), managed=7, **kw)
@@ -619,6 +638,32 @@ class CompetitiveTests(unittest.TestCase):
                 m.answer()
 
         m, events = knockout_events(self.image, 30, policy, substitutions=(5, 0))
+        r = m.result()
+        self.assertEqual(r["substitution_budget"], [5, 0])
+        self.assertEqual(len(made), 3)
+        self.assertEqual([(s["off"], s["on"]) for s in r["substitutions"] if s["team"] == 0][:3], made)
+        self.assertEqual([s for s in r["substitutions"] if s["team"] == 1], [])
+        defaults = knockout_events(self.image, 30, lambda m, ev: m.answer(quick=True) if ev.data["context"] == "half_time"
+                                   else m.answer())[0].result()
+        self.assertEqual(defaults["substitution_budget"], [2, 2])
+
+    def test_selection_port_substitution_budget_per_side(self):
+        # goal2's own rule is its choice (the owner, 2026-10-15): here 5 for goal2's side, where the original allows 2
+        # in a competitive fixture, and 0 for the computer's, whose rule (8062) then makes none
+        made = []
+
+        def policy(m, ev):
+            d = ev.data
+            if d["context"] == "half_time" and not made:
+                self.assertEqual(d["substitutions_left"], 5)
+                pos = dict(d["positions"])
+                subs = [(off, on) for off, on in zip(d["eleven"][8:11], [w for w in d["bench"] if w and pos[w] != 0])]
+                made.extend(subs)
+                m.answer(substitutions=subs, quick=True)
+            else:
+                m.answer()
+
+        m, events = knockout_events(self.image, 30, policy, substitutions=(5, 0), ports=["menus", "selection"])
         r = m.result()
         self.assertEqual(r["substitution_budget"], [5, 0])
         self.assertEqual(len(made), 3)

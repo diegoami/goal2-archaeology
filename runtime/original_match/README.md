@@ -347,12 +347,21 @@ after setup, since there is no human captain prompt.
 
 With `--ports menus`, the Python translations own all 27 menu/key routines. The
 existing `MenuPlan` supplies compatibility keys to the Python menu bodies; cursor
-transitions and their frame/buffer effects remain exact. SELECT TEAM's outer loop
-and substitution routines remain explicit guest callees for T75. T74's tactics,
+transitions and their frame/buffer effects remain exact. With `--ports menus,selection`,
+SELECT TEAM, substitution requests/swaps and first-eleven validation also run in
+Python, including the exit's pool sort. MenuPlan remains the compatibility key
+adapter; the selection bodies own the original squad-word, form and marking
+writes and retain their cross-row guest calls. The pre-match career pool-selection
+branches are outside the kit's supported decisions. T74's tactics,
 position, marking and own-tactic writes occur in their Python bodies at the
 original sites. A decision stops in the
 08DD entry hook before Python runs, then its successful key is consumed once by
 the port. Save/resume therefore keeps the existing parked guest-call mechanism.
+A refused eleven keeps the swap already made and returns the original warning
+with the next decision, so the manager can answer again. A zero budget prevents
+a request or swap; requesting a substitution before a stoppage retains the
+original request flag until the notice. The selection port uses the same live
+frames and save/resume mechanism.
 The DOS.MsDos wrapper 235C:0000 retains its original shifted return frame: literal
 shared `retf 6` at entry SP - 2 gives effective argument cleanup 4. Its IVT call uses
 the ordinary guest-call FLAGS/CS/IP frame and an actual IRET return.

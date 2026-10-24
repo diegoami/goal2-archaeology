@@ -1,0 +1,21 @@
+[
+  "/home/diego/.local/bin/python3.12",
+  "-B",
+  "experiments/E036-match-port/family.py",
+  "--family",
+  "ALL",
+  "--only",
+  "S/decisions-70",
+  "--time-limit",
+  "1800",
+  "--stretch-limit",
+  "300",
+  "--count",
+  "0791:DE27,0791:DE51,0791:E022,0791:E2A0,0791:E44F,0791:E949,0791:EA09,1771:53E8,1771:5532,0791:E6A9,0791:E20B,0791:EB89,0791:DAF8,0791:DB38,0791:DBFA,0791:DC7E,0791:DDCB,0791:DEA6,0791:E2E6,1771:4FAA,1771:55FC",
+  "--out",
+  "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T75/diagnostics-3/keeper-check-inverted.jsonl",
+  "--ports",
+  "menus,selection",
+  "--variant",
+  "selection.keeper-check-inverted"
+]
