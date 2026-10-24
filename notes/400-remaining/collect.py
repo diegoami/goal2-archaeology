@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Bounded native original-key collection; JSON line commands over stdin."""
 import hashlib, json, select, shutil, subprocess, sys, time
+from types import SimpleNamespace
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[2]
@@ -41,15 +42,21 @@ def main():
     class Loaded(driver.Driver):
         def _start_xvfb(self):
             shutil.copy2(source,self.game_dir/'G4C.GL');super()._start_xvfb()
-    game=private/'game'
+    game=private/'game';work=private/'driver';start_state=None
     if resume:
         # Only resume our own closed native attempt on its EXACT mounted game directory.
         previous=resume.parent; old=json.loads((ROOT/'notes/400-remaining'/previous.name/'record.json').read_text())
         assert old['status']!='running'
-        game=previous/'game'
-        rec['resume']=dict(file=str(resume.relative_to(ROOT)),sha256=sha(resume.read_bytes()),game_dir=str(game),basis='same absolute native drive mount, previously original-loaded G4C')
+        game=previous/'game';work=previous/'driver'
+        old_conf=(work/'dosbox.conf').read_text()
+        mounts=[line for line in old_conf.splitlines() if line.startswith('mount ')]
+        assert mounts==[f'mount c {game}',f'mount d {work / driver.CLOCK_DIR}']
+        shutil.copytree(work,private/'preceding-driver-files')
+        rec['resume']=dict(file=str(resume.relative_to(ROOT)),sha256=sha(resume.read_bytes()),game_dir=str(game),workdir=str(work),verified_mounts=mounts,basis='same absolute native C and D mounts, previously original-loaded G4C; old driver files retained privately')
         (pub/'source.json').write_text(json.dumps(rec,indent=2)+'\n')
-    d=Loaded(config=dict(cycles='fixed 8000',dos_date='10/24/2026',dos_time='12:00:00'),workdir=private/'driver',game_dir=game,mapper='nohost')
+    d=Loaded(config=dict(cycles='fixed 8000',dos_date='10/24/2026',dos_time='12:00:00'),workdir=work,game_dir=game,mapper='nohost')
+    if resume:
+        start_state=SimpleNamespace(name=resume.stem,path=resume,game_dir=str(game),drive_layout=d.drive_layout(),screen_digest=driver.savestate.Savestate(resume.read_bytes()).screen().digest())
     n=0; started=time.monotonic(); last=None
     def observe(req):
         nonlocal n,last
@@ -63,7 +70,7 @@ def main():
     def send(keys):
         d.keys(*keys);return observe(dict(keys=keys))
     try:
-        d.launch(resume); row=observe('resume same native mount' if resume else 'launch')
+        d.launch(start_state); row=observe('resume same native mount' if resume else 'launch')
         if not resume:
             for _ in range(4):
                 row=send(['y'])
