@@ -262,7 +262,7 @@ def match_key_poll(mem,variant):
             r.al=int(mem.ds8(0xA976)==0xB1);cbw(r);r.di=r.ax
             r.al=mem.ds8((r.di+0x7920)&M16);cbw(r)
             r=yield from guest(mem,r,'214B:1D6F',mem.DS,0x66A,lo,hi,r.ax,ret='9448')
-            r=yield from guest(mem,r,'0691',ret='944B')
+            r=yield from guest(mem,r,'0691',ret='944B',far=False)
         elif key in (0x0D,0x1B):
             r.al=1
             r=yield from guest(mem,r,'ED8A',r.ax,ret='945B',far=False)

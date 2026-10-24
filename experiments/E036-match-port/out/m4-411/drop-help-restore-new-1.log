@@ -1,0 +1,20 @@
+........F.....................................
+======================================================================
+FAIL: test_help_saves_and_restores_all_4000_bytes_in_order (tests.test_port_menus.Menus.test_help_saves_and_restores_all_4000_bytes_in_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-0k3csus_/tests/test_port_menus.py", line 283, in test_help_saves_and_restores_all_4000_bytes_in_order
+    self.assertEqual(r.args('23E4:025D'),[(*screen,*saved,4000),(*saved,*screen,4000)])
+AssertionError: Lists differ: [(16896, 256, 17408, 512, 4000)] != [(16896, 256, 17408, 512, 4000), (17408, 512, 16896, 256, 4000)]
+
+Second list contains 1 additional elements.
+First extra element 1:
+(17408, 512, 16896, 256, 4000)
+
+- [(16896, 256, 17408, 512, 4000)]
++ [(16896, 256, 17408, 512, 4000), (17408, 512, 16896, 256, 4000)]
+
+----------------------------------------------------------------------
+Ran 46 tests in 1.066s
+
+FAILED (failures=1)

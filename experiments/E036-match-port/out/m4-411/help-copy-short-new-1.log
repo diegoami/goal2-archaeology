@@ -1,0 +1,21 @@
+........F.....................................
+======================================================================
+FAIL: test_help_saves_and_restores_all_4000_bytes_in_order (tests.test_port_menus.Menus.test_help_saves_and_restores_all_4000_bytes_in_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-bgu0_qel/tests/test_port_menus.py", line 282, in test_help_saves_and_restores_all_4000_bytes_in_order
+    r.run('0791:9372',answer=respond)
+  File "/tmp/m4-411-bgu0_qel/tests/test_port_menus.py", line 53, in run
+    return self._invoke(entry,variant)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/m4-411-bgu0_qel/tests/test_port_menus.py", line 73, in _invoke
+    handled=self.respond(request,mem) if self.respond else None
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/m4-411-bgu0_qel/tests/test_port_menus.py", line 278, in respond
+    self.assertEqual(bytes(mem.memory[d:d+4000]),original)
+AssertionError: b'\x0[11311 chars]db\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xcc' != b'\x0[11311 chars]db\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea'
+
+----------------------------------------------------------------------
+Ran 46 tests in 1.063s
+
+FAILED (failures=1)

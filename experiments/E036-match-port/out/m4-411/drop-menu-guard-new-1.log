@@ -1,0 +1,95 @@
+.................FFFFFF............................
+======================================================================
+FAIL: test_menu_items_3_and_8_keep_conditional_prompt_arguments (tests.test_port_menus.Menus.test_menu_items_3_and_8_keep_conditional_prompt_arguments) (item=3, flag=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-z1187dw9/tests/test_port_menus.py", line 442, in test_menu_items_3_and_8_keep_conditional_prompt_arguments
+    self.assertEqual(r.args('214B:1765'),[(flag,r.mem.seg(0x0791),0xED7C)])
+AssertionError: Lists differ: [] != [(0, 1937, 60796)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(0, 1937, 60796)
+
+- []
++ [(0, 1937, 60796)]
+
+======================================================================
+FAIL: test_menu_items_3_and_8_keep_conditional_prompt_arguments (tests.test_port_menus.Menus.test_menu_items_3_and_8_keep_conditional_prompt_arguments) (item=3, flag=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-z1187dw9/tests/test_port_menus.py", line 442, in test_menu_items_3_and_8_keep_conditional_prompt_arguments
+    self.assertEqual(r.args('214B:1765'),[(flag,r.mem.seg(0x0791),0xED7C)])
+AssertionError: Lists differ: [] != [(1, 1937, 60796)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(1, 1937, 60796)
+
+- []
++ [(1, 1937, 60796)]
+
+======================================================================
+FAIL: test_menu_items_3_and_8_keep_conditional_prompt_arguments (tests.test_port_menus.Menus.test_menu_items_3_and_8_keep_conditional_prompt_arguments) (item=3, flag=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-z1187dw9/tests/test_port_menus.py", line 442, in test_menu_items_3_and_8_keep_conditional_prompt_arguments
+    self.assertEqual(r.args('214B:1765'),[(flag,r.mem.seg(0x0791),0xED7C)])
+AssertionError: Lists differ: [] != [(255, 1937, 60796)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(255, 1937, 60796)
+
+- []
++ [(255, 1937, 60796)]
+
+======================================================================
+FAIL: test_menu_items_3_and_8_keep_conditional_prompt_arguments (tests.test_port_menus.Menus.test_menu_items_3_and_8_keep_conditional_prompt_arguments) (item=8, flag=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-z1187dw9/tests/test_port_menus.py", line 442, in test_menu_items_3_and_8_keep_conditional_prompt_arguments
+    self.assertEqual(r.args('214B:1765'),[(flag,r.mem.seg(0x0791),0xED7C)])
+AssertionError: Lists differ: [] != [(0, 1937, 60796)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(0, 1937, 60796)
+
+- []
++ [(0, 1937, 60796)]
+
+======================================================================
+FAIL: test_menu_items_3_and_8_keep_conditional_prompt_arguments (tests.test_port_menus.Menus.test_menu_items_3_and_8_keep_conditional_prompt_arguments) (item=8, flag=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-z1187dw9/tests/test_port_menus.py", line 442, in test_menu_items_3_and_8_keep_conditional_prompt_arguments
+    self.assertEqual(r.args('214B:1765'),[(flag,r.mem.seg(0x0791),0xED7C)])
+AssertionError: Lists differ: [] != [(1, 1937, 60796)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(1, 1937, 60796)
+
+- []
++ [(1, 1937, 60796)]
+
+======================================================================
+FAIL: test_menu_items_3_and_8_keep_conditional_prompt_arguments (tests.test_port_menus.Menus.test_menu_items_3_and_8_keep_conditional_prompt_arguments) (item=8, flag=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-z1187dw9/tests/test_port_menus.py", line 442, in test_menu_items_3_and_8_keep_conditional_prompt_arguments
+    self.assertEqual(r.args('214B:1765'),[(flag,r.mem.seg(0x0791),0xED7C)])
+AssertionError: Lists differ: [] != [(255, 1937, 60796)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(255, 1937, 60796)
+
+- []
++ [(255, 1937, 60796)]
+
+----------------------------------------------------------------------
+Ran 46 tests in 1.231s
+
+FAILED (failures=6)
