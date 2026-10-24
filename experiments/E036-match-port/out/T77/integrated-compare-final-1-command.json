@@ -1,0 +1,10 @@
+[
+  "/usr/bin/python3",
+  "-B",
+  "experiments/E036-match-port/compare.py",
+  "--family",
+  "ALL",
+  "--candidate",
+  "experiments/E036-match-port/out/T77/all-actions-1-40090586451/all-actions-1.jsonl",
+  "--no-screen"
+]

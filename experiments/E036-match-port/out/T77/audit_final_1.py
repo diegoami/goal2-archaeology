@@ -60,6 +60,12 @@ for path,digest in reproduction['reproduced_byte_identical'].items():assert sha(
 reference_audit=read('main-reference-extension-audit-1.json');assert reference_audit['baseline']==BASE and reference_audit['old_specs_preserved']==64 and reference_audit['R_display_independently_recorded'] and reference_audit['mask']==[]
 for path,digest in reference_audit['sha256'].items():assert sha(ROOT/path)==digest,path
 assert (OUT/'static-after-regeneration-1.exit').read_text().strip()=='0'
-receipt={'milestone':{'exact_on_both_ALL74_modes':16,'READ':['0791:C24D']},'fixed_baseline':BASE,'modes':results,'mask':[],'triples':triples,'entry_call_checks_total':len(triples),'original_call_totals':dict(totals),'falsifiers':falsifiers,'original_falsifier_branch_counts':witness,'validation':validation,'tests':2065,'inherited_skips':16,'bounded_search_completed_executions':258,'dispatch_head':binding['head'],'dispatch_inputs_match_current_source':True,'generator_reproduced':True,'immutable_reference_audit':'main-reference-extension-audit-1.json'}
+remote=read('main-integrated-final-audit-1.json')
+assert remote['sha256']==sha(integrated_path) and remote['exact_matches']==74 and remote['native_entry_call_triples']==1258
+assert remote['strict_profile_selected'] and remote['mask']==[] and remote['skipped_ds_blocks']==[]
+assert remote['successful_jobs']==39 and remote['billable_ms']==0 and remote['actual_runner_seconds']>0
+assert len(remote['independent_samples_equal_collector'])==4
+for name,digest in remote['independent_samples_equal_collector'].items():assert sha(folder/name)==digest,name
+receipt={'milestone':{'exact_on_both_ALL74_modes':16,'READ':['0791:C24D']},'fixed_baseline':BASE,'modes':results,'mask':[],'triples':triples,'entry_call_checks_total':len(triples),'original_call_totals':dict(totals),'falsifiers':falsifiers,'original_falsifier_branch_counts':witness,'validation':validation,'tests':2065,'inherited_skips':16,'bounded_search_completed_executions':258,'dispatch_head':binding['head'],'dispatch_inputs_match_current_source':True,'generator_reproduced':True,'immutable_reference_audit':'main-reference-extension-audit-1.json','execution_cost':{key:remote[key] for key in ('successful_jobs','actual_runner_seconds','actual_runner_minutes','billable_ms')},'independent_collector_reconciliation_sha256':sha(OUT/'main-integrated-final-audit-1.json')}
 (OUT/'acceptance-audit-final-1.json').write_text(json.dumps(receipt,indent=2)+'\n')
 print('PASS:16 exact,1 READ;74 matches in each mode;2516 triples;2065 tests/16 inherited skips;three reached caught falsifiers')

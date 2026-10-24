@@ -30,7 +30,11 @@ dispatch=json.loads((OUT/'all-actions-dispatch-request-1.json').read_text())
 manifest=json.loads((folder/'manifest.json').read_text())
 assert manifest['run_id']==str(RUN) and manifest['run_attempt']=='1'
 assert manifest['sha']=='f90dada50cf2d0b2f65b3da5e75a26f5053a79e4'
-assert manifest['inputs']==dispatch['inputs']
+emitted=dict(manifest['inputs']);requested=dict(dispatch['inputs'])
+for optional in ('only','variant'):
+ assert emitted.get(optional,'')==requested.get(optional,'')==''
+ emitted.pop(optional,None);requested.pop(optional,None)
+assert emitted==requested
 def fetch(suffix):
  route=f'repos/diegoami/goal2-archaeology/actions/runs/{RUN}'+suffix
  return json.loads(subprocess.check_output(['gh','api',route],cwd=ROOT,text=True))

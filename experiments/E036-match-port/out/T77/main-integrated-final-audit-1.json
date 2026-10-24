@@ -1,0 +1,43 @@
+{
+  "candidate": "experiments/E036-match-port/out/T77/all-actions-1-40090586451/all-actions-1.jsonl",
+  "sha256": "6ce5d83a0c04ef0123bdc84eaa3c7a25578333ca2014194b11de9e90bdeedc3a",
+  "strict_profile_selected": true,
+  "mask": [],
+  "skipped_ds_blocks": [],
+  "exact_matches": 74,
+  "native_entry_call_triples": 1258,
+  "modules": [
+    "attributes",
+    "ball",
+    "contests",
+    "discipline",
+    "display",
+    "duels",
+    "frame",
+    "geometry",
+    "menus",
+    "motion",
+    "pilot",
+    "positioning",
+    "postmatch",
+    "quick",
+    "rare",
+    "restarts",
+    "runtime",
+    "selection",
+    "setup",
+    "takers",
+    "update"
+  ],
+  "independent_samples_equal_collector": {
+    "shard-15.jsonl": "9b53f3e51e864fd1fcc326851dc7f52c25e1c57b55faa1abe755ccd71b2709f7",
+    "shard-15-run.txt": "0df054778fcfec6e6a6c4a4f10f11a879b8ec13b92c2bd0083b5cc7d750c95a8",
+    "shard-28.jsonl": "b821631500cfe5479d452adf58e2e1ce25840d00965e6e2ade47f106aa67a519",
+    "shard-28-run.txt": "ad323e3794ec84488295a6a5f3e756a9e3bb8b239d85de4c366ce80d765ea367"
+  },
+  "dispatch_manifest_valid": true,
+  "successful_jobs": 39,
+  "actual_runner_seconds": 47113.0,
+  "actual_runner_minutes": 785.2166666666667,
+  "billable_ms": 0
+}
