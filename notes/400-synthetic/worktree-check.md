@@ -1,0 +1,3 @@
+# Persistent research worktree receipt
+
+2026-10-24: owner-authorized `git worktree move` from `/tmp/goal2-archaeology-400-next` to `/home/diego/projects/goal2-archaeology-400`. Original HEAD4097ae645db0b9ad290843d63f3c55c85faa675f; tracked/untracked status clean. Ignored `.cache` retained intact (private input archives/extractions and completed PR423 review output), as were bytecode caches. PR423 merged; both independent reviews posted. No matching cwd/executable/open descriptors visible in `/proc`, and no matching user systemd unit reference. Destination did not exist. All other registered trees preserved; no deletion, stash/reset/restore, prune or unattended job. No space reclaimed or broader cleanup claimed.

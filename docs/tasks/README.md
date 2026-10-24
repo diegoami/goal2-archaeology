@@ -98,3 +98,5 @@ exists.
 | T89 | goal2 G13: closer retained saves for remaining taker/vacancy inputs | #400 | T88 |
 | T90 | goal2 G13: bounded original-key penalty/free-kick search | #400 | T89 |
 | T91 | goal2 G13: static and retained-source reassessment of four remaining inputs | #400 | T90 |
+
+| [T92](T92.md) | Controlled synthetic fixtures for #400 |
