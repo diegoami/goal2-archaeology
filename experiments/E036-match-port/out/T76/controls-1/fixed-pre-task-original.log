@@ -1,0 +1,14 @@
+E
+======================================================================
+ERROR: test_original_accepts_chosen_taker_and_unanswered_keeps_pick (tests.test_original_match.SetPieceTests.test_original_accepts_chosen_taker_and_unanswered_keeps_pick)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T76-control-a1mw1_ra/tests/test_original_match.py", line 123, in test_original_accepts_chosen_taker_and_unanswered_keeps_pick
+    m = Match(image, Fixture(7, 19, index=21), managed=7, set_piece=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.__init__() got an unexpected keyword argument 'set_piece'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.062s
+
+FAILED (errors=1)

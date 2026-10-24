@@ -572,8 +572,8 @@ void play_match(int param_1)
     pbVar2[3] = *pbVar1 < pbVar2[1];
   }
   if ((DS:7C36 != '\0') && (*(char *)((int)*(undefined4 *)(param_1 + 6) + 3) == '\x02')) {
-    f_0791_9B0C();
-    f_0791_9B5B();
+    play_first_extra_time_half();
+    play_second_extra_time_half();
     *(undefined2 *)*(undefined4 *)(param_1 + 6) = DS:9B3C;
     pbVar1 = (byte *)*(undefined4 *)(param_1 + 6);
     uVar3 = (undefined2)((ulong)pbVar1 >> 0x10);

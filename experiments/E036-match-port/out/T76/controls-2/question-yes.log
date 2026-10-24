@@ -1,0 +1,13 @@
+.......F
+======================================================================
+FAIL: test_yes_no_with_and_without_a_waiting_key (tests.test_port_takers.Takers.test_yes_no_with_and_without_a_waiting_key)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T76-control-dvmse_eg/tests/test_port_takers.py", line 90, in test_yes_no_with_and_without_a_waiting_key
+    self.assertEqual(r.mem.reg('ax')&255,want)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.198s
+
+FAILED (failures=1)

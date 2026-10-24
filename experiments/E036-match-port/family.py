@@ -367,7 +367,8 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
             first, second, index, kind = spec.fixture
             m = Match(image, Fixture(first, second, index=index, kind=kind), managed=spec.managed, seed=spec.seed,
                       record_draws=True, delay_byte=spec.delay_byte, substitutions=spec.substitutions, players=players,
-                      countries=countries, timeout_s=min(stretch_limit, time_limit), ports=list(ports) or None)
+                      countries=countries, timeout_s=min(stretch_limit, time_limit), ports=list(ports) or None,
+                      **({"set_piece": True} if "set_piece" in spec.policy.contexts else {}))
         if counts:
             from unicorn import UC_HOOK_CODE
         for address in counts:

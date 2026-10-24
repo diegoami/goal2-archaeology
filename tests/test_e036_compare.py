@@ -411,15 +411,15 @@ class CommandLine(Base):
         self.assertEqual(FAMILIES["O8"].reference,FAMILIES["F40"].reference)
         self.assertNotEqual(FAMILIES["S"].reference,FAMILIES["F40"].reference)
         original=compare_module.load(historical)
-        expected_old={mid:digest for mid,digest in EXPECTED.items() if mid!='S/no-managed-side'}
+        expected_old={mid:digest for mid,digest in EXPECTED.items() if mid not in ('S/no-managed-side','S/set-piece-taker')}
         lines,ok=compare_module.check(original,original,expected_old,image_sha256=IMAGE)
         self.assertTrue(ok,lines)
         self.assertIn("62 matches expected identical, 62 pass, 0 fail",lines)
         r=subprocess.run([sys.executable,"-B",str(COMPARE),"--family","ALL","--candidate",str(extended)],
                          capture_output=True,text=True,cwd=self.tmp.name)
         self.assertEqual(r.returncode,0,r.stdout[-500:])
-        self.assertIn("63 matches expected identical, 63 pass, 0 fail",r.stdout)
-        # Historical62 cannot be silently accepted as the now63-match family.
+        self.assertIn("64 matches expected identical, 64 pass, 0 fail",r.stdout)
+        # Historical62 cannot be silently accepted as the now64-match family.
         short=subprocess.run([sys.executable,"-B",str(COMPARE),"--family","ALL","--candidate",str(historical)],
                              capture_output=True,text=True,cwd=self.tmp.name)
         self.assertEqual(short.returncode,2)

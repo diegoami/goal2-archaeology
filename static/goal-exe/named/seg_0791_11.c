@@ -718,7 +718,7 @@ void __cdecl16near restore_match_player_state(void)
 
 
 // ---- 0791:CC2E  wait_or_key  (f_0791_CC2E; Ghidra 2000:CC2E, __stdcall16near; found by routines.tsv)
-// turns the speaker off (214B), then up to n times: stops if a key is pressed (214B:0723), else 214B:1E09(10); one poll is a key test then 10 calibrated ms (214B:1E09), so n polls last n * 10 nominal ms (F030)  [established; F006; read decompiled/seg_0791_08.c; F030]
+// T76 (Python port in runtime/original_match/port/takers.py): turns the speaker off (214B), then up to n times: stops if a key is pressed (214B:0723), else 214B:1E09(10); one poll is a key test then 10 calibrated ms (214B:1E09), so n polls last n * 10 nominal ms (F030)  [established; F006; read decompiled/seg_0791_08.c; F030]
 
 void wait_or_key(int param_1)
 
@@ -738,7 +738,7 @@ void wait_or_key(int param_1)
 
 
 // ---- 0791:CC7B  choose_captain_or_taker  (f_0791_CC7B; Ghidra 2000:CC7B, __stdcall16near; found by routines.tsv)
-// the captain / set-piece taker prompt before the kick-off (param 1 = the captain, 2.. = the taker): shows the eleven, Enter picks the highlighted available player, C picks by 0791:1F3C (captain) or 0791:1FDD (taker); it writes only the table word DS:9978 + 10 side (captain) or DS:9976 + 10 side + 2 role, never the squad words; no key for 1000 polls (10.0 s nominal) ends it keeping the current pick (the stored taker, or the computer's when he is unavailable); Enter, Esc and C end it, any other key restarts the wait; roles 1 captain, 2 corner, 3 penalty, 4 free kick, 5 goal kick (titles at DS:0A29 + 0xB role) (F030)  [likely; F029; read code/seg_0791_20.asm:1085-1450; F030]
+// T76 (Python port in runtime/original_match/port/takers.py): the captain / set-piece taker prompt (param 1 = the captain, 2.. = the taker): shows the eleven, Enter picks the highlighted available player, C picks by 0791:1F3C (captain) or 0791:1FDD (taker); returns the accepted player word in AX at D00D/D010; caller 6D8A stores it in DS:9976 +10 side +2 role, and fallback/C paths can update that table; squad words are not changed; no key for 1000 polls (10.0 s nominal) ends it keeping the current pick (the stored taker, or the computer's when he is unavailable); Enter, Esc and C end it, any other key restarts the wait; roles 1 captain, 2 corner, 3 penalty, 4 free kick, 5 goal kick (titles at DS:0A29 + 0xB role) (F030)  [likely; F029; read code/seg_0791_20.asm:1085-1450; F030; read code/seg_0791_12.asm:23]
 
 word choose_captain_or_taker(byte param_1,char param_2)
 

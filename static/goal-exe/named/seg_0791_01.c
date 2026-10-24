@@ -639,7 +639,7 @@ void __cdecl16near save_goal_file(void)
 
 
 // ---- 0791:0B7C  ask_do_you_want  (f_0791_0B7C; Ghidra 2000:0B7C, __stdcall16near; found by routines.tsv)
-// a timed Y/N prompt: shows "Do you want " + its string argument + "? (Y/N)" on the bottom line, waits 0791:CC2E(600), returns 1 only when a key is waiting and it is Y, 0 with no key; the action-replay and save-goal questions both use it; the wait is 600 polls of a key test and 214B:1E09(10), 6.0 s in the start-up calibration's time (pace-dependent, F030); the answer is Yes only for a waiting Y, No for any other key or none; asked by 0C65 (replay, save goal) and run_match (summary, when DS:9A3E is clear)  [established; F005; F006; read code/seg_0791_02.asm; F030]
+// T76 (Python port in runtime/original_match/port/takers.py): a timed Y/N prompt: shows "Do you want " + its string argument + "? (Y/N)" on the bottom line, waits 0791:CC2E(600), returns 1 only when a key is waiting and it is Y, 0 with no key; the action-replay and save-goal questions both use it; the wait is 600 polls of a key test and 214B:1E09(10), 6.0 s in the start-up calibration's time (pace-dependent, F030); the answer is Yes only for a waiting Y, No for any other key or none; asked by 0C65 (replay, save goal) and run_match (summary, when DS:9A3E is clear)  [established; F005; F006; read code/seg_0791_02.asm; F030]
 
 undefined1 ask_do_you_want(undefined4 param_1)
 
@@ -677,9 +677,10 @@ undefined1 ask_do_you_want(undefined4 param_1)
 }
 
 
-// ---- 0791:0C0B  f_0791_0C0B  (f_0791_0C0B; Ghidra 2000:0C0B, __cdecl16near; found by routines.tsv)
+// ---- 0791:0C0B  increase_match_delay  (f_0791_0C0B; Ghidra 2000:0C0B, __cdecl16near; found by routines.tsv)
+// T76 (Python port in runtime/original_match/port/takers.py): increments the unsigned byte at [game]+0x3F when it is below 5, then raises it to 2 if still below 2; does not lower an already larger byte  [likely; read code/seg_0791_02.asm:311]
 
-void __cdecl16near f_0791_0C0B(void)
+void __cdecl16near increase_match_delay(void)
 
 {
   int iVar1;
@@ -723,7 +724,7 @@ void __cdecl16near action_replay(void)
     }
     DS:0C20 = 1;
     DS:7C3C = *(undefined1 *)((int)DS:A923 + 0x3f);
-    f_0791_0C0B();
+    increase_match_delay();
     sys_move_025D(0x7fb,0x7c3e,0xb000,0x8439,0xb000);
     DS:9B36 = (undefined2)((ulong)DS:9B30 >> 0x10);
     DS:9B34 = (undefined2)DS:9B30;

@@ -61,7 +61,7 @@ RECORD_ID = re.compile(r"[A-Za-z][A-Za-z0-9_-]{0,15}/[A-Za-z0-9][A-Za-z0-9._-]{0
 FAMILY_NAME = re.compile(r"[A-Za-z][A-Za-z0-9_-]{0,15}")
 TEMPLATE_ID = re.compile(r"0|[1-9][0-9]{0,2}")
 ERROR_TEXT = re.compile(r"[\x21-\x7e](?:[\x20-\x7e]{0,198}[\x21-\x7e])?")     # one line, printable ASCII, no edge blanks
-CONTEXTS = ("half_time", "substitution", "pause", "extra_time", "shootout_order")   # match.py `decision` contexts
+CONTEXTS = ("half_time", "substitution", "pause", "extra_time", "shootout_order", "set_piece")   # match.py `decision` contexts
 STAT_NAMES = ("corners", "free_kicks", "penalties", "shots", "on_target", "saves", "fouls", "bookings", "red_cards",
               "injuries")                                                          # match.py STAT_NAMES
 N_TEMPLATES = 67                       # match.py/image.py: the game's commentary templates

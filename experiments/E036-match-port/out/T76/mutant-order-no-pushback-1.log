@@ -1,0 +1,10 @@
+heavy: family: waiting for a slot (2 ahead)
+heavy: family: waiting for a slot (1 ahead)
+heavy: family: got slot 2 after 2 s
+ports: takers.order-no-pushback
+1 matches selected, 0 already in experiments/E036-match-port/out/T76/mutant-order-no-pushback-1.jsonl, 1 to run
+S/ko-42-sudden-death: decision extra_time at minute 89 answered with port frames live: 0791:9B0C waiting on its call of 0791:ED8A (returning to 0791:9B42)
+S/ko-42-sudden-death: decision extra_time at minute 105 answered with port frames live: 0791:9B5B waiting on its call of 0791:ED8A (returning to 0791:9B70)
+S/ko-42-sudden-death: decision shootout_order at minute 120 answered with port frames live: 0791:A10A waiting on its call of 0791:9B93 (returning to 0791:A183); 0791:9B93 waiting on its call of 214B:1560 (returning to 0791:9D67)
+S/ko-42-sudden-death: completed; score [0, 0] ticks 5644 cpu 15.029 s; port 0791:0B7C called 1; port 0791:0C0B called 1; port 0791:9B0C called 1; port 0791:9B5B called 1; port 0791:9B93 called 1; port 0791:9ED3 called 1; port 0791:A006 called 10; port 0791:A10A called 1; port 0791:CC2E called 5; port 0791:CC7B called 2
+1 of 1 matches in experiments/E036-match-port/out/T76/mutant-order-no-pushback-1.jsonl, 0 not completed

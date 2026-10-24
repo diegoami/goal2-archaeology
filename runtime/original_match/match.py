@@ -203,7 +203,7 @@ def fresh_state(players_before):
 class Match:
     def __init__(self, image, fixture, *, managed=None, captain=None, seed=None, players=None, countries=None,
                  substitutions=None, ticks=False, record_draws=False, delay_byte=None, timeout_s=60, ports=None,
-                 prove=None):
+                 prove=None, set_piece=False):
         """image: an Image of the original (goal2's savestate bytes through Image.from_savestate, e.g. of
         to_savestate(state, template); or GameState.mem through Image.from_memory_component). On the fixture
         tried, the match depended on the image only through its two teams' records (E033 notes, section 2).
@@ -261,6 +261,10 @@ class Match:
         self.opts = {"first": fixture.first, "second": fixture.second, "index": index, "managed": managed,
                      "captain": captain, "seed": seed, "ticks": ticks, "record_draws": record_draws,
                      "delay_byte": delay_byte, "kind": fixture.kind, "substitutions": substitutions}
+        if not isinstance(set_piece, bool):
+            raise ValueError("set_piece: a boolean opt-in")
+        if set_piece:
+            self.opts["set_piece"] = True
         self.side = (0 if managed == fixture.first else 1) if managed in (fixture.first, fixture.second) else None
         if captain is not None and (self.side is None or captain not in self._squad(managed)[:11]):
             raise ValueError(f"captain {captain} is not in the managed eleven")
@@ -421,7 +425,7 @@ class Match:
             self._advance()
 
     def answer(self, substitutions=(), tactics=None, positions=None, marking=None, own_tactics=None, quick=False,
-               speed=None, shootout_order=None):
+               speed=None, shootout_order=None, taker=None):
         """goal2's answer to the waiting decision; nothing given plays on.
         substitutions: (off, on) player words of the managed squad, made now at half time and at a substitution
           notice; at a pause the original only takes the request and offers it at the next stoppage (a
@@ -438,6 +442,18 @@ class Match:
           Enter (the highlighted player, from the top of the eleven)."""
         if self.st["waiting"] is None:
             raise MatchError("no decision is waiting")
+        if self.st["waiting"]["context"] == "set_piece":
+            if substitutions or tactics or positions or marking or own_tactics or quick or speed is not None or shootout_order is not None:
+                raise ValueError("the set-piece prompt takes taker only")
+            if taker is not None and (isinstance(taker, bool) or not isinstance(taker, int) or taker not in self.st["waiting"]["available"]):
+                raise ValueError("taker: an available player of the managed eleven")
+            self._replay_action("answer", {"taker": taker})
+            self.st["answer"] = {"taker": taker}
+            self.st["decisions"].append({"context": "set_piece", "minute": self.st["minute"], "answer": {"taker": taker}})
+            self.st["waiting"] = None
+            return
+        if taker is not None:
+            raise ValueError("taker answers the set-piece prompt only")
         if self.st["waiting"]["context"] == "shootout_order":
             if substitutions or tactics or positions or marking or own_tactics or quick or speed is not None:
                 raise ValueError("the shoot-out order takes shootout_order only")
@@ -562,6 +578,7 @@ class Match:
         m.at(NOTICE, self._on_notice)
         m.at(PROMPT, self._on_prompt)
         m.at(WAIT, self._on_wait)
+        m.at("0791:D010", self._on_taker_accepted)
         m.at(TICK, self._on_tick)
         m.at(PLAY_MATCH, self._on_play)
         m.at(MATCH_PLAYED, self._on_played)
@@ -829,11 +846,23 @@ class Match:
         role, side = self.m.stack_word(2) & 0xFF, self.m.stack_word(4) & 0xFF
         if role == 1 and side == self.side:
             self.st["prompt"] = {"kind": "prompt", "key": S.ENTER, "role": 1, "waited": False}
+        elif self.opts.get("set_piece") and side == self.side and role in (2, 3, 4, 5):
+            self.st["prompt"] = {"kind": "prompt", "key": None, "role": role, "waited": False}
 
     def _on_wait(self, replay):
         """0791:CC2E, the prompts' wait: at the captain prompt's (where E011's watchstart was taken) the optional
         seed and speed byte are written and the draw record starts."""
         p = self.st["prompt"]
+        if p is not None and p.get("role") in (2, 3, 4, 5) and not p["waited"] and self.m.stack_word(0) == 0xCED9:
+            if self.st["answer"] is None:
+                bp = self.m.reg("bp")
+                squad = self._squad(self.opts["managed"])[:11]
+                self._decide("set_piece", role=p["role"], current=self.m.frame_word(bp, -7),
+                             available=[w for w in squad if w and self._available(w)])
+                return
+            answer, self.st["answer"] = self.st["answer"], None
+            p.update(waited=True, target=answer["taker"], key=S.ENTER if answer["taker"] is not None else None)
+            return
         if replay or p is None or p.get("role") != 1 or p["waited"] or self.m.stack_word(0) != 0xCED9:
             return
         p["waited"] = True
@@ -848,9 +877,9 @@ class Match:
 
     def _captain_key(self):
         p = self.st["prompt"]
-        if p is None or p.get("role") != 1:
+        if p is None:
             self._fail("a key read at the captain prompt the kit did not ask for")
-        want = self.opts["captain"]
+        want = self.opts["captain"] if p.get("role") == 1 else p.get("target")
         if want is not None:
             slot = self._squad(self.opts["managed"]).index(want) + 1
             here = self.m.frame_word(self.m.reg("bp"), S.PROMPT_SLOT_BP)
@@ -859,8 +888,17 @@ class Match:
                 if p["moves"] > S.MAX_MOVES:
                     raise S.ScreenError(f"the captain prompt's highlight does not reach slot {slot} (it reads {here})")
                 return S.step_toward(here, slot)
-        self.st["prompt"] = None
+        if p.get("role") == 1:
+            self.st["prompt"] = None
         return S.ENTER
+
+    def _on_taker_accepted(self, replay):
+        """D010 follows the original's D00D load of its accepted result into AX."""
+        p = self.st["prompt"]
+        if not replay and p is not None and p.get("role") in (2, 3, 4, 5):
+            self._flush()
+            self._emit("set_piece", role=p["role"], player=self.m.reg("ax"), team=self.side)
+            self.st["prompt"] = None
 
     # -- events --------------------------------------------------------------------------------------------
     def _emit(self, kind, minute=None, score=None, **data):

@@ -1,0 +1,13 @@
+......F.
+======================================================================
+FAIL: test_wait_zero_timeout_and_key_poll (tests.test_port_takers.Takers.test_wait_zero_timeout_and_key_poll)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T76-control-0j9ve29z/tests/test_port_takers.py", line 72, in test_wait_zero_timeout_and_key_poll
+    self.assertTrue(all(args==(10,) for target,args,_,_ in r.calls if target=='214B:1E09'))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.182s
+
+FAILED (failures=1)

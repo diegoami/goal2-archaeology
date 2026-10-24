@@ -1,0 +1,13 @@
+....F...
+======================================================================
+FAIL: test_unavailable_and_outside_eleven_stored_taker_falls_back (tests.test_port_takers.Takers.test_unavailable_and_outside_eleven_stored_taker_falls_back)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T76-control-vb00ry0p/tests/test_port_takers.py", line 109, in test_unavailable_and_outside_eleven_stored_taker_falls_back
+    self.assertEqual(r.mem.reg('ax'),105)
+AssertionError: 0 != 105
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.133s
+
+FAILED (failures=1)

@@ -1,0 +1,13 @@
+..F.....
+======================================================================
+FAIL: test_speed_byte_bounds (tests.test_port_takers.Takers.test_speed_byte_bounds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T76-control-vhu2vaph/tests/test_port_takers.py", line 77, in test_speed_byte_bounds
+    self.assertEqual(r.mem.u8(GSEG*16+GOFF+63),want)
+AssertionError: 1 != 2
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.174s
+
+FAILED (failures=1)

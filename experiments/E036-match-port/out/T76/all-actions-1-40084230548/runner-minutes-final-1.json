@@ -1,0 +1,392 @@
+{
+  "run_id": "40084230548",
+  "jobs": 34,
+  "shards": 32,
+  "actual_runner_seconds": 44814.0,
+  "actual_runner_minutes": 746.9,
+  "billable": {
+    "UBUNTU": {
+      "total_ms": 0,
+      "jobs": 34,
+      "job_runs": [
+        {
+          "job_id": 120843760019,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843801969,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843801974,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843801988,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802050,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802061,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802067,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802076,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802091,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802106,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802115,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802128,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802129,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802130,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802131,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802133,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802146,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802152,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802155,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802156,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802160,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802163,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802164,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802172,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802175,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802181,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802216,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802232,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802262,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802265,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843802275,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843803055,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120843803087,
+          "duration_ms": 0
+        },
+        {
+          "job_id": 120855683087,
+          "duration_ms": 0
+        }
+      ]
+    }
+  },
+  "run_duration_ms": 3738000,
+  "rows": [
+    {
+      "id": 120843760019,
+      "name": "plan",
+      "started_at": "2026-10-24T10:01:07Z",
+      "completed_at": "2026-10-24T10:01:17Z",
+      "runner_seconds": 10.0
+    },
+    {
+      "id": 120843801969,
+      "name": "run (2, F40/e032-4c1d,F40/e032-6a33)",
+      "started_at": "2026-10-24T10:01:20Z",
+      "completed_at": "2026-10-24T10:14:41Z",
+      "runner_seconds": 801.0
+    },
+    {
+      "id": 120843801974,
+      "name": "run (3, F40/e032-8e05,F40/e032-a1f0)",
+      "started_at": "2026-10-24T10:01:20Z",
+      "completed_at": "2026-10-24T10:29:27Z",
+      "runner_seconds": 1687.0
+    },
+    {
+      "id": 120843801988,
+      "name": "run (0, F40/e032-0101,F40/e032-1234)",
+      "started_at": "2026-10-24T10:01:20Z",
+      "completed_at": "2026-10-24T10:19:32Z",
+      "runner_seconds": 1092.0
+    },
+    {
+      "id": 120843802050,
+      "name": "run (4, F40/e032-c3c3,F40/e032-e719)",
+      "started_at": "2026-10-24T10:01:20Z",
+      "completed_at": "2026-10-24T10:19:43Z",
+      "runner_seconds": 1103.0
+    },
+    {
+      "id": 120843802061,
+      "name": "run (14, F40/edit-c3c3,F40/edit-e719)",
+      "started_at": "2026-10-24T10:01:20Z",
+      "completed_at": "2026-10-24T10:14:44Z",
+      "runner_seconds": 804.0
+    },
+    {
+      "id": 120843802067,
+      "name": "run (29, S/ko-30-extra-time,S/ko-9-quick)",
+      "started_at": "2026-10-24T10:22:27Z",
+      "completed_at": "2026-10-24T10:57:29Z",
+      "runner_seconds": 2102.0
+    },
+    {
+      "id": 120843802076,
+      "name": "run (11, F40/edit-2345,F40/edit-2b7e)",
+      "started_at": "2026-10-24T10:01:20Z",
+      "completed_at": "2026-10-24T10:15:05Z",
+      "runner_seconds": 825.0
+    },
+    {
+      "id": 120843802091,
+      "name": "run (10, F40/edit-0101,F40/edit-1234)",
+      "started_at": "2026-10-24T10:01:20Z",
+      "completed_at": "2026-10-24T10:29:56Z",
+      "runner_seconds": 1716.0
+    },
+    {
+      "id": 120843802106,
+      "name": "run (8, F40/more-b4d2,F40/more-cafe)",
+      "started_at": "2026-10-24T10:01:20Z",
+      "completed_at": "2026-10-24T10:29:32Z",
+      "runner_seconds": 1692.0
+    },
+    {
+      "id": 120843802115,
+      "name": "run (5, F40/more-0042,F40/more-1111)",
+      "started_at": "2026-10-24T10:01:20Z",
+      "completed_at": "2026-10-24T10:14:20Z",
+      "runner_seconds": 780.0
+    },
+    {
+      "id": 120843802128,
+      "name": "run (1, F40/e032-2345,F40/e032-2b7e)",
+      "started_at": "2026-10-24T10:01:21Z",
+      "completed_at": "2026-10-24T10:29:33Z",
+      "runner_seconds": 1692.0
+    },
+    {
+      "id": 120843802129,
+      "name": "run (20, O8/c1-c2-friendly,O8/c1-c2-qualifier)",
+      "started_at": "2026-10-24T10:14:23Z",
+      "completed_at": "2026-10-24T10:46:04Z",
+      "runner_seconds": 1901.0
+    },
+    {
+      "id": 120843802130,
+      "name": "run (9, F40/more-d00d,F40/more-face)",
+      "started_at": "2026-10-24T10:01:20Z",
+      "completed_at": "2026-10-24T10:30:03Z",
+      "runner_seconds": 1723.0
+    },
+    {
+      "id": 120843802131,
+      "name": "run (21, O8/c30-c44-friendly,O8/c30-c44-qualifier)",
+      "started_at": "2026-10-24T10:14:39Z",
+      "completed_at": "2026-10-24T10:32:51Z",
+      "runner_seconds": 1092.0
+    },
+    {
+      "id": 120843802133,
+      "name": "run (7, F40/more-7f31,F40/more-9abc)",
+      "started_at": "2026-10-24T10:01:21Z",
+      "completed_at": "2026-10-24T10:29:29Z",
+      "runner_seconds": 1688.0
+    },
+    {
+      "id": 120843802146,
+      "name": "run (6, F40/more-3a5c,F40/more-5e5e)",
+      "started_at": "2026-10-24T10:01:20Z",
+      "completed_at": "2026-10-24T10:22:25Z",
+      "runner_seconds": 1265.0
+    },
+    {
+      "id": 120843802152,
+      "name": "run (19, F40/edit-d00d,F40/edit-face)",
+      "started_at": "2026-10-24T10:01:20Z",
+      "completed_at": "2026-10-24T10:31:03Z",
+      "runner_seconds": 1783.0
+    },
+    {
+      "id": 120843802155,
+      "name": "run (25, S/decisions-70,S/injury-70)",
+      "started_at": "2026-10-24T10:19:27Z",
+      "completed_at": "2026-10-24T10:32:50Z",
+      "runner_seconds": 803.0
+    },
+    {
+      "id": 120843802156,
+      "name": "run (28, S/ko-39-budget-5,S/ko-42-sudden-death)",
+      "started_at": "2026-10-24T10:21:42Z",
+      "completed_at": "2026-10-24T11:03:00Z",
+      "runner_seconds": 2478.0
+    },
+    {
+      "id": 120843802160,
+      "name": "run (18, F40/edit-b4d2,F40/edit-cafe)",
+      "started_at": "2026-10-24T10:01:20Z",
+      "completed_at": "2026-10-24T10:19:24Z",
+      "runner_seconds": 1084.0
+    },
+    {
+      "id": 120843802163,
+      "name": "run (26, S/hard-4,S/quick-30)",
+      "started_at": "2026-10-24T10:19:35Z",
+      "completed_at": "2026-10-24T10:44:48Z",
+      "runner_seconds": 1513.0
+    },
+    {
+      "id": 120843802164,
+      "name": "run (17, F40/edit-7f31,F40/edit-9abc)",
+      "started_at": "2026-10-24T10:01:21Z",
+      "completed_at": "2026-10-24T10:30:33Z",
+      "runner_seconds": 1752.0
+    },
+    {
+      "id": 120843802172,
+      "name": "run (13, F40/edit-8e05,F40/edit-a1f0)",
+      "started_at": "2026-10-24T10:01:21Z",
+      "completed_at": "2026-10-24T10:30:47Z",
+      "runner_seconds": 1766.0
+    },
+    {
+      "id": 120843802175,
+      "name": "run (16, F40/edit-3a5c,F40/edit-5e5e)",
+      "started_at": "2026-10-24T10:01:20Z",
+      "completed_at": "2026-10-24T10:14:37Z",
+      "runner_seconds": 797.0
+    },
+    {
+      "id": 120843802181,
+      "name": "run (15, F40/edit-0042,F40/edit-1111)",
+      "started_at": "2026-10-24T10:01:21Z",
+      "completed_at": "2026-10-24T10:28:55Z",
+      "runner_seconds": 1654.0
+    },
+    {
+      "id": 120843802216,
+      "name": "run (24, S/reference,S/no-managed-side)",
+      "started_at": "2026-10-24T10:15:07Z",
+      "completed_at": "2026-10-24T10:44:38Z",
+      "runner_seconds": 1771.0
+    },
+    {
+      "id": 120843802232,
+      "name": "run (22, O8/c64-c90-friendly,O8/c64-c90-qualifier)",
+      "started_at": "2026-10-24T10:14:44Z",
+      "completed_at": "2026-10-24T10:32:18Z",
+      "runner_seconds": 1054.0
+    },
+    {
+      "id": 120843802262,
+      "name": "run (23, O8/c101-c120-friendly,O8/c101-c120-qualifier)",
+      "started_at": "2026-10-24T10:14:46Z",
+      "completed_at": "2026-10-24T10:44:53Z",
+      "runner_seconds": 1807.0
+    },
+    {
+      "id": 120843802265,
+      "name": "run (12, F40/edit-4c1d,F40/edit-6a33)",
+      "started_at": "2026-10-24T10:01:21Z",
+      "completed_at": "2026-10-24T10:21:40Z",
+      "runner_seconds": 1219.0
+    },
+    {
+      "id": 120843802275,
+      "name": "run (27, S/quick-1,S/decisions-quick-60)",
+      "started_at": "2026-10-24T10:19:46Z",
+      "completed_at": "2026-10-24T10:35:28Z",
+      "runner_seconds": 942.0
+    },
+    {
+      "id": 120843803055,
+      "name": "run (30, S/ko-53-quick,S/ko-42-quick-g19)",
+      "started_at": "2026-10-24T10:28:57Z",
+      "completed_at": "2026-10-24T10:40:37Z",
+      "runner_seconds": 700.0
+    },
+    {
+      "id": 120843803087,
+      "name": "run (31, S/qualifier-21,S/set-piece-taker)",
+      "started_at": "2026-10-24T10:29:30Z",
+      "completed_at": "2026-10-24T10:57:49Z",
+      "runner_seconds": 1699.0
+    },
+    {
+      "id": 120855683087,
+      "name": "collect",
+      "started_at": "2026-10-24T11:03:03Z",
+      "completed_at": "2026-10-24T11:03:22Z",
+      "runner_seconds": 19.0
+    }
+  ]
+}

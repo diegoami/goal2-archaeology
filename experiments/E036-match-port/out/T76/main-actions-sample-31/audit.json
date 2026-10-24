@@ -1,0 +1,39 @@
+{
+  "scope": "integrated two-case opt-in sample; full64 still required",
+  "run": 40084230548,
+  "head": "27b339421e4dda084eeb044c9e1aecdacbe0a831",
+  "artifact_id": 12558166236,
+  "zip_sha256": "0e81b0f9cdfcaa913e845af7d91f289fd457515fcf1e6894795696ef5c66827b",
+  "strict_exact_matches": 2,
+  "mask": [],
+  "skipped_ds_blocks": [],
+  "candidate_entry_call_checks": 20,
+  "native_entry_differences": [],
+  "modules": [
+    "attributes",
+    "ball",
+    "contests",
+    "discipline",
+    "display",
+    "duels",
+    "frame",
+    "geometry",
+    "menus",
+    "motion",
+    "pilot",
+    "positioning",
+    "postmatch",
+    "restarts",
+    "runtime",
+    "selection",
+    "setup",
+    "takers",
+    "update"
+  ],
+  "member_sha256": {
+    "shard-31-run.txt": "2974c5a9d20f6d1e9c6ee2919ba98b323351171bd06922b5ac10ba2763c71d39",
+    "shard-31.zip": "0e81b0f9cdfcaa913e845af7d91f289fd457515fcf1e6894795696ef5c66827b",
+    "shard-31.jsonl": "d6e46d5f1a0f1f806d8a1122c35347a7f220fe89e160b31d98abc3de83ecbff7",
+    "compare.log": "f6ad05fca84cfc53daa49f5865268d3d18b77f1785c4dae9eb0dea4e20a602b3"
+  }
+}

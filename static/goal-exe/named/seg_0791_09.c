@@ -388,9 +388,10 @@ void __cdecl16near pre_half_sequence(void)
 }
 
 
-// ---- 0791:9B0C  f_0791_9B0C  (f_0791_9B0C; Ghidra 2000:9B0C, __cdecl16near; found by routines.tsv)
+// ---- 0791:9B0C  play_first_extra_time_half  (f_0791_9B0C; Ghidra 2000:9B0C, __cdecl16near; found by routines.tsv)
+// T76 (Python port in runtime/original_match/port/takers.py): plays the first extra-time half: sets DS:831B=31, DS:831F=89, DS:8319=15 and DS:831D=DS:8326=0, commentary 0x3E, DS:9B41=1; opens ED8A when DS:80FD is nonzero, sets the ball slot from DS:0668[DS:831A]+10, then calls 0791:983F  [likely; read code/seg_0791_16.asm:438; read code/seg_0791_23.asm]
 
-void __cdecl16near f_0791_9B0C(void)
+void __cdecl16near play_first_extra_time_half(void)
 
 {
   undefined1 extraout_AH;
@@ -411,9 +412,10 @@ void __cdecl16near f_0791_9B0C(void)
 }
 
 
-// ---- 0791:9B5B  f_0791_9B5B  (f_0791_9B5B; Ghidra 2000:9B5B, __cdecl16near; found by routines.tsv)
+// ---- 0791:9B5B  play_second_extra_time_half  (f_0791_9B5B; Ghidra 2000:9B5B, __cdecl16near; found by routines.tsv)
+// T76 (Python port in runtime/original_match/port/takers.py): plays the second extra-time half: DS:9B41=1, ED8A when DS:80FD is nonzero, ball slot DS:0668[DS:831A==0]+10, then 0791:983F  [likely; read code/seg_0791_16.asm:470; read code/seg_0791_23.asm]
 
-void __cdecl16near f_0791_9B5B(void)
+void __cdecl16near play_second_extra_time_half(void)
 
 {
   DS:9B41 = 1;
@@ -427,7 +429,7 @@ void __cdecl16near f_0791_9B5B(void)
 
 
 // ---- 0791:9B93  pick_shootout_takers_managed  (f_0791_9B93; Ghidra 2000:9B93, __stdcall16near; found by routines.tsv)
-// the managed side's shoot-out takers, picked by hand: shows the squad's player cards (calls the player screen 1771:42BC itself) and fills the same taker array; called only from A10A  [established; F015; read code/seg_0791_16.asm]
+// T76 (Python port in runtime/original_match/port/takers.py): the managed side's shoot-out takers, picked by hand: shows the squad's player cards (calls the player screen 1771:42BC itself) and fills the same taker array; called only from A10A  [established; F015; read code/seg_0791_16.asm]
 
 void pick_shootout_takers_managed(int param_1)
 
@@ -540,7 +542,7 @@ void pick_shootout_takers_managed(int param_1)
 
 
 // ---- 0791:9ED3  pick_shootout_takers  (f_0791_9ED3; Ghidra 2000:9ED3, __stdcall16near; found by routines.tsv)
-// the unmanaged side's shoot-out takers: fills [bp-0x1A + 12*team + i] with the side's pitch slots 1..11 (the keeper IS in the array — the outer index initialises to 1 at 9F1B, the inner to outer+1 at 9F25-9F31, and the compare/exchange at 9F39-9FE9), then sorts entries 1..11 downward by 278A(pitch, 0xC) — the derived penalties skill; called only from A10A  [established; F015; read code/seg_0791_16.asm]
+// T76 (Python port in runtime/original_match/port/takers.py): the unmanaged side's shoot-out takers: fills [bp-0x1A + 12*team + i] with the side's pitch slots 1..11 (the keeper IS in the array — the outer index initialises to 1 at 9F1B, the inner to outer+1 at 9F25-9F31, and the compare/exchange at 9F39-9FE9), then sorts entries 1..11 downward by 278A(pitch, 0xC) — the derived penalties skill; called only from A10A  [established; F015; read code/seg_0791_16.asm]
 
 void pick_shootout_takers(int param_1)
 
@@ -585,7 +587,7 @@ void pick_shootout_takers(int param_1)
 
 
 // ---- 0791:A006  play_shootout_kick  (f_0791_A006; Ghidra 2000:A006, __stdcall16near; found by routines.tsv)
-// one shoot-out kick: 054C (the header), 6BF1(0xA, taker) starting a ball phase with DS:830B = the taker's slot and DS:8324 = 1, then the watched engine 9564 loops (until 8324 clears, then until 8300 = 0); the taker array and round counters live on A10A's stack frame  [established; F015; read code/seg_0791_16.asm]
+// T76 (Python port in runtime/original_match/port/takers.py): one shoot-out kick: 054C (the header), 6BF1(0xA, taker) starting a ball phase with DS:830B = the taker's slot and DS:8324 = 1, then the watched engine 9564 loops (until 8324 clears, then until 8300 = 0); the taker array and round counters live on A10A's stack frame  [established; F015; read code/seg_0791_16.asm]
 
 void play_shootout_kick(int param_1)
 
@@ -624,7 +626,7 @@ void play_shootout_kick(int param_1)
 
 
 // ---- 0791:A10A  penalty_shootout  (f_0791_A10A; Ghidra 2000:A10A, __cdecl16near; found by routines.tsv)
-// the shoot-out's round bookkeeping: five kicks per side (counters on the stack), 9B93 (managed, by hand) or 9ED3 (unmanaged, ranked by 278A(pitch,0xC)) fills the taker arrays, A006 plays each kick through the watched engine, the win test on DS:9B3C/9B3D, sudden death after five; reached only from F098 F179 when the fixture is drawn (+3 = 2) and a decider (DS:7C36: fixture +2 in the set DS:693A = {0x10}), so a drawn friendly ends at full time; the only printer of `penalty shoot out` (F005)  [established; F005; F015; read code/seg_0791_16.asm; read code/seg_0791_23.asm]
+// T76 (Python port in runtime/original_match/port/takers.py): the shoot-out's round bookkeeping: five kicks per side (counters on the stack), 9B93 (managed, by hand) or 9ED3 (unmanaged, ranked by 278A(pitch,0xC)) fills the taker arrays, A006 plays each kick through the watched engine, the win test on DS:9B3C/9B3D, sudden death after five; reached only from F098 F179 when the fixture is drawn (+3 = 2) and a decider (DS:7C36: fixture +2 in the set DS:693A = {0x10}), so a drawn friendly ends at full time; the only printer of `penalty shoot out` (F005)  [established; F005; F015; read code/seg_0791_16.asm; read code/seg_0791_23.asm]
 
 void __cdecl16near penalty_shootout(void)
 
@@ -638,7 +640,7 @@ void __cdecl16near penalty_shootout(void)
   byte abStack_20 [30];
   
   uVar1 = *(undefined1 *)((int)DS:A923 + 0x3f);
-  f_0791_0C0B();
+  increase_match_delay();
   fill_pitch_state((uint)extraout_AH << 8);
   if (pitch_records[0].activity._1_1_ != '\0') {
     u214b_message_wait_key(0xa0f8,0x2000);
