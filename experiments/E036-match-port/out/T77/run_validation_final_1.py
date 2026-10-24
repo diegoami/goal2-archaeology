@@ -3,14 +3,16 @@ import hashlib,json,os,subprocess,sys,time
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[4];OUT=Path(__file__).resolve().parent;PY='/home/diego/.local/bin/python3.12'
 if '--inside' not in sys.argv:
- for receipt in ('own-1/compare.exit','native-1/compare.exit'):
+ for receipt in ('own-2/compare.exit','native-1/compare.exit'):
   while not (OUT/receipt).exists():time.sleep(10)
   if not receipt.endswith('.json') and (OUT/receipt).read_text().strip()!='0':raise SystemExit(receipt+' failed; final validation not started')
  for name in ('t77-search-3','t77-search-6'):
   while subprocess.run(['systemctl','--user','is-active','--quiet',name]).returncode==0:time.sleep(10)
  raise SystemExit(subprocess.call(['tools/heavy.sh','--slots','8','T77-final-validation-1','--',PY,'-B',str(Path(__file__).resolve()),'--inside'],cwd=ROOT,env={**os.environ,'HARNESS_HEAVY_SLOTS':'8'}))
 folder=OUT/'validation-final-1';folder.mkdir(exist_ok=False)
-paths=sorted(list((ROOT/'runtime/original_match').rglob('*.py'))+list((ROOT/'tests').glob('*.py'))+[ROOT/'experiments/E036-match-port'/p for p in ('family.py','families.py','compare.py','records.py')])
+paths=sorted(set(list((ROOT/'runtime').rglob('*.py'))+list((ROOT/'tests').glob('*.py'))+
+                 list((ROOT/'experiments/E036-match-port').glob('*.py'))+
+                 [p for p in (ROOT/'experiments/E036-match-port/families').rglob('*') if p.is_file() and '__pycache__' not in str(p)]))
 def hashes():return {str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
 receipt={'head':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'sources':hashes(),'slot_acquired':True}
 (folder/'source.json').write_text(json.dumps(receipt,indent=2)+'\n')
