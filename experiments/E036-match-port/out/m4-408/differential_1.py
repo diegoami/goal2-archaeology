@@ -27,5 +27,5 @@ for target in ('214B:1E5A','214B:1E8D'):
                    'differences':safe,'scratch':scratch,'all_registers_equal':a==b,
                    'all_memory_equal':ma==mb,'memory_sha256':hashlib.sha256(ma).hexdigest()})
 with (OUT/'differential-1.json').open('x') as f:json.dump(results,f,indent=2);f.write('\n')
-assert all(not r['differences'] and not r['scratch'] and r['all_memory_equal'] for r in results),results
+assert all(not r['differences'] and not r['scratch'] and r['all_registers_equal'] and r['all_memory_equal'] for r in results),results
 print('PASS:',len(results),'actual-original cases; strict registers/flags and every memory byte, including dead frames')
