@@ -74,7 +74,12 @@ diagnostic `takers: []` used a whole-word comparison and missed them. Raw record
 
 ```sh
 rclone copy goal2drive:goal2-archaeology/400-remaining-inputs-20261024 .cache/400-remaining/readback
+mkdir -p .cache/400-nice-try .cache/400-remaining/native-r3/preceding-driver-files
+cp .cache/400-remaining/readback/t88-all-attempts-private.zip .cache/400-remaining/t88-all-attempts-private.zip
+cp .cache/400-remaining/readback/t88-ee0c00a59111bc8d-E19F-private-attempt.zip .cache/400-nice-try/t88-E19F-attempt-private.zip
 unzip -n .cache/400-remaining/readback/t88-all-attempts-private.zip -d .
+unzip -n .cache/400-remaining/readback/t88-ee0c00a59111bc8d-E19F-private-attempt.zip -d .
+cp notes/400-remaining/native-r3/preceding-dosbox.conf .cache/400-remaining/native-r3/preceding-driver-files/dosbox.conf
 python3 notes/400-remaining/verify.py
 ```
 
@@ -83,6 +88,12 @@ attempt verified; corner, CF3A and E19F, with five cases still unavailable. The 
 the collector against its recorded Git source, every raw observation hash and preceding link,
 original loads, verified same-mount replay, live frames, selected eleven, upload readbacks and
 the complete private package. It executes no guest instructions and changes no guest memory.
+
+Both downloaded archives must be copied to their recorded local paths as well as extracted.
+The preceding native configuration is collector-generated text retained in Git, not original
+game bytes; copying it supplies r3's preserved configuration receipt for offline verification.
+The commands do not launch DOSBox or restore any embedded drive paths. Existing private
+archives and raw attempts are unchanged.
 
 For the desktop core, import the supplied .sav as a genuine Unicorn machine input at its saved
 CPU. From the corner input, send Space through the original keyboard path; the additional wait

@@ -27,6 +27,9 @@ def main():
             resume=rec['resume'];assert sha((ROOT/resume['file']).read_bytes())==resume['sha256']
             assert resume['verified_mounts']==[f"mount c {resume['game_dir']}",f"mount d {resume['workdir']}/dosclock"]
             assert (ROOT/'.cache/400-remaining'/folder.name/'preceding-driver-files/dosbox.conf').exists()
+            old=(ROOT/'.cache/400-remaining'/folder.name/'preceding-driver-files/dosbox.conf').read_bytes()
+            assert old==(folder/'preceding-dosbox.conf').read_bytes()
+            assert [line for line in old.decode().splitlines() if line.startswith('mount ')]==resume['verified_mounts']
         else:
             assert any('Please enter name of saved game' in row['screen'] for row in rows)
             keys=[row['request']['keys'] for row in rows if isinstance(row['request'],dict) and 'keys' in row['request']]
