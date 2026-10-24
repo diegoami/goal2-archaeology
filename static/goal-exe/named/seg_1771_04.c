@@ -2,7 +2,7 @@
 // Headings give listing addresses (SEGMENT:OFFSET, as in ../code/). DS:XXXX is the data segment 2581. A segment number written in the code (a far pointer's segment, a far call's) is Ghidra's: listing=Ghidra 0000=0000, 000E=1000, 0791=2000, 16D6=3000, 1771=4000, 2138=5000, 2139=6000, 214B=7000, 235C=8000, 2382=9000, 23E4=A000, 2581=B000.
 
 // ---- 1771:4925  advance_player_position_code  (f_1771_4925; Ghidra 4000:4925, __stdcall16near; found by routines.tsv)
-// T74 (Python port in runtime/original_match/port/menus.py): steps a position byte through 0..13 using the shifted 1..14 wrapping byte menu range, with DS:A976 temporarily Down then cleared  [likely; read code/seg_1771_07.asm:101; read named/seg_1771_03.c]
+// T74 (Python port in runtime/original_match/port/menus.py): steps a position byte through 0..13 using the shifted 1..14 wrapping byte menu range, with DS:A976 temporarily Down then cleared  [likely; read code/seg_1771_07.asm:101]
 
 void advance_player_position_code(char *param_1)
 
@@ -17,7 +17,7 @@ void advance_player_position_code(char *param_1)
 
 
 // ---- 1771:4952  edit_player_position  (f_1771_4952; Ghidra 4000:4952, __stdcall16far; found by routines.tsv)
-// T74 (Python port in runtime/original_match/port/menus.py): for a nonzero player, C restores club_position (+7) into position (+6); other keys advance the position through 4925; marks DS:9B55 in match menus and rebuilds marking words when match_set_up is set  [likely; read code/seg_1771_07.asm:121; read named/seg_1771_04.c]
+// T74 (Python port in runtime/original_match/port/menus.py): for a nonzero player, C restores club_position (+7) into position (+6); other keys advance the position through 4925; marks DS:9B55 in match menus and rebuilds marking words when match_set_up is set  [likely; read code/seg_1771_07.asm:121]
 
 void __stdcall16far edit_player_position(int param_1)
 
@@ -48,7 +48,7 @@ void __stdcall16far edit_player_position(int param_1)
 
 
 // ---- 1771:49B8  cycle_player_marking  (f_1771_49B8; Ghidra 4000:49B8, __stdcall16near; found by routines.tsv)
-// T74 (Python port in runtime/original_match/port/menus.py): for the parent frame's player word at +8, cycles marking among off, zone and available opposing squad slots 2..11; positions below 2 clear status element 7; updates the side/slot marking word and calls set_marking_words  [likely; read code/seg_1771_07.asm:165; read named/seg_1771_04.c]
+// T74 (Python port in runtime/original_match/port/menus.py): for the parent frame's player word at +8, cycles an explicit marking override through the team default (status element 7 clear), a protected zone (element 7 set, word zero), and available opposing squad slots 2..11; positions below 2 clear element 7; rebuilds marking words through set_marking_words  [likely; read code/seg_1771_07.asm:165]
 
 void cycle_player_marking(int param_1)
 
