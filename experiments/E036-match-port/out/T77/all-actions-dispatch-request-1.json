@@ -1,0 +1,13 @@
+{
+  "ref": "task/T77-port-rare-quick",
+  "inputs": {
+    "task": "T77",
+    "name": "all-actions-1",
+    "family": "ALL",
+    "ports": "all",
+    "count": "0791:D733,0791:D5C1,0791:B19D,0791:6ECF,0791:73BA,0791:72F2,0791:7B77,0791:7B24,0791:B3B7,0791:C01A,0791:C0DF,0791:C48D,0791:BEC7,0791:C24D,0791:C2A8,0791:C406,1771:0BC4",
+    "shards": "37",
+    "time_limit": "6000",
+    "stretch_limit": "600"
+  }
+}

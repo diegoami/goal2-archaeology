@@ -1,0 +1,8 @@
+{
+  "changed_files": [
+    "tests/test_e036_family.py"
+  ],
+  "production_inputs_unchanged": true,
+  "reason": "Added explicit unchanged-old64 spec assertions while the diagnostic own1 run was active. Its source assertion fails as designed; own2 reruns all74 after test freeze.",
+  "accepted": false
+}

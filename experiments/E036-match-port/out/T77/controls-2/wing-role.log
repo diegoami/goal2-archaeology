@@ -1,0 +1,24 @@
+....................F
+======================================================================
+FAIL: test_wingback_conversion_changes_all_available_members_only (tests.test_port_rare.Rare.test_wingback_conversion_changes_all_available_members_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T77-control-igocbaxg/tests/test_port_rare.py", line 70, in test_wingback_conversion_changes_all_available_members_only
+    self.assertEqual(got,[0,2,4,2,5])
+AssertionError: Lists differ: [0, 3, 4, 3, 5] != [0, 2, 4, 2, 5]
+
+First differing element 1:
+3
+2
+
+- [0, 3, 4, 3, 5]
+?     ^     ^
+
++ [0, 2, 4, 2, 5]
+?     ^     ^
+
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.021s
+
+FAILED (failures=1)

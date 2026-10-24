@@ -411,16 +411,27 @@ class CommandLine(Base):
         self.assertEqual(FAMILIES["O8"].reference,FAMILIES["F40"].reference)
         self.assertNotEqual(FAMILIES["S"].reference,FAMILIES["F40"].reference)
         original=compare_module.load(historical)
-        expected_old={mid:digest for mid,digest in EXPECTED.items() if mid not in ('S/no-managed-side','S/set-piece-taker')}
+        expected_old={mid:digest for mid,digest in EXPECTED.items() if mid not in ('S/no-managed-side','S/set-piece-taker') and not mid.startswith('R/')}
         lines,ok=compare_module.check(original,original,expected_old,image_sha256=IMAGE)
         self.assertTrue(ok,lines)
         self.assertIn("62 matches expected identical, 62 pass, 0 fail",lines)
-        r=subprocess.run([sys.executable,"-B",str(COMPARE),"--family","ALL","--candidate",str(extended)],
+        r=subprocess.run([sys.executable,"-B",str(COMPARE),"--family","F40,O8,S","--candidate",str(extended)],
                          capture_output=True,text=True,cwd=self.tmp.name)
         self.assertEqual(r.returncode,0,r.stdout[-500:])
         self.assertIn("64 matches expected identical, 64 pass, 0 fail",r.stdout)
-        # Historical62 cannot be silently accepted as the now64-match family.
-        short=subprocess.run([sys.executable,"-B",str(COMPARE),"--family","ALL","--candidate",str(historical)],
+        raw_r=ROOT/FAMILIES['R'].reference
+        self.assertNotEqual(raw_r,extended)
+        joined=Path(self.tmp.name)/'all74-original.jsonl'
+        joined.write_bytes(extended.read_bytes()+raw_r.read_bytes())
+        complete=subprocess.run([sys.executable,'-B',str(COMPARE),'--family','ALL','--candidate',str(joined)],capture_output=True,text=True)
+        self.assertEqual(complete.returncode,0,complete.stdout[-500:])
+        self.assertIn('74 matches expected identical, 74 pass, 0 fail',complete.stdout)
+        for oldsize,path in [(62,historical),(63,ROOT/'experiments/E036-match-port/families/S-no-managed-side-reference-20261024-v1.jsonl'),(64,extended)]:
+            refused=subprocess.run([sys.executable,'-B',str(COMPARE),'--family','ALL','--candidate',str(path)],capture_output=True,text=True)
+            self.assertEqual(refused.returncode,2,(oldsize,refused.stdout))
+            self.assertIn('R/',refused.stdout)
+        # Historical62 cannot be silently accepted as the now74-match family.
+        short=subprocess.run([sys.executable,"-B",str(COMPARE),"--family","F40,O8,S","--candidate",str(historical)],
                              capture_output=True,text=True,cwd=self.tmp.name)
         self.assertEqual(short.returncode,2)
         self.assertIn("S/no-managed-side",short.stdout)

@@ -551,7 +551,7 @@ void __stdcall16far update_player(undefined4 param_1)
     corner_state(iVar5,uVar7);
   }
   else if (cVar2 == '\n') {
-    f_0791_73BA(iVar5,uVar7);
+    update_penalty_player(iVar5,uVar7);
   }
   else if (cVar2 == '\v') {
     free_kick_state(iVar5,uVar7);

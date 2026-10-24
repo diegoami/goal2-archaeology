@@ -1,0 +1,78 @@
+{
+  "fixed_baseline": "186f08cfc9f4ff5f30089b7662ff911a59e16032",
+  "baseline_tests": 2043,
+  "net_added_test_methods": 22,
+  "expected_final_tests": 2065,
+  "actual_final_tests": 2065,
+  "duration_s": 1165.986,
+  "inherited_skips": {
+    "test_build_guard_mutable.OriginalCheckpoint.test_adjacent_immutable_data_corruption_is_still_refused": "'private unchanged E031 checkpoint absent; see notes/396/README.md'",
+    "test_build_guard_mutable.OriginalCheckpoint.test_code_and_relocation_corruption_are_still_refused": "'private unchanged E031 checkpoint absent; see notes/396/README.md'",
+    "test_build_guard_mutable.OriginalCheckpoint.test_real_shootout_checkpoint_is_accepted_without_any_memory_edits": "'private unchanged E031 checkpoint absent; see notes/396/README.md'",
+    "test_driver_keys.KeySending.test_a_custom_save_hold_is_honoured_at_call_time": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_a_function_key_is_sent_as_itself_without_alt": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_a_key_that_would_need_a_modifier_or_does_not_exist_is_refused": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_a_raw_key_the_display_cannot_send_is_refused_before_the_emulator_starts": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_an_upper_case_letter_is_sent_with_shift_around_it_and_nothing_else": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_every_function_key_arrives_alone": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_legacy_keys_is_the_old_fault_kept_to_reproduce_it": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_the_default_hold_of_the_savestate_key_is_the_old_read_pace": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_the_keys_the_callers_send_are_single_keys": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_the_savestate_key_is_one_key_and_never_f12_or_alt": "'needs Xvfb, xinput and xmodmap'",
+    "test_driver_keys.KeySending.test_the_sendable_check_never_opens_a_display_the_driver_did_not_start": "'needs Xvfb, xinput and xmodmap'",
+    "test_known_sets.DriverSetTest.test_the_driver_constants_set_id_is_the_successor": "\"the successor's release copy is not in .cache/artifacts/goal2-67cf27d6\"",
+    "test_known_sets.DriverSetTest.test_verify_release_verifies_and_names_the_successor": "\"the successor's release copy is not in .cache/artifacts/goal2-67cf27d6\""
+  },
+  "baseline_skip_sources_unchanged": {
+    "tests/test_known_sets.py": "fea18b94c946289de27e6e88b35a34c19c942da9d30abb7760031687091f5805",
+    "tests/test_build_guard_mutable.py": "903df4fd937ab93bc2badf8f1af203fbdb45eb4b369d787fbb744c2e1d760868",
+    "tests/test_driver_keys.py": "eb0e382e240a87a9c998c691234895c67a8dec6686856e97a2970702e884b50d"
+  },
+  "changed_test_methods": {
+    "tests/test_port_quick.py": {
+      "added": [
+        "Quick.test_all_four_entries_are_real_bodies",
+        "Quick.test_line_strength_split_roles_and_tactic_shares",
+        "Quick.test_line_strength_zero_players_and_signed_home_eighth",
+        "Quick.test_quick_commit_is_one_goal_and_energy_signed_boundary",
+        "Quick.test_quick_foul_unavailable_skips_coin_and_skill_draws",
+        "Quick.test_signed_trial_compare_rejects_high_bit_draw",
+        "Quick.test_trial_goals_opponent_draw_first_and_three_strict_contests",
+        "Quick.test_zero_attempts_retains_score_without_rng"
+      ],
+      "removed": []
+    },
+    "tests/test_port_rare.py": {
+      "added": [
+        "Rare.test_forward_conversion_first_available_and_height_boundary",
+        "Rare.test_keeper_replacement_first_available_outfielder_or_none",
+        "Rare.test_penalty_stops_then_selects_role_three_and_sets_state",
+        "Rare.test_rebalance_back_uses_surplus_threshold_and_skips_unavailable",
+        "Rare.test_rebalance_without_surplus_keeps_positions",
+        "Rare.test_remove_dispatch_and_always_sort",
+        "Rare.test_restart_holder_sets_ready_then_shoots_and_nonholder_arrives",
+        "Rare.test_send_off_loss_cap_refusal_keeps_state",
+        "Rare.test_sent_off_sets_red_clears_booking_and_counts_correct_side",
+        "Rare.test_tactic_changes_five_draws_once_then_gate_blocks_all_work",
+        "Rare.test_thirteen_real_entries",
+        "Rare.test_top_scorer_inserts_name_count_and_existing_entry_moves_up",
+        "Rare.test_wingback_conversion_changes_all_available_members_only"
+      ],
+      "removed": []
+    },
+    "tests/test_e036_family.py": {
+      "added": [
+        "TheFamilies.test_r_has_independent_original_reference_and_closed_declarations",
+        "TheFamilies.test_the_four_families_and_their_exact_sizes"
+      ],
+      "removed": [
+        "TheFamilies.test_the_three_families_and_their_sizes"
+      ]
+    },
+    "tests/test_e036_compare.py": {
+      "added": [],
+      "removed": []
+    }
+  },
+  "T77_skips": []
+}

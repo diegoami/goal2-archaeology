@@ -101,7 +101,7 @@ unless its original-routine check is explicitly stated.
   in that order (`static:static/goal-exe/named/seg_000E_05.c:392`). B602 adds +1 per selected
   scorer after result clipping (`static:static/goal-exe/named/seg_0791_09.c:123`).
   On the watched/managed route, F1F6 saves +0xC, plays, and restores through
-  CB7D before pool updates (`static:static/goal-exe/named/seg_0791_11.c:704, static:static/goal-exe/named/seg_0791_11.c:746`). BA4E
+  CB7D before pool updates (`static:static/goal-exe/named/seg_0791_11.c:708, static:static/goal-exe/named/seg_0791_11.c:750`). BA4E
   gives each managed-pool word independent `draw(4)-draw(4)`
   (`static:static/goal-exe/named/seg_0791_09.c:328`), before the caller's B7FA result update
   (`static:static/goal-exe/named/seg_000E_05.c:606`). Overlapping pool/squad words receive both.

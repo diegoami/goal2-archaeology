@@ -1,0 +1,24 @@
+.........F...........
+======================================================================
+FAIL: test_keeper_replacement_first_available_outfielder_or_none (tests.test_port_rare.Rare.test_keeper_replacement_first_available_outfielder_or_none)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T77-control-53q2_9_o/tests/test_port_rare.py", line 49, in test_keeper_replacement_first_available_outfielder_or_none
+    self.assertEqual(got,[0]+[0 if w==want else 5 for w in range(102,112)])
+AssertionError: Lists differ: [0, 5, 1, 5, 5, 5, 5, 5, 5, 5, 5] != [0, 5, 0, 5, 5, 5, 5, 5, 5, 5, 5]
+
+First differing element 2:
+1
+0
+
+- [0, 5, 1, 5, 5, 5, 5, 5, 5, 5, 5]
+?        ^
+
++ [0, 5, 0, 5, 5, 5, 5, 5, 5, 5, 5]
+?        ^
+
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.016s
+
+FAILED (failures=1)

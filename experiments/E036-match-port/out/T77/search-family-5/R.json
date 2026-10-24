@@ -1,0 +1,1273 @@
+{
+  "family": "R",
+  "reference": "experiments/E036-match-port/families/R.reference-20261024-v1.jsonl",
+  "description": "T77 frontier census: competitive quick results with both countries going in hard, seed variation and a tired side; a watched seed-4 match managed from the other side reaches computer removal after discipline. Only the existing closed record-edit grammar is used.",
+  "base": {
+    "fixture": [
+      7,
+      19,
+      21,
+      2
+    ],
+    "managed": 7,
+    "seed": 1,
+    "delay_byte": null,
+    "substitutions": null,
+    "edits": "hard-both",
+    "policy": {
+      "name": "Quick",
+      "contexts": [
+        "half_time",
+        "substitution",
+        "pause"
+      ],
+      "speed": 0,
+      "pause_at": [
+        1
+      ]
+    }
+  },
+  "edit_sets": {
+    "hard-both": [
+      {
+        "target": "country",
+        "country": 7,
+        "offset": 45,
+        "op": "or",
+        "value": 8
+      },
+      {
+        "target": "country",
+        "country": 19,
+        "offset": 45,
+        "op": "or",
+        "value": 8
+      }
+    ],
+    "tired-hard": [
+      {
+        "target": "country",
+        "country": 7,
+        "offset": 45,
+        "op": "or",
+        "value": 8
+      },
+      {
+        "target": "country",
+        "country": 19,
+        "offset": 45,
+        "op": "or",
+        "value": 8
+      },
+      {
+        "target": "squad",
+        "country": 19,
+        "offset": 14,
+        "op": "set",
+        "value": 2
+      }
+    ]
+  },
+  "matches": [
+    {
+      "id": "R/search-quick-zero-1",
+      "seed": 1,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-2",
+      "seed": 2,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-3",
+      "seed": 3,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-4",
+      "seed": 4,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-5",
+      "seed": 5,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-6",
+      "seed": 6,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-7",
+      "seed": 7,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-8",
+      "seed": 8,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-9",
+      "seed": 9,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-10",
+      "seed": 10,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-11",
+      "seed": 11,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-12",
+      "seed": 12,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-13",
+      "seed": 13,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-14",
+      "seed": 14,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-15",
+      "seed": 15,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-16",
+      "seed": 16,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-17",
+      "seed": 17,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-18",
+      "seed": 18,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-19",
+      "seed": 19,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-20",
+      "seed": 20,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-21",
+      "seed": 21,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-22",
+      "seed": 22,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-23",
+      "seed": 23,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-24",
+      "seed": 24,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-25",
+      "seed": 25,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-26",
+      "seed": 26,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-27",
+      "seed": 27,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-28",
+      "seed": 28,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-29",
+      "seed": 29,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-30",
+      "seed": 30,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-31",
+      "seed": 31,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-32",
+      "seed": 32,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-33",
+      "seed": 33,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-34",
+      "seed": 34,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-35",
+      "seed": 35,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-36",
+      "seed": 36,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-37",
+      "seed": 37,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-38",
+      "seed": 38,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-39",
+      "seed": 39,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-40",
+      "seed": 40,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-41",
+      "seed": 41,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-42",
+      "seed": 42,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-43",
+      "seed": 43,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-44",
+      "seed": 44,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-45",
+      "seed": 45,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-46",
+      "seed": 46,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-47",
+      "seed": 47,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-48",
+      "seed": 48,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-49",
+      "seed": 49,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-50",
+      "seed": 50,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-51",
+      "seed": 51,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-52",
+      "seed": 52,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-53",
+      "seed": 53,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-54",
+      "seed": 54,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-55",
+      "seed": 55,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-56",
+      "seed": 56,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-57",
+      "seed": 57,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-58",
+      "seed": 58,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-59",
+      "seed": 59,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-60",
+      "seed": 60,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-61",
+      "seed": 61,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-62",
+      "seed": 62,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-63",
+      "seed": 63,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-64",
+      "seed": 64,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-65",
+      "seed": 65,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-66",
+      "seed": 66,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-67",
+      "seed": 67,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-68",
+      "seed": 68,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-69",
+      "seed": 69,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-70",
+      "seed": 70,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-71",
+      "seed": 71,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-72",
+      "seed": 72,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-73",
+      "seed": 73,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-74",
+      "seed": 74,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-75",
+      "seed": 75,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-76",
+      "seed": 76,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-77",
+      "seed": 77,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-78",
+      "seed": 78,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-79",
+      "seed": 79,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-80",
+      "seed": 80,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-81",
+      "seed": 81,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-82",
+      "seed": 82,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-83",
+      "seed": 83,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-84",
+      "seed": 84,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-85",
+      "seed": 85,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-86",
+      "seed": 86,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-87",
+      "seed": 87,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-88",
+      "seed": 88,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-89",
+      "seed": 89,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-90",
+      "seed": 90,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-91",
+      "seed": 91,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-92",
+      "seed": 92,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-93",
+      "seed": 93,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-94",
+      "seed": 94,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-95",
+      "seed": 95,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-96",
+      "seed": 96,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-97",
+      "seed": 97,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-98",
+      "seed": 98,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-99",
+      "seed": 99,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    },
+    {
+      "id": "R/search-quick-zero-100",
+      "seed": 100,
+      "fixture": [
+        7,
+        19,
+        21,
+        2
+      ],
+      "managed": 7,
+      "substitutions": 0
+    }
+  ]
+}

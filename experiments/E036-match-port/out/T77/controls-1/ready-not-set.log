@@ -1,0 +1,25 @@
+..............F......
+======================================================================
+FAIL: test_restart_holder_sets_ready_then_shoots_and_nonholder_arrives (tests.test_port_rare.Rare.test_restart_holder_sets_ready_then_shoots_and_nonholder_arrives)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T77-control-jti2nqhp/tests/test_port_rare.py", line 120, in test_restart_holder_sets_ready_then_shoots_and_nonholder_arrives
+    else:self.assertEqual((r.mem.ds8(off+8),r.mem.ds8(0x8323)),(232,1))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (232, 0) != (232, 1)
+
+First differing element 1:
+0
+1
+
+- (232, 0)
+?       ^
+
++ (232, 1)
+?       ^
+
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.016s
+
+FAILED (failures=1)

@@ -1,0 +1,26 @@
+Early development diagnostics retained from the tool transcript (a transcription,
+not a rerun or an acceptance log). Production quick.py/rare.py remained unchanged.
+
+1. First quick-unit run: 8 tests, one failure in
+   test_line_strength_split_roles_and_tactic_shares. Observed [0,14,12,2],
+   expected [0,12,12,6]. The synthetic CS set used 0x31; the listing's set is 0x62.
+   Correcting that fixture made all 8 pass.
+2. First quick+rare-unit run: 21 tests, two failures in synthetic call expectations.
+   6DEA received (2,57), not (57,2). The 3C3F test inspected the final pointer words
+   (129,254), rather than the first argument words (17,3). Corrected the expected
+   argument order; no production change.
+3. First family/comparator diagnostic: 53 tests, two failures. The generic family
+   reference assertion needed R's independent reference, and the first eight
+   missing ALL members were now R members, so an assertion expecting the truncated
+   error to contain S/no-managed-side was wrong. Preserve historical 62 proof via
+   its exact F40,O8,S comparison, and separately reject 62/63/64 as incomplete ALL.
+4. Second family/comparator diagnostic: 53 tests, one failure. A mechanical text
+   replacement missed the multiline generic-reference expression. The corrected
+   targeted family-reference test passed; final 134 owned tests also pass.
+5. The first direct compare.py --family S of the two-case probe correctly refused
+   an incomplete 16-case family. The established strict selected-scenario wrapper
+   then verified both declared records with full schema/spec/image validation.
+   No comparator or producer assertion was changed.
+
+These diagnostics are not used as passing proof. Source-bound accepted unit,
+control, own-family and final validation logs have separate immutable paths.

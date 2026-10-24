@@ -1,0 +1,12 @@
+[
+  "/home/diego/.local/bin/python3.12",
+  "-B",
+  "-m",
+  "original_match.check",
+  "--cache",
+  ".cache/dl",
+  "--ports",
+  "quick,rare",
+  "--json",
+  "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T77/validation-final-1/check.json"
+]

@@ -37,7 +37,7 @@ player words. These probe B7FA, not the entire watched fixture route.
 * BA4E applies draw(4)-draw(4) independently to every word in the managed
   pool. It precedes the result term on the watched/managed route, not after
   it: F1F6 calls BA4E, then its caller 000E:6CA7 calls B7FA.
-  `named/seg_0791_11.c:700–700`, `named/seg_000E_05.c:605–640`.
+  `named/seg_0791_11.c:704–704`, `named/seg_000E_05.c:605–640`.
   Pool overlap with squad words therefore matters; clipping each call is
   not equivalent to clipping the sum once.
 
@@ -45,7 +45,7 @@ player words. These probe B7FA, not the entire watched fixture route.
 
 * F1F6 copies the squads' morale to DS:9B07[20*side+slot]. Its CB7D call
   restores those bytes after play, before pool and fixture updates.
-  `named/seg_0791_11.c:658–649,674`; assembly
+  `named/seg_0791_11.c:662–653,678`; assembly
   `seg_0791_23.asm:1035` onward and `seg_0791_20.asm:973` onward.
   Not all in-match changes disappear: 7CC5's nonzero flag updates this
   saved array (see inventory below). Ordinary team-wide goal reactions
@@ -102,7 +102,7 @@ unchanged, not a second confidence rule.
 | 0791:7CC5 | reads live +C; writes clamp(s8(live)+delta,1,255); nonzero flag writes min(32,s8(new live)) to DS:9B07[side*20+slot] | named/seg_0791_06.c:610–625 |
 | 0791:B364 | reads/writes signed +C, clamp1..32 | code/seg_0791_18.asm:621 onward; named/seg_0791_08.c:1118–1126 |
 | 0791:CB7D | writes +C from saved DS:9B07 | code/seg_0791_20.asm:973 onward; named/seg_0791_10.c:112–83 |
-| 0791:F1F6 | reads +C into saved DS:9B07 | code/seg_0791_23.asm:1035 onward; named/seg_0791_11.c:658–649 |
+| 0791:F1F6 | reads +C into saved DS:9B07 | code/seg_0791_23.asm:1035 onward; named/seg_0791_11.c:662–653 |
 | 1771:13D0 | reads capped +C into team aggregate DS:9B5A | named/seg_1771_01.c:1021–1038 |
 | 1771:377E | reads signed +C into player strength, special branch >=32 | named/seg_1771_03.c:308–325 |
 | 1771:42BC | reads +C for description and bar | code/seg_1771_06.asm:1114–1142; named/seg_1771_03.c:881–892 |
@@ -120,7 +120,7 @@ unchanged, not a second confidence rule.
   Cards/injuries are not inferred here, but their field writer is named.
 * 96D3 is reached by creation and retirement/replacement (F007/F016);
   it is not a post-match result-relative update.
-* CB7D is called by F1F6 after the summary (`named/seg_0791_11.c:700`).
+* CB7D is called by F1F6 after the summary (`named/seg_0791_11.c:704`).
 
 ### B71C's term outside player +0C (for T33)
 

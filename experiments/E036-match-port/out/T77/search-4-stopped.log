@@ -1,0 +1,5 @@
+Oct 24 13:24:30 WINDOWS-BJ0PUMB systemd[348]: Started t77-search-4.service - [systemd-run] /home/diego/.local/bin/python3.12 -B experiments/E036-match-port/out/T77/search_4.py.
+Oct 24 13:24:30 WINDOWS-BJ0PUMB python3.12[1688258]: 32 matches selected, 0 already in /home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T77/search-native-4.jsonl, 32 to run
+Oct 24 13:26:06 WINDOWS-BJ0PUMB systemd[348]: Stopping t77-search-4.service - [systemd-run] /home/diego/.local/bin/python3.12 -B experiments/E036-match-port/out/T77/search_4.py...
+Oct 24 13:26:06 WINDOWS-BJ0PUMB systemd[348]: Stopped t77-search-4.service - [systemd-run] /home/diego/.local/bin/python3.12 -B experiments/E036-match-port/out/T77/search_4.py.
+Oct 24 13:26:06 WINDOWS-BJ0PUMB systemd[348]: t77-search-4.service: Consumed 3min 27.030s CPU time over 1min 36.789s wall clock time, 322.4M memory peak.

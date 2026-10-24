@@ -1,0 +1,22 @@
+{
+  "runtime_introduced_at": "dec6a96c",
+  "runtime_unchanged_since": {
+    "runtime/original_match/port/quick.py": "28836a578a2937b72a4fff05ab315bb0a9f665f24cf79e5a14bd4da710432590",
+    "runtime/original_match/port/rare.py": "588b6fc3430a0e674664d9bf8f165bdf31779f240ac783f0490e5f4c5be1d66e"
+  },
+  "original_witness_counts": {
+    "0791:B261": 109,
+    "0791:D805": 5,
+    "0791:DAC1": 413
+  },
+  "initial_probes": [
+    "probe-1.jsonl",
+    "R-probe-1.jsonl"
+  ],
+  "completed_falsifiers": [
+    "mutant-trial-1.jsonl",
+    "mutant-energy-1.jsonl",
+    "mutant-stats-1.jsonl"
+  ],
+  "controls": "controls-2/summary.json"
+}

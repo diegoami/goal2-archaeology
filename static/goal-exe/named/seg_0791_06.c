@@ -881,7 +881,7 @@ void __cdecl16near dead_ball_corner(void)
 
 
 // ---- 0791:6ECF  dead_ball_penalty  (f_0791_6ECF; Ghidra 2000:6ECF, __cdecl16near; found by routines.tsv)
-// a penalty stoppage: DS:830E := 0, 0441(2), 0791:8062, commentary 0x39 '*** PENALTY ***', DS:8324 := 1; called from 8206 when the foul is in the box; E011 enters it 0 times  [likely; F027]
+// T77 (Python port in runtime/original_match/port/rare.py; family exact/READ classification in experiments/E036-match-port/notes/T77.md): a penalty stoppage: DS:830E := 0, 0441(2), 0791:8062, commentary 0x39 '*** PENALTY ***', DS:8324 := 1; called from 8206 when the foul is in the box; E011 enters it 0 times  [likely; F027]
 
 void __cdecl16near dead_ball_penalty(void)
 

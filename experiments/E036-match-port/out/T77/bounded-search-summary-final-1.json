@@ -1,0 +1,92 @@
+{
+  "searches": [
+    {
+      "search": 3,
+      "planned": 48,
+      "completed": 48,
+      "stopped": false,
+      "record_path": "experiments/E036-match-port/out/T77/search-native-3.jsonl",
+      "record_sha256": "9ea1016dab6d210d9ec09fde902b898041a4eb6c427f3bead19e06548a167807",
+      "first_journal_utc": "2026-10-24T11:23:24.474231+00:00",
+      "last_journal_utc": "2026-10-24T11:28:56.114153+00:00",
+      "journal_elapsed_s": 331.639922,
+      "completed_match_cpu_s": 712.0169999999999,
+      "original_entry_counts": {
+        "0791:C24D": 0,
+        "0791:C2A8": 1,
+        "0791:C406": 0,
+        "0791:C48D": 4,
+        "0791:7B77": 12,
+        "0791:6ECF": 3
+      },
+      "all_original_unhooked_completed": true
+    },
+    {
+      "search": 4,
+      "planned": 32,
+      "completed": 14,
+      "stopped": true,
+      "record_path": "experiments/E036-match-port/out/T77/search-native-4.jsonl",
+      "record_sha256": "d438d84f8751e7ee6dbb1f60db9516502848f30f102518a6d08cb65dfd78285c",
+      "first_journal_utc": "2026-10-24T11:24:30.012408+00:00",
+      "last_journal_utc": "2026-10-24T11:26:06.804860+00:00",
+      "journal_elapsed_s": 96.792452,
+      "completed_match_cpu_s": 189.145,
+      "original_entry_counts": {
+        "0791:C24D": 0,
+        "0791:C2A8": 0,
+        "0791:C406": 0,
+        "0791:C48D": 0,
+        "0791:7B77": 0,
+        "0791:6ECF": 0
+      },
+      "all_original_unhooked_completed": true
+    },
+    {
+      "search": 5,
+      "planned": 100,
+      "completed": 100,
+      "stopped": false,
+      "record_path": "experiments/E036-match-port/out/T77/search-native-5.jsonl",
+      "record_sha256": "3096c8c7ec70e5c5c540ba3be59504866e13ed397c0cad55213ee9a3b12ffa98",
+      "first_journal_utc": "2026-10-24T11:25:30.343379+00:00",
+      "last_journal_utc": "2026-10-24T11:26:27.368983+00:00",
+      "journal_elapsed_s": 57.025604,
+      "completed_match_cpu_s": 36.891,
+      "original_entry_counts": {
+        "0791:C24D": 0,
+        "0791:C2A8": 24,
+        "0791:C406": 7,
+        "0791:C48D": 86,
+        "0791:7B77": 116,
+        "0791:6ECF": 0
+      },
+      "all_original_unhooked_completed": true
+    },
+    {
+      "search": 6,
+      "planned": 96,
+      "completed": 96,
+      "stopped": false,
+      "record_path": "experiments/E036-match-port/out/T77/search-native-6.jsonl",
+      "record_sha256": "21f6e036e12695e0a644217bcb28a705477fbc5c89776f578721adff737f8471",
+      "first_journal_utc": "2026-10-24T11:26:47.196594+00:00",
+      "last_journal_utc": "2026-10-24T11:40:41.027692+00:00",
+      "journal_elapsed_s": 833.831098,
+      "completed_match_cpu_s": 1852.617,
+      "original_entry_counts": {
+        "0791:C24D": 0,
+        "0791:C2A8": 2,
+        "0791:C406": 5,
+        "0791:C48D": 15,
+        "0791:7B77": 23,
+        "0791:6ECF": 7
+      },
+      "all_original_unhooked_completed": true
+    }
+  ],
+  "completed_executions": 258,
+  "keeper_entry_count": 0,
+  "elapsed_definition": "First to last retained journal timestamp per supervised search unit, including queued time; CPU sum covers completed matches only.",
+  "classification": "C24D READ: not reached in these declared searches, not claimed impossible."
+}
