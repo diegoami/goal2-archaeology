@@ -849,7 +849,7 @@ void __stdcall16far move_referee(char *param_1,char param_2)
 
 
 // ---- 0791:92FC  switch_to_quick_result  (f_0791_92FC; Ghidra 2000:92FC, __stdcall16near; found by routines.tsv)
-// the R key's action: returns when DS:9A3E, DS:8326 or DS:0C21 is set or no minutes are left (DS:831B = 0); defers (sets DS:7C38, the first time unpacking screen DS:26E4) when the clock is stopped (DS:8325 = 0) or DS:0C20, DS:7C37 or DS:9B55 is set; else sets DS:9A3E and DS:9A3F, clears DS:7C38 and calls 0791:0106(0) (the match board)  [established; F004; F005; read decompiled/seg_0791_06.c]
+// T74 (Python port in runtime/original_match/port/menus.py): the R key's action: returns when DS:9A3E, DS:8326 or DS:0C21 is set or no minutes are left (DS:831B = 0); defers (sets DS:7C38, the first time unpacking screen DS:26E4) when the clock is stopped (DS:8325 = 0) or DS:0C20, DS:7C37 or DS:9B55 is set; else sets DS:9A3E and DS:9A3F, clears DS:7C38 and calls 0791:0106(0) (the match board)  [established; F004; F005; read decompiled/seg_0791_06.c]
 
 void switch_to_quick_result(void)
 
@@ -877,7 +877,7 @@ void switch_to_quick_result(void)
 
 
 // ---- 0791:9372  match_key_poll  (f_0791_9372; Ghidra 2000:9372, __cdecl16near; found by routines.tsv)
-// the in-match key poll: on R (or while DS:7C38 is set) calls 0791:92FC, returns when no key waits  [established; F004; F005]
+// T74 (Python port in runtime/original_match/port/menus.py): the in-match key poll: on R (or while DS:7C38 is set) calls 0791:92FC, returns when no key waits  [established; F004; F005]
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

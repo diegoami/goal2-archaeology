@@ -974,14 +974,14 @@ void __stdcall16far select_team_screen(int param_1)
       iVar7 = local_7;
       uVar4 = f_0791_DE27(&stack0xfffe,local_7);
       puVar6 = (undefined2 *)f_0791_DE51(&stack0xfffe,uVar4,iVar7);
-      f_1771_4859(2,8,*puVar6);
+      edit_player_name(2,8,*puVar6);
     }
     else if ((cVar3 == 'R') || (cVar3 == 'C')) {
       if (DS:0C20 == '\0') {
         iVar7 = local_7;
         uVar4 = f_0791_DE27(&stack0xfffe,local_7);
         puVar6 = (undefined2 *)f_0791_DE51(&stack0xfffe,uVar4,iVar7);
-        f_1771_4952(*puVar6);
+        edit_player_position(*puVar6);
       }
     }
     else if (cVar3 == 'T') {

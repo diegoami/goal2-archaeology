@@ -925,7 +925,7 @@ void __cdecl16near foul_dispatch(void)
 
 
 // ---- 0791:7FCF  timed_notice  (f_0791_7FCF; Ghidra 2000:7FCF, __stdcall16near; found by routines.tsv)
-// saves the bottom line, shows screen DS:5B30 or (p2 set: keeper unavailable) DS:5B66 with the side's country name on row 25, waits 0791:CC2E(DS:087C[p2]), reads a waiting key, else writes Esc to DS:A977; restores the bottom line  [likely; F005; F006; read decompiled/seg_0791_05.c]
+// T74 (Python port in runtime/original_match/port/menus.py): saves the bottom line, shows screen DS:5B30 or (p2 set: keeper unavailable) DS:5B66 with the side's country name on row 25, waits 0791:CC2E(DS:087C[p2]), reads a waiting key, else writes Esc to DS:A977; restores the bottom line  [likely; F005; F006; read decompiled/seg_0791_05.c]
 
 void timed_notice(char param_1,char param_2)
 

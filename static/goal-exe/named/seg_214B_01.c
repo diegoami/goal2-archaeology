@@ -470,7 +470,7 @@ u214b_draw_centered_message_line(undefined4 *param_1,undefined4 param_2,byte par
 
 
 // ---- 214B:04F8  u214b_message_wait_key  (f_214B_04F8; Ghidra 7000:04F8, __stdcall16far; found by routines.tsv)
-// Saves bottom screen line, shows the message via 0350 with ' PRESS ANY KEY ', waits for a key (0983) and restores the line  [likely; read decompiled/seg_214B_01.c]
+// T74 (Python port in runtime/original_match/port/menus.py): Saves bottom screen line, shows the message via 0350 with ' PRESS ANY KEY ', waits for a key (0983) and restores the line  [likely; read decompiled/seg_214B_01.c]
 
 void __stdcall16far u214b_message_wait_key(undefined4 param_1)
 
@@ -500,7 +500,7 @@ void __stdcall16far u214b_message_wait_key(undefined4 param_1)
 
 
 // ---- 214B:0566  u214b_ask_yes_no  (f_214B_0566; Ghidra 7000:0566, __stdcall16far; found by routines.tsv)
-// Shows a prompt line with '? (Y/N)', reads a key (set of allowed keys, 09A7), returns true if upper-cased key is 'Y'; restores the line  [likely; read decompiled/seg_214B_01.c]
+// T74 (Python port in runtime/original_match/port/menus.py): Shows a prompt line with '? (Y/N)', reads a key (set of allowed keys, 09A7), returns true if upper-cased key is 'Y'; restores the line  [likely; read decompiled/seg_214B_01.c]
 
 undefined1 __stdcall16far u214b_ask_yes_no(undefined4 param_1)
 
@@ -641,7 +641,7 @@ bool __cdecl16far u214b_random_coin_flip(void)
 
 
 // ---- 214B:0723  u214b_key_pressed  (f_214B_0723; Ghidra 7000:0723, __cdecl16far; found by routines.tsv)
-// Keypressed: INT 16h AH=1 via 235C:000B, returns true when zero flag clear (no ZF bit 0x40)  [likely; read decompiled/seg_214B_01.c; read code/seg_214B_02.asm]
+// T74 (Python port in runtime/original_match/port/menus.py): Keypressed: INT 16h AH=1 via 235C:000B, returns true when zero flag clear (no ZF bit 0x40)  [likely; read decompiled/seg_214B_01.c; read code/seg_214B_02.asm]
 
 bool __cdecl16far u214b_key_pressed(void)
 
@@ -722,7 +722,7 @@ void __cdecl16near u214b_shell_to_dos(void)
 
 
 // ---- 214B:08DD  u214b_read_key  (f_214B_08DD; Ghidra 7000:08DD, __cdecl16far; found by routines.tsv)
-// Waits for a key (INT 16h AH=0 via Intr), maps cursor-pad scancodes to codes >0x80 (non-ASCII key mapping), stores in DS:A976/DS:A977; handles a pushed-back key DS:79AE; a code 0xA3 triggers screen print 0B4D  [likely; read decompiled/seg_214B_01.c; read code/seg_214B_02.asm]
+// T74 (Python port in runtime/original_match/port/menus.py): Waits for a key (INT 16h AH=0 via Intr), maps cursor-pad scancodes to codes >0x80 (non-ASCII key mapping), stores in DS:A976/DS:A977; handles a pushed-back key DS:79AE; a code 0xA3 triggers screen print 0B4D  [likely; read decompiled/seg_214B_01.c; read code/seg_214B_02.asm]
 
 /* WARNING: Removing unreachable block (214B:0957) */
 
@@ -767,7 +767,7 @@ void __cdecl16far u214b_read_key(void)
 
 
 // ---- 214B:0983  u214b_wait_key_and_clear  (f_214B_0983; Ghidra 7000:0983, __cdecl16far; found by routines.tsv)
-// Calls the key read 08DD, then clears DS:A976  [likely; read decompiled/seg_214B_01.c]
+// T74 (Python port in runtime/original_match/port/menus.py): Calls the key read 08DD, then clears DS:A976  [likely; read decompiled/seg_214B_01.c]
 
 void __cdecl16far u214b_wait_key_and_clear(void)
 
@@ -779,7 +779,7 @@ void __cdecl16far u214b_wait_key_and_clear(void)
 
 
 // ---- 214B:0993  u214b_push_back_key  (f_214B_0993; Ghidra 7000:0993, __stdcall16far; found by routines.tsv)
-// Stores a key code in DS:A976 and sets the pushed-back flag DS:79AE so the next 08DD returns it without waiting  [likely; read decompiled/seg_214B_01.c]
+// T74 (Python port in runtime/original_match/port/menus.py): Stores a key code in DS:A976 and sets the pushed-back flag DS:79AE so the next 08DD returns it without waiting  [likely; read decompiled/seg_214B_01.c]
 
 void __stdcall16far u214b_push_back_key(undefined1 param_1)
 
@@ -791,7 +791,7 @@ void __stdcall16far u214b_push_back_key(undefined1 param_1)
 
 
 // ---- 214B:09A7  u214b_wait_key_in_set  (f_214B_09A7; Ghidra 7000:09A7, __stdcall16far; found by routines.tsv)
-// Copies a 32-byte set from a far pointer and loops 08DD until the key code is a member of the set  [likely; read decompiled/seg_214B_01.c]
+// T74 (Python port in runtime/original_match/port/menus.py): Copies a 32-byte set from a far pointer and loops 08DD until the key code is a member of the set  [likely; read decompiled/seg_214B_01.c]
 
 void __stdcall16far u214b_wait_key_in_set(undefined4 param_1)
 
@@ -1140,37 +1140,6 @@ void u214b_edit_line_redraw(int param_1)
     uVar4 = u214b_min_longint((uint)*(byte *)(param_1 + 10) +
                               (uint)*(byte *)*(undefined4 *)(param_1 + 0xe),0,iVar2,iVar2 >> 0xf);
     u214b_write_string_at_fwd((undefined4 *)&DS:A96A,0xb000,uVar4,uVar3,uVar6,uVar7);
-  }
-  return;
-}
-
-
-// ---- 214B:0FB5  u214b_edit_line_store_char  (f_214B_0FB5; Ghidra 7000:0FB5, __stdcall16near; found by routines.tsv)
-// Nested helper of 1086: stores a character into the edit string at the cursor (insert shifts the rest, else overwrite), updates length byte  [likely; read decompiled/seg_214B_01.c]
-
-void u214b_edit_line_store_char(int param_1,undefined1 param_2)
-
-{
-  undefined2 unaff_SS;
-  undefined1 *puVar1;
-  undefined2 uVar2;
-  undefined1 local_102 [256];
-  
-  if ((*(int *)(param_1 + -4) < (int)(uint)*(byte *)(param_1 + 0xc)) &&
-     (((DS:7A24 != '\0' ||
-       ((int)(uint)*(byte *)*(undefined4 *)(param_1 + 0xe) < *(int *)(param_1 + -4))) &&
-      (*(byte *)*(undefined4 *)(param_1 + 0xe) < *(byte *)(param_1 + 0xc))))) {
-    puVar1 = local_102;
-    uVar2 = unaff_SS;
-    sys_char_to_str_075A(param_2);
-    sys_str_insert_0787(*(undefined2 *)(param_1 + -4),0xff,(int)*(undefined4 *)(param_1 + 0xe),
-                        (int)((ulong)*(undefined4 *)(param_1 + 0xe) >> 0x10),puVar1,uVar2);
-  }
-  else {
-    *(undefined1 *)((int)*(undefined4 *)(param_1 + 0xe) + *(int *)(param_1 + -4)) = param_2;
-  }
-  if ((uint)*(byte *)(param_1 + 0xc) == *(uint *)(param_1 + -4)) {
-    *(undefined1 *)*(undefined4 *)(param_1 + 0xe) = *(undefined1 *)(param_1 + 0xc);
   }
   return;
 }

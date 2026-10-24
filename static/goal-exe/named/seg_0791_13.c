@@ -244,7 +244,7 @@ LAB_0791_EC64:
 
 
 // ---- 0791:ED8A  in_match_menu  (f_0791_ED8A; Ghidra 2000:ED8A, __stdcall16near; found by routines.tsv)
-// the in-match menu (screen DS:2598), with the left and right side items: 1/6 team tactics (1771:1981; sets DS:9B55 if +0x2D changed), 2/7 and Space 0791:E949, 3/8 0791:E929 (unless DS:0C21), 4/9 the match board 0791:0106, 5/10 leave (confirmed by 0791:EA09); one key toggles [DS:A923]+0x41; the loop exits only when an item set local_3 AND EA09 returns 1, so ' play ' with an invalid first eleven redraws silently and waits again  [likely; F005; F006; F010; F016; read decompiled/seg_0791_09.c]
+// T74 (Python port in runtime/original_match/port/menus.py): the in-match menu (screen DS:2598), with the left and right side items: 1/6 team tactics (1771:1981; sets DS:9B55 if +0x2D changed), 2/7 and Space 0791:E949, 3/8 0791:E929 (unless DS:0C21), 4/9 the match board 0791:0106, 5/10 leave (confirmed by 0791:EA09); one key toggles [DS:A923]+0x41; the loop exits only when an item set local_3 AND EA09 returns 1, so ' play ' with an invalid first eleven redraws silently and waits again  [likely; F005; F006; F010; F016; read decompiled/seg_0791_09.c]
 
 void in_match_menu(char param_1)
 

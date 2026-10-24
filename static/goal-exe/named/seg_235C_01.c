@@ -2,7 +2,7 @@
 // Headings give listing addresses (SEGMENT:OFFSET, as in ../code/). DS:XXXX is the data segment 2581. A segment number written in the code (a far pointer's segment, a far call's) is Ghidra's: listing=Ghidra 0000=0000, 000E=1000, 0791=2000, 16D6=3000, 1771=4000, 2138=5000, 2139=6000, 214B=7000, 235C=8000, 2382=9000, 23E4=A000, 2581=B000.
 
 // ---- 235C:0000  dos_msdos  (f_235C_0000; Ghidra 8000:0000, __stdcall16far; found by routines.tsv)
-// pops return and args, sets AL=21h, re-pushes, falls into 235C:000B: MsDos(var regs) wrapper  [likely; read code/seg_235C_01.asm; read decompiled/seg_235C_01.c]
+// T74 (Python port in runtime/original_match/port/menus.py): pops return and args, sets AL=21h, re-pushes, falls into 235C:000B: MsDos(var regs) wrapper; the physical return frame moves by -2 bytes and the shared tail is retf 6 (effective caller argument pop 4)  [likely; read code/seg_235C_01.asm; read decompiled/seg_235C_01.c]
 
 undefined4 __stdcall16far dos_msdos(undefined2 param_1)
 
@@ -19,7 +19,7 @@ undefined4 __stdcall16far dos_msdos(undefined2 param_1)
 
 
 // ---- 235C:000B  dos_intr  (f_235C_000B; Ghidra 8000:000B, __cdecl16far; found by routines.tsv)
-// loads regs record (AX,BX,CX,DX,BP,SI,DI,DS,ES) and calls the interrupt vector chosen by byte param from IVT at 0000:n*4; Intr(num, regs)  [likely; read code/seg_235C_01.asm]
+// T74 (Python port in runtime/original_match/port/menus.py): loads regs record (AX,BX,CX,DX,BP,SI,DI,DS,ES) and calls the interrupt vector chosen by byte param from IVT at 0000:n*4; Intr(num, regs); the IVT handler returns through IRET to 0045, and the continuation stores the ten-word register/flags record before retf 6  [likely; read code/seg_235C_01.asm]
 
 undefined2 __cdecl16far dos_intr(undefined2 *param_1)
 

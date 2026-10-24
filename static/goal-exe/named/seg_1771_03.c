@@ -1001,9 +1001,10 @@ void __stdcall16far draw_player_screen(int param_1)
 }
 
 
-// ---- 1771:4859  f_1771_4859  (f_1771_4859; Ghidra 4000:4859, __stdcall16far; found by routines.tsv)
+// ---- 1771:4859  edit_player_name  (f_1771_4859; Ghidra 4000:4859, __stdcall16far; found by routines.tsv)
+// T74 (Python port in runtime/original_match/port/menus.py): edits the nonzero player's displayed name through a 12-character temporary: stores its initial, removes that initial and an optional following space, uppercases a nonempty surname into the 10-character name table and sets DS:0C1A; unchanged text exits without writes  [likely; read code/seg_1771_07.asm:6; read named/seg_1771_03.c]
 
-void __stdcall16far f_1771_4859(int param_1,undefined1 param_2,int param_3)
+void __stdcall16far edit_player_name(int param_1,undefined1 param_2,int param_3)
 
 {
   undefined1 extraout_AH;
@@ -1049,19 +1050,5 @@ void __stdcall16far f_1771_4859(int param_1,undefined1 param_2,int param_3)
       }
     }
   }
-  return;
-}
-
-
-// ---- 1771:4925  f_1771_4925  (f_1771_4925; Ghidra 4000:4925, __stdcall16near; found by routines.tsv)
-
-void f_1771_4925(char *param_1)
-
-{
-  DS:A976 = 0xb1;
-  *param_1 = *param_1 + '\x01';
-  u214b_menu_move_byte_wrap(0xe,(char *)param_1,(int)((ulong)param_1 >> 0x10));
-  *param_1 = *param_1 + -1;
-  DS:A976 = 0;
   return;
 }
