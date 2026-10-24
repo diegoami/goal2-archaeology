@@ -1,0 +1,4 @@
+COMMAND: python3 -B experiments/E036-match-port/family.py --family ALL --only F40/more-0042,F40/more-1111 --workers 2 --time-limit 6000 --stretch-limit 600 --checkpoint .cache/checkpoints --out shard/shard-5.jsonl --ports all --count 1771:883F,1771:89C1,1771:89FE,1771:8A5D,1771:8CCF,1771:8D84,1771:9028,1771:91CE,1771:937C,1771:9509,1771:5C94,1771:5CCB
+HEAD: 1bd066ca64523db0330815b7bde39acba621ad69 runner 4 CPUs  AMD EPYC 7763 64-Core Processor started 2026-10-24T19:33:55Z
+ports: attributes, ball, contests, discipline, display, duels, frame, geometry, menus, motion, pilot, positioning, postmatch, quick, rare, restarts, runtime, selection, setup, takers, update
+2 matches selected, 0 already in shard/shard-5.jsonl, 2 to run
