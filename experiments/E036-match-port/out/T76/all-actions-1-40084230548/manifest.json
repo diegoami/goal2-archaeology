@@ -1,0 +1,18 @@
+{
+ "run_id": "40084230548",
+ "run_attempt": "1",
+ "workflow": "E036 family run",
+ "ref": "task/T76-port-takers-shootout",
+ "sha": "27b339421e4dda084eeb044c9e1aecdacbe0a831",
+ "inputs": {
+  "task": "T76",
+  "name": "all-actions-1",
+  "family": "ALL",
+  "ports": "all",
+  "count": "0791:0B7C,0791:0C0B,0791:9B0C,0791:9B5B,0791:9B93,0791:9ED3,0791:A006,0791:A10A,0791:CC2E,0791:CC7B,0791:CFAF,0791:9B0F,0791:9E5B",
+  "shards": "32",
+  "time_limit": "6000",
+  "stretch_limit": "600"
+ },
+ "run_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/40084230548"
+}
