@@ -97,3 +97,4 @@ exists.
 | T88 | goal2 G13: bounded original-key taker/warning inputs and explicit remaining limits | #400 | T86 |
 | T89 | goal2 G13: closer retained saves for remaining taker/vacancy inputs | #400 | T88 |
 | T90 | goal2 G13: bounded original-key penalty/free-kick search | #400 | T89 |
+| T91 | goal2 G13: static and retained-source reassessment of four remaining inputs | #400 | T90 |
