@@ -1,0 +1,22 @@
+{
+  "pre_named_commit": "edbdd205c03214ad4eacfaf249874dc2608b5586",
+  "pre_annotations_sha256": "c75ebe95f1172fdff5f4c2ff904c63914fffbfe155c6015a077da90bbd2c06e0",
+  "ported_addresses": [
+    "0791:DE27",
+    "0791:DE51",
+    "0791:E022",
+    "0791:E2A0",
+    "0791:E44F",
+    "0791:E949",
+    "0791:EA09",
+    "1771:53E8",
+    "1771:5532"
+  ],
+  "new_likely_names": {
+    "0791:DE27": "select_team_cursor_index",
+    "0791:DE51": "select_team_word_pointer",
+    "0791:E2A0": "draw_select_team_slot_hint",
+    "0791:E949": "open_selected_team_screen"
+  },
+  "out_note": "Nine pool-only or statically unreachable routines remain OUT in notes/T75.md; existing annotation confidence/basis preserved."
+}
