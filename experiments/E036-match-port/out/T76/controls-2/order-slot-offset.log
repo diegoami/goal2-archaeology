@@ -1,0 +1,13 @@
+.F......
+======================================================================
+FAIL: test_order_escape_removes_last_pick_and_final_down_is_pushed_back (tests.test_port_takers.Takers.test_order_escape_removes_last_pick_and_final_down_is_pushed_back)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T76-control-md3y763e/tests/test_port_takers.py", line 154, in test_order_escape_removes_last_pick_and_final_down_is_pushed_back
+    self.assertEqual(r.mem.read(parent-26,4),bytes([3,2,1,3]))
+AssertionError: b'\x03\x03\x02\x04' != b'\x03\x02\x01\x03'
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.166s
+
+FAILED (failures=1)

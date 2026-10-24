@@ -1,0 +1,25 @@
+{
+  "old_scenario_specs_preserved": 63,
+  "completed_original_only_records": 64,
+  "raw_reference": "experiments/E036-match-port/families/S-set-piece-taker-reference-20261024-v1.jsonl",
+  "display_reference": "experiments/E036-match-port/families/display/reference-all-set-piece-20261024-v2.jsonl",
+  "mask": [],
+  "old63_prefixes_preserved": true,
+  "new_raw_vs_display_protected_differences": [
+    [
+      "events",
+      ""
+    ]
+  ],
+  "events_count": 1186,
+  "new_events_hashes": {
+    "raw": "eb56a93a02f7536dfdbe833325f9d100f1270166ffe3826871f3541cdb117e16",
+    "display": "0deece929eaebde16cf945d211d1bfc1f871706ebddbdd43a23ab867eefdbe52"
+  },
+  "sha256": {
+    "experiments/E036-match-port/families/S-no-managed-side-reference-20261024-v1.jsonl": "da7c626f053f54b013eaed8a9e9893baa7673cc997db1aac994f8098802b6b8c",
+    "experiments/E036-match-port/families/display/reference-all-20261024-v1.jsonl": "4a5736317e80dcc1c526b4effdf15545b0175f449f809d0acc4d6281ddd1a860",
+    "experiments/E036-match-port/families/S-set-piece-taker-reference-20261024-v1.jsonl": "9539e0c683930bbe0733d8d6de6f0086a7d47568e3c5578fe0a4c32065d0a77e",
+    "experiments/E036-match-port/families/display/reference-all-set-piece-20261024-v2.jsonl": "7fd664eec8ad0f00b1578c87f807e472a75ba8fdc3b2b14de93068104400db7c"
+  }
+}

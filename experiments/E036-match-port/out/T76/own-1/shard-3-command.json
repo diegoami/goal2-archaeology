@@ -1,0 +1,23 @@
+[
+  "/home/diego/.local/bin/python3.12",
+  "-B",
+  "experiments/E036-match-port/family.py",
+  "--family",
+  "ALL",
+  "--only",
+  "S/reference,S/no-managed-side,S/decisions-70,S/injury-70,S/hard-4,S/quick-30,S/quick-1,S/decisions-quick-60,S/ko-39-budget-5,S/ko-42-sudden-death,S/ko-30-extra-time,S/ko-9-quick,S/ko-53-quick,S/ko-42-quick-g19,S/qualifier-21,S/set-piece-taker",
+  "--ports",
+  "takers",
+  "--count",
+  "0791:0B7C,0791:0C0B,0791:9B0C,0791:9B5B,0791:9B93,0791:9ED3,0791:A006,0791:A10A,0791:CC2E,0791:CC7B,0791:CFAF,0791:9B0F,0791:9E5B",
+  "--workers",
+  "2",
+  "--time-limit",
+  "1800",
+  "--stretch-limit",
+  "300",
+  "--checkpoint",
+  ".cache/checkpoints/T76-own-1-shard-3",
+  "--out",
+  "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T76/own-1/shard-3.jsonl"
+]

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T76/audit_local_1.py", line 36, in <module>
+    assert candidate[mid]['completed'],variant
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: 'completed'
