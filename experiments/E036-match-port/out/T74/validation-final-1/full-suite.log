@@ -3036,4 +3036,821 @@ test_a_failure_that_is_not_the_network_is_never_retried (test_net.RunRetrying.te
 test_a_second_network_failure_is_returned_not_retried_again (test_net.RunRetrying.test_a_second_network_failure_is_returned_not_retried_again) ... ok
 test_a_timeout_is_retried_once_and_the_retry_is_printed (test_net.RunRetrying.test_a_timeout_is_retried_once_and_the_retry_is_printed) ... ok
 test_the_messages_gh_printed_offline_are_network_errors (test_net.RunRetrying.test_the_messages_gh_printed_offline_are_network_errors) ... ok
-test_the_real_gh_behind_a_closed_proxy_is_retried_once (test_net.RunRetrying.test_the_real_gh_behind_a_closed_proxy_is_retried_once) ... 
+test_the_real_gh_behind_a_closed_proxy_is_retried_once (test_net.RunRetrying.test_the_real_gh_behind_a_closed_proxy_is_retried_once) ... ok
+test_competitive_stream_is_in_the_originals_write_order (test_original_match.CompetitiveTests.test_competitive_stream_is_in_the_originals_write_order) ... ok
+test_consequences_of_a_sending_off (test_original_match.CompetitiveTests.test_consequences_of_a_sending_off) ... ok
+test_extra_time_goal_marked (test_original_match.CompetitiveTests.test_extra_time_goal_marked) ... ok
+test_goal2s_shootout_order (test_original_match.CompetitiveTests.test_goal2s_shootout_order) ... ok
+test_kinds_and_budget_arguments (test_original_match.CompetitiveTests.test_kinds_and_budget_arguments) ... ok
+test_penalties_after_extra_time (test_original_match.CompetitiveTests.test_penalties_after_extra_time) ... ok
+test_qualifier (test_original_match.CompetitiveTests.test_qualifier) ... ok
+test_substitution_budget_is_settable_per_side (test_original_match.CompetitiveTests.test_substitution_budget_is_settable_per_side) ... ok
+test_build_guard_data (test_original_match.ImageTests.test_build_guard_data) ... ok
+test_load_segment_from_mcb (test_original_match.ImageTests.test_load_segment_from_mcb) ... ok
+test_short_image_refused (test_original_match.ImageTests.test_short_image_refused) ... ok
+test_far_call_returns_with_its_argument_popped (test_original_match.MachineTests.test_far_call_returns_with_its_argument_popped) ... ok
+test_stop_and_replay (test_original_match.MachineTests.test_stop_and_replay) ... ok
+test_another_build_is_refused (test_original_match.OriginalTests.test_another_build_is_refused) ... ok
+test_computer_only_seed_and_delay_land_at_actual_play_entry (test_original_match.OriginalTests.test_computer_only_seed_and_delay_land_at_actual_play_entry) ... ok
+test_engine_is_e011_r0001 (test_original_match.OriginalTests.test_engine_is_e011_r0001) ... ok
+test_event_stream_is_in_the_originals_write_order (test_original_match.OriginalTests.test_event_stream_is_in_the_originals_write_order) ... ok
+test_events_are_stamped_at_the_originals_writes (test_original_match.OriginalTests.test_events_are_stamped_at_the_originals_writes) ... ok
+test_every_commentary_line_is_an_event (test_original_match.OriginalTests.test_every_commentary_line_is_an_event) ... ok
+test_fixture_without_managed_side_preserves_computer_managers (test_original_match.OriginalTests.test_fixture_without_managed_side_preserves_computer_managers) ... ok
+test_goal_records_agree_with_the_board_in_every_path (test_original_match.OriginalTests.test_goal_records_agree_with_the_board_in_every_path) ... ok
+test_guard_covers_code_beyond_prefixes (test_original_match.OriginalTests.test_guard_covers_code_beyond_prefixes) ... ok
+test_guard_covers_data_tables (test_original_match.OriginalTests.test_guard_covers_data_tables) ... ok
+test_guard_covers_relocated_words (test_original_match.OriginalTests.test_guard_covers_relocated_words) ... ok
+test_guard_leaves_goal2_state_alone (test_original_match.OriginalTests.test_guard_leaves_goal2_state_alone) ... ok
+test_half_time_substitution (test_original_match.OriginalTests.test_half_time_substitution) ... ok
+test_refused_eleven_comes_back (test_original_match.OriginalTests.test_refused_eleven_comes_back) ... ok
+test_save_at_full_time_and_at_a_decision (test_original_match.OriginalTests.test_save_at_full_time_and_at_a_decision) ... ok
+test_menu_items_per_side (test_original_match.ScreenDriverTests.test_menu_items_per_side) ... ok
+test_own_tactics_and_marking (test_original_match.ScreenDriverTests.test_own_tactics_and_marking) ... ok
+test_position_job (test_original_match.ScreenDriverTests.test_position_job) ... ok
+test_request_when_not_allowed_now (test_original_match.ScreenDriverTests.test_request_when_not_allowed_now) ... ok
+test_substitution_mark_swap_and_check (test_original_match.ScreenDriverTests.test_substitution_mark_swap_and_check) ... ok
+test_tactics_rows (test_original_match.ScreenDriverTests.test_tactics_rows) ... ok
+test_every_routine_equals_the_originals_on_random_states (test_port_attributes.DifferentialTests.test_every_routine_equals_the_originals_on_random_states) ... ok
+test_the_harness_sees_a_mutated_port (test_port_attributes.DifferentialTests.test_the_harness_sees_a_mutated_port) ... ok
+test_country_colour_is_15_when_managed_else_the_table_byte (test_port_attributes.SimTests.test_country_colour_is_15_when_managed_else_the_table_byte) ... ok
+test_derived_skill_reads_the_two_literal_tables (test_port_attributes.SimTests.test_derived_skill_reads_the_two_literal_tables) ... ok
+test_fixture_kind_in_result_set (test_port_attributes.SimTests.test_fixture_kind_in_result_set) ... ok
+test_force_tactic4_off_sets_8_and_clears_4 (test_port_attributes.SimTests.test_force_tactic4_off_sets_8_and_clears_4) ... ok
+test_formation_label_counts_the_available_players_by_line (test_port_attributes.SimTests.test_formation_label_counts_the_available_players_by_line) ... ok
+test_height_hardness_two_footed_and_foot_index (test_port_attributes.SimTests.test_height_hardness_two_footed_and_foot_index) ... ok
+test_is_managed_is_the_country_byte_above_0x80 (test_port_attributes.SimTests.test_is_managed_is_the_country_byte_above_0x80) ... ok
+test_leadership (test_port_attributes.SimTests.test_leadership) ... ok
+test_leadership_is_halved_only_below_age_0x15 (test_port_attributes.SimTests.test_leadership_is_halved_only_below_age_0x15) ... ok
+test_manager_bonus_is_the_manager_byte_over_8_plus_16 (test_port_attributes.SimTests.test_manager_bonus_is_the_manager_byte_over_8_plus_16) ... ok
+test_out_of_place_flag_leaves_3041s_ah_and_dx (test_port_attributes.SimTests.test_out_of_place_flag_leaves_3041s_ah_and_dx) ... ok
+test_out_of_place_flag_rows (test_port_attributes.SimTests.test_out_of_place_flag_rows) ... ok
+test_pick_mark_target_takes_the_first_own_man_that_marks_a_position (test_port_attributes.SimTests.test_pick_mark_target_takes_the_first_own_man_that_marks_a_position) ... ok
+test_pick_mark_target_tries_the_four_rows_in_turn (test_port_attributes.SimTests.test_pick_mark_target_tries_the_four_rows_in_turn) ... ok
+test_player_name_colour (test_port_attributes.SimTests.test_player_name_colour) ... ok
+test_player_name_is_the_initial_a_space_and_the_surname (test_port_attributes.SimTests.test_player_name_is_the_initial_a_space_and_the_surname) ... ok
+test_player_unavailable_by_each_reason (test_port_attributes.SimTests.test_player_unavailable_by_each_reason) ... ok
+test_player_unavailable_leaves_ax_and_dx_as_the_listing_does (test_port_attributes.SimTests.test_player_unavailable_leaves_ax_and_dx_as_the_listing_does) ... ok
+test_reset_own_tactics_clears_and_derives_each_player (test_port_attributes.SimTests.test_reset_own_tactics_clears_and_derives_each_player) ... ok
+test_set_marking_words_a_protect_zone_man_keeps_his_word_and_takes_his_man_out (test_port_attributes.SimTests.test_set_marking_words_a_protect_zone_man_keeps_his_word_and_takes_his_man_out) ... ok
+test_set_marking_words_clears_slot_1_and_marks_the_opponents (test_port_attributes.SimTests.test_set_marking_words_clears_slot_1_and_marks_the_opponents) ... ok
+test_set_marking_words_does_not_pick_an_unavailable_opponent (test_port_attributes.SimTests.test_set_marking_words_does_not_pick_an_unavailable_opponent) ... ok
+test_set_marking_words_marks_the_opponents_attackers_by_the_first_own_men (test_port_attributes.SimTests.test_set_marking_words_marks_the_opponents_attackers_by_the_first_own_men) ... ok
+test_set_marking_words_needs_element_8_of_the_team_tactics (test_port_attributes.SimTests.test_set_marking_words_needs_element_8_of_the_team_tactics) ... ok
+test_set_marking_words_with_the_team_tactic_off_clears_every_word (test_port_attributes.SimTests.test_set_marking_words_with_the_team_tactic_off_clears_every_word) ... ok
+test_set_player_tactics_by_position (test_port_attributes.SimTests.test_set_player_tactics_by_position) ... ok
+test_set_player_tactics_position_2_with_a_low_skill_sets_element_5_too (test_port_attributes.SimTests.test_set_player_tactics_position_2_with_a_low_skill_sets_element_5_too) ... ok
+test_squad_slot_of_player (test_port_attributes.SimTests.test_squad_slot_of_player) ... ok
+test_strength_below_zero_is_clamped_to_zero (test_port_attributes.SimTests.test_strength_below_zero_is_clamped_to_zero) ... ok
+test_strength_equals_the_originals_literal_answers (test_port_attributes.SimTests.test_strength_equals_the_originals_literal_answers) ... ok
+test_strength_is_zero_when_unavailable_and_halved_when_out_of_place (test_port_attributes.SimTests.test_strength_is_zero_when_unavailable_and_halved_when_out_of_place) ... ok
+test_strength_wrong_foot_is_a_sixteenth_up_to_idiv (test_port_attributes.SimTests.test_strength_wrong_foot_is_a_sixteenth_up_to_idiv) ... ok
+test_the_module_ports_the_22_routines_of_the_row (test_port_attributes.SimTests.test_the_module_ports_the_22_routines_of_the_row) ... ok
+test_foot_sets_swapped (test_port_attributes.VariantTests.test_foot_sets_swapped) ... ok
+test_mark_hi_excl (test_port_attributes.VariantTests.test_mark_hi_excl) ... ok
+test_skill_divisor_31 (test_port_attributes.VariantTests.test_skill_divisor_31) ... ok
+test_tactic_element_2_for_1 (test_port_attributes.VariantTests.test_tactic_element_2_for_1) ... ok
+test_unavailable_bit_6 (test_port_attributes.VariantTests.test_unavailable_bit_6) ... ok
+test_strict_marker_and_strip_thresholds_on_both_sides (test_port_ball.AdvancedStrip.test_strict_marker_and_strip_thresholds_on_both_sides) ... ok
+test_counter_side_stride_byte_wrap_and_match_mode_gate (test_port_ball.BallWrappers.test_counter_side_stride_byte_wrap_and_match_mode_gate) ... ok
+test_keeper_strip_gate_returns_local_boolean_with_last_callee_high_byte (test_port_ball.BallWrappers.test_keeper_strip_gate_returns_local_boolean_with_last_callee_high_byte) ... ok
+test_offside_short_circuits_the_random_draw (test_port_ball.BallWrappers.test_offside_short_circuits_the_random_draw) ... ok
+test_pass_and_clearance_keep_coin_branches_and_call_sites (test_port_ball.BallWrappers.test_pass_and_clearance_keep_coin_branches_and_call_sites) ... ok
+test_selected_receiver_preserves_full_ax_as_the_target_word (test_port_ball.BallWrappers.test_selected_receiver_preserves_full_ax_as_the_target_word) ... ok
+test_shot_and_header_template_push_preserves_the_incoming_high_byte (test_port_ball.BallWrappers.test_shot_and_header_template_push_preserves_the_incoming_high_byte) ... ok
+test_cross_uses_candidate_point_without_target_draws_and_inverts_high_ball_draw (test_port_ball.ClearanceTargets.test_cross_uses_candidate_point_without_target_draws_and_inverts_high_ball_draw) ... ok
+test_narrow_wide_and_keeper_paths_preserve_short_circuit_draw_order (test_port_ball.ClearanceTargets.test_narrow_wide_and_keeper_paths_preserve_short_circuit_draw_order) ... ok
+test_membership_uses_guest_zf_then_unavailability_and_goal_strip (test_port_ball.CrossTarget.test_membership_uses_guest_zf_then_unavailability_and_goal_strip) ... ok
+test_no_candidate_preserves_caller_output (test_port_ball.CrossTarget.test_no_candidate_preserves_caller_output) ... ok
+test_event6_rewrites_argument_to_long_pass_or_keeper_event (test_port_ball.LaunchBall.test_event6_rewrites_argument_to_long_pass_or_keeper_event) ... ok
+test_event_membership_uses_zf_and_keeps_long_bound_live (test_port_ball.LaunchBall.test_event_membership_uses_zf_and_keeps_long_bound_live) ... ok
+test_long_division_high_word_is_forwarded_to_maximum (test_port_ball.LaunchBall.test_long_division_high_word_is_forwarded_to_maximum) ... ok
+test_miscue_shortening_sideways_and_drop_vertical_branches (test_port_ball.LaunchBall.test_miscue_shortening_sideways_and_drop_vertical_branches) ... ok
+test_signed_launch_from_both_sides_and_velocity_ratio (test_port_ball.LaunchBall.test_signed_launch_from_both_sides_and_velocity_ratio) ... ok
+test_long_ball_keeps_floor_and_product_words_live_across_guest_calls (test_port_ball.LongTargets.test_long_ball_keeps_floor_and_product_words_live_across_guest_calls) ... ok
+test_long_kick_uses_each_parallel_mode_row_and_preserves_commentary_ah (test_port_ball.LongTargets.test_long_kick_uses_each_parallel_mode_row_and_preserves_commentary_ah) ... ok
+test_target_slot_point_stays_on_stack_while_half_is_queried (test_port_ball.LongTargets.test_target_slot_point_stays_on_stack_while_half_is_queried) ... ok
+test_offside_and_own_goal_strip_short_circuit_launch (test_port_ball.MoveBallToSlot.test_offside_and_own_goal_strip_short_circuit_launch) ... ok
+test_other_target_random_adjustment_has_strict_absolute_25_boundary (test_port_ball.MoveBallToSlot.test_other_target_random_adjustment_has_strict_absolute_25_boundary) ... ok
+test_self_target_keeps_incremented_draw_live_and_divides_toward_zero (test_port_ball.MoveBallToSlot.test_self_target_keeps_incremented_draw_live_and_divides_toward_zero) ... ok
+test_direction_product_is_a_live_stack_word_during_second_call (test_port_ball.NearestBall.test_direction_product_is_a_live_stack_word_during_second_call) ... ok
+test_nearest_keeps_first_tie_and_excludes_holder_unavailable_and_state13 (test_port_ball.NearestBall.test_nearest_keeps_first_tie_and_excludes_holder_unavailable_and_state13) ... ok
+test_no_candidate_clears_both_nearest_arrays (test_port_ball.NearestBall.test_no_candidate_clears_both_nearest_arrays) ... ok
+test_first_launch_only_sets_clock_and_preserves_ax (test_port_ball.NestedOffside.test_first_launch_only_sets_clock_and_preserves_ax) ... ok
+test_nested_parent_pointer_and_signed_side_direction (test_port_ball.NestedOffside.test_nested_parent_pointer_and_signed_side_direction) ... ok
+test_fallback_returns_last_available_even_in_state13 (test_port_ball.PassTarget.test_fallback_returns_last_available_even_in_state13) ... ok
+test_mode_distance_ties_and_replacement_coin_order (test_port_ball.PassTarget.test_mode_distance_ties_and_replacement_coin_order) ... ok
+test_side_base_and_relative_word_wrap (test_port_ball.RelativeSlot.test_side_base_and_relative_word_wrap) ... ok
+test_header_skips_jitter_draws_preserves_commentary_high_byte_and_wraps_stat (test_port_ball.ShotAndHeaderFlow.test_header_skips_jitter_draws_preserves_commentary_high_byte_and_wraps_stat) ... ok
+test_shot_coin_word_is_live_and_all_failed_gates_reach_last_draw (test_port_ball.ShotAndHeaderFlow.test_shot_coin_word_is_live_and_all_failed_gates_reach_last_draw) ... ok
+test_shot_four_short_circuits_skill_and_late_one_in_three_draw (test_port_ball.ShotAndHeaderFlow.test_shot_four_short_circuits_skill_and_late_one_in_three_draw) ... ok
+test_53af_keeper_holding_returns_at_once (test_port_contests.FoulOutcome.test_53af_keeper_holding_returns_at_once)
+539F-53AF: when the holder (DS:830B) is a keeper slot (045D), nothing else is done. ... ok
+test_53b2_otherwise_4d3f_on_the_holder_record (test_port_contests.FoulOutcome.test_53b2_otherwise_4d3f_on_the_holder_record)
+The reached twin of 53AF (53B2): 4D3F on the holder's pitch record, then the beep with DS:8303 clear. ... ok
+test_4ef9_position_3_with_element_1_set_dribbles (test_port_contests.HolderChoice.test_4ef9_position_3_with_element_1_set_dribbles)
+The reached twin of 4F16 (4EF9): element 1 set dribbles to the record's own slot (384C). ... ok
+test_4f16_position_3_with_element_1_clear_passes (test_port_contests.HolderChoice.test_4f16_position_3_with_element_1_clear_passes)
+4EE4-4F23: a position 3 or 4 holder with effective element 1 clear passes (3323 returning to 4F23). ... ok
+test_5180_moving_ball_attempt_is_a_header (test_port_contests.HolderTurn.test_5180_moving_ball_attempt_is_a_header)
+5179-518D: in 40BC's strip with 500C set and the ball moving (DS:8303), the holder heads (3EDF), then ... ok
+test_518f_still_ball_attempt_is_a_shot_with_template_0x11 (test_port_contests.HolderTurn.test_518f_still_ball_attempt_is_a_shot_with_template_0x11)
+The reached twin of 5180 (518F): with DS:8303 clear it shoots (3EC5) with AL = 0x11 over 500C's AH. ... ok
+test_5224_moving_ball_near_goal_with_2ef0_heads (test_port_contests.HolderTurn.test_5224_moving_ball_near_goal_with_2ef0_heads)
+5202-5231: near goal (2F28) with the ball moving, 2EF0 of the record's own point true: header (3EDF), then ... ok
+test_5233_moving_ball_near_goal_without_2ef0_shoots_on_its_chance (test_port_contests.HolderTurn.test_5233_moving_ball_near_goal_without_2ef0_shoots_on_its_chance)
+The reached twin of 5224 (5233): 2EF0 false, the position's chance DS:07E5 + position (06D0) decides a ... ok
+test_4dfc_holder_roll_stays_on_the_stack_across_two_calls (test_port_contests.LiveStackWords.test_4dfc_holder_roll_stays_on_the_stack_across_two_calls)
+4DFC pushes the holder's roll; it is the word at SP during 2FFB (4E09) and 06B1 (4E11), and 4E12 compares ... ok
+test_injury_written_as_7dd9 (test_port_discipline.EventWriters.test_injury_written_as_7dd9)
+7DD1-7DD9: the side's injuries DS:7B87 + 10 side +1, written by 7DD9 (match.py WRITERS["injury"]) and by no ... ok
+test_no_injury_when_the_side_may_lose_no_more (test_port_discipline.EventWriters.test_no_injury_when_the_side_may_lose_no_more)
+The twin at 7D76: 7A43 answers 0: nothing is written. ... ok
+test_substitution_written_as_c7dc (test_port_discipline.EventWriters.test_substitution_written_as_c7dc)
+C7D6-C7DC: the side's substitutions left DS:9B3A + side -1, written by C7DC (WRITERS["substitution"]) and by ... ok
+test_first_yellow_books (test_port_discipline.FoulDispatch.test_first_yellow_books)
+The reached twin (7F44): no booking yet (0C57 false): 798D(his record). ... ok
+test_second_yellow_sends_off (test_port_discipline.FoulDispatch.test_second_yellow_sends_off)
+7F0E-7F42: a table byte below 4 (261A) with the fouler's status +0x10 holding element 5 (a booking already, ... ok
+test_the_softer_player_is_injured (test_port_discipline.FoulDispatch.test_the_softer_player_is_injured)
+7F65-7FC8: a second table byte of 1 injures (7D56) the one of DS:830C and DS:830B of lower hardness ... ok
+test_budget_0_fit_player_goes_on (test_port_discipline.SubstitutionBudget.test_budget_0_fit_player_goes_on)
+The twin past C8CE (+0xE = 1, signed >= 1): the map is cleared (214B:0018 on DS:99A2, 14 bytes), C7EB and ... ok
+test_budget_0_injured_only_the_forced_swap (test_port_discipline.SubstitutionBudget.test_budget_0_injured_only_the_forced_swap)
+C899-C8DB: with no substitution left (DS:9B3A + side = 0) and the outgoing player injured (+0xE < 1) the ... ok
+test_computer_side_with_budget_0_is_not_scanned (test_port_discipline.SubstitutionBudget.test_computer_side_with_budget_0_is_not_scanned)
+8111-8118: an unmanaged side (1771:0B77 0) with DS:9B3A + side = 0 is skipped: no status test 214B:0C57. ... ok
+test_computer_side_with_budget_1_is_scanned (test_port_discipline.SubstitutionBudget.test_computer_side_with_budget_1_is_scanned)
+The reached twin (811B): side 1 with one substitution left: squad slots 11 down to 1 tested (0C57(6, status), ... ok
+test_ahead_takes_three_elements_out (test_port_discipline.TacticShift.test_ahead_takes_three_elements_out)
+BFBF-BFD7: the direction clear: the three elements taken out (214B:0CA1). ... ok
+test_behind_adds_three_elements (test_port_discipline.TacticShift.test_behind_adds_three_elements)
+BF9F-BFBD: the direction set: BD83(side), then three rand(6) elements added to the country's tactics +0x2D ... ok
+test_two_ahead_shifts_back (test_port_discipline.TacticShift.test_two_ahead_shifts_back)
+C1C1-C1FC: a computer side two goals ahead (|DS:9B3C - DS:9B3D| = 2, its goals above the other's) calls ... ok
+test_two_behind_shifts_forward (test_port_discipline.TacticShift.test_two_behind_shifts_forward)
+C1FE-C209: two goals behind: BF6B(1, side, C173's BP). ... ok
+test_available_captain_word_kept (test_port_discipline.Unreached.test_available_captain_word_kept)
+The reached twin (C76C je C7A1): the word available: neither written. ... ok
+test_formation_row_empty_with_a_foot (test_port_discipline.Unreached.test_formation_row_empty_with_a_foot)
+AB66-AB6E: a foot for the position (Pos 2) and a row of 0 entries: nothing is tested, the answer 0. ... ok
+test_formation_row_with_a_foot (test_port_discipline.Unreached.test_formation_row_with_a_foot)
+The reached twin (AB71): one entry, its bench slot 14 two-footed (3041): the pick is 14. ... ok
+test_injury_of_an_unavailable_player (test_port_discipline.Unreached.test_injury_of_an_unavailable_player)
+7D65-7D7A: the record is unavailable (2956 true): nothing is asked or written. ... ok
+test_keeper_pick_foot_matches (test_port_discipline.Unreached.test_keeper_pick_foot_matches)
+AAA3: Pos 2 (not above 3: foot 0) and slot 12's foot 0: not halved, 0x40 beats 0x30: the pick is 12. ... ok
+test_keeper_pick_with_a_foot (test_port_discipline.Unreached.test_keeper_pick_with_a_foot)
+AA6B-AAB7: the position has a foot (Pos 5 > 3: foot 1): slot 12 (0x40), one-footed (3041 0) with foot 0, is ... ok
+test_keeper_pick_with_no_bench_slot (test_port_discipline.Unreached.test_keeper_pick_with_no_bench_slot)
+A9FF-AA07: the last squad slot below 12: no slot is tested, the answer 0. ... ok
+test_keeper_pick_without_a_foot (test_port_discipline.Unreached.test_keeper_pick_without_a_foot)
+The reached twin (AA6F jbe AABA): Pos 0: no foot test, the higher value wins: 12. ... ok
+test_one_goal_gap_resets (test_port_discipline.Unreached.test_one_goal_gap_resets)
+The reached twin (C1B8): a gap below 2: BD83(side). ... ok
+test_three_ahead_excludes (test_port_discipline.Unreached.test_three_ahead_excludes)
+C20B-C234 for side 0 (C215): more than two goals ahead: C0DF(side, C173's BP). ... ok
+test_three_behind_includes (test_port_discipline.Unreached.test_three_behind_includes)
+C236-C23E: more than two goals behind: C01A(side, C173's BP). ... ok
+test_unavailable_captain_word_replaced_around_230c (test_port_discipline.Unreached.test_unavailable_captain_word_replaced_around_230c)
+C76A-C79D and C7B9-C7CC: a managed side whose word DS:9978 + 10 side is unavailable (3216): the word := its ... ok
+test_card_status_icons_keep_each_colour_and_column (test_port_display.AdditionalUnreachedBranchTests.test_card_status_icons_keep_each_colour_and_column) ... ok
+test_injured_card_fitness_label_reads_energy_zero_instead_of_fitness (test_port_display.AdditionalUnreachedBranchTests.test_injured_card_fitness_label_reads_energy_zero_instead_of_fitness) ... ok
+test_interactive_table_repeats_then_exits_on_second_escape_key (test_port_display.AdditionalUnreachedBranchTests.test_interactive_table_repeats_then_exits_on_second_escape_key) ... ok
+test_marked_target_without_zone_flag_skips_only_the_zone_marker (test_port_display.AdditionalUnreachedBranchTests.test_marked_target_without_zone_flag_skips_only_the_zone_marker) ... ok
+test_formatter_retains_colour_shift_and_one_or_two_digit_calls (test_port_display.ClockDigitMemoryTests.test_formatter_retains_colour_shift_and_one_or_two_digit_calls) ... ok
+test_seven_segment_table_drives_three_fills_and_four_verticals (test_port_display.ClockDigitMemoryTests.test_seven_segment_table_drives_three_fills_and_four_verticals) ... ok
+test_vertical_segment_uses_parent_colour_and_adjacent_rows (test_port_display.ClockDigitMemoryTests.test_vertical_segment_uses_parent_colour_and_adjacent_rows) ... ok
+test_disabled_record_retains_only_pointer_frame (test_port_display.CommentaryMemoryTests.test_disabled_record_retains_only_pointer_frame) ... ok
+test_leading_and_two_trailing_name_markers_follow_listing_calls (test_port_display.CommentaryMemoryTests.test_leading_and_two_trailing_name_markers_follow_listing_calls) ... ok
+test_padding_and_top_rows_update_both_buffers (test_port_display.CommentaryMemoryTests.test_padding_and_top_rows_update_both_buffers) ... ok
+test_header_one_pass_and_interactive_snapshot_template_branches (test_port_display.CompetitionBoundaryTests.test_header_one_pass_and_interactive_snapshot_template_branches) ... ok
+test_special_continent_and_late_stage_display_country (test_port_display.CompetitionBoundaryTests.test_special_continent_and_late_stage_display_country) ... ok
+test_table_navigation_and_snapshot_toggle_callees (test_port_display.CompetitionBoundaryTests.test_table_navigation_and_snapshot_toggle_callees) ... ok
+test_table_selection_membership_and_finals_branches_keep_local_frame (test_port_display.CompetitionBoundaryTests.test_table_selection_membership_and_finals_branches_keep_local_frame) ... ok
+test_fixture_row_country_order_and_score_pointer (test_port_display.CompetitionFixtureTextTests.test_fixture_row_country_order_and_score_pointer) ... ok
+test_fixture_score_pending_guards_and_each_played_result_colour (test_port_display.CompetitionFixtureTextTests.test_fixture_score_pending_guards_and_each_played_result_colour) ... ok
+test_right_aligned_country_placeholder_and_named_country_twin (test_port_display.CompetitionFixtureTextTests.test_right_aligned_country_placeholder_and_named_country_twin) ... ok
+test_ninth_group_requires_continent_and_snapshot_then_uses_special_body (test_port_display.CompetitionGroupTests.test_ninth_group_requires_continent_and_snapshot_then_uses_special_body) ... ok
+test_regular_group_keeps_all_twelve_fixture_rows_and_selector (test_port_display.CompetitionGroupTests.test_regular_group_keeps_all_twelve_fixture_rows_and_selector) ... ok
+test_zero_fixture_and_positive_fixture_pointer_twin (test_port_display.CompetitionGroupTests.test_zero_fixture_and_positive_fixture_pointer_twin) ... ok
+test_four_group_records_keep_phase_snapshot_offsets_and_all_columns (test_port_display.CompetitionRecordRenderingTests.test_four_group_records_keep_phase_snapshot_offsets_and_all_columns) ... ok
+test_stage_header_snapshot_round_and_leader_branches (test_port_display.CompetitionRecordRenderingTests.test_stage_header_snapshot_round_and_leader_branches) ... ok
+test_busy_wait_removed_but_final_unsigned_count_frame_preserved (test_port_display.DelayMemoryTests.test_busy_wait_removed_but_final_unsigned_count_frame_preserved) ... ok
+test_attribute_and_highlight_cells_keep_zero_negative_and_direction_behavior (test_port_display.Display.test_attribute_and_highlight_cells_keep_zero_negative_and_direction_behavior) ... ok
+test_ball_offscreen_or_unchanged_skips_old_erase_and_travel_boundary (test_port_display.Display.test_ball_offscreen_or_unchanged_skips_old_erase_and_travel_boundary) ... ok
+test_ball_preserves_old_cell_previous_point_and_new_occupancy (test_port_display.Display.test_ball_preserves_old_cell_previous_point_and_new_occupancy) ... ok
+test_glyph_modes_keep_the_nested_slot_and_signed_clock (test_port_display.Display.test_glyph_modes_keep_the_nested_slot_and_signed_clock) ... ok
+test_lineup_body_keeps_template_all_eleven_rows_and_formation_abi (test_port_display.Display.test_lineup_body_keeps_template_all_eleven_rows_and_formation_abi) ... ok
+test_menu_copy_selects_and_preserves_the_whole_four_thousand_bytes (test_port_display.Display.test_menu_copy_selects_and_preserves_the_whole_four_thousand_bytes) ... ok
+test_no_replay_boundary_clears_the_pending_change_flag (test_port_display.Display.test_no_replay_boundary_clears_the_pending_change_flag) ... ok
+test_performance_buckets_keep_encoded_scores_and_sentinel (test_port_display.Display.test_performance_buckets_keep_encoded_scores_and_sentinel) ... ok
+test_player_card_zero_guard_and_status_routes_keep_performance_tail (test_port_display.Display.test_player_card_zero_guard_and_status_routes_keep_performance_tail) ... ok
+test_refresh_keeps_all_twenty_two_pitch_words (test_port_display.Display.test_refresh_keeps_all_twenty_two_pitch_words) ... ok
+test_registry_has_the_eighty_eight_listing_returns (test_port_display.Display.test_registry_has_the_eighty_eight_listing_returns) ... ok
+test_replay_no_path_preserves_the_original_question_call (test_port_display.Display.test_replay_no_path_preserves_the_original_question_call) ... ok
+test_reset_sprite_keeps_quick_and_watched_state_writes (test_port_display.Display.test_reset_sprite_keeps_quick_and_watched_state_writes) ... ok
+test_score_writer_preserves_both_pascal_results_and_rows (test_port_display.Display.test_score_writer_preserves_both_pascal_results_and_rows) ... ok
+test_skill_bar_removal_preserves_even_nonzero_skill_inputs (test_port_display.Display.test_skill_bar_removal_preserves_even_nonzero_skill_inputs) ... ok
+test_snapshot_preserves_all_record_copies_flags_and_seed (test_port_display.Display.test_snapshot_preserves_all_record_copies_flags_and_seed) ... ok
+test_speaker_seed_helper_and_noise_keep_ordered_rng_calls (test_port_display.Display.test_speaker_seed_helper_and_noise_keep_ordered_rng_calls) ... ok
+test_string_wrappers_preserve_coordinates_temporary_and_attribute (test_port_display.Display.test_string_wrappers_preserve_coordinates_temporary_and_attribute) ... ok
+test_summary_keeps_the_board_key_site_and_key_clear (test_port_display.Display.test_summary_keeps_the_board_key_site_and_key_clear) ... ok
+test_tactics_mark_target_uses_both_names_and_zone_marker (test_port_display.Display.test_tactics_mark_target_uses_both_names_and_zone_marker) ... ok
+test_tactics_panel_keeps_keeper_swaps_and_override_string_frames (test_port_display.Display.test_tactics_panel_keeps_keeper_swaps_and_override_string_frames) ... ok
+test_text_cell_loops_keep_direction_attributes_and_zero_count (test_port_display.Display.test_text_cell_loops_keep_direction_attributes_and_zero_count) ... ok
+test_only_the_full_time_screen_field_is_projected_without_mutation (test_port_display.EventProjection.test_only_the_full_time_screen_field_is_projected_without_mutation) ... ok
+test_other_event_fields_and_metadata_still_change_the_digest (test_port_display.EventProjection.test_other_event_fields_and_metadata_still_change_the_digest) ... ok
+test_notice_uses_both_players_and_preserves_wait_key_restore_chain (test_port_display.NoticeMemoryTests.test_notice_uses_both_players_and_preserves_wait_key_restore_chain) ... ok
+test_declared_removals_preserve_memory_registers_and_void_return (test_port_display.RemovedBodyDispositionTests.test_declared_removals_preserve_memory_registers_and_void_return) ... ok
+test_disabled_note_still_delays_but_leaves_transposition_untouched (test_port_display.SoundChainMemoryTests.test_disabled_note_still_delays_but_leaves_transposition_untouched) ... ok
+test_jingle_scaled_bound_pairs_and_zero_bound_twin (test_port_display.SoundChainMemoryTests.test_jingle_scaled_bound_pairs_and_zero_bound_twin) ... ok
+test_note_transposition_real_calls_local_and_wrapped_duration (test_port_display.SoundChainMemoryTests.test_note_transposition_real_calls_local_and_wrapped_duration) ... ok
+test_removed_speaker_off_keeps_incoming_result_and_creates_no_frame (test_port_display.SoundChainMemoryTests.test_removed_speaker_off_keeps_incoming_result_and_creates_no_frame) ... ok
+test_whistle_gate_keeps_the_exact_jingle_call (test_port_display.SoundChainMemoryTests.test_whistle_gate_keeps_the_exact_jingle_call) ... ok
+test_live_squad_uses_the_correct_side_substitution_count (test_port_display.SquadScreenMemoryTests.test_live_squad_uses_the_correct_side_substitution_count) ... ok
+test_nonlive_squad_modes_and_manager_templates (test_port_display.SquadScreenMemoryTests.test_nonlive_squad_modes_and_manager_templates) ... ok
+test_squad_list_retains_all_twenty_rows_and_reserve_gap (test_port_display.SquadScreenMemoryTests.test_squad_list_retains_all_twenty_rows_and_reserve_gap) ... ok
+test_display_cli_gets_only_the_declared_mask_and_legacy_default_stays_empty (test_port_display.StrictDisplayProfile.test_display_cli_gets_only_the_declared_mask_and_legacy_default_stays_empty) ... ok
+test_empty_declared_profile_is_selected_separately_from_raw_empty_mask (test_port_display.StrictDisplayProfile.test_empty_declared_profile_is_selected_separately_from_raw_empty_mask) ... ok
+test_profile_is_ds_only_and_missing_is_refused (test_port_display.StrictDisplayProfile.test_profile_is_ds_only_and_missing_is_refused) ... ok
+test_profile_reference_missing_or_mask_mismatched_is_malformed (test_port_display.StrictDisplayProfile.test_profile_reference_missing_or_mask_mismatched_is_malformed) ... ok
+test_selected_profile_mode_reaches_single_and_pool_workers (test_port_display.StrictDisplayProfile.test_selected_profile_mode_reaches_single_and_pool_workers) ... ok
+test_strict_profile_compares_legacy_skipped_ds_blocks (test_port_display.StrictDisplayProfile.test_strict_profile_compares_legacy_skipped_ds_blocks) ... ok
+test_live_performance_role_splits_encoding_and_signed_half (test_port_display.TeamLineBarTests.test_live_performance_role_splits_encoding_and_signed_half) ... ok
+test_signed_line_division_clamps_and_preserves_interleaved_words (test_port_display.TeamLineBarTests.test_signed_line_division_clamps_and_preserves_interleaved_words) ... ok
+test_panel_aggregate_labels_bars_and_all_eight_tactic_rows (test_port_display.TeamPanelCompositeTests.test_panel_aggregate_labels_bars_and_all_eight_tactic_rows) ... ok
+test_panel_live_gate_second_side_and_country_flag_column_branches (test_port_display.TeamPanelCompositeTests.test_panel_live_gate_second_side_and_country_flag_column_branches) ... ok
+test_panel_manager_ranks_formation_and_numeric_columns (test_port_display.TeamPanelCompositeTests.test_panel_manager_ranks_formation_and_numeric_columns) ... ok
+test_manager_name_hidden_result_and_expression_calls (test_port_display.TeamPanelHelperTests.test_manager_name_hidden_result_and_expression_calls) ... ok
+test_removed_manager_status_preserves_all_argument_bands (test_port_display.TeamPanelHelperTests.test_removed_manager_status_preserves_all_argument_bands) ... ok
+test_removed_rating_label_calls_no_rating_or_text_helpers (test_port_display.TeamPanelHelperTests.test_removed_rating_label_calls_no_rating_or_text_helpers) ... ok
+test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter (test_port_display.TeamPanelHelperTests.test_team_aggregate_wraps_signed_bytes_and_skips_unavailable_starter) ... ok
+test_removed_tone_frequency_preserves_enabled_and_disabled_inputs (test_port_display.ToneMemoryTests.test_removed_tone_frequency_preserves_enabled_and_disabled_inputs) ... ok
+test_removed_tone_preserves_zero_frequency_and_creates_no_frame (test_port_display.ToneMemoryTests.test_removed_tone_preserves_zero_frequency_and_creates_no_frame) ... ok
+test_card_two_feet_yellow_card_and_nonmatch_selection_label (test_port_display.UnreachedStateBranchTests.test_card_two_feet_yellow_card_and_nonmatch_selection_label) ... ok
+test_empty_squad_row_and_nonempty_reached_twin (test_port_display.UnreachedStateBranchTests.test_empty_squad_row_and_nonempty_reached_twin) ... ok
+test_mark_row_position_zone_and_country_default_branches (test_port_display.UnreachedStateBranchTests.test_mark_row_position_zone_and_country_default_branches) ... ok
+test_mark_text_match_flag_and_side_flag_branches (test_port_display.UnreachedStateBranchTests.test_mark_text_match_flag_and_side_flag_branches) ... ok
+test_message_special_colour_and_yes_no_highlight_twins (test_port_display.UnreachedStateBranchTests.test_message_special_colour_and_yes_no_highlight_twins) ... ok
+test_performance_brightness_uses_live_slot_then_status_bit (test_port_display.UnreachedStateBranchTests.test_performance_brightness_uses_live_slot_then_status_bit) ... ok
+test_removed_statistics_bar_preserves_zero_and_nonzero_inputs (test_port_display.UnreachedStateBranchTests.test_removed_statistics_bar_preserves_zero_and_nonzero_inputs) ... ok
+test_tactics_nonmatch_default_mark_row_skips_live_slot_lookup (test_port_display.UnreachedStateBranchTests.test_tactics_nonmatch_default_mark_row_skips_live_slot_lookup) ... ok
+test_5f3c_moving_ball_not_in_the_set_goes_to_5eab (test_port_duels.Deflection.test_5f3c_moving_ball_not_in_the_set_goes_to_5eab)
+The reached twin of 5F66 (5F3C): ZF set: 5EAB and nothing else. ... ok
+test_5f66_moving_ball_in_the_set_deflects_with_line_0x20 (test_port_duels.Deflection.test_5f66_moving_ball_in_the_set_deflects_with_line_0x20)
+5F2C-5F3A, 5F4F-5F6C: the ball moving and DS:8327 in the set at 0791:5EE6 (08DF leaves ZF clear): 5E41 on ... ok
+test_goal_stands (test_port_duels.GoalScored.test_goal_stands)
+The reached twin: DS:830E clear: record_goal(side of DS:830B's record, DS:830B, the minute), after_goal, the ... ok
+test_goal_taken_back (test_port_duels.GoalScored.test_goal_taken_back)
+6879-68C3: with DS:830E set the line is said, the score goes up at 685C and back down at 68B3, 82EB and the ... ok
+test_5b43_5b4a_nothing_with_8325_and_8324_clear (test_port_duels.KeeperAtBall.test_5b43_5b4a_nothing_with_8325_and_8324_clear)
+5B3C-5B4A: with DS:8325 and DS:8324 both clear 5B36 returns at once. ... ok
+test_5b8f_5bad_moving_ball_duel_a_keeper_save (test_port_duels.KeeperAtBall.test_5b8f_5bad_moving_ball_duel_a_keeper_save)
+5B88-5B8F, 5BAD-5BE6, 5C3E: in his strip with the ball moving (DS:8303) the line is 0x41; the holder's ... ok
+test_5b95_still_ball_duel (test_port_duels.KeeperAtBall.test_5b95_still_ball_duel)
+The reached twin of 5B8F/5BAD (5B95, 5BEF): ball still: line 0x0D, the holder's 278A(holder, 0xA) against ... ok
+test_5c5a_foul_coin_to_8206 (test_port_duels.KeeperAtBall.test_5c5a_foul_coin_to_8206)
+5C51-5C67: the duel lost and 4DA9 true: the coin true calls 8206 with the keeper's slot byte. ... ok
+test_5c69_foul_coin_false_saves (test_port_duels.KeeperAtBall.test_5c69_foul_coin_false_saves)
+The reached twin of 5C5A (5C69): the coin false is the save 5A8E. ... ok
+test_5ce3_penalty_element_for_event_4 (test_port_duels.KeeperAtBall.test_5ce3_penalty_element_for_event_4)
+5CC6-5D0C: a penalty (DS:8324) with random_is_one(3) true and DS:8327 = 4: the holder's 278A element is ... ok
+test_5d78_keeper_roll_negative_misses (test_port_duels.KeeperAtBall.test_5d78_keeper_roll_negative_misses)
+5D6F-5D78: the keeper's roll is sign-extended (cwd): a roll of 0x8000 is below the ball's long, the high ... ok
+test_634a_keeper_holding_gives_the_ball_to_a_random_slot (test_port_duels.KickOffKeeper.test_634a_keeper_holding_gives_the_ball_to_a_random_slot)
+634A-6394: DS:830B a keeper slot (045D): the keeper's destination 2C86(+9), DS:830B := DS:0668[2996] + ... ok
+test_6397_outfield_holder_keeps_the_ball (test_port_duels.KickOffKeeper.test_6397_outfield_holder_keeps_the_ball)
+The reached twin of 634A (6397): 045D false: only the holder's destination. ... ok
+test_6141_holder_side_record_is_the_holder_line_0x19 (test_port_duels.OffBall.test_6141_holder_side_record_is_the_holder_line_0x19)
+6131-6151: a loose ball (DS:8300 = 0) with 2B51 true and DS:830B the record's slot: line 0x19, then 869F. ... ok
+test_eleventh_goal_cap (test_port_duels.RecordGoal.test_eleventh_goal_cap)
+6503-6508: with DS:80F0 + side at 11 the count stays (no write at 6510) and the row written is the ... ok
+test_goal_of_the_scorers_side (test_port_duels.RecordGoal.test_goal_of_the_scorers_side)
+The reached twin: line 0x26, the scorer's goals +1 (6484), 5A03 then B3B7, form +1 (DS:7920[1]), the count ... ok
+test_own_goal_line_0x27_other_side_credited_no_scorer_goal (test_port_duels.RecordGoal.test_own_goal_line_0x27_other_side_credited_no_scorer_goal)
+645D-646A, 64E7-64FA, 6588, 6590: an own goal (DS:7C39 set) says 0x27, gives the scorer no goal and no top ... ok
+test_tenth_goal_counts (test_port_duels.RecordGoal.test_tenth_goal_counts)
+The reached twin: below 11 the count grows (6510). ... ok
+test_68d6_with_0c20_set_the_flag_is_kept_in_the_fixture (test_port_duels.ReplayFlag.test_68d6_with_0c20_set_the_flag_is_kept_in_the_fixture)
+68D6-68E2: after a goal that stands with DS:0C20 set: DS:0C20 := 0, the fixture's +0x3F := DS:7C3C and no ... ok
+test_a_minute_spends_a_tenth_counts_the_minute_and_redraws (test_port_frame.ClockTests.test_a_minute_spends_a_tenth_counts_the_minute_and_redraws) ... ok
+test_a_negative_target_is_never_reached (test_port_frame.ClockTests.test_a_negative_target_is_never_reached) ... ok
+test_a_target_below_the_tenths_is_not_reached (test_port_frame.ClockTests.test_a_target_below_the_tenths_is_not_reached) ... ok
+test_play_off_returns_false_and_touches_nothing (test_port_frame.ClockTests.test_play_off_returns_false_and_touches_nothing) ... ok
+test_the_falsifier_clock_reload_reloads_0x23 (test_port_frame.ClockTests.test_the_falsifier_clock_reload_reloads_0x23) ... ok
+test_the_second_counter_empty_ends_the_half_with_the_other_note (test_port_frame.ClockTests.test_the_second_counter_empty_ends_the_half_with_the_other_note) ... ok
+test_the_sub_tick_counts_down (test_port_frame.ClockTests.test_the_sub_tick_counts_down) ... ok
+test_the_target_reached_ends_the_half_with_the_whistle (test_port_frame.ClockTests.test_the_target_reached_ends_the_half_with_the_whistle) ... ok
+test_the_tenths_run_out_into_the_second_counter_and_the_minute_stops_at_0x80 (test_port_frame.ClockTests.test_the_tenths_run_out_into_the_second_counter_and_the_minute_stops_at_0x80) ... ok
+test_a_different_line_after_the_first_is_written (test_port_frame.CommentaryFlowTests.test_a_different_line_after_the_first_is_written) ... ok
+test_a_new_line_adds_the_rating_redraws_the_last_three_lines_and_copies_the_picture_pointer (test_port_frame.CommentaryFlowTests.test_a_new_line_adds_the_rating_redraws_the_last_three_lines_and_copies_the_picture_pointer) ... ok
+test_a_repeated_line_is_dropped (test_port_frame.CommentaryFlowTests.test_a_repeated_line_is_dropped) ... ok
+test_a_repeated_line_still_counts_its_rating_but_draws_nothing (test_port_frame.CommentaryFlowTests.test_a_repeated_line_still_counts_its_rating_but_draws_nothing) ... ok
+test_the_counter_wraps_and_the_next_record_is_the_first (test_port_frame.CommentaryFlowTests.test_the_counter_wraps_and_the_next_record_is_the_first) ... ok
+test_the_falsifier_ring_players_swapped_writes_each_players_word_in_the_others_slot (test_port_frame.CommentaryFlowTests.test_the_falsifier_ring_players_swapped_writes_each_players_word_in_the_others_slot) ... ok
+test_the_first_line_is_written_and_the_next_record_marked_empty (test_port_frame.CommentaryFlowTests.test_the_first_line_is_written_and_the_next_record_marked_empty) ... ok
+test_the_first_line_redraws_only_line_1 (test_port_frame.CommentaryFlowTests.test_the_first_line_redraws_only_line_1) ... ok
+test_a_repeated_line_is_not_new (test_port_frame.CommentaryTests.test_a_repeated_line_is_not_new) ... ok
+test_a_zero_player_index_is_the_word_zero (test_port_frame.CommentaryTests.test_a_zero_player_index_is_the_word_zero) ... ok
+test_ah_is_the_last_word_the_listing_loaded (test_port_frame.CommentaryTests.test_ah_is_the_last_word_the_listing_loaded) ... ok
+test_each_field_that_differs_makes_the_line_new (test_port_frame.CommentaryTests.test_each_field_that_differs_makes_the_line_new) ... ok
+test_the_falsifier_rating_sign_adds_it_the_other_way (test_port_frame.CommentaryTests.test_the_falsifier_rating_sign_adds_it_the_other_way) ... ok
+test_the_rating_word_gets_the_table_delta (test_port_frame.CommentaryTests.test_the_rating_word_gets_the_table_delta) ... ok
+test_a_half_runs_the_ticks_and_takes_the_sprites_off (test_port_frame.HalfTests.test_a_half_runs_the_ticks_and_takes_the_sprites_off) ... ok
+test_a_quick_half_only_checks_substitutions_and_runs_the_loop (test_port_frame.HalfTests.test_a_quick_half_only_checks_substitutions_and_runs_the_loop) ... ok
+test_half_time_recovers_the_tired_and_shows_the_menu_for_a_key (test_port_frame.HalfTests.test_half_time_recovers_the_tired_and_shows_the_menu_for_a_key) ... ok
+test_half_time_with_the_manager_present_shows_the_menu_without_asking_the_key (test_port_frame.HalfTests.test_half_time_with_the_manager_present_shows_the_menu_without_asking_the_key) ... ok
+test_half_time_without_the_menu_goes_straight_on (test_port_frame.HalfTests.test_half_time_without_the_menu_goes_straight_on) ... ok
+test_the_closing_sweeps_run_until_28b2_says_4 (test_port_frame.HalfTests.test_the_closing_sweeps_run_until_28b2_says_4) ... ok
+test_the_closing_with_the_quick_flag_does_nothing_but_clear_the_flags (test_port_frame.HalfTests.test_the_closing_with_the_quick_flag_does_nothing_but_clear_the_flags) ... ok
+test_the_halfs_setup_leaves_the_first_word_on_the_stack_for_the_commentary (test_port_frame.HalfTests.test_the_halfs_setup_leaves_the_first_word_on_the_stack_for_the_commentary) ... ok
+test_the_kickoff_sweeps_until_the_players_are_in_place (test_port_frame.HalfTests.test_the_kickoff_sweeps_until_the_players_are_in_place) ... ok
+test_the_kickoff_with_the_quick_flag_does_not_sweep (test_port_frame.HalfTests.test_the_kickoff_with_the_quick_flag_does_not_sweep) ... ok
+test_a_row_with_the_wrong_words_is_refused (test_port_frame.ListingTests.test_a_row_with_the_wrong_words_is_refused) ... ok
+test_every_row_is_a_call_of_the_listing (test_port_frame.ListingTests.test_every_row_is_a_call_of_the_listing) ... ok
+test_the_ports_are_the_14_routines_with_the_listings_returns (test_port_frame.ListingTests.test_the_ports_are_the_14_routines_with_the_listings_returns) ... ok
+test_the_variants_are_registered (test_port_frame.ListingTests.test_the_variants_are_registered) ... ok
+test_a_level_decider_plays_extra_time_and_the_shootout (test_port_frame.PlayMatchTests.test_a_level_decider_plays_extra_time_and_the_shootout) ... ok
+test_a_win_for_the_first_side_sets_the_winner_byte_0 (test_port_frame.PlayMatchTests.test_a_win_for_the_first_side_sets_the_winner_byte_0) ... ok
+test_a_win_for_the_second_side_sets_1_and_a_draw_sets_2 (test_port_frame.PlayMatchTests.test_a_win_for_the_second_side_sets_1_and_a_draw_sets_2) ... ok
+test_extra_time_decided_skips_the_shootout (test_port_frame.PlayMatchTests.test_extra_time_decided_skips_the_shootout) ... ok
+test_not_a_decider_is_not_played_on_even_when_level (test_port_frame.PlayMatchTests.test_not_a_decider_is_not_played_on_even_when_level) ... ok
+test_the_quick_flag_after_the_half_skips_the_closing (test_port_frame.PlayMatchTests.test_the_quick_flag_after_the_half_skips_the_closing) ... ok
+test_a_stop_in_a_stub_under_two_frames_resumes_both (test_port_frame.PortsCallingPortsTests.test_a_stop_in_a_stub_under_two_frames_resumes_both) ... ok
+test_the_tick_loop_calls_the_sweep_and_the_clock_as_ports (test_port_frame.PortsCallingPortsTests.test_the_tick_loop_calls_the_sweep_and_the_clock_as_ports) ... ok
+test_a_sorted_squad_swaps_nothing_and_clears_the_two_words (test_port_frame.ResortTests.test_a_sorted_squad_swaps_nothing_and_clears_the_two_words) ... ok
+test_equal_codes_are_not_swapped_but_the_falsifier_sort_ties_swaps_them (test_port_frame.ResortTests.test_equal_codes_are_not_swapped_but_the_falsifier_sort_ties_swaps_them) ... ok
+test_one_out_of_order_pair_is_swapped_once_with_its_pitch_records_and_the_marked_slots (test_port_frame.ResortTests.test_one_out_of_order_pair_is_swapped_once_with_its_pitch_records_and_the_marked_slots) ... ok
+test_the_bench_is_sorted_by_the_players_own_position (test_port_frame.ResortTests.test_the_bench_is_sorted_by_the_players_own_position) ... ok
+test_the_unavailable_sort_last (test_port_frame.ResortTests.test_the_unavailable_sort_last) ... ok
+test_a_ball_in_play_goes_through_the_holders_step (test_port_frame.SweepTests.test_a_ball_in_play_goes_through_the_holders_step) ... ok
+test_a_slot_over_the_gate_is_skipped_to_its_own_player (test_port_frame.SweepTests.test_a_slot_over_the_gate_is_skipped_to_its_own_player) ... ok
+test_play_off_sweeps_the_22_slots_of_the_second_half_only (test_port_frame.SweepTests.test_play_off_sweeps_the_22_slots_of_the_second_half_only) ... ok
+test_set_on_the_second_gate_and_no_ball_only_the_holder_and_the_sweep_remain (test_port_frame.SweepTests.test_set_on_the_second_gate_and_no_ball_only_the_holder_and_the_sweep_remain) ... ok
+test_the_falsifier_possession_swapped_counts_the_other_side (test_port_frame.SweepTests.test_the_falsifier_possession_swapped_counts_the_other_side) ... ok
+test_the_holder_not_in_play_set_skips_the_update_and_a_zero_59b3_runs_6188_for_the_22_slots (test_port_frame.SweepTests.test_the_holder_not_in_play_set_skips_the_update_and_a_zero_59b3_runs_6188_for_the_22_slots) ... ok
+test_the_pause_counter_stays_at_zero (test_port_frame.SweepTests.test_the_pause_counter_stays_at_zero) ... ok
+test_the_quick_flag_set_by_the_poll_ends_the_sweep_at_once (test_port_frame.SweepTests.test_the_quick_flag_set_by_the_poll_ends_the_sweep_at_once) ... ok
+test_a_replay_pending_runs_the_replay_then_a_sweep_and_clears_both_flags (test_port_frame.TickLoopTests.test_a_replay_pending_runs_the_replay_then_a_sweep_and_clears_both_flags) ... ok
+test_a_snapshot_pending_is_taken_when_no_replay_is (test_port_frame.TickLoopTests.test_a_snapshot_pending_is_taken_when_no_replay_is) ... ok
+test_no_flag_pending_goes_straight_to_the_sweep_and_leaves_0c20 (test_port_frame.TickLoopTests.test_no_flag_pending_goes_straight_to_the_sweep_and_leaves_0c20) ... ok
+test_the_quick_branch_calls_the_quick_result_in_place_of_the_sweep (test_port_frame.TickLoopTests.test_the_quick_branch_calls_the_quick_result_in_place_of_the_sweep) ... ok
+test_the_quick_flag_set_by_the_sweep_skips_the_offside_line_and_the_referee (test_port_frame.TickLoopTests.test_the_quick_flag_set_by_the_sweep_skips_the_offside_line_and_the_referee) ... ok
+test_with_the_argument_the_loop_goes_on_while_0c20_is_set (test_port_frame.TickLoopTests.test_with_the_argument_the_loop_goes_on_while_0c20_is_set) ... ok
+test_without_the_argument_it_loops_until_the_clock_says_over (test_port_frame.TickLoopTests.test_without_the_argument_it_loops_until_the_clock_says_over) ... ok
+test_plain_and_for_a_record (test_port_geometry.Commentary.test_plain_and_for_a_record) ... ok
+test_with_both_slots (test_port_geometry.Commentary.test_with_both_slots) ... ok
+test_with_the_ball_slot (test_port_geometry.Commentary.test_with_the_ball_slot) ... ok
+test_ahead_inclusive_variant_counts_a_tie (test_port_geometry.Directions.test_ahead_inclusive_variant_counts_a_tie) ... ok
+test_ball_ahead_of_by_and_ahead_of_ball_by (test_port_geometry.Directions.test_ball_ahead_of_by_and_ahead_of_ball_by) ... ok
+test_mirror_to_team_frame_multiplies_both_bytes_and_writes_the_argument (test_port_geometry.Directions.test_mirror_to_team_frame_multiplies_both_bytes_and_writes_the_argument) ... ok
+test_own_half_and_mirror (test_port_geometry.Directions.test_own_half_and_mirror) ... ok
+test_player_at_ball (test_port_geometry.Directions.test_player_at_ball) ... ok
+test_every_port_equals_the_original (test_port_geometry.FuzzAgainstOriginal.test_every_port_equals_the_original) ... ok
+test_the_row (test_port_geometry.Registry.test_the_row) ... ok
+test_advance_unavailable_ball_slot (test_port_geometry.SidesAndSlots.test_advance_unavailable_ball_slot) ... ok
+test_all_players_in_state_counts_each_reason_and_asks_2956_for_the_rest (test_port_geometry.SidesAndSlots.test_all_players_in_state_counts_each_reason_and_asks_2956_for_the_rest) ... ok
+test_ball_holder_farther_flag (test_port_geometry.SidesAndSlots.test_ball_holder_farther_flag) ... ok
+test_ball_slot_side_and_slot_in_side (test_port_geometry.SidesAndSlots.test_ball_slot_side_and_slot_in_side) ... ok
+test_fill_pitch_state_writes_all_22_records_and_leaves_ax_dx_cx (test_port_geometry.SidesAndSlots.test_fill_pitch_state_writes_all_22_records_and_leaves_ax_dx_cx) ... ok
+test_player_unavailable_asks_3216_of_the_records_player (test_port_geometry.SidesAndSlots.test_player_unavailable_asks_3216_of_the_records_player) ... ok
+test_second_slot_in_side (test_port_geometry.SidesAndSlots.test_second_slot_in_side) ... ok
+test_slot_is_idle_ball_slot (test_port_geometry.SidesAndSlots.test_slot_is_idle_ball_slot) ... ok
+test_slot_is_on_ball_side (test_port_geometry.SidesAndSlots.test_slot_is_on_ball_side) ... ok
+test_slot_side_12_variant_changes_slot_12 (test_port_geometry.SidesAndSlots.test_slot_side_12_variant_changes_slot_12) ... ok
+test_a_halved_pitch_record_halves_the_skill (test_port_geometry.Skill.test_a_halved_pitch_record_halves_the_skill) ... ok
+test_contest_value_formula_and_the_guest_call (test_port_geometry.Skill.test_contest_value_formula_and_the_guest_call) ... ok
+test_energy_gate_chance_draws_against_0x21_minus_energy (test_port_geometry.Skill.test_energy_gate_chance_draws_against_0x21_minus_energy) ... ok
+test_form_at_0x20_counts_zero_and_a_negative_form_counts_its_sign (test_port_geometry.Skill.test_form_at_0x20_counts_zero_and_a_negative_form_counts_its_sign) ... ok
+test_penalty_elements_add_0x20_and_ignore_energy (test_port_geometry.Skill.test_penalty_elements_add_0x20_and_ignore_energy) ... ok
+test_skill_draw_passes_asks_278a_and_draws_against_n (test_port_geometry.Skill.test_skill_draw_passes_asks_278a_and_draws_against_n) ... ok
+test_the_keeper_extra_by_table_and_by_event (test_port_geometry.Skill.test_the_keeper_extra_by_table_and_by_event) ... ok
+test_the_manager_share_for_outfield_slots (test_port_geometry.Skill.test_the_manager_share_for_outfield_slots) ... ok
+test_278a_locals (test_port_geometry.StackResidue.test_278a_locals) ... ok
+test_a_leaf_frame (test_port_geometry.StackResidue.test_a_leaf_frame) ... ok
+test_advance_wrap_uses_side_one_table_entry_and_literal_pushes (test_port_geometry.StackResidue.test_advance_wrap_uses_side_one_table_entry_and_literal_pushes) ... ok
+test_nested_frames_down_to_2974 (test_port_geometry.StackResidue.test_nested_frames_down_to_2974) ... ok
+test_final_third_of_goal (test_port_geometry.Strips.test_final_third_of_goal) ... ok
+test_goal_area_and_goal_strips_by_direction (test_port_geometry.Strips.test_goal_area_and_goal_strips_by_direction) ... ok
+test_on_pitch_wide (test_port_geometry.Strips.test_on_pitch_wide) ... ok
+test_penalty_strip_4_variant (test_port_geometry.Strips.test_penalty_strip_4_variant) ... ok
+test_penalty_strip_word (test_port_geometry.Strips.test_penalty_strip_word) ... ok
+test_draw_table_byte_returns_the_entry_and_steps_the_index (test_port_geometry.TableAndMessages.test_draw_table_byte_returns_the_entry_and_steps_the_index) ... ok
+test_draw_table_index_wraps_from_0xff_to_1 (test_port_geometry.TableAndMessages.test_draw_table_index_wraps_from_0xff_to_1) ... ok
+test_set_message_word (test_port_geometry.TableAndMessages.test_set_message_word) ... ok
+test_show_message_calls_9079_with_the_message_pointer_then_clears_8328 (test_port_geometry.TableAndMessages.test_show_message_calls_9079_with_the_message_pointer_then_clears_8328) ... ok
+test_country_byte_decides_without_the_flag_or_when_k_is_5_or_more (test_port_geometry.Tactics.test_country_byte_decides_without_the_flag_or_when_k_is_5_or_more) ... ok
+test_player_setting_wins_when_the_flag_element_is_set (test_port_geometry.Tactics.test_player_setting_wins_when_the_flag_element_is_set) ... ok
+test_a_caller_pops_call_drops_its_arguments (test_port_guest.GuestCallTests.test_a_caller_pops_call_drops_its_arguments) ... ok
+test_a_decision_under_a_port_stops_and_resumes_exactly (test_port_guest.GuestCallTests.test_a_decision_under_a_port_stops_and_resumes_exactly) ... ok
+test_a_far_call_pushes_the_segment_and_the_callee_pops_its_argument (test_port_guest.GuestCallTests.test_a_far_call_pushes_the_segment_and_the_callee_pops_its_argument) ... ok
+test_a_frame_resumes_only_at_its_return_address (test_port_guest.GuestCallTests.test_a_frame_resumes_only_at_its_return_address) ... ok
+test_a_guest_call_returns_the_originals_registers_and_writes (test_port_guest.GuestCallTests.test_a_guest_call_returns_the_originals_registers_and_writes) ... ok
+test_a_return_address_in_code_already_translated_is_reached (test_port_guest.GuestCallTests.test_a_return_address_in_code_already_translated_is_reached) ... ok
+test_save_refuses_while_a_ports_frame_is_live (test_port_guest.GuestCallTests.test_save_refuses_while_a_ports_frame_is_live) ... ok
+test_the_return_address_with_another_sp_is_not_the_calls_return (test_port_guest.GuestCallTests.test_the_return_address_with_another_sp_is_not_the_calls_return) ... ok
+test_a_log_of_other_ports_is_refused (test_port_guest.LocatorTests.test_a_log_of_other_ports_is_refused) ... ok
+test_a_one_byte_divergence_is_located_to_its_call (test_port_guest.LocatorTests.test_a_one_byte_divergence_is_located_to_its_call)
+The locator's second step on a synthetic divergence: the run proved from the start names the call. ... ok
+test_a_ported_reference_is_refused (test_port_guest.LocatorTests.test_a_ported_reference_is_refused) ... ok
+test_the_first_differing_row (test_port_guest.LocatorTests.test_the_first_differing_row) ... ok
+test_the_grammar_of_a_ported_record (test_port_guest.LocatorTests.test_the_grammar_of_a_ported_record) ... ok
+test_the_ports_options (test_port_guest.LocatorTests.test_the_ports_options) ... ok
+test_a_call_crossing_a_decision_is_proved (test_port_guest.ProofTests.test_a_call_crossing_a_decision_is_proved) ... ok
+test_a_call_crossing_a_kit_site_is_proved (test_port_guest.ProofTests.test_a_call_crossing_a_kit_site_is_proved) ... ok
+test_a_dead_result_is_exempted_only_where_declared (test_port_guest.ProofTests.test_a_dead_result_is_exempted_only_where_declared) ... ok
+test_a_divergence_after_the_kits_answer_is_named (test_port_guest.ProofTests.test_a_divergence_after_the_kits_answer_is_named) ... ok
+test_a_divergence_crossing_a_decision_is_named (test_port_guest.ProofTests.test_a_divergence_crossing_a_decision_is_named) ... ok
+test_a_divergence_crossing_a_kit_site_is_named (test_port_guest.ProofTests.test_a_divergence_crossing_a_kit_site_is_named) ... ok
+test_a_divergence_in_a_flag_input_is_named (test_port_guest.ProofTests.test_a_divergence_in_a_flag_input_is_named) ... ok
+test_a_divergence_in_a_segment_input_is_named (test_port_guest.ProofTests.test_a_divergence_in_a_segment_input_is_named) ... ok
+test_a_divergence_in_a_stack_argument_is_named (test_port_guest.ProofTests.test_a_divergence_in_a_stack_argument_is_named) ... ok
+test_a_divergence_in_the_kits_input_register_is_named (test_port_guest.ProofTests.test_a_divergence_in_the_kits_input_register_is_named) ... ok
+test_a_divergence_read_while_the_match_stands_at_a_decision_is_named (test_port_guest.ProofTests.test_a_divergence_read_while_the_match_stands_at_a_decision_is_named) ... ok
+test_a_faithful_port_is_proved (test_port_guest.ProofTests.test_a_faithful_port_is_proved) ... ok
+test_a_fired_site_that_stops_is_refused (test_port_guest.ProofTests.test_a_fired_site_that_stops_is_refused) ... ok
+test_a_functions_other_result_is_named (test_port_guest.ProofTests.test_a_functions_other_result_is_named) ... ok
+test_a_kit_hook_at_the_entry_is_not_a_site_of_the_call (test_port_guest.ProofTests.test_a_kit_hook_at_the_entry_is_not_a_site_of_the_call) ... ok
+test_a_kit_write_in_a_write_listener_is_replayed (test_port_guest.ProofTests.test_a_kit_write_in_a_write_listener_is_replayed) ... ok
+test_a_kit_write_outside_its_sites_is_refused (test_port_guest.ProofTests.test_a_kit_write_outside_its_sites_is_refused) ... ok
+test_a_listener_call_moved_across_a_nested_return_is_named (test_port_guest.ProofTests.test_a_listener_call_moved_across_a_nested_return_is_named) ... ok
+test_a_listener_call_moved_across_a_site_is_named (test_port_guest.ProofTests.test_a_listener_call_moved_across_a_site_is_named) ... ok
+test_a_listener_call_the_original_does_not_make_is_named (test_port_guest.ProofTests.test_a_listener_call_the_original_does_not_make_is_named) ... ok
+test_a_nested_call_in_one_run_only_is_named (test_port_guest.ProofTests.test_a_nested_call_in_one_run_only_is_named) ... ok
+test_a_nested_call_of_another_routine_is_named (test_port_guest.ProofTests.test_a_nested_call_of_another_routine_is_named) ... ok
+test_a_nested_port_is_compared_as_part_of_its_caller (test_port_guest.ProofTests.test_a_nested_port_is_compared_as_part_of_its_caller) ... ok
+test_a_nested_ports_dead_result_is_exempted_where_declared (test_port_guest.ProofTests.test_a_nested_ports_dead_result_is_exempted_where_declared) ... ok
+test_a_nested_ports_result_is_compared_at_its_own_return (test_port_guest.ProofTests.test_a_nested_ports_result_is_compared_at_its_own_return) ... ok
+test_a_one_byte_divergence_is_named (test_port_guest.ProofTests.test_a_one_byte_divergence_is_named) ... ok
+test_a_ports_own_key_read_is_refused_under_a_proof (test_port_guest.ProofTests.test_a_ports_own_key_read_is_refused_under_a_proof) ... ok
+test_a_proof_not_armed_runs_the_port (test_port_guest.ProofTests.test_a_proof_not_armed_runs_the_port) ... ok
+test_a_raw_hook_is_refused_under_a_proof (test_port_guest.ProofTests.test_a_raw_hook_is_refused_under_a_proof) ... ok
+test_a_raw_read_by_the_kit_is_refused_and_the_tapped_one_compared (test_port_guest.ProofTests.test_a_raw_read_by_the_kit_is_refused_and_the_tapped_one_compared) ... ok
+test_a_returned_register_is_compared_whatever_the_port_returns (test_port_guest.ProofTests.test_a_returned_register_is_compared_whatever_the_port_returns) ... ok
+test_a_site_between_other_writes_is_named (test_port_guest.ProofTests.test_a_site_between_other_writes_is_named) ... ok
+test_a_site_reached_with_another_stack_is_named (test_port_guest.ProofTests.test_a_site_reached_with_another_stack_is_named) ... ok
+test_a_site_the_original_did_not_reach_is_named (test_port_guest.ProofTests.test_a_site_the_original_did_not_reach_is_named) ... ok
+test_a_site_the_port_did_not_reach_is_named (test_port_guest.ProofTests.test_a_site_the_port_did_not_reach_is_named) ... ok
+test_a_write_listener_that_stops_is_refused (test_port_guest.ProofTests.test_a_write_listener_that_stops_is_refused) ... ok
+test_a_write_listeners_input_is_compared (test_port_guest.ProofTests.test_a_write_listeners_input_is_compared) ... ok
+test_a_write_listeners_pc_is_compared (test_port_guest.ProofTests.test_a_write_listeners_pc_is_compared) ... ok
+test_a_write_split_otherwise_is_named (test_port_guest.ProofTests.test_a_write_split_otherwise_is_named) ... ok
+test_an_mmio_callback_is_refused (test_port_guest.ProofTests.test_an_mmio_callback_is_refused) ... ok
+test_every_engine_attribute_is_whitelisted_or_refused_under_a_proof (test_port_guest.ProofTests.test_every_engine_attribute_is_whitelisted_or_refused_under_a_proof) ... ok
+test_no_listener_of_the_kits_runs_in_the_muted_original (test_port_guest.ProofTests.test_no_listener_of_the_kits_runs_in_the_muted_original) ... ok
+test_only_the_machine_and_the_proof_touch_the_engine (test_port_guest.ProofTests.test_only_the_machine_and_the_proof_touch_the_engine)
+The kit reaches the guest only through Machine's methods (the taps the proof records): the raw engine's ... ok
+test_sites_in_another_order_are_named (test_port_guest.ProofTests.test_sites_in_another_order_are_named) ... ok
+test_the_kits_answer_is_replayed_to_the_original (test_port_guest.ProofTests.test_the_kits_answer_is_replayed_to_the_original) ... ok
+test_the_kits_inputs_faithful_are_proved (test_port_guest.ProofTests.test_the_kits_inputs_faithful_are_proved) ... ok
+test_the_original_runs_on_the_entrys_memory (test_port_guest.ProofTests.test_the_original_runs_on_the_entrys_memory) ... ok
+test_the_pilots_exemption_is_declared_for_its_one_return_address (test_port_guest.ProofTests.test_the_pilots_exemption_is_declared_for_its_one_return_address) ... ok
+test_the_taps_are_the_proofs_alone (test_port_guest.ProofTests.test_the_taps_are_the_proofs_alone) ... ok
+test_cached_key_is_consumed_once_and_board_is_not_emitted_twice (test_port_menus.DecisionPreflight.test_cached_key_is_consumed_once_and_board_is_not_emitted_twice) ... ok
+test_entry_hook_caches_a_key_without_early_guest_return (test_port_menus.DecisionPreflight.test_entry_hook_caches_a_key_without_early_guest_return) ... ok
+test_entry_hook_leaves_python_unstarted_while_decision_waits (test_port_menus.DecisionPreflight.test_entry_hook_leaves_python_unstarted_while_decision_waits) ... ok
+test_interrupt_wrapper_actual_iret_preserves_record_and_flags (test_port_menus.IVT.test_interrupt_wrapper_actual_iret_preserves_record_and_flags) ... ok
+test_msdos_fallthrough_adds_int21_without_changing_pointer_cleanup (test_port_menus.IVT.test_msdos_fallthrough_adds_int21_without_changing_pointer_cleanup) ... ok
+test_retf_handler_does_not_masquerade_as_iret (test_port_menus.IVT.test_retf_handler_does_not_masquerade_as_iret) ... ok
+test_all27_listing_returns (test_port_menus.Menus.test_all27_listing_returns) ... ok
+test_byte_and_word_clamp_boundaries (test_port_menus.Menus.test_byte_and_word_clamp_boundaries) ... ok
+test_key_pressed_service_preserves_frame_and_high_ax (test_port_menus.Menus.test_key_pressed_service_preserves_frame_and_high_ax) ... ok
+test_key_read_service_and_pushed_key_are_distinct_paths (test_port_menus.Menus.test_key_read_service_and_pushed_key_are_distinct_paths) ... ok
+test_list_navigation_edges_pages_home_end (test_port_menus.Menus.test_list_navigation_edges_pages_home_end) ... ok
+test_list_pair_writes_parent_far_pointers_in_order (test_port_menus.Menus.test_list_pair_writes_parent_far_pointers_in_order) ... ok
+test_list_short_page_end_uses_long_signed_max (test_port_menus.Menus.test_list_short_page_end_uses_long_signed_max) ... ok
+test_marking_cycle_default_opponent_wrap_and_skip_unavailable (test_port_menus.Menus.test_marking_cycle_default_opponent_wrap_and_skip_unavailable) ... ok
+test_marking_goalkeeper_clears_flag_without_touching_word (test_port_menus.Menus.test_marking_goalkeeper_clears_flag_without_touching_word) ... ok
+test_marking_second_side_uses_first_country_and_second_mark_array (test_port_menus.Menus.test_marking_second_side_uses_first_country_and_second_mark_array) ... ok
+test_message_if_flag_returns_low_byte_and_only_shows_when_set (test_port_menus.Menus.test_message_if_flag_returns_low_byte_and_only_shows_when_set) ... ok
+test_message_wait_restores_attribute_and_uses_press_any_key (test_port_menus.Menus.test_message_wait_restores_attribute_and_uses_press_any_key) ... ok
+test_name_editor_unchanged_changed_and_empty_surname_paths (test_port_menus.Menus.test_name_editor_unchanged_changed_and_empty_surname_paths) ... ok
+test_own_tactic_three_states_and_return_to_team_value (test_port_menus.Menus.test_own_tactic_three_states_and_return_to_team_value) ... ok
+test_own_tactics_marking_visibility_and_row5_dispatch (test_port_menus.Menus.test_own_tactics_marking_visibility_and_row5_dispatch) ... ok
+test_poll_dispatches_board_menu_sound_help_and_pitch (test_port_menus.Menus.test_poll_dispatches_board_menu_sound_help_and_pitch) ... ok
+test_poll_queued_quick_and_idle_deferred_call_use_parent_bp (test_port_menus.Menus.test_poll_queued_quick_and_idle_deferred_call_use_parent_bp) ... ok
+test_poll_speed_arrows_clamp_at_zero_and_five (test_port_menus.Menus.test_poll_speed_arrows_clamp_at_zero_and_five) ... ok
+test_position_club_reset_and_zero_player (test_port_menus.Menus.test_position_club_reset_and_zero_player) ... ok
+test_position_next_wraps13_to0_and_clears_key (test_port_menus.Menus.test_position_next_wraps13_to0_and_clears_key) ... ok
+test_position_rotation_and_no_refresh_flags (test_port_menus.Menus.test_position_rotation_and_no_refresh_flags) ... ok
+test_pushback_and_wait_clear (test_port_menus.Menus.test_pushback_and_wait_clear) ... ok
+test_quick_result_commits_flags_and_calls_board_with_zero_low_byte (test_port_menus.Menus.test_quick_result_commits_flags_and_calls_board_with_zero_low_byte) ... ok
+test_quick_result_guards_and_deferred_notice (test_port_menus.Menus.test_quick_result_guards_and_deferred_notice) ... ok
+test_short_list_page_down_clamps_cursor_to_count (test_port_menus.Menus.test_short_list_page_down_clamps_cursor_to_count) ... ok
+test_team_menu_escape_before_used_and_invalid_eleven_retry (test_port_menus.Menus.test_team_menu_escape_before_used_and_invalid_eleven_retry) ... ok
+test_team_menu_home_end_horizontal_and_display_toggle (test_port_menus.Menus.test_team_menu_home_end_horizontal_and_display_toggle) ... ok
+test_team_menu_submenu_routes_board_tables_and_space (test_port_menus.Menus.test_team_menu_submenu_routes_board_tables_and_space) ... ok
+test_team_menu_tactics_refresh_changed_and_unchanged (test_port_menus.Menus.test_team_menu_tactics_refresh_changed_and_unchanged) ... ok
+test_team_tactics_toggles_selected_element_and_refreshes_marking (test_port_menus.Menus.test_team_tactics_toggles_selected_element_and_refreshes_marking) ... ok
+test_team_tactics_view_only_for_computer_or_locked_game (test_port_menus.Menus.test_team_tactics_view_only_for_computer_or_locked_game) ... ok
+test_timed_notice_keeper_template_and_key_or_escape (test_port_menus.Menus.test_timed_notice_keeper_template_and_key_or_escape) ... ok
+test_wait_key_set_rejects_first_key_then_accepts_second (test_port_menus.Menus.test_wait_key_set_rejects_first_key_then_accepts_second) ... ok
+test_wrap_up_down_and_delegated_keys (test_port_menus.Menus.test_wrap_up_down_and_delegated_keys) ... ok
+test_yes_no_returns_uppercase_y_only_and_clears_current_key (test_port_menus.Menus.test_yes_no_returns_uppercase_y_only_and_clears_current_key) ... ok
+test_zero_player_own_tactics_and_name_edit_do_nothing (test_port_menus.Menus.test_zero_player_own_tactics_and_name_edit_do_nothing) ... ok
+test_a_decision_inside_a_port_is_refused (test_port_mode.PortMachineTests.test_a_decision_inside_a_port_is_refused) ... ok
+test_a_ports_write_fires_the_kits_watch (test_port_mode.PortMachineTests.test_a_ports_write_fires_the_kits_watch) ... ok
+test_a_replayed_hook_runs_no_port_twice (test_port_mode.PortMachineTests.test_a_replayed_hook_runs_no_port_twice) ... ok
+test_a_saved_match_names_its_ports (test_port_mode.PortMachineTests.test_a_saved_match_names_its_ports) ... ok
+test_a_site_inside_a_ported_routine_fires (test_port_mode.PortMachineTests.test_a_site_inside_a_ported_routine_fires) ... ok
+test_a_stop_inside_a_port_resumes_at_its_return (test_port_mode.PortMachineTests.test_a_stop_inside_a_port_resumes_at_its_return) ... ok
+test_a_stub_returns_as_retf_n (test_port_mode.PortMachineTests.test_a_stub_returns_as_retf_n) ... ok
+test_a_stub_returns_its_value (test_port_mode.PortMachineTests.test_a_stub_returns_its_value) ... ok
+test_a_watch_refusing_a_ports_write_stops_the_run (test_port_mode.PortMachineTests.test_a_watch_refusing_a_ports_write_stops_the_run) ... ok
+test_unported_routine_runs (test_port_mode.PortMachineTests.test_unported_routine_runs) ... ok
+test_a_port_on_plain_memory (test_port_mode.RegistryTests.test_a_port_on_plain_memory) ... ok
+test_pilot_registers_itself (test_port_mode.RegistryTests.test_pilot_registers_itself) ... ok
+test_unknown_modules_and_variants_are_refused (test_port_mode.RegistryTests.test_unknown_modules_and_variants_are_refused) ... ok
+test_neg_of_0x8000_stays_0x8000_and_the_sum_is_sign_extended (test_port_motion.BallTravel.test_neg_of_0x8000_stays_0x8000_and_the_sum_is_sign_extended) ... ok
+test_the_long_product_is_handed_to_0279_with_the_listings_registers (test_port_motion.BallTravel.test_the_long_product_is_handed_to_0279_with_the_listings_registers) ... ok
+test_a_refused_square_keeps_the_ball (test_port_motion.MoveBall.test_a_refused_square_keeps_the_ball) ... ok
+test_a_travel_of_two_lands_the_ball (test_port_motion.MoveBall.test_a_travel_of_two_lands_the_ball) ... ok
+test_in_play_the_step_lands_and_the_timer_counts_down (test_port_motion.MoveBall.test_in_play_the_step_lands_and_the_timer_counts_down) ... ok
+test_off_the_pitch_with_830E_set_and_x_beyond_1_calls_82EB_and_stops (test_port_motion.MoveBall.test_off_the_pitch_with_830E_set_and_x_beyond_1_calls_82EB_and_stops) ... ok
+test_off_the_pitch_with_830E_set_x_within_1_and_the_holder_on_the_ball_side_calls_82EB (test_port_motion.MoveBall.test_off_the_pitch_with_830E_set_x_within_1_and_the_holder_on_the_ball_side_calls_82EB) ... ok
+test_off_the_pitch_with_830E_set_x_within_1_and_the_other_side_falls_to_the_restarts (test_port_motion.MoveBall.test_off_the_pitch_with_830E_set_x_within_1_and_the_other_side_falls_to_the_restarts) ... ok
+test_the_goal_kick_or_free_kick_gets_the_side_with_2996s_high_byte (test_port_motion.MoveBall.test_the_goal_kick_or_free_kick_gets_the_side_with_2996s_high_byte) ... ok
+test_the_restart_by_end_and_side (test_port_motion.MoveBall.test_the_restart_by_end_and_side) ... ok
+test_8C67_puts_the_line_at_the_keepers_side_times_8 (test_port_motion.OffsideLines.test_8C67_puts_the_line_at_the_keepers_side_times_8) ... ok
+test_8CCA_resets_both_lines_through_8C67_with_its_bp (test_port_motion.OffsideLines.test_8CCA_resets_both_lines_through_8C67_with_its_bp) ... ok
+test_offside_max_variant_takes_the_most_advanced (test_port_motion.OffsideLines.test_offside_max_variant_takes_the_most_advanced) ... ok
+test_the_line_is_the_deepest_outfield_row_times_the_direction_never_above_zero (test_port_motion.OffsideLines.test_the_line_is_the_deepest_outfield_row_times_the_direction_never_above_zero) ... ok
+test_the_marker_is_placed_only_on_the_balls_side_with_8328_and_a_line (test_port_motion.OffsideLines.test_the_marker_is_placed_only_on_the_balls_side_with_8328_and_a_line) ... ok
+test_a_keeper_in_its_area_carries_the_ball_without_a_step (test_port_motion.PlayerSprite.test_a_keeper_in_its_area_carries_the_ball_without_a_step) ... ok
+test_a_keeper_out_of_its_area_steps_the_ball (test_port_motion.PlayerSprite.test_a_keeper_out_of_its_area_steps_the_ball) ... ok
+test_no_draw_variant_restores_the_old_cell_and_draws_nothing (test_port_motion.PlayerSprite.test_no_draw_variant_restores_the_old_cell_and_draws_nothing) ... ok
+test_no_position_draws_nothing (test_port_motion.PlayerSprite.test_no_position_draws_nothing) ... ok
+test_the_ball_follows_its_holder_by_the_run_direction_and_wraps_at_the_goal_lines (test_port_motion.PlayerSprite.test_the_ball_follows_its_holder_by_the_run_direction_and_wraps_at_the_goal_lines) ... ok
+test_the_holder_of_glyph_1_is_drawn_one_up (test_port_motion.PlayerSprite.test_the_holder_of_glyph_1_is_drawn_one_up) ... ok
+test_the_old_cell_is_restored_and_the_sprite_drawn (test_port_motion.PlayerSprite.test_the_old_cell_is_restored_and_the_sprite_drawn) ... ok
+test_869F_takes_the_slot_and_clears_the_play_bytes (test_port_motion.Possession.test_869F_takes_the_slot_and_clears_the_play_bytes) ... ok
+test_a_ball_column_at_or_below_zero_uses_max_and_idiv_truncates (test_port_motion.Referee.test_a_ball_column_at_or_below_zero_uses_max_and_idiv_truncates) ... ok
+test_a_free_step_stays (test_port_motion.Referee.test_a_free_step_stays) ... ok
+test_a_step_onto_a_blocking_character_is_taken_back (test_port_motion.Referee.test_a_step_onto_a_blocking_character_is_taken_back) ... ok
+test_on_its_target_already_no_step_and_no_set_test (test_port_motion.Referee.test_on_its_target_already_no_step_and_no_set_test) ... ok
+test_one_axis_at_a_time_when_the_other_is_reached (test_port_motion.Referee.test_one_axis_at_a_time_when_the_other_is_reached) ... ok
+test_referee_still_variant_never_steps (test_port_motion.Referee.test_referee_still_variant_never_steps) ... ok
+test_the_clamp_gets_the_target_byte_and_the_listings_words (test_port_motion.Referee.test_the_clamp_gets_the_target_byte_and_the_listings_words) ... ok
+test_the_long_pushed_before_rand_is_where_0D1C_finds_it (test_port_motion.Referee.test_the_long_pushed_before_rand_is_where_0D1C_finds_it) ... ok
+test_with_its_flag_it_goes_one_step_to_the_cell_below_the_ball (test_port_motion.Referee.test_with_its_flag_it_goes_one_step_to_the_cell_below_the_ball) ... ok
+test_without_its_flag_it_follows_the_ball_column_within_31_or_32 (test_port_motion.Referee.test_without_its_flag_it_follows_the_ball_column_within_31_or_32) ... ok
+test_8E24_negative_rows_and_columns_are_signed (test_port_motion.Sprites.test_8E24_negative_rows_and_columns_are_signed) ... ok
+test_8E24_restores_the_old_cell_only_while_it_still_holds_the_sprite (test_port_motion.Sprites.test_8E24_restores_the_old_cell_only_while_it_still_holds_the_sprite) ... ok
+test_90C5_places_the_marker_beside_the_line_and_draws_it_unless_quick (test_port_motion.Sprites.test_90C5_places_the_marker_beside_the_line_and_draws_it_unless_quick) ... ok
+test_8889_gets_the_frames_bp (test_port_motion.UpdatePlayer.test_8889_gets_the_frames_bp) ... ok
+test_each_state_calls_its_handler_then_8889_and_8537 (test_port_motion.UpdatePlayer.test_each_state_calls_its_handler_then_8889_and_8537) ... ok
+test_energy_drops_after_180_only_above_1_and_the_counter_resets (test_port_motion.UpdatePlayer.test_energy_drops_after_180_only_above_1_and_the_counter_resets) ... ok
+test_no_challenge_test_when_8302_is_clear_or_another_slot (test_port_motion.UpdatePlayer.test_no_challenge_test_when_8302_is_clear_or_another_slot) ... ok
+test_state_0a_calls_73ba_before_the_run_step_and_sprite (test_port_motion.UpdatePlayer.test_state_0a_calls_73ba_before_the_run_step_and_sprite) ... ok
+test_the_activity_counts_unsigned_run_directions_below_5 (test_port_motion.UpdatePlayer.test_the_activity_counts_unsigned_run_directions_below_5) ... ok
+test_the_ball_won_from_the_challenger (test_port_motion.UpdatePlayer.test_the_ball_won_from_the_challenger) ... ok
+test_the_position_code_is_the_one_at_entry (test_port_motion.UpdatePlayer.test_the_position_code_is_the_one_at_entry) ... ok
+test_all_unavailable_leader_returns_prior_local_word (test_port_positioning.PositioningTests.test_all_unavailable_leader_returns_prior_local_word) ... ok
+test_attack_reads_every_depth_table_row (test_port_positioning.PositioningTests.test_attack_reads_every_depth_table_row) ... ok
+test_defend_reads_every_depth_table_row (test_port_positioning.PositioningTests.test_defend_reads_every_depth_table_row) ... ok
+test_depth_table_calls_keep_group_and_tactic_words_on_guest_stack (test_port_positioning.PositioningTests.test_depth_table_calls_keep_group_and_tactic_words_on_guest_stack) ... ok
+test_destination_long_calls_keep_pre_pushed_words_on_guest_stack (test_port_positioning.PositioningTests.test_destination_long_calls_keep_pre_pushed_words_on_guest_stack) ... ok
+test_empty_marking_slot_is_cleared_without_candidate (test_port_positioning.PositioningTests.test_empty_marking_slot_is_cleared_without_candidate) ... ok
+test_keeper_outside_goal_strip_does_not_draw (test_port_positioning.PositioningTests.test_keeper_outside_goal_strip_does_not_draw) ... ok
+test_marking_assignment_continues_after_marker_calls (test_port_positioning.PositioningTests.test_marking_assignment_continues_after_marker_calls) ... ok
+test_marking_comparisons_keep_listing_pushes_live_across_guest_calls (test_port_positioning.PositioningTests.test_marking_comparisons_keep_listing_pushes_live_across_guest_calls) ... ok
+test_marking_slot_skill_comparison_keeps_incumbent_on_guest_stack (test_port_positioning.PositioningTests.test_marking_slot_skill_comparison_keeps_incumbent_on_guest_stack) ... ok
+test_position_group_keeper_and_tactic_rows (test_port_positioning.PositioningTests.test_position_group_keeper_and_tactic_rows) ... ok
+test_squad_swap_keeps_three_guest_copy_boundaries (test_port_positioning.PositioningTests.test_squad_swap_keeps_three_guest_copy_boundaries) ... ok
+test_start_posts_reads_prior_side_local_before_initializing_it (test_port_positioning.PositioningTests.test_start_posts_reads_prior_side_local_before_initializing_it) ... ok
+test_sweeper_uses_fifteen_cell_draw_outside_state_nine (test_port_positioning.PositioningTests.test_sweeper_uses_fifteen_cell_draw_outside_state_nine) ... ok
+test_aggregate_unplayed_and_index_exit (test_port_postmatch.Postmatch.test_aggregate_unplayed_and_index_exit) ... ok
+test_aggregate_winners_totals_and_tie (test_port_postmatch.Postmatch.test_aggregate_winners_totals_and_tie) ... ok
+test_country_streak_maxima_keep_equal_or_larger (test_port_postmatch.Postmatch.test_country_streak_maxima_keep_equal_or_larger) ... ok
+test_country_totals_streaks_and_best_results (test_port_postmatch.Postmatch.test_country_totals_streaks_and_best_results) ... ok
+test_finals_set_true_and_false (test_port_postmatch.Postmatch.test_finals_set_true_and_false) ... ok
+test_group_draw_points_falsifier (test_port_postmatch.Postmatch.test_group_draw_points_falsifier) ... ok
+test_group_stage_dispatch_dimensions_and_empty_tables (test_port_postmatch.Postmatch.test_group_stage_dispatch_dimensions_and_empty_tables) ... ok
+test_man_bench_only_substituted_off (test_port_postmatch.Postmatch.test_man_bench_only_substituted_off) ... ok
+test_man_of_match_decode_and_strict_ties (test_port_postmatch.Postmatch.test_man_of_match_decode_and_strict_ties) ... ok
+test_registry_contract (test_port_postmatch.Postmatch.test_registry_contract) ... ok
+test_reset_tactics_all_twenty_including_zero_then_eleven_positions (test_port_postmatch.Postmatch.test_reset_tactics_all_twenty_including_zero_then_eleven_positions) ... ok
+test_restore_zero_and_signed_energy (test_port_postmatch.Postmatch.test_restore_zero_and_signed_energy) ... ok
+test_run_match_tail_quick_save_and_manager_branches (test_port_postmatch.Postmatch.test_run_match_tail_quick_save_and_manager_branches) ... ok
+test_sort_group_table_all_fixture_filters_and_outcomes (test_port_postmatch.Postmatch.test_sort_group_table_all_fixture_filters_and_outcomes) ... ok
+test_sort_group_table_tie_break_order (test_port_postmatch.Postmatch.test_sort_group_table_tie_break_order) ... ok
+test_streak_place_and_total (test_port_postmatch.Postmatch.test_streak_place_and_total) ... ok
+test_strong_falsifiers_change_their_reached_writes (test_port_postmatch.Postmatch.test_strong_falsifiers_change_their_reached_writes) ... ok
+test_table_display_keeps_mode_and_kind (test_port_postmatch.Postmatch.test_table_display_keeps_mode_and_kind) ... ok
+test_automatic_answer_is_replayed (test_port_replay.ReplayTests.test_automatic_answer_is_replayed) ... ok
+test_changed_guest_memory_is_rejected (test_port_replay.ReplayTests.test_changed_guest_memory_is_rejected) ... ok
+test_live_frame_before_and_after_answer_and_repeated_load (test_port_replay.ReplayTests.test_live_frame_before_and_after_answer_and_repeated_load) ... ok
+test_menu_and_proof_still_refused (test_port_replay.ReplayTests.test_menu_and_proof_still_refused) ... ok
+test_plain_older_checkpoints_still_load (test_port_replay.ReplayTests.test_plain_older_checkpoints_still_load) ... ok
+test_the_bookings_count_is_written_by_7a01_once (test_port_restarts.Booking.test_the_bookings_count_is_written_by_7a01_once)
+7A01: the side's bookings DS:7B85 + 10 side + 1, written as 7A01 (the kit's booking event, match.py WRITERS); ... ok
+test_the_tally_stops_at_5 (test_port_restarts.Booking.test_the_tally_stops_at_5)
+7A05: DS:8321 at 5 is not raised; an unmanaged side's player loses his own tactic (1771:33CD). ... ok
+test_far_spot_negative_axes (test_port_restarts.FreeKickWall.test_far_spot_negative_axes)
+The reached twin (7758, 777D): DS:8315 < 0 and DS:8316 < 0 take DS:7920[1] = +1: x = 3 - 5, y = 33. ... ok
+test_far_spot_positive_axes (test_port_restarts.FreeKickWall.test_far_spot_positive_axes)
+7745-77A1 with DS:8315 >= 0 (7754) and DS:8316 >= 0 (7779): x := DS:7920[0] * 3 + x = 2, y := ((|y| - 26) / 2 ... ok
+test_computer_side_asks_1fdd (test_port_restarts.PickDeadBallTaker.test_computer_side_asks_1fdd)
+6D90-6DA1: an unmanaged side's taker: 1FDD(side, DS:0764[role], role), nothing written at 6D8A. ... ok
+test_pick_in_the_eleven (test_port_restarts.PickDeadBallTaker.test_pick_in_the_eleven)
+The reached twin: 6B65 finds the pick at squad index 4: the slot DS:0668[side] + 4 (6DB7-6DC6). ... ok
+test_pick_not_in_the_eleven_goes_to_the_nearest (test_port_restarts.PickDeadBallTaker.test_pick_not_in_the_eleven_goes_to_the_nearest)
+6DB1-6DD7: the managed side's pick (CC7B) is kept at DS:9976 + 10 side + 2 role (6D8A); when 6B65 does not find ... ok
+test_managed_side_at_the_cap (test_port_restarts.SideMayLoseAPlayer.test_managed_side_at_the_cap)
+7A87-7A89: a managed side with sendings off + injuries = 3: 0. ... ok
+test_managed_side_below_the_cap (test_port_restarts.SideMayLoseAPlayer.test_managed_side_below_the_cap)
+The reached twin: 2 lost: 1. ... ok
+test_unmanaged_side_with_11_available (test_port_restarts.SideMayLoseAPlayer.test_unmanaged_side_with_11_available)
+7AE1-7B12: an unmanaged side with only 11 of its 20 squad words available (1771:3216 false): 0, though it has ... ok
+test_unmanaged_side_with_12_available (test_port_restarts.SideMayLoseAPlayer.test_unmanaged_side_with_12_available)
+The reached twin: 12 available and none lost: 1. ... ok
+test_none_of_the_eleven_is_0xc (test_port_restarts.TakerSquadIndex.test_none_of_the_eleven_is_0xc)
+6B8D-6BC2: no squad word 1..11 is the pick: the loop ends at 0xC and returns it. ... ok
+test_the_pick_is_found (test_port_restarts.TakerSquadIndex.test_the_pick_is_found) ... ok
+test_a_key_waiting_is_read_at_7902 (test_port_restarts.WalkPlayerOff.test_a_key_waiting_is_read_at_7902)
+78F9-78FD: with a key waiting at the poll the walk-off reads it (214B:08DD returning to 7902), as the kit's ... ok
+test_already_off_the_pitch (test_port_restarts.WalkPlayerOff.test_already_off_the_pitch)
+78A1-78A7: the record's point is DS:0640 already: nothing written, nothing called. ... ok
+test_no_key_no_read (test_port_restarts.WalkPlayerOff.test_no_key_no_read)
+The reached twin: no key at the poll (the kit's answer for a walk-off): 22 polls, no read; the passes run ... ok
+test_quick_match_no_passes (test_port_restarts.WalkPlayerOff.test_quick_match_no_passes)
+The twin past 78A7 (DS:9A3E set): state 0xC, destination DS:0642, the flags kept and put back, the point ... ok
+test_random_is_one_is_one_on_a_draw_of_one (test_port_runtime.Draw.test_random_is_one_is_one_on_a_draw_of_one) ... ok
+test_random_is_one_steps_the_seed_and_reports_the_draw (test_port_runtime.Draw.test_random_is_one_steps_the_seed_and_reports_the_draw) ... ok
+test_fill_bytes_uses_the_low_byte_twice_and_the_odd_byte (test_port_runtime.FillAndMove.test_fill_bytes_uses_the_low_byte_twice_and_the_odd_byte) ... ok
+test_fill_bytes_zero_count_writes_nothing (test_port_runtime.FillAndMove.test_fill_bytes_zero_count_writes_nothing) ... ok
+test_fill_words_wraps_in_the_segment_and_leaves_ax_and_cx (test_port_runtime.FillAndMove.test_fill_words_wraps_in_the_segment_and_leaves_ax_and_cx) ... ok
+test_move_bytes_even_count_and_a_zero_count (test_port_runtime.FillAndMove.test_move_bytes_even_count_and_a_zero_count) ... ok
+test_move_bytes_overlapping_downwards_goes_forwards_and_clears_df (test_port_runtime.FillAndMove.test_move_bytes_overlapping_downwards_goes_forwards_and_clears_df) ... ok
+test_move_bytes_overlapping_upwards_goes_backwards_and_leaves_df_set (test_port_runtime.FillAndMove.test_move_bytes_overlapping_upwards_goes_backwards_and_leaves_df_set) ... ok
+test_swap_bytes_exchanges_and_the_ax_low_byte_is_the_last_byte_taken (test_port_runtime.FillAndMove.test_swap_bytes_exchanges_and_the_ax_low_byte_is_the_last_byte_taken) ... ok
+test_swap_bytes_with_a_count_of_zero_swaps_65536_bytes (test_port_runtime.FillAndMove.test_swap_bytes_with_a_count_of_zero_swaps_65536_bytes) ... ok
+test_upcase_string_keeps_the_length_and_clips_the_characters_at_0x50 (test_port_runtime.FillAndMove.test_upcase_string_keeps_the_length_and_clips_the_characters_at_0x50) ... ok
+test_every_port_equals_the_original (test_port_runtime.FuzzAgainstOriginal.test_every_port_equals_the_original) ... ok
+test_divide_full_width_remainders (test_port_runtime.LongArithmetic.test_divide_full_width_remainders) ... ok
+test_long_divide_signs_truncate_towards_zero (test_port_runtime.LongArithmetic.test_long_divide_signs_truncate_towards_zero) ... ok
+test_long_multiply_low_32_bits_and_the_cross_terms (test_port_runtime.LongArithmetic.test_long_multiply_low_32_bits_and_the_cross_terms) ... ok
+test_zero_divisor_is_refused_where_the_original_ends_with_runtime_error_200 (test_port_runtime.LongArithmetic.test_zero_divisor_is_refused_where_the_original_ends_with_runtime_error_200) ... ok
+test_min_and_max_signed_high_words_then_unsigned_low_words (test_port_runtime.Longs.test_min_and_max_signed_high_words_then_unsigned_low_words) ... ok
+test_fuzz_runner_distinguishes_real_differences_from_launch_failures (test_port_runtime.MutationEvidence.test_fuzz_runner_distinguishes_real_differences_from_launch_failures) ... ok
+test_long_to_digits_near_with_registers (test_port_runtime.NumberToString.test_long_to_digits_near_with_registers) ... ok
+test_number_to_string_signed_32_bits (test_port_runtime.NumberToString.test_number_to_string_signed_32_bits) ... ok
+test_str_of_long_pads_to_width_and_clips_to_max (test_port_runtime.NumberToString.test_str_of_long_pads_to_width_and_clips_to_max) ... ok
+test_every_address_of_the_row_has_its_port (test_port_runtime.Registry.test_every_address_of_the_row_has_its_port) ... ok
+test_returns_are_the_listings (test_port_runtime.Registry.test_returns_are_the_listings) ... ok
+test_unpack_screen_attribute_prefix_run_and_row_step (test_port_runtime.Screens.test_unpack_screen_attribute_prefix_run_and_row_step) ... ok
+test_unpack_screen_first_cell_is_one_based (test_port_runtime.Screens.test_unpack_screen_first_cell_is_one_based) ... ok
+test_unpack_via_a_pointer_variable_and_the_row_record (test_port_runtime.Screens.test_unpack_via_a_pointer_variable_and_the_row_record) ... ok
+test_include_exclude_toggle_assign (test_port_runtime.SetBits.test_include_exclude_toggle_assign) ... ok
+test_include_with_a_far_element_changes_nothing_but_the_write (test_port_runtime.SetBits.test_include_with_a_far_element_changes_nothing_but_the_write) ... ok
+test_set_assign_includes_for_a_nonzero_byte_and_excludes_for_zero (test_port_runtime.SetBits.test_set_assign_includes_for_a_nonzero_byte_and_excludes_for_zero) ... ok
+test_test_bit_is_bit_k_minus_one_and_far_shifts_give_zero (test_port_runtime.SetBits.test_test_bit_is_bit_k_minus_one_and_far_shifts_give_zero) ... ok
+test_long_multiply_and_divide_push_what_the_listing_pushes (test_port_runtime.StackResidue.test_long_multiply_and_divide_push_what_the_listing_pushes) ... ok
+test_str_pad_pushes_cx_and_the_dst_is_not_the_stack (test_port_runtime.StackResidue.test_str_pad_pushes_cx_and_the_dst_is_not_the_stack) ... ok
+test_the_draw_wrapper_frames_down_to_the_seed_pointer (test_port_runtime.StackResidue.test_the_draw_wrapper_frames_down_to_the_seed_pointer) ... ok
+test_the_saved_bp_and_a_byte_local (test_port_runtime.StackResidue.test_the_saved_bp_and_a_byte_local) ... ok
+test_unpack_screen_pushes_ds_bp_and_cx_for_a_run (test_port_runtime.StackResidue.test_unpack_screen_pushes_ds_bp_and_cx_for_a_run) ... ok
+test_upcase_string_copies_the_clipped_source_into_its_local (test_port_runtime.StackResidue.test_upcase_string_copies_the_clipped_source_into_its_local) ... ok
+test_wrap_add_pushes_the_bound_it_wraps_on (test_port_runtime.StackResidue.test_wrap_add_pushes_the_bound_it_wraps_on) ... ok
+test_char_to_string (test_port_runtime.Strings.test_char_to_string) ... ok
+test_compare_byte_sign_and_overflow_for_characters_and_lengths (test_port_runtime.Strings.test_compare_byte_sign_and_overflow_for_characters_and_lengths) ... ok
+test_compare_sets_the_flags_of_the_first_against_the_second (test_port_runtime.Strings.test_compare_sets_the_flags_of_the_first_against_the_second) ... ok
+test_concat_appends_and_saturates_at_255 (test_port_runtime.Strings.test_concat_appends_and_saturates_at_255) ... ok
+test_copy_index_count_edges (test_port_runtime.Strings.test_copy_index_count_edges) ... ok
+test_insert_and_delete (test_port_runtime.Strings.test_insert_and_delete) ... ok
+test_insert_and_delete_with_nonpositive_index (test_port_runtime.Strings.test_insert_and_delete_with_nonpositive_index) ... ok
+test_insert_saturation_and_length_byte_preserve_the_following_byte (test_port_runtime.Strings.test_insert_saturation_and_length_byte_preserve_the_following_byte) ... ok
+test_move_and_str_store (test_port_runtime.Strings.test_move_and_str_store) ... ok
+test_pos (test_port_runtime.Strings.test_pos) ... ok
+test_set_compact_copies_bl_bytes_from_byte_bh (test_port_runtime.Strings.test_set_compact_copies_bl_bytes_from_byte_bh) ... ok
+test_str_store_max_clips_the_length_to_the_low_byte_of_max (test_port_runtime.Strings.test_str_store_max_clips_the_length_to_the_low_byte_of_max) ... ok
+test_upcase (test_port_runtime.Strings.test_upcase) ... ok
+test_byte_version_writes_the_low_byte_of_the_word_result (test_port_runtime.WrapAndClamp.test_byte_version_writes_the_low_byte_of_the_word_result) ... ok
+test_clamp_byte_signed_and_ah_untouched (test_port_runtime.WrapAndClamp.test_clamp_byte_signed_and_ah_untouched) ... ok
+test_clamp_int_signed_both_sides (test_port_runtime.WrapAndClamp.test_clamp_int_signed_both_sides) ... ok
+test_delta_zero_and_negative_take_the_lower_bound_branch (test_port_runtime.WrapAndClamp.test_delta_zero_and_negative_take_the_lower_bound_branch) ... ok
+test_positive_delta_inside_at_the_bound_and_past_it (test_port_runtime.WrapAndClamp.test_positive_delta_inside_at_the_bound_and_past_it) ... ok
+test_sum_past_sixteen_bits_wraps_and_leaves_the_high_word_in_dx (test_port_runtime.WrapAndClamp.test_sum_past_sixteen_bits_wraps_and_leaves_the_high_word_in_dx) ... ok
+test_the_commentary_counter_is_written_by_the_instructions_match_py_names (test_port_runtime.WrapAndClamp.test_the_commentary_counter_is_written_by_the_instructions_match_py_names) ... ok
+test_friendly_takes_066b (test_port_setup.Budget.test_friendly_takes_066b)
+A547-A554, A5F5-A605: a fixture of kind 1 (a friendly): DS:9A3D := 0, so each side's budget DS:9B3A + side ... ok
+test_other_kinds_take_066c (test_port_setup.Budget.test_other_kinds_take_066c)
+A552: every other kind (2 a qualifier, 3, 8, 0xC8 a final...): DS:9A3D := 1, the budget DS:066C (2). ... ok
+test_the_setup_calls_in_order (test_port_setup.Budget.test_the_setup_calls_in_order)
+A4A1's calls, in the listing's order, with their return addresses: the computer sides, the kit colours, the ... ok
+test_in_the_set_the_continent (test_port_setup.Host.test_in_the_set_the_continent)
+A71C-A741: 5A03 true and [A923]+0x40 clear: the host of the second country's continent (+0x2C). ... ok
+test_in_the_set_with_0x40_slot_5 (test_port_setup.Host.test_in_the_set_with_0x40_slot_5)
+A70B-A715, A737-A741: 5A03 true and [A923]+0x40 set: the host word [A923] + 0x2C + 2 * 5. ... ok
+test_not_in_the_set_the_second_country (test_port_setup.Host.test_not_in_the_set_the_second_country)
+A74A: 1771:5A03 false for the fixture: the second country (+6). ... ok
+test_second_team_is_host (test_port_setup.Host.test_second_team_is_host)
+D44C-D472: 1 when A6E4's answer is the fixture's +6, else 0 (D46C). ... ok
+test_every_kind (test_port_setup.KindTitle.test_every_kind)
+5811-59AD: each kind's string of segment 1771 (the listing's `mov di, n` of its block) is stored with ... ok
+test_fixed_colours (test_port_setup.KitColours.test_fixed_colours)
+107D-108C: with DS:A964 set the colours are 4, 1, 0xC, 9 whatever the countries' kits. ... ok
+test_no_clash (test_port_setup.KitColours.test_no_clash)
+The reached twin (1115 jne 1128): no colour equal: the kits as they are. ... ok
+test_team_0_clashes (test_port_setup.KitColours.test_team_0_clashes)
+The reached 10E1 and 10FD: team 0's shirt, else its second colour, equal to team 1's shirt: its third byte. ... ok
+test_team_1_clash (test_port_setup.KitColours.test_team_1_clash)
+110E-1125: team 1's second colour equal to team 0's shirt: 8331 := team 1's third byte. ... ok
+test_neither_managed (test_port_setup.Managed.test_neither_managed)
+A64C-A65D: neither country managed (1771:0B77 of DS:9B36, then of DS:9B34, both 0): DS:80FD := 0. ... ok
+test_one_managed (test_port_setup.Managed.test_one_managed)
+The reached twins: the second country managed (A64E jne A661, one test) or the first (A65B): DS:80FD := 1. ... ok
+test_bench_player_replaces_an_unplaced_keeper (test_port_setup.Replacements.test_bench_player_replaces_an_unplaced_keeper)
+B07D jne B08B, then B0A3-B0C8: b's +7 is not the starter's +6, the starter (a non-keeper in slot 1) is ... ok
+test_out_of_place_starter_gives_way_to_the_role (test_port_setup.Replacements.test_out_of_place_starter_gives_way_to_the_role)
+B020-B07F: the bench player b = 13 (AAE8) is not stronger (1771:377E 40 against the starter's 50), but the ... ok
+test_stronger_bench_player (test_port_setup.Replacements.test_stronger_bench_player)
+The reached twin (B01E ja B07F): a stronger bench player comes in at once. ... ok
+test_unavailable_starter_replaced (test_port_setup.Replacements.test_unavailable_starter_replaced)
+B093 jne B0BE: an unavailable starter (1771:3216) in slot 2 with a bench player: AD8F(2) at B0C8. ... ok
+test_a_keeper_in_goal_stays (test_port_setup.ShortOfAKeeper.test_a_keeper_in_goal_stays)
+The twin (B0B7 je B110): slot 1 held by a keeper (+7 = 0): no A9B8, no swap. ... ok
+test_no_bench_keeper_takes_a9b8s_choice (test_port_setup.ShortOfAKeeper.test_no_bench_keeper_takes_a9b8s_choice)
+B0A3-B0BE, B0D3-B10D: slot 1 held by a non-keeper (+7 = 3), no bench player for him (AAE8 0) and none ... ok
+test_no_keeper_anywhere_nothing (test_port_setup.ShortOfAKeeper.test_no_keeper_anywhere_nothing)
+B100: A9B8 finds none (0): nothing is swapped in. ... ok
+test_computer_side_not_asked (test_port_setup.SortManaged.test_computer_side_not_asked)
+The reached twin (5359 je 537D): a computer country: no 3216, no 0xE. ... ok
+test_managed_unavailable_sort_last (test_port_setup.SortManaged.test_managed_unavailable_sort_last)
+5359-5378: for a managed country (1771:0B77 nonzero) each player is asked (1771:3216); an unavailable one's ... ok
+test_absolute_margin_signed_bytes_and_both_signs (test_port_update.Update.test_absolute_margin_signed_bytes_and_both_signs) ... ok
+test_confidence_signed_clips_and_word_wrap (test_port_update.Update.test_confidence_signed_clips_and_word_wrap) ... ok
+test_country_rating_matches_model_wrapping_and_signed_division (test_port_update.Update.test_country_rating_matches_model_wrapping_and_signed_division) ... ok
+test_diagnostic_stores_change_the_records (test_port_update.Update.test_diagnostic_stores_change_the_records) ... ok
+test_every_fixture_kind_injury_recovery_route (test_port_update.Update.test_every_fixture_kind_injury_recovery_route) ... ok
+test_fixture_update_managed_short_circuit_and_bench_roles (test_port_update.Update.test_fixture_update_managed_short_circuit_and_bench_roles) ... ok
+test_friendly_cross_continent_is_asymmetric (test_port_update.Update.test_friendly_cross_continent_is_asymmetric) ... ok
+test_gradual_route_short_circuit_and_kind (test_port_update.Update.test_gradual_route_short_circuit_and_kind) ... ok
+test_manager_signed_clips_and_word_wrap (test_port_update.Update.test_manager_signed_clips_and_word_wrap) ... ok
+test_pool_eighty_entries_status_kind_and_wrapped_bound (test_port_update.Update.test_pool_eighty_entries_status_kind_and_wrapped_bound) ... ok
+test_recovery_lower_floor_bypasses_zero_upper_cap (test_port_update.Update.test_recovery_lower_floor_bypasses_zero_upper_cap) ... ok
+test_recovery_model_draw_order_injury_flag_rest_and_cap (test_port_update.Update.test_recovery_model_draw_order_injury_flag_rest_and_cap) ... ok
+test_registry_contract (test_port_update.Update.test_registry_contract) ... ok
+test_result_delta_draw_win_loss_doubling_and_signed_rank (test_port_update.Update.test_result_delta_draw_win_loss_doubling_and_signed_rank) ... ok
+test_roll_fitness_managed_order_age_threshold_and_clamps (test_port_update.Update.test_roll_fitness_managed_order_age_threshold_and_clamps) ... ok
+test_status_ban_served_red_and_two_bookings (test_port_update.Update.test_status_ban_served_red_and_two_bookings) ... ok
+test_asset_already_present_with_another_sha256_stops_and_writes_no_manifest (test_publish_evidence.PublishEvidenceTest.test_asset_already_present_with_another_sha256_stops_and_writes_no_manifest) ... ok
+test_asset_already_present_with_the_same_sha256_is_not_uploaded_again (test_publish_evidence.PublishEvidenceTest.test_asset_already_present_with_the_same_sha256_is_not_uploaded_again) ... ok
+test_asset_read_back_after_upload_with_another_sha256_stops_and_writes_no_manifest (test_publish_evidence.PublishEvidenceTest.test_asset_read_back_after_upload_with_another_sha256_stops_and_writes_no_manifest) ... ok
+test_download_failing_after_upload_stops_and_writes_no_manifest (test_publish_evidence.PublishEvidenceTest.test_download_failing_after_upload_stops_and_writes_no_manifest) ... ok
+test_existing_manifest_with_other_content_is_never_overwritten (test_publish_evidence.PublishEvidenceTest.test_existing_manifest_with_other_content_is_never_overwritten) ... ok
+test_missing_file_and_missing_run_record_stop_with_an_error (test_publish_evidence.PublishEvidenceTest.test_missing_file_and_missing_run_record_stop_with_an_error) ... ok
+test_publish_creates_the_release_uploads_and_writes_the_manifest_last (test_publish_evidence.PublishEvidenceTest.test_publish_creates_the_release_uploads_and_writes_the_manifest_last) ... ok
+test_rerunning_the_same_command_changes_nothing (test_publish_evidence.PublishEvidenceTest.test_rerunning_the_same_command_changes_nothing) ... ok
+test_check_rehashes_a_copy_against_a_known_json_entry (test_register_artifact.RegisterArtifactTest.test_check_rehashes_a_copy_against_a_known_json_entry) ... ok
+test_manifest_registers_a_directory_and_runtime_writes_leave_files (test_register_artifact.RegisterArtifactTest.test_manifest_registers_a_directory_and_runtime_writes_leave_files) ... ok
+test_manifest_the_schema_rejects_exits_1 (test_register_artifact.RegisterArtifactTest.test_manifest_the_schema_rejects_exits_1) ... ok
+test_no_subcommand_is_a_usage_error (test_register_artifact.RegisterArtifactTest.test_no_subcommand_is_a_usage_error) ... ok
+test_special_file_in_the_directory_fails_manifest (test_register_artifact.RegisterArtifactTest.test_special_file_in_the_directory_fails_manifest) ... ok
+test_symbolic_link_out_of_the_directory_fails_manifest (test_register_artifact.RegisterArtifactTest.test_symbolic_link_out_of_the_directory_fails_manifest) ... ok
+test_a_run_row_is_a_burst_not_a_per_key_cause (test_screens.Catalogue.test_a_run_row_is_a_burst_not_a_per_key_cause) ... ok
+test_every_kind_has_at_least_one_row (test_screens.Catalogue.test_every_kind_has_at_least_one_row) ... ok
+test_every_row_has_a_source_and_its_kinds_rule (test_screens.Catalogue.test_every_row_has_a_source_and_its_kinds_rule) ... ok
+test_hint_rows_are_confirmed_on_a_screen_not_invented (test_screens.Catalogue.test_hint_rows_are_confirmed_on_a_screen_not_invented) ... ok
+test_rebuild_is_byte_identical_to_the_committed_file (test_screens.Catalogue.test_rebuild_is_byte_identical_to_the_committed_file) ... ok
+test_run_rows_before_and_after_kinds_are_what_identify_gives (test_screens.Catalogue.test_run_rows_before_and_after_kinds_are_what_identify_gives) ... ok
+test_screen_rows_quote_text_that_occurs_in_their_state (test_screens.Catalogue.test_screen_rows_quote_text_that_occurs_in_their_state) ... ok
+test_scripted_acceptance_sittings_are_not_counted (test_screens.Catalogue.test_scripted_acceptance_sittings_are_not_counted) ... ok
+test_a_kind_does_not_follow_the_digest_or_the_names (test_screens.Identify.test_a_kind_does_not_follow_the_digest_or_the_names) ... ok
+test_every_state_of_r0003_and_r0007_is_named_or_unknown (test_screens.Identify.test_every_state_of_r0003_and_r0007_is_named_or_unknown) ... ok
+test_no_screen_of_any_record_satisfies_two_rules (test_screens.Identify.test_no_screen_of_any_record_satisfies_two_rules) ... ok
+test_rule_syntax_is_checked (test_screens.Identify.test_rule_syntax_is_checked) ... ok
+test_three_pairs_of_different_screens_get_different_kinds_and_one_rule_each (test_screens.Identify.test_three_pairs_of_different_screens_get_different_kinds_and_one_rule_each) ... ok
+test_two_rules_on_one_screen_raise (test_screens.Identify.test_two_rules_on_one_screen_raise) ... ok
+test_state_16 (test_screens_render.CommittedPngs.test_state_16) ... ok
+test_state_76 (test_screens_render.CommittedPngs.test_state_76) ... ok
+test_finds_hash_prefixed_file (test_screens_render.ResolveStateFromCache.test_finds_hash_prefixed_file) ... ok
+test_refuses_wrong_bytes (test_screens_render.ResolveStateFromCache.test_refuses_wrong_bytes) ... ok
+test_fallback_font_is_pinned (test_screens_render.SyntheticRender.test_fallback_font_is_pinned) ... ok
+test_font_missing_uses_the_pinned_fallback_and_says_so (test_screens_render.SyntheticRender.test_font_missing_uses_the_pinned_fallback_and_says_so) ... ok
+test_glyph_rows_come_from_the_savestates_font (test_screens_render.SyntheticRender.test_glyph_rows_come_from_the_savestates_font) ... ok
+test_main_writes_the_png_of_a_savestate_file (test_screens_render.SyntheticRender.test_main_writes_the_png_of_a_savestate_file) ... ok
+test_size_is_80x25_cells_of_8x16 (test_screens_render.SyntheticRender.test_size_is_80x25_cells_of_8x16) ... ok
+test_three_named_cells_have_their_attribute_colours (test_screens_render.SyntheticRender.test_three_named_cells_have_their_attribute_colours) ... ok
+test_a_black_frame_has_no_grid_and_decodes_to_blank (test_screens_video.DecodeCropTests.test_a_black_frame_has_no_grid_and_decodes_to_blank) ... ok
+test_a_cell_whose_ink_is_the_majority_colour_keeps_fg_and_bg (test_screens_video.DecodeCropTests.test_a_cell_whose_ink_is_the_majority_colour_keeps_fg_and_bg) ... ok
+test_a_wrong_grid_offset_is_not_read_as_exact (test_screens_video.DecodeCropTests.test_a_wrong_grid_offset_is_not_read_as_exact) ... ok
+test_find_grid_locates_the_offset (test_screens_video.DecodeCropTests.test_find_grid_locates_the_offset) ... ok
+test_find_grid_sees_ink_in_the_blue_channel_alone (test_screens_video.DecodeCropTests.test_find_grid_sees_ink_in_the_blue_channel_alone) ... ok
+test_text_and_foreground_are_read_exactly (test_screens_video.DecodeCropTests.test_text_and_foreground_are_read_exactly) ... ok
+test_canonical_set_hash_is_exposed (test_validate_runs.ValidateRunsTest.test_canonical_set_hash_is_exposed) ... ok
+test_directory_validates_each_json_document (test_validate_runs.ValidateRunsTest.test_directory_validates_each_json_document) ... ok
+test_duplicate_json_key_is_invalid (test_validate_runs.ValidateRunsTest.test_duplicate_json_key_is_invalid) ... ok
+test_help_prints_usage_and_runs_directory_behaves_as_before (test_validate_runs.ValidateRunsTest.test_help_prints_usage_and_runs_directory_behaves_as_before) ... ok
+test_invalid_example_exits_1 (test_validate_runs.ValidateRunsTest.test_invalid_example_exits_1) ... ok
+test_missing_path_invalid_json_and_unknown_schema_exit_1 (test_validate_runs.ValidateRunsTest.test_missing_path_invalid_json_and_unknown_schema_exit_1) ... ok
+test_semantic_rule_is_applied (test_validate_runs.ValidateRunsTest.test_semantic_rule_is_applied) ... gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1: network failure, retrying once: Get "https://api.github.com/repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1": net/http: TLS handshake timeout
+ok
+test_valid_evidence_manifest_exits_0 (test_validate_runs.ValidateRunsTest.test_valid_evidence_manifest_exits_0) ... ok
+test_valid_example_exits_0 (test_validate_runs.ValidateRunsTest.test_valid_example_exits_0) ... ok
+
+----------------------------------------------------------------------
+Ran 2008 tests in 863.197s
+
+OK (skipped=13)

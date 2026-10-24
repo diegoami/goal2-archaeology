@@ -97,7 +97,7 @@ assert static['runtime_changed'] is False
 assert all(digest(ROOT/p)==value for p,value in static['sha256'].items())
 assert (OUT/'static-after-regeneration-3.exit').read_text().strip()=='0'
 assert 'Ran 47 tests' in (OUT/'static-after-regeneration-3.log').read_text()
-report={'dispatch_head':dispatch,'comparisons':reports,'entry_call_checks':len(counter_rows),
+report={'audit_script_sha256':digest(Path(__file__)),'dispatch_head':dispatch,'comparisons':reports,'entry_call_checks':len(counter_rows),
         'menu_entries':27,'port_modules':17,'mask':[],'falsifiers':proof,'controls_caught':42,
         'unit_methods':42,'unvisited_blocks_mapped':209,'references':{str(p.relative_to(ROOT)):digest(p) for p in (rawref,displayref,oldraw,olddisplay)},
         'sources_match':True,'static_receipt_sha256':digest(OUT/'citation-endpoints-final-main-2.json'),'known_limit':'https://github.com/diegoami/goal2-archaeology/issues/394'}
