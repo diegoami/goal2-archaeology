@@ -1,0 +1,13 @@
+.............F............................
+======================================================================
+FAIL: test_marking_cycle_default_opponent_wrap_and_skip_unavailable (tests.test_port_menus.Menus.test_marking_cycle_default_opponent_wrap_and_skip_unavailable) (status=64, oldmark=202)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-8751it4w/tests/test_port_menus.py", line 315, in test_marking_cycle_default_opponent_wrap_and_skip_unavailable
+    self.assertEqual(r.mem.ds16(0x9A44),wantmark)
+AssertionError: 203 != 204
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.733s
+
+FAILED (failures=1)

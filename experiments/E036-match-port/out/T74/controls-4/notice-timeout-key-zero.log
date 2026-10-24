@@ -1,0 +1,13 @@
+.....................................F....
+======================================================================
+FAIL: test_timed_notice_keeper_template_and_key_or_escape (tests.test_port_menus.Menus.test_timed_notice_keeper_template_and_key_or_escape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-oiqn4sqn/tests/test_port_menus.py", line 404, in test_timed_notice_keeper_template_and_key_or_escape
+    self.assertEqual(r.mem.ds8(0xA977),13 if waiting else 27)
+AssertionError: 0 != 27
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.712s
+
+FAILED (failures=1)

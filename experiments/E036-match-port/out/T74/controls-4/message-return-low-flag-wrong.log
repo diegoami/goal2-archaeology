@@ -1,0 +1,13 @@
+................F.........................
+======================================================================
+FAIL: test_message_if_flag_returns_low_byte_and_only_shows_when_set (tests.test_port_menus.Menus.test_message_if_flag_returns_low_byte_and_only_shows_when_set)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-6k_ubhdl/tests/test_port_menus.py", line 193, in test_message_if_flag_returns_low_byte_and_only_shows_when_set
+    self.assertEqual(r.mem.reg('ax')&255,value)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.766s
+
+FAILED (failures=1)

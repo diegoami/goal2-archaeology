@@ -1,0 +1,4498 @@
+{
+  "original_coverage_sha256": "0577feef76a06937b5b831a8ee3d3b468801921092a398bc7eb2d5514a661d5b",
+  "tests_sha256": "1cadd2520451f176c3c0ef052802a0f58c1b2531d556d155040fe3201e268ff7",
+  "unreached_blocks": 209,
+  "rows": [
+    {
+      "address": "0791:7FEE",
+      "routine": "0791:7FCF",
+      "listing": "static/goal-exe/code/seg_0791_13.asm",
+      "line": 857,
+      "instructions": 17,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_timed_notice_keeper_template_and_key_or_escape"
+      ],
+      "reached_counterpart": "0791:7FCF",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:931B",
+      "routine": "0791:92FC",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 690,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_quick_result_guards_and_deferred_notice",
+        "test_quick_result_commits_flags_and_calls_board_with_zero_low_byte"
+      ],
+      "reached_counterpart": "0791:92FC",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:93E0",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 772,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_poll_dispatches_board_menu_sound_help_and_pitch",
+        "test_poll_speed_arrows_clamp_at_zero_and_five"
+      ],
+      "reached_counterpart": "0791:9372",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:9422",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 800,
+      "instructions": 9,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_poll_dispatches_board_menu_sound_help_and_pitch",
+        "test_poll_speed_arrows_clamp_at_zero_and_five"
+      ],
+      "reached_counterpart": "0791:9372",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:9434",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 809,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_poll_dispatches_board_menu_sound_help_and_pitch",
+        "test_poll_speed_arrows_clamp_at_zero_and_five"
+      ],
+      "reached_counterpart": "0791:9372",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:9438",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 812,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_poll_dispatches_board_menu_sound_help_and_pitch",
+        "test_poll_speed_arrows_clamp_at_zero_and_five"
+      ],
+      "reached_counterpart": "0791:9372",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:943A",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 814,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_poll_dispatches_board_menu_sound_help_and_pitch",
+        "test_poll_speed_arrows_clamp_at_zero_and_five"
+      ],
+      "reached_counterpart": "0791:9372",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:9461",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 835,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_poll_dispatches_board_menu_sound_help_and_pitch",
+        "test_poll_speed_arrows_clamp_at_zero_and_five"
+      ],
+      "reached_counterpart": "0791:9372",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:9468",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 837,
+      "instructions": 19,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_poll_dispatches_board_menu_sound_help_and_pitch",
+        "test_poll_speed_arrows_clamp_at_zero_and_five"
+      ],
+      "reached_counterpart": "0791:9372",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:9497",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 857,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_poll_dispatches_board_menu_sound_help_and_pitch",
+        "test_poll_speed_arrows_clamp_at_zero_and_five"
+      ],
+      "reached_counterpart": "0791:9372",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:949D",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 861,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_poll_dispatches_board_menu_sound_help_and_pitch",
+        "test_poll_speed_arrows_clamp_at_zero_and_five"
+      ],
+      "reached_counterpart": "0791:9372",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EEA6",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 689,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EEB1",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 695,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EEBD",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 701,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EED9",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 712,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EEF9",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 726,
+      "instructions": 7,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EF09",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 733,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EF0F",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 735,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EF13",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 738,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EF15",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 740,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EF27",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 749,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EF2E",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 751,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EF32",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 754,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EF34",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 756,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EF40",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 762,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EF46",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 766,
+      "instructions": 6,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EF5A",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 772,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EF5E",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 775,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EF60",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 777,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:EF6D",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 783,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:F025",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 861,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:F038",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 872,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:F04A",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 880,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:F054",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 886,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "0791:F06B",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 898,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_menu_tactics_refresh_changed_and_unchanged",
+        "test_team_menu_submenu_routes_board_tables_and_space",
+        "test_team_menu_home_end_horizontal_and_display_toggle",
+        "test_team_menu_escape_before_used_and_invalid_eleven_retry"
+      ],
+      "reached_counterpart": "0791:ED8A",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:19B3",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 536,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_tactics_view_only_for_computer_or_locked_game",
+        "test_team_tactics_toggles_selected_element_and_refreshes_marking"
+      ],
+      "reached_counterpart": "1771:1981",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:19D3",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 553,
+      "instructions": 7,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_tactics_view_only_for_computer_or_locked_game",
+        "test_team_tactics_toggles_selected_element_and_refreshes_marking"
+      ],
+      "reached_counterpart": "1771:1981",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:1A2A",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 592,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_tactics_view_only_for_computer_or_locked_game",
+        "test_team_tactics_toggles_selected_element_and_refreshes_marking"
+      ],
+      "reached_counterpart": "1771:1981",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:1A64",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 614,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_team_tactics_view_only_for_computer_or_locked_game",
+        "test_team_tactics_toggles_selected_element_and_refreshes_marking"
+      ],
+      "reached_counterpart": "1771:1981",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4859",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 8,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_name_editor_unchanged_changed_and_empty_surname_paths"
+      ],
+      "reached_counterpart": "214B:1765",
+      "counterpart_reason": "Pascal string copy/comparison services shared with the reached message path",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4866",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 13,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_name_editor_unchanged_changed_and_empty_surname_paths"
+      ],
+      "reached_counterpart": "214B:1765",
+      "counterpart_reason": "Pascal string copy/comparison services shared with the reached message path",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4869",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 15,
+      "instructions": 36,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_name_editor_unchanged_changed_and_empty_surname_paths"
+      ],
+      "reached_counterpart": "214B:1765",
+      "counterpart_reason": "Pascal string copy/comparison services shared with the reached message path",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:48B9",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 51,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_name_editor_unchanged_changed_and_empty_surname_paths"
+      ],
+      "reached_counterpart": "214B:1765",
+      "counterpart_reason": "Pascal string copy/comparison services shared with the reached message path",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:48BB",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 53,
+      "instructions": 12,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_name_editor_unchanged_changed_and_empty_surname_paths"
+      ],
+      "reached_counterpart": "214B:1765",
+      "counterpart_reason": "Pascal string copy/comparison services shared with the reached message path",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:48D9",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 65,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_name_editor_unchanged_changed_and_empty_surname_paths"
+      ],
+      "reached_counterpart": "214B:1765",
+      "counterpart_reason": "Pascal string copy/comparison services shared with the reached message path",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:48DD",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 68,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_name_editor_unchanged_changed_and_empty_surname_paths"
+      ],
+      "reached_counterpart": "214B:1765",
+      "counterpart_reason": "Pascal string copy/comparison services shared with the reached message path",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:48DF",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 70,
+      "instructions": 6,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_name_editor_unchanged_changed_and_empty_surname_paths"
+      ],
+      "reached_counterpart": "214B:1765",
+      "counterpart_reason": "Pascal string copy/comparison services shared with the reached message path",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:48EE",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 76,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_name_editor_unchanged_changed_and_empty_surname_paths"
+      ],
+      "reached_counterpart": "214B:1765",
+      "counterpart_reason": "Pascal string copy/comparison services shared with the reached message path",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:48F0",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 78,
+      "instructions": 18,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_name_editor_unchanged_changed_and_empty_surname_paths"
+      ],
+      "reached_counterpart": "214B:1765",
+      "counterpart_reason": "Pascal string copy/comparison services shared with the reached message path",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:491F",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 97,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_name_editor_unchanged_changed_and_empty_surname_paths"
+      ],
+      "reached_counterpart": "214B:1765",
+      "counterpart_reason": "Pascal string copy/comparison services shared with the reached message path",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4925",
+      "routine": "1771:4925",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 103,
+      "instructions": 17,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_position_next_wraps13_to0_and_clears_key"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "byte position cycling vs the reached word cursor cycling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4952",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 123,
+      "instructions": 12,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_position_club_reset_and_zero_player",
+        "test_position_rotation_and_no_refresh_flags"
+      ],
+      "reached_counterpart": "1771:1981",
+      "counterpart_reason": "player-position change vs reached team-tactic change/refresh",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4972",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 135,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_position_club_reset_and_zero_player",
+        "test_position_rotation_and_no_refresh_flags"
+      ],
+      "reached_counterpart": "1771:1981",
+      "counterpart_reason": "player-position change vs reached team-tactic change/refresh",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:497F",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 140,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_position_club_reset_and_zero_player",
+        "test_position_rotation_and_no_refresh_flags"
+      ],
+      "reached_counterpart": "1771:1981",
+      "counterpart_reason": "player-position change vs reached team-tactic change/refresh",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:498F",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 146,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_position_club_reset_and_zero_player",
+        "test_position_rotation_and_no_refresh_flags"
+      ],
+      "reached_counterpart": "1771:1981",
+      "counterpart_reason": "player-position change vs reached team-tactic change/refresh",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:499B",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 152,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_position_club_reset_and_zero_player",
+        "test_position_rotation_and_no_refresh_flags"
+      ],
+      "reached_counterpart": "1771:1981",
+      "counterpart_reason": "player-position change vs reached team-tactic change/refresh",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:49A2",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 154,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_position_club_reset_and_zero_player",
+        "test_position_rotation_and_no_refresh_flags"
+      ],
+      "reached_counterpart": "1771:1981",
+      "counterpart_reason": "player-position change vs reached team-tactic change/refresh",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:49A7",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 156,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_position_club_reset_and_zero_player",
+        "test_position_rotation_and_no_refresh_flags"
+      ],
+      "reached_counterpart": "1771:1981",
+      "counterpart_reason": "player-position change vs reached team-tactic change/refresh",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:49AE",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 158,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_position_club_reset_and_zero_player",
+        "test_position_rotation_and_no_refresh_flags"
+      ],
+      "reached_counterpart": "1771:1981",
+      "counterpart_reason": "player-position change vs reached team-tactic change/refresh",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:49B2",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 161,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_position_club_reset_and_zero_player",
+        "test_position_rotation_and_no_refresh_flags"
+      ],
+      "reached_counterpart": "1771:1981",
+      "counterpart_reason": "player-position change vs reached team-tactic change/refresh",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:49B8",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 167,
+      "instructions": 16,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:49E4",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 183,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:49EA",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 186,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:49EE",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 188,
+      "instructions": 11,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4A0B",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 199,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4A0F",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 202,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4A11",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 204,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4A27",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 212,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4A3C",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 221,
+      "instructions": 9,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4A53",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 230,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4A58",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 232,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4A61",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 235,
+      "instructions": 22,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4A98",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 258,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4A9A",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 260,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4A9F",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 263,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4AA8",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 266,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4AAD",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 269,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4AB3",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 271,
+      "instructions": 14,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4AD6",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 286,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4ADC",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 288,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4AF0",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 297,
+      "instructions": 7,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4B02",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 305,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4B08",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 307,
+      "instructions": 21,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4B3D",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 329,
+      "instructions": 11,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4B57",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 341,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_marking_cycle_default_opponent_wrap_and_skip_unavailable",
+        "test_marking_goalkeeper_clears_flag_without_touching_word",
+        "test_marking_second_side_uses_first_country_and_second_mark_array"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player marking/status bits vs reached team tactic-bit update",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4B61",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 349,
+      "instructions": 12,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4B81",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 361,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4B84",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 363,
+      "instructions": 9,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4B9A",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 372,
+      "instructions": 7,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4BAF",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 379,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4BB5",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 381,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4BC0",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 387,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4BC4",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 390,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4BC6",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 392,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4BD0",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 395,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4BD6",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 397,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4BDC",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 399,
+      "instructions": 21,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4C11",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 420,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4C14",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 422,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4C1B",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 424,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4C20",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 426,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4C27",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 428,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4C2E",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 432,
+      "instructions": 10,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4C48",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 442,
+      "instructions": 15,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4C71",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 458,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4C88",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 466,
+      "instructions": 7,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4C9C",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 474,
+      "instructions": 27,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4CE7",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 502,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4CEE",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 504,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "1771:4CF1",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 506,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_zero_player_own_tactics_and_name_edit_do_nothing",
+        "test_own_tactic_three_states_and_return_to_team_value",
+        "test_own_tactics_marking_visibility_and_row5_dispatch"
+      ],
+      "reached_counterpart": "1771:1A33",
+      "counterpart_reason": "player override bits vs reached team tactic toggling",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:0566",
+      "routine": "214B:0566",
+      "listing": "static/goal-exe/code/seg_214B_01.asm",
+      "line": 714,
+      "instructions": 42,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_yes_no_returns_uppercase_y_only_and_clears_current_key"
+      ],
+      "reached_counterpart": "214B:04F8",
+      "counterpart_reason": "yes/no prompt vs reached wait-message prompt",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:05C0",
+      "routine": "214B:0566",
+      "listing": "static/goal-exe/code/seg_214B_01.asm",
+      "line": 756,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_yes_no_returns_uppercase_y_only_and_clears_current_key"
+      ],
+      "reached_counterpart": "214B:04F8",
+      "counterpart_reason": "yes/no prompt vs reached wait-message prompt",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:05C4",
+      "routine": "214B:0566",
+      "listing": "static/goal-exe/code/seg_214B_01.asm",
+      "line": 759,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_yes_no_returns_uppercase_y_only_and_clears_current_key"
+      ],
+      "reached_counterpart": "214B:04F8",
+      "counterpart_reason": "yes/no prompt vs reached wait-message prompt",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:05C6",
+      "routine": "214B:0566",
+      "listing": "static/goal-exe/code/seg_214B_01.asm",
+      "line": 761,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_yes_no_returns_uppercase_y_only_and_clears_current_key"
+      ],
+      "reached_counterpart": "214B:04F8",
+      "counterpart_reason": "yes/no prompt vs reached wait-message prompt",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:0745",
+      "routine": "214B:0723",
+      "listing": "static/goal-exe/code/seg_214B_01.asm",
+      "line": 978,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_pressed_service_preserves_frame_and_high_ax"
+      ],
+      "reached_counterpart": "214B:0723",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:0749",
+      "routine": "214B:0723",
+      "listing": "static/goal-exe/code/seg_214B_01.asm",
+      "line": 981,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_pressed_service_preserves_frame_and_high_ax"
+      ],
+      "reached_counterpart": "214B:0723",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:074B",
+      "routine": "214B:0723",
+      "listing": "static/goal-exe/code/seg_214B_01.asm",
+      "line": 983,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_pressed_service_preserves_frame_and_high_ax"
+      ],
+      "reached_counterpart": "214B:0723",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:08F2",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 16,
+      "instructions": 10,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:090A",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 26,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:0911",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 29,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:0917",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 31,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:091E",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 34,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:0923",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 37,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:0927",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 39,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:092D",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 42,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:0931",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 44,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:0935",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 46,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:0939",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 48,
+      "instructions": 4,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:0944",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 53,
+      "instructions": 4,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:0951",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 57,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "static constant-zero native08DD branch:0951 moval0,0953 oral,0955 je always bypasses0957"
+    },
+    {
+      "address": "214B:0957",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 60,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "static constant-zero native08DD branch:0951 moval0,0953 oral,0955 je always bypasses0957"
+    },
+    {
+      "address": "214B:095C",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 63,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:0963",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 65,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:0967",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 68,
+      "instructions": 4,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:096F",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 72,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:0976",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 74,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_key_read_service_and_pushed_key_are_distinct_paths",
+        "test_cached_key_is_consumed_once_and_board_is_not_emitted_twice",
+        "test_entry_hook_leaves_python_unstarted_while_decision_waits"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "existing kit semantic key boundary bypasses native BIOS body; service ABI/stack tests cover the port"
+    },
+    {
+      "address": "214B:09A7",
+      "routine": "214B:09A7",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 106,
+      "instructions": 12,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_wait_key_set_rejects_first_key_then_accepts_second"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "key-set filtering vs reached semantic key entry",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:09C0",
+      "routine": "214B:09A7",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 119,
+      "instructions": 9,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_wait_key_set_rejects_first_key_then_accepts_second"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "key-set filtering vs reached semantic key entry",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:09D4",
+      "routine": "214B:09A7",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 128,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_wait_key_set_rejects_first_key_then_accepts_second"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "key-set filtering vs reached semantic key entry",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:13F6",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 80,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "byte clamp vs reached word clamp",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1400",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 85,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "byte clamp vs reached word clamp",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1404",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 88,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "byte clamp vs reached word clamp",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:140D",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 92,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "byte clamp vs reached word clamp",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1411",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 94,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "byte clamp vs reached word clamp",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1415",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 97,
+      "instructions": 4,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "byte clamp vs reached word clamp",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1420",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 102,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "byte clamp vs reached word clamp",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1424",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 104,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "byte clamp vs reached word clamp",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:142D",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 107,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "byte clamp vs reached word clamp",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1433",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 110,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "byte clamp vs reached word clamp",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1435",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 112,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "byte clamp vs reached word clamp",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1439",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 114,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "byte clamp vs reached word clamp",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1446",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 119,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "byte clamp vs reached word clamp",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:144C",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 122,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "byte clamp vs reached word clamp",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1452",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 128,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_wrap_up_down_and_delegated_keys"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "byte wrap vs reached word wrap",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:145C",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 133,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_wrap_up_down_and_delegated_keys"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "byte wrap vs reached word wrap",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1465",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 136,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_wrap_up_down_and_delegated_keys"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "byte wrap vs reached word wrap",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:146D",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 140,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_wrap_up_down_and_delegated_keys"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "byte wrap vs reached word wrap",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1476",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 144,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_wrap_up_down_and_delegated_keys"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "byte wrap vs reached word wrap",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1478",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 146,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_wrap_up_down_and_delegated_keys"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "byte wrap vs reached word wrap",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:147C",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 148,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_wrap_up_down_and_delegated_keys"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "byte wrap vs reached word wrap",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1489",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 153,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_wrap_up_down_and_delegated_keys"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "byte wrap vs reached word wrap",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1491",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 157,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_wrap_up_down_and_delegated_keys"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "byte wrap vs reached word wrap",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1498",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 160,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_wrap_up_down_and_delegated_keys"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "byte wrap vs reached word wrap",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:149A",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 162,
+      "instructions": 6,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_wrap_up_down_and_delegated_keys"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "byte wrap vs reached word wrap",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:14A6",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 169,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_wrap_up_down_and_delegated_keys"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "byte wrap vs reached word wrap",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:14BA",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 183,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:14CC",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 192,
+      "instructions": 4,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:14DB",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 199,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:14E4",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 202,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:14EA",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 205,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:14F0",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 209,
+      "instructions": 4,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:14FB",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 213,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_byte_and_word_clamp_boundaries"
+      ],
+      "reached_counterpart": "214B:14AC",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1522",
+      "routine": "214B:1507",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 234,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_wrap_up_down_and_delegated_keys"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "original reached branch in the same routine; synthetic tests assert the unvisited alternatives",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:158E",
+      "routine": "214B:158E",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 293,
+      "instructions": 13,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_pair_writes_parent_far_pointers_in_order"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling pair writes vs reached single-word cursor writes",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:15B1",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 309,
+      "instructions": 12,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:15CE",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 321,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:15D6",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 324,
+      "instructions": 4,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:15E1",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 328,
+      "instructions": 9,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:15F5",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 338,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1607",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 347,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:160A",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 349,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:160E",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 351,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1614",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 353,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:161D",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 356,
+      "instructions": 9,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1631",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 366,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1643",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 375,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1646",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 377,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:164A",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 379,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1653",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 382,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:165F",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 387,
+      "instructions": 9,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1675",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 397,
+      "instructions": 6,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1683",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 404,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1685",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 406,
+      "instructions": 6,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1693",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 413,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1696",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 415,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:169A",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 417,
+      "instructions": 6,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:16A9",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 423,
+      "instructions": 6,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:16B9",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 429,
+      "instructions": 9,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:16CF",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 439,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:16E1",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 448,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:16E3",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 450,
+      "instructions": 15,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1700",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 466,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1702",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 468,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1706",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 470,
+      "instructions": 7,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1714",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 478,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:1718",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 480,
+      "instructions": 36,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "214B:175F",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 517,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_list_navigation_edges_pages_home_end",
+        "test_list_short_page_end_uses_long_signed_max",
+        "test_short_list_page_down_clamps_cursor_to_count"
+      ],
+      "reached_counterpart": "214B:1507",
+      "counterpart_reason": "scrolling viewport vs reached bounded cursor movement",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "235C:0000",
+      "routine": "235C:0000",
+      "listing": "static/goal-exe/code/seg_235C_01.asm",
+      "line": 9,
+      "instructions": 10,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_msdos_fallthrough_adds_int21_without_changing_pointer_cleanup"
+      ],
+      "reached_counterpart": "214B:08DD",
+      "counterpart_reason": "raw IVT wrapper below the reached key-service entry",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    },
+    {
+      "address": "235C:000B",
+      "routine": "235C:000B",
+      "listing": "static/goal-exe/code/seg_235C_01.asm",
+      "line": 22,
+      "instructions": 40,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      },
+      "tests": [
+        "test_interrupt_wrapper_actual_iret_preserves_record_and_flags",
+        "test_retf_handler_does_not_masquerade_as_iret"
+      ],
+      "reached_counterpart": "214B:0723",
+      "counterpart_reason": "raw IVT wrapper below the reached poll-service entry",
+      "classification": "synthetic branch test; no original-PC visitation claimed"
+    }
+  ]
+}

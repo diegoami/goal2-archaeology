@@ -1,0 +1,40 @@
+.........................FF............FF..
+======================================================================
+FAIL: test_position_next_wraps13_to0_and_clears_key (tests.test_port_menus.Menus.test_position_next_wraps13_to0_and_clears_key)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-8xmhvru8/tests/test_port_menus.py", line 165, in test_position_next_wraps13_to0_and_clears_key
+    self.assertEqual(r.mem.u8(0x42000),want)
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_position_rotation_and_no_refresh_flags (tests.test_port_menus.Menus.test_position_rotation_and_no_refresh_flags)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-8xmhvru8/tests/test_port_menus.py", line 180, in test_position_rotation_and_no_refresh_flags
+    r.run('1771:4952',[5]);self.assertEqual(r.mem.u8(PSEG*16+POFF+0x14*5+6),0)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_wrap_up_down_and_delegated_keys (tests.test_port_menus.Menus.test_wrap_up_down_and_delegated_keys) (address='214B:1452', key=177, start=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-8xmhvru8/tests/test_port_menus.py", line 159, in test_wrap_up_down_and_delegated_keys
+    r.run(address,[9,0,0x4200]);self.assertEqual(r.u16(0x42000),want)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_wrap_up_down_and_delegated_keys (tests.test_port_menus.Menus.test_wrap_up_down_and_delegated_keys) (address='214B:1507', key=177, start=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-8xmhvru8/tests/test_port_menus.py", line 159, in test_wrap_up_down_and_delegated_keys
+    r.run(address,[9,0,0x4200]);self.assertEqual(r.u16(0x42000),want)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 1
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.675s
+
+FAILED (failures=4)

@@ -1,0 +1,13 @@
+..................................F.......
+======================================================================
+FAIL: test_team_menu_tactics_refresh_changed_and_unchanged (tests.test_port_menus.Menus.test_team_menu_tactics_refresh_changed_and_unchanged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-bmdrpd7k/tests/test_port_menus.py", line 356, in test_team_menu_tactics_refresh_changed_and_unchanged
+    self.assertEqual(r.mem.ds8(0x9B55),int(change))
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.779s
+
+FAILED (failures=1)

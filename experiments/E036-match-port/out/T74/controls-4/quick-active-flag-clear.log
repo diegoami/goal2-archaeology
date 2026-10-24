@@ -1,0 +1,20 @@
+............................F.............
+======================================================================
+FAIL: test_quick_result_commits_flags_and_calls_board_with_zero_low_byte (tests.test_port_menus.Menus.test_quick_result_commits_flags_and_calls_board_with_zero_low_byte)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-24_e7huo/tests/test_port_menus.py", line 216, in test_quick_result_commits_flags_and_calls_board_with_zero_low_byte
+    self.assertEqual([r.mem.ds8(k) for k in (0x9A3E,0x9A3F,0x7C38)],[1,1,0])
+AssertionError: Lists differ: [0, 1, 0] != [1, 1, 0]
+
+First differing element 0:
+0
+1
+
+- [0, 1, 0]
++ [1, 1, 0]
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.745s
+
+FAILED (failures=1)

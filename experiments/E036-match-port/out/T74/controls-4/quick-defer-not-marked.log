@@ -1,0 +1,13 @@
+.............................F............
+======================================================================
+FAIL: test_quick_result_guards_and_deferred_notice (tests.test_port_menus.Menus.test_quick_result_guards_and_deferred_notice)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-rgzyak81/tests/test_port_menus.py", line 207, in test_quick_result_guards_and_deferred_notice
+    self.assertEqual(r.mem.ds8(0x7C38),1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.560s
+
+FAILED (failures=1)

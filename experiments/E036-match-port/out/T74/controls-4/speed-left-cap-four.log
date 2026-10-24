@@ -1,0 +1,13 @@
+.......................F..................
+======================================================================
+FAIL: test_poll_speed_arrows_clamp_at_zero_and_five (tests.test_port_menus.Menus.test_poll_speed_arrows_clamp_at_zero_and_five) (key=174, speed=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-slbii7ad/tests/test_port_menus.py", line 225, in test_poll_speed_arrows_clamp_at_zero_and_five
+    self.assertEqual(r.mem.u8(address),want)
+AssertionError: 4 != 5
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.747s
+
+FAILED (failures=1)

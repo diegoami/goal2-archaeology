@@ -1,0 +1,13 @@
+........................F.................
+======================================================================
+FAIL: test_position_club_reset_and_zero_player (tests.test_port_menus.Menus.test_position_club_reset_and_zero_player)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-isy_2xer/tests/test_port_menus.py", line 174, in test_position_club_reset_and_zero_player
+    self.assertEqual(r.mem.u8(PSEG*16+POFF+0x14*5+6),3 if word else 8)
+AssertionError: 8 != 3
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.751s
+
+FAILED (failures=1)

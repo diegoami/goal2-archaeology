@@ -358,5 +358,7 @@ Known limit: direct side-by-side `Prover` runs of DOS.MsDos235C:0000 do not yet
 account for its nonzero return-stack displacement. Both Prover return-SP
 predictions currently use entrySP+return-size+cleanup, without the displacement.
 Actual IVT/IRET runner tests pass; ordinary ALL matches never reach this wrapper.
-Closing this limit requires both top-level/nested predictions to include the
-delta and an actual MSDOS side-by-side proof test.
+The separate [T74 follow-up #394](https://github.com/diegoami/goal2-archaeology/issues/394)
+requires the actual MSDOS side-by-side proof, including original0000-to000B
+fallthrough sequencing versus the Python common helper; propagating the delta
+in both return predictions alone is not assumed sufficient.
