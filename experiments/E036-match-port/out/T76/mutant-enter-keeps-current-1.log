@@ -1,0 +1,6 @@
+ports: takers.enter-keeps-current
+1 matches selected, 0 already in experiments/E036-match-port/out/T76/mutant-enter-keeps-current-1.jsonl, 1 to run
+S/set-piece-taker: decision set_piece at minute 52 answered with port frames live: 0791:CC7B waiting on its call of 0791:CC2E (returning to 0791:CED9)
+S/set-piece-taker: decision set_piece at minute 79 answered with port frames live: 0791:CC7B waiting on its call of 0791:CC2E (returning to 0791:CED9)
+S/set-piece-taker: completed; score [1, 1] ticks 4149 cpu 10.526 s; port 0791:0B7C called 3; port 0791:0C0B called 0; port 0791:9B0C called 0; port 0791:9B5B called 0; port 0791:9B93 called 0; port 0791:9ED3 called 0; port 0791:A006 called 0; port 0791:A10A called 0; port 0791:CC2E called 24; port 0791:CC7B called 3
+1 of 1 matches in experiments/E036-match-port/out/T76/mutant-enter-keeps-current-1.jsonl, 0 not completed

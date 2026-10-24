@@ -1,0 +1,10 @@
+ports: takers
+2 matches selected, 0 already in experiments/E036-match-port/out/T76/probe-2.jsonl, 2 to run
+S/ko-42-sudden-death: decision extra_time at minute 89 answered with port frames live: 0791:9B0C waiting on its call of 0791:ED8A (returning to 0791:9B42)
+S/ko-42-sudden-death: decision extra_time at minute 105 answered with port frames live: 0791:9B5B waiting on its call of 0791:ED8A (returning to 0791:9B70)
+S/ko-42-sudden-death: decision shootout_order at minute 120 answered with port frames live: 0791:A10A waiting on its call of 0791:9B93 (returning to 0791:A183); 0791:9B93 waiting on its call of 214B:1560 (returning to 0791:9D67)
+S/ko-42-sudden-death: NOT COMPLETED (GuestError: a shoot-out kick ended that the kit did not see start (0791:A006)); score None ticks None cpu 14.23 s; port 0791:0B7C called 0; port 0791:0C0B called 1; port 0791:9B0C called 1; port 0791:9B5B called 1; port 0791:9B93 called 1; port 0791:9ED3 called 1; port 0791:A006 called 1; port 0791:A10A called 1; port 0791:CC2E called 4; port 0791:CC7B called 2
+S/set-piece-taker: decision set_piece at minute 52 answered with port frames live: 0791:CC7B waiting on its call of 0791:CC2E (returning to 0791:CED9)
+S/set-piece-taker: decision set_piece at minute 77 answered with port frames live: 0791:CC7B waiting on its call of 0791:CC2E (returning to 0791:CED9)
+S/set-piece-taker: completed; score [1, 1] ticks 4332 cpu 11.196 s; port 0791:0B7C called 3; port 0791:0C0B called 0; port 0791:9B0C called 0; port 0791:9B5B called 0; port 0791:9B93 called 0; port 0791:9ED3 called 0; port 0791:A006 called 0; port 0791:A10A called 0; port 0791:CC2E called 18; port 0791:CC7B called 3
+2 of 2 matches in experiments/E036-match-port/out/T76/probe-2.jsonl, 1 not completed: ['S/ko-42-sudden-death']

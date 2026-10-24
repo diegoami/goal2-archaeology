@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T76/compare_selected.py", line 9, in <module>
+    definitions = families.load_directory()
+                  ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'families' has no attribute 'load_directory'

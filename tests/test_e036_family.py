@@ -45,10 +45,10 @@ IMAGE_FILE = ROOT / ".cache/dl/e0afff6751747233-e006-1000-r0001.sav"
 # the kit version it was last compared with, and why the records still stand). A declaration holds for exactly those two
 # versions: the next VERSION bump fails the check below until someone compares again and edits the second one (#316).
 DECLARED_KIT_VERSIONS = {
-    "experiments/E036-match-port/families/S-no-managed-side-reference-20261024-v1.jsonl":
+    "experiments/E036-match-port/families/S-set-piece-taker-reference-20261024-v1.jsonl":
         (frozenset({"2", "4"}), "4", "T74 preserves old62 kit2 records byte-for-byte and appends one kit4 "
-         "computer-only record; unhooked ALL63 strict full-field comparison passes in "
-         "out/T74/coverage-unhooked-1-compare.log"),
+         "computer-only record; T76 appends one independent original-only kit4 taker record, with old63 preserved in "
+         "out/T76/reference-extension-1.json"),
     "experiments/E036-match-port/out/T57/reference.jsonl": ("2", "4", "T69 moved VERSION to 4 for replay of live port "
                                                             "frames; the two-worker real-match comparison rerun on "
                                                             "2026-10-18 matches every field except cpu_s, wall_s and kit "
@@ -75,9 +75,20 @@ def undeclared_kit_versions(references, version, declared):
 
 # ---- the families --------------------------------------------------------------------------------------------
 class TheFamilies(unittest.TestCase):
+    def test_t76_preserves_old_reference_bytes_and_spec_digests(self):
+        old = ROOT / "experiments/E036-match-port/families/S-no-managed-side-reference-20261024-v1.jsonl"
+        new = ROOT / FAMILIES["S"].reference
+        self.assertTrue(new.read_bytes().startswith(old.read_bytes()))
+        rows = records.read_log(old)
+        self.assertEqual(len(rows), 63)
+        self.assertEqual({r["id"]: r["spec_sha256"] for r in rows},
+                         {mid: digest for mid, digest in EXPECTED.items() if mid != "S/set-piece-taker"})
+        policy = next(m.policy for m in FAMILIES["S"].matches if m.id == "S/set-piece-taker")
+        self.assertIn("set_piece", policy.contexts)
+
     def test_the_three_families_and_their_sizes(self):
-        self.assertEqual({n: len(f.matches) for n, f in FAMILIES.items()}, {"F40": 40, "O8": 8, "S": 15})
-        self.assertEqual(len(EXPECTED), 63)
+        self.assertEqual({n: len(f.matches) for n, f in FAMILIES.items()}, {"F40": 40, "O8": 8, "S": 16})
+        self.assertEqual(len(EXPECTED), 64)
 
     def test_f40_is_twenty_seeds_as_they_are_and_the_same_twenty_edited(self):
         plain = [m for m in FAMILIES["F40"].matches if not m.edits]
@@ -119,7 +130,7 @@ class TheFamilies(unittest.TestCase):
 
     def test_each_family_names_its_reference_and_every_id_is_unique(self):
         for fam in FAMILIES.values():
-            expected=("experiments/E036-match-port/families/S-no-managed-side-reference-20261024-v1.jsonl"
+            expected=("experiments/E036-match-port/families/S-set-piece-taker-reference-20261024-v1.jsonl"
                       if fam.name=="S" else "experiments/E036-match-port/out/T57/reference.jsonl")
             self.assertEqual(fam.reference,expected)
             for m in fam.matches:

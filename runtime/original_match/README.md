@@ -89,7 +89,7 @@ The calls: `Fixture(first, second, index=None, kind=1)` (team 0, team 1 = the ho
 image's own fixture number; `kind` the fixture's kind byte, one the original's builders write: 1 a friendly, 2, 3,
 5, 6, 7, 8, 101-103, 200-203; see Competitive fixtures); `Match(image, fixture, *, managed=None, captain=None,
 seed=None, players=None, countries=None, substitutions=None, ticks=False, record_draws=False, delay_byte=None,
-timeout_s=60)` (`managed` defaults to the image's human country, `captain` to the original's pick, `substitutions`
+timeout_s=60, set_piece=False)` (`managed` defaults to the image's human country, `captain` to the original's pick, `substitutions`
 to the original's budget; the last three are for the engine check); `m.events()`,
 `m.answer(...)`, `m.pause()`, `m.save()`, `Match.load(blob)`, `m.result()` (once `m.over`), `m.memory_component()`,
 `m.image()`, `m.pitch()`, `m.screen_text()`, and the read-only `m.over`, `m.score`, `m.minute`, `m.waiting` (the
@@ -180,10 +180,14 @@ every kind of answer and a refused eleven, a quick result with `tick` events).
 | `pause` | when you call `m.pause()` | asked for: the original offers them at its next stoppage | made now |
 | `extra_time` | before each extra-time half (`half` 1 or 2) of a decider level after 90 minutes | made now | as above |
 | `shootout_order` | the shoot-out, before the first kick (`available`: the eleven who can take one; `takers`: how many the original wants) | none | `shootout_order` only |
+| `set_piece` | with `set_piece=True`, the managed side's original taker prompt (`role`: 2 corner, 3 penalty, 4 free kick, 5 goal kick; `eleven`, `available`, `current`) | none | `taker` only |
 
 `answer(substitutions=[(off, on)], tactics={element: bool}, positions={player: code}, marking={player: opponent
 or 0}, own_tactics={player: {element 1..4: True/False/None}}, quick=True, speed=0..5, shootout_order=[player, ...])`; no
-argument plays on. `shootout_order` (at that decision only): distinct players of `available`, the first takers in
+argument plays on. At `set_piece`, `answer(taker=player)` selects an available eleven player through the original's
+arrow and Enter keys. No answer keeps the original pick. A `set_piece` event reports `role`, `team` and the
+accepted `player`, observed from the original routine's returned AX, after its validation. With the opt-in off,
+these prompts and events retain their previous behavior. `shootout_order` (at that decision only): distinct players of `available`, the first takers in
 order; the rest follow as the original's Enter gives them (the highlighted player, from the top of the eleven). No
 answer is the original's result for a manager who only presses Enter: the eleven in squad order, the keeper first.
 If the original refuses the result (its message, e.g. "Denmark has too many goalkeepers"), the same decision comes
@@ -334,8 +338,8 @@ changed or stopped; a step a port stops FAILs and the next steps still run).
 A kind no builder writes (4 included) is refused with a `ValueError`. Not run, because route_fixture runs them
 around run_match and the kit calls run_match itself: "Do you want to watch this match?" (asked of fixtures goal2's
 manager does not play: kinds 8, 200, 201, 203; F030),
-the news pages and the manager's sack check (4E0E, F025: goal2 keeps its own career state). The set-piece taker
-prompts keep the original's pick (exposing them: about 1 h). At most one human participant. A match costs 9-13 s, 13-18 s with extra time and a shoot-out (a quick result after `R`, about 4 s, 7 s with them; the write hooks behind the stamps are included); stepping by
+the news pages and the manager's sack check (4E0E, F025: goal2 keeps its own career state). Set-piece taker
+prompts keep the original's pick unless the client opts in with `set_piece=True`. At most one human participant. A match costs 9-13 s, 13-18 s with extra time and a shoot-out (a quick result after `R`, about 4 s, 7 s with them; the write hooks behind the stamps are included); stepping by
 minute or tick adds nothing measurable. `save()` is about 0.36 MB at minute 60 (much more with `record_draws`, which keeps every RNG write).
 
 A fixture may name a managed country outside its two participants, for example
