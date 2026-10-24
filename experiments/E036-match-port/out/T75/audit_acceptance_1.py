@@ -14,7 +14,7 @@ specs={s.id:s.sha256 for f in families.discover().values() for s in f.matches};a
 profile=read(ROOT/'experiments/E036-match-port/families/display/profile.json');assert profile['mask']==[]
 rawref=ROOT/'experiments/E036-match-port/families/S-no-managed-side-reference-20261024-v1.jsonl';displayref=ROOT/profile['reference']
 assert set(compare.load(rawref))==set(compare.load(displayref))==set(specs)
-protected=list((ROOT/'experiments/E036-match-port/families').rglob('*.json'))+list((ROOT/'experiments/E036-match-port/families').rglob('*.jsonl'))+list((ROOT/'experiments/E036-match-port/families').glob('*.py'))
+protected=[ROOT/'experiments/E036-match-port'/p for p in ('family.py','families.py','compare.py','records.py')]+list((ROOT/'experiments/E036-match-port/families').rglob('*.json'))+list((ROOT/'experiments/E036-match-port/families').rglob('*.jsonl'))+list((ROOT/'experiments/E036-match-port/families').glob('*.py'))
 for p in protected:
  rel=str(p.relative_to(ROOT));before=subprocess.check_output(['git','show','bf650a337794ffd82e8e1471d45bfb6c5b753fd4:'+rel],cwd=ROOT)
  assert before==p.read_bytes(),('immutable family/profile/reference changed',rel)
@@ -37,6 +37,7 @@ validation=OUT/'validation-final-3';assert read(validation/'results.json')=={'ow
 assert read(validation/'source.json')['sources']==read(validation/'source-after.json')
 for rel,value in read(validation/'source.json')['sources'].items():assert digest(ROOT/rel)==value,rel
 for label in ('owned-unit','check','annotations','full-suite'):assert (validation/(label+'.exit')).read_text().strip()=='0'
+cli=read(validation/'check.json');assert all(cli['checks'][name]['pass'] for name in ('engine','interactive','goals','knockout'))
 assert 'OK' in (validation/'full-suite.log').read_text()
 skips=read(OUT/'skip-inventory-1.json');assert skips['identical_existing_skip_count']==13 and skips['new_skips']==[];assert digest(ROOT/skips['current'])==skips['current_sha256'];assert digest(ROOT/skips['baseline'])==skips['baseline_sha256']
 static=read(OUT/'citation-endpoints-final-main-1.json');assert static['valid_endpoints_verified']==200 and static['citations_moved']==0 and static['inherited_problem_strings_unchanged']==18
