@@ -1,0 +1,1447 @@
+{
+  "head": "b7e3a5220e559e8f7abaa3e6e60890989b4af7fc",
+  "collector_sha256": "dab62441e5888a94bd4fff9c20d984ba8dee42dd07dd7c77c4a0c0b93befeeb8",
+  "source": "G4B.GL",
+  "source_sha256": "cfcea0ae6b01c2828e1c157ffd7036c2865dca301d9698586ea8015548e4f293",
+  "bound_s": 240,
+  "fixture_bound": 1,
+  "status": "full time without target",
+  "method": "Original DOS loader, normal original keys, native observations; no restore or guest edits",
+  "target_roles": [
+    3,
+    4
+  ],
+  "elapsed_s": 78.66396214599808,
+  "observations": 114,
+  "events": [
+    [
+      0.015,
+      "mapper file (written), sha256 7b2f6f958fdb0a0b6a68e12611c3e3ab8554f0872c048ab8a8a05da2fff73a23: savestate on Scroll_Lock, load on Print"
+    ],
+    [
+      0.12,
+      "Xvfb poll: answered after 2 polls of 0.1s"
+    ],
+    [
+      0.12,
+      "Xvfb :729 answering"
+    ],
+    [
+      0.141,
+      "dosbox-x started"
+    ],
+    [
+      0.261,
+      "window found after 2 polls of 0.1s"
+    ],
+    [
+      0.263,
+      "window focused"
+    ],
+    [
+      0.784,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      0.785,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      1.328,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      1.328,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      1.871,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      1.871,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      2.407,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      2.408,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      2.423,
+      "title screen: matched after 4 savestate polls"
+    ],
+    [
+      2.423,
+      "DOS clock read back: '10/24/2026\\n11:59:59'"
+    ],
+    [
+      2.945,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      2.946,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      3.092,
+      "key y held 0.08s (raw keycode 29)"
+    ],
+    [
+      3.614,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      3.615,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      3.769,
+      "key y held 0.08s (raw keycode 29)"
+    ],
+    [
+      4.29,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      4.291,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      4.433,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      4.514,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      4.595,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      4.677,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      4.757,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      4.838,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      4.919,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.0,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.081,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.162,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.243,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.324,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.405,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.486,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.567,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.649,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.73,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.811,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.892,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.973,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.053,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.134,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.215,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.296,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.377,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.458,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.539,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.62,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.7,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.782,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.863,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.945,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.026,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.108,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.189,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.27,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.35,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.432,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.513,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.594,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.676,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.757,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.837,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.919,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.0,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.082,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.163,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.244,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.325,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.406,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.487,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.568,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.649,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.73,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.811,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.892,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.973,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.054,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.135,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.216,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.297,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.379,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.46,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.541,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.622,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.703,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.784,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.865,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.946,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.028,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.109,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.19,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.271,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.352,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.433,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.514,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.595,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.676,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.756,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.838,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      11.359,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      11.36,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      11.502,
+      "key g held 0.08s (raw keycode 42)"
+    ],
+    [
+      11.583,
+      "key 4 held 0.08s (raw keycode 13)"
+    ],
+    [
+      11.664,
+      "key b held 0.08s (raw keycode 56)"
+    ],
+    [
+      12.186,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      12.186,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      12.327,
+      "key Return held 0.08s (raw keycode 36)"
+    ],
+    [
+      12.849,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      12.85,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      12.995,
+      "key End held 0.08s (raw keycode 115)"
+    ],
+    [
+      13.517,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      13.518,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      13.661,
+      "key Return held 0.08s (raw keycode 36)"
+    ],
+    [
+      14.184,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      14.185,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      14.783,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      14.784,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      15.377,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      15.378,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      15.527,
+      "key Return held 0.08s (raw keycode 36)"
+    ],
+    [
+      16.049,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      16.051,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      16.191,
+      "key n held 0.08s (raw keycode 57)"
+    ],
+    [
+      16.713,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      16.714,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      16.866,
+      "key Return held 0.08s (raw keycode 36)"
+    ],
+    [
+      17.388,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      17.389,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      17.534,
+      "key Return held 0.08s (raw keycode 36)"
+    ],
+    [
+      18.056,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      18.057,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      18.646,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      18.647,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      19.241,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      19.242,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      19.393,
+      "key Return held 0.08s (raw keycode 36)"
+    ],
+    [
+      19.915,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      19.916,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      20.063,
+      "key End held 0.08s (raw keycode 115)"
+    ],
+    [
+      20.585,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      20.586,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      20.727,
+      "key Return held 0.08s (raw keycode 36)"
+    ],
+    [
+      21.249,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      21.25,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      21.403,
+      "key Return held 0.08s (raw keycode 36)"
+    ],
+    [
+      21.925,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      21.926,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      22.073,
+      "key Right held 0.08s (raw keycode 114)"
+    ],
+    [
+      22.154,
+      "key Right held 0.08s (raw keycode 114)"
+    ],
+    [
+      22.234,
+      "key Right held 0.08s (raw keycode 114)"
+    ],
+    [
+      22.315,
+      "key Right held 0.08s (raw keycode 114)"
+    ],
+    [
+      22.396,
+      "key Right held 0.08s (raw keycode 114)"
+    ],
+    [
+      22.477,
+      "key Right held 0.08s (raw keycode 114)"
+    ],
+    [
+      22.999,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      23.0,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      23.584,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      23.585,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      24.18,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      24.183,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      24.768,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      24.769,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      25.357,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      25.358,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      25.95,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      25.951,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      26.097,
+      "key Return held 0.08s (raw keycode 36)"
+    ],
+    [
+      26.62,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      26.62,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      27.22,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      27.221,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      27.816,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      27.816,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      28.406,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      28.416,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      29.002,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      29.003,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      29.59,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      29.591,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      30.181,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      30.182,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      30.777,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      30.778,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      31.371,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      31.372,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      31.96,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      31.961,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      32.544,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      32.545,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      33.141,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      33.142,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      33.732,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      33.733,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      34.329,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      34.33,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      34.928,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      34.929,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      35.513,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      35.514,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      36.101,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      36.103,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      36.7,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      36.701,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      37.297,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      37.298,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      37.892,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      37.893,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      38.492,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      38.493,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      39.081,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      39.082,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      39.666,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      39.667,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      40.258,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      40.259,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      40.843,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      40.844,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      41.445,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      41.446,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      42.042,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      42.043,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      42.636,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      42.637,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      43.221,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      43.223,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      43.807,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      43.808,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      44.403,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      44.404,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      44.991,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      44.992,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      45.583,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      45.584,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      46.182,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      46.183,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      46.781,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      46.782,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      47.377,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      47.378,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      47.974,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      47.975,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      48.126,
+      "key Return held 0.08s (raw keycode 36)"
+    ],
+    [
+      48.649,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      48.65,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      48.795,
+      "key End held 0.08s (raw keycode 115)"
+    ],
+    [
+      49.317,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      49.318,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      49.467,
+      "key Return held 0.08s (raw keycode 36)"
+    ],
+    [
+      49.989,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      49.99,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      50.576,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      50.577,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      51.174,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      51.175,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      51.769,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      51.77,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      52.362,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      52.363,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      52.955,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      52.956,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      53.543,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      53.544,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      54.126,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      54.127,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      54.718,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      54.719,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      54.867,
+      "key Return held 0.08s (raw keycode 36)"
+    ],
+    [
+      55.39,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      55.391,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      55.987,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      55.988,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      56.578,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      56.579,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      57.173,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      57.174,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      57.758,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      57.759,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      58.343,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      58.344,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      58.931,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      58.933,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      59.518,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      59.519,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      60.111,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      60.112,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      60.697,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      60.698,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      61.279,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      61.28,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      61.864,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      61.864,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      62.444,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      62.445,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      63.039,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      63.04,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      63.623,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      63.625,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      64.208,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      64.209,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      64.793,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      64.794,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      64.934,
+      "key Return held 0.08s (raw keycode 36)"
+    ],
+    [
+      65.457,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      65.458,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      66.043,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      66.044,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      66.186,
+      "key Return held 0.08s (raw keycode 36)"
+    ],
+    [
+      66.708,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      66.709,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      67.3,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      67.301,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      67.885,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      67.886,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      68.471,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      68.472,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      69.059,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      69.06,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      69.646,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      69.647,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      70.24,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      70.241,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      70.396,
+      "key Return held 0.08s (raw keycode 36)"
+    ],
+    [
+      70.918,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      70.919,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      71.509,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      71.51,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      72.104,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      72.105,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      72.696,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      72.698,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      73.292,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      73.293,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      73.884,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      73.885,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      74.471,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      74.473,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      75.065,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      75.066,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      75.659,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      75.66,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      76.24,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      76.241,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      76.827,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      76.828,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      77.414,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      77.415,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      77.999,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      78.0,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      78.592,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      78.593,
+      "savestate complete after 1 polls of 0.05s"
+    ]
+  ],
+  "runtime": {
+    "executable": "/home/diego/tools/dosbox-x-2024.03.01/bin/dosbox-x",
+    "config": {
+      "machine": "svga_s3",
+      "memsize": 16,
+      "cycles": "fixed 8000",
+      "core": "auto",
+      "cputype": "auto",
+      "dos_date": "10/24/2026",
+      "dos_time": "12:00:00"
+    },
+    "clock": "10/24/2026\n11:59:59\n"
+  }
+}

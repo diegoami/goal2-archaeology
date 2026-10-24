@@ -1,0 +1,3212 @@
+{
+  "head": "5743c2687c483752edfd3605d869eb02d1ca86b9",
+  "collector_sha256": "5a9f8c11a24f96f1ac2192a08899d8ffa7cdfe35ab045681f50f23634ac10eac",
+  "sources": [
+    {
+      "file": "G1A.GL",
+      "sha256": "b6e3c4c14d25543d28e4d5a38a43882c562b3acfe4f8834a7b64183024c6b152",
+      "opponent": "Eire",
+      "own": [
+        {
+          "slot": 1,
+          "player": 381,
+          "position": 0,
+          "hardness": 12,
+          "energy": 18,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 382,
+          "position": 1,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 384,
+          "position": 2,
+          "hardness": 5,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 383,
+          "position": 2,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 385,
+          "position": 5,
+          "hardness": 4,
+          "energy": 18,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 386,
+          "position": 7,
+          "hardness": 4,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 387,
+          "position": 8,
+          "hardness": 15,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 388,
+          "position": 9,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 389,
+          "position": 10,
+          "hardness": 14,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 390,
+          "position": 11,
+          "hardness": 2,
+          "energy": 23,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 11,
+          "player": 391,
+          "position": 13,
+          "hardness": 8,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ],
+      "other": [
+        {
+          "slot": 1,
+          "player": 141,
+          "position": 0,
+          "hardness": 16,
+          "energy": 27,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 142,
+          "position": 2,
+          "hardness": 8,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 143,
+          "position": 2,
+          "hardness": 16,
+          "energy": 28,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 144,
+          "position": 3,
+          "hardness": 5,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 145,
+          "position": 4,
+          "hardness": 6,
+          "energy": 18,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 146,
+          "position": 5,
+          "hardness": 4,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 147,
+          "position": 6,
+          "hardness": 5,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 148,
+          "position": 7,
+          "hardness": 8,
+          "energy": 28,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 149,
+          "position": 8,
+          "hardness": 1,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 10,
+          "player": 150,
+          "position": 12,
+          "hardness": 16,
+          "energy": 25,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 151,
+          "position": 13,
+          "hardness": 3,
+          "energy": 27,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        }
+      ]
+    },
+    {
+      "file": "G1B.GL",
+      "sha256": "fce7be69b2a884b178d944385777299bfea70dcef9b527a3c155d7f053a61cee",
+      "opponent": "Malta",
+      "own": [
+        {
+          "slot": 1,
+          "player": 381,
+          "position": 0,
+          "hardness": 12,
+          "energy": 20,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 383,
+          "position": 2,
+          "hardness": 11,
+          "energy": 14,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 384,
+          "position": 2,
+          "hardness": 5,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 2576,
+          "position": 3,
+          "hardness": 7,
+          "energy": 12,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 2578,
+          "position": 4,
+          "hardness": 4,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 382,
+          "position": 5,
+          "hardness": 6,
+          "energy": 20,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 386,
+          "position": 7,
+          "hardness": 4,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 387,
+          "position": 8,
+          "hardness": 15,
+          "energy": 24,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 388,
+          "position": 9,
+          "hardness": 6,
+          "energy": 14,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 399,
+          "position": 13,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 400,
+          "position": 13,
+          "hardness": 13,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ],
+      "other": [
+        {
+          "slot": 1,
+          "player": 352,
+          "position": 0,
+          "hardness": 2,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 2,
+          "player": 353,
+          "position": 1,
+          "hardness": 13,
+          "energy": 25,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 344,
+          "position": 2,
+          "hardness": 16,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 354,
+          "position": 2,
+          "hardness": 16,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 345,
+          "position": 3,
+          "hardness": 5,
+          "energy": 28,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 346,
+          "position": 4,
+          "hardness": 1,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 7,
+          "player": 347,
+          "position": 5,
+          "hardness": 5,
+          "energy": 18,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 348,
+          "position": 6,
+          "hardness": 1,
+          "energy": 25,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 9,
+          "player": 349,
+          "position": 6,
+          "hardness": 10,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 350,
+          "position": 9,
+          "hardness": 12,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 351,
+          "position": 13,
+          "hardness": 2,
+          "energy": 20,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        }
+      ]
+    },
+    {
+      "file": "G1C.GL",
+      "sha256": "d8b484994413fc5f7f5f11a5a16b9642a1698de8017929fb170de167286595c5",
+      "opponent": "Albania",
+      "own": [
+        {
+          "slot": 1,
+          "player": 381,
+          "position": 0,
+          "hardness": 12,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 383,
+          "position": 2,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 384,
+          "position": 2,
+          "hardness": 5,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 2576,
+          "position": 3,
+          "hardness": 7,
+          "energy": 13,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 2578,
+          "position": 4,
+          "hardness": 4,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 382,
+          "position": 5,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 386,
+          "position": 7,
+          "hardness": 4,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 387,
+          "position": 8,
+          "hardness": 15,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 388,
+          "position": 9,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 399,
+          "position": 13,
+          "hardness": 11,
+          "energy": 16,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 400,
+          "position": 13,
+          "hardness": 13,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ],
+      "other": [
+        {
+          "slot": 1,
+          "player": 12,
+          "position": 0,
+          "hardness": 12,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 2,
+          "position": 1,
+          "hardness": 14,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 14,
+          "position": 2,
+          "hardness": 15,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 4,
+          "position": 2,
+          "hardness": 10,
+          "energy": 17,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 5,
+          "position": 5,
+          "hardness": 5,
+          "energy": 30,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 16,
+          "position": 6,
+          "hardness": 0,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 7,
+          "player": 7,
+          "position": 7,
+          "hardness": 2,
+          "energy": 25,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 8,
+          "player": 8,
+          "position": 8,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 18,
+          "position": 12,
+          "hardness": 3,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 10,
+          "player": 10,
+          "position": 13,
+          "hardness": 12,
+          "energy": 18,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 20,
+          "position": 13,
+          "hardness": 10,
+          "energy": 30,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ]
+    },
+    {
+      "file": "G1D.GL",
+      "sha256": "1a62fb148a173271d3948e655a1b238c90e0e9913bf072f34a6f46253eda3fa4",
+      "opponent": "Luxembourg",
+      "own": [
+        {
+          "slot": 1,
+          "player": 381,
+          "position": 0,
+          "hardness": 12,
+          "energy": 19,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 384,
+          "position": 2,
+          "hardness": 5,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 383,
+          "position": 2,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 2576,
+          "position": 3,
+          "hardness": 7,
+          "energy": 17,
+          "status": 8,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 2578,
+          "position": 4,
+          "hardness": 4,
+          "energy": 15,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 382,
+          "position": 5,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 395,
+          "position": 6,
+          "hardness": 11,
+          "energy": 29,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 386,
+          "position": 7,
+          "hardness": 4,
+          "energy": 10,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 387,
+          "position": 8,
+          "hardness": 15,
+          "energy": 16,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 400,
+          "position": 13,
+          "hardness": 13,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 399,
+          "position": 13,
+          "hardness": 11,
+          "energy": 24,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ],
+      "other": [
+        {
+          "slot": 1,
+          "player": 332,
+          "position": 0,
+          "hardness": 1,
+          "energy": 31,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 2,
+          "player": 334,
+          "position": 2,
+          "hardness": 13,
+          "energy": 17,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 322,
+          "position": 2,
+          "hardness": 6,
+          "energy": 25,
+          "status": 8,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 324,
+          "position": 3,
+          "hardness": 4,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 335,
+          "position": 4,
+          "hardness": 9,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 326,
+          "position": 5,
+          "hardness": 7,
+          "energy": 30,
+          "status": 8,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 327,
+          "position": 6,
+          "hardness": 15,
+          "energy": 32,
+          "status": 8,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 328,
+          "position": 10,
+          "hardness": 13,
+          "energy": 31,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 338,
+          "position": 11,
+          "hardness": 9,
+          "energy": 23,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 339,
+          "position": 12,
+          "hardness": 1,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 11,
+          "player": 340,
+          "position": 13,
+          "hardness": 13,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ]
+    },
+    {
+      "file": "G2A.GL",
+      "sha256": "374ee98d02b04c344c2984b719e447b086d005e97f112891557ed5c430851709",
+      "opponent": "Yugoslavia",
+      "own": [
+        {
+          "slot": 1,
+          "player": 381,
+          "position": 0,
+          "hardness": 12,
+          "energy": 28,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 383,
+          "position": 2,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 384,
+          "position": 2,
+          "hardness": 5,
+          "energy": 29,
+          "status": 64,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 2576,
+          "position": 3,
+          "hardness": 7,
+          "energy": 32,
+          "status": 8,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 2578,
+          "position": 4,
+          "hardness": 4,
+          "energy": 27,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 382,
+          "position": 5,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 395,
+          "position": 6,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 386,
+          "position": 7,
+          "hardness": 4,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 388,
+          "position": 9,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 390,
+          "position": 12,
+          "hardness": 2,
+          "energy": 23,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 11,
+          "player": 400,
+          "position": 13,
+          "hardness": 13,
+          "energy": 11,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ],
+      "other": [
+        {
+          "slot": 1,
+          "player": 621,
+          "position": 0,
+          "hardness": 7,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 633,
+          "position": 1,
+          "hardness": 3,
+          "energy": 23,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 3,
+          "player": 634,
+          "position": 2,
+          "hardness": 8,
+          "energy": 29,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 622,
+          "position": 3,
+          "hardness": 6,
+          "energy": 30,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 5,
+          "player": 635,
+          "position": 4,
+          "hardness": 13,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 626,
+          "position": 6,
+          "hardness": 10,
+          "energy": 24,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 7,
+          "player": 627,
+          "position": 6,
+          "hardness": 7,
+          "energy": 24,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 628,
+          "position": 10,
+          "hardness": 2,
+          "energy": 23,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 9,
+          "player": 638,
+          "position": 11,
+          "hardness": 14,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 640,
+          "position": 12,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 631,
+          "position": 13,
+          "hardness": 13,
+          "energy": 27,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ]
+    },
+    {
+      "file": "G2B.GL",
+      "sha256": "e618e2345143961bdd3696767c4ff3a5ecf128949dda60e4ab0f00281b856bf1",
+      "opponent": "Yugoslavia",
+      "own": [
+        {
+          "slot": 1,
+          "player": 381,
+          "position": 0,
+          "hardness": 12,
+          "energy": 28,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 393,
+          "position": 1,
+          "hardness": 9,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 383,
+          "position": 2,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 384,
+          "position": 2,
+          "hardness": 5,
+          "energy": 29,
+          "status": 64,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 2575,
+          "position": 7,
+          "hardness": 10,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 382,
+          "position": 5,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 395,
+          "position": 6,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 387,
+          "position": 8,
+          "hardness": 15,
+          "energy": 32,
+          "status": 8,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 388,
+          "position": 9,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 2612,
+          "position": 12,
+          "hardness": 1,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 11,
+          "player": 400,
+          "position": 13,
+          "hardness": 13,
+          "energy": 11,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ],
+      "other": [
+        {
+          "slot": 1,
+          "player": 621,
+          "position": 0,
+          "hardness": 7,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 633,
+          "position": 1,
+          "hardness": 3,
+          "energy": 23,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 3,
+          "player": 634,
+          "position": 2,
+          "hardness": 8,
+          "energy": 29,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 622,
+          "position": 3,
+          "hardness": 6,
+          "energy": 30,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 5,
+          "player": 635,
+          "position": 4,
+          "hardness": 13,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 626,
+          "position": 6,
+          "hardness": 10,
+          "energy": 24,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 7,
+          "player": 627,
+          "position": 6,
+          "hardness": 7,
+          "energy": 24,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 628,
+          "position": 10,
+          "hardness": 2,
+          "energy": 23,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 9,
+          "player": 638,
+          "position": 11,
+          "hardness": 14,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 640,
+          "position": 12,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 631,
+          "position": 13,
+          "hardness": 13,
+          "energy": 27,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ]
+    },
+    {
+      "file": "G3A.GL",
+      "sha256": "a003d2751d4278e76d0fbc760fe46022ee222fb10b09cd20f7af43726a0a7c28",
+      "opponent": "Italy",
+      "own": [
+        {
+          "slot": 1,
+          "player": 381,
+          "position": 0,
+          "hardness": 12,
+          "energy": 21,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 393,
+          "position": 1,
+          "hardness": 9,
+          "energy": 30,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 384,
+          "position": 2,
+          "hardness": 5,
+          "energy": 32,
+          "status": 64,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 383,
+          "position": 2,
+          "hardness": 11,
+          "energy": 4,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 382,
+          "position": 5,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 395,
+          "position": 6,
+          "hardness": 11,
+          "energy": 18,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 2575,
+          "position": 7,
+          "hardness": 10,
+          "energy": 14,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 387,
+          "position": 8,
+          "hardness": 15,
+          "energy": 32,
+          "status": 8,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 388,
+          "position": 9,
+          "hardness": 6,
+          "energy": 26,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 2748,
+          "position": 12,
+          "hardness": 7,
+          "energy": 29,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 400,
+          "position": 13,
+          "hardness": 13,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ],
+      "other": [
+        {
+          "slot": 1,
+          "player": 301,
+          "position": 0,
+          "hardness": 13,
+          "energy": 29,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 302,
+          "position": 1,
+          "hardness": 12,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 303,
+          "position": 2,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 314,
+          "position": 2,
+          "hardness": 12,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 305,
+          "position": 3,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 306,
+          "position": 4,
+          "hardness": 12,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 307,
+          "position": 5,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 308,
+          "position": 7,
+          "hardness": 13,
+          "energy": 31,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 309,
+          "position": 8,
+          "hardness": 5,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 320,
+          "position": 13,
+          "hardness": 4,
+          "energy": 31,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 311,
+          "position": 13,
+          "hardness": 15,
+          "energy": 29,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ]
+    },
+    {
+      "file": "G3B.GL",
+      "sha256": "e7bedd5507e4b16f38973b8fc9b113da01435f74935f5c8eb5e61ce843faeb8c",
+      "opponent": "Iceland",
+      "own": [
+        {
+          "slot": 1,
+          "player": 381,
+          "position": 0,
+          "hardness": 12,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 393,
+          "position": 1,
+          "hardness": 9,
+          "energy": 14,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 384,
+          "position": 2,
+          "hardness": 5,
+          "energy": 21,
+          "status": 64,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 383,
+          "position": 2,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 382,
+          "position": 5,
+          "hardness": 6,
+          "energy": 26,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 395,
+          "position": 6,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 2575,
+          "position": 7,
+          "hardness": 10,
+          "energy": 26,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 387,
+          "position": 8,
+          "hardness": 15,
+          "energy": 32,
+          "status": 8,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 388,
+          "position": 9,
+          "hardness": 6,
+          "energy": 24,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 2748,
+          "position": 12,
+          "hardness": 7,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 400,
+          "position": 13,
+          "hardness": 13,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ],
+      "other": [
+        {
+          "slot": 1,
+          "player": 292,
+          "position": 0,
+          "hardness": 1,
+          "energy": 20,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 2,
+          "player": 293,
+          "position": 1,
+          "hardness": 1,
+          "energy": 24,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 3,
+          "player": 294,
+          "position": 2,
+          "hardness": 9,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 284,
+          "position": 2,
+          "hardness": 15,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 295,
+          "position": 3,
+          "hardness": 9,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 296,
+          "position": 4,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 287,
+          "position": 6,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 288,
+          "position": 7,
+          "hardness": 8,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 289,
+          "position": 8,
+          "hardness": 1,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 10,
+          "player": 290,
+          "position": 9,
+          "hardness": 3,
+          "energy": 14,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 11,
+          "player": 300,
+          "position": 13,
+          "hardness": 9,
+          "energy": 29,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ]
+    },
+    {
+      "file": "G3C.GL",
+      "sha256": "ff018fde718c6a57515d5e6c131c837cab05f5bb575d327d9cdc6e0a4e810dac",
+      "opponent": "Belgium",
+      "own": [
+        {
+          "slot": 1,
+          "player": 381,
+          "position": 0,
+          "hardness": 12,
+          "energy": 19,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 383,
+          "position": 2,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 384,
+          "position": 2,
+          "hardness": 5,
+          "energy": 20,
+          "status": 64,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 2575,
+          "position": 3,
+          "hardness": 10,
+          "energy": 25,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 2580,
+          "position": 4,
+          "hardness": 15,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 382,
+          "position": 5,
+          "hardness": 6,
+          "energy": 11,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 395,
+          "position": 6,
+          "hardness": 11,
+          "energy": 0,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 388,
+          "position": 9,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 2748,
+          "position": 12,
+          "hardness": 7,
+          "energy": 3,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 400,
+          "position": 13,
+          "hardness": 13,
+          "energy": 21,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 391,
+          "position": 13,
+          "hardness": 8,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ],
+      "other": [
+        {
+          "slot": 1,
+          "player": 41,
+          "position": 0,
+          "hardness": 9,
+          "energy": 25,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 42,
+          "position": 1,
+          "hardness": 4,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 54,
+          "position": 2,
+          "hardness": 4,
+          "energy": 19,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 44,
+          "position": 2,
+          "hardness": 16,
+          "energy": 17,
+          "status": 8,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 45,
+          "position": 3,
+          "hardness": 6,
+          "energy": 31,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 46,
+          "position": 4,
+          "hardness": 1,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 7,
+          "player": 56,
+          "position": 5,
+          "hardness": 4,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 48,
+          "position": 6,
+          "hardness": 3,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 9,
+          "player": 49,
+          "position": 6,
+          "hardness": 14,
+          "energy": 20,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 50,
+          "position": 9,
+          "hardness": 2,
+          "energy": 30,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 11,
+          "player": 60,
+          "position": 13,
+          "hardness": 15,
+          "energy": 27,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ]
+    },
+    {
+      "file": "G4A.GL",
+      "sha256": "4ef805eb2846a1c44fb74451a596a96865fd2b824ff9cc922c6013f870e44c6f",
+      "opponent": "Puerto Rico",
+      "own": [
+        {
+          "slot": 1,
+          "player": 2713,
+          "position": 0,
+          "hardness": 14,
+          "energy": 29,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 384,
+          "position": 2,
+          "hardness": 5,
+          "energy": 31,
+          "status": 64,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 383,
+          "position": 2,
+          "hardness": 11,
+          "energy": 23,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 2575,
+          "position": 3,
+          "hardness": 10,
+          "energy": 15,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 2580,
+          "position": 4,
+          "hardness": 15,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 382,
+          "position": 5,
+          "hardness": 6,
+          "energy": 14,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 2612,
+          "position": 6,
+          "hardness": 7,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 387,
+          "position": 8,
+          "hardness": 15,
+          "energy": 24,
+          "status": 8,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 388,
+          "position": 9,
+          "hardness": 6,
+          "energy": 18,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 391,
+          "position": 13,
+          "hardness": 8,
+          "energy": 21,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 2614,
+          "position": 13,
+          "hardness": 9,
+          "energy": 29,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ],
+      "other": [
+        {
+          "slot": 1,
+          "player": 1161,
+          "position": 0,
+          "hardness": 5,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 1162,
+          "position": 1,
+          "hardness": 14,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 1174,
+          "position": 2,
+          "hardness": 9,
+          "energy": 28,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 1163,
+          "position": 2,
+          "hardness": 8,
+          "energy": 19,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 1175,
+          "position": 6,
+          "hardness": 3,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 6,
+          "player": 1176,
+          "position": 8,
+          "hardness": 4,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 1167,
+          "position": 9,
+          "hardness": 9,
+          "energy": 31,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 1180,
+          "position": 10,
+          "hardness": 10,
+          "energy": 26,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 1170,
+          "position": 12,
+          "hardness": 11,
+          "energy": 23,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 1169,
+          "position": 12,
+          "hardness": 11,
+          "energy": 26,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 1171,
+          "position": 13,
+          "hardness": 10,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ]
+    },
+    {
+      "file": "G4B.GL",
+      "sha256": "cfcea0ae6b01c2828e1c157ffd7036c2865dca301d9698586ea8015548e4f293",
+      "opponent": "Germany",
+      "own": [
+        {
+          "slot": 1,
+          "player": 2713,
+          "position": 0,
+          "hardness": 14,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 383,
+          "position": 2,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 384,
+          "position": 2,
+          "hardness": 5,
+          "energy": 13,
+          "status": 64,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 2819,
+          "position": 3,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 2580,
+          "position": 4,
+          "hardness": 15,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 382,
+          "position": 5,
+          "hardness": 6,
+          "energy": 25,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 2612,
+          "position": 6,
+          "hardness": 7,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 387,
+          "position": 8,
+          "hardness": 15,
+          "energy": 32,
+          "status": 8,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 388,
+          "position": 9,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 2614,
+          "position": 13,
+          "hardness": 9,
+          "energy": 23,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 2728,
+          "position": 13,
+          "hardness": 14,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ],
+      "other": [
+        {
+          "slot": 1,
+          "player": 232,
+          "position": 0,
+          "hardness": 0,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 2,
+          "player": 233,
+          "position": 1,
+          "hardness": 6,
+          "energy": 31,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 223,
+          "position": 2,
+          "hardness": 8,
+          "energy": 29,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 234,
+          "position": 2,
+          "hardness": 4,
+          "energy": 25,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 235,
+          "position": 3,
+          "hardness": 8,
+          "energy": 25,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 226,
+          "position": 4,
+          "hardness": 9,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 227,
+          "position": 6,
+          "hardness": 2,
+          "energy": 21,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 8,
+          "player": 237,
+          "position": 7,
+          "hardness": 1,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 9,
+          "player": 229,
+          "position": 8,
+          "hardness": 9,
+          "energy": 31,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 231,
+          "position": 12,
+          "hardness": 15,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 239,
+          "position": 13,
+          "hardness": 1,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        }
+      ]
+    },
+    {
+      "file": "G4C.GL",
+      "sha256": "06af479da77db6e1da7847de929bf43531349f2fcddcaeac3ba93e8b16da304d",
+      "opponent": "Belgium",
+      "own": [
+        {
+          "slot": 1,
+          "player": 2713,
+          "position": 0,
+          "hardness": 14,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 383,
+          "position": 2,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 384,
+          "position": 2,
+          "hardness": 5,
+          "energy": 13,
+          "status": 64,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 2819,
+          "position": 3,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 2580,
+          "position": 4,
+          "hardness": 15,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 382,
+          "position": 5,
+          "hardness": 6,
+          "energy": 25,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 2612,
+          "position": 6,
+          "hardness": 7,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 387,
+          "position": 8,
+          "hardness": 15,
+          "energy": 32,
+          "status": 8,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 388,
+          "position": 9,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 2614,
+          "position": 13,
+          "hardness": 9,
+          "energy": 29,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 2728,
+          "position": 13,
+          "hardness": 14,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ],
+      "other": [
+        {
+          "slot": 1,
+          "player": 41,
+          "position": 0,
+          "hardness": 9,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 42,
+          "position": 1,
+          "hardness": 4,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 54,
+          "position": 2,
+          "hardness": 4,
+          "energy": 25,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 43,
+          "position": 2,
+          "hardness": 8,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 55,
+          "position": 3,
+          "hardness": 7,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 46,
+          "position": 4,
+          "hardness": 1,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 7,
+          "player": 56,
+          "position": 5,
+          "hardness": 4,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 48,
+          "position": 6,
+          "hardness": 3,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 9,
+          "player": 49,
+          "position": 6,
+          "hardness": 14,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 50,
+          "position": 9,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 51,
+          "position": 13,
+          "hardness": 4,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ]
+    },
+    {
+      "file": "G4D.GL",
+      "sha256": "d79b07621d480dc91b4fe3cab8ec74cccfc3727519e91010e8de417e6f697acb",
+      "opponent": "Romania",
+      "own": [
+        {
+          "slot": 1,
+          "player": 2713,
+          "position": 0,
+          "hardness": 14,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 383,
+          "position": 2,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 384,
+          "position": 2,
+          "hardness": 5,
+          "energy": 17,
+          "status": 64,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 2819,
+          "position": 3,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 2580,
+          "position": 4,
+          "hardness": 15,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 2612,
+          "position": 6,
+          "hardness": 7,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 395,
+          "position": 6,
+          "hardness": 11,
+          "energy": 30,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 387,
+          "position": 8,
+          "hardness": 15,
+          "energy": 32,
+          "status": 8,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 388,
+          "position": 9,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 2728,
+          "position": 13,
+          "hardness": 14,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 2614,
+          "position": 13,
+          "hardness": 9,
+          "energy": 29,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ],
+      "other": [
+        {
+          "slot": 1,
+          "player": 472,
+          "position": 0,
+          "hardness": 3,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 2,
+          "player": 473,
+          "position": 1,
+          "hardness": 1,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 3,
+          "player": 463,
+          "position": 2,
+          "hardness": 4,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 475,
+          "position": 3,
+          "hardness": 3,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 5,
+          "player": 476,
+          "position": 4,
+          "hardness": 1,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 6,
+          "player": 466,
+          "position": 5,
+          "hardness": 8,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 467,
+          "position": 7,
+          "hardness": 1,
+          "energy": 25,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 8,
+          "player": 468,
+          "position": 8,
+          "hardness": 14,
+          "energy": 31,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 469,
+          "position": 9,
+          "hardness": 7,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 10,
+          "player": 471,
+          "position": 13,
+          "hardness": 4,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 470,
+          "position": 13,
+          "hardness": 12,
+          "energy": 24,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ]
+    },
+    {
+      "file": "G5A.GL",
+      "sha256": "3c42cb3bd28ad14fca8d1719ea3712d5ee0f9937ccdb1ff8fbaf20105c401c80",
+      "opponent": "Bulgaria",
+      "own": [
+        {
+          "slot": 1,
+          "player": 2713,
+          "position": 0,
+          "hardness": 14,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 384,
+          "position": 2,
+          "hardness": 5,
+          "energy": 32,
+          "status": 64,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 383,
+          "position": 2,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 2819,
+          "position": 3,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 2580,
+          "position": 4,
+          "hardness": 15,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 395,
+          "position": 6,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 2612,
+          "position": 6,
+          "hardness": 7,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 8,
+          "player": 387,
+          "position": 8,
+          "hardness": 15,
+          "energy": 32,
+          "status": 8,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 2637,
+          "position": 8,
+          "hardness": 3,
+          "energy": 6,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 10,
+          "player": 2728,
+          "position": 13,
+          "hardness": 14,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 2614,
+          "position": 13,
+          "hardness": 9,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ],
+      "other": [
+        {
+          "slot": 1,
+          "player": 72,
+          "position": 0,
+          "hardness": 12,
+          "energy": 30,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 2,
+          "player": 62,
+          "position": 1,
+          "hardness": 8,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 3,
+          "player": 74,
+          "position": 2,
+          "hardness": 6,
+          "energy": 22,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 4,
+          "player": 64,
+          "position": 2,
+          "hardness": 11,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 5,
+          "player": 65,
+          "position": 5,
+          "hardness": 6,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 6,
+          "player": 75,
+          "position": 6,
+          "hardness": 7,
+          "energy": 25,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 7,
+          "player": 67,
+          "position": 7,
+          "hardness": 2,
+          "energy": 23,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 8,
+          "player": 77,
+          "position": 8,
+          "hardness": 12,
+          "energy": 25,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 9,
+          "player": 69,
+          "position": 9,
+          "hardness": 1,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": true
+        },
+        {
+          "slot": 10,
+          "player": 70,
+          "position": 12,
+          "hardness": 5,
+          "energy": 23,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        },
+        {
+          "slot": 11,
+          "player": 80,
+          "position": 13,
+          "hardness": 10,
+          "energy": 32,
+          "status": 0,
+          "saved_own_tactic4": false,
+          "saved_own_override4": false
+        }
+      ]
+    }
+  ]
+}
