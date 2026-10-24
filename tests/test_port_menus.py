@@ -246,6 +246,46 @@ class Menus(unittest.TestCase):
             r.run('0791:9372')
             self.assertEqual(r.args('0791:92FC'),[(0x2FFE,)])
 
+    def test_pitch_arrows_keep_pointer_bounds_direction_and_refresh(self):
+        cases=[(0xAC,1,0),(0xAC,0,4),(0xAC,4,3),
+               (0xB1,3,4),(0xB1,4,0),(0xB1,0,1)]
+        for prefix in (0,0xA500):
+            for key,initial,want in cases:
+                with self.subTest(prefix=prefix,key=key,initial=initial):
+                    r=Rig();r.mem.waiting=True;r.mem.keys=[key]
+                    r.ds8(0x7920,255);r.ds8(0x7921,1)
+                    r.ds8(0x66A,initial);r.ds8(0x66B,0xA6)
+                    def respond(q,mem):
+                        if q.target=='214B:1E8D':return prefix
+                        if q.target=='0791:0691':return 0
+                        return None
+                    r.run('0791:9372',answer=respond)
+                    delta=65535 if key==0xAC else 1
+                    self.assertEqual(r.args('214B:1D6F'),[(r.mem.DS,0x66A,prefix,prefix|4,delta)])
+                    self.assertEqual((r.mem.ds8(0x66A),r.mem.ds8(0x66B)),(want,0xA6))
+                    self.assertEqual(r.calls[-1],('0791:0691',(),'0791:944B',False))
+
+    def test_help_saves_and_restores_all_4000_bytes_in_order(self):
+        r=Rig();r.mem.waiting=True;r.mem.keys=[0x9F]
+        screen=(0x4200,0x100);saved=(0x4400,0x200)
+        for off,pointer in ((0xA96A,screen),(0xA972,saved)):
+            r.ds16(off,pointer[1]);r.ds16(off+2,pointer[0])
+        original=bytes(i%251 for i in range(4000))
+        s=screen[0]*16+screen[1];d=saved[0]*16+saved[1]
+        r.mem.memory[s:s+4000]=original;r.mem.memory[d:d+4000]=b'\xCC'*4000
+        def respond(q,mem):
+            if q.target=='16D6:0945':
+                self.assertEqual(bytes(mem.memory[d:d+4000]),original)
+                mem.memory[s:s+4000]=b'\xEE'*4000
+                return 0
+            return None
+        r.run('0791:9372',answer=respond)
+        self.assertEqual(r.args('23E4:025D'),[(*screen,*saved,4000),(*saved,*screen,4000)])
+        self.assertEqual(bytes(r.mem.memory[s:s+4000]),original)
+        self.assertEqual(bytes(r.mem.memory[d:d+4000]),original)
+        relevant=[(t,ret) for t,_,ret,_ in r.calls if t in ('23E4:025D','16D6:0945')]
+        self.assertEqual(relevant,[('23E4:025D','0791:947D'),('16D6:0945','0791:9482'),('23E4:025D','0791:9497')])
+
     def test_team_tactics_toggles_selected_element_and_refreshes_marking(self):
         for element in (4,8):
             r=Rig();r.ds16(0xD8E,1);r.ds8(0x6BC0,element);r.ds8(0xC1E,1)
@@ -393,6 +433,17 @@ class Menus(unittest.TestCase):
         r.run('0791:ED8A',[0],answer=respond)
         self.assertEqual(len(r.args('0791:EA09')),2)
 
+    def test_menu_items_3_and_8_keep_conditional_prompt_arguments(self):
+        for item in (3,8):
+            for flag in (0,1,255):
+                with self.subTest(item=item,flag=flag):
+                    r,respond=self.menu_rig([(13,None),(13,10)],item=item,locked=flag)
+                    r.run('0791:ED8A',[0],answer=respond)
+                    self.assertEqual(r.args('214B:1765'),[(flag,r.mem.seg(0x0791),0xED7C)])
+                    calls=[(t,ret) for t,_,ret,_ in r.calls if t=='214B:1765']
+                    self.assertEqual(calls,[('214B:1765','0791:F046')])
+                    self.assertEqual(len(r.args('0791:E929')),int(flag==0))
+
     def test_timed_notice_keeper_template_and_key_or_escape(self):
         for keeper,waiting in [(0,False),(1,True)]:
             r=Rig();r.mem.waiting=waiting;r.mem.keys=[13] if waiting else []
@@ -431,6 +482,36 @@ class Menus(unittest.TestCase):
         self.assertEqual(r.mem.ds8(0x7922),0x17)
         self.assertEqual((r.mem.ds8(0xA976),r.mem.ds8(0xA977)),(0,13))
         self.assertEqual(r.args('23E4:06B7'),[(0x214B,0x4E7)])
+
+    def test_yes_no_builds_bounded_expression_and_exact_draw_arguments(self):
+        suffix=b' <answer>'             # synthetic contents at the original literal address
+        for prompt in (b'why',b'q'*90):
+            for saved_ax in (0,0xA500):
+                with self.subTest(length=len(prompt),saved_ax=saved_ax):
+                    r=Rig();source=0x42100;literal=r.mem.seg(0x214B)*16+0x55E
+                    r.mem.memory[source:source+len(prompt)+1]=bytes([len(prompt)])+prompt
+                    r.mem.memory[literal:literal+len(suffix)+1]=bytes([len(suffix)])+suffix
+                    shown=[]
+                    def respond(q,mem):
+                        if q.target=='214B:0625':return saved_ax
+                        if q.target=='214B:0350':
+                            row,seg,off,ds,pointer=q.args
+                            length=mem.u8(seg*16+off)
+                            shown.append(bytes(mem.memory[seg*16+off+1:seg*16+off+1+length]))
+                            return 0
+                        if q.target=='214B:09A7':r.ds8(0xA976,ord('Y'));return 0
+                        return None
+                    r.run('214B:0566',[0x100,0x4200],answer=respond)
+                    line=0x2FFE-0x52;expression=0x2FFE-0x152
+                    self.assertEqual(r.args('23E4:0644'),[(0x4200,0x100,0,line,80)])
+                    self.assertEqual(r.args('23E4:062A'),[(0,line)])
+                    self.assertEqual(r.args('23E4:06B7'),[(r.mem.seg(0x214B),0x55E)])
+                    self.assertEqual(r.args('214B:0350'),[(saved_ax|25,0,expression,r.mem.DS,0xA96A)])
+                    self.assertEqual(shown,[prompt[:80]+suffix])
+                    self.assertEqual(r.args('214B:09A7'),[(r.mem.DS,0x7946)])
+                    expected=['23E4:0644','214B:0625','23E4:062A','23E4:06B7','214B:0350','214B:09A7','23E4:19B2','214B:0643']
+                    self.assertEqual([t for t,_,_,_ in r.calls],expected)
+                    self.assertEqual((r.mem.ds8(0xA976),r.mem.reg('ax')&255),(0,1))
 
     def test_name_editor_unchanged_changed_and_empty_surname_paths(self):
         cases=[(b'A Smith',0,0,b''),(b'b jones',1,ord('b'),b'Jones'),

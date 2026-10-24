@@ -1,0 +1,67 @@
+{
+  "menus_sha256": "4cda0ba7b20953b244dc07cecfcdef67e8a1535d464bfdc4e3064a1666a06f41",
+  "results": [
+    {
+      "ports": [],
+      "key": 172,
+      "before_mode": 1,
+      "expected_mode": 0,
+      "after_mode": 0,
+      "observed_minute": 2,
+      "pending_poll_frames": [],
+      "error": null,
+      "passed": true,
+      "complete_match": false,
+      "intervention": "queued original key at minute1; no guest memory or CPU edits"
+    },
+    {
+      "ports": [],
+      "key": 177,
+      "before_mode": 1,
+      "expected_mode": 2,
+      "after_mode": 2,
+      "observed_minute": 2,
+      "pending_poll_frames": [],
+      "error": null,
+      "passed": true,
+      "complete_match": false,
+      "intervention": "queued original key at minute1; no guest memory or CPU edits"
+    },
+    {
+      "ports": [
+        "menus",
+        "display"
+      ],
+      "key": 172,
+      "before_mode": 1,
+      "expected_mode": 0,
+      "after_mode": 0,
+      "observed_minute": 2,
+      "pending_poll_frames": [
+        "0791:9372"
+      ],
+      "error": null,
+      "passed": false,
+      "complete_match": false,
+      "intervention": "queued original key at minute1; no guest memory or CPU edits"
+    },
+    {
+      "ports": [
+        "menus",
+        "display"
+      ],
+      "key": 177,
+      "before_mode": 1,
+      "expected_mode": 2,
+      "after_mode": 2,
+      "observed_minute": 2,
+      "pending_poll_frames": [
+        "0791:9372"
+      ],
+      "error": null,
+      "passed": false,
+      "complete_match": false,
+      "intervention": "queued original key at minute1; no guest memory or CPU edits"
+    }
+  ]
+}

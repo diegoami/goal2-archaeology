@@ -1,0 +1,65 @@
+...........................................FFFF..
+======================================================================
+FAIL: test_yes_no_builds_bounded_expression_and_exact_draw_arguments (tests.test_port_menus.Menus.test_yes_no_builds_bounded_expression_and_exact_draw_arguments) (length=3, saved_ax=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-ennfwy1e/tests/test_port_menus.py", line 509, in test_yes_no_builds_bounded_expression_and_exact_draw_arguments
+    self.assertEqual(r.args('214B:0350'),[(saved_ax|25,0,expression,r.mem.DS,0xA96A)])
+AssertionError: Lists differ: [] != [(25, 0, 11948, 9601, 43370)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(25, 0, 11948, 9601, 43370)
+
+- []
++ [(25, 0, 11948, 9601, 43370)]
+
+======================================================================
+FAIL: test_yes_no_builds_bounded_expression_and_exact_draw_arguments (tests.test_port_menus.Menus.test_yes_no_builds_bounded_expression_and_exact_draw_arguments) (length=3, saved_ax=42240)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-ennfwy1e/tests/test_port_menus.py", line 509, in test_yes_no_builds_bounded_expression_and_exact_draw_arguments
+    self.assertEqual(r.args('214B:0350'),[(saved_ax|25,0,expression,r.mem.DS,0xA96A)])
+AssertionError: Lists differ: [] != [(42265, 0, 11948, 9601, 43370)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(42265, 0, 11948, 9601, 43370)
+
+- []
++ [(42265, 0, 11948, 9601, 43370)]
+
+======================================================================
+FAIL: test_yes_no_builds_bounded_expression_and_exact_draw_arguments (tests.test_port_menus.Menus.test_yes_no_builds_bounded_expression_and_exact_draw_arguments) (length=90, saved_ax=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-ennfwy1e/tests/test_port_menus.py", line 509, in test_yes_no_builds_bounded_expression_and_exact_draw_arguments
+    self.assertEqual(r.args('214B:0350'),[(saved_ax|25,0,expression,r.mem.DS,0xA96A)])
+AssertionError: Lists differ: [] != [(25, 0, 11948, 9601, 43370)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(25, 0, 11948, 9601, 43370)
+
+- []
++ [(25, 0, 11948, 9601, 43370)]
+
+======================================================================
+FAIL: test_yes_no_builds_bounded_expression_and_exact_draw_arguments (tests.test_port_menus.Menus.test_yes_no_builds_bounded_expression_and_exact_draw_arguments) (length=90, saved_ax=42240)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-ennfwy1e/tests/test_port_menus.py", line 509, in test_yes_no_builds_bounded_expression_and_exact_draw_arguments
+    self.assertEqual(r.args('214B:0350'),[(saved_ax|25,0,expression,r.mem.DS,0xA96A)])
+AssertionError: Lists differ: [] != [(42265, 0, 11948, 9601, 43370)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(42265, 0, 11948, 9601, 43370)
+
+- []
++ [(42265, 0, 11948, 9601, 43370)]
+
+----------------------------------------------------------------------
+Ran 46 tests in 1.026s
+
+FAILED (failures=4)

@@ -1,0 +1,65 @@
+...........................................FFFF..
+======================================================================
+FAIL: test_yes_no_builds_bounded_expression_and_exact_draw_arguments (tests.test_port_menus.Menus.test_yes_no_builds_bounded_expression_and_exact_draw_arguments) (length=3, saved_ax=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-5eqlnppq/tests/test_port_menus.py", line 508, in test_yes_no_builds_bounded_expression_and_exact_draw_arguments
+    self.assertEqual(r.args('23E4:06B7'),[(r.mem.seg(0x214B),0x55E)])
+AssertionError: Lists differ: [] != [(8523, 1374)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(8523, 1374)
+
+- []
++ [(8523, 1374)]
+
+======================================================================
+FAIL: test_yes_no_builds_bounded_expression_and_exact_draw_arguments (tests.test_port_menus.Menus.test_yes_no_builds_bounded_expression_and_exact_draw_arguments) (length=3, saved_ax=42240)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-5eqlnppq/tests/test_port_menus.py", line 508, in test_yes_no_builds_bounded_expression_and_exact_draw_arguments
+    self.assertEqual(r.args('23E4:06B7'),[(r.mem.seg(0x214B),0x55E)])
+AssertionError: Lists differ: [] != [(8523, 1374)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(8523, 1374)
+
+- []
++ [(8523, 1374)]
+
+======================================================================
+FAIL: test_yes_no_builds_bounded_expression_and_exact_draw_arguments (tests.test_port_menus.Menus.test_yes_no_builds_bounded_expression_and_exact_draw_arguments) (length=90, saved_ax=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-5eqlnppq/tests/test_port_menus.py", line 508, in test_yes_no_builds_bounded_expression_and_exact_draw_arguments
+    self.assertEqual(r.args('23E4:06B7'),[(r.mem.seg(0x214B),0x55E)])
+AssertionError: Lists differ: [] != [(8523, 1374)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(8523, 1374)
+
+- []
++ [(8523, 1374)]
+
+======================================================================
+FAIL: test_yes_no_builds_bounded_expression_and_exact_draw_arguments (tests.test_port_menus.Menus.test_yes_no_builds_bounded_expression_and_exact_draw_arguments) (length=90, saved_ax=42240)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-5eqlnppq/tests/test_port_menus.py", line 508, in test_yes_no_builds_bounded_expression_and_exact_draw_arguments
+    self.assertEqual(r.args('23E4:06B7'),[(r.mem.seg(0x214B),0x55E)])
+AssertionError: Lists differ: [] != [(8523, 1374)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(8523, 1374)
+
+- []
++ [(8523, 1374)]
+
+----------------------------------------------------------------------
+Ran 46 tests in 1.045s
+
+FAILED (failures=4)
