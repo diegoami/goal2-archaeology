@@ -1,0 +1,75 @@
+{
+ "created": {
+  "utc": "2026-10-24T09:09:26.497Z",
+  "local": "2026-10-24T11:09:26.497+02:00",
+  "tz": "CEST"
+ },
+ "ended": {
+  "utc": "2026-10-24T09:09:42.786Z",
+  "local": "2026-10-24T11:09:42.786+02:00",
+  "tz": "CEST"
+ },
+ "stop_reason": "window-closed",
+ "artifact_set": "goal2-67cf27d6",
+ "config": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=/home/diego/projects/goal2-archaeology/scratch/human/sessions/20261024-110926/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=/home/diego/projects/goal2-archaeology/scratch/human/sessions/20261024-110926/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=max\n[autoexec]\nmount c /home/diego/projects/goal2-archaeology/scratch/human/sessions/20261024-110926/game\nc:\nmount d /home/diego/projects/goal2-archaeology/scratch/human/sessions/20261024-110926/dosclock\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\ngoal\nexit\n",
+ "config_sha256": "1f2d76c0b441a4881062fda0f66ae4be0e65d6cd83fb8bbdb19525f9e969cd95",
+ "mapper_sha256": "7cd1a64181f3ce056e016f859904ba91b31bda823fc18d37572483a6b97037f9",
+ "dosbox_x_version": "DOSBox-X version 2024.03.01 SDL2, copyright 2011-2024 The DOSBox-X Team.",
+ "display": ":600",
+ "video": {
+  "requested": false,
+  "used": false
+ },
+ "problems": [
+  "shutdown snapshot not captured: savestate not complete and stable within 15.0s"
+ ],
+ "load": {
+  "fresh": false,
+  "file": "game/2B.GL",
+  "source": "/home/diego/projects/goal2-archaeology/scratch/human/sessions/20261023-112656/game/2B.GL",
+  "chosen": "newest .GL of the previous sessions",
+  "bytes": 169553,
+  "sha256": "e35ec7edc8f7bdc8409dce9ad6e0df3b1c663fc36d5a0848fbda89e6844b9dd7",
+  "copied": {
+   "utc": "2026-10-24T09:09:26.497Z",
+   "local": "2026-10-24T11:09:26.497+02:00",
+   "tz": "CEST"
+  },
+  "intervention": "I3: the owner's saved game placed in the guest's drive C: before launch; the owner loads it in the game"
+ },
+ "saves": {
+  "fetched": true,
+  "dir": "/home/diego/projects/goal2-archaeology/.cache/saves",
+  "files": [
+   "2B.GL",
+   "3.GL",
+   "4.GL"
+  ]
+ },
+ "scale": 1,
+ "cycles": "max",
+ "outer_display": ":740",
+ "xephyr_pid": 908436,
+ "xephyr_title": "goal2-recorder-20261024-110926-03c57f0b3c1ac2ec",
+ "xephyr_window_id": "6291457",
+ "resolution": "1280x800",
+ "burst_quiet_s": 0.5,
+ "capture_margin_s": 0.05,
+ "window_id": "6291461",
+ "dosbox_x_pid": 908445,
+ "monotonic_start_s": 9495.041393707,
+ "cadence_s": 20.0,
+ "pause": {
+  "pause_key": "F12+P",
+  "resume_key": "F12+P (the recorder presses Pause) or Pause",
+  "file": "pauses.jsonl",
+  "snapshot": "after-resume"
+ },
+ "snapshots": 1,
+ "write_events_total": 54,
+ "keys": {
+  "file": "keys.jsonl",
+  "sha256": "17f5fefba2ae0fab7493a7c48806c1a96579e5fd67c83aa47abd5563752a0749",
+  "bytes": 1460
+ }
+}
