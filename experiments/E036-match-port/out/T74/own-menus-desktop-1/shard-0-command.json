@@ -1,0 +1,23 @@
+[
+  "/home/diego/.local/bin/python3.12",
+  "-B",
+  "experiments/E036-match-port/family.py",
+  "--family",
+  "ALL",
+  "--only",
+  "F40/e032-0101,F40/e032-1234,F40/e032-2345,F40/e032-2b7e,F40/e032-4c1d,F40/e032-6a33,F40/e032-8e05,F40/e032-a1f0,F40/e032-c3c3,F40/e032-e719,F40/more-0042,F40/more-1111,F40/more-3a5c,F40/more-5e5e,F40/more-7f31,F40/more-9abc",
+  "--ports",
+  "menus",
+  "--count",
+  "0791:7FCF,0791:92FC,0791:9372,0791:ED8A,1771:1981,1771:4859,1771:4925,1771:4952,1771:49B8,1771:4B61,214B:04F8,214B:0566,214B:0723,214B:08DD,214B:0983,214B:0993,214B:09A7,214B:13F6,214B:1452,214B:14AC,214B:1507,214B:1560,214B:158E,214B:15B1,214B:1765,235C:0000,235C:000B",
+  "--workers",
+  "2",
+  "--time-limit",
+  "1800",
+  "--stretch-limit",
+  "300",
+  "--checkpoint",
+  ".cache/checkpoints/T74-own-menus-desktop-1-shard-0",
+  "--out",
+  "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T74/own-menus-desktop-1/shard-0.jsonl"
+]

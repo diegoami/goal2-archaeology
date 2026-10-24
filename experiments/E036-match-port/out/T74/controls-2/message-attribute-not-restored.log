@@ -1,0 +1,13 @@
+.................F........................
+======================================================================
+FAIL: test_message_wait_restores_attribute_and_uses_press_any_key (tests.test_port_menus.Menus.test_message_wait_restores_attribute_and_uses_press_any_key)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-unqdvma1/tests/test_port_menus.py", line 431, in test_message_wait_restores_attribute_and_uses_press_any_key
+    self.assertEqual(r.mem.ds8(0x7922),0x17)
+AssertionError: 0 != 23
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.511s
+
+FAILED (failures=1)

@@ -1,0 +1,13 @@
+..................F.......................
+======================================================================
+FAIL: test_name_editor_unchanged_changed_and_empty_surname_paths (tests.test_port_menus.Menus.test_name_editor_unchanged_changed_and_empty_surname_paths) (edited=b'b jones')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-310_640o/tests/test_port_menus.py", line 454, in test_name_editor_unchanged_changed_and_empty_surname_paths
+    self.assertEqual(r.mem.read(0x42200+55,len(surname)+1),bytes([len(surname)])+surname)
+AssertionError: b'\x06 jone' != b'\x05Jones'
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.429s
+
+FAILED (failures=1)

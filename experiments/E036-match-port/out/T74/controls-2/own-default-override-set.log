@@ -1,0 +1,13 @@
+...................F......................
+======================================================================
+FAIL: test_own_tactic_three_states_and_return_to_team_value (tests.test_port_menus.Menus.test_own_tactic_three_states_and_return_to_team_value) (original=0, team=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-ttsyjyua/tests/test_port_menus.py", line 283, in test_own_tactic_three_states_and_return_to_team_value
+    self.assertEqual(r.mem.u8(PSEG*16+POFF+0x14*5+15),want)
+AssertionError: 17 != 16
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.439s
+
+FAILED (failures=1)

@@ -1,0 +1,19 @@
+....................................F.....
+======================================================================
+FAIL: test_team_tactics_view_only_for_computer_or_locked_game (tests.test_port_menus.Menus.test_team_tactics_view_only_for_computer_or_locked_game)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-bcrl803g/tests/test_port_menus.py", line 269, in test_team_tactics_view_only_for_computer_or_locked_game
+    r.run('1771:1981',[7],answer=respond)
+  File "/tmp/T74-controls-bcrl803g/tests/test_port_menus.py", line 53, in run
+    return self._invoke(entry,variant)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T74-controls-bcrl803g/tests/test_port_menus.py", line 66, in _invoke
+    if self.steps>1000:raise AssertionError('menu did not terminate within1000 calls')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: menu did not terminate within1000 calls
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.547s
+
+FAILED (failures=1)

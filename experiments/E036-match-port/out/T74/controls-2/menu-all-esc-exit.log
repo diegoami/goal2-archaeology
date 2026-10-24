@@ -1,0 +1,13 @@
+...............................F..........
+======================================================================
+FAIL: test_team_menu_escape_before_used_and_invalid_eleven_retry (tests.test_port_menus.Menus.test_team_menu_escape_before_used_and_invalid_eleven_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hr53hq0l/tests/test_port_menus.py", line 388, in test_team_menu_escape_before_used_and_invalid_eleven_retry
+    self.assertEqual(len(r.args('214B:1560')),2)
+AssertionError: 1 != 2
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.478s
+
+FAILED (failures=1)

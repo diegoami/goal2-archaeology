@@ -1,0 +1,55 @@
+.......FFFF...............................FF..
+======================================================================
+FAIL: test_byte_and_word_clamp_boundaries (tests.test_port_menus.Menus.test_byte_and_word_clamp_boundaries) (address='214B:13F6', key=171, start=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-11dy6mrr/tests/test_port_menus.py", line 149, in test_byte_and_word_clamp_boundaries
+    self.assertEqual(r.u16(0x42000),want)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_byte_and_word_clamp_boundaries (tests.test_port_menus.Menus.test_byte_and_word_clamp_boundaries) (address='214B:13F6', key=173, start=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-11dy6mrr/tests/test_port_menus.py", line 149, in test_byte_and_word_clamp_boundaries
+    self.assertEqual(r.u16(0x42000),want)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_byte_and_word_clamp_boundaries (tests.test_port_menus.Menus.test_byte_and_word_clamp_boundaries) (address='214B:14AC', key=171, start=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-11dy6mrr/tests/test_port_menus.py", line 149, in test_byte_and_word_clamp_boundaries
+    self.assertEqual(r.u16(0x42000),want)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_byte_and_word_clamp_boundaries (tests.test_port_menus.Menus.test_byte_and_word_clamp_boundaries) (address='214B:14AC', key=173, start=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-11dy6mrr/tests/test_port_menus.py", line 149, in test_byte_and_word_clamp_boundaries
+    self.assertEqual(r.u16(0x42000),want)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_wrap_up_down_and_delegated_keys (tests.test_port_menus.Menus.test_wrap_up_down_and_delegated_keys) (address='214B:1452', key=171, start=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-11dy6mrr/tests/test_port_menus.py", line 159, in test_wrap_up_down_and_delegated_keys
+    r.run(address,[9,0,0x4200]);self.assertEqual(r.u16(0x42000),want)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_wrap_up_down_and_delegated_keys (tests.test_port_menus.Menus.test_wrap_up_down_and_delegated_keys) (address='214B:1507', key=171, start=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-11dy6mrr/tests/test_port_menus.py", line 159, in test_wrap_up_down_and_delegated_keys
+    r.run(address,[9,0,0x4200]);self.assertEqual(r.u16(0x42000),want)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 1
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.547s
+
+FAILED (failures=6)

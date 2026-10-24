@@ -1,0 +1,24 @@
+..........F...............................
+======================================================================
+FAIL: test_list_navigation_edges_pages_home_end (tests.test_port_menus.Menus.test_list_navigation_edges_pages_home_end) (key=171, top=8, cursor=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-uk_4dh7a/tests/test_port_menus.py", line 493, in test_list_navigation_edges_pages_home_end
+    self.assertEqual((r.u16(0x42020),r.u16(0x42030)),(wanttop,wantcursor))
+AssertionError: Tuples differ: (1, 2) != (1, 1)
+
+First differing element 1:
+2
+1
+
+- (1, 2)
+?     ^
+
++ (1, 1)
+?     ^
+
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.445s
+
+FAILED (failures=1)

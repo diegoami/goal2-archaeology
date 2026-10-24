@@ -12,6 +12,11 @@ from original_match import port
 from original_match.port import menus
 from original_match.port.mem import PlainMem
 from tests.test_port_update import Rig as BaseRig, PSEG, POFF, SQSEG, SQOFF
+try:
+    import unicorn
+    HAVE_UNICORN=True
+except ImportError:
+    HAVE_UNICORN=False
 
 
 class KeysMem(PlainMem):
@@ -493,6 +498,7 @@ class Menus(unittest.TestCase):
         self.assertEqual((r.u16(0x42020),r.u16(0x42030)),(1,3))
 
 
+@unittest.skipUnless(HAVE_UNICORN,"unicorn not installed")
 class IVT(unittest.TestCase):
     def run_interrupt(self,target='235C:000B',handler=b'\xCF'):
         from original_match.machine import Machine

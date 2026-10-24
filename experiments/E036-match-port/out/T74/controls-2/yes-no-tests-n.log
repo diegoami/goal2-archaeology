@@ -1,0 +1,13 @@
+........................................F.
+======================================================================
+FAIL: test_yes_no_returns_uppercase_y_only_and_clears_current_key (tests.test_port_menus.Menus.test_yes_no_returns_uppercase_y_only_and_clears_current_key)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-yt02bl3x/tests/test_port_menus.py", line 422, in test_yes_no_returns_uppercase_y_only_and_clears_current_key
+    self.assertEqual(r.mem.reg('ax')&255,want)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.450s
+
+FAILED (failures=1)

@@ -1,0 +1,13 @@
+......................................F...
+======================================================================
+FAIL: test_wait_key_set_rejects_first_key_then_accepts_second (tests.test_port_menus.Menus.test_wait_key_set_rejects_first_key_then_accepts_second)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-ld8af_gp/tests/test_port_menus.py", line 411, in test_wait_key_set_rejects_first_key_then_accepts_second
+    self.assertEqual(r.mem.ds8(0xA976),ord('Y'))
+AssertionError: 78 != 89
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.436s
+
+FAILED (failures=1)

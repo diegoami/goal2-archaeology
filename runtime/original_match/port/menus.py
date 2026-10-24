@@ -16,6 +16,7 @@ from .setup import guest, member, farg, rb, rw, w8, w16, player_of, squad_of
 PORTS = Registry("menus", "the manager's decision menus and key services (T74)")
 PORTS.variant('tactics-adjacent-bit', '1981 at1A47 toggles the next tactic element instead of the selected one')
 PORTS.variant('speed-right-increments', '9372 at9413 increments the match delay byte instead of decrementing it')
+PORTS.variant('menu-tactics-wrong-country', 'ED8A atEFE3 passes country+1 to the tactics editor instead of the selected country')
 PORTS.variant('tactics-change-unflagged', 'ED8A atF004 omits the changed-tactics refresh flag DS:9B55')
 M16 = 0xFFFF
 
@@ -421,7 +422,9 @@ def in_match_menu(mem,variant):
                 r.ax=0x40
                 r=yield from guest(mem,r,'1771:0F58',ss16(mem,r,r.bp-5),9,r.ax,ret='EFCC')
                 squad_of(mem,r,ss16(mem,r,r.bp-5));r.al=rb(mem,r,0x2D);r.ah=0;r.local16(-11,r.ax)
-                r=yield from guest(mem,r,'1771:1981',ss16(mem,r,r.bp-5),ret='EFEB')
+                country=ss16(mem,r,r.bp-5)
+                if variant=='menu-tactics-wrong-country':country=(country+1)&M16
+                r=yield from guest(mem,r,'1771:1981',country,ret='EFEB')
                 squad_of(mem,r,ss16(mem,r,r.bp-5));r.al=rb(mem,r,0x2D);r.ah=0
                 if r.ax!=ss16(mem,r,r.bp-11) and variant!='tactics-change-unflagged':
                     mem.wds8(0x9B55,1,'0791:F004')
