@@ -214,6 +214,22 @@ class OriginalTests(unittest.TestCase):
         self.assertIsNotNone(m.result()["kickoff_seed"])
         self.assertTrue([e for e in events if e.kind == "full_time"])
 
+    def test_computer_only_seed_and_delay_land_at_actual_play_entry(self):
+        from original_match import Match, Fixture
+        from original_match.match import PLAY_MATCH, SEED, GAME_PTR
+        m=Match(self.image,Fixture(1,2,index=21),managed=7,seed=0x1234,
+                delay_byte=2,record_draws=True)
+        observed=[]
+        def at_play(replay):
+            if not replay:
+                observed.append((m.m.rd(SEED),m.m.rd_far(GAME_PTR,0x3F,1),m.st["recording"]))
+        m.m.at(PLAY_MATCH,at_play)
+        events=list(m.events())
+        self.assertEqual(observed,[(0x1234,2,True)])
+        self.assertEqual(m.result()["kickoff_seed"],0x1234)
+        self.assertGreater(m.result()["draws"],0)
+        self.assertFalse([e for e in events if e.kind=="decision"])
+
     def test_engine_is_e011_r0001(self):
         from original_match import check
         ok, diff = check.engine(self.image)
