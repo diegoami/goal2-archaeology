@@ -43,7 +43,16 @@ def main():
             assert sorted(before)==sorted(after)
             assert change['outgoing'] in before[:11] and change['incoming'] in before[11:]
             assert change['incoming'] in after[:11] and change['outgoing'] in after[11:]
-        if rec['status']=='full time without target':assert 'FULL TIME' in rows[-1]['screen']
+        if rec['status']=='full time without target':
+            assert 'FULL TIME' in rows[-1]['screen']
+            end=Image.from_savestate((ROOT/rows[-1]['file']).read_bytes());ds=end.DS*16
+            assert end.memory[ds+0x9A3E]==0 and end.memory[ds+0x9A3F]==0
+        for change in rec.get('position_changes',[]):
+            b=Image.from_savestate((ROOT/bysha[change['before_sha256']]['file']).read_bytes());a=Image.from_savestate((ROOT/bysha[change['after_sha256']]['file']).read_bytes())
+            def pos(image):
+                m=image.memory;ds=image.DS*16;off=int.from_bytes(m[ds+0xA91B:ds+0xA91D],'little');seg=int.from_bytes(m[ds+0xA91D:ds+0xA91F],'little')
+                return m[seg*16+off+20*change['player']+6]
+            assert pos(b)==change['before'] and pos(a)==change['after'] and change['keys']==['r','r']
         attempts[name]=(rec,rows)
     search=json.loads((base/'record-search-r1.json').read_text());recorded_code(search,'scan_records.py')
     pattern=re.compile(r'select\s+(FREE\s*KICK|PENALTY)\s+taker',re.I)
@@ -58,6 +67,23 @@ def main():
         ids=[int.from_bytes(cs[c*191+2*i:c*191+2*i+2],'little') for i in range(11)]
         assert item['positions']==[ps[20*p+6] for p in ids]
         assert item['zero_energy_slots']==[i+1 for i,p in enumerate(ids) if ps[20*p+14]==0]
+    foul=json.loads((base/'foul-gate-assessment-r1.json').read_text());recorded_code(foul,'assess_foul_gate.py');assert len(foul['sources'])==14
+    for source in foul['sources']:
+        raw=(ROOT/'.cache/400-last/assets'/source['file']).read_bytes();assert sha(raw)==source['sha256']
+        cs=raw[sum(SIZES[:10]):sum(SIZES[:11])];ps=raw[sum(SIZES[:11]):sum(SIZES[:12])];names=raw[:SIZES[0]]
+        name=lambda c:names[c*16+1:c*16+1+names[c*16]].decode('cp437')
+        other=next(c for c in range(1,129) if name(c)==source['opponent'])
+        for country,key in ((20,'own'),(other,'other')):
+            for i,item in enumerate(source[key]):
+                p=int.from_bytes(cs[country*191+2*i:country*191+2*i+2],'little');r=ps[20*p:20*p+20]
+                assert item==dict(slot=i+1,player=p,position=r[6],hardness=r[5]-(r[3]&1),energy=r[14],status=r[16],saved_own_tactic4=bool(r[15]&8),saved_own_override4=bool(r[15]&128))
+    multi=json.loads((base/'multiplayer-save-search-r1.json').read_text());recorded_code(multi,'scan_multiplayer_saves.py');assert not multi['errors']
+    for item in multi['inputs']:
+        raw=(ROOT/'.cache/400-last/multiplayer-search-assets'/(item['sha256']+'.GL')).read_bytes();assert sha(raw)==item['sha256']
+        game=raw[sum(SIZES[:12]):sum(SIZES[:13])];assert game[0]==item['managers']==1
+    retained=json.loads((base/'retained-target-scan-r1.json').read_text());recorded_code(retained,'scan_retained_targets.py')
+    assert len(retained['snapshots'])==count==848 and all(not x['caption_match'] and not x['stack_candidates'] for x in retained['snapshots'])
+    for item in retained['snapshots']:assert sha((ROOT/item['file']).read_bytes())==item['sha256']
     roles=set()
     for case in d['cases']:
         rec,rows=attempts[case['attempt']];role=case['role'];assert role in (3,4) and rec['target']['role']==role
@@ -72,5 +98,12 @@ def main():
     assert sorted(roles)==d['captured_roles']
     assert set(d['remaining'])==({'role3_penalty','role4_free_kick','E062_no_player','EC60_vacancy'}-{f'role{r}_'+('penalty' if r==3 else 'free_kick') for r in roles})
     for package in d['packages']:assert sha((ROOT/package['readback']).read_bytes())==package['sha256']
-    print(f'PASS:{len(attempts)} bounded original-key attempts /{count} observations;477 decoded records and17 retained source assessments; captured roles{sorted(roles)}; remaining {d["remaining"]}; all private readbacks verified')
+    from verify_unicorn import records
+    uc=records();assert set(uc)=={'uc-r1','uc-r2'}
+    assert uc['uc-r1'][0]['status']=='aborted' and 'UnknownScreen' in uc['uc-r1'][0]['error']
+    assert uc['uc-r2'][0]['status']=='full time without target' and uc['uc-r2'][0]['elapsed_s']<120
+    assert uc['uc-r2'][0]['existing_effective_tactics']==dict(push_forward=True,quick_pass=False)
+    core_count=sum(len(rows) for rec,rows in uc.values())
+    assert core_count==94
+    print(f'PASS:{len(attempts)} native attempts /{count} observations +2 exact-CPU replays /{core_count} observations;477 decoded records and17 source assessments; captured roles{sorted(roles)}; remaining {d["remaining"]}; all private readbacks verified')
 if __name__=='__main__':main()

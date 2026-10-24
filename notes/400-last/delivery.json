@@ -1,0 +1,65 @@
+{
+  "schema": "T90-bounded-negative/1",
+  "attempts": [
+    "G1D-r1",
+    "G4B-r1",
+    "G3C-r1",
+    "G1A-r1",
+    "G2B-r1",
+    "G3A-r1",
+    "G1C-r1"
+  ],
+  "core_attempts": [
+    "uc-r1",
+    "uc-r2"
+  ],
+  "cases": [],
+  "captured_roles": [],
+  "remaining": [
+    "role3_penalty",
+    "role4_free_kick",
+    "E062_no_player",
+    "EC60_vacancy"
+  ],
+  "packages": [
+    {
+      "sha256": "3d776098787d0854ba5c933075157ca2c666e2fc78757466a0d285d9f69748d2",
+      "bytes": 63330595,
+      "attempts": [
+        "G1D-r1",
+        "G4B-r1"
+      ],
+      "private": "goal2drive:goal2-archaeology/400-penalty-free-kick-20261024/t90-first-probes-private.zip",
+      "readback": ".cache/400-last/readback/t90-first-probes-private.zip"
+    },
+    {
+      "sha256": "59acb085b9b924d14b252052d08c5159dcbfa71c8e38929c877f4938619483f9",
+      "bytes": 90222274,
+      "attempts": [
+        "G3C-r1",
+        "G1A-r1",
+        "uc-r1"
+      ],
+      "private": "goal2drive:goal2-archaeology/400-penalty-free-kick-20261024/t90-more-probes-private.zip",
+      "readback": ".cache/400-last/readback/t90-more-probes-private.zip"
+    },
+    {
+      "sha256": "5bc9ae63b3beb964410718f3205358ec881520f988d06d37ce00e3e8b57c5a27",
+      "bytes": 94880278,
+      "attempts": [
+        "G2B-r1",
+        "G3A-r1",
+        "G1C-r1",
+        "uc-r2"
+      ],
+      "private": "goal2drive:goal2-archaeology/400-penalty-free-kick-20261024/t90-final-probes-private.zip",
+      "readback": ".cache/400-last/readback/t90-final-probes-private.zip"
+    },
+    {
+      "sha256": "8bc02a6f22953bee8f401d149f34ecf8ccf1f6cd55515e1cc458c0a9dce072f9",
+      "bytes": 849257,
+      "private": "goal2drive:goal2-archaeology/400-penalty-free-kick-20261024/t90-multiplayer-search-private.zip",
+      "readback": ".cache/400-last/readback/t90-multiplayer-search-private.zip"
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "basis": "Read-only actual native captain snapshots, after original computer setup; differs from saved-lineup source assessment",
+  "inputs": [
+    {
+      "attempt": "G1A-r1",
+      "step": 34,
+      "source": ".cache/400-last/G1A-r1/0034.sav",
+      "sha256": "6731809257089157904884a54148f6f71b87a3073aaa9d433479744ba8844915",
+      "teams": [
+        {
+          "country": 8,
+          "manager_byte": 8,
+          "keeper": 152,
+          "keeper_position": 0,
+          "hardness": 15,
+          "effective_tackle_hard": false
+        },
+        {
+          "country": 20,
+          "manager_byte": 129,
+          "keeper": 381,
+          "keeper_position": 0,
+          "hardness": 12,
+          "effective_tackle_hard": false
+        }
+      ]
+    },
+    {
+      "attempt": "G1C-r1",
+      "step": 37,
+      "source": ".cache/400-last/G1C-r1/0037.sav",
+      "sha256": "0d0286cd8987486ef169a37723862b448aafb3cda93345e48567fea1e64b66ed",
+      "teams": [
+        {
+          "country": 1,
+          "manager_byte": 1,
+          "keeper": 1,
+          "keeper_position": 0,
+          "hardness": 9,
+          "effective_tackle_hard": false
+        },
+        {
+          "country": 20,
+          "manager_byte": 129,
+          "keeper": 381,
+          "keeper_position": 0,
+          "hardness": 12,
+          "effective_tackle_hard": false
+        }
+      ]
+    },
+    {
+      "attempt": "G1D-r1",
+      "step": 34,
+      "source": ".cache/400-last/G1D-r1/0034.sav",
+      "sha256": "2bac458e73681d05afa93171ec9726e55c26bda2ded149bceada69fb96de14e1",
+      "teams": [
+        {
+          "country": 17,
+          "manager_byte": 17,
+          "keeper": 332,
+          "keeper_position": 0,
+          "hardness": 1,
+          "effective_tackle_hard": false
+        },
+        {
+          "country": 20,
+          "manager_byte": 129,
+          "keeper": 381,
+          "keeper_position": 0,
+          "hardness": 12,
+          "effective_tackle_hard": false
+        }
+      ]
+    },
+    {
+      "attempt": "G2B-r1",
+      "step": 14,
+      "source": ".cache/400-last/G2B-r1/0014.sav",
+      "sha256": "a323e30d5e09a47f66e177607b5a17d0628c045a4f81fef855eeae068fb63ac5",
+      "teams": [
+        {
+          "country": 20,
+          "manager_byte": 129,
+          "keeper": 381,
+          "keeper_position": 0,
+          "hardness": 12,
+          "effective_tackle_hard": false
+        },
+        {
+          "country": 32,
+          "manager_byte": 32,
+          "keeper": 621,
+          "keeper_position": 0,
+          "hardness": 7,
+          "effective_tackle_hard": true
+        }
+      ]
+    },
+    {
+      "attempt": "G3A-r1",
+      "step": 16,
+      "source": ".cache/400-last/G3A-r1/0016.sav",
+      "sha256": "53365cadf54fc9fc1ed7297334d7e2456e3c8a0c06c3fc490f3e919de5bb687a",
+      "teams": [
+        {
+          "country": 20,
+          "manager_byte": 129,
+          "keeper": 381,
+          "keeper_position": 0,
+          "hardness": 12,
+          "effective_tackle_hard": false
+        },
+        {
+          "country": 16,
+          "manager_byte": 16,
+          "keeper": 301,
+          "keeper_position": 0,
+          "hardness": 13,
+          "effective_tackle_hard": false
+        }
+      ]
+    },
+    {
+      "attempt": "G3C-r1",
+      "step": 93,
+      "source": ".cache/400-last/G3C-r1/0093.sav",
+      "sha256": "ffca3aae08fd702ad3b6c7447bcfe97f2860ecef4b7ae9062e9d599bbdd5e48a",
+      "teams": [
+        {
+          "country": 3,
+          "manager_byte": 3,
+          "keeper": 41,
+          "keeper_position": 0,
+          "hardness": 9,
+          "effective_tackle_hard": true
+        },
+        {
+          "country": 20,
+          "manager_byte": 129,
+          "keeper": 381,
+          "keeper_position": 0,
+          "hardness": 12,
+          "effective_tackle_hard": false
+        }
+      ]
+    },
+    {
+      "attempt": "G4B-r1",
+      "step": 19,
+      "source": ".cache/400-last/G4B-r1/0019.sav",
+      "sha256": "14c89fd5e62855cf5205394e7b5633a2db2ceeac5d8fe2a8407173ccb361c6a7",
+      "teams": [
+        {
+          "country": 20,
+          "manager_byte": 129,
+          "keeper": 2713,
+          "keeper_position": 0,
+          "hardness": 14,
+          "effective_tackle_hard": false
+        },
+        {
+          "country": 12,
+          "manager_byte": 12,
+          "keeper": 232,
+          "keeper_position": 0,
+          "hardness": 0,
+          "effective_tackle_hard": false
+        }
+      ]
+    }
+  ]
+}

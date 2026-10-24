@@ -36,6 +36,7 @@ def records():
         assert rec['host_alias_roles']==[2,5] and rec['initial_import']['cpu_unchanged'] and rec['initial_import']['game_memory_unchanged']
         for name,digest in rec['runtime_files'].items():assert sha((ROOT/'.cache/400-nice-try/core-source'/name).read_bytes())==digest
         rows=[json.loads(l) for l in (folder/'steps.jsonl').read_text().splitlines()];assert len(rows)==rec['observations']
+        assert [r['label']['before_key'] for r in rows if isinstance(r['label'],dict) and 'before_key' in r['label']]==rec['keys']
         for n,row in enumerate(rows,1):
             assert row['n']==n
             for key in ('core','machine'):
@@ -43,5 +44,20 @@ def records():
                 if item:assert sha((ROOT/item['file']).read_bytes())==item['sha256']
             memory,meta=machine(ROOT/row['machine']['file']);assert meta['regs']==row['regs'] and meta['load']==row['load']
             assert not Image(bytes.fromhex(meta['memory_header'])+memory).build_problems()
+            if row['kind']=='evidence-taker':
+                regs=meta['regs'];ss=regs['SS']*16;sp=regs['ESP']&65535;w=lambda o:int.from_bytes(memory[ss+o:ss+o+2],'little')
+                assert regs['CS']-meta['load']==0x214B and regs['EIP']==0x0723 and w(sp+2)-meta['load']==0x0791
+                bp=regs['EBP']&65535
+                if w(sp)==0xCC54:assert w(bp+2)==0xCED9;bp=w(bp)
+                else:assert w(sp)==0xCEDE
+                assert memory[ss+bp+4] in (2,5) and w(bp+2)==0x6D74
+        if rec['source'].endswith('.g2core'):
+            raw=(ROOT/rec['source']).read_bytes();n=int.from_bytes(raw[4:8],'little');state=json.loads(raw[8:8+n]);mem=zlib.decompress(raw[8+n:])
+            first,meta=machine(ROOT/rows[0]['machine']['file']);assert first==mem[:0x110000] and meta['regs']==state['regs']
+        else:
+            raw=(ROOT/rec['source']).read_bytes()
+            with zipfile.ZipFile(__import__('io').BytesIO(raw)) as z:v=zlib.decompressobj().decompress(z.read('Vga'))
+            page=bytes(v[0x86024+8*i+j] for i in range(2000) for j in (0,1))
+            assert sha(page)==rec['initial_import']['video_projection']['sha256']
         results[folder.name]=(rec,rows)
     return results
