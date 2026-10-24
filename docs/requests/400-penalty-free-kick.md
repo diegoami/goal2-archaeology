@@ -148,5 +148,5 @@ The private negative inputs are not advertised as new taker/warning coverage or 
 completion. **#400 remains open.** T88/T89's actual supplied inputs remain the positive evidence;
 extra-time, injury recovery and all desktop implementation stay with goal2.
 
-The §14 consumer issue is linked on PR414/#400 before merge. Its docs-only register/handover
+The §14 consumer issue is [goal2#379](https://github.com/diegoami/goal2/issues/379), linked on PR414/#400 before merge. Its docs-only register/handover
 branch follows upstream merge so rows cite merged evidence; goal2 reviews/merges that branch.
