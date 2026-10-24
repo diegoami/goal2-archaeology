@@ -1,0 +1,23 @@
+{
+  "head": "4cb6216c318c83ddb56715a9ff837d863bf38092",
+  "collector_sha256": "01e6c9aaac1759e1384efe11c852eedf53a8d38f8ca7f93a6ae91a2ef229d013",
+  "source": "G3B.GL",
+  "source_sha256": "e7bedd5507e4b16f38973b8fc9b113da01435f74935f5c8eb5e61ce843faeb8c",
+  "bound_s": 240,
+  "fixture_bound": 1,
+  "status": "aborted",
+  "method": "Original DOS loader, normal original keys, native observations; no restore or guest edits",
+  "target_roles": [
+    3,
+    4
+  ],
+  "resume": {
+    "file": ".cache/400-next/G3B-r1/0022.sav",
+    "sha256": "58c1d8107a1269ec90988104fa82473748b5eda4d25c5ba9a08b26bb498039bf",
+    "verified_mounts": [
+      "mount c /tmp/goal2-archaeology-400/.cache/400-next/G3B-r1/game",
+      "mount d /tmp/goal2-archaeology-400/.cache/400-next/G3B-r1/driver/dosclock"
+    ],
+    "config_sha256": "c32d23e80ea94ed3c12b82723375752917e27bb96dbd175f32b046f1a0a0f2eb"
+  }
+}
