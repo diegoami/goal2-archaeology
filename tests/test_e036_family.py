@@ -427,6 +427,13 @@ class RunMatch(unittest.TestCase):
     def run_one(self, spec=None, **kw):
         return family.run_match(FakeImage(), spec or self.spec, **kw)
 
+    def test_set_piece_context_is_the_only_runner_opt_in(self):
+        self.run_one()
+        self.assertNotIn("set_piece", FakeMatch.seen[-1][1])
+        spec = next(m for m in FAMILIES["S"].matches if m.id == "S/set-piece-taker")
+        self.run_one(spec)
+        self.assertIs(FakeMatch.seen[-1][1]["set_piece"], True)
+
     def test_a_record_is_valid_and_complete(self):
         r = self.run_one()
         records.validate(r)

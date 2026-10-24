@@ -66,6 +66,7 @@ class Takers(unittest.TestCase):
                 if q.target=='214B:0723':return int(seen.count(q.target)==at)
                 return 0
             r.run('0791:CC2E',[count],answer)
+            self.assertEqual(seen[0],'214B:1E8D')
             self.assertEqual(seen.count('214B:0723'),polls)
             self.assertEqual(seen.count('214B:1E09'),delays)
             self.assertTrue(all(args==(10,) for target,args,_,_ in r.calls if target=='214B:1E09'))
@@ -115,7 +116,9 @@ class Takers(unittest.TestCase):
             def answer(q,mem):
                 if q.target=='1771:3216':return 0
                 if q.target=='0791:6B65':return 5
-                if q.target=='0791:1FDD':r.ds16(0x997C,109);return 0
+                if q.target=='0791:1FDD':
+                    self.assertEqual(tuple(v&255 for v in q.args),(0,12,3))
+                    r.ds16(0x997C,109);return 0
                 if q.target=='0791:CC2E':
                     r.lin16(mem.reg('bp')-5,7);return 0
                 if q.target=='214B:0723':return 1
