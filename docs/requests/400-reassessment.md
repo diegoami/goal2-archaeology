@@ -69,8 +69,17 @@ precede this interpretation in Git history.
   live caller chain, manager and role/side validation.
 - All17 retained E031 original .GL files were hash-checked and their actual managed
   squad words re-read: no zero slot. T89's12-core-input/100-managed-entry inventory is
-  reused as prior evidence, not described as12 new examinations. Normal retirement
-  therefore provides no justified shortcut to either vacancy target.
+  reused as prior evidence, not described as12 new examinations. A subsequent fresh
+  [current core discovery](../../notes/400-reassessment/core-inventory-r2.json), with
+  its [read-only scanner](../../notes/400-reassessment/core-scan-r2.txt), expands
+  the filename scope to every `.g2core` under goal2’s cache and keep directory:
+  91 paths,40 distinct hashes,28 outside T89’s narrowly named inventory, no parse
+  errors. All managed squad/pool entries remain nonzero; saved VGA captions and
+  BP-chain scans have no role3/4 candidate. This also covers current consumer saves
+  without importing any goal2 code. Saved BP frames can be stale and saved VGA
+  can be incomplete; neither scan is a complete event-proximity proof. No payload
+  was copied or executed. Normal retirement provides no justified shortcut to
+  either vacancy target.
 - All14 actual post-computer-setup elevens in T90's seven captain snapshots were
   re-read from native memory, including player ID, position, hardness, energy and
   status. Keeper IDs and hardness agree with the reviewed native receipt. G1A's actual
@@ -139,3 +148,9 @@ no next task starts automatically.
 
 The complete §14 consumer prompt and post-merge branch/checkpoint links are on
 [goal2#383](https://github.com/diegoami/goal2/issues/383).
+
+The second scanner reads the current local cache/keep discovery paths without copying
+inputs. Reproduce it only where those retained private files are available, into a fresh
+source extraction omitting `notes/400-reassessment/core-inventory-r2.json`; compare
+by full file hash. Its path count is a dated observation, not a portable archive claim.
+T90’s four archives alone do not contain these additional consumer inputs.
