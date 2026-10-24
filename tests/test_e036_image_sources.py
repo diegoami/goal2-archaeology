@@ -78,4 +78,15 @@ class ImageSources(unittest.TestCase):
             self.assertEqual([x.args[0] for x in load.call_args_list],['E006','E031-stage8'])
             self.assertEqual([x.args[0] for x in run.call_args_list],['E006','E031-stage8'])
 
+    def test_replay_diagnostic_loads_the_selected_source(self):
+        import importlib.util
+        tool_spec=importlib.util.spec_from_file_location('m4_locate',ROOT/'experiments/E036-match-port/locate.py')
+        tool=importlib.util.module_from_spec(tool_spec);tool_spec.loader.exec_module(tool)
+        image=object()
+        with mock.patch.object(tool.family.image_sources,'load',return_value=image) as load, mock.patch.object(tool,'locate',return_value=False) as replay:
+            code=tool.main(['--family','FS','--match',self.spec().id,'--candidate',str(OUT/'FS-display-3.jsonl'),'--reference',str(OUT/'FS-reference-2.jsonl')])
+            self.assertEqual(code,1)
+            load.assert_called_once_with('E031-stage8',tool.family.DEFAULT_CACHE)
+            self.assertIs(replay.call_args.args[3],image)
+
 if __name__=='__main__':unittest.main()

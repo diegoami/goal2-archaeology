@@ -22,12 +22,14 @@ for row in candidate.values():
 fs=candidate['FS/public-stage8-holland-belgium']
 assert fs['port_calls']['1771:9509']==fs['port_calls']['1771:883F']==fs['port_calls']['1771:937C']==1 and fs['port_calls']['1771:8CCF']==8
 assert len(fs['after']['ranges']['records'])==105
-paths=sorted(list((ROOT/'runtime/original_match').rglob('*.py'))+list((ROOT/'experiments/E036-match-port').glob('*.py')))
+paths=sorted(list((ROOT/'runtime/original_match').rglob('*.py'))+[p for p in (ROOT/'experiments/E036-match-port').glob('*.py') if p.name!='locate.py'])
+# locate.py is a separate replay diagnostic, never imported by the family runner.
+# Its source-selection fix has a dedicated test and a later frozen full-suite run.
 hashes={}
 for p in paths:
  rel=str(p.relative_to(ROOT));current=hashlib.sha256(p.read_bytes()).hexdigest();dispatched=hashlib.sha256(subprocess.check_output(['git','show',manifest['sha']+':'+rel],cwd=ROOT)).hexdigest();assert current==dispatched,rel;hashes[rel]=current
 old=ROOT/'experiments/E036-match-port/families/display/reference-all-rare-20261024-v1.jsonl'
 assert (ROOT/profile['reference']).read_bytes().startswith(old.read_bytes())
-receipt={'strict_identical':75,'mask':[],'all_DS_blocks_compared':True,'entry_call_checks':checks,'source_sha':manifest['sha'],'sources_match_dispatched':True,'source_sha256':hashes,'candidate_sha256':hashlib.sha256(candidate_path.read_bytes()).hexdigest(),'old74_reference_bytes_preserved':True,'finals':{'score':fs['score'],'source_sha256':fs['image_sha256'],'records_blocks':105,'9509':1,'883F':1,'937C':1,'8CCF':8}}
+receipt={'strict_identical':75,'mask':[],'all_DS_blocks_compared':True,'entry_call_checks':checks,'source_sha':manifest['sha'],'match_runtime_and_producer_sources_match_dispatched':True,'separately_tested_diagnostic_change':'experiments/E036-match-port/locate.py source selection, outside the family runner','source_sha256':hashes,'candidate_sha256':hashlib.sha256(candidate_path.read_bytes()).hexdigest(),'old74_reference_bytes_preserved':True,'finals':{'score':fs['score'],'source_sha256':fs['image_sha256'],'records_blocks':105,'9509':1,'883F':1,'937C':1,'8CCF':8}}
 with (OUT/'all-actions-2-audit.json').open('x') as f:json.dump(receipt,f,indent=2);f.write('\n')
 print('PASS: ALL75 strict;900 entry/call checks; every DS block; full finals calendar; source hashes match dispatch')

@@ -162,11 +162,9 @@ def main(argv=None):
             raise Refused(f"the reference's {a.match} is not a completed match")
         if ref["mask"] != cand["mask"]:
             raise Refused(f"{a.match}: the reference and the candidate were taken over different masks")
-        from original_match import Image
-        from original_match.assets import reference_image
-        image = Image.from_bytes(reference_image(a.cache))
+        image = family.image_sources.load(spec.image,a.cache)
         ok = locate(ref, cand, spec, image, a.time_limit, say)
-    except (Refused, families.FamilyError, compare.Malformed) as e:
+    except (Refused, families.FamilyError, compare.Malformed, family.image_sources.SourceError) as e:
         print(f"refused: {e}")
         return 2
     if a.out:
