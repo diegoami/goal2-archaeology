@@ -1,0 +1,937 @@
+{
+  "family": "R",
+  "reference": "experiments/E036-match-port/families/R.reference-20261024-v1.jsonl",
+  "description": "T77 frontier census: competitive quick results with both countries going in hard, seed variation and a tired side; a watched seed-4 match managed from the other side reaches computer removal after discipline. Only the existing closed record-edit grammar is used.",
+  "base": {
+    "fixture": [
+      7,
+      19,
+      21,
+      2
+    ],
+    "managed": 7,
+    "seed": 1,
+    "delay_byte": null,
+    "substitutions": null,
+    "edits": "hard-both",
+    "policy": {
+      "name": "Quick",
+      "contexts": [
+        "half_time",
+        "substitution",
+        "pause"
+      ],
+      "speed": 0,
+      "pause_at": [
+        1
+      ]
+    }
+  },
+  "edit_sets": {
+    "hard-both": [
+      {
+        "target": "country",
+        "country": 7,
+        "offset": 45,
+        "op": "or",
+        "value": 8
+      },
+      {
+        "target": "country",
+        "country": 19,
+        "offset": 45,
+        "op": "or",
+        "value": 8
+      }
+    ],
+    "tired-hard": [
+      {
+        "target": "country",
+        "country": 7,
+        "offset": 45,
+        "op": "or",
+        "value": 8
+      },
+      {
+        "target": "country",
+        "country": 19,
+        "offset": 45,
+        "op": "or",
+        "value": 8
+      },
+      {
+        "target": "squad",
+        "country": 19,
+        "offset": 14,
+        "op": "set",
+        "value": 2
+      }
+    ]
+  },
+  "matches": [
+    {
+      "id": "R/search-away-1",
+      "seed": 1,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-2",
+      "seed": 2,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-3",
+      "seed": 3,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-4",
+      "seed": 4,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-5",
+      "seed": 5,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-6",
+      "seed": 6,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-7",
+      "seed": 7,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-8",
+      "seed": 8,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-9",
+      "seed": 9,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-10",
+      "seed": 10,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-11",
+      "seed": 11,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-12",
+      "seed": 12,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-13",
+      "seed": 13,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-14",
+      "seed": 14,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-15",
+      "seed": 15,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-16",
+      "seed": 16,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-17",
+      "seed": 17,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-18",
+      "seed": 18,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-19",
+      "seed": 19,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-20",
+      "seed": 20,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-21",
+      "seed": 21,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-22",
+      "seed": 22,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-23",
+      "seed": 23,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-24",
+      "seed": 24,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-25",
+      "seed": 25,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-26",
+      "seed": 26,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-27",
+      "seed": 27,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-28",
+      "seed": 28,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-29",
+      "seed": 29,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-30",
+      "seed": 30,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-31",
+      "seed": 31,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-32",
+      "seed": 32,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-33",
+      "seed": 33,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-34",
+      "seed": 34,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-35",
+      "seed": 35,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-36",
+      "seed": 36,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-37",
+      "seed": 37,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-38",
+      "seed": 38,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-39",
+      "seed": 39,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-40",
+      "seed": 40,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-41",
+      "seed": 41,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-42",
+      "seed": 42,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-43",
+      "seed": 43,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-44",
+      "seed": 44,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-45",
+      "seed": 45,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-46",
+      "seed": 46,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-47",
+      "seed": 47,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/search-away-48",
+      "seed": 48,
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    }
+  ]
+}
