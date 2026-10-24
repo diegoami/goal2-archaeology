@@ -1,0 +1,14 @@
+.........F....
+======================================================================
+FAIL: test_open_selection_dispatches_managed_and_unmanaged_country (tests.test_port_selection.Selection.test_open_selection_dispatches_managed_and_unmanaged_country)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-cgizywxl/tests/test_port_selection.py", line 269, in test_open_selection_dispatches_managed_and_unmanaged_country
+    if managed:self.assertEqual(r.mem.u8(r.mem.ds_far(0xA923)+1),2)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 2
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.167s
+
+FAILED (failures=1)

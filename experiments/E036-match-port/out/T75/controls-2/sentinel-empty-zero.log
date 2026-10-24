@@ -1,0 +1,13 @@
+....F.........
+======================================================================
+FAIL: test_empty_pool_slots_share_the_original_sentinel_position (tests.test_port_selection.Selection.test_empty_pool_slots_share_the_original_sentinel_position)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-sscmobgt/tests/test_port_selection.py", line 252, in test_empty_pool_slots_share_the_original_sentinel_position
+    self.assertEqual(r.mem.u8(PSEG*16+POFF+6),14)
+AssertionError: 0 != 14
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.181s
+
+FAILED (failures=1)

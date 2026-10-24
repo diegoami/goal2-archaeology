@@ -1,0 +1,24 @@
+............F.
+======================================================================
+FAIL: test_squad_pointer_and_pool_pointer (tests.test_port_selection.Selection.test_squad_pointer_and_pool_pointer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-x41t2g28/tests/test_port_selection.py", line 99, in test_squad_pointer_and_pool_pointer
+    self.assertEqual((r.mem.reg('dx'),r.mem.reg('ax')),(wantseg,wantoff))
+AssertionError: Tuples differ: (19456, 274) != (19456, 272)
+
+First differing element 1:
+274
+272
+
+- (19456, 274)
+?           ^
+
++ (19456, 272)
+?           ^
+
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.143s
+
+FAILED (failures=1)

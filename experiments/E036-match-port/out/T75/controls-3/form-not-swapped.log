@@ -1,0 +1,20 @@
+.............F
+======================================================================
+FAIL: test_swap_changes_only_squad_form_and_marking_before_refresh (tests.test_port_selection.Selection.test_swap_changes_only_squad_form_and_marking_before_refresh)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-uhjrqkxp/tests/test_port_selection.py", line 144, in test_swap_changes_only_squad_form_and_marking_before_refresh
+    self.assertEqual((r.mem.ds8(0x9B07+20*side+3),r.mem.ds8(0x9B07+20*side+13)),(99,41))
+AssertionError: Tuples differ: (41, 99) != (99, 41)
+
+First differing element 0:
+41
+99
+
+- (41, 99)
++ (99, 41)
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.156s
+
+FAILED (failures=1)

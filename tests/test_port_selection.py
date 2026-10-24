@@ -10,11 +10,17 @@ from original_match.port import selection, menus
 from tests.test_port_menus import KeysMem
 from tests.test_port_update import Rig as BaseRig, PSEG, POFF, SQSEG, SQOFF
 
+class SelectionKeysMem(KeysMem):
+    def _key(self,site):
+        if not self.keys:raise AssertionError('selection requested an unexpected additional key at '+site)
+        return super()._key(site)
+
+
 class Rig(BaseRig):
     def __init__(self):
         super().__init__()
         old=self.mem
-        self.mem=KeysMem(old.memory,regs=old.regs)
+        self.mem=SelectionKeysMem(old.memory,regs=old.regs)
         self.mem.listeners=old.listeners
         self.mem.keys=[];self.mem.key_sites=[];self.mem.poll_sites=[];self.mem.waiting=False
         self.mem.regs.update(cs=0x1771)
@@ -250,3 +256,27 @@ class Selection(unittest.TestCase):
         r.steps=-10000;r.run('1771:5532')
         # All80 zeros alias player0: only the first save sees7; later saves see14.
         self.assertEqual(r.mem.u8(PSEG*16+POFF+6),14)
+
+    def test_open_selection_dispatches_managed_and_unmanaged_country(self):
+        for managed,target,args in [(True,'0791:E44F',(7,)),(False,'1771:50F1',(7,1))]:
+            r=Rig();self.setup_parent(r);r.lin16(PARENT-5,7);r.country(7,0x2E,0x82)
+            def respond(q,mem):
+                if q.target=='1771:0B77':return int(managed)
+                if q.target in ('0791:E44F','1771:50F1'):return 0
+                return None
+            r.run('0791:E949',[PARENT],answer=respond)
+            self.assertEqual(r.args(target),[args])
+            if managed:self.assertEqual(r.mem.u8(r.mem.ds_far(0xA923)+1),2)
+
+    def test_escape_cancels_mark_before_a_later_escape_exits(self):
+        r,respond=self.select_rig([13,27,27],allowed=1)
+        def mark(q,mem):
+            if q.target=='0791:E022':
+                frame=mem.reg('bp');r.lin8(frame-1,1);r.lin16(frame-7,1);r.lin16(frame-9,13)
+                return 0
+            return respond(q,mem)
+        r.run('0791:E44F',[7],answer=mark)
+        self.assertEqual(r.mem.key_sites,['0791:E61F']*3)
+        self.assertEqual(len(r.args('0791:E022')),1)
+        self.assertEqual(len(r.args('214B:00DB')),1)
+        self.assertEqual(r.u16(0x2FFE-11),0)

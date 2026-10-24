@@ -1,0 +1,32 @@
+.....F......F.
+======================================================================
+FAIL: test_empty_slot_and_first_mark (tests.test_port_selection.Selection.test_empty_slot_and_first_mark)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-pxmn5lnj/tests/test_port_selection.py", line 113, in test_empty_slot_and_first_mark
+    self.assertEqual(r.mem.u8(PARENT-1),int(not missing))
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_squad_pointer_and_pool_pointer (tests.test_port_selection.Selection.test_squad_pointer_and_pool_pointer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-pxmn5lnj/tests/test_port_selection.py", line 93, in test_squad_pointer_and_pool_pointer
+    self.assertEqual((r.mem.reg('dx'),r.mem.reg('ax')),(wantseg,wantoff))
+AssertionError: Tuples differ: (18944, 1375) != (18944, 1373)
+
+First differing element 1:
+1375
+1373
+
+- (18944, 1375)
+?            ^
+
++ (18944, 1373)
+?            ^
+
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.161s
+
+FAILED (failures=2)

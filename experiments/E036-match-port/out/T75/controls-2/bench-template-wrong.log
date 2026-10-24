@@ -1,0 +1,24 @@
+.F............
+======================================================================
+FAIL: test_bench_and_pitch_instruction_templates (tests.test_port_selection.Selection.test_bench_and_pitch_instruction_templates)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-t_kcj6sk/tests/test_port_selection.py", line 170, in test_bench_and_pitch_instruction_templates
+    self.assertEqual([a[1] for a in r.args('214B:0329')],[0x4840,want])
+AssertionError: Lists differ: [18496, 18208] != [18496, 18240]
+
+First differing element 1:
+18208
+18240
+
+- [18496, 18208]
+?             -
+
++ [18496, 18240]
+?            +
+
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.158s
+
+FAILED (failures=1)
