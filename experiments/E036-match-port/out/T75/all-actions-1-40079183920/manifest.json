@@ -1,0 +1,18 @@
+{
+ "run_id": "40079183920",
+ "run_attempt": "1",
+ "workflow": "E036 family run",
+ "ref": "task/T75-port-selection",
+ "sha": "4b7d4522d520a8da7f13e64d9eb3af98c7e70a02",
+ "inputs": {
+  "task": "T75",
+  "name": "all-actions-1",
+  "family": "ALL",
+  "ports": "all",
+  "count": "0791:E44F,0791:E022,0791:DE27,0791:DE51,0791:E2A0,0791:E949,0791:EA09,1771:5532,1771:53E8,0791:DAF8,0791:DB38,0791:DBFA,0791:DC7E,0791:DDCB,0791:DEA6,0791:E2E6,1771:4FAA,1771:55FC",
+  "shards": "32",
+  "time_limit": "6000",
+  "stretch_limit": "600"
+ },
+ "run_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/40079183920"
+}
