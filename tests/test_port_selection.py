@@ -168,3 +168,85 @@ class Selection(unittest.TestCase):
         for cursor,want in [(11,0x4720),(12,0x4740),(20,0x4740)]:
             r=Rig();r.ds16(0xC1B,cursor);r.run('0791:E2A0',[PARENT],answer=lambda q,m:0)
             self.assertEqual([a[1] for a in r.args('214B:0329')],[0x4840,want])
+
+    def validation_rig(self,positions=None,empty=(),unavailable=(),used=1):
+        r=Rig();r.lin16(PARENT-5,91);r.ds16(0x9B34,7);r.ds16(0x9B36,19);r.ds8(0xC1F,used)
+        positions=positions or [0,1,1,2,2,3,3,4,4,5,5]
+        words=list(range(101,112))
+        for index in empty:words[index]=0
+        r.squad(7,words)
+        for word,position in zip(range(101,112),positions):r.player(word,6,position)
+        r.warned=[];r.flagged=[]
+        def respond(q,mem):
+            if q.target=='1771:0B77':return int(q.args[0]==7)
+            if q.target=='1771:3216':return int(q.args[0] in unavailable)
+            if q.target in ('23E4:062A','23E4:06B7'):return 0
+            if q.target=='214B:1765':
+                r.warned.append(q.ret_to)
+                if q.args[0]&255:r.flagged.append(q.ret_to)
+                return q.args[0]&255
+            return None
+        return r,respond
+
+    def test_each_first_team_refusal_and_parent_restoration(self):
+        cases=[({},True,None),({'positions':[0,0,1,2,2,3,3,4,4,5,5]},False,'0791:EBD7'),
+               ({'positions':[1,1,1,2,2,3,3,4,4,5,5]},False,'0791:EC22'),
+               ({'empty':(10,)},False,'0791:EC60'),
+               ({'positions':[0,1,1,1,1,3,3,4,4,5,5]},False,'0791:ECEB'),
+               ({'unavailable':(103,),'used':0},False,'0791:EB82'),
+               ({'unavailable':(103,),'used':1},True,None)]
+        for kwargs,want,where in cases:
+            with self.subTest(kwargs=kwargs):
+                r,respond=self.validation_rig(**kwargs)
+                r.run('0791:EA09',[PARENT],answer=respond)
+                self.assertEqual(r.mem.reg('ax')&255,int(want))
+                self.assertEqual(r.u16(PARENT-5),91)
+                self.assertEqual(r.flagged,[] if where is None else [where])
+                if where=='0791:EB82':self.assertNotIn('0791:EBD7',r.warned)
+
+    def test_both_managed_sides_are_checked_and_unmanaged_side_is_accepted(self):
+        r,respond=self.validation_rig()
+        r.squad(19,list(range(201,212)))
+        for word in range(201,212):r.player(word,6,0)
+        def both(q,mem):
+            if q.target=='1771:0B77':return 1
+            return respond(q,mem)
+        r.run('0791:EA09',[PARENT],answer=both)
+        self.assertEqual(r.mem.reg('ax')&255,0)
+        self.assertEqual(r.flagged,['0791:EBD7'])
+        r=Rig();r.lin16(PARENT-5,91);r.ds16(0x9B34,7);r.ds16(0x9B36,19)
+        r.run('0791:EA09',[PARENT],answer=lambda q,m:0)
+        self.assertEqual(r.mem.reg('ax')&255,1)
+        self.assertEqual(r.u16(PARENT-5),91)
+        self.assertFalse(r.args('214B:1765'))
+
+    def test_full_pool_with_equal_keys_keeps_original_partition_tie_order(self):
+        r=Rig();r.ds16(0xA927,0x100);r.ds16(0xA929,0x4C00);r.ds16(0x6D18,1)
+        words=list(range(101,181))
+        for index,word in enumerate(words):
+            r.lin16(0x4C000+0x100+2*(index+1),word);r.player(word,6,index%14)
+        original={word:index%14 for index,word in enumerate(words)}
+        # Independent index-only rendition of the listing's strict comparisons.
+        expected=list(words)
+        def partition(lo,hi):
+            i,j=lo,hi;pivot=original[expected[(lo+hi)//2]]
+            while i<=j:
+                while original[expected[i]]<pivot:i+=1
+                while original[expected[j]]>pivot:j-=1
+                if i<=j:expected[i],expected[j]=expected[j],expected[i];i+=1;j-=1
+            if lo<j:partition(lo,j)
+            if i<hi:partition(i,hi)
+        partition(0,79)
+        r.steps=-10000
+        r.run('1771:5532')
+        got=[r.u16(0x4C000+0x100+2*(index+1)) for index in range(80)]
+        self.assertEqual(got,expected)
+        self.assertEqual([r.mem.u8(PSEG*16+POFF+20*w+6) for w in words],[original[w] for w in words])
+        self.assertTrue(r.args('1771:53E8'))
+
+    def test_empty_pool_slots_share_the_original_sentinel_position(self):
+        r=Rig();r.ds16(0xA927,0x100);r.ds16(0xA929,0x4C00);r.ds16(0x6D18,1)
+        r.player(0,6,7)
+        r.steps=-10000;r.run('1771:5532')
+        # All80 zeros alias player0: only the first save sees7; later saves see14.
+        self.assertEqual(r.mem.u8(PSEG*16+POFF+6),14)

@@ -254,7 +254,7 @@ def swap_in_match(mem,variant):
 
 
 def country_name(mem,r):
-    r.ax=pword(mem,r,-5);r.cl=4;r.ax=r.ax<<4
+    r.ax=pword(mem,r,-5);r.cx=(r.cx&0xFF00)|4;r.ax=r.ax<<4
     r.di,r.es=mem.ds16(0x9B68),mem.ds16(0x9B6A);r.di=r.di+r.ax
     return r.es,r.di
 
