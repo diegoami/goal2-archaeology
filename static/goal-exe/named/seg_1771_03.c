@@ -1002,7 +1002,7 @@ void __stdcall16far draw_player_screen(int param_1)
 
 
 // ---- 1771:4859  edit_player_name  (f_1771_4859; Ghidra 4000:4859, __stdcall16far; found by routines.tsv)
-// T74 (Python port in runtime/original_match/port/menus.py): edits the nonzero player's displayed name through a 12-character temporary: stores its initial, removes that initial and an optional following space, uppercases a nonempty surname into the 10-character name table and sets DS:0C1A; unchanged text leaves the name tables unchanged  [likely; read code/seg_1771_07.asm:6]
+// T74 (Python port in runtime/original_match/port/menus.py): edits the nonzero player's displayed name through a 12-character temporary: stores its initial, removes that initial and an optional following space, for a nonempty surname, uppercases its first character and stores up to 10 characters in the name table and sets DS:0C1A; unchanged text leaves the name tables unchanged  [likely; read code/seg_1771_07.asm:6]
 
 void __stdcall16far edit_player_name(int param_1,undefined1 param_2,int param_3)
 
