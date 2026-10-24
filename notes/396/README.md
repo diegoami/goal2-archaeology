@@ -28,6 +28,8 @@ The registered packed executable is verified as
 `6fd8c5ef995358ff8e5e47d60de61dccd7bdf8e73f2f584018fcfe4c8c713188`.
 Both `guard-regenerated-r1.json` and `guard-regenerated-r2.json` record zero listing/extract
 differences, all 14 original images accepted, and identical generated-module hashes. They
+expand E033 f3's five-image set to all fourteen cached original images, including the supplied
+shootout checkpoint; the measured changed set is exactly DS:066A and DS:7968. They
 name every image by hash and the unchanged E033 `ds-reads-20261016f2.json` input report.
 No original bytes are stored in these receipts.
 
