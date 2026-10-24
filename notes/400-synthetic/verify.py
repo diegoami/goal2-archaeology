@@ -10,7 +10,7 @@ def state(p):
 def word(mem,addr,n=2):return int.from_bytes(mem[addr:addr+n],'little')
 def main():
  count=0
- for case,attempt in [('role3','role3-r2'),('role4','role4-r2'),('E062','E062-r1'),('E062','E062-r2'),('EC60','EC60-r1')]:
+ for case,attempt in [('role3','role3-r1'),('role3','role3-r2'),('role4','role4-r1'),('role4','role4-r2'),('E062','E062-r1'),('E062','E062-r2'),('EC60','EC60-r1')]:
   pub=ROOT/'notes/400-synthetic'/attempt;private=ROOT/'.cache/400-synthetic'/attempt;r=load(pub/'record.json');con=load(pub/'construction.json')
   assert r['synthetic'] and r['case']==case and r['bound_s']==60 and r['elapsed_s']<60
   assert r['status']==('failed' if attempt=='E062-r1' else 'passed')
@@ -41,7 +41,7 @@ def main():
    count+=1
   if case in ['role3','role4']:
    role=3 if case=='role3' else 4;kind=10 if role==3 else 11
-   assert r['keys']==[172,177,13,99,27,32,13,13]
+   assert r['keys']==[172 if attempt.endswith('r2') else 176,177,13,99,27,32,13,13]
    assert [x['label']['control'] for x in rows if isinstance(x['label'],dict) and x['label'].get('from_same_input')]==['navigation','computer','escape','default','pitch']
    assert len([x for x in rows if x['reason']=='continuation-boundary'])==5
    assert rows[12]['site']=='0791:CF3A' and rows[12]['reason']=='read'
@@ -55,13 +55,14 @@ def main():
     assert word(m,ss+bp+4)&255==role and word(m,ss+bp+6)&255==1
     pick=word(m,ss+bp-7);highlight=word(m,ss+bp-5)
     if row['n']==2:initial_highlight=highlight;initial_pick=pick
-    if row['n']==3:assert highlight==(initial_highlight-2)%11+1
-    if row['n']==4:assert highlight==initial_highlight
+    if row['n']==3 and attempt.endswith('r2'):assert highlight==(initial_highlight-2)%11+1
+    if row['n']==4 and attempt.endswith('r2'):assert highlight==initial_highlight
    returns=[e['ax'] for e in r['events'] if e['site']=='0791:6D74'];assert len(returns)==5
    # Same available stored pick: Enter, C, Esc, default and pitch-return Enter all384.
-   assert returns==[384]*5 and initial_pick==384
+   assert initial_pick==384
+   if attempt.endswith('r2'):assert returns==[384]*5
    for row in rows:
-    if row['reason']=='continuation-boundary':assert row['stored_pick']==384
+    if row['reason']=='continuation-boundary' and attempt.endswith('r2'):assert row['stored_pick']==384
    for e in r['events']:
     if e['site']=='0791:CC7B':assert e['words'][2:]==[kind,role,1]
    if role==4:
