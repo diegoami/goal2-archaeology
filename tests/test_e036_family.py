@@ -93,6 +93,10 @@ class TheFamilies(unittest.TestCase):
     def test_r_has_independent_original_reference_and_closed_declarations(self):
         r=FAMILIES['R'];rows=records.read_log(ROOT/r.reference)
         self.assertEqual(len(rows),10)
+        old64=records.read_log(ROOT/FAMILIES['S'].reference)
+        self.assertEqual(len(old64),64)
+        self.assertEqual({x['id']:x['spec_sha256'] for x in old64},
+                         {mid:digest for mid,digest in EXPECTED.items() if not mid.startswith('R/')})
         self.assertEqual({x['id']:x['spec_sha256'] for x in rows},r.expected())
         self.assertTrue(all(not x.get('ports') and not x.get('variant') for x in rows))
         old=ROOT/'experiments/E036-match-port/families/R.reference-20261024-v1.jsonl'

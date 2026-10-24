@@ -1,0 +1,31 @@
+{
+  "pre_named_commit": "894a1e1537157ce309562437f293195e0bcad779",
+  "pre_annotations_sha256": "c2706fab7bdcc4a3b2caafb09ed817e56ce2653c8644626ab8598fafe54d15b4",
+  "ported_addresses": [
+    "0791:6ECF",
+    "0791:72F2",
+    "0791:73BA",
+    "0791:7B24",
+    "0791:7B77",
+    "0791:B19D",
+    "0791:B3B7",
+    "0791:BEC7",
+    "0791:C01A",
+    "0791:C0DF",
+    "0791:C24D",
+    "0791:C2A8",
+    "0791:C406",
+    "0791:C48D",
+    "0791:D5C1",
+    "0791:D733",
+    "1771:0BC4"
+  ],
+  "new_likely_names": {
+    "0791:72F2": "penalty_taker_step",
+    "0791:73BA": "update_penalty_player",
+    "0791:C24D": "assign_emergency_keeper",
+    "0791:C2A8": "replace_lost_defender_role",
+    "0791:C406": "convert_fullbacks_to_centre_back"
+  },
+  "policy": "Existing original-claim confidence preserved; new names likely from raw bodies/callers. Port exact versus READ is explicit in T77 notes, not inferred from a name."
+}
