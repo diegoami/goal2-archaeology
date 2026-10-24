@@ -95,3 +95,4 @@ exists.
 | T85 | goal2 G13: correct mutable DS:066A in the original-match build guard | #396 | — |
 | T86 | goal2 G13: collect a nearby original-loaded input for missing decisions | #400 | T85 |
 | T88 | goal2 G13: bounded original-key taker/warning inputs and explicit remaining limits | #400 | T86 |
+| T89 | goal2 G13: closer retained saves for remaining taker/vacancy inputs | #400 | T88 |
