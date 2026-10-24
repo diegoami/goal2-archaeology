@@ -1,0 +1,233 @@
+.......................FFFFFFFFFFFF......................
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=0, key=172, initial=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-9p5gjmiw/tests/test_port_menus.py", line 266, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.calls[-1],('0791:0691',(),'0791:944B',False))
+AssertionError: Tuples differ: ('0791:0691', (), '0791:944B', True) != ('0791:0691', (), '0791:944B', False)
+
+First differing element 3:
+True
+False
+
+- ('0791:0691', (), '0791:944B', True)
+?                                ^^^
+
++ ('0791:0691', (), '0791:944B', False)
+?                                ^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=0, key=172, initial=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-9p5gjmiw/tests/test_port_menus.py", line 266, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.calls[-1],('0791:0691',(),'0791:944B',False))
+AssertionError: Tuples differ: ('0791:0691', (), '0791:944B', True) != ('0791:0691', (), '0791:944B', False)
+
+First differing element 3:
+True
+False
+
+- ('0791:0691', (), '0791:944B', True)
+?                                ^^^
+
++ ('0791:0691', (), '0791:944B', False)
+?                                ^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=0, key=172, initial=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-9p5gjmiw/tests/test_port_menus.py", line 266, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.calls[-1],('0791:0691',(),'0791:944B',False))
+AssertionError: Tuples differ: ('0791:0691', (), '0791:944B', True) != ('0791:0691', (), '0791:944B', False)
+
+First differing element 3:
+True
+False
+
+- ('0791:0691', (), '0791:944B', True)
+?                                ^^^
+
++ ('0791:0691', (), '0791:944B', False)
+?                                ^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=0, key=177, initial=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-9p5gjmiw/tests/test_port_menus.py", line 266, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.calls[-1],('0791:0691',(),'0791:944B',False))
+AssertionError: Tuples differ: ('0791:0691', (), '0791:944B', True) != ('0791:0691', (), '0791:944B', False)
+
+First differing element 3:
+True
+False
+
+- ('0791:0691', (), '0791:944B', True)
+?                                ^^^
+
++ ('0791:0691', (), '0791:944B', False)
+?                                ^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=0, key=177, initial=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-9p5gjmiw/tests/test_port_menus.py", line 266, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.calls[-1],('0791:0691',(),'0791:944B',False))
+AssertionError: Tuples differ: ('0791:0691', (), '0791:944B', True) != ('0791:0691', (), '0791:944B', False)
+
+First differing element 3:
+True
+False
+
+- ('0791:0691', (), '0791:944B', True)
+?                                ^^^
+
++ ('0791:0691', (), '0791:944B', False)
+?                                ^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=0, key=177, initial=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-9p5gjmiw/tests/test_port_menus.py", line 266, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.calls[-1],('0791:0691',(),'0791:944B',False))
+AssertionError: Tuples differ: ('0791:0691', (), '0791:944B', True) != ('0791:0691', (), '0791:944B', False)
+
+First differing element 3:
+True
+False
+
+- ('0791:0691', (), '0791:944B', True)
+?                                ^^^
+
++ ('0791:0691', (), '0791:944B', False)
+?                                ^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=42240, key=172, initial=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-9p5gjmiw/tests/test_port_menus.py", line 266, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.calls[-1],('0791:0691',(),'0791:944B',False))
+AssertionError: Tuples differ: ('0791:0691', (), '0791:944B', True) != ('0791:0691', (), '0791:944B', False)
+
+First differing element 3:
+True
+False
+
+- ('0791:0691', (), '0791:944B', True)
+?                                ^^^
+
++ ('0791:0691', (), '0791:944B', False)
+?                                ^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=42240, key=172, initial=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-9p5gjmiw/tests/test_port_menus.py", line 266, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.calls[-1],('0791:0691',(),'0791:944B',False))
+AssertionError: Tuples differ: ('0791:0691', (), '0791:944B', True) != ('0791:0691', (), '0791:944B', False)
+
+First differing element 3:
+True
+False
+
+- ('0791:0691', (), '0791:944B', True)
+?                                ^^^
+
++ ('0791:0691', (), '0791:944B', False)
+?                                ^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=42240, key=172, initial=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-9p5gjmiw/tests/test_port_menus.py", line 266, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.calls[-1],('0791:0691',(),'0791:944B',False))
+AssertionError: Tuples differ: ('0791:0691', (), '0791:944B', True) != ('0791:0691', (), '0791:944B', False)
+
+First differing element 3:
+True
+False
+
+- ('0791:0691', (), '0791:944B', True)
+?                                ^^^
+
++ ('0791:0691', (), '0791:944B', False)
+?                                ^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=42240, key=177, initial=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-9p5gjmiw/tests/test_port_menus.py", line 266, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.calls[-1],('0791:0691',(),'0791:944B',False))
+AssertionError: Tuples differ: ('0791:0691', (), '0791:944B', True) != ('0791:0691', (), '0791:944B', False)
+
+First differing element 3:
+True
+False
+
+- ('0791:0691', (), '0791:944B', True)
+?                                ^^^
+
++ ('0791:0691', (), '0791:944B', False)
+?                                ^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=42240, key=177, initial=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-9p5gjmiw/tests/test_port_menus.py", line 266, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.calls[-1],('0791:0691',(),'0791:944B',False))
+AssertionError: Tuples differ: ('0791:0691', (), '0791:944B', True) != ('0791:0691', (), '0791:944B', False)
+
+First differing element 3:
+True
+False
+
+- ('0791:0691', (), '0791:944B', True)
+?                                ^^^
+
++ ('0791:0691', (), '0791:944B', False)
+?                                ^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=42240, key=177, initial=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-9p5gjmiw/tests/test_port_menus.py", line 266, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.calls[-1],('0791:0691',(),'0791:944B',False))
+AssertionError: Tuples differ: ('0791:0691', (), '0791:944B', True) != ('0791:0691', (), '0791:944B', False)
+
+First differing element 3:
+True
+False
+
+- ('0791:0691', (), '0791:944B', True)
+?                                ^^^
+
++ ('0791:0691', (), '0791:944B', False)
+?                                ^^^^
+
+
+----------------------------------------------------------------------
+Ran 46 tests in 1.088s
+
+FAILED (failures=12)

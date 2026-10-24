@@ -1,0 +1,1 @@
+{"command": ["tools/heavy.sh", "--slots", "8", "m4-411-near-before", "--", "/home/diego/.local/bin/python3.12", "-B", "-m", "unittest", "tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh"], "exit": 1, "listing": "static/goal-exe/code/seg_0791_15.asm:820", "reason": "9448 is E8 near call; the old port incorrectly requests a far call"}

@@ -1,0 +1,233 @@
+.......................FFFFFFFFFFFF......................
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=0, key=172, initial=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-qtvkqi_g/tests/test_port_menus.py", line 264, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.args('214B:1D6F'),[(r.mem.DS,0x66A,prefix,prefix|4,delta)])
+AssertionError: Lists differ: [(9601, 1642, 0, 4, 1)] != [(9601, 1642, 0, 4, 65535)]
+
+First differing element 0:
+(9601, 1642, 0, 4, 1)
+(9601, 1642, 0, 4, 65535)
+
+- [(9601, 1642, 0, 4, 1)]
+?                     ^
+
++ [(9601, 1642, 0, 4, 65535)]
+?                     ^^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=0, key=172, initial=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-qtvkqi_g/tests/test_port_menus.py", line 264, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.args('214B:1D6F'),[(r.mem.DS,0x66A,prefix,prefix|4,delta)])
+AssertionError: Lists differ: [(9601, 1642, 0, 4, 1)] != [(9601, 1642, 0, 4, 65535)]
+
+First differing element 0:
+(9601, 1642, 0, 4, 1)
+(9601, 1642, 0, 4, 65535)
+
+- [(9601, 1642, 0, 4, 1)]
+?                     ^
+
++ [(9601, 1642, 0, 4, 65535)]
+?                     ^^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=0, key=172, initial=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-qtvkqi_g/tests/test_port_menus.py", line 264, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.args('214B:1D6F'),[(r.mem.DS,0x66A,prefix,prefix|4,delta)])
+AssertionError: Lists differ: [(9601, 1642, 0, 4, 1)] != [(9601, 1642, 0, 4, 65535)]
+
+First differing element 0:
+(9601, 1642, 0, 4, 1)
+(9601, 1642, 0, 4, 65535)
+
+- [(9601, 1642, 0, 4, 1)]
+?                     ^
+
++ [(9601, 1642, 0, 4, 65535)]
+?                     ^^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=0, key=177, initial=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-qtvkqi_g/tests/test_port_menus.py", line 264, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.args('214B:1D6F'),[(r.mem.DS,0x66A,prefix,prefix|4,delta)])
+AssertionError: Lists differ: [(9601, 1642, 0, 4, 65535)] != [(9601, 1642, 0, 4, 1)]
+
+First differing element 0:
+(9601, 1642, 0, 4, 65535)
+(9601, 1642, 0, 4, 1)
+
+- [(9601, 1642, 0, 4, 65535)]
+?                     ^^^^^
+
++ [(9601, 1642, 0, 4, 1)]
+?                     ^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=0, key=177, initial=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-qtvkqi_g/tests/test_port_menus.py", line 264, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.args('214B:1D6F'),[(r.mem.DS,0x66A,prefix,prefix|4,delta)])
+AssertionError: Lists differ: [(9601, 1642, 0, 4, 65535)] != [(9601, 1642, 0, 4, 1)]
+
+First differing element 0:
+(9601, 1642, 0, 4, 65535)
+(9601, 1642, 0, 4, 1)
+
+- [(9601, 1642, 0, 4, 65535)]
+?                     ^^^^^
+
++ [(9601, 1642, 0, 4, 1)]
+?                     ^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=0, key=177, initial=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-qtvkqi_g/tests/test_port_menus.py", line 264, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.args('214B:1D6F'),[(r.mem.DS,0x66A,prefix,prefix|4,delta)])
+AssertionError: Lists differ: [(9601, 1642, 0, 4, 65535)] != [(9601, 1642, 0, 4, 1)]
+
+First differing element 0:
+(9601, 1642, 0, 4, 65535)
+(9601, 1642, 0, 4, 1)
+
+- [(9601, 1642, 0, 4, 65535)]
+?                     ^^^^^
+
++ [(9601, 1642, 0, 4, 1)]
+?                     ^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=42240, key=172, initial=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-qtvkqi_g/tests/test_port_menus.py", line 264, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.args('214B:1D6F'),[(r.mem.DS,0x66A,prefix,prefix|4,delta)])
+AssertionError: Lists differ: [(9601, 1642, 42240, 42244, 1)] != [(9601, 1642, 42240, 42244, 65535)]
+
+First differing element 0:
+(9601, 1642, 42240, 42244, 1)
+(9601, 1642, 42240, 42244, 65535)
+
+- [(9601, 1642, 42240, 42244, 1)]
+?                             ^
+
++ [(9601, 1642, 42240, 42244, 65535)]
+?                             ^^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=42240, key=172, initial=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-qtvkqi_g/tests/test_port_menus.py", line 264, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.args('214B:1D6F'),[(r.mem.DS,0x66A,prefix,prefix|4,delta)])
+AssertionError: Lists differ: [(9601, 1642, 42240, 42244, 1)] != [(9601, 1642, 42240, 42244, 65535)]
+
+First differing element 0:
+(9601, 1642, 42240, 42244, 1)
+(9601, 1642, 42240, 42244, 65535)
+
+- [(9601, 1642, 42240, 42244, 1)]
+?                             ^
+
++ [(9601, 1642, 42240, 42244, 65535)]
+?                             ^^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=42240, key=172, initial=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-qtvkqi_g/tests/test_port_menus.py", line 264, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.args('214B:1D6F'),[(r.mem.DS,0x66A,prefix,prefix|4,delta)])
+AssertionError: Lists differ: [(9601, 1642, 42240, 42244, 1)] != [(9601, 1642, 42240, 42244, 65535)]
+
+First differing element 0:
+(9601, 1642, 42240, 42244, 1)
+(9601, 1642, 42240, 42244, 65535)
+
+- [(9601, 1642, 42240, 42244, 1)]
+?                             ^
+
++ [(9601, 1642, 42240, 42244, 65535)]
+?                             ^^^^^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=42240, key=177, initial=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-qtvkqi_g/tests/test_port_menus.py", line 264, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.args('214B:1D6F'),[(r.mem.DS,0x66A,prefix,prefix|4,delta)])
+AssertionError: Lists differ: [(9601, 1642, 42240, 42244, 65535)] != [(9601, 1642, 42240, 42244, 1)]
+
+First differing element 0:
+(9601, 1642, 42240, 42244, 65535)
+(9601, 1642, 42240, 42244, 1)
+
+- [(9601, 1642, 42240, 42244, 65535)]
+?                             ^^^^^
+
++ [(9601, 1642, 42240, 42244, 1)]
+?                             ^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=42240, key=177, initial=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-qtvkqi_g/tests/test_port_menus.py", line 264, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.args('214B:1D6F'),[(r.mem.DS,0x66A,prefix,prefix|4,delta)])
+AssertionError: Lists differ: [(9601, 1642, 42240, 42244, 65535)] != [(9601, 1642, 42240, 42244, 1)]
+
+First differing element 0:
+(9601, 1642, 42240, 42244, 65535)
+(9601, 1642, 42240, 42244, 1)
+
+- [(9601, 1642, 42240, 42244, 65535)]
+?                             ^^^^^
+
++ [(9601, 1642, 42240, 42244, 1)]
+?                             ^
+
+
+======================================================================
+FAIL: test_pitch_arrows_keep_pointer_bounds_direction_and_refresh (tests.test_port_menus.Menus.test_pitch_arrows_keep_pointer_bounds_direction_and_refresh) (prefix=42240, key=177, initial=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-qtvkqi_g/tests/test_port_menus.py", line 264, in test_pitch_arrows_keep_pointer_bounds_direction_and_refresh
+    self.assertEqual(r.args('214B:1D6F'),[(r.mem.DS,0x66A,prefix,prefix|4,delta)])
+AssertionError: Lists differ: [(9601, 1642, 42240, 42244, 65535)] != [(9601, 1642, 42240, 42244, 1)]
+
+First differing element 0:
+(9601, 1642, 42240, 42244, 65535)
+(9601, 1642, 42240, 42244, 1)
+
+- [(9601, 1642, 42240, 42244, 65535)]
+?                             ^^^^^
+
++ [(9601, 1642, 42240, 42244, 1)]
+?                             ^
+
+
+----------------------------------------------------------------------
+Ran 46 tests in 1.110s
+
+FAILED (failures=12)

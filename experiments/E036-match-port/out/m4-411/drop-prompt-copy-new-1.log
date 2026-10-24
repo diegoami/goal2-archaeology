@@ -1,0 +1,65 @@
+...........................................FFFF..
+======================================================================
+FAIL: test_yes_no_builds_bounded_expression_and_exact_draw_arguments (tests.test_port_menus.Menus.test_yes_no_builds_bounded_expression_and_exact_draw_arguments) (length=3, saved_ax=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-8joxk2yc/tests/test_port_menus.py", line 506, in test_yes_no_builds_bounded_expression_and_exact_draw_arguments
+    self.assertEqual(r.args('23E4:0644'),[(0x4200,0x100,0,line,80)])
+AssertionError: Lists differ: [] != [(16896, 256, 0, 12204, 80)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(16896, 256, 0, 12204, 80)
+
+- []
++ [(16896, 256, 0, 12204, 80)]
+
+======================================================================
+FAIL: test_yes_no_builds_bounded_expression_and_exact_draw_arguments (tests.test_port_menus.Menus.test_yes_no_builds_bounded_expression_and_exact_draw_arguments) (length=3, saved_ax=42240)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-8joxk2yc/tests/test_port_menus.py", line 506, in test_yes_no_builds_bounded_expression_and_exact_draw_arguments
+    self.assertEqual(r.args('23E4:0644'),[(0x4200,0x100,0,line,80)])
+AssertionError: Lists differ: [] != [(16896, 256, 0, 12204, 80)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(16896, 256, 0, 12204, 80)
+
+- []
++ [(16896, 256, 0, 12204, 80)]
+
+======================================================================
+FAIL: test_yes_no_builds_bounded_expression_and_exact_draw_arguments (tests.test_port_menus.Menus.test_yes_no_builds_bounded_expression_and_exact_draw_arguments) (length=90, saved_ax=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-8joxk2yc/tests/test_port_menus.py", line 506, in test_yes_no_builds_bounded_expression_and_exact_draw_arguments
+    self.assertEqual(r.args('23E4:0644'),[(0x4200,0x100,0,line,80)])
+AssertionError: Lists differ: [] != [(16896, 256, 0, 12204, 80)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(16896, 256, 0, 12204, 80)
+
+- []
++ [(16896, 256, 0, 12204, 80)]
+
+======================================================================
+FAIL: test_yes_no_builds_bounded_expression_and_exact_draw_arguments (tests.test_port_menus.Menus.test_yes_no_builds_bounded_expression_and_exact_draw_arguments) (length=90, saved_ax=42240)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-411-8joxk2yc/tests/test_port_menus.py", line 506, in test_yes_no_builds_bounded_expression_and_exact_draw_arguments
+    self.assertEqual(r.args('23E4:0644'),[(0x4200,0x100,0,line,80)])
+AssertionError: Lists differ: [] != [(16896, 256, 0, 12204, 80)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(16896, 256, 0, 12204, 80)
+
+- []
++ [(16896, 256, 0, 12204, 80)]
+
+----------------------------------------------------------------------
+Ran 46 tests in 1.042s
+
+FAILED (failures=4)

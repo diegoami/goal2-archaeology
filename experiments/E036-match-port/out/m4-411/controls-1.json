@@ -1,0 +1,175 @@
+{
+  "baseline": "46a6b13f9c16337b54b2f136c4444e29a9f4b680",
+  "runtime_sha256": "ea87406a9f0300d0d54c3f71d664a8ed2925505fb133b59a481e8fc5f098f053",
+  "tests_sha256": "8bcd470aa7cede5d4369f3ca59bd62b2f92a0ef11c71832b7ddc1766368326c2",
+  "results": [
+    {
+      "control": "correct",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "correct",
+      "tests": "new",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "wrong-pitch-pointer",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "wrong-pitch-pointer",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    },
+    {
+      "control": "pitch-upper-five",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "pitch-upper-five",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    },
+    {
+      "control": "pitch-directions-swapped",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "pitch-directions-swapped",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    },
+    {
+      "control": "pitch-refresh-far",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "pitch-refresh-far",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    },
+    {
+      "control": "drop-help-save",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "drop-help-save",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    },
+    {
+      "control": "drop-help-restore",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "drop-help-restore",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    },
+    {
+      "control": "help-copy-short",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "help-copy-short",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    },
+    {
+      "control": "drop-prompt-copy",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "drop-prompt-copy",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    },
+    {
+      "control": "drop-prompt-save",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "drop-prompt-save",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    },
+    {
+      "control": "drop-expression-store",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "drop-expression-store",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    },
+    {
+      "control": "drop-expression-suffix",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "drop-expression-suffix",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    },
+    {
+      "control": "drop-prompt-draw",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "drop-prompt-draw",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    },
+    {
+      "control": "drop-menu-guard",
+      "tests": "legacy",
+      "exit": 0,
+      "assertion_failure": false
+    },
+    {
+      "control": "drop-menu-guard",
+      "tests": "new",
+      "exit": 1,
+      "assertion_failure": true
+    }
+  ]
+}
