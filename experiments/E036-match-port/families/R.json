@@ -1,21 +1,129 @@
 {
   "family": "R",
-  "reference": "experiments/E036-match-port/families/R.reference-20261024-v1.jsonl",
+  "reference": "experiments/E036-match-port/families/R.reference-20261024-v2.jsonl",
   "description": "T77 frontier census: competitive quick results with both countries going in hard, seed variation and a tired side; a watched seed-4 match managed from the other side reaches computer removal after discipline. Only the existing closed record-edit grammar is used.",
-  "base": {"fixture": [7, 19, 21, 2], "managed": 7, "seed": 1, "delay_byte": null, "substitutions": null, "edits": "hard-both", "policy": {"name": "Quick", "contexts": ["half_time", "substitution", "pause"], "speed": 0, "pause_at": [1]}},
+  "base": {
+    "fixture": [
+      7,
+      19,
+      21,
+      2
+    ],
+    "managed": 7,
+    "seed": 1,
+    "delay_byte": null,
+    "substitutions": null,
+    "edits": "hard-both",
+    "policy": {
+      "name": "Quick",
+      "contexts": [
+        "half_time",
+        "substitution",
+        "pause"
+      ],
+      "speed": 0,
+      "pause_at": [
+        1
+      ]
+    }
+  },
   "edit_sets": {
-    "hard-both": [{"target": "country", "country": 7, "offset": 45, "op": "or", "value": 8}, {"target": "country", "country": 19, "offset": 45, "op": "or", "value": 8}],
-    "tired-hard": [{"target": "country", "country": 7, "offset": 45, "op": "or", "value": 8}, {"target": "country", "country": 19, "offset": 45, "op": "or", "value": 8}, {"target": "squad", "country": 19, "offset": 14, "op": "set", "value": 2}]
+    "hard-both": [
+      {
+        "target": "country",
+        "country": 7,
+        "offset": 45,
+        "op": "or",
+        "value": 8
+      },
+      {
+        "target": "country",
+        "country": 19,
+        "offset": 45,
+        "op": "or",
+        "value": 8
+      }
+    ],
+    "tired-hard": [
+      {
+        "target": "country",
+        "country": 7,
+        "offset": 45,
+        "op": "or",
+        "value": 8
+      },
+      {
+        "target": "country",
+        "country": 19,
+        "offset": 45,
+        "op": "or",
+        "value": 8
+      },
+      {
+        "target": "squad",
+        "country": 19,
+        "offset": 14,
+        "op": "set",
+        "value": 2
+      }
+    ]
   },
   "matches": [
-    {"id": "R/quick-hard-1", "seed": 1},
-    {"id": "R/quick-hard-2", "seed": 2},
-    {"id": "R/quick-hard-3", "seed": 3},
-    {"id": "R/quick-hard-4", "seed": 4},
-    {"id": "R/quick-hard-5", "seed": 5},
-    {"id": "R/quick-hard-6", "seed": 6},
-    {"id": "R/quick-hard-7", "seed": 7},
-    {"id": "R/quick-tired-8", "seed": 8, "edits": "tired-hard"},
-    {"id": "R/watched-away-hard-4", "fixture": [7, 19, 21, 1], "managed": 19, "seed": 4, "policy": {"name": "PlayOn", "contexts": ["half_time", "substitution"]}}
+    {
+      "id": "R/quick-hard-1",
+      "seed": 1
+    },
+    {
+      "id": "R/quick-hard-2",
+      "seed": 2
+    },
+    {
+      "id": "R/quick-hard-3",
+      "seed": 3
+    },
+    {
+      "id": "R/quick-hard-4",
+      "seed": 4
+    },
+    {
+      "id": "R/quick-hard-5",
+      "seed": 5
+    },
+    {
+      "id": "R/quick-hard-6",
+      "seed": 6
+    },
+    {
+      "id": "R/quick-hard-7",
+      "seed": 7
+    },
+    {
+      "id": "R/quick-tired-8",
+      "seed": 8,
+      "edits": "tired-hard"
+    },
+    {
+      "id": "R/watched-away-hard-4",
+      "fixture": [
+        7,
+        19,
+        21,
+        1
+      ],
+      "managed": 19,
+      "seed": 4,
+      "policy": {
+        "name": "PlayOn",
+        "contexts": [
+          "half_time",
+          "substitution"
+        ]
+      }
+    },
+    {
+      "id": "R/quick-zero-budget-28",
+      "seed": 28,
+      "substitutions": 0
+    }
   ]
 }
