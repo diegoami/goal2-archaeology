@@ -82,13 +82,13 @@ class TheFamilies(unittest.TestCase):
         rows = records.read_log(old)
         self.assertEqual(len(rows), 63)
         self.assertEqual({r["id"]: r["spec_sha256"] for r in rows},
-                         {mid: digest for mid, digest in EXPECTED.items() if mid != "S/set-piece-taker" and not mid.startswith("R/")})
+                         {mid: digest for mid, digest in EXPECTED.items() if mid != "S/set-piece-taker" and not mid.startswith(("R/","FS/"))})
         policy = next(m.policy for m in FAMILIES["S"].matches if m.id == "S/set-piece-taker")
         self.assertIn("set_piece", policy.contexts)
 
-    def test_the_four_families_and_their_exact_sizes(self):
-        self.assertEqual({n: len(f.matches) for n, f in FAMILIES.items()}, {"F40": 40, "O8": 8, "R": 10, "S": 16})
-        self.assertEqual(len(EXPECTED), 74)
+    def test_the_five_families_and_their_exact_sizes(self):
+        self.assertEqual({n: len(f.matches) for n, f in FAMILIES.items()}, {"F40": 40, "FS": 1, "O8": 8, "R": 10, "S": 16})
+        self.assertEqual(len(EXPECTED), 75)
 
     def test_r_has_independent_original_reference_and_closed_declarations(self):
         r=FAMILIES['R'];rows=records.read_log(ROOT/r.reference)
@@ -96,7 +96,7 @@ class TheFamilies(unittest.TestCase):
         old64=records.read_log(ROOT/FAMILIES['S'].reference)
         self.assertEqual(len(old64),64)
         self.assertEqual({x['id']:x['spec_sha256'] for x in old64},
-                         {mid:digest for mid,digest in EXPECTED.items() if not mid.startswith('R/')})
+                         {mid:digest for mid,digest in EXPECTED.items() if not mid.startswith(('R/','FS/'))})
         self.assertEqual({x['id']:x['spec_sha256'] for x in rows},r.expected())
         self.assertTrue(all(not x.get('ports') and not x.get('variant') for x in rows))
         old=ROOT/'experiments/E036-match-port/families/R.reference-20261024-v1.jsonl'
@@ -150,7 +150,8 @@ class TheFamilies(unittest.TestCase):
     def test_each_family_names_its_reference_and_every_id_is_unique(self):
         for fam in FAMILIES.values():
             expected={"S":"experiments/E036-match-port/families/S-set-piece-taker-reference-20261024-v1.jsonl",
-                      "R":"experiments/E036-match-port/families/R.reference-20261024-v2.jsonl"}.get(fam.name,"experiments/E036-match-port/out/T57/reference.jsonl")
+                      "R":"experiments/E036-match-port/families/R.reference-20261024-v2.jsonl",
+                      "FS":"experiments/E036-match-port/out/m4-419/FS-native-raw-3.jsonl"}.get(fam.name,"experiments/E036-match-port/out/T57/reference.jsonl")
             self.assertEqual(fam.reference,expected)
             for m in fam.matches:
                 self.assertTrue(m.id.startswith(fam.name + "/"))
@@ -182,7 +183,7 @@ class TheDirectory(unittest.TestCase):
         found = families.discover(self.dir)
         self.assertEqual(sorted(found), ["X1"])
         self.assertEqual(found["X1"].matches[1].edits[0]["value"], 3)
-        self.assertEqual(sorted(families.discover()), ["F40", "O8", "R", "S"])         # a file of its own, in the real directory
+        self.assertEqual(sorted(families.discover()), ["F40", "FS", "O8", "R", "S"])         # a file of its own, in the real directory
 
     def test_a_policy_module_in_the_directory_is_found_too(self):
         (self.dir / "mine.py").write_text(
@@ -299,7 +300,7 @@ class TheDirectory(unittest.TestCase):
 
     def test_select_asks_for_known_distinct_families(self):
         found = families.discover()
-        self.assertEqual([f.name for f in families.select("ALL", found)], ["F40", "O8", "R", "S"])
+        self.assertEqual([f.name for f in families.select("ALL", found)], ["F40", "FS", "O8", "R", "S"])
         self.assertEqual([f.name for f in families.select("S,F40", found)], ["S", "F40"])
         for bad in ("F41", "F40,F40", "", "all", "F40,"):
             with self.subTest(bad):
@@ -422,6 +423,9 @@ class FakeMatch:
 
 
 class FakeImage:
+    def sha256(self):
+        return family.image_sources.get("E006")["memory_sha256"]
+
     def players(self):
         return [bytes(families.PLAYER_SIZE)] * 3061
 

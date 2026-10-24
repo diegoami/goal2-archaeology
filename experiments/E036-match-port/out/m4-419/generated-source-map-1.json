@@ -1,0 +1,4472 @@
+[
+  {
+    "entry": "1771:883F",
+    "pc": "1771:883F",
+    "operation": "push bp"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8840",
+    "operation": "mov bp, sp"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8842",
+    "operation": "sub sp, 0x108"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8846",
+    "operation": "mov di, 0x1766"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8849",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:884A",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:884B",
+    "operation": "mov di, 0xa96e"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:884E",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:884F",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8850",
+    "operation": "call far 214B:0329"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8855",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8858",
+    "operation": "cmp byte ptr ss:[di - 9], 0"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:885D",
+    "operation": "je 0x8866"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:885F",
+    "operation": "mov word ptr [bp - 4], 5"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8864",
+    "operation": "jmp 0x8881"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8866",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8869",
+    "operation": "mov ax, word ptr ss:[di - 8]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:886D",
+    "operation": "mov dx, 0xbf"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8870",
+    "operation": "mul dx"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8872",
+    "operation": "les di, ptr [0xa917]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8876",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8878",
+    "operation": "mov al, byte ptr es:[di + 0x2c]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:887C",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:887E",
+    "operation": "mov word ptr [bp - 4], ax"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8881",
+    "operation": "mov byte ptr [0xaab2], 7"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8886",
+    "operation": "mov word ptr [bp - 2], 1"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:888B",
+    "operation": "jmp 0x8890"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:888D",
+    "operation": "inc word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8890",
+    "operation": "mov ax, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8893",
+    "operation": "mov cl, 4"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8895",
+    "operation": "shl ax, cl"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8897",
+    "operation": "mov bx, ax"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8899",
+    "operation": "mov ax, word ptr [bp - 4]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:889C",
+    "operation": "mov dx, 0x60"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:889F",
+    "operation": "mul dx"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88A1",
+    "operation": "les di, ptr [0xa93f]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88A5",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88A7",
+    "operation": "add di, bx"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88A9",
+    "operation": "add di, 0xff90"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88AD",
+    "operation": "mov word ptr [bp - 8], di"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88B0",
+    "operation": "mov word ptr [bp - 6], es"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88B3",
+    "operation": "les di, ptr [bp - 8]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88B6",
+    "operation": "cmp word ptr es:[di + 0xe], 0"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88BB",
+    "operation": "je 0x892a"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88BD",
+    "operation": "lea di, [bp - 0x108]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88C1",
+    "operation": "push ss"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88C2",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88C3",
+    "operation": "les di, ptr [bp - 8]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88C6",
+    "operation": "mov al, byte ptr es:[di]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88C9",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88CA",
+    "operation": "call far 23E4:075A"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88CF",
+    "operation": "mov ax, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88D2",
+    "operation": "add ax, 2"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88D5",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88D6",
+    "operation": "mov al, 0x3e"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88D8",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88D9",
+    "operation": "mov di, 0xa96e"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88DC",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88DD",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88DE",
+    "operation": "call far 214B:026D"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88E3",
+    "operation": "les di, ptr [bp - 8]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88E6",
+    "operation": "add di, 1"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88EA",
+    "operation": "push es"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88EB",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88EC",
+    "operation": "mov ax, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88EF",
+    "operation": "add ax, 2"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88F2",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88F3",
+    "operation": "mov al, 0x40"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88F5",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88F6",
+    "operation": "mov di, 0xa96e"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88F9",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88FA",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:88FB",
+    "operation": "call far 214B:026D"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8900",
+    "operation": "lea di, [bp - 0x108]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8904",
+    "operation": "push ss"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8905",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8906",
+    "operation": "les di, ptr [bp - 8]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8909",
+    "operation": "mov ax, word ptr es:[di + 0xc]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:890D",
+    "operation": "xor dx, dx"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:890F",
+    "operation": "push dx"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8910",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8911",
+    "operation": "call far 214B:09DA"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8916",
+    "operation": "mov ax, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8919",
+    "operation": "add ax, 2"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:891C",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:891D",
+    "operation": "mov al, 0x4d"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:891F",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8920",
+    "operation": "mov di, 0xa96e"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8923",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8924",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8925",
+    "operation": "call far 214B:01A3"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:892A",
+    "operation": "cmp word ptr [bp - 2], 3"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:892E",
+    "operation": "je 0x8933"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8930",
+    "operation": "jmp 0x888d"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8933",
+    "operation": "mov sp, bp"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8935",
+    "operation": "pop bp"
+  },
+  {
+    "entry": "1771:883F",
+    "pc": "1771:8936",
+    "operation": "ret 2"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89C1",
+    "operation": "push bp"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89C2",
+    "operation": "mov bp, sp"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89C4",
+    "operation": "mov di, 0x2d7a"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89C7",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89C8",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89C9",
+    "operation": "mov di, 0xa96e"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89CC",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89CD",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89CE",
+    "operation": "call far 214B:0329"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89D3",
+    "operation": "mov ax, 0x17"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89D6",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89D7",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89DA",
+    "operation": "mov di, word ptr ss:[di - 2]"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89DE",
+    "operation": "mov al, byte ptr [di + 0x1113]"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89E2",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89E4",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89E5",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89E8",
+    "operation": "mov di, word ptr ss:[di - 2]"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89EC",
+    "operation": "mov al, byte ptr [di + 0x1116]"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89F0",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89F2",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89F3",
+    "operation": "call far 214B:13C5"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89F8",
+    "operation": "mov sp, bp"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89FA",
+    "operation": "pop bp"
+  },
+  {
+    "entry": "1771:89C1",
+    "pc": "1771:89FB",
+    "operation": "ret 2"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:89FE",
+    "operation": "push bp"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:89FF",
+    "operation": "mov bp, sp"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A01",
+    "operation": "sub sp, 4"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A04",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A07",
+    "operation": "mov ax, word ptr ss:[di - 8]"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A0B",
+    "operation": "mov dx, 0xbf"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A0E",
+    "operation": "mul dx"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A10",
+    "operation": "les di, ptr [0xa917]"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A14",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A16",
+    "operation": "mov word ptr [bp - 4], di"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A19",
+    "operation": "mov word ptr [bp - 2], es"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A1C",
+    "operation": "les di, ptr [bp - 4]"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A1F",
+    "operation": "mov al, byte ptr es:[di + 0x2c]"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A23",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A25",
+    "operation": "mov di, ax"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A27",
+    "operation": "mov al, byte ptr [di + 0x111d]"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A2B",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A2D",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A2E",
+    "operation": "les di, ptr [bp - 4]"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A31",
+    "operation": "mov al, byte ptr es:[di + 0x2c]"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A35",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A37",
+    "operation": "mov di, ax"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A39",
+    "operation": "mov al, byte ptr [di + 0x1119]"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A3D",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A3F",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A40",
+    "operation": "les di, ptr [bp - 4]"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A43",
+    "operation": "mov al, byte ptr es:[di + 0x2c]"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A47",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A49",
+    "operation": "mov di, ax"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A4B",
+    "operation": "mov al, byte ptr [di + 0x1121]"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A4F",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A51",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A52",
+    "operation": "call far 214B:13C5"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A57",
+    "operation": "mov sp, bp"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A59",
+    "operation": "pop bp"
+  },
+  {
+    "entry": "1771:89FE",
+    "pc": "1771:8A5A",
+    "operation": "ret 2"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A5D",
+    "operation": "push bp"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A5E",
+    "operation": "mov bp, sp"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A60",
+    "operation": "mov di, 0x2c68"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A63",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A64",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A65",
+    "operation": "mov di, 0xa96e"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A68",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A69",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A6A",
+    "operation": "call far 214B:0329"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A6F",
+    "operation": "push word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A72",
+    "operation": "call 0x89c1"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A75",
+    "operation": "cmp byte ptr [bp + 6], 0"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A79",
+    "operation": "je 0x8a81"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A7B",
+    "operation": "push word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A7E",
+    "operation": "call 0x89fe"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A81",
+    "operation": "mov sp, bp"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A83",
+    "operation": "pop bp"
+  },
+  {
+    "entry": "1771:8A5D",
+    "pc": "1771:8A84",
+    "operation": "ret 4"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CCF",
+    "operation": "push bp"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CD0",
+    "operation": "mov bp, sp"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CD2",
+    "operation": "sub sp, 4"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CD5",
+    "operation": "cmp word ptr [bp + 0xe], 0"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CD9",
+    "operation": "ja 0x8cde"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CDB",
+    "operation": "jmp 0x8d7e"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CDE",
+    "operation": "mov ax, word ptr [bp + 0xe]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CE1",
+    "operation": "mov cl, 3"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CE3",
+    "operation": "shl ax, cl"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CE5",
+    "operation": "les di, ptr [0xa92b]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CE9",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CEB",
+    "operation": "add di, 0xfff8"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CEF",
+    "operation": "mov word ptr [bp - 4], di"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CF2",
+    "operation": "mov word ptr [bp - 2], es"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CF5",
+    "operation": "les di, ptr [bp - 4]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CF8",
+    "operation": "push word ptr es:[di + 6]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CFC",
+    "operation": "push word ptr [bp + 0xc]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8CFF",
+    "operation": "mov ax, word ptr [bp + 0xa]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D02",
+    "operation": "add ax, 0xe"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D05",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D06",
+    "operation": "call 0xfb1"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D09",
+    "operation": "les di, ptr [bp - 4]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D0C",
+    "operation": "push word ptr es:[di + 4]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D10",
+    "operation": "mov ax, word ptr [bp + 0xc]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D13",
+    "operation": "inc ax"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D14",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D15",
+    "operation": "mov ax, word ptr [bp + 0xa]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D18",
+    "operation": "add ax, 0xe"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D1B",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D1C",
+    "operation": "call 0xfb1"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D1F",
+    "operation": "mov ax, word ptr [bp + 0xe]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D22",
+    "operation": "mov cl, 3"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D24",
+    "operation": "shl ax, cl"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D26",
+    "operation": "les di, ptr [0xa92b]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D2A",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D2C",
+    "operation": "add di, 0xfff8"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D30",
+    "operation": "push es"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D31",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D32",
+    "operation": "push word ptr [bp + 8]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D35",
+    "operation": "push word ptr [bp + 6]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D39",
+    "operation": "call 0x76fa"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D3C",
+    "operation": "les di, ptr [bp - 4]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D3F",
+    "operation": "cmp byte ptr es:[di], 0xfe"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D43",
+    "operation": "jae 0x8d7e"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D45",
+    "operation": "les di, ptr [bp - 4]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D48",
+    "operation": "cmp byte ptr es:[di + 2], 6"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D4D",
+    "operation": "je 0x8d7e"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D4F",
+    "operation": "mov al, 6"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D51",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D52",
+    "operation": "mov di, 0x8ccd"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D55",
+    "operation": "push cs"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D56",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D57",
+    "operation": "les di, ptr [bp - 4]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D5A",
+    "operation": "cmp byte ptr es:[di + 3], 0"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D5F",
+    "operation": "je 0x8d65"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D61",
+    "operation": "mov al, 0"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D63",
+    "operation": "jmp 0x8d67"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D65",
+    "operation": "mov al, 1"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D67",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D69",
+    "operation": "add ax, word ptr [bp + 0xc]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D6C",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D6D",
+    "operation": "mov ax, word ptr [bp + 0xa]"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D70",
+    "operation": "add ax, 0xf"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D73",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D74",
+    "operation": "mov di, 0xa96e"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D77",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D78",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D79",
+    "operation": "call far 214B:02C8"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D7E",
+    "operation": "mov sp, bp"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D80",
+    "operation": "pop bp"
+  },
+  {
+    "entry": "1771:8CCF",
+    "pc": "1771:8D81",
+    "operation": "ret 0xc"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8D84",
+    "operation": "push bp"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8D85",
+    "operation": "mov bp, sp"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8D87",
+    "operation": "sub sp, 0xc"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8D8A",
+    "operation": "les di, ptr [0xa923]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8D8E",
+    "operation": "mov word ptr [bp - 8], di"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8D91",
+    "operation": "mov word ptr [bp - 6], es"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8D94",
+    "operation": "les di, ptr [bp - 8]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8D97",
+    "operation": "cmp byte ptr es:[di + 0x3c], 5"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8D9C",
+    "operation": "jne 0x8da1"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8D9E",
+    "operation": "jmp 0x8e94"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DA1",
+    "operation": "mov word ptr [bp - 2], 1"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DA6",
+    "operation": "jmp 0x8dab"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DA8",
+    "operation": "inc word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DAB",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DAE",
+    "operation": "mov ax, word ptr ss:[di - 8]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DB2",
+    "operation": "mov dx, 0xbf"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DB5",
+    "operation": "mul dx"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DB7",
+    "operation": "les di, ptr [0xa917]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DBB",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DBD",
+    "operation": "mov al, byte ptr es:[di + 0x2c]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DC1",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DC3",
+    "operation": "sub ax, 3"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DC6",
+    "operation": "mov cx, 3"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DC9",
+    "operation": "shl ax, cl"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DCB",
+    "operation": "add ax, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DCE",
+    "operation": "dec ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DCF",
+    "operation": "mov word ptr [bp - 4], ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DD2",
+    "operation": "les di, ptr [bp - 8]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DD5",
+    "operation": "mov ax, word ptr es:[di + 0x2c]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DD9",
+    "operation": "add ax, word ptr [bp - 4]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DDC",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DDD",
+    "operation": "mov di, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DE0",
+    "operation": "mov al, byte ptr [di + 0x1125]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DE4",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DE6",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DE7",
+    "operation": "mov ax, 0x3d"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DEA",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DEB",
+    "operation": "push word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DEE",
+    "operation": "call 0x8ca2"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DF1",
+    "operation": "mov al, byte ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DF4",
+    "operation": "shr al, 1"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DF6",
+    "operation": "jb 0x8dfb"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DF8",
+    "operation": "jmp 0x8e8b"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DFB",
+    "operation": "mov ax, word ptr [bp - 4]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8DFE",
+    "operation": "xor dx, dx"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E00",
+    "operation": "mov cx, 2"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E03",
+    "operation": "div cx"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E05",
+    "operation": "add ax, 0x961"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E08",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E09",
+    "operation": "mov ax, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E0C",
+    "operation": "add ax, 8"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E0F",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E10",
+    "operation": "mov ax, 4"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E13",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E14",
+    "operation": "mov ax, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E17",
+    "operation": "inc ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E18",
+    "operation": "xor dx, dx"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E1A",
+    "operation": "mov cx, 2"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E1D",
+    "operation": "div cx"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E1F",
+    "operation": "mov di, ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E21",
+    "operation": "mov al, byte ptr [di + 0x112d]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E25",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E27",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E28",
+    "operation": "mov ax, 0x17"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E2B",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E2C",
+    "operation": "push word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E2F",
+    "operation": "call 0x8ccf"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E32",
+    "operation": "mov ax, word ptr [bp - 4]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E35",
+    "operation": "xor dx, dx"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E37",
+    "operation": "mov cx, 2"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E3A",
+    "operation": "div cx"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E3C",
+    "operation": "add ax, 0x961"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E3F",
+    "operation": "mov cl, 3"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E41",
+    "operation": "shl ax, cl"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E43",
+    "operation": "les di, ptr [0xa92b]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E47",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E49",
+    "operation": "add di, 0xfff8"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E4D",
+    "operation": "mov word ptr [bp - 0xc], di"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E50",
+    "operation": "mov word ptr [bp - 0xa], es"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E53",
+    "operation": "les di, ptr [bp - 0xc]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E56",
+    "operation": "cmp byte ptr es:[di], 0xfe"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E5A",
+    "operation": "jae 0x8e8b"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E5C",
+    "operation": "les di, ptr [bp - 0xc]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E5F",
+    "operation": "mov al, byte ptr es:[di + 3]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E63",
+    "operation": "cwde "
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E64",
+    "operation": "shl ax, 1"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E66",
+    "operation": "les di, ptr [bp - 0xc]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E69",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E6B",
+    "operation": "push word ptr es:[di + 4]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E6F",
+    "operation": "mov ax, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E72",
+    "operation": "inc ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E73",
+    "operation": "xor dx, dx"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E75",
+    "operation": "mov cx, 2"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E78",
+    "operation": "div cx"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E7A",
+    "operation": "mov di, ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E7C",
+    "operation": "mov al, byte ptr [di + 0x1131]"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E80",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E82",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E83",
+    "operation": "mov ax, 0x18"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E86",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E88",
+    "operation": "call 0xf58"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E8B",
+    "operation": "cmp word ptr [bp - 2], 8"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E8F",
+    "operation": "je 0x8e94"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E91",
+    "operation": "jmp 0x8da8"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E94",
+    "operation": "mov sp, bp"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E96",
+    "operation": "pop bp"
+  },
+  {
+    "entry": "1771:8D84",
+    "pc": "1771:8E97",
+    "operation": "ret 2"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9028",
+    "operation": "push bp"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9029",
+    "operation": "mov bp, sp"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:902B",
+    "operation": "sub sp, 0x10a"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:902F",
+    "operation": "les di, ptr [0xa923]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9033",
+    "operation": "mov word ptr [bp - 0xa], di"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9036",
+    "operation": "mov word ptr [bp - 8], es"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9039",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:903C",
+    "operation": "mov ax, word ptr ss:[di - 8]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9040",
+    "operation": "mov word ptr [bp - 6], ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9043",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9046",
+    "operation": "cmp byte ptr ss:[di - 9], 0"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:904B",
+    "operation": "je 0x9056"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:904D",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9050",
+    "operation": "mov word ptr ss:[di - 8], 1"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9056",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9059",
+    "operation": "mov al, byte ptr ss:[di - 9]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:905D",
+    "operation": "cwde "
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:905E",
+    "operation": "mov di, ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9060",
+    "operation": "mov al, byte ptr [di + 0x1136]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9064",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9066",
+    "operation": "mov word ptr [bp - 4], ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9069",
+    "operation": "mov al, 1"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:906B",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:906C",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:906F",
+    "operation": "mov al, byte ptr ss:[di - 9]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9073",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9074",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9077",
+    "operation": "mov ax, word ptr ss:[di - 8]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:907B",
+    "operation": "mov dx, 0xbf"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:907E",
+    "operation": "mul dx"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9080",
+    "operation": "les di, ptr [0xa917]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9084",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9086",
+    "operation": "mov al, byte ptr es:[di + 0x2c]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:908A",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:908C",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:908D",
+    "operation": "call 0x5ac4"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9090",
+    "operation": "push word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9093",
+    "operation": "call 0x883f"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9096",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9099",
+    "operation": "mov ax, word ptr ss:[di - 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:909D",
+    "operation": "cmp ax, word ptr [bp - 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90A0",
+    "operation": "jbe 0x90ab"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90A2",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90A5",
+    "operation": "mov word ptr ss:[di - 4], 1"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90AB",
+    "operation": "mov di, 0x386e"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90AE",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90AF",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90B0",
+    "operation": "mov di, 0xa96e"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90B3",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90B4",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90B5",
+    "operation": "call far 214B:0329"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90BA",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90BD",
+    "operation": "cmp byte ptr ss:[di + 0xa], 0"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90C2",
+    "operation": "je 0x90ea"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90C4",
+    "operation": "mov di, 0x2d5a"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90C7",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90C8",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90C9",
+    "operation": "mov di, 0xa96e"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90CC",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90CD",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90CE",
+    "operation": "call far 214B:0329"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90D3",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90D6",
+    "operation": "cmp byte ptr ss:[di - 9], 0"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90DB",
+    "operation": "je 0x90e1"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90DD",
+    "operation": "mov al, 0"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90DF",
+    "operation": "jmp 0x90e3"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90E1",
+    "operation": "mov al, 1"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90E3",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90E4",
+    "operation": "push word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90E7",
+    "operation": "call 0x8a5d"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90EA",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90ED",
+    "operation": "mov al, byte ptr ss:[di - 9]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90F1",
+    "operation": "les di, ptr [bp - 0xa]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90F4",
+    "operation": "cmp al, byte ptr es:[di + 0x40]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90F8",
+    "operation": "jne 0x912e"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90FB",
+    "operation": "call 0x59d8"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:90FE",
+    "operation": "or al, al"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9100",
+    "operation": "jne 0x912e"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9102",
+    "operation": "mov al, 7"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9104",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9105",
+    "operation": "lea di, [bp - 0x10a]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9109",
+    "operation": "push ss"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:910A",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:910B",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:910E",
+    "operation": "mov ax, word ptr ss:[di - 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9112",
+    "operation": "add ax, 0x40"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9115",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9116",
+    "operation": "call far 23E4:075A"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:911B",
+    "operation": "mov al, 9"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:911D",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:911E",
+    "operation": "mov al, 0xb"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9120",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9121",
+    "operation": "mov di, 0xa96e"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9124",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9125",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9126",
+    "operation": "call far 214B:02C8"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:912B",
+    "operation": "jmp 0x91ad"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:912E",
+    "operation": "mov al, 1"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9130",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9131",
+    "operation": "push word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9134",
+    "operation": "call 0x8a87"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9137",
+    "operation": "mov word ptr [bp - 2], 1"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:913C",
+    "operation": "jmp 0x9141"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:913E",
+    "operation": "inc word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9141",
+    "operation": "mov ax, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9144",
+    "operation": "shl ax, 1"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9146",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9147",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:914A",
+    "operation": "mov ax, word ptr ss:[di - 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:914E",
+    "operation": "mov dx, 0x38"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9151",
+    "operation": "mul dx"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9153",
+    "operation": "mov bx, ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9155",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9158",
+    "operation": "mov ax, word ptr ss:[di - 8]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:915C",
+    "operation": "mov dx, 0xbf"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:915F",
+    "operation": "mul dx"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9161",
+    "operation": "les di, ptr [0xa917]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9165",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9167",
+    "operation": "mov al, byte ptr es:[di + 0x2c]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:916B",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:916D",
+    "operation": "mov dx, 0x1c0"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9170",
+    "operation": "mul dx"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9172",
+    "operation": "mov cx, ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9174",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9177",
+    "operation": "mov al, byte ptr ss:[di - 9]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:917B",
+    "operation": "cwde "
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:917C",
+    "operation": "mov dx, 0xe00"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:917F",
+    "operation": "mul dx"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9181",
+    "operation": "les di, ptr [0xa933]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9185",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9187",
+    "operation": "add di, cx"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9189",
+    "operation": "add di, bx"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:918B",
+    "operation": "pop ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:918C",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:918E",
+    "operation": "push word ptr es:[di + 0x526]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9193",
+    "operation": "mov di, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:9196",
+    "operation": "mov al, byte ptr [di + 0x1137]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:919A",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:919C",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:919D",
+    "operation": "mov ax, 0x3a"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91A0",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91A1",
+    "operation": "push word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91A4",
+    "operation": "call 0x8ca2"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91A7",
+    "operation": "cmp word ptr [bp - 2], 6"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91AB",
+    "operation": "jne 0x913e"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91AD",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91B0",
+    "operation": "add di, 0xfffc"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91B4",
+    "operation": "push ss"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91B5",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91B6",
+    "operation": "push word ptr [bp - 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91B9",
+    "operation": "call far 214B:1560"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91BE",
+    "operation": "mov ax, word ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91C1",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91C4",
+    "operation": "mov word ptr ss:[di - 8], ax"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91C8",
+    "operation": "mov sp, bp"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91CA",
+    "operation": "pop bp"
+  },
+  {
+    "entry": "1771:9028",
+    "pc": "1771:91CB",
+    "operation": "ret 2"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91CE",
+    "operation": "push bp"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91CF",
+    "operation": "mov bp, sp"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91D1",
+    "operation": "sub sp, 6"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91D4",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91D7",
+    "operation": "mov di, word ptr ss:[di + 4]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91DB",
+    "operation": "mov ax, word ptr ss:[di - 8]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91DF",
+    "operation": "mov dx, 0xbf"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91E2",
+    "operation": "mul dx"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91E4",
+    "operation": "les di, ptr [0xa917]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91E8",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91EA",
+    "operation": "mov al, byte ptr es:[di + 0x2c]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91EE",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91F0",
+    "operation": "mov dx, 0x1c0"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91F3",
+    "operation": "mul dx"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91F5",
+    "operation": "mov cx, ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91F7",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91FA",
+    "operation": "mov di, word ptr ss:[di + 4]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:91FE",
+    "operation": "mov al, byte ptr ss:[di - 9]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9202",
+    "operation": "cwde "
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9203",
+    "operation": "mov dx, 0xe00"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9206",
+    "operation": "mul dx"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9208",
+    "operation": "les di, ptr [0xa933]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:920C",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:920E",
+    "operation": "add di, cx"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9210",
+    "operation": "add di, 0x540"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9214",
+    "operation": "mov word ptr [bp - 6], di"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9217",
+    "operation": "mov word ptr [bp - 4], es"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:921A",
+    "operation": "mov di, 0x3308"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:921D",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:921E",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:921F",
+    "operation": "mov di, 0xa96e"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9222",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9223",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9224",
+    "operation": "call far 214B:0329"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9229",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:922C",
+    "operation": "mov di, word ptr ss:[di + 4]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9230",
+    "operation": "cmp byte ptr ss:[di + 0xa], 0"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9235",
+    "operation": "je 0x9244"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9237",
+    "operation": "mov al, 1"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9239",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:923A",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:923D",
+    "operation": "push word ptr ss:[di + 4]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9241",
+    "operation": "call 0x8a5d"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9244",
+    "operation": "les di, ptr [0xa923]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9248",
+    "operation": "cmp byte ptr es:[di + 0x3c], 4"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:924D",
+    "operation": "jae 0x9252"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:924F",
+    "operation": "jmp 0x9356"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9252",
+    "operation": "mov word ptr [bp - 2], 7"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9257",
+    "operation": "jmp 0x925c"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9259",
+    "operation": "inc word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:925C",
+    "operation": "mov ax, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:925F",
+    "operation": "shl ax, 1"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9261",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9264",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9266",
+    "operation": "push word ptr es:[di + 0x1e]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:926A",
+    "operation": "mov di, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:926D",
+    "operation": "mov al, byte ptr [di + 0x1137]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9271",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9273",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9274",
+    "operation": "cmp word ptr [bp - 2], 8"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9278",
+    "operation": "ja 0x927e"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:927A",
+    "operation": "mov al, 0"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:927C",
+    "operation": "jmp 0x9280"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:927E",
+    "operation": "mov al, 1"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9280",
+    "operation": "cwde "
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9281",
+    "operation": "mov di, ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9283",
+    "operation": "mov al, byte ptr [di + 0x1142]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9287",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9289",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:928A",
+    "operation": "mov di, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:928D",
+    "operation": "mov al, byte ptr [di + 0x113d]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9291",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9293",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9294",
+    "operation": "cmp word ptr [bp - 2], 8"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9298",
+    "operation": "ja 0x929e"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:929A",
+    "operation": "mov al, 0"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:929C",
+    "operation": "jmp 0x92a0"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:929E",
+    "operation": "mov al, 1"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92A0",
+    "operation": "cwde "
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92A1",
+    "operation": "mov di, ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92A3",
+    "operation": "mov al, byte ptr [di + 0x1148]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92A7",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92A9",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92AA",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92AD",
+    "operation": "push word ptr ss:[di + 4]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92B1",
+    "operation": "call 0x8ccf"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92B4",
+    "operation": "cmp word ptr [bp - 2], 0xa"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92B8",
+    "operation": "jne 0x9259"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92BA",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92BD",
+    "operation": "cmp word ptr es:[di + 0x32], 0"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92C2",
+    "operation": "je 0x92dc"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92C4",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92C7",
+    "operation": "mov ax, word ptr es:[di + 0x32]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92CB",
+    "operation": "mov cl, 3"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92CD",
+    "operation": "shl ax, cl"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92CF",
+    "operation": "les di, ptr [0xa92b]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92D3",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92D5",
+    "operation": "cmp byte ptr es:[di - 8], 0xfe"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92DA",
+    "operation": "jb 0x92de"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92DC",
+    "operation": "jmp 0x9356"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92DE",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92E1",
+    "operation": "mov ax, word ptr es:[di + 0x32]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92E5",
+    "operation": "mov cl, 3"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92E7",
+    "operation": "shl ax, cl"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92E9",
+    "operation": "les di, ptr [0xa92b]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92ED",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92EF",
+    "operation": "add di, 0xfff8"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92F3",
+    "operation": "push es"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92F4",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92F6",
+    "operation": "call 0x5c94"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92F9",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92FA",
+    "operation": "mov ax, 0xa"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92FD",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:92FE",
+    "operation": "mov ax, 0x3c"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9301",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9303",
+    "operation": "call 0x10f58"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9306",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9309",
+    "operation": "mov ax, word ptr es:[di + 0x32]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:930D",
+    "operation": "mov cl, 3"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:930F",
+    "operation": "shl ax, cl"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9311",
+    "operation": "les di, ptr [0xa92b]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9315",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9317",
+    "operation": "add di, 0xfff8"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:931B",
+    "operation": "push es"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:931C",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:931E",
+    "operation": "call 0x5ccb"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9321",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9322",
+    "operation": "mov ax, 0xc"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9325",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9326",
+    "operation": "mov ax, 0x3c"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9329",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:932B",
+    "operation": "call 0x10f58"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:932E",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9331",
+    "operation": "mov ax, word ptr es:[di + 0x30]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9335",
+    "operation": "mov cl, 3"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9337",
+    "operation": "shl ax, cl"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9339",
+    "operation": "les di, ptr [0xa92b]"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:933D",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:933F",
+    "operation": "add di, 0xfff8"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9343",
+    "operation": "push es"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9344",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9346",
+    "operation": "call 0x5c94"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9349",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:934A",
+    "operation": "mov ax, 0xe"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:934D",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:934E",
+    "operation": "mov ax, 0x3c"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9351",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9353",
+    "operation": "call 0x10f58"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9356",
+    "operation": "mov sp, bp"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9358",
+    "operation": "pop bp"
+  },
+  {
+    "entry": "1771:91CE",
+    "pc": "1771:9359",
+    "operation": "ret 2"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:937C",
+    "operation": "push bp"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:937D",
+    "operation": "mov bp, sp"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:937F",
+    "operation": "sub sp, 6"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9382",
+    "operation": "les di, ptr [0xa923]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9386",
+    "operation": "mov word ptr [bp - 6], di"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9389",
+    "operation": "mov word ptr [bp - 4], es"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:938C",
+    "operation": "mov di, 0x2ef4"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:938F",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9390",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9391",
+    "operation": "mov di, 0xa96e"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9394",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9395",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9396",
+    "operation": "call far 214B:0329"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:939B",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:939E",
+    "operation": "mov di, word ptr ss:[di + 4]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93A2",
+    "operation": "cmp byte ptr ss:[di + 0xa], 0"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93A7",
+    "operation": "je 0x93b3"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93A9",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93AC",
+    "operation": "push word ptr ss:[di + 4]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93B0",
+    "operation": "call 0x89c1"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93B3",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93B6",
+    "operation": "mov al, byte ptr es:[di + 0x3c]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93BA",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93BB",
+    "operation": "mov di, 0x935c"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93BE",
+    "operation": "push cs"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93BF",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93C0",
+    "operation": "call far 23E4:08DF"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93C5",
+    "operation": "je 0x93ca"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93C7",
+    "operation": "jmp 0x9503"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93CA",
+    "operation": "mov word ptr [bp - 2], 1"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93CF",
+    "operation": "jmp 0x93d4"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93D1",
+    "operation": "inc word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93D4",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93D7",
+    "operation": "cmp byte ptr es:[di + 0x40], 0"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93DC",
+    "operation": "je 0x93f1"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93DE",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93E1",
+    "operation": "mov ax, word ptr es:[di + 0x2a]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93E5",
+    "operation": "add ax, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93E8",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93EB",
+    "operation": "cmp ax, word ptr es:[di + 0x28]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93EF",
+    "operation": "ja 0x942f"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93F1",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93F4",
+    "operation": "mov ax, word ptr es:[di + 0x2a]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93F8",
+    "operation": "add ax, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93FB",
+    "operation": "dec ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93FC",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:93FD",
+    "operation": "mov di, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9400",
+    "operation": "mov al, byte ptr [di + 0x1149]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9404",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9406",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9407",
+    "operation": "mov di, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:940A",
+    "operation": "mov al, byte ptr [di + 0x1159]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:940E",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9410",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9411",
+    "operation": "mov di, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9414",
+    "operation": "mov al, byte ptr [di + 0x1169]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9418",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:941A",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:941B",
+    "operation": "mov di, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:941E",
+    "operation": "mov al, byte ptr [di + 0x1179]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9422",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9424",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9425",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9428",
+    "operation": "push word ptr ss:[di + 4]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:942C",
+    "operation": "call 0x8ccf"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:942F",
+    "operation": "cmp word ptr [bp - 2], 0x10"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9433",
+    "operation": "jne 0x93d1"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9435",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9438",
+    "operation": "cmp byte ptr es:[di + 0x40], 0"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:943D",
+    "operation": "je 0x9455"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:943F",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9442",
+    "operation": "mov ax, word ptr es:[di + 0x28]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9446",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9449",
+    "operation": "sub ax, word ptr es:[di + 0x2a]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:944D",
+    "operation": "cmp ax, 0x10"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9450",
+    "operation": "je 0x9455"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9452",
+    "operation": "jmp 0x9503"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9455",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9458",
+    "operation": "mov ax, word ptr es:[di + 0x2a]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:945C",
+    "operation": "add ax, 0xf"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:945F",
+    "operation": "mov cl, 3"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9461",
+    "operation": "shl ax, cl"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9463",
+    "operation": "les di, ptr [0xa92b]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9467",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9469",
+    "operation": "cmp byte ptr es:[di - 8], 0xfe"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:946E",
+    "operation": "jb 0x9473"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9470",
+    "operation": "jmp 0x9503"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9473",
+    "operation": "mov di, 0x2c02"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9476",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9477",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9478",
+    "operation": "mov di, 0xa96e"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:947B",
+    "operation": "push ds"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:947C",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:947D",
+    "operation": "call far 214B:0329"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9482",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9485",
+    "operation": "mov ax, word ptr es:[di + 0x2a]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9489",
+    "operation": "add ax, 0xf"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:948C",
+    "operation": "mov cl, 3"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:948E",
+    "operation": "shl ax, cl"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9490",
+    "operation": "les di, ptr [0xa92b]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9494",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9496",
+    "operation": "add di, 0xfff8"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:949A",
+    "operation": "push es"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:949B",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:949D",
+    "operation": "call 0x5c94"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94A0",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94A1",
+    "operation": "mov ax, 2"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94A4",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94A5",
+    "operation": "mov ax, 0x41"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94A8",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94AA",
+    "operation": "call 0x10f58"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94AD",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94B0",
+    "operation": "mov ax, word ptr es:[di + 0x2a]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94B4",
+    "operation": "add ax, 0xf"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94B7",
+    "operation": "mov cl, 3"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94B9",
+    "operation": "shl ax, cl"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94BB",
+    "operation": "les di, ptr [0xa92b]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94BF",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94C1",
+    "operation": "add di, 0xfff8"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94C5",
+    "operation": "push es"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94C6",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94C8",
+    "operation": "call 0x5ccb"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94CB",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94CC",
+    "operation": "mov ax, 4"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94CF",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94D0",
+    "operation": "mov ax, 0x41"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94D3",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94D5",
+    "operation": "call 0x10f58"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94D8",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94DB",
+    "operation": "mov ax, word ptr es:[di + 0x2a]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94DF",
+    "operation": "add ax, 0xe"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94E2",
+    "operation": "mov cl, 3"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94E4",
+    "operation": "shl ax, cl"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94E6",
+    "operation": "les di, ptr [0xa92b]"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94EA",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94EC",
+    "operation": "add di, 0xfff8"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94F0",
+    "operation": "push es"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94F1",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94F3",
+    "operation": "call 0x5c94"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94F6",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94F7",
+    "operation": "mov ax, 6"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94FA",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94FB",
+    "operation": "mov ax, 0x41"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:94FE",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9500",
+    "operation": "call 0x10f58"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9503",
+    "operation": "mov sp, bp"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9505",
+    "operation": "pop bp"
+  },
+  {
+    "entry": "1771:937C",
+    "pc": "1771:9506",
+    "operation": "ret 2"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9509",
+    "operation": "push bp"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:950A",
+    "operation": "mov bp, sp"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:950C",
+    "operation": "mov al, 1"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:950E",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:950F",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9512",
+    "operation": "mov al, byte ptr ss:[di - 9]"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9516",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9517",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:951A",
+    "operation": "mov ax, word ptr ss:[di - 8]"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:951E",
+    "operation": "mov dx, 0xbf"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9521",
+    "operation": "mul dx"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9523",
+    "operation": "les di, ptr [0xa917]"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9527",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9529",
+    "operation": "mov al, byte ptr es:[di + 0x2c]"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:952D",
+    "operation": "xor ah, ah"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:952F",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9530",
+    "operation": "call 0x5ac4"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9533",
+    "operation": "push word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9536",
+    "operation": "call 0x883f"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9539",
+    "operation": "mov di, word ptr [bp + 4]"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:953C",
+    "operation": "cmp byte ptr ss:[di - 9], 0"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9541",
+    "operation": "je 0x9549"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9543",
+    "operation": "push bp"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9544",
+    "operation": "call 0x937c"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9547",
+    "operation": "jmp 0x954d"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9549",
+    "operation": "push bp"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:954A",
+    "operation": "call 0x91ce"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:954D",
+    "operation": "les di, ptr [0xa96e]"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9551",
+    "operation": "push es"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9552",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9553",
+    "operation": "les di, ptr [0xa96a]"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9557",
+    "operation": "push es"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9558",
+    "operation": "push di"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9559",
+    "operation": "mov ax, 0xfa0"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:955C",
+    "operation": "push ax"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:955D",
+    "operation": "call far 23E4:025D"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9562",
+    "operation": "call far 214B:08DD"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9567",
+    "operation": "mov sp, bp"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:9569",
+    "operation": "pop bp"
+  },
+  {
+    "entry": "1771:9509",
+    "pc": "1771:956A",
+    "operation": "ret 2"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5C94",
+    "operation": "push bp"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5C95",
+    "operation": "mov bp, sp"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5C97",
+    "operation": "sub sp, 6"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5C9A",
+    "operation": "les di, ptr [bp + 6]"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5C9D",
+    "operation": "mov word ptr [bp - 6], di"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CA0",
+    "operation": "mov word ptr [bp - 4], es"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CA3",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CA6",
+    "operation": "cmp byte ptr es:[di + 3], 1"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CAB",
+    "operation": "je 0x5cb1"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CAD",
+    "operation": "mov al, 0"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CAF",
+    "operation": "jmp 0x5cb3"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CB1",
+    "operation": "mov al, 1"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CB3",
+    "operation": "cwde "
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CB4",
+    "operation": "shl ax, 1"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CB6",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CB9",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CBB",
+    "operation": "mov ax, word ptr es:[di + 4]"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CBF",
+    "operation": "mov word ptr [bp - 2], ax"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CC2",
+    "operation": "mov ax, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CC5",
+    "operation": "mov sp, bp"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CC7",
+    "operation": "pop bp"
+  },
+  {
+    "entry": "1771:5C94",
+    "pc": "1771:5CC8",
+    "operation": "retf 4"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CCB",
+    "operation": "push bp"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CCC",
+    "operation": "mov bp, sp"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CCE",
+    "operation": "sub sp, 6"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CD1",
+    "operation": "les di, ptr [bp + 6]"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CD4",
+    "operation": "mov word ptr [bp - 6], di"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CD7",
+    "operation": "mov word ptr [bp - 4], es"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CDA",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CDD",
+    "operation": "cmp byte ptr es:[di + 3], 0"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CE2",
+    "operation": "je 0x5ce8"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CE4",
+    "operation": "mov al, 0"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CE6",
+    "operation": "jmp 0x5cea"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CE8",
+    "operation": "mov al, 1"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CEA",
+    "operation": "cwde "
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CEB",
+    "operation": "shl ax, 1"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CED",
+    "operation": "les di, ptr [bp - 6]"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CF0",
+    "operation": "add di, ax"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CF2",
+    "operation": "mov ax, word ptr es:[di + 4]"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CF6",
+    "operation": "mov word ptr [bp - 2], ax"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CF9",
+    "operation": "mov ax, word ptr [bp - 2]"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CFC",
+    "operation": "mov sp, bp"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CFE",
+    "operation": "pop bp"
+  },
+  {
+    "entry": "1771:5CCB",
+    "pc": "1771:5CFF",
+    "operation": "retf 4"
+  }
+]

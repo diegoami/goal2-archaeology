@@ -1,0 +1,88 @@
+.FEF.FFFFF
+======================================================================
+ERROR: test_group_bounds_temporary_country_key_effect_and_restore (tests.test_port_display_finals.Finals.test_group_bounds_temporary_country_key_effect_and_restore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display_finals.py", line 47, in test_group_bounds_temporary_country_key_effect_and_restore
+    self.assertEqual(key_calls,[(r.mem.ss,PARENT-4,limit)])
+                                 ^^^^^^^^
+AttributeError: 'PlainMem' object has no attribute 'ss'
+
+======================================================================
+FAIL: test_bracket_fixture_zero_and_marker_conditions (tests.test_port_display_finals.Finals.test_bracket_fixture_zero_and_marker_conditions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display_finals.py", line 83, in test_bracket_fixture_zero_and_marker_conditions
+    if markers:self.assertEqual(markers[0][3:5],(9+int(decider==0),9))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (10, 19) != (10, 9)
+
+First differing element 1:
+19
+9
+
+- (10, 19)
+?      -
+
++ (10, 9)
+
+======================================================================
+FAIL: test_leaderboard_keeps_attribute_and_three_selected_entries (tests.test_port_display_finals.Finals.test_leaderboard_keeps_attribute_and_three_selected_entries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display_finals.py", line 29, in test_leaderboard_keeps_attribute_and_three_selected_entries
+    self.assertEqual(len(r.args('214B:0205')),3)
+AssertionError: 0 != 3
+
+======================================================================
+FAIL: test_selector_helpers_preserve_lookup_arguments_and_nested_calls (tests.test_port_display_finals.Finals.test_selector_helpers_preserve_lookup_arguments_and_nested_calls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display_finals.py", line 87, in test_selector_helpers_preserve_lookup_arguments_and_nested_calls
+    r.run('1771:89C1',(PARENT,));self.assertEqual(r.args('214B:1F87'),[(23,9,4)])
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != [(23, 9, 4)]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(23, 9, 4)
+
+- []
++ [(23, 9, 4)]
+
+======================================================================
+FAIL: test_winner_and_loser_return_real_countries_for_all_decider_bytes (tests.test_port_display_finals.Finals.test_winner_and_loser_return_real_countries_for_all_decider_bytes) (target='1771:5CCB', decider=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display_finals.py", line 19, in test_winner_and_loser_return_real_countries_for_all_decider_bytes
+    self.assertEqual(r.mem.regs['ax'],want)
+AssertionError: 3 != 20
+
+======================================================================
+FAIL: test_winner_and_loser_return_real_countries_for_all_decider_bytes (tests.test_port_display_finals.Finals.test_winner_and_loser_return_real_countries_for_all_decider_bytes) (target='1771:5CCB', decider=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display_finals.py", line 19, in test_winner_and_loser_return_real_countries_for_all_decider_bytes
+    self.assertEqual(r.mem.regs['ax'],want)
+AssertionError: 20 != 3
+
+======================================================================
+FAIL: test_winner_and_loser_return_real_countries_for_all_decider_bytes (tests.test_port_display_finals.Finals.test_winner_and_loser_return_real_countries_for_all_decider_bytes) (target='1771:5CCB', decider=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display_finals.py", line 19, in test_winner_and_loser_return_real_countries_for_all_decider_bytes
+    self.assertEqual(r.mem.regs['ax'],want)
+AssertionError: 20 != 3
+
+======================================================================
+FAIL: test_winner_and_loser_return_real_countries_for_all_decider_bytes (tests.test_port_display_finals.Finals.test_winner_and_loser_return_real_countries_for_all_decider_bytes) (target='1771:5CCB', decider=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display_finals.py", line 19, in test_winner_and_loser_return_real_countries_for_all_decider_bytes
+    self.assertEqual(r.mem.regs['ax'],want)
+AssertionError: 20 != 3
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.050s
+
+FAILED (failures=7, errors=1)

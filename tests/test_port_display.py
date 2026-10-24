@@ -651,7 +651,7 @@ class StrictDisplayProfile(unittest.TestCase):
         from tests.test_e036_compare import family,FAMILIES,record
         spec=FAMILIES['F40'].matches[0]
         with tempfile.TemporaryDirectory() as d, mock.patch('original_match.assets.reference_image',return_value=b'input'), \
-             mock.patch('original_match.Image.from_bytes',return_value=object()), \
+             mock.patch.object(family.image_sources,'load',return_value=object()), \
              mock.patch.object(family,'run_match',return_value=record(spec.id)) as run:
             family.run_family([spec],str(Path(d)/'out.jsonl'),mask=[],display_profile=True,say=lambda s:None)
             self.assertIs(run.call_args.kwargs['display_profile'],True)

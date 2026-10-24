@@ -1,0 +1,18 @@
+E
+======================================================================
+ERROR: test_e036_image_sources (unittest.loader._FailedTest.test_e036_image_sources)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_e036_image_sources
+Traceback (most recent call last):
+  File "/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/tests/test_e036_image_sources.py", line 5, in <module>
+    from tests.test_e036_compare import family,families,records,compare,ROOT,record
+ImportError: cannot import name 'compare' from 'tests.test_e036_compare' (/home/diego/projects/goal2-archaeology/tests/test_e036_compare.py)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

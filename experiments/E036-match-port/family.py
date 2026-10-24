@@ -544,8 +544,11 @@ def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask
     elif workers == 1:
         from original_match import Image
         from original_match.assets import reference_image
-        image = Image.from_bytes(reference_image(cache))
+        images = {}
         for spec in todo:
+            if spec.image not in images:
+                images[spec.image] = image_sources.load(spec.image,cache)
+            image = images[spec.image]
             took(run_match(image, spec, mask, counts, time_limit, ports=ports, say=say, stretch_limit=stretch_limit,
                            checkpoints=checkpoints, display_profile=display_profile))
     else:
@@ -594,6 +597,9 @@ def write_ranges(path, report):
 def find_ranges(image, selected, path, time_limit=3600.0, say=print):
     """Play the selected matches under a write watch on all guest memory and write the report to the new file `path`."""
     from unicorn import UC_HOOK_MEM_WRITE
+    if not selected or len({s.image for s in selected}) != 1:
+        raise Refused("--find-ranges requires matches from exactly one registered image")
+    image_sources.validate_image(image,selected[0].image)
     blocks, info, ids = set(), {}, []
 
     def watch(m):
@@ -626,7 +632,7 @@ def find_ranges(image, selected, path, time_limit=3600.0, say=print):
     ds_lo, ds_hi = info["ds"]
     ds_blocks = sorted({(x - ds_lo) // records.BLOCK for a, b in written for x in range(max(a, ds_lo), min(b, ds_hi), 16)})
     screen_blocks = sorted({(x - ds_lo) // records.BLOCK for lo, hi in info["screen"] for x in range(max(lo, ds_lo), min(hi, ds_hi))})
-    report = {"image_sha256": families.image_sha256(), "matches": ids, "load_segment": info["load"],
+    report = {"image_sha256": selected[0].image_sha256, "matches": ids, "load_segment": info["load"],
               "ds_program_relative": info["ds"], "screen_program_relative": info["screen"],
               "records_program_relative": info["records"],
               "written_outside_ds_and_screen": outside, "written_inside_records": inside_records,
@@ -734,7 +740,10 @@ def main(argv=None):
         if a.find_ranges:
             from original_match import Image
             from original_match.assets import reference_image
-            find_ranges(Image.from_bytes(reference_image(a.cache)), selected[:a.max], a.find_ranges)
+            find_selected=selected[:a.max]
+            if not find_selected or len({s.image for s in find_selected}) != 1:
+                raise Refused("--find-ranges requires matches from exactly one registered image")
+            find_ranges(image_sources.load(find_selected[0].image,a.cache), find_selected, a.find_ranges)
             return 0
         recs = run_family(selected, a.out, a.workers, a.max, a.cache, mask, counts, a.time_limit, ports=ports,
                           stretch_limit=a.stretch_limit, checkpoint=a.checkpoint, display_profile=display_profile_selected(a))

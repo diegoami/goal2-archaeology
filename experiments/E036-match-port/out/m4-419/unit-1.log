@@ -1,0 +1,33 @@
+..................................................................................................................................................F............................E....................
+======================================================================
+ERROR: test_selected_profile_mode_reaches_single_and_pool_workers (tests.test_port_display.StrictDisplayProfile.test_selected_profile_mode_reaches_single_and_pool_workers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display.py", line 656, in test_selected_profile_mode_reaches_single_and_pool_workers
+    family.run_family([spec],str(Path(d)/'out.jsonl'),mask=[],display_profile=True,say=lambda s:None)
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/family.py", line 550, in run_family
+    images[spec.image] = image_sources.load(spec.image,cache)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/image_sources.py", line 52, in load
+    image=Image.from_bytes(raw);validate_image(image,key)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/image_sources.py", line 33, in validate_image
+    if image.sha256()!=source['memory_sha256']:
+       ^^^^^^^^^^^^
+AttributeError: 'object' object has no attribute 'sha256'
+
+======================================================================
+FAIL: test_registry_has_the_eighty_eight_listing_returns (tests.test_port_display.Display.test_registry_has_the_eighty_eight_listing_returns)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display.py", line 155, in test_registry_has_the_eighty_eight_listing_returns
+    self.assertEqual(entry.ret, row['returns'][0] if row['returns'] else 'ret')
+AssertionError: 'ret 0xc' != 'ret 12'
+- ret 0xc
++ ret 12
+
+
+----------------------------------------------------------------------
+Ran 196 tests in 73.962s
+
+FAILED (failures=1, errors=1)
