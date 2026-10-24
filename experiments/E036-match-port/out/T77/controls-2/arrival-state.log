@@ -1,0 +1,24 @@
+..............F......
+======================================================================
+FAIL: test_restart_holder_sets_ready_then_shoots_and_nonholder_arrives (tests.test_port_rare.Rare.test_restart_holder_sets_ready_then_shoots_and_nonholder_arrives)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T77-control-yh4usei0/tests/test_port_rare.py", line 128, in test_restart_holder_sets_ready_then_shoots_and_nonholder_arrives
+    self.assertEqual((r.mem.ds16(off+7),r.mem.ds8(off+18)),(0x3344,0))
+AssertionError: Tuples differ: (13124, 1) != (13124, 0)
+
+First differing element 1:
+1
+0
+
+- (13124, 1)
+?         ^
+
++ (13124, 0)
+?         ^
+
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.020s
+
+FAILED (failures=1)

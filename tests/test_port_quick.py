@@ -66,7 +66,8 @@ class Quick(unittest.TestCase):
             for i,v in enumerate([31,32,41,42,51,52,61,62]):r.ds16(0x9B45+2*i,v)
             values=iter(draws+[1,1]);bounds=[]
             def answer(q,mem):
-                if q.target=='214B:06B1':bounds.append(q.args[0]);return next(values)
+                if q.target=='214B:06B1':
+                    bounds.append(q.args[0]);self.assertLessEqual(len(bounds),n,'extra RNG draw after a failed contest');return next(values,1)
             r.run('0791:B19D',[1],answer)
             self.assertEqual(r.mem.ds16(0x9B3C),want)
             self.assertEqual(len(bounds),n)
@@ -80,7 +81,7 @@ class Quick(unittest.TestCase):
 
     def test_signed_trial_compare_rejects_high_bit_draw(self):
         r=Rig();draws=iter([1,0xFFFF,1,1])
-        r.run('0791:B19D',[1],lambda q,m:next(draws))
+        r.run('0791:B19D',[1],lambda q,m:next(draws,1))
         self.assertEqual(r.mem.ds16(0x9B3C),0)
 
     def test_line_strength_zero_players_and_signed_home_eighth(self):

@@ -1,0 +1,13 @@
+........F............
+======================================================================
+FAIL: test_forward_conversion_first_available_and_height_boundary (tests.test_port_rare.Rare.test_forward_conversion_first_available_and_height_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T77-control-ndufqcza/tests/test_port_rare.py", line 80, in test_forward_conversion_first_available_and_height_boundary
+    self.assertEqual(r.mem.u8(PSEG*16+POFF+20*103+6),want)
+AssertionError: 13 != 12
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.021s
+
+FAILED (failures=1)

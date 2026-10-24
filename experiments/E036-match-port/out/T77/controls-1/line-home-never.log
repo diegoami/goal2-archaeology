@@ -1,0 +1,13 @@
+..F..................
+======================================================================
+FAIL: test_line_strength_zero_players_and_signed_home_eighth (tests.test_port_quick.Quick.test_line_strength_zero_players_and_signed_home_eighth)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T77-control-m2rwg09g/tests/test_port_quick.py", line 93, in test_line_strength_zero_players_and_signed_home_eighth
+    self.assertEqual(r.mem.ds16(0x9B47),want)
+AssertionError: 8 != 9
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.016s
+
+FAILED (failures=1)

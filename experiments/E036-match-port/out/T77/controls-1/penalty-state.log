@@ -1,0 +1,24 @@
+..........F..........
+======================================================================
+FAIL: test_penalty_stops_then_selects_role_three_and_sets_state (tests.test_port_rare.Rare.test_penalty_stops_then_selects_role_three_and_sets_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T77-control-dur2wxrz/tests/test_port_rare.py", line 20, in test_penalty_stops_then_selects_role_three_and_sets_state
+    self.assertEqual((r.mem.ds8(0x830E),r.mem.ds8(0x8324)),(0,1))
+AssertionError: Tuples differ: (0, 0) != (0, 1)
+
+First differing element 1:
+0
+1
+
+- (0, 0)
+?     ^
+
++ (0, 1)
+?     ^
+
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.016s
+
+FAILED (failures=1)

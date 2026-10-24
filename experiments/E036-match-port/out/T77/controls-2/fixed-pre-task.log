@@ -1,0 +1,33 @@
+EE
+======================================================================
+ERROR: test_port_quick (unittest.loader._FailedTest.test_port_quick)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_port_quick
+Traceback (most recent call last):
+  File "/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T77-control-_3bh1ber/tests/test_port_quick.py", line 9, in <module>
+    from original_match.port import quick,rare
+ImportError: cannot import name 'quick' from 'original_match.port' (/tmp/T77-control-_3bh1ber/runtime/original_match/port/__init__.py)
+
+
+======================================================================
+ERROR: test_port_rare (unittest.loader._FailedTest.test_port_rare)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_port_rare
+Traceback (most recent call last):
+  File "/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T77-control-_3bh1ber/tests/test_port_rare.py", line 3, in <module>
+    from tests.test_port_quick import Rig,rare
+  File "/tmp/T77-control-_3bh1ber/tests/test_port_quick.py", line 9, in <module>
+    from original_match.port import quick,rare
+ImportError: cannot import name 'quick' from 'original_match.port' (/tmp/T77-control-_3bh1ber/runtime/original_match/port/__init__.py)
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+FAILED (errors=2)

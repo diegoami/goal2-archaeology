@@ -1,0 +1,30 @@
+.....FF..............
+======================================================================
+FAIL: test_signed_trial_compare_rejects_high_bit_draw (tests.test_port_quick.Quick.test_signed_trial_compare_rejects_high_bit_draw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T77-control-0o89oemi/tests/test_port_quick.py", line 85, in test_signed_trial_compare_rejects_high_bit_draw
+    self.assertEqual(r.mem.ds16(0x9B3C),0)
+AssertionError: 256 != 0
+
+======================================================================
+FAIL: test_trial_goals_opponent_draw_first_and_three_strict_contests (tests.test_port_quick.Quick.test_trial_goals_opponent_draw_first_and_three_strict_contests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T77-control-0o89oemi/tests/test_port_quick.py", line 71, in test_trial_goals_opponent_draw_first_and_three_strict_contests
+    r.run('0791:B19D',[1],answer)
+  File "/tmp/T77-control-0o89oemi/tests/test_port_quick.py", line 20, in run
+    return self._invoke(entry,variant)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T77-control-0o89oemi/tests/test_port_quick.py", line 38, in _invoke
+    handled=self.respond(request,mem) if self.respond else None
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T77-control-0o89oemi/tests/test_port_quick.py", line 70, in answer
+    bounds.append(q.args[0]);self.assertLessEqual(len(bounds),n,'extra RNG draw after a failed contest');return next(values,1)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 5 not less than or equal to 4 : extra RNG draw after a failed contest
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.020s
+
+FAILED (failures=2)

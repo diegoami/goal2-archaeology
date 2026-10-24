@@ -1,0 +1,13 @@
+............F........
+======================================================================
+FAIL: test_rebalance_without_surplus_keeps_positions (tests.test_port_rare.Rare.test_rebalance_without_surplus_keeps_positions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T77-control-gjxkz518/tests/test_port_rare.py", line 63, in test_rebalance_without_surplus_keeps_positions
+    self.assertEqual(r.mem.u8(PSEG*16+POFF+20*102+6),5)
+AssertionError: 2 != 5
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.016s
+
+FAILED (failures=1)

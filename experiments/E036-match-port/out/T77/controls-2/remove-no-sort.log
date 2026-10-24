@@ -1,0 +1,20 @@
+.............F.......
+======================================================================
+FAIL: test_remove_dispatch_and_always_sort (tests.test_port_rare.Rare.test_remove_dispatch_and_always_sort)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T77-control-7a81pxw_/tests/test_port_rare.py", line 88, in test_remove_dispatch_and_always_sort
+    self.assertEqual([t for t,*_ in r.calls],(['0791:'+target] if target else [])+['0791:230C'])
+AssertionError: Lists differ: ['0791:C24D'] != ['0791:C24D', '0791:230C']
+
+Second list contains 1 additional elements.
+First extra element 1:
+'0791:230C'
+
+- ['0791:C24D']
++ ['0791:C24D', '0791:230C']
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.017s
+
+FAILED (failures=1)

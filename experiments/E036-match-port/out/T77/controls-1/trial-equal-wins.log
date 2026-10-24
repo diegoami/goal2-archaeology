@@ -1,0 +1,39 @@
+.....EE..............
+======================================================================
+ERROR: test_signed_trial_compare_rejects_high_bit_draw (tests.test_port_quick.Quick.test_signed_trial_compare_rejects_high_bit_draw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T77-control-lr1qa_al/tests/test_port_quick.py", line 83, in test_signed_trial_compare_rejects_high_bit_draw
+    r.run('0791:B19D',[1],lambda q,m:next(draws))
+  File "/tmp/T77-control-lr1qa_al/tests/test_port_quick.py", line 20, in run
+    return self._invoke(entry,variant)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T77-control-lr1qa_al/tests/test_port_quick.py", line 38, in _invoke
+    handled=self.respond(request,mem) if self.respond else None
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T77-control-lr1qa_al/tests/test_port_quick.py", line 83, in <lambda>
+    r.run('0791:B19D',[1],lambda q,m:next(draws))
+                                     ^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_trial_goals_opponent_draw_first_and_three_strict_contests (tests.test_port_quick.Quick.test_trial_goals_opponent_draw_first_and_three_strict_contests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T77-control-lr1qa_al/tests/test_port_quick.py", line 70, in test_trial_goals_opponent_draw_first_and_three_strict_contests
+    r.run('0791:B19D',[1],answer)
+  File "/tmp/T77-control-lr1qa_al/tests/test_port_quick.py", line 20, in run
+    return self._invoke(entry,variant)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T77-control-lr1qa_al/tests/test_port_quick.py", line 38, in _invoke
+    handled=self.respond(request,mem) if self.respond else None
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T77-control-lr1qa_al/tests/test_port_quick.py", line 69, in answer
+    if q.target=='214B:06B1':bounds.append(q.args[0]);return next(values)
+                                                             ^^^^^^^^^^^^
+StopIteration
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.019s
+
+FAILED (errors=2)
