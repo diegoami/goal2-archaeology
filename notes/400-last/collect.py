@@ -91,6 +91,22 @@ def main():
                 assert incoming in squad[:11] and outgoing in squad[11:]
                 rec['selection_changes'].append(dict(outgoing=outgoing,incoming=incoming,before_sha256=before,after_sha256=row['sha256']))
             row=key('Escape')
+        if filename=='G1A.GL' and not resume:
+            # [designed: T90, F026/F027] Put low-hardness Gullit into a central
+            # striker role by original R keys, to seek challenges by Eire's hard keeper.
+            row=key('space')
+            def position_view():
+                im=Image.from_savestate((ROOT/row['file']).read_bytes());mem=im.memory;ds=im.DS*16
+                w=lambda a:int.from_bytes(mem[a:a+2],'little');far=lambda o:w(ds+o)+16*w(ds+o+2)
+                country=far(0xA917)+20*191;players=far(0xA91B)
+                return [w(country+2*i) for i in range(20)],w(ds+0x0C1B),mem[players+20*390+6]
+            squad,_,pos=position_view();assert pos==11 and 390 in squad[:11]
+            slot=squad.index(390)+1;before=row['sha256'];row=key('Home')
+            for _ in range(slot-1):row=key('Down')
+            assert position_view()[1]==slot
+            row=key('r');row=key('r');assert position_view()[2]==13
+            rec['position_changes']=[dict(player=390,before=11,after=13,before_sha256=before,after_sha256=row['sha256'],keys=['r','r'])]
+            row=key('Escape')
         while time.monotonic()-start<240:
             text=row['screen'];t=row['taker']
             if row['warnings']:
