@@ -115,4 +115,22 @@ class Finals(Case):
             self.assertEqual(len(r.args('1771:8CCF')),want)
             self.assertEqual(r.args('1771:5C94'),[])
 
+    def test_every_advertised_new_omission_variant_omits_its_body(self):
+        from original_match import port
+        from original_match.port import _display_finals
+        reg=port._module_registry('display')
+        for address in _display_finals.PORTS.entries:
+            with self.subTest(address=address):
+                variant='omit-'+address.lower().replace(':','-')
+                self.assertIn(variant,reg.variants)
+                r=self.rig();before=bytes(r.mem.memory);registers=dict(r.mem.regs)
+                r.run(address,(PARENT,),variant=variant)
+                self.assertEqual(r.calls,[])
+                self.assertEqual(r.writes,[])
+                self.assertEqual(r.mem.regs,registers)
+                # Rig writes the declared entry stack before invoking the body.
+                after=bytes(r.mem.memory)
+                self.assertEqual(after[:0x3000],before[:0x3000])
+                self.assertEqual(after[0x300A:],before[0x300A:])
+
 if __name__=='__main__':unittest.main()
