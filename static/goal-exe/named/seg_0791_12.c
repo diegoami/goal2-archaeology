@@ -610,9 +610,10 @@ int pool_selection_index(void)
 }
 
 
-// ---- 0791:DE27  f_0791_DE27  (f_0791_DE27; Ghidra 2000:DE27, __stdcall16near; found by routines.tsv)
+// ---- 0791:DE27  select_team_cursor_index  (f_0791_DE27; Ghidra 2000:DE27, __stdcall16near; found by routines.tsv)
+// T75 (Python match-path port in runtime/original_match/port/selection.py): returns DS:0C1B for squad pane 1, otherwise the pool global index from DDCB; reads the pane word at SS:[parent BP - 5]  [likely; read code/seg_0791_22.asm:346]
 
-undefined2 f_0791_DE27(int param_1)
+undefined2 select_team_cursor_index(int param_1)
 
 {
   undefined2 unaff_SS;
@@ -628,9 +629,10 @@ undefined2 f_0791_DE27(int param_1)
 }
 
 
-// ---- 0791:DE51  f_0791_DE51  (f_0791_DE51; Ghidra 2000:DE51, __stdcall16near; found by routines.tsv)
+// ---- 0791:DE51  select_team_word_pointer  (f_0791_DE51; Ghidra 2000:DE51, __stdcall16near; found by routines.tsv)
+// T75 (Python match-path port in runtime/original_match/port/selection.py): returns DX:AX pointing to a squad word (country at parent BP +6, one-based slot) for pane 1, otherwise to pool_indices[index] with a raw pool index  [likely; read code/seg_0791_22.asm:367]
 
-word * f_0791_DE51(int param_1,int param_2,int param_3)
+word * select_team_word_pointer(int param_1,int param_2,int param_3)
 
 {
   undefined2 unaff_SS;
@@ -671,10 +673,10 @@ void swap_select_screen_players(int param_1)
     if (*(char *)(param_1 + -1) == '\0') {
       if (*(char *)(param_1 + -1) == '\0') {
         uVar3 = *(undefined2 *)(param_1 + -5);
-        uVar4 = f_0791_DE27(param_1,uVar3);
-        piVar8 = (int *)f_0791_DE51(param_1,uVar4,uVar3);
+        uVar4 = select_team_cursor_index(param_1,uVar3);
+        piVar8 = (int *)select_team_word_pointer(param_1,uVar4,uVar3);
         if (*piVar8 != 0) {
-          uVar3 = f_0791_DE27(param_1);
+          uVar3 = select_team_cursor_index(param_1);
           *(undefined2 *)(param_1 + -9) = uVar3;
           *(undefined2 *)(param_1 + -7) = *(undefined2 *)(param_1 + -5);
           if (*(int *)(param_1 + -5) == 2) {
@@ -693,9 +695,10 @@ void swap_select_screen_players(int param_1)
       *(undefined1 *)(param_1 + -1) = 0;
       *(undefined2 *)(param_1 + -0xb) = 0;
       uVar5 = *(undefined2 *)(param_1 + -5);
-      uVar3 = f_0791_DE27(param_1,uVar5);
-      uVar6 = f_0791_DE51(param_1,uVar3,uVar5);
-      uVar7 = f_0791_DE51(param_1,*(undefined2 *)(param_1 + -9),*(undefined2 *)(param_1 + -7));
+      uVar3 = select_team_cursor_index(param_1,uVar5);
+      uVar6 = select_team_word_pointer(param_1,uVar3,uVar5);
+      uVar7 = select_team_word_pointer
+                        (param_1,*(undefined2 *)(param_1 + -9),*(undefined2 *)(param_1 + -7));
       u214b_swap_bytes(2,uVar7,uVar6);
       if (match_set_up == 0) {
         sort_squad_by_position(*(undefined2 *)(param_1 + 6));
@@ -710,7 +713,7 @@ void swap_select_screen_players(int param_1)
 
 
 // ---- 0791:E022  swap_in_match_squad_players  (f_0791_E022; Ghidra 2000:E022, __stdcall16near; found by routines.tsv)
-// the managed side's substitution in the in-match SELECT TEAM screen (Enter on a pitch player, then Enter on a bench player): refuses (a message) when both marked slots are in the same block (both pitch or both bench), when the bench player (the higher slot) is unavailable, or when the pitch player (the lower slot) is sent off (status element 6); otherwise swaps the two squad words in the live country record (214B:007B), the two match_form bytes and the two DS:9A3E marking words, calls refresh_pitch_slot (which counts the substitution down and sets DS:9B55); it does not copy the outgoing player's position byte (the computer's substitution C88D does)  [established; F029; read code/seg_0791_22.asm:531-800]
+// T75 (Python match-path port in runtime/original_match/port/selection.py): the managed side's substitution in the in-match SELECT TEAM screen (Enter on a pitch player, then Enter on a bench player): refuses (a message) when both marked slots are in the same block (both pitch or both bench), when the bench player (the higher slot) is unavailable, or when the pitch player (the lower slot) is sent off (status element 6); otherwise swaps the two squad words in the live country record (214B:007B), the two match_form bytes and the two DS:9A3E marking words, calls refresh_pitch_slot (which counts the substitution down and sets DS:9B55); it does not copy the outgoing player's position byte (the computer's substitution C88D does)  [established; F029; read code/seg_0791_22.asm:531-800]
 
 void swap_in_match_squad_players(int param_1)
 
@@ -730,11 +733,11 @@ void swap_in_match_squad_players(int param_1)
   
   if (*(char *)(param_1 + -1) == '\0') {
     uVar3 = *(undefined2 *)(param_1 + -5);
-    uVar2 = f_0791_DE27(param_1,uVar3);
-    piVar4 = (int *)f_0791_DE51(param_1,uVar2,uVar3);
+    uVar2 = select_team_cursor_index(param_1,uVar3);
+    piVar4 = (int *)select_team_word_pointer(param_1,uVar2,uVar3);
     cVar1 = u214b_message_if_flag(0xdfdf,0x2000,*piVar4 == 0);
     if (cVar1 == '\0') {
-      uVar3 = f_0791_DE27(param_1);
+      uVar3 = select_team_cursor_index(param_1);
       *(undefined2 *)(param_1 + -9) = uVar3;
       *(undefined2 *)(param_1 + -7) = *(undefined2 *)(param_1 + -5);
       *(undefined1 *)(param_1 + -1) = 1;
@@ -781,9 +784,10 @@ void swap_in_match_squad_players(int param_1)
 }
 
 
-// ---- 0791:E2A0  f_0791_E2A0  (f_0791_E2A0; Ghidra 2000:E2A0, __stdcall16near; found by routines.tsv)
+// ---- 0791:E2A0  draw_select_team_slot_hint  (f_0791_E2A0; Ghidra 2000:E2A0, __stdcall16near; found by routines.tsv)
+// T75 (Python match-path port in runtime/original_match/port/selection.py): unpacks DS:4840 and then DS:4720 when unsigned DS:0C1B <= 11, or DS:4740 otherwise, into the back buffer selected through DS:A96E  [likely; read code/seg_0791_22.asm:796]
 
-void f_0791_E2A0(void)
+void draw_select_team_slot_hint(void)
 
 {
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x4840,0xb000);
@@ -844,169 +848,8 @@ void draw_pool_view(int param_1)
   }
   uVar6 = *(undefined2 *)(param_1 + -5);
   uVar3 = pool_selection_index(param_1,uVar6);
-  puVar5 = (undefined2 *)f_0791_DE51(param_1,uVar3,uVar6);
+  puVar5 = (undefined2 *)select_team_word_pointer(param_1,uVar3,uVar6);
   draw_player_screen(*puVar5);
   u214b_fill_back_attr_70(0xc,0x41,*(int *)(iVar1 + (uint)*(byte *)(iVar1 + 1) * 2 + 0x5e) + 2);
-  return;
-}
-
-
-// ---- 0791:E44F  select_team_screen  (f_0791_E44F; Ghidra 2000:E44F, __stdcall16far; found by routines.tsv)
-// the SELECT TEAM screen of the current manager's country: the squad list and the selected player's card (1771:4E22), toggled Left/Right to the pool list (0791:E2E6); Enter swaps the selected squad and pool players (0791:DEA6, when DS:0C1F == 0), R/C/T act on the selected player, and Ins with the squad side up and DS:0C1F == 0 runs the assistant's recommended 20 (0791:DC7E); Esc exits  [established; F011; F016; read decompiled/seg_0791_09.c; read code/seg_0791_22.asm]
-
-/* WARNING: Removing unreachable block (0791:E5A5) */
-/* WARNING: Removing unreachable block (0791:E5AC) */
-/* WARNING: Removing unreachable block (0791:E5BB) */
-/* WARNING: Removing unreachable block (0791:E5C1) */
-/* WARNING: Removing unreachable block (0791:E5C7) */
-/* WARNING: Removing unreachable block (0791:E5CF) */
-/* WARNING: Removing unreachable block (0791:E5D9) */
-/* WARNING: Removing unreachable block (0791:E5D5) */
-/* WARNING: Removing unreachable block (0791:E5DB) */
-/* WARNING: Removing unreachable block (0791:E647) */
-/* WARNING: Removing unreachable block (0791:E64E) */
-
-void __stdcall16far select_team_screen(int param_1)
-
-{
-  int iVar1;
-  bool bVar2;
-  char cVar3;
-  undefined1 extraout_AH;
-  undefined2 uVar4;
-  undefined2 uVar5;
-  undefined2 *puVar6;
-  int iVar7;
-  int local_7;
-  char local_5;
-  
-  uVar5 = (undefined2)((ulong)DS:A923 >> 0x10);
-  iVar1 = (int)DS:A923;
-  *(char *)(iVar1 + 1) = ((country *)countries)[param_1].manager + 0x80;
-  if (match_set_up == 0) {
-    DS:0C20 = '\0';
-    sort_squad_by_position(param_1);
-  }
-  local_7 = 1;
-  if (match_set_up != 0) {
-    local_5 = DS:9B36 == param_1;
-  }
-  do {
-    if (local_7 == 1) {
-      draw_squad_screen(*(undefined1 *)(DS:0C20 + 0xabc),param_1);
-    }
-    else {
-      draw_pool_view(&stack0xfffe);
-    }
-    if (DS:0C20 != '\0') {
-      u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x1af6,0xb000);
-    }
-    if (DS:066D == '\0') {
-      if (DS:0C20 == '\0') {
-        if (in_match_menu_used == 0) {
-          u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x1b42,0xb000);
-          if (local_7 == 1) {
-            u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x58e6,0xb000);
-          }
-        }
-        else if (((char *)substitutions_left)[local_5] == '\0') {
-          u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x2538,0xb000);
-        }
-        else if (DS:9B41 == '\0') {
-          if (DS:9B40 == '\0') {
-            u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x4760,0xb000);
-          }
-          else {
-            u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x4812,0xb000);
-            u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x4eb2,0xb000);
-          }
-        }
-        else {
-          f_0791_E2A0(&stack0xfffe);
-        }
-      }
-      else {
-        u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x2568,0xb000);
-      }
-    }
-    sys_move_025D(4000,(int)DS:A96A,(int)((ulong)DS:A96A >> 0x10),(int)DS:A96E,
-                  (int)((ulong)DS:A96E >> 0x10));
-    u214b_read_key();
-    bVar2 = false;
-    if (DS:A976 == '\x1b') {
-      if (local_7 == 1) {
-        bVar2 = true;
-      }
-      else {
-        DS:A976 = -0x52;
-      }
-    }
-    cVar3 = sys_upcase_19B2(CONCAT11(extraout_AH,DS:A976));
-    if (cVar3 == '\r') {
-      if (in_match_menu_used == 0) {
-        swap_select_screen_players(&stack0xfffe);
-      }
-      else if (DS:0C20 == '\0') {
-        if ((DS:9B41 == '\0') || (((char *)substitutions_left)[local_5] == '\0')) {
-          if ((DS:9B40 == '\0') && (((char *)substitutions_left)[local_5] != '\0')) {
-            DS:9B40 = '\x01';
-          }
-          else {
-            DS:9B40 = '\0';
-          }
-        }
-        else {
-          swap_in_match_squad_players(&stack0xfffe);
-        }
-      }
-    }
-    else if ((cVar3 == -0x52) || (cVar3 == -0x51)) {
-      if (in_match_menu_used == 0) {
-        if (local_7 == 1) {
-          local_7 = 2;
-        }
-        else {
-          local_7 = 1;
-        }
-      }
-    }
-    else if (cVar3 == -0x60) {
-      iVar7 = local_7;
-      uVar4 = f_0791_DE27(&stack0xfffe,local_7);
-      puVar6 = (undefined2 *)f_0791_DE51(&stack0xfffe,uVar4,iVar7);
-      edit_player_name(2,8,*puVar6);
-    }
-    else if ((cVar3 == 'R') || (cVar3 == 'C')) {
-      if (DS:0C20 == '\0') {
-        iVar7 = local_7;
-        uVar4 = f_0791_DE27(&stack0xfffe,local_7);
-        puVar6 = (undefined2 *)f_0791_DE51(&stack0xfffe,uVar4,iVar7);
-        edit_player_position(*puVar6);
-      }
-    }
-    else if (cVar3 == 'T') {
-      if (DS:0C20 == '\0') {
-        iVar7 = local_7;
-        uVar4 = f_0791_DE27(&stack0xfffe,local_7);
-        puVar6 = (undefined2 *)f_0791_DE51(&stack0xfffe,uVar4,iVar7);
-        edit_own_tactics(local_7 == 1,*puVar6);
-      }
-    }
-    else if (cVar3 == -0x4a) {
-      if (((local_7 == 1) && (*(char *)(iVar1 + (uint)*(byte *)(iVar1 + 1) + 0x47) == '\0')) &&
-         (in_match_menu_used == 0)) {
-        assistant_recommend_squad();
-      }
-    }
-    else if (local_7 == 1) {
-      u214b_menu_move_word_wrap(0x14,0xc1b,0xb000);
-    }
-    else {
-      u214b_list_scroll_by_key
-                (0x50,0x15,iVar1 + (uint)*(byte *)(iVar1 + 1) * 2 + 0x52,uVar5,
-                 iVar1 + (uint)*(byte *)(iVar1 + 1) * 2 + 0x5e,uVar5);
-    }
-  } while (!bVar2);
-  sort_pool_by_position();
   return;
 }

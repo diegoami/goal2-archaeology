@@ -326,21 +326,21 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 0791:DBFA	squad_change_allowed	established	decompiled	seg_0791_12.c	487	2000:DBFA	routines.tsv	
 0791:DC7E	assistant_recommend_squad	likely	decompiled	seg_0791_12.c	534	2000:DC7E	routines.tsv	
 0791:DDCB	pool_selection_index	likely	decompiled	seg_0791_12.c	596	2000:DDCB	routines.tsv	
-0791:DE27			decompiled	seg_0791_12.c	613	2000:DE27	routines.tsv	
-0791:DE51			decompiled	seg_0791_12.c	631	2000:DE51	routines.tsv	
-0791:DEA6	swap_select_screen_players	established	decompiled	seg_0791_12.c	651	2000:DEA6	routines.tsv	
-0791:E022	swap_in_match_squad_players	established	decompiled	seg_0791_12.c	712	2000:E022	routines.tsv	
-0791:E2A0			decompiled	seg_0791_12.c	784	2000:E2A0	routines.tsv	
-0791:E2E6	draw_pool_view	established	decompiled	seg_0791_12.c	802	2000:E2E6	routines.tsv	
-0791:E44F	select_team_screen	established	decompiled	seg_0791_12.c	854	2000:E44F	routines.tsv	
-0791:E80D	ask_watch_match	established	decompiled	seg_0791_13.c	4	2000:E80D	routines.tsv	
-0791:E929	show_updated_group_tables	likely	decompiled	seg_0791_13.c	63	2000:E929	routines.tsv	
-0791:E949			decompiled	seg_0791_13.c	77	2000:E949	routines.tsv	
-0791:EA09	first_team_valid	likely	decompiled	seg_0791_13.c	98	2000:EA09	routines.tsv	
-0791:ED8A	in_match_menu	likely	decompiled	seg_0791_13.c	246	2000:ED8A	routines.tsv	
-0791:F098	play_match	established	decompiled	seg_0791_13.c	388	2000:F098	routines.tsv	
-0791:F1F6	run_match	established	decompiled	seg_0791_13.c	441	2000:F1F6	routines.tsv	
-0791:F3F2	unit_0791_init	established	decompiled	seg_0791_13.c	546	2000:F3F2	routines.tsv	
+0791:DE27	select_team_cursor_index	likely	decompiled	seg_0791_12.c	613	2000:DE27	routines.tsv	
+0791:DE51	select_team_word_pointer	likely	decompiled	seg_0791_12.c	632	2000:DE51	routines.tsv	
+0791:DEA6	swap_select_screen_players	established	decompiled	seg_0791_12.c	653	2000:DEA6	routines.tsv	
+0791:E022	swap_in_match_squad_players	established	decompiled	seg_0791_12.c	715	2000:E022	routines.tsv	
+0791:E2A0	draw_select_team_slot_hint	likely	decompiled	seg_0791_12.c	787	2000:E2A0	routines.tsv	
+0791:E2E6	draw_pool_view	established	decompiled	seg_0791_12.c	806	2000:E2E6	routines.tsv	
+0791:E44F	select_team_screen	established	decompiled	seg_0791_13.c	4	2000:E44F	routines.tsv	
+0791:E80D	ask_watch_match	established	decompiled	seg_0791_13.c	165	2000:E80D	routines.tsv	
+0791:E929	show_updated_group_tables	likely	decompiled	seg_0791_13.c	224	2000:E929	routines.tsv	
+0791:E949	open_selected_team_screen	likely	decompiled	seg_0791_13.c	238	2000:E949	routines.tsv	
+0791:EA09	first_team_valid	likely	decompiled	seg_0791_13.c	260	2000:EA09	routines.tsv	
+0791:ED8A	in_match_menu	likely	decompiled	seg_0791_13.c	408	2000:ED8A	routines.tsv	
+0791:F098	play_match	established	decompiled	seg_0791_13.c	550	2000:F098	routines.tsv	
+0791:F1F6	run_match	established	decompiled	seg_0791_13.c	603	2000:F1F6	routines.tsv	
+0791:F3F2	unit_0791_init	established	decompiled	seg_0791_13.c	708	2000:F3F2	routines.tsv	
 16D6:0000			decompiled	seg_16D6_01.c	4	3000:0000	routines.tsv	
 16D6:0025			decompiled	seg_16D6_01.c	31	3000:0025	routines.tsv	
 16D6:0068			decompiled	seg_16D6_01.c	58	3000:0068	routines.tsv	
