@@ -128,6 +128,7 @@ swap into an already empty pool slot, but no such slot was present in these reta
 No source is advertised as proving an unvisited role or warning. Wider runs need a new cost
 assessment or a genuinely closer input. **#400 remains open** for these four cases.
 
-The §14 handover/consumer issue is linked on PR407 and #400 before merge. Its docs-only
+The §14 handover/consumer issue is [goal2 #372](https://github.com/diegoami/goal2/issues/372),
+linked on PR407 and #400 before merge. Its docs-only
 register branch follows upstream merge so the rows cite merged evidence. Goal2 owns recovery
 and reviews/merges that branch; archaeology changes no goal2 implementation.
