@@ -333,9 +333,9 @@ changed or stopped; a step a port stops FAILs and the next steps still run).
 
 A kind no builder writes (4 included) is refused with a `ValueError`. Not run, because route_fixture runs them
 around run_match and the kit calls run_match itself: "Do you want to watch this match?" (asked of fixtures goal2's
-manager does not play: kinds 8, 200, 201, 203; F030; the kit plays only a fixture with the managed side in it),
+manager does not play: kinds 8, 200, 201, 203; F030),
 the news pages and the manager's sack check (4E0E, F025: goal2 keeps its own career state). The set-piece taker
-prompts keep the original's pick (exposing them: about 1 h). One human side. A match costs 9-13 s, 13-18 s with extra time and a shoot-out (a quick result after `R`, about 4 s, 7 s with them; the write hooks behind the stamps are included); stepping by
+prompts keep the original's pick (exposing them: about 1 h). At most one human participant. A match costs 9-13 s, 13-18 s with extra time and a shoot-out (a quick result after `R`, about 4 s, 7 s with them; the write hooks behind the stamps are included); stepping by
 minute or tick adds nothing measurable. `save()` is about 0.36 MB at minute 60 (much more with `record_draws`, which keeps every RNG write).
 
 A fixture may name a managed country outside its two participants, for example
