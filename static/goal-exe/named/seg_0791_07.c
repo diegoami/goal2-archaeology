@@ -237,11 +237,12 @@ void __stdcall16far goal_kick_state(undefined2 *param_1)
 }
 
 
-// ---- 0791:72F2  f_0791_72F2  (f_0791_72F2; Ghidra 2000:72F2, __stdcall16near; found by routines.tsv)
+// ---- 0791:72F2  penalty_taker_step  (f_0791_72F2; Ghidra 2000:72F2, __stdcall16near; found by routines.tsv)
+// T77 (Python port in runtime/original_match/port/rare.py; family exact/READ classification in experiments/E036-match-port/notes/T77.md): nested taker handler for state0xA: at DS:8315, uses8323 to wait for28B2(0), set destination y to attack_direction*24 and commentary2F/3C, then shoot3C3F(3,0x11) and state5; at another reached destination, records830C, clears830D and redirects to8315  [likely; read code/seg_0791_12.asm:718; read code/seg_0791_14.asm]
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void f_0791_72F2(int param_1)
+void penalty_taker_step(int param_1)
 
 {
   char cVar1;
@@ -288,9 +289,10 @@ void f_0791_72F2(int param_1)
 }
 
 
-// ---- 0791:73BA  f_0791_73BA  (f_0791_73BA; Ghidra 2000:73BA, __stdcall16far; found by routines.tsv)
+// ---- 0791:73BA  update_penalty_player  (f_0791_73BA; Ghidra 2000:73BA, __stdcall16far; found by routines.tsv)
+// T77 (Python port in runtime/original_match/port/rare.py; family exact/READ classification in experiments/E036-match-port/notes/T77.md): state0xA player handler from8AE9: active DS:830B slot uses72F2; other players receive waiting destinations from0822/084E according to8326, keeper and side, then clear activity+0x12 when at destination  [likely; read code/seg_0791_12.asm:807; read code/seg_0791_14.asm]
 
-void __stdcall16far f_0791_73BA(undefined4 param_1)
+void __stdcall16far update_penalty_player(undefined4 param_1)
 
 {
   char cVar1;
@@ -303,7 +305,7 @@ void __stdcall16far f_0791_73BA(undefined4 param_1)
   uVar6 = (undefined2)((ulong)param_1 >> 0x10);
   iVar5 = (int)param_1;
   if (*(byte *)(iVar5 + 6) == DS:830B) {
-    f_0791_72F2(&stack0xfffe);
+    penalty_taker_step(&stack0xfffe);
   }
   else {
     if (DS:8326 == '\0') {
@@ -681,7 +683,7 @@ undefined2 side_may_lose_a_player(char param_1)
 
 
 // ---- 0791:7B24  mark_sent_off  (f_0791_7B24; Ghidra 2000:7B24, __stdcall16near; found by routines.tsv)
-// sets +0x10 element 6 (bit 5, 0x20) and clears element 5 (the booking) of the player (214B:0C79 / 0CA1), and adds 1 to DS:7B86[side*10] (the red-card count); called by 7B77 only, after 7A43 allowed it  [established; F027]
+// T77 (Python port in runtime/original_match/port/rare.py; family exact/READ classification in experiments/E036-match-port/notes/T77.md): sets +0x10 element 6 (bit 5, 0x20) and clears element 5 (the booking) of the player (214B:0C79 / 0CA1), and adds 1 to DS:7B86[side*10] (the red-card count); called by 7B77 only, after 7A43 allowed it  [established; F027]
 
 void mark_sent_off(int param_1,char param_2)
 
@@ -699,7 +701,7 @@ void mark_sent_off(int param_1,char param_2)
 
 
 // ---- 0791:7B77  send_off  (f_0791_7B77; Ghidra 2000:7B77, __stdcall16far; found by routines.tsv)
-// the sending-off: emits 2AD4(0x33), sets +0x10 bit 6 and clears bit 5 (1791:7B24), walks the player off (7881); then calls 7CC5(pitch, delta_high=-2, flag=1) so the sent-off player's +0xC becomes clamp(s8(+0xC)-2,1,255) and DS:9B07[side*20+slot] is set; then loops slots 1..11 of the OTHER team (slot_by_2B51 = the side NOT carrying the ball): per slot 2956 == 0 (available) calls 7CC5(pitch, delta_high=+2, flag=0), so +0xC := clamp(s8(+0xC)+2,1,255) and DS:9B07 is NOT updated; finally 0x7B24 < 0xC (or substitute_player in the manage-then-C48D branch for unmanaged sides). The +2 to the other team is a static gain that follows every sending-off, with persist = False (DS:9B07 is preserved); the -2 to the sent-off player is the only sent-off-side store of the event; the XI is re-sorted by 230C's pairwise compare-and-swap (key 0x0E for unavailable, else the position byte +6; jb on key[i] < key[j] swaps slots i and j fully — squad words, 9B07 form bytes and 0x80E8 pitch records; equal keys never swap; two removed players can reverse their original relative order), the bench untouched  [established; F014; F020]
+// T77 (Python port in runtime/original_match/port/rare.py; family exact/READ classification in experiments/E036-match-port/notes/T77.md): the sending-off: emits 2AD4(0x33), sets +0x10 bit 6 and clears bit 5 (1791:7B24), walks the player off (7881); then calls 7CC5(pitch, delta_high=-2, flag=1) so the sent-off player's +0xC becomes clamp(s8(+0xC)-2,1,255) and DS:9B07[side*20+slot] is set; then loops slots 1..11 of the OTHER team (slot_by_2B51 = the side NOT carrying the ball): per slot 2956 == 0 (available) calls 7CC5(pitch, delta_high=+2, flag=0), so +0xC := clamp(s8(+0xC)+2,1,255) and DS:9B07 is NOT updated; finally 0x7B24 < 0xC (or substitute_player in the manage-then-C48D branch for unmanaged sides). The +2 to the other team is a static gain that follows every sending-off, with persist = False (DS:9B07 is preserved); the -2 to the sent-off player is the only sent-off-side store of the event; the XI is re-sorted by 230C's pairwise compare-and-swap (key 0x0E for unavailable, else the position byte +6; jb on key[i] < key[j] swaps slots i and j fully — squad words, 9B07 form bytes and 0x80E8 pitch records; equal keys never swap; two removed players can reverse their original relative order), the bench untouched  [established; F014; F020]
 
 void __stdcall16far send_off(undefined4 param_1)
 

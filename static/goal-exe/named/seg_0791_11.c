@@ -74,7 +74,7 @@ void computer_tactic_change(char param_1)
 
 
 // ---- 0791:BEC7  convert_forward_to_striker  (f_0791_BEC7; Ghidra 2000:BEC7, __stdcall16near; found by routines.tsv)
-// re-places only the FIRST available squad player of positions {9,10,11} (forward midfield and the two wingers; the set at CS:0xBEA7 = 00 0E): +6 := DS:0xA28[2FAD >= 0x48 ? 1 : 0] = 13 (striker) when his height is below 72 inches, 12 (centre forward) from 72, where 2FAD = DS:0xE54[w % 12] + DS:0xE46[+7]; BF5A jumps to the return, so at most one player moves; C01A's tail calls it, only when the ninth squad player is not a code 12 or 13 (CS:BFFA = 00 30); the earlier name replace_first_back_four was wrong (F028)  [established; F012; F028]
+// T77 (Python port in runtime/original_match/port/rare.py; family exact/READ classification in experiments/E036-match-port/notes/T77.md): re-places only the FIRST available squad player of positions {9,10,11} (forward midfield and the two wingers; the set at CS:0xBEA7 = 00 0E): +6 := DS:0xA28[2FAD >= 0x48 ? 1 : 0] = 13 (striker) when his height is below 72 inches, 12 (centre forward) from 72, where 2FAD = DS:0xE54[w % 12] + DS:0xE46[+7]; BF5A jumps to the return, so at most one player moves; C01A's tail calls it, only when the ninth squad player is not a code 12 or 13 (CS:BFFA = 00 30); the earlier name replace_first_back_four was wrong (F028)  [established; F012; F028]
 
 void convert_forward_to_striker(undefined4 param_1)
 
@@ -154,7 +154,7 @@ void computer_tactic_shift(undefined2 param_1,char param_2,char param_3)
 
 
 // ---- 0791:C01A  computer_include_tactics  (f_0791_C01A; Ghidra 2000:C01A, __stdcall16near; found by routines.tsv)
-// only while DS:8332 + t is 0: includes rand(5) five times, then element 6, writes +0x2D through 0791:BBFF and sets DS:8332 + t to 1, so at most once per stretch without a 0791:BD83 call; then tests the position of the slot-9 player against a set and may call 0791:BEC7 and 0791:230C (not read); 0791:C173 calls it for a team more than 2 goals behind  [established; F010]
+// T77 (Python port in runtime/original_match/port/rare.py; family exact/READ classification in experiments/E036-match-port/notes/T77.md): only while DS:8332 + t is 0: includes rand(5) five times, then element 6, writes +0x2D through 0791:BBFF and sets DS:8332 + t to 1, so at most once per stretch without a 0791:BD83 call; then tests the position of the slot-9 player against a set and may call 0791:BEC7 and 0791:230C (not read); 0791:C173 calls it for a team more than 2 goals behind  [established; F010]
 
 void computer_include_tactics(undefined2 param_1,char param_2)
 
@@ -194,7 +194,7 @@ void computer_include_tactics(undefined2 param_1,char param_2)
 
 
 // ---- 0791:C0DF  computer_exclude_tactics  (f_0791_C0DF; Ghidra 2000:C0DF, __stdcall16near; found by routines.tsv)
-// only while DS:8334 + t is 0: excludes rand(5) five times, then element 6, writes +0x2D through 0791:BBFF and sets DS:8334 + t to 1, so at most once per stretch without a 0791:BD83 call; 0791:C173 calls it for a team more than 2 goals ahead  [established; F010]
+// T77 (Python port in runtime/original_match/port/rare.py; family exact/READ classification in experiments/E036-match-port/notes/T77.md): only while DS:8334 + t is 0: excludes rand(5) five times, then element 6, writes +0x2D through 0791:BBFF and sets DS:8334 + t to 1, so at most once per stretch without a 0791:BD83 call; 0791:C173 calls it for a team more than 2 goals ahead  [established; F010]
 
 void computer_exclude_tactics(undefined2 param_1,char param_2)
 
@@ -278,9 +278,10 @@ void update_computer_tactics(void)
 }
 
 
-// ---- 0791:C24D  f_0791_C24D  (f_0791_C24D; Ghidra 2000:C24D, __stdcall16near; found by routines.tsv)
+// ---- 0791:C24D  assign_emergency_keeper  (f_0791_C24D; Ghidra 2000:C24D, __stdcall16near; found by routines.tsv)
+// T77 (Python port in runtime/original_match/port/rare.py; family exact/READ classification in experiments/E036-match-port/notes/T77.md): nested in C48D after removal of position0: scans squad slots2..11 in order and changes the first player that3216 reports available to position0; no available candidate leaves the records unchanged; no full-match reach claimed beyond notes/T77.md  [likely; read code/seg_0791_20.asm:6; read code/seg_0791_20.asm:232]
 
-void f_0791_C24D(int param_1)
+void assign_emergency_keeper(int param_1)
 
 {
   char cVar1;
@@ -303,9 +304,10 @@ void f_0791_C24D(int param_1)
 }
 
 
-// ---- 0791:C2A8  f_0791_C2A8  (f_0791_C2A8; Ghidra 2000:C2A8, __stdcall16near; found by routines.tsv)
+// ---- 0791:C2A8  replace_lost_defender_role  (f_0791_C2A8; Ghidra 2000:C2A8, __stdcall16near; found by routines.tsv)
+// T77 (Python port in runtime/original_match/port/rare.py; family exact/READ classification in experiments/E036-match-port/notes/T77.md): nested in C48D for requested position1/2: counts available XI positions, finds a surplus through DS:0A29/0A2E priority/threshold bytes (indices1..5 or2..5), and assigns the first available player of that surplus position to the requested role; no surplus leaves records unchanged  [likely; read code/seg_0791_20.asm:45; read code/seg_0791_20.asm:232]
 
-void f_0791_C2A8(int param_1,int param_2)
+void replace_lost_defender_role(int param_1,int param_2)
 
 {
   char cVar1;
@@ -359,9 +361,10 @@ void f_0791_C2A8(int param_1,int param_2)
 }
 
 
-// ---- 0791:C406  f_0791_C406  (f_0791_C406; Ghidra 2000:C406, __stdcall16near; found by routines.tsv)
+// ---- 0791:C406  convert_fullbacks_to_centre_back  (f_0791_C406; Ghidra 2000:C406, __stdcall16near; found by routines.tsv)
+// T77 (Python port in runtime/original_match/port/rare.py; family exact/READ classification in experiments/E036-match-port/notes/T77.md): nested in C48D after removal of position3/4: for each available XI player whose position belongs to the literal CS:C3E6 set {3,4}, changes position to2; parent C48D then resorts pitch and bench  [likely; read code/seg_0791_20.asm:178; read code/seg_0791_20.asm:232]
 
-void f_0791_C406(int param_1)
+void convert_fullbacks_to_centre_back(int param_1)
 
 {
   int iVar1;
@@ -393,7 +396,7 @@ void f_0791_C406(int param_1)
 
 
 // ---- 0791:C48D  remove_from_pitch  (f_0791_C48D; Ghidra 2000:C48D, __stdcall16near; found by routines.tsv)
-// dispatches on the player's record byte +6 to C24D/C2A8/C406/BEC7 — the off-pitch removal that re-orders the XI's squad words  [likely; F014]
+// T77 (Python port in runtime/original_match/port/rare.py; family exact/READ classification in experiments/E036-match-port/notes/T77.md): dispatches on the player's record byte +6 to C24D/C2A8/C406/BEC7 — the off-pitch removal that re-orders the XI's squad words  [likely; F014]
 
 void remove_from_pitch(int param_1,undefined4 param_2)
 
@@ -405,15 +408,16 @@ void remove_from_pitch(int param_1,undefined4 param_2)
   bVar1 = ((player *)players)[*(int *)((int)&pitch_records[0].player_index + param_1 * 0x16)].
           position;
   if (bVar1 == 0) {
-    f_0791_C24D(&stack0xfffe);
+    assign_emergency_keeper(&stack0xfffe);
   }
   else if ((bVar1 == 1) || (bVar1 == 2)) {
-    f_0791_C2A8(&stack0xfffe,
-                ((player *)players)[*(int *)((int)&pitch_records[0].player_index + param_1 * 0x16)].
-                position);
+    replace_lost_defender_role
+              (&stack0xfffe,
+               ((player *)players)[*(int *)((int)&pitch_records[0].player_index + param_1 * 0x16)].
+               position);
   }
   else if ((bVar1 == 3) || (bVar1 == 4)) {
-    f_0791_C406(&stack0xfffe);
+    convert_fullbacks_to_centre_back(&stack0xfffe);
   }
   else if ((bVar1 == 0xd) || (bVar1 == 0xc)) {
     convert_forward_to_striker((int)param_2,(int)((ulong)param_2 >> 0x10));

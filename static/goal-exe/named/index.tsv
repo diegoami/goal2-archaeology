@@ -215,20 +215,20 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 0791:717F	goal_area_clear	established	decompiled	seg_0791_07.c	134	2000:717F	routines.tsv	
 0791:71E8	goal_kick_taker	established	decompiled	seg_0791_07.c	164	2000:71E8	routines.tsv	
 0791:7287	goal_kick_state	established	decompiled	seg_0791_07.c	206	2000:7287	routines.tsv	
-0791:72F2			decompiled	seg_0791_07.c	240	2000:72F2	routines.tsv	
-0791:73BA			decompiled	seg_0791_07.c	291	2000:73BA	routines.tsv	
-0791:74C2	free_kick_taker	established	decompiled	seg_0791_07.c	343	2000:74C2	routines.tsv	
-0791:7621	free_kick_state	established	decompiled	seg_0791_07.c	411	2000:7621	routines.tsv	
-0791:7881	walk_player_off	established	decompiled	seg_0791_07.c	528	2000:7881	routines.tsv	
-0791:798D	booking	established	decompiled	seg_0791_07.c	596	2000:798D	routines.tsv	
-0791:7A43	side_may_lose_a_player	established	decompiled	seg_0791_07.c	631	2000:7A43	routines.tsv	
-0791:7B24	mark_sent_off	established	decompiled	seg_0791_07.c	683	2000:7B24	routines.tsv	
-0791:7B77	send_off	established	decompiled	seg_0791_07.c	701	2000:7B77	routines.tsv	
-0791:7CC5	adjust_player_form	established	decompiled	seg_0791_07.c	760	2000:7CC5	routines.tsv	
-0791:7D56	injure	established	decompiled	seg_0791_07.c	796	2000:7D56	routines.tsv	
-0791:7E60	foul_whistle	established	decompiled	seg_0791_07.c	850	2000:7E60	routines.tsv	
-0791:7EEF	foul_dispatch	established	decompiled	seg_0791_07.c	877	2000:7EEF	routines.tsv	
-0791:7FCF	timed_notice	likely	decompiled	seg_0791_07.c	927	2000:7FCF	routines.tsv	
+0791:72F2	penalty_taker_step	likely	decompiled	seg_0791_07.c	240	2000:72F2	routines.tsv	
+0791:73BA	update_penalty_player	likely	decompiled	seg_0791_07.c	292	2000:73BA	routines.tsv	
+0791:74C2	free_kick_taker	established	decompiled	seg_0791_07.c	345	2000:74C2	routines.tsv	
+0791:7621	free_kick_state	established	decompiled	seg_0791_07.c	413	2000:7621	routines.tsv	
+0791:7881	walk_player_off	established	decompiled	seg_0791_07.c	530	2000:7881	routines.tsv	
+0791:798D	booking	established	decompiled	seg_0791_07.c	598	2000:798D	routines.tsv	
+0791:7A43	side_may_lose_a_player	established	decompiled	seg_0791_07.c	633	2000:7A43	routines.tsv	
+0791:7B24	mark_sent_off	established	decompiled	seg_0791_07.c	685	2000:7B24	routines.tsv	
+0791:7B77	send_off	established	decompiled	seg_0791_07.c	703	2000:7B77	routines.tsv	
+0791:7CC5	adjust_player_form	established	decompiled	seg_0791_07.c	762	2000:7CC5	routines.tsv	
+0791:7D56	injure	established	decompiled	seg_0791_07.c	798	2000:7D56	routines.tsv	
+0791:7E60	foul_whistle	established	decompiled	seg_0791_07.c	852	2000:7E60	routines.tsv	
+0791:7EEF	foul_dispatch	established	decompiled	seg_0791_07.c	879	2000:7EEF	routines.tsv	
+0791:7FCF	timed_notice	likely	decompiled	seg_0791_07.c	929	2000:7FCF	routines.tsv	
 0791:8062	check_substitutions	established	decompiled	seg_0791_08.c	4	2000:8062	routines.tsv	
 0791:8206	watched_foul_sequence	established	decompiled	seg_0791_08.c	75	2000:8206	routines.tsv	
 0791:82EB	offside	established	decompiled	seg_0791_08.c	119	2000:82EB	routines.tsv	
@@ -302,20 +302,20 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 0791:C01A	computer_include_tactics	established	decompiled	seg_0791_11.c	156	2000:C01A	routines.tsv	
 0791:C0DF	computer_exclude_tactics	established	decompiled	seg_0791_11.c	196	2000:C0DF	routines.tsv	
 0791:C173	update_computer_tactics	established	decompiled	seg_0791_11.c	228	2000:C173	routines.tsv	
-0791:C24D			decompiled	seg_0791_11.c	281	2000:C24D	routines.tsv	
-0791:C2A8			decompiled	seg_0791_11.c	306	2000:C2A8	routines.tsv	
-0791:C406			decompiled	seg_0791_11.c	362	2000:C406	routines.tsv	
-0791:C48D	remove_from_pitch	likely	decompiled	seg_0791_11.c	395	2000:C48D	routines.tsv	
-0791:C50C	show_computer_substitution_notice	likely	decompiled	seg_0791_11.c	426	2000:C50C	routines.tsv	
-0791:C5DC	refresh_pitch_slot	established	decompiled	seg_0791_11.c	460	2000:C5DC	routines.tsv	
-0791:C7EB	map_bench_roles	established	decompiled	seg_0791_11.c	534	2000:C7EB	routines.tsv	
-0791:C88D	substitute_player	established	decompiled	seg_0791_11.c	564	2000:C88D	routines.tsv	
-0791:CAB0	select_man_of_the_match	established	decompiled	seg_0791_11.c	626	2000:CAB0	routines.tsv	
-0791:CB7D	restore_match_player_state	established	decompiled	seg_0791_11.c	683	2000:CB7D	routines.tsv	
-0791:CC2E	wait_or_key	established	decompiled	seg_0791_11.c	720	2000:CC2E	routines.tsv	
-0791:CC7B	choose_captain_or_taker	likely	decompiled	seg_0791_11.c	740	2000:CC7B	routines.tsv	
-0791:D016	increment_match_streak	likely	decompiled	seg_0791_11.c	867	2000:D016	routines.tsv	
-0791:D032	clear_match_streak	likely	decompiled	seg_0791_11.c	885	2000:D032	routines.tsv	
+0791:C24D	assign_emergency_keeper	likely	decompiled	seg_0791_11.c	281	2000:C24D	routines.tsv	
+0791:C2A8	replace_lost_defender_role	likely	decompiled	seg_0791_11.c	307	2000:C2A8	routines.tsv	
+0791:C406	convert_fullbacks_to_centre_back	likely	decompiled	seg_0791_11.c	364	2000:C406	routines.tsv	
+0791:C48D	remove_from_pitch	likely	decompiled	seg_0791_11.c	398	2000:C48D	routines.tsv	
+0791:C50C	show_computer_substitution_notice	likely	decompiled	seg_0791_11.c	430	2000:C50C	routines.tsv	
+0791:C5DC	refresh_pitch_slot	established	decompiled	seg_0791_11.c	464	2000:C5DC	routines.tsv	
+0791:C7EB	map_bench_roles	established	decompiled	seg_0791_11.c	538	2000:C7EB	routines.tsv	
+0791:C88D	substitute_player	established	decompiled	seg_0791_11.c	568	2000:C88D	routines.tsv	
+0791:CAB0	select_man_of_the_match	established	decompiled	seg_0791_11.c	630	2000:CAB0	routines.tsv	
+0791:CB7D	restore_match_player_state	established	decompiled	seg_0791_11.c	687	2000:CB7D	routines.tsv	
+0791:CC2E	wait_or_key	established	decompiled	seg_0791_11.c	724	2000:CC2E	routines.tsv	
+0791:CC7B	choose_captain_or_taker	likely	decompiled	seg_0791_11.c	744	2000:CC7B	routines.tsv	
+0791:D016	increment_match_streak	likely	decompiled	seg_0791_11.c	871	2000:D016	routines.tsv	
+0791:D032	clear_match_streak	likely	decompiled	seg_0791_11.c	889	2000:D032	routines.tsv	
 0791:D050	update_country_match_records	likely	decompiled	seg_0791_12.c	4	2000:D050	routines.tsv	
 0791:D44C	second_team_is_host	established	decompiled	seg_0791_12.c	136	2000:D44C	routines.tsv	
 0791:D47E	quick_result_silent	established	decompiled	seg_0791_12.c	151	2000:D47E	routines.tsv	

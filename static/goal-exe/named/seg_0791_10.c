@@ -456,7 +456,7 @@ undefined2 result_needs_winner(undefined4 param_1)
 
 
 // ---- 0791:B19D  roll_quick_goals  (f_0791_B19D; Ghidra 2000:B19D, __stdcall16near; found by routines.tsv)
-// for each side t, makes the given number of attempts and adds each goal to DS:9B3C[t]; each attempt has up to three contests of two draws each, the OPPONENT's draw first (side 1-t at B1C5-B1D4, then side t at B1E0-B1E8): rand(mid[1-t]) vs rand(mid[t]) (B1DF/B1F1), rand(2*def[1-t]) (B207) vs rand(atk[t]) (B220), rand(gk[1-t]) (B23B) vs rand(atk[t]) (B24D); each comparison signed jle stops the attempt at 2/4/6 draws; winning all three is a goal - so a team scores against the other side's keeper and defence (the sums at DS:9B45 + 2*side + 4*k, k = 0 keeper, 1 defence, 2 midfield, 3 attack)  [established; F010; F012; read decompiled/seg_0791_07.c; read decompiled/seg_0791_08.c]
+// T77 (Python port in runtime/original_match/port/quick.py; family exact/READ classification in experiments/E036-match-port/notes/T77.md): for each side t, makes the given number of attempts and adds each goal to DS:9B3C[t]; each attempt has up to three contests of two draws each, the OPPONENT's draw first (side 1-t at B1C5-B1D4, then side t at B1E0-B1E8): rand(mid[1-t]) vs rand(mid[t]) (B1DF/B1F1), rand(2*def[1-t]) (B207) vs rand(atk[t]) (B220), rand(gk[1-t]) (B23B) vs rand(atk[t]) (B24D); each comparison signed jle stops the attempt at 2/4/6 draws; winning all three is a goal - so a team scores against the other side's keeper and defence (the sums at DS:9B45 + 2*side + 4*k, k = 0 keeper, 1 defence, 2 midfield, 3 attack)  [established; F010; F012; read decompiled/seg_0791_07.c; read decompiled/seg_0791_08.c]
 
 void roll_quick_goals(int param_1)
 
@@ -554,7 +554,7 @@ void adjust_player_confidence(int param_1,int param_2)
 
 
 // ---- 0791:B3B7  update_top_scorers  (f_0791_B3B7; Ghidra 2000:B3B7, __stdcall16near; found by routines.tsv)
-// after a goal by player p (from 0791:B602 and 0791:6443): increments p's +0x11 (B3EC) and keeps the three-entry top-scorers table of competition c (c = param_1, or 5 when [A923]+0x40 is set) at [DS:A93F] + 0x60*c + 0x10*rank - 0x70, sorted by the count word +0xC: an entry for p is updated from +0x11 (B446) and moved up, else p enters where his count exceeds an entry's (B53B) with his initial, name and count (B5E4)  [likely; F016; read code/seg_0791_18.asm; read named/seg_0791_09.c]
+// T77 (Python port in runtime/original_match/port/rare.py; family exact/READ classification in experiments/E036-match-port/notes/T77.md): after a goal by player p (from 0791:B602 and 0791:6443): increments p's +0x11 (B3EC) and keeps the three-entry top-scorers table of competition c (c = param_1, or 5 when [A923]+0x40 is set) at [DS:A93F] + 0x60*c + 0x10*rank - 0x70, sorted by the count word +0xC: an entry for p is updated from +0x11 (B446) and moved up, else p enters where his count exceeds an entry's (B53B) with his initial, name and count (B5E4)  [likely; F016; read code/seg_0791_18.asm; read named/seg_0791_09.c]
 
 void update_top_scorers(int param_1,int param_2)
 
