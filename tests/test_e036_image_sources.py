@@ -1,5 +1,5 @@
 """#419: image/spec binding and complete source-specific calendar coverage."""
-import copy,json,tempfile,unittest
+import copy,json,sys,tempfile,unittest
 from pathlib import Path
 from unittest import mock
 from tests.test_e036_compare import family,families,records,compare_module as compare,ROOT,record
@@ -79,9 +79,9 @@ class ImageSources(unittest.TestCase):
             self.assertEqual([x.args[0] for x in run.call_args_list],['E006','E031-stage8'])
 
     def test_replay_diagnostic_loads_the_selected_source(self):
-        import importlib.util
-        tool_spec=importlib.util.spec_from_file_location('m4_locate',ROOT/'experiments/E036-match-port/locate.py')
-        tool=importlib.util.module_from_spec(tool_spec);tool_spec.loader.exec_module(tool)
+        from tests.test_e036_compare import isolated_import,E036
+        with mock.patch.dict(sys.modules,{'records':records,'families':families,'compare':compare,'family':family}):
+            tool=isolated_import(E036,('locate',))[0]
         image=object()
         with mock.patch.object(tool.family.image_sources,'load',return_value=image) as load, mock.patch.object(tool,'locate',return_value=False) as replay:
             code=tool.main(['--family','FS','--match',self.spec().id,'--candidate',str(OUT/'FS-display-3.jsonl'),'--reference',str(OUT/'FS-reference-2.jsonl')])
