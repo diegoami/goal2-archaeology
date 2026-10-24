@@ -68,6 +68,29 @@ def main():
                 if 'Please enter name' in row['screen']:break
             assert 'Please enter name' in row['screen']
             key(*(['BackSpace']*80));key(*list(source.stem.lower()));row=key('Return')
+        if filename=='G3C.GL' and not resume:
+            # [designed: T90] Normal manager choices: replace the injured right midfielder
+            # and the exhausted CF with healthy reserves. Original DEA6 keys do every write.
+            # IDs/initial fields are read from unchanged G3C, not assigned to guest memory.
+            row=key('space');rec['selection_changes']=[]
+            def squad_view():
+                im=Image.from_savestate((ROOT/row['file']).read_bytes());mem=im.memory;ds=im.DS*16
+                w=lambda a:int.from_bytes(mem[a:a+2],'little');far=lambda o:w(ds+o)+16*w(ds+o+2)
+                base=far(0xA917)+20*191;assert mem[base+0x2E]==129
+                return [w(base+2*i) for i in range(20)],w(ds+0x0C1B)
+            for outgoing,incoming in ((395,2612),(2748,2614)):
+                squad,_=squad_view();a=squad.index(outgoing)+1;b=squad.index(incoming)+1
+                assert a<=11 and b>11
+                before=row['sha256'];row=key('Home')
+                for _ in range(a-1):row=key('Down')
+                assert squad_view()[1]==a
+                row=key('Return');row=key('Home')
+                for _ in range(b-1):row=key('Down')
+                assert squad_view()[1]==b
+                row=key('Return');squad,_=squad_view()
+                assert incoming in squad[:11] and outgoing in squad[11:]
+                rec['selection_changes'].append(dict(outgoing=outgoing,incoming=incoming,before_sha256=before,after_sha256=row['sha256']))
+            row=key('Escape')
         while time.monotonic()-start<240:
             text=row['screen'];t=row['taker']
             if row['warnings']:
