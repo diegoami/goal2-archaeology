@@ -1,0 +1,518 @@
+{
+  "native_old62_full_fields": "62 matches expected identical, 62 pass, 0 fail",
+  "matches": 63,
+  "nonzero_inline_matches": 11,
+  "explanation": "Existing T67 calls mem.keypressed directly in7881 inner22-slot loop;78F1 precedes native78F4call. Logical service polls match the original while entry counters correctly count only actual entry calls.",
+  "source_sha256": {
+    "experiments/E036-match-port/out/T67/coverage-unported-39873774715/coverage-unported.jsonl": "945c4f4e91980744b04ce351e791094fa1421a4b8232354546904669ab6af49a",
+    "experiments/E036-match-port/out/T74/coverage-unhooked-1.jsonl": "0577feef76a06937b5b831a8ee3d3b468801921092a398bc7eb2d5514a661d5b",
+    "experiments/E036-match-port/out/T74/all-actions-final-1-40074025808/all-actions-final-1.jsonl": "a15180d7874160a115abda338e032a0f26141c68998d322bd54649222ed3bbf6",
+    "runtime/original_match/port/restarts.py": "c378834575a59d89f31fea8f9ee5ffca7daaf98754a36e848164bb819ad87977"
+  },
+  "rows": [
+    {
+      "id": "F40/e032-0101",
+      "counted_entry": 98922,
+      "python_entry_calls": 98922,
+      "unhooked_entry": 98922,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/e032-1234",
+      "counted_entry": 97946,
+      "python_entry_calls": 97946,
+      "unhooked_entry": 97946,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/e032-2345",
+      "counted_entry": 96513,
+      "python_entry_calls": 96513,
+      "unhooked_entry": 96513,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/e032-2b7e",
+      "counted_entry": 94412,
+      "python_entry_calls": 94412,
+      "unhooked_entry": 94412,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/e032-4c1d",
+      "counted_entry": 111521,
+      "python_entry_calls": 111521,
+      "unhooked_entry": 112093,
+      "archived_native_walkoff_poll_site_count": 572,
+      "reconciled": true
+    },
+    {
+      "id": "F40/e032-6a33",
+      "counted_entry": 95804,
+      "python_entry_calls": 95804,
+      "unhooked_entry": 95804,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/e032-8e05",
+      "counted_entry": 97628,
+      "python_entry_calls": 97628,
+      "unhooked_entry": 97628,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/e032-a1f0",
+      "counted_entry": 100014,
+      "python_entry_calls": 100014,
+      "unhooked_entry": 100014,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/e032-c3c3",
+      "counted_entry": 99995,
+      "python_entry_calls": 99995,
+      "unhooked_entry": 99995,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/e032-e719",
+      "counted_entry": 99332,
+      "python_entry_calls": 99332,
+      "unhooked_entry": 99332,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/more-0042",
+      "counted_entry": 99857,
+      "python_entry_calls": 99857,
+      "unhooked_entry": 99857,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/more-1111",
+      "counted_entry": 101272,
+      "python_entry_calls": 101272,
+      "unhooked_entry": 101272,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/more-3a5c",
+      "counted_entry": 94588,
+      "python_entry_calls": 94588,
+      "unhooked_entry": 94588,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/more-5e5e",
+      "counted_entry": 105913,
+      "python_entry_calls": 105913,
+      "unhooked_entry": 105913,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/more-7f31",
+      "counted_entry": 94848,
+      "python_entry_calls": 94848,
+      "unhooked_entry": 94848,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/more-9abc",
+      "counted_entry": 92634,
+      "python_entry_calls": 92634,
+      "unhooked_entry": 92634,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/more-b4d2",
+      "counted_entry": 98441,
+      "python_entry_calls": 98441,
+      "unhooked_entry": 98441,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/more-cafe",
+      "counted_entry": 98192,
+      "python_entry_calls": 98192,
+      "unhooked_entry": 98478,
+      "archived_native_walkoff_poll_site_count": 286,
+      "reconciled": true
+    },
+    {
+      "id": "F40/more-d00d",
+      "counted_entry": 101107,
+      "python_entry_calls": 101107,
+      "unhooked_entry": 101107,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/more-face",
+      "counted_entry": 97499,
+      "python_entry_calls": 97499,
+      "unhooked_entry": 97499,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-0101",
+      "counted_entry": 100455,
+      "python_entry_calls": 100455,
+      "unhooked_entry": 100455,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-1234",
+      "counted_entry": 108718,
+      "python_entry_calls": 108718,
+      "unhooked_entry": 108718,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-2345",
+      "counted_entry": 105661,
+      "python_entry_calls": 105661,
+      "unhooked_entry": 105661,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-2b7e",
+      "counted_entry": 98115,
+      "python_entry_calls": 98115,
+      "unhooked_entry": 98115,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-4c1d",
+      "counted_entry": 97353,
+      "python_entry_calls": 97353,
+      "unhooked_entry": 97353,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-6a33",
+      "counted_entry": 101393,
+      "python_entry_calls": 101393,
+      "unhooked_entry": 101393,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-8e05",
+      "counted_entry": 111465,
+      "python_entry_calls": 111465,
+      "unhooked_entry": 111465,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-a1f0",
+      "counted_entry": 100906,
+      "python_entry_calls": 100906,
+      "unhooked_entry": 100906,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-c3c3",
+      "counted_entry": 101822,
+      "python_entry_calls": 101822,
+      "unhooked_entry": 101822,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-e719",
+      "counted_entry": 108337,
+      "python_entry_calls": 108337,
+      "unhooked_entry": 108337,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-0042",
+      "counted_entry": 99999,
+      "python_entry_calls": 99999,
+      "unhooked_entry": 100285,
+      "archived_native_walkoff_poll_site_count": 286,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-1111",
+      "counted_entry": 98405,
+      "python_entry_calls": 98405,
+      "unhooked_entry": 98405,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-3a5c",
+      "counted_entry": 111201,
+      "python_entry_calls": 111201,
+      "unhooked_entry": 111201,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-5e5e",
+      "counted_entry": 102229,
+      "python_entry_calls": 102229,
+      "unhooked_entry": 102229,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-7f31",
+      "counted_entry": 105034,
+      "python_entry_calls": 105034,
+      "unhooked_entry": 105034,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-9abc",
+      "counted_entry": 99784,
+      "python_entry_calls": 99784,
+      "unhooked_entry": 99894,
+      "archived_native_walkoff_poll_site_count": 110,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-b4d2",
+      "counted_entry": 101680,
+      "python_entry_calls": 101680,
+      "unhooked_entry": 102142,
+      "archived_native_walkoff_poll_site_count": 462,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-cafe",
+      "counted_entry": 102449,
+      "python_entry_calls": 102449,
+      "unhooked_entry": 102449,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-d00d",
+      "counted_entry": 104070,
+      "python_entry_calls": 104070,
+      "unhooked_entry": 104070,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "F40/edit-face",
+      "counted_entry": 108319,
+      "python_entry_calls": 108319,
+      "unhooked_entry": 108429,
+      "archived_native_walkoff_poll_site_count": 110,
+      "reconciled": true
+    },
+    {
+      "id": "O8/c1-c2-friendly",
+      "counted_entry": 111430,
+      "python_entry_calls": 111430,
+      "unhooked_entry": 111430,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "O8/c1-c2-qualifier",
+      "counted_entry": 106654,
+      "python_entry_calls": 106654,
+      "unhooked_entry": 106654,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "O8/c30-c44-friendly",
+      "counted_entry": 96109,
+      "python_entry_calls": 96109,
+      "unhooked_entry": 96109,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "O8/c30-c44-qualifier",
+      "counted_entry": 107390,
+      "python_entry_calls": 107390,
+      "unhooked_entry": 107852,
+      "archived_native_walkoff_poll_site_count": 462,
+      "reconciled": true
+    },
+    {
+      "id": "O8/c64-c90-friendly",
+      "counted_entry": 99684,
+      "python_entry_calls": 99684,
+      "unhooked_entry": 99684,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "O8/c64-c90-qualifier",
+      "counted_entry": 99929,
+      "python_entry_calls": 99929,
+      "unhooked_entry": 99929,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "O8/c101-c120-friendly",
+      "counted_entry": 118805,
+      "python_entry_calls": 118805,
+      "unhooked_entry": 118805,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "O8/c101-c120-qualifier",
+      "counted_entry": 110304,
+      "python_entry_calls": 110304,
+      "unhooked_entry": 110304,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "S/reference",
+      "counted_entry": 97711,
+      "python_entry_calls": 97711,
+      "unhooked_entry": 97711,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "S/no-managed-side",
+      "counted_entry": 100627,
+      "python_entry_calls": 100627,
+      "unhooked_entry": 100627,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "S/decisions-70",
+      "counted_entry": 100512,
+      "python_entry_calls": 100512,
+      "unhooked_entry": 100512,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "S/injury-70",
+      "counted_entry": 104852,
+      "python_entry_calls": 104852,
+      "unhooked_entry": 105182,
+      "archived_native_walkoff_poll_site_count": 330,
+      "reconciled": true
+    },
+    {
+      "id": "S/hard-4",
+      "counted_entry": 105353,
+      "python_entry_calls": 105353,
+      "unhooked_entry": 105947,
+      "archived_native_walkoff_poll_site_count": 594,
+      "reconciled": true
+    },
+    {
+      "id": "S/quick-30",
+      "counted_entry": 30860,
+      "python_entry_calls": 30860,
+      "unhooked_entry": 30860,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "S/quick-1",
+      "counted_entry": 1152,
+      "python_entry_calls": 1152,
+      "unhooked_entry": 1152,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "S/decisions-quick-60",
+      "counted_entry": 63867,
+      "python_entry_calls": 63867,
+      "unhooked_entry": 63867,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "S/ko-39-budget-5",
+      "counted_entry": 148716,
+      "python_entry_calls": 148716,
+      "unhooked_entry": 149552,
+      "archived_native_walkoff_poll_site_count": 836,
+      "reconciled": true
+    },
+    {
+      "id": "S/ko-42-sudden-death",
+      "counted_entry": 142610,
+      "python_entry_calls": 142610,
+      "unhooked_entry": 142610,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "S/ko-30-extra-time",
+      "counted_entry": 136474,
+      "python_entry_calls": 136474,
+      "unhooked_entry": 136562,
+      "archived_native_walkoff_poll_site_count": 88,
+      "reconciled": true
+    },
+    {
+      "id": "S/ko-9-quick",
+      "counted_entry": 78132,
+      "python_entry_calls": 78132,
+      "unhooked_entry": 78132,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "S/ko-53-quick",
+      "counted_entry": 67747,
+      "python_entry_calls": 67747,
+      "unhooked_entry": 67747,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "S/ko-42-quick-g19",
+      "counted_entry": 55620,
+      "python_entry_calls": 55620,
+      "unhooked_entry": 55620,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    },
+    {
+      "id": "S/qualifier-21",
+      "counted_entry": 97711,
+      "python_entry_calls": 97711,
+      "unhooked_entry": 97711,
+      "archived_native_walkoff_poll_site_count": 0,
+      "reconciled": true
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "audit_script_sha256": "75fd2f3c24dd2f3734a2e0d98f8362e0b74ba145d7753515c076764fc0e73f80",
+  "dispatch_head": "5af9a54901fe469002ace850ee3874a53a9545fc",
+  "comparisons": {
+    "own": {
+      "path": "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T74/own-menus-desktop-2/own.jsonl",
+      "sha256": "09adc496b19e14ead6fcfcfcd385153a3536dc8f002e686ff544cb1810006c0b",
+      "comparison": "63 matches expected identical, 63 pass, 0 fail",
+      "entry_call_checks": 1701
+    },
+    "integrated": {
+      "path": "experiments/E036-match-port/out/T74/all-actions-final-1-40074025808/all-actions-final-1.jsonl",
+      "sha256": "a15180d7874160a115abda338e032a0f26141c68998d322bd54649222ed3bbf6",
+      "comparison": "63 matches expected identical, 63 pass, 0 fail",
+      "entry_call_checks": 1701
+    }
+  },
+  "entry_call_checks": 3402,
+  "menu_entries": 27,
+  "port_modules": 17,
+  "mask": [],
+  "falsifiers": [
+    {
+      "variant": "tactics-adjacent-bit",
+      "match": "S/decisions-70",
+      "branch": "1771:1A33",
+      "original_branch_calls": 2,
+      "mutant_routine_calls": 2,
+      "mutant_entry_count": 2
+    },
+    {
+      "variant": "speed-right-increments",
+      "match": "S/quick-1",
+      "branch": "0791:940F",
+      "original_branch_calls": 1,
+      "mutant_routine_calls": 1150,
+      "mutant_entry_count": 1150
+    },
+    {
+      "variant": "menu-tactics-wrong-country",
+      "match": "S/decisions-70",
+      "branch": "0791:EFBC",
+      "original_branch_calls": 2,
+      "mutant_routine_calls": 12,
+      "mutant_entry_count": 12
+    }
+  ],
+  "controls_caught": 42,
+  "unit_methods": 42,
+  "unchanged_existing_skips": 13,
+  "unvisited_blocks_mapped": 209,
+  "references": {
+    "experiments/E036-match-port/families/S-no-managed-side-reference-20261024-v1.jsonl": "da7c626f053f54b013eaed8a9e9893baa7673cc997db1aac994f8098802b6b8c",
+    "experiments/E036-match-port/families/display/reference-all-20261024-v1.jsonl": "4a5736317e80dcc1c526b4effdf15545b0175f449f809d0acc4d6281ddd1a860",
+    "experiments/E036-match-port/out/T57/reference.jsonl": "0ed325db5d45718e9d947fe2a1c507f24873c6513f00a4850a40c1c40146db4b",
+    "experiments/E036-match-port/families/display/reference-all-20261023-v1.jsonl": "69db748fc71827a1cb96ee8c2146b0c6510d97f9ffa7ac92b61a6aa86e21d83e"
+  },
+  "sources_match": true,
+  "independent_artifact_matches_collector": true,
+  "static_receipt_sha256": "6feb40f2d2fbe7e6207c7da27a3626a6701a66de88799a929dbd90d4e406e2c0",
+  "known_limit": "https://github.com/diegoami/goal2-archaeology/issues/394"
+}

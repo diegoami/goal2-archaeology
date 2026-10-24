@@ -1,0 +1,14 @@
+{
+  "extra_assertion": "integrated entry counts equal unhooked original entry counts for every entry",
+  "task_gate": false,
+  "trace": "AssertionError: (F40/e032-4c1d, 214B:0723)",
+  "first_difference": {
+    "match": "F40/e032-4c1d",
+    "entry": "214B:0723",
+    "original": 112093,
+    "integrated": 111521,
+    "difference": 572,
+    "archived_native_78F1": 572
+  },
+  "resolution": "Existing T67 walk_off services its keyboard poll inline. Every difference exactly equals independently archived original78F1 calls; all actual candidate entries still equal registered Python calls."
+}

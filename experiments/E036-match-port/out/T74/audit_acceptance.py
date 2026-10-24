@@ -62,6 +62,14 @@ assert source_matches(read(OUT/'own-menus-desktop-2/source.json'))
 assert source_matches(read(OUT/'falsifiers-desktop-3/source.json'))
 # Actions' executed Git object, not its collector's later commit, binds the runtime.
 dispatch=(OUT/'all-actions-final-1-dispatch-head.txt').read_text().strip()
+manifest=read(integrated.parent/'manifest.json')
+assert manifest['sha']==dispatch and manifest['run_id']=='40074025808' and manifest['run_attempt']=='1'
+expected_inputs=read(OUT/'all-actions-final-1-dispatch.json')['inputs']
+assert manifest['inputs']==expected_inputs
+sample=read(OUT/'main-actions-sample-1/audit.json')
+assert digest(OUT/'main-actions-sample-1/shard-24.zip')==sample['zip_sha256']
+for member in ('shard-24.jsonl','shard-24-run.txt'):
+    assert digest(integrated.parent/member)==sample['members_sha256'][member]
 for p in sorted((ROOT/'runtime/original_match').rglob('*.py')):
     rel=str(p.relative_to(ROOT));old=subprocess.check_output(['git','show',dispatch+':'+rel],cwd=ROOT)
     assert old==p.read_bytes(),rel
@@ -97,9 +105,13 @@ assert static['runtime_changed'] is False
 assert all(digest(ROOT/p)==value for p,value in static['sha256'].items())
 assert (OUT/'static-after-regeneration-3.exit').read_text().strip()=='0'
 assert 'Ran 47 tests' in (OUT/'static-after-regeneration-3.log').read_text()
+skip_inventory=read(OUT/'main-skip-inventory-audit-1.json')
+assert skip_inventory['identical_existing_skip_count']==13 and skip_inventory['new_skips']==[]
+assert digest(ROOT/skip_inventory['baseline'])==skip_inventory['baseline_sha256']
+assert digest(ROOT/skip_inventory['current'])==skip_inventory['current_sha256']
 report={'audit_script_sha256':digest(Path(__file__)),'dispatch_head':dispatch,'comparisons':reports,'entry_call_checks':len(counter_rows),
         'menu_entries':27,'port_modules':17,'mask':[],'falsifiers':proof,'controls_caught':42,
-        'unit_methods':42,'unvisited_blocks_mapped':209,'references':{str(p.relative_to(ROOT)):digest(p) for p in (rawref,displayref,oldraw,olddisplay)},
-        'sources_match':True,'static_receipt_sha256':digest(OUT/'citation-endpoints-final-main-2.json'),'known_limit':'https://github.com/diegoami/goal2-archaeology/issues/394'}
+        'unit_methods':42,'unchanged_existing_skips':13,'unvisited_blocks_mapped':209,'references':{str(p.relative_to(ROOT)):digest(p) for p in (rawref,displayref,oldraw,olddisplay)},
+        'sources_match':True,'independent_artifact_matches_collector':True,'static_receipt_sha256':digest(OUT/'citation-endpoints-final-main-2.json'),'known_limit':'https://github.com/diegoami/goal2-archaeology/issues/394'}
 output.write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))
