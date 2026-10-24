@@ -1,0 +1,15 @@
+{
+  "source_archive_head": "2a740adb",
+  "external_git_database_head": "f6c6f142d518df8e73c53cf10b7e3dfe1898ad5c",
+  "provenance_note": "Raw clean replay record.head is the external primary GIT_DIR HEAD, not the source extraction head. Execution used git archive2a740adb; producer SHA25605728dd5b8a361c71755fece7e7e094d2b3be8c69286096fa92bd28cd24a720a identifies exact executed code. Raw records preserved unchanged.",
+  "download_sha256": "ab1864e3449a643bdc6119650e09b9d29e90ab01476aa9eace468d6834f9eeae",
+  "empty_cache": true,
+  "verification": "PASS after creating omitted readback directory; initial verifier FileNotFoundError noted; guest replays all passed on first execution",
+  "replays": {
+    "role3": "byte-identical complete steps.jsonl and raw zip hashes;36 total stops",
+    "role4": "byte-identical complete steps.jsonl and raw zip hashes;36 total stops",
+    "E062": "byte-identical complete steps.jsonl and raw zip hashes;36 total stops",
+    "EC60": "byte-identical complete steps.jsonl and raw zip hashes;36 total stops"
+  },
+  "payloads": "Every replay snapshot is byte-identical to its delivered case snapshot; no new private payload bytes. Physical replay files retained in clean extraction."
+}
