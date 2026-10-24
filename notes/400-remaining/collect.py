@@ -31,17 +31,18 @@ def inspect(raw):
     return dict(regs=r,load=im.load,frames=frames,takers=takers,build_problems=im.build_problems())
 
 def main():
-    attempt=sys.argv[1]; resume=Path(sys.argv[2]).resolve() if len(sys.argv)>2 else None
+    attempt=sys.argv[1]; resume=Path(sys.argv[2]).resolve() if len(sys.argv)>2 and sys.argv[2]!='-' else None
     pub=ROOT/'notes/400-remaining'/attempt; pub.mkdir(exist_ok=False)
     private=ROOT/'.cache/400-remaining'/attempt;private.mkdir(exist_ok=False)
-    source=ROOT/'.cache/G4C.GL'
-    assert sha(source.read_bytes())=='06af479da77db6e1da7847de929bf43531349f2fcddcaeac3ba93e8b16da304d'
-    rec=dict(attempt=attempt,head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),collector_sha256=sha(Path(__file__).read_bytes()),source_sha256=sha(source.read_bytes()),runtime='DOSBox-X 2024.03.01; fixed 8000; original raw XTEST keys; nohost mapper; explicit DOS date/time',bound_s=900,status='running')
+    source=ROOT/'.cache'/(sys.argv[3] if len(sys.argv)>3 else 'G4C.GL')
+    artifact=next(a for a in json.loads((ROOT/'notes/390/inventory.json').read_text())['assets'] if a['file']==source.name)
+    assert sha(source.read_bytes())==artifact['sha256']
+    rec=dict(attempt=attempt,head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),collector_sha256=sha(Path(__file__).read_bytes()),source=source.name,source_sha256=sha(source.read_bytes()),runtime='DOSBox-X 2024.03.01; fixed 8000; original raw XTEST keys; nohost mapper; explicit DOS date/time',bound_s=900,status='running')
     (pub/'collector.py').write_bytes(Path(__file__).read_bytes())
     (pub/'source.json').write_text(json.dumps(rec,indent=2)+'\n')
     class Loaded(driver.Driver):
         def _start_xvfb(self):
-            shutil.copy2(source,self.game_dir/'G4C.GL');super()._start_xvfb()
+            shutil.copy2(source,self.game_dir/source.name);super()._start_xvfb()
     game=private/'game';work=private/'driver';start_state=None
     if resume:
         # Only resume our own closed native attempt on its EXACT mounted game directory.
@@ -76,7 +77,7 @@ def main():
                 row=send(['y'])
                 if 'Please enter name' in row['screen']:break
             if 'Please enter name' not in row['screen']:raise RuntimeError('filename editor absent')
-            send(['BackSpace']*80);send(['g','4','c']);row=send(['Return'])
+            send(['BackSpace']*80);send(list(source.stem.lower()));row=send(['Return'])
             for _ in range(10):
                 if any(f['ret']=='000E:75D1' for f in row['frames']):break
                 row=observe('await manager')
