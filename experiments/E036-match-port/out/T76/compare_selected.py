@@ -6,6 +6,8 @@ sys.path.insert(0, str(ROOT/'experiments/E036-match-port'))
 import compare, families
 
 candidate = compare.load(sys.argv[1])
+if not candidate:
+    raise compare.Malformed('a selected comparison requires at least one record')
 definitions = families.discover()
 declared = {mid: digest for f in definitions.values() for mid, digest in f.expected().items()}
 if set(candidate) - set(declared):

@@ -1,0 +1,32 @@
+F.......
+======================================================================
+FAIL: test_enter_chooses_highlight_escape_retains_current_and_c_computes (tests.test_port_takers.Takers.test_enter_chooses_highlight_escape_retains_current_and_c_computes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T76-control-7bdoy4_l/tests/test_port_takers.py", line 127, in test_enter_chooses_highlight_escape_retains_current_and_c_computes
+    r.run('0791:CC7B',[3,0],answer)
+  File "/tmp/T76-control-7bdoy4_l/tests/test_port_takers.py", line 21, in run
+    return self._invoke(entry,variant)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T76-control-7bdoy4_l/tests/test_port_takers.py", line 39, in _invoke
+    handled=self.respond(request,mem) if self.respond else None
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T76-control-7bdoy4_l/tests/test_port_takers.py", line 120, in answer
+    self.assertEqual(tuple(v&255 for v in q.args),(0,12,3))
+AssertionError: Tuples differ: (0, 0, 3) != (0, 12, 3)
+
+First differing element 1:
+0
+12
+
+- (0, 0, 3)
+?     ^
+
++ (0, 12, 3)
+?     ^^
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.137s
+
+FAILED (failures=1)

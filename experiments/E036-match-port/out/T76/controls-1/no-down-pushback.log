@@ -1,0 +1,13 @@
+.F......
+======================================================================
+FAIL: test_order_escape_removes_last_pick_and_final_down_is_pushed_back (tests.test_port_takers.Takers.test_order_escape_removes_last_pick_and_final_down_is_pushed_back)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T76-control-i9v3gygv/tests/test_port_takers.py", line 156, in test_order_escape_removes_last_pick_and_final_down_is_pushed_back
+    self.assertEqual(len(pushes),4)
+AssertionError: 0 != 4
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.146s
+
+FAILED (failures=1)

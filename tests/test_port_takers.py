@@ -59,7 +59,7 @@ class Takers(unittest.TestCase):
         self.assertTrue(all(e.stub is None for e in takers.PORTS.entries.values()))
 
     def test_wait_zero_timeout_and_key_poll(self):
-        for count,at,polls,delays in [(0,99,0,0),(3,99,3,3),(5,2,2,1)]:
+        for count,at,polls,delays in [(0,99,0,0),(1,99,1,1),(3,99,3,3),(5,2,2,1)]:
             r=Rig();seen=[]
             def answer(q,mem):
                 seen.append(q.target)
@@ -126,6 +126,20 @@ class Takers(unittest.TestCase):
                 if q.target=='0791:A699' or q.target.startswith('214B:') or q.target.startswith('1771:'):return 0
             r.run('0791:CC7B',[3,0],answer)
             self.assertEqual(r.mem.reg('ax'),want)
+
+    def test_unavailable_captain_uses_leadership_before_general_taker_validation(self):
+        for side in (0,1):
+            r=self.prompt_rig(999,side,1);calls=[]
+            def answer(q,mem):
+                if q.target=='1771:3216':return int(q.args[0]==999)
+                if q.target=='0791:1F3C':calls.append(q.args[0]&255);return 105
+                if q.target=='0791:6B65':return 5
+                if q.target=='0791:1FDD':self.fail('available captain unexpectedly went through skill fallback')
+                if q.target in ('0791:CC2E','0791:A699') or q.target.startswith(('214B:','1771:')):return 0
+            r.run('0791:CC7B',[1,side],answer)
+            self.assertEqual(calls,[side])
+            self.assertEqual(r.mem.reg('ax'),105)
+            self.assertEqual(r.mem.ds16(0x9978+10*side),105)
 
     def test_order_escape_removes_last_pick_and_final_down_is_pushed_back(self):
         r=Rig();parent=0x2000;r.lin8(parent-31,0);r.ds16(0x9B34,7);r.squad(7,list(range(101,121)))

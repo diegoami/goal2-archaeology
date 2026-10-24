@@ -1,0 +1,22 @@
+.....F..
+======================================================================
+FAIL: test_unavailable_captain_uses_leadership_before_general_taker_validation (tests.test_port_takers.Takers.test_unavailable_captain_uses_leadership_before_general_taker_validation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T76-control-tito5fas/tests/test_port_takers.py", line 139, in test_unavailable_captain_uses_leadership_before_general_taker_validation
+    r.run('0791:CC7B',[1,side],answer)
+  File "/tmp/T76-control-tito5fas/tests/test_port_takers.py", line 21, in run
+    return self._invoke(entry,variant)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T76-control-tito5fas/tests/test_port_takers.py", line 39, in _invoke
+    handled=self.respond(request,mem) if self.respond else None
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T76-control-tito5fas/tests/test_port_takers.py", line 137, in answer
+    if q.target=='0791:1FDD':self.fail('available captain unexpectedly went through skill fallback')
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: available captain unexpectedly went through skill fallback
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.148s
+
+FAILED (failures=1)
