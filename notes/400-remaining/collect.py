@@ -30,7 +30,8 @@ def inspect(raw):
     return dict(regs=r,load=im.load,frames=frames,takers=takers,build_problems=im.build_problems())
 
 def main():
-    attempt=sys.argv[1]; pub=ROOT/'notes/400-remaining'/attempt; pub.mkdir(exist_ok=False)
+    attempt=sys.argv[1]; resume=Path(sys.argv[2]).resolve() if len(sys.argv)>2 else None
+    pub=ROOT/'notes/400-remaining'/attempt; pub.mkdir(exist_ok=False)
     private=ROOT/'.cache/400-remaining'/attempt;private.mkdir(exist_ok=False)
     source=ROOT/'.cache/G4C.GL'
     assert sha(source.read_bytes())=='06af479da77db6e1da7847de929bf43531349f2fcddcaeac3ba93e8b16da304d'
@@ -40,7 +41,15 @@ def main():
     class Loaded(driver.Driver):
         def _start_xvfb(self):
             shutil.copy2(source,self.game_dir/'G4C.GL');super()._start_xvfb()
-    d=Loaded(config=dict(cycles='fixed 8000',dos_date='10/24/2026',dos_time='12:00:00'),workdir=private/'driver',game_dir=private/'game',mapper='nohost')
+    game=private/'game'
+    if resume:
+        # Only resume our own closed native attempt on its EXACT mounted game directory.
+        previous=resume.parent; old=json.loads((ROOT/'notes/400-remaining'/previous.name/'record.json').read_text())
+        assert old['status']!='running'
+        game=previous/'game'
+        rec['resume']=dict(file=str(resume.relative_to(ROOT)),sha256=sha(resume.read_bytes()),game_dir=str(game),basis='same absolute native drive mount, previously original-loaded G4C')
+        (pub/'source.json').write_text(json.dumps(rec,indent=2)+'\n')
+    d=Loaded(config=dict(cycles='fixed 8000',dos_date='10/24/2026',dos_time='12:00:00'),workdir=private/'driver',game_dir=game,mapper='nohost')
     n=0; started=time.monotonic(); last=None
     def observe(req):
         nonlocal n,last
@@ -54,15 +63,16 @@ def main():
     def send(keys):
         d.keys(*keys);return observe(dict(keys=keys))
     try:
-        d.launch(); row=observe('launch')
-        for _ in range(4):
-            row=send(['y'])
-            if 'Please enter name' in row['screen']:break
-        if 'Please enter name' not in row['screen']:raise RuntimeError('filename editor absent')
-        send(['BackSpace']*80);send(['g','4','c']);row=send(['Return'])
-        for _ in range(10):
-            if any(f['ret']=='000E:75D1' for f in row['frames']):break
-            row=observe('await manager')
+        d.launch(resume); row=observe('resume same native mount' if resume else 'launch')
+        if not resume:
+            for _ in range(4):
+                row=send(['y'])
+                if 'Please enter name' in row['screen']:break
+            if 'Please enter name' not in row['screen']:raise RuntimeError('filename editor absent')
+            send(['BackSpace']*80);send(['g','4','c']);row=send(['Return'])
+            for _ in range(10):
+                if any(f['ret']=='000E:75D1' for f in row['frames']):break
+                row=observe('await manager')
         print(json.dumps(row),flush=True)
         commands=private/'commands';commands.mkdir();seen=set()
         while time.monotonic()-started<900:
@@ -84,7 +94,11 @@ def main():
                 while time.monotonic()<end:
                     row=observe('bounded watch poll')
                     live=[t for t in row['takers'] if any(f['ret'] in ('0791:CC54','0791:CEDE','0791:CEED') for f in row['frames'])]
-                    if live:
+                    if 'taker' in row['screen'] and 'C-computer select' in row['screen']:
+                        row=send(['space']);row=send(['Return']);row=send(['Return'])
+                    elif 'CAPTAIN' in row['screen'] and 'C-computer select' in row['screen']:
+                        row=send(['Return'])
+                    elif live:
                         if live[0]['role']!=1:
                             row=send(['space']);row=send(['Return'])
                         row=send(['Return'])
