@@ -1,0 +1,206 @@
+{
+  "schema": "T88-remaining-original-inputs/1",
+  "source": "G1A.GL",
+  "source_sha256": "b6e3c4c14d25543d28e4d5a38a43882c562b3acfe4f8834a7b64183024c6b152",
+  "covered": [
+    "role2_corner",
+    "role2_space_CF3A"
+  ],
+  "unavailable": [
+    "role3_penalty",
+    "role4_free_kick",
+    "role5_goal_kick",
+    "E022_E062_no_player",
+    "E022_E19F_nice_try",
+    "EA09_EC60_vacancy"
+  ],
+  "inputs": [
+    {
+      "step": 87,
+      "label": "corner-before-space",
+      "file": "t88-bda98a358d98a82f-corner-before-space.sav",
+      "sha256": "bda98a358d98a82f9243ec7025bb8f7f02e0f80a69b37c5bc763faf2aa6e741d",
+      "preceding_sha256": "442fd4065ffdfcd905c37e86a21e2d89863874cbeb851e1c8b0554a2780a7ef7",
+      "preceding_file": "t88-442fd4065ffdfcd9-preceding-87.sav",
+      "frame": {
+        "cpu": "214B:1E46",
+        "ss": 14453,
+        "sp": 15926,
+        "anchor": "saved CPU EBP in original delay",
+        "chain": [
+          {
+            "bp": 15934,
+            "parent": 15946,
+            "return_offset": 52325
+          },
+          {
+            "bp": 15946,
+            "parent": 15966,
+            "return_offset": 52953
+          },
+          {
+            "bp": 15966,
+            "parent": 15976,
+            "return_offset": 28020
+          }
+        ],
+        "role": 2,
+        "side": 1,
+        "country": 20,
+        "country_name": "Holland",
+        "highlight": 6,
+        "selection": 386,
+        "stored_pick": 386,
+        "eleven": [
+          381,
+          382,
+          384,
+          383,
+          385,
+          386,
+          387,
+          388,
+          389,
+          390,
+          391
+        ],
+        "minute": 87,
+        "manager_byte": 129,
+        "selected_status": 0,
+        "selected_position": 7,
+        "rng_main": 14477,
+        "rng_aux": 0,
+        "build_problems": []
+      },
+      "private": "goal2drive:goal2-archaeology/400-remaining-inputs-20261024/t88-bda98a358d98a82f-corner-before-space.sav",
+      "readback": ".cache/400-remaining/readback/t88-bda98a358d98a82f-corner-before-space.sav",
+      "preceding_readback": ".cache/400-remaining/readback/t88-442fd4065ffdfcd9-preceding-87.sav"
+    },
+    {
+      "step": 88,
+      "label": "corner-pitch-read",
+      "file": "t88-72d72b0dc1b809fe-corner-pitch-read.sav",
+      "sha256": "72d72b0dc1b809fe10c9c29814ebf33610ae8e900aa2eadd50661849eec0dafe",
+      "preceding_sha256": "bda98a358d98a82f9243ec7025bb8f7f02e0f80a69b37c5bc763faf2aa6e741d",
+      "preceding_file": "t88-bda98a358d98a82f-preceding-88.sav",
+      "frame": {
+        "cpu": "F000:CFAA",
+        "ss": 14453,
+        "sp": 15906,
+        "anchor": "08DD far return 0791:CF3A",
+        "chain": [
+          {
+            "bp": 15946,
+            "parent": 15966,
+            "return_offset": 53050
+          },
+          {
+            "bp": 15966,
+            "parent": 15976,
+            "return_offset": 28020
+          }
+        ],
+        "role": 2,
+        "side": 1,
+        "country": 20,
+        "country_name": "Holland",
+        "highlight": 6,
+        "selection": 386,
+        "stored_pick": 386,
+        "eleven": [
+          381,
+          382,
+          384,
+          383,
+          385,
+          386,
+          387,
+          388,
+          389,
+          390,
+          391
+        ],
+        "minute": 87,
+        "manager_byte": 129,
+        "selected_status": 0,
+        "selected_position": 7,
+        "rng_main": 14477,
+        "rng_aux": 0,
+        "build_problems": []
+      },
+      "private": "goal2drive:goal2-archaeology/400-remaining-inputs-20261024/t88-72d72b0dc1b809fe-corner-pitch-read.sav",
+      "readback": ".cache/400-remaining/readback/t88-72d72b0dc1b809fe-corner-pitch-read.sav",
+      "preceding_readback": ".cache/400-remaining/readback/t88-bda98a358d98a82f-preceding-88.sav"
+    },
+    {
+      "step": 89,
+      "label": "corner-after-pitch",
+      "file": "t88-dc81d0bc8f325051-corner-after-pitch.sav",
+      "sha256": "dc81d0bc8f325051be943d11b90e94a4b1415d0ca76e466c04d2d3a4f114f91f",
+      "preceding_sha256": "72d72b0dc1b809fe10c9c29814ebf33610ae8e900aa2eadd50661849eec0dafe",
+      "preceding_file": "t88-72d72b0dc1b809fe-preceding-89.sav",
+      "frame": {
+        "cpu": "214B:1E40",
+        "ss": 14453,
+        "sp": 15926,
+        "anchor": "saved CPU EBP in original delay",
+        "chain": [
+          {
+            "bp": 15934,
+            "parent": 15946,
+            "return_offset": 52325
+          },
+          {
+            "bp": 15946,
+            "parent": 15966,
+            "return_offset": 52953
+          },
+          {
+            "bp": 15966,
+            "parent": 15976,
+            "return_offset": 28020
+          }
+        ],
+        "role": 2,
+        "side": 1,
+        "country": 20,
+        "country_name": "Holland",
+        "highlight": 6,
+        "selection": 386,
+        "stored_pick": 386,
+        "eleven": [
+          381,
+          382,
+          384,
+          383,
+          385,
+          386,
+          387,
+          388,
+          389,
+          390,
+          391
+        ],
+        "minute": 87,
+        "manager_byte": 129,
+        "selected_status": 0,
+        "selected_position": 7,
+        "rng_main": 14477,
+        "rng_aux": 0,
+        "build_problems": []
+      },
+      "private": "goal2drive:goal2-archaeology/400-remaining-inputs-20261024/t88-dc81d0bc8f325051-corner-after-pitch.sav",
+      "readback": ".cache/400-remaining/readback/t88-dc81d0bc8f325051-corner-after-pitch.sav",
+      "preceding_readback": ".cache/400-remaining/readback/t88-72d72b0dc1b809fe-preceding-89.sav"
+    }
+  ],
+  "attempt_package": {
+    "file": ".cache/400-remaining/t88-all-attempts-private.zip",
+    "sha256": "e02bee92e6980ec6bfebc725aa18b5de33aa6f3901b5b8d7374b1d174a9b1967",
+    "bytes": 103552034,
+    "private": "goal2drive:goal2-archaeology/400-remaining-inputs-20261024/t88-all-attempts-private.zip",
+    "readback": ".cache/400-remaining/readback/t88-all-attempts-private.zip"
+  },
+  "private_folder_url": "https://drive.google.com/drive/folders/1a9afcTH1f_tFDgJ1OOgbH7Bzfy_gea0h",
+  "readback_verified": true
+}

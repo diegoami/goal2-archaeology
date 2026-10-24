@@ -94,3 +94,4 @@ exists.
 | T84 | goal2 G13/G16: deliver existing E031/E014 states and identify evidence gaps | #390 | — |
 | T85 | goal2 G13: correct mutable DS:066A in the original-match build guard | #396 | — |
 | T86 | goal2 G13: collect a nearby original-loaded input for missing decisions | #400 | T85 |
+| T88 | goal2 G13: bounded original-key taker/warning inputs and explicit remaining limits | #400 | T86 |
