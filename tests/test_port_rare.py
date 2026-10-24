@@ -42,11 +42,19 @@ class Rare(unittest.TestCase):
         r.lin16(PARENT+6,SQOFF+7*0xBF);r.lin16(PARENT+8,SQSEG)
 
     def test_keeper_replacement_first_available_outfielder_or_none(self):
-        for available,want in [(103,103),(0,None)]:
-            r=Rig();self.setup_squad(r,[0]+[5]*10)
-            r.run('0791:C24D',[PARENT],lambda q,m:int(q.args[0]!=available))
-            got=[r.mem.u8(PSEG*16+POFF+20*w+6) for w in range(101,112)]
-            self.assertEqual(got,[0]+[0 if w==want else 5 for w in range(102,112)])
+        cases=[({103},103,[102,103]),
+               (set(),None,list(range(102,112))),
+               ({111},111,list(range(102,112))),
+               ({103,105},103,[102,103]),
+               ({102,111},102,[102]),
+               ({101,111},111,list(range(102,112)))]
+        for available,want,scanned in cases:
+            with self.subTest(available=sorted(available)):
+                r=Rig();self.setup_squad(r,[0]+[5]*10)
+                r.run('0791:C24D',[PARENT],lambda q,m:int(q.args[0] not in available))
+                got=[r.mem.u8(PSEG*16+POFF+20*w+6) for w in range(101,112)]
+                self.assertEqual(got,[0]+[0 if w==want else 5 for w in range(102,112)])
+                self.assertEqual(r.args('1771:3216'),[(w,) for w in scanned])
 
     def test_rebalance_back_uses_surplus_threshold_and_skips_unavailable(self):
         r=Rig();self.setup_squad(r,[0,1,1,5,5,5,5,5,12,13,13])

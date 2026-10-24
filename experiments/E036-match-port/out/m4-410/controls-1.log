@@ -1,0 +1,11 @@
+correct legacy 0
+correct new 0
+all-available legacy 0
+all-available new 1
+stops-before-slot11 legacy 0
+stops-before-slot11 new 1
+starts-at-slot3 legacy 0
+starts-at-slot3 new 1
+includes-slot1 legacy 0
+includes-slot1 new 1
+PASS: both review mutants survive legacy tests; all four scan/order mutants fail new assertions; correct code passes

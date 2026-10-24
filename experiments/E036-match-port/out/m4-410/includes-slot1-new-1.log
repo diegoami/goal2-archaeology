@@ -1,0 +1,143 @@
+.FFFFFF...........
+======================================================================
+FAIL: test_keeper_replacement_first_available_outfielder_or_none (tests.test_port_rare.Rare.test_keeper_replacement_first_available_outfielder_or_none) (available=[103])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-410-yu0vwmgv/tests/test_port_rare.py", line 57, in test_keeper_replacement_first_available_outfielder_or_none
+    self.assertEqual(r.args('1771:3216'),[(w,) for w in scanned])
+AssertionError: Lists differ: [(101,), (102,), (103,)] != [(102,), (103,)]
+
+First differing element 0:
+(101,)
+(102,)
+
+First list contains 1 additional elements.
+First extra element 2:
+(103,)
+
+- [(101,), (102,), (103,)]
+?  --------
+
++ [(102,), (103,)]
+
+======================================================================
+FAIL: test_keeper_replacement_first_available_outfielder_or_none (tests.test_port_rare.Rare.test_keeper_replacement_first_available_outfielder_or_none) (available=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-410-yu0vwmgv/tests/test_port_rare.py", line 57, in test_keeper_replacement_first_available_outfielder_or_none
+    self.assertEqual(r.args('1771:3216'),[(w,) for w in scanned])
+AssertionError: Lists differ: [(101,), (102,), (103,), (104,), (105,), (106[38 chars]11,)] != [(102,), (103,), (104,), (105,), (106,), (107[30 chars]11,)]
+
+First differing element 0:
+(101,)
+(102,)
+
+First list contains 1 additional elements.
+First extra element 10:
+(111,)
+
++ [(102,), (103,), (104,), (105,), (106,), (107,), (108,), (109,), (110,), (111,)]
+- [(101,),
+-  (102,),
+-  (103,),
+-  (104,),
+-  (105,),
+-  (106,),
+-  (107,),
+-  (108,),
+-  (109,),
+-  (110,),
+-  (111,)]
+
+======================================================================
+FAIL: test_keeper_replacement_first_available_outfielder_or_none (tests.test_port_rare.Rare.test_keeper_replacement_first_available_outfielder_or_none) (available=[111])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-410-yu0vwmgv/tests/test_port_rare.py", line 57, in test_keeper_replacement_first_available_outfielder_or_none
+    self.assertEqual(r.args('1771:3216'),[(w,) for w in scanned])
+AssertionError: Lists differ: [(101,), (102,), (103,), (104,), (105,), (106[38 chars]11,)] != [(102,), (103,), (104,), (105,), (106,), (107[30 chars]11,)]
+
+First differing element 0:
+(101,)
+(102,)
+
+First list contains 1 additional elements.
+First extra element 10:
+(111,)
+
++ [(102,), (103,), (104,), (105,), (106,), (107,), (108,), (109,), (110,), (111,)]
+- [(101,),
+-  (102,),
+-  (103,),
+-  (104,),
+-  (105,),
+-  (106,),
+-  (107,),
+-  (108,),
+-  (109,),
+-  (110,),
+-  (111,)]
+
+======================================================================
+FAIL: test_keeper_replacement_first_available_outfielder_or_none (tests.test_port_rare.Rare.test_keeper_replacement_first_available_outfielder_or_none) (available=[103, 105])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-410-yu0vwmgv/tests/test_port_rare.py", line 57, in test_keeper_replacement_first_available_outfielder_or_none
+    self.assertEqual(r.args('1771:3216'),[(w,) for w in scanned])
+AssertionError: Lists differ: [(101,), (102,), (103,)] != [(102,), (103,)]
+
+First differing element 0:
+(101,)
+(102,)
+
+First list contains 1 additional elements.
+First extra element 2:
+(103,)
+
+- [(101,), (102,), (103,)]
+?  --------
+
++ [(102,), (103,)]
+
+======================================================================
+FAIL: test_keeper_replacement_first_available_outfielder_or_none (tests.test_port_rare.Rare.test_keeper_replacement_first_available_outfielder_or_none) (available=[102, 111])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-410-yu0vwmgv/tests/test_port_rare.py", line 57, in test_keeper_replacement_first_available_outfielder_or_none
+    self.assertEqual(r.args('1771:3216'),[(w,) for w in scanned])
+AssertionError: Lists differ: [(101,), (102,)] != [(102,)]
+
+First differing element 0:
+(101,)
+(102,)
+
+First list contains 1 additional elements.
+First extra element 1:
+(102,)
+
+- [(101,), (102,)]
++ [(102,)]
+
+======================================================================
+FAIL: test_keeper_replacement_first_available_outfielder_or_none (tests.test_port_rare.Rare.test_keeper_replacement_first_available_outfielder_or_none) (available=[101, 111])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/m4-410-yu0vwmgv/tests/test_port_rare.py", line 56, in test_keeper_replacement_first_available_outfielder_or_none
+    self.assertEqual(got,[0]+[0 if w==want else 5 for w in range(102,112)])
+AssertionError: Lists differ: [0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5] != [0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0]
+
+First differing element 10:
+5
+0
+
+- [0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+?                                ^
+
++ [0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0]
+?                                ^
+
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.010s
+
+FAILED (failures=6)
