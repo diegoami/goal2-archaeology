@@ -1,0 +1,26 @@
+{
+  "exit": 0,
+  "tests": 2090,
+  "seconds": 961.224,
+  "skip_lines": [
+    "test_a_custom_save_hold_is_honoured_at_call_time (test_driver_keys.KeySending.test_a_custom_save_hold_is_honoured_at_call_time) ... skipped 'needs Xvfb, xinput and xmodmap'",
+    "test_a_function_key_is_sent_as_itself_without_alt (test_driver_keys.KeySending.test_a_function_key_is_sent_as_itself_without_alt) ... skipped 'needs Xvfb, xinput and xmodmap'",
+    "test_a_key_that_would_need_a_modifier_or_does_not_exist_is_refused (test_driver_keys.KeySending.test_a_key_that_would_need_a_modifier_or_does_not_exist_is_refused) ... skipped 'needs Xvfb, xinput and xmodmap'",
+    "test_a_raw_key_the_display_cannot_send_is_refused_before_the_emulator_starts (test_driver_keys.KeySending.test_a_raw_key_the_display_cannot_send_is_refused_before_the_emulator_starts) ... skipped 'needs Xvfb, xinput and xmodmap'",
+    "test_an_upper_case_letter_is_sent_with_shift_around_it_and_nothing_else (test_driver_keys.KeySending.test_an_upper_case_letter_is_sent_with_shift_around_it_and_nothing_else) ... skipped 'needs Xvfb, xinput and xmodmap'",
+    "test_every_function_key_arrives_alone (test_driver_keys.KeySending.test_every_function_key_arrives_alone) ... skipped 'needs Xvfb, xinput and xmodmap'",
+    "test_legacy_keys_is_the_old_fault_kept_to_reproduce_it (test_driver_keys.KeySending.test_legacy_keys_is_the_old_fault_kept_to_reproduce_it) ... skipped 'needs Xvfb, xinput and xmodmap'",
+    "test_the_default_hold_of_the_savestate_key_is_the_old_read_pace (test_driver_keys.KeySending.test_the_default_hold_of_the_savestate_key_is_the_old_read_pace) ... skipped 'needs Xvfb, xinput and xmodmap'",
+    "test_the_keys_the_callers_send_are_single_keys (test_driver_keys.KeySending.test_the_keys_the_callers_send_are_single_keys) ... skipped 'needs Xvfb, xinput and xmodmap'",
+    "test_the_savestate_key_is_one_key_and_never_f12_or_alt (test_driver_keys.KeySending.test_the_savestate_key_is_one_key_and_never_f12_or_alt) ... skipped 'needs Xvfb, xinput and xmodmap'",
+    "test_the_sendable_check_never_opens_a_display_the_driver_did_not_start (test_driver_keys.KeySending.test_the_sendable_check_never_opens_a_display_the_driver_did_not_start) ... skipped 'needs Xvfb, xinput and xmodmap'",
+    "test_the_driver_constants_set_id_is_the_successor (test_known_sets.DriverSetTest.test_the_driver_constants_set_id_is_the_successor) ... skipped \"the successor's release copy is not in .cache/artifacts/goal2-67cf27d6\"",
+    "test_verify_release_verifies_and_names_the_successor (test_known_sets.DriverSetTest.test_verify_release_verifies_and_names_the_successor) ... skipped \"the successor's release copy is not in .cache/artifacts/goal2-67cf27d6\""
+  ],
+  "real_checkpoint_tests": [
+    "test_adjacent_immutable_data_corruption_is_still_refused (test_build_guard_mutable.OriginalCheckpoint.test_adjacent_immutable_data_corruption_is_still_refused) ... ok",
+    "test_code_and_relocation_corruption_are_still_refused (test_build_guard_mutable.OriginalCheckpoint.test_code_and_relocation_corruption_are_still_refused) ... ok",
+    "test_real_shootout_checkpoint_is_accepted_without_any_memory_edits (test_build_guard_mutable.OriginalCheckpoint.test_real_shootout_checkpoint_is_accepted_without_any_memory_edits) ... ok"
+  ],
+  "sources_frozen": true
+}

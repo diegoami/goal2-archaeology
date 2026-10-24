@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/m4-419/audit_finals_3.py", line 16, in <module>
+    row=candidate[spec.id];assert row['score']==score and row['mask']==[] and row['ports']==ports and row['variant'] is None and len(row['after']['ds'])==64 and len(row['after']['ranges']['records'])==105
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
