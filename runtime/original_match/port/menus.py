@@ -14,6 +14,9 @@ from .runtime import Regs
 from .setup import guest, member, farg, rb, rw, w8, w16, player_of, squad_of
 
 PORTS = Registry("menus", "the manager's decision menus and key services (T74)")
+PORTS.variant('tactics-adjacent-bit', '1981 at1A47 toggles the next tactic element instead of the selected one')
+PORTS.variant('speed-right-increments', '9372 at9413 increments the match delay byte instead of decrementing it')
+PORTS.variant('tactics-change-unflagged', 'ED8A atF004 omits the changed-tactics refresh flag DS:9B55')
 M16 = 0xFFFF
 
 
@@ -250,7 +253,7 @@ def match_key_poll(mem,variant):
                 w8(mem,r,0x3F,speed+1,'93F9')
             elif key==0xAF and speed>0:
                 r.di,r.es=mem.ds16(0xA923),mem.ds16(0xA925)
-                w8(mem,r,0x3F,speed-1,'9413')
+                w8(mem,r,0x3F,speed+1 if variant=='speed-right-increments' else speed-1,'9413')
         elif key in (0xAC,0xB1):
             r.di=0x66A
             r.al=0;lo=r.ax
@@ -330,7 +333,8 @@ def edit_team_tactics(mem,variant):
         if not editable:break
         if mem.ds8(0xA976)==0x0D:
             r.di=mem.ds16(0xD8E);r.al=mem.ds8((r.di+0x6BBF)&M16);r.ah=0
-            element=r.ax;farg(mem,r,-5);r.di=r.di+0x2D
+            element=(r.ax%8)+1 if variant=='tactics-adjacent-bit' else r.ax
+            farg(mem,r,-5);r.di=r.di+0x2D
             r=yield from _g(mem,r,'0CF4',element,r.es,r.di,ret='1771:1A4C')
         r.al=1
         if mem.ds8(0x0C1E):
@@ -419,7 +423,8 @@ def in_match_menu(mem,variant):
                 squad_of(mem,r,ss16(mem,r,r.bp-5));r.al=rb(mem,r,0x2D);r.ah=0;r.local16(-11,r.ax)
                 r=yield from guest(mem,r,'1771:1981',ss16(mem,r,r.bp-5),ret='EFEB')
                 squad_of(mem,r,ss16(mem,r,r.bp-5));r.al=rb(mem,r,0x2D);r.ah=0
-                if r.ax!=ss16(mem,r,r.bp-11):mem.wds8(0x9B55,1,'0791:F004')
+                if r.ax!=ss16(mem,r,r.bp-11) and variant!='tactics-change-unflagged':
+                    mem.wds8(0x9B55,1,'0791:F004')
             elif item in (2,7):
                 r=yield from guest(mem,r,'E949',r.bp,ret='F019',far=False)
             elif item in (4,9):
@@ -585,14 +590,15 @@ def message_wait_key(mem,variant):
     r.al=mem.ds8(0x7922);r.ah=0;r.local16(-0x53,r.ax)
     r.al=mem.ds8(0x7924);mem.wds8(0x7922,r.al,'214B:051D')
     r=yield from _g(mem,r,'0625',ret='0524')
-    r.al=25;r.push(r.ax)
+    r.al=25;row=r.ax;r.push(row)
     r.di=r.bp-0x153;expression=r.di;r.push(r.ss);r.push(r.di)
     r.di=line
     r=yield from _g(mem,r,'23E4:062A',r.ss,r.di,ret='0537')
     r.di=0x4E7
     r=yield from _g(mem,r,'23E4:06B7',mem.seg(0x214B),r.di,ret='0541')
     r.di=0xA96A
-    r=yield from _g(mem,r,'0350',mem.DS,r.di,ret='054A')
+    r.sp=r.sp+6
+    r=yield from _g(mem,r,'0350',row,r.ss,expression,mem.DS,r.di,ret='054A')
     r=yield from _g(mem,r,'0983',ret='054E')
     r=yield from _g(mem,r,'0643',ret='0552')
     r.al=ss8(mem,r,r.bp-0x53);mem.wds8(0x7922,r.al,'214B:0555')
@@ -606,14 +612,15 @@ def ask_yes_no(mem,variant):
     r.di=r.bp-0x52;line=r.di;r.ax=80
     r=yield from _g(mem,r,'23E4:0644',*source,r.ss,line,r.ax,ret='0580')
     r=yield from _g(mem,r,'0625',ret='0584')
-    r.al=25;r.push(r.ax)
-    r.di=r.bp-0x152;r.push(r.ss);r.push(r.di)
+    r.al=25;row=r.ax;r.push(row)
+    r.di=r.bp-0x152;expression=r.di;r.push(r.ss);r.push(r.di)
     r.di=line
     r=yield from _g(mem,r,'23E4:062A',r.ss,r.di,ret='0597')
     r.di=0x55E
     r=yield from _g(mem,r,'23E4:06B7',mem.seg(0x214B),r.di,ret='05A1')
     r.di=0xA96A
-    r=yield from _g(mem,r,'0350',mem.DS,r.di,ret='05AA')
+    r.sp=r.sp+6
+    r=yield from _g(mem,r,'0350',row,r.ss,expression,mem.DS,r.di,ret='05AA')
     r.di=0x7946
     r=yield from _g(mem,r,'09A7',mem.DS,r.di,ret='05B3')
     r.al=mem.ds8(0xA976)
@@ -770,3 +777,82 @@ def list_scroll(mem,variant):
     if pair is not None:
         r=yield from _g(mem,r,'158E',pair[0],pair[1],r.bp,ret=ret,far=False)
     return _end(r)
+
+
+def _pop(mem,r):
+    value=ss16(mem,r,r.sp);r.sp=r.sp+2
+    return value
+
+
+def _dos_interrupt(mem,r):
+    """235C:000B..0069: register record -> actual IVT handler -> register record.
+
+    The IRET frame is an existing far guest call with the saved FLAGS as its
+    one argument: FLAGS,CS,IP are pushed in that order and all three are consumed
+    by IRET. This needs no nested emulation or special guest-frame machinery.
+    """
+    r.push(r.bp);r.push(mem.reg('ds'));r.bp=r.sp
+    initial_bp=r.bp
+    saved_flags=mem.reg('eflags')&M16
+    r.push(saved_flags);r.bx=0x45;r.push(mem.seg(0x235C));r.push(r.bx)
+    r.bx=0
+    number=ss8(mem,r,r.bp+12);r.bx=number<<2
+    vector_off,vector_seg=mem.farptr(r.bx)
+    r.bx=vector_off;r.push(vector_seg);r.push(r.bx)
+    off,seg=ss16(mem,r,r.bp+8),ss16(mem,r,r.bp+10)
+    r.si=off
+    pointer=mem.addr(seg,off)
+    values=[mem.u16(pointer+2*k) for k in range(9)]
+    r.cld()
+    r.ax=values[0];r.si=r.si+2;r.push(r.ax)
+    r.ax=values[1];r.si=r.si+2;r.bx=r.ax
+    r.ax=values[2];r.si=r.si+2;r.cx=r.ax
+    r.ax=values[3];r.si=r.si+2;r.dx=r.ax
+    r.ax=values[4];r.si=r.si+2;r.bp=r.ax
+    r.ax=values[5];r.si=r.si+2;r.push(r.ax)
+    r.ax=values[6];r.si=r.si+2;r.di=r.ax
+    r.ax=values[7];r.si=r.si+2;r.push(r.ax)
+    r.ax=values[8];r.si=r.si+2;r.es=r.ax
+    input_ds=_pop(mem,r);r.si=_pop(mem,r);r.ax=_pop(mem,r)
+    # The original retf consumes the temporary vector words. Rebuild only the
+    # surviving interrupt frame through guest.call, preserving the dead words.
+    r.sp=initial_bp
+    r.store(stack=True)
+    mem.set_reg('ds',input_ds)
+    mem.set_reg('eflags',mem.reg('eflags')&~0x200)  # 0043 CLI
+    target=f'{(vector_seg-mem.seg(0))&M16:04X}:{vector_off:04X}'
+    from .guest import call
+    yield call(target,saved_flags,ret_to='235C:0045',far=True)
+    r=Regs(mem,resumed=True)
+    # 0045 pushf;0046 push es;0047 push di;0048 push bp;0049 mov bp,sp.
+    r.push(mem.reg('eflags')&M16);r.push(r.es);r.push(r.di);r.push(r.bp);r.bp=r.sp
+    farg(mem,r,16);r.cld()
+    def store(value,at):
+        w16(mem,r,0,value,'235C:'+at);r.di=r.di+2
+    store(r.ax,'004F')
+    r.ax=r.bx;store(r.ax,'0052')
+    r.ax=r.cx;store(r.ax,'0055')
+    r.ax=r.dx;store(r.ax,'0058')
+    r.ax=_pop(mem,r);store(r.ax,'005A')
+    r.ax=r.si;store(r.ax,'005D')
+    r.ax=_pop(mem,r);store(r.ax,'005F')
+    r.ax=mem.reg('ds');store(r.ax,'0062')
+    r.ax=_pop(mem,r);store(r.ax,'0064')
+    r.ax=_pop(mem,r);store(r.ax,'0066')
+    restored_ds=_pop(mem,r);r.bp=_pop(mem,r)
+    r.store(stack=True);mem.set_reg('ds',restored_ds)
+
+
+@PORTS.port('235C:000B',ret='retf 6')
+def dos_intr(mem,variant):
+    r=Regs(mem)
+    yield from _dos_interrupt(mem,r)
+
+
+@PORTS.port('235C:0000',ret='retf 6',return_stack_delta=-2)
+def dos_msdos(mem,variant):
+    r=Regs(mem)
+    r.si=_pop(mem,r);r.dx=_pop(mem,r);r.cx=_pop(mem,r);r.bx=_pop(mem,r)
+    r.al=0x21
+    r.push(r.ax);r.push(r.bx);r.push(r.cx);r.push(r.dx);r.push(r.si)
+    yield from _dos_interrupt(mem,r)

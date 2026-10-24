@@ -1,0 +1,13 @@
+F.....
+======================================================================
+FAIL: test_each_family_names_its_reference_and_every_id_is_unique (tests.test_e036_family.TheFamilies.test_each_family_names_its_reference_and_every_id_is_unique)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_e036_family.py", line 122, in test_each_family_names_its_reference_and_every_id_is_unique
+    self.assertRegex(fam.reference, r"experiments/E036-match-port/out/T57/reference\.jsonl")
+AssertionError: Regex didn't match: 'experiments/E036-match-port/out/T57/reference\\.jsonl' not found in 'experiments/E036-match-port/families/S-no-managed-side-reference-20261024-v1.jsonl'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)

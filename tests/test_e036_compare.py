@@ -406,15 +406,24 @@ class CommandLine(Base):
     def test_each_family_uses_its_own_reference_by_default(self):
         """Without --reference the reference is the family's declared one: the committed log (T57's) compared with
         itself passes, and a missing log is malformed, not a pass."""
-        committed = ROOT / FAMILIES["F40"].reference
-        for fam in FAMILIES.values():
-            self.assertEqual(fam.reference, FAMILIES["F40"].reference)
-        if not committed.is_file():
-            self.skipTest("the reference is not committed in this tree")
-        r = subprocess.run([sys.executable, "-B", str(COMPARE), "--family", "ALL", "--candidate", str(committed)],
-                           capture_output=True, text=True, cwd=self.tmp.name)
-        self.assertEqual(r.returncode, 0, r.stdout[-500:])
-        self.assertIn("62 matches expected identical, 62 pass, 0 fail", r.stdout)
+        historical=ROOT/FAMILIES["F40"].reference
+        extended=ROOT/FAMILIES["S"].reference
+        self.assertEqual(FAMILIES["O8"].reference,FAMILIES["F40"].reference)
+        self.assertNotEqual(FAMILIES["S"].reference,FAMILIES["F40"].reference)
+        original=compare_module.load(historical)
+        expected_old={mid:digest for mid,digest in EXPECTED.items() if mid!='S/no-managed-side'}
+        lines,ok=compare_module.check(original,original,expected_old,image_sha256=IMAGE)
+        self.assertTrue(ok,lines)
+        self.assertIn("62 matches expected identical, 62 pass, 0 fail",lines)
+        r=subprocess.run([sys.executable,"-B",str(COMPARE),"--family","ALL","--candidate",str(extended)],
+                         capture_output=True,text=True,cwd=self.tmp.name)
+        self.assertEqual(r.returncode,0,r.stdout[-500:])
+        self.assertIn("63 matches expected identical, 63 pass, 0 fail",r.stdout)
+        # Historical62 cannot be silently accepted as the now63-match family.
+        short=subprocess.run([sys.executable,"-B",str(COMPARE),"--family","ALL","--candidate",str(historical)],
+                             capture_output=True,text=True,cwd=self.tmp.name)
+        self.assertEqual(short.returncode,2)
+        self.assertIn("S/no-managed-side",short.stdout)
         missing = subprocess.run([sys.executable, "-B", str(COMPARE), "--family", "F40", "--candidate", str(self.ref),
                                   "--reference", str(Path(self.tmp.name) / "none.jsonl")], capture_output=True, text=True)
         self.assertEqual(missing.returncode, 2)

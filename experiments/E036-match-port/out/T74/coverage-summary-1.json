@@ -1,0 +1,5022 @@
+{
+  "input": "experiments/E036-match-port/out/T74/coverage-unhooked-1.jsonl",
+  "input_sha256": "0577feef76a06937b5b831a8ee3d3b468801921092a398bc7eb2d5514a661d5b",
+  "matches": 63,
+  "blocks": 358,
+  "reached": 149,
+  "unreached": 209,
+  "rows": [
+    {
+      "address": "0791:7FCF",
+      "routine": "0791:7FCF",
+      "listing": "static/goal-exe/code/seg_0791_13.asm",
+      "line": 843,
+      "instructions": 5,
+      "calls": 21,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:7FDD",
+      "routine": "0791:7FCF",
+      "listing": "static/goal-exe/code/seg_0791_13.asm",
+      "line": 848,
+      "instructions": 8,
+      "calls": 21,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:7FEE",
+      "routine": "0791:7FCF",
+      "listing": "static/goal-exe/code/seg_0791_13.asm",
+      "line": 857,
+      "instructions": 17,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:8016",
+      "routine": "0791:7FCF",
+      "listing": "static/goal-exe/code/seg_0791_13.asm",
+      "line": 875,
+      "instructions": 20,
+      "calls": 21,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:804B",
+      "routine": "0791:7FCF",
+      "listing": "static/goal-exe/code/seg_0791_13.asm",
+      "line": 895,
+      "instructions": 2,
+      "calls": 14,
+      "matches": 2,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 2
+      }
+    },
+    {
+      "address": "0791:8052",
+      "routine": "0791:7FCF",
+      "listing": "static/goal-exe/code/seg_0791_13.asm",
+      "line": 898,
+      "instructions": 1,
+      "calls": 7,
+      "matches": 1,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 1
+      }
+    },
+    {
+      "address": "0791:8057",
+      "routine": "0791:7FCF",
+      "listing": "static/goal-exe/code/seg_0791_13.asm",
+      "line": 900,
+      "instructions": 4,
+      "calls": 21,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:92FC",
+      "routine": "0791:92FC",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 679,
+      "instructions": 4,
+      "calls": 3130,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "0791:9306",
+      "routine": "0791:92FC",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 683,
+      "instructions": 2,
+      "calls": 3130,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "0791:930D",
+      "routine": "0791:92FC",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 685,
+      "instructions": 2,
+      "calls": 3130,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "0791:9314",
+      "routine": "0791:92FC",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 687,
+      "instructions": 2,
+      "calls": 3130,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "0791:931B",
+      "routine": "0791:92FC",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 690,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:931D",
+      "routine": "0791:92FC",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 692,
+      "instructions": 2,
+      "calls": 3130,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "0791:9324",
+      "routine": "0791:92FC",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 694,
+      "instructions": 2,
+      "calls": 47,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "0791:932B",
+      "routine": "0791:92FC",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 696,
+      "instructions": 2,
+      "calls": 47,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "0791:9332",
+      "routine": "0791:92FC",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 698,
+      "instructions": 2,
+      "calls": 47,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "0791:9339",
+      "routine": "0791:92FC",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 701,
+      "instructions": 2,
+      "calls": 3124,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:9340",
+      "routine": "0791:92FC",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 703,
+      "instructions": 7,
+      "calls": 3,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:934F",
+      "routine": "0791:92FC",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 711,
+      "instructions": 2,
+      "calls": 3124,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:9356",
+      "routine": "0791:92FC",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 714,
+      "instructions": 7,
+      "calls": 6,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "0791:936C",
+      "routine": "0791:92FC",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 722,
+      "instructions": 3,
+      "calls": 3130,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "0791:9372",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 728,
+      "instructions": 5,
+      "calls": 5958436,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:937F",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 734,
+      "instructions": 1,
+      "calls": 29792180,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:9382",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 736,
+      "instructions": 8,
+      "calls": 35750616,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:9398",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 744,
+      "instructions": 2,
+      "calls": 1362919,
+      "matches": 15,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:939C",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 747,
+      "instructions": 1,
+      "calls": 34387697,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:939E",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 749,
+      "instructions": 11,
+      "calls": 35750616,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:93BD",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 760,
+      "instructions": 3,
+      "calls": 5958436,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:93C6",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 763,
+      "instructions": 1,
+      "calls": 5958417,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:93C9",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 765,
+      "instructions": 7,
+      "calls": 19,
+      "matches": 7,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 7
+      }
+    },
+    {
+      "address": "0791:93E0",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 772,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:93E6",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 775,
+      "instructions": 2,
+      "calls": 19,
+      "matches": 7,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 7
+      }
+    },
+    {
+      "address": "0791:93EA",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 777,
+      "instructions": 3,
+      "calls": 6,
+      "matches": 2,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 2
+      }
+    },
+    {
+      "address": "0791:93F5",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 780,
+      "instructions": 2,
+      "calls": 6,
+      "matches": 2,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 2
+      }
+    },
+    {
+      "address": "0791:93FD",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 783,
+      "instructions": 1,
+      "calls": 6,
+      "matches": 2,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 2
+      }
+    },
+    {
+      "address": "0791:9400",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 785,
+      "instructions": 2,
+      "calls": 13,
+      "matches": 7,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 7
+      }
+    },
+    {
+      "address": "0791:9404",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 787,
+      "instructions": 3,
+      "calls": 1,
+      "matches": 1,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 1
+      }
+    },
+    {
+      "address": "0791:940F",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 790,
+      "instructions": 2,
+      "calls": 1,
+      "matches": 1,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 1
+      }
+    },
+    {
+      "address": "0791:9417",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 793,
+      "instructions": 1,
+      "calls": 1,
+      "matches": 1,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 1
+      }
+    },
+    {
+      "address": "0791:941A",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 795,
+      "instructions": 2,
+      "calls": 12,
+      "matches": 7,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 7
+      }
+    },
+    {
+      "address": "0791:941E",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 797,
+      "instructions": 2,
+      "calls": 12,
+      "matches": 7,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 7
+      }
+    },
+    {
+      "address": "0791:9422",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 800,
+      "instructions": 9,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:9434",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 809,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:9438",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 812,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:943A",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 814,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:944D",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 823,
+      "instructions": 2,
+      "calls": 12,
+      "matches": 7,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 7
+      }
+    },
+    {
+      "address": "0791:9451",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 825,
+      "instructions": 2,
+      "calls": 6,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "0791:9455",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 828,
+      "instructions": 4,
+      "calls": 6,
+      "matches": 4,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 4
+      }
+    },
+    {
+      "address": "0791:945D",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 833,
+      "instructions": 2,
+      "calls": 6,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "0791:9461",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 835,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:9468",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 837,
+      "instructions": 19,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:9497",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 857,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:9499",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 859,
+      "instructions": 2,
+      "calls": 6,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "0791:949D",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 861,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:94A4",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 864,
+      "instructions": 2,
+      "calls": 6,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "0791:94A8",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 866,
+      "instructions": 2,
+      "calls": 6,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "0791:94AC",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 869,
+      "instructions": 1,
+      "calls": 19,
+      "matches": 7,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 7
+      }
+    },
+    {
+      "address": "0791:94AE",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 871,
+      "instructions": 2,
+      "calls": 5958417,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:94B5",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 873,
+      "instructions": 2,
+      "calls": 3124,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:94B9",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 876,
+      "instructions": 2,
+      "calls": 5958436,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:94C0",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 878,
+      "instructions": 1,
+      "calls": 430,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "0791:94C5",
+      "routine": "0791:9372",
+      "listing": "static/goal-exe/code/seg_0791_15.asm",
+      "line": 880,
+      "instructions": 3,
+      "calls": 5958436,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:ED8A",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 564,
+      "instructions": 5,
+      "calls": 216,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:ED96",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 569,
+      "instructions": 9,
+      "calls": 153,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EDAB",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 579,
+      "instructions": 5,
+      "calls": 216,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EDBB",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 584,
+      "instructions": 2,
+      "calls": 4,
+      "matches": 1,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 1
+      }
+    },
+    {
+      "address": "0791:EDC1",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 587,
+      "instructions": 4,
+      "calls": 212,
+      "matches": 62,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 14
+      }
+    },
+    {
+      "address": "0791:EDCE",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 591,
+      "instructions": 2,
+      "calls": 209,
+      "matches": 61,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 13
+      }
+    },
+    {
+      "address": "0791:EDD4",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 594,
+      "instructions": 1,
+      "calls": 3,
+      "matches": 1,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 1
+      }
+    },
+    {
+      "address": "0791:EDD8",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 596,
+      "instructions": 6,
+      "calls": 216,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EDE7",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 603,
+      "instructions": 7,
+      "calls": 368,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EDF7",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 610,
+      "instructions": 2,
+      "calls": 288,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EDFD",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 612,
+      "instructions": 2,
+      "calls": 281,
+      "matches": 61,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 13
+      }
+    },
+    {
+      "address": "0791:EE01",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 615,
+      "instructions": 1,
+      "calls": 7,
+      "matches": 2,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 2
+      }
+    },
+    {
+      "address": "0791:EE03",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 617,
+      "instructions": 1,
+      "calls": 288,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EE06",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 619,
+      "instructions": 9,
+      "calls": 368,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EE1F",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 628,
+      "instructions": 13,
+      "calls": 58,
+      "matches": 58,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 10
+      }
+    },
+    {
+      "address": "0791:EE37",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 642,
+      "instructions": 47,
+      "calls": 368,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EEA6",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 689,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EEAD",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 692,
+      "instructions": 2,
+      "calls": 368,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EEB1",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 695,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EEB3",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 697,
+      "instructions": 4,
+      "calls": 368,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EEBD",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 701,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EED5",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 710,
+      "instructions": 2,
+      "calls": 368,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EED9",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 712,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EEF1",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 721,
+      "instructions": 2,
+      "calls": 368,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EEF5",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 723,
+      "instructions": 2,
+      "calls": 368,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EEF9",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 726,
+      "instructions": 7,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EF09",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 733,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EF0F",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 735,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EF13",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 738,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EF15",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 740,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EF27",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 749,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EF2E",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 751,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EF32",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 754,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EF34",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 756,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EF40",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 762,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EF42",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 764,
+      "instructions": 2,
+      "calls": 368,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EF46",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 766,
+      "instructions": 6,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EF5A",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 772,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EF5E",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 775,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EF60",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 777,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EF69",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 781,
+      "instructions": 2,
+      "calls": 368,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EF6D",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 783,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:EF71",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 786,
+      "instructions": 2,
+      "calls": 368,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EF78",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 788,
+      "instructions": 1,
+      "calls": 128,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:EF7B",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 790,
+      "instructions": 3,
+      "calls": 240,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EF83",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 793,
+      "instructions": 2,
+      "calls": 240,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EF88",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 795,
+      "instructions": 1,
+      "calls": 236,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:EF8B",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 797,
+      "instructions": 11,
+      "calls": 4,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:EFA6",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 808,
+      "instructions": 2,
+      "calls": 4,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:EFAD",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 810,
+      "instructions": 7,
+      "calls": 4,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:EFBC",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 818,
+      "instructions": 25,
+      "calls": 4,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:F004",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 843,
+      "instructions": 1,
+      "calls": 4,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:F009",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 845,
+      "instructions": 1,
+      "calls": 4,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:F00B",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 847,
+      "instructions": 2,
+      "calls": 236,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:F010",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 849,
+      "instructions": 2,
+      "calls": 236,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:F015",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 852,
+      "instructions": 3,
+      "calls": 20,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:F01B",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 856,
+      "instructions": 2,
+      "calls": 216,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:F020",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 858,
+      "instructions": 2,
+      "calls": 216,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:F025",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 861,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:F02E",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 867,
+      "instructions": 2,
+      "calls": 216,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:F033",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 869,
+      "instructions": 2,
+      "calls": 216,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:F038",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 872,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:F04A",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 880,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:F054",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 886,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:F056",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 888,
+      "instructions": 1,
+      "calls": 216,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:F05A",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 890,
+      "instructions": 2,
+      "calls": 368,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:F060",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 892,
+      "instructions": 1,
+      "calls": 152,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "0791:F063",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 894,
+      "instructions": 4,
+      "calls": 216,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:F06B",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 898,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "0791:F06E",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 900,
+      "instructions": 2,
+      "calls": 216,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:F075",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 902,
+      "instructions": 9,
+      "calls": 153,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "0791:F08A",
+      "routine": "0791:ED8A",
+      "listing": "static/goal-exe/code/seg_0791_23.asm",
+      "line": 912,
+      "instructions": 5,
+      "calls": 216,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "1771:1981",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 515,
+      "instructions": 13,
+      "calls": 4,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:19A1",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 528,
+      "instructions": 5,
+      "calls": 4,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:19AC",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 533,
+      "instructions": 2,
+      "calls": 4,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:19B3",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 536,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:19B7",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 539,
+      "instructions": 1,
+      "calls": 4,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:19B9",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 541,
+      "instructions": 3,
+      "calls": 4,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:19C2",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 544,
+      "instructions": 8,
+      "calls": 4,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:19D3",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 553,
+      "instructions": 7,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:19E2",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 561,
+      "instructions": 4,
+      "calls": 21,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:19EE",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 565,
+      "instructions": 2,
+      "calls": 21,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:19F5",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 567,
+      "instructions": 2,
+      "calls": 9,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:19F9",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 570,
+      "instructions": 1,
+      "calls": 12,
+      "matches": 2,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 2
+      }
+    },
+    {
+      "address": "1771:19FB",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 572,
+      "instructions": 11,
+      "calls": 21,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:1A16",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 584,
+      "instructions": 8,
+      "calls": 21,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:1A2A",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 592,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:1A2C",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 594,
+      "instructions": 2,
+      "calls": 21,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:1A33",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 596,
+      "instructions": 9,
+      "calls": 4,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:1A4C",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 606,
+      "instructions": 3,
+      "calls": 21,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:1A52",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 609,
+      "instructions": 2,
+      "calls": 21,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:1A59",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 611,
+      "instructions": 3,
+      "calls": 21,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:1A64",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 614,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:1A68",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 617,
+      "instructions": 2,
+      "calls": 21,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:1A6F",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 619,
+      "instructions": 1,
+      "calls": 17,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:1A72",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 621,
+      "instructions": 1,
+      "calls": 4,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:1A77",
+      "routine": "1771:1981",
+      "listing": "static/goal-exe/code/seg_1771_03.asm",
+      "line": 623,
+      "instructions": 3,
+      "calls": 4,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "1771:4859",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 8,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4866",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 13,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4869",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 15,
+      "instructions": 36,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:48B9",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 51,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:48BB",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 53,
+      "instructions": 12,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:48D9",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 65,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:48DD",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 68,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:48DF",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 70,
+      "instructions": 6,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:48EE",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 76,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:48F0",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 78,
+      "instructions": 18,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:491F",
+      "routine": "1771:4859",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 97,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4925",
+      "routine": "1771:4925",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 103,
+      "instructions": 17,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4952",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 123,
+      "instructions": 12,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4972",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 135,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:497F",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 140,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:498F",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 146,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:499B",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 152,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:49A2",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 154,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:49A7",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 156,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:49AE",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 158,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:49B2",
+      "routine": "1771:4952",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 161,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:49B8",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 167,
+      "instructions": 16,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:49E4",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 183,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:49EA",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 186,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:49EE",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 188,
+      "instructions": 11,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4A0B",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 199,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4A0F",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 202,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4A11",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 204,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4A27",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 212,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4A3C",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 221,
+      "instructions": 9,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4A53",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 230,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4A58",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 232,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4A61",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 235,
+      "instructions": 22,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4A98",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 258,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4A9A",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 260,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4A9F",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 263,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4AA8",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 266,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4AAD",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 269,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4AB3",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 271,
+      "instructions": 14,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4AD6",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 286,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4ADC",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 288,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4AF0",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 297,
+      "instructions": 7,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4B02",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 305,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4B08",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 307,
+      "instructions": 21,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4B3D",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 329,
+      "instructions": 11,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4B57",
+      "routine": "1771:49B8",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 341,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4B61",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 349,
+      "instructions": 12,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4B81",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 361,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4B84",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 363,
+      "instructions": 9,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4B9A",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 372,
+      "instructions": 7,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4BAF",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 379,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4BB5",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 381,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4BC0",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 387,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4BC4",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 390,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4BC6",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 392,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4BD0",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 395,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4BD6",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 397,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4BDC",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 399,
+      "instructions": 21,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4C11",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 420,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4C14",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 422,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4C1B",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 424,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4C20",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 426,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4C27",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 428,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4C2E",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 432,
+      "instructions": 10,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4C48",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 442,
+      "instructions": 15,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4C71",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 458,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4C88",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 466,
+      "instructions": 7,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4C9C",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 474,
+      "instructions": 27,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4CE7",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 502,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4CEE",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 504,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "1771:4CF1",
+      "routine": "1771:4B61",
+      "listing": "static/goal-exe/code/seg_1771_07.asm",
+      "line": 506,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:04F8",
+      "routine": "214B:04F8",
+      "listing": "static/goal-exe/code/seg_214B_01.asm",
+      "line": 663,
+      "instructions": 46,
+      "calls": 17,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "214B:0566",
+      "routine": "214B:0566",
+      "listing": "static/goal-exe/code/seg_214B_01.asm",
+      "line": 714,
+      "instructions": 42,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:05C0",
+      "routine": "214B:0566",
+      "listing": "static/goal-exe/code/seg_214B_01.asm",
+      "line": 756,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:05C4",
+      "routine": "214B:0566",
+      "listing": "static/goal-exe/code/seg_214B_01.asm",
+      "line": 759,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:05C6",
+      "routine": "214B:0566",
+      "listing": "static/goal-exe/code/seg_214B_01.asm",
+      "line": 761,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:0723",
+      "routine": "214B:0723",
+      "listing": "static/goal-exe/code/seg_214B_01.asm",
+      "line": 964,
+      "instructions": 14,
+      "calls": 6230218,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "214B:0745",
+      "routine": "214B:0723",
+      "listing": "static/goal-exe/code/seg_214B_01.asm",
+      "line": 978,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:0749",
+      "routine": "214B:0723",
+      "listing": "static/goal-exe/code/seg_214B_01.asm",
+      "line": 981,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:074B",
+      "routine": "214B:0723",
+      "listing": "static/goal-exe/code/seg_214B_01.asm",
+      "line": 983,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:08DD",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 8,
+      "instructions": 5,
+      "calls": 1131,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "214B:08EA",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 13,
+      "instructions": 2,
+      "calls": 54,
+      "matches": 5,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 5
+      }
+    },
+    {
+      "address": "214B:08F2",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 16,
+      "instructions": 10,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:090A",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 26,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:0911",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 29,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:0917",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 31,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:091E",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 34,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:0923",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 37,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:0927",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 39,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:092D",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 42,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:0931",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 44,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:0935",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 46,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:0939",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 48,
+      "instructions": 4,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:0944",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 53,
+      "instructions": 4,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:0951",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 57,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:0957",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 60,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:095C",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 63,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:0963",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 65,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:0967",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 68,
+      "instructions": 4,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:096F",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 72,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:0976",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 74,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:0979",
+      "routine": "214B:08DD",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 76,
+      "instructions": 5,
+      "calls": 54,
+      "matches": 5,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 5
+      }
+    },
+    {
+      "address": "214B:0983",
+      "routine": "214B:0983",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 84,
+      "instructions": 8,
+      "calls": 17,
+      "matches": 6,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 6
+      }
+    },
+    {
+      "address": "214B:0993",
+      "routine": "214B:0993",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 95,
+      "instructions": 8,
+      "calls": 54,
+      "matches": 5,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 5
+      }
+    },
+    {
+      "address": "214B:09A7",
+      "routine": "214B:09A7",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 106,
+      "instructions": 12,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:09C0",
+      "routine": "214B:09A7",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 119,
+      "instructions": 9,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:09D4",
+      "routine": "214B:09A7",
+      "listing": "static/goal-exe/code/seg_214B_02.asm",
+      "line": 128,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:13F6",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 80,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1400",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 85,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1404",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 88,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:140D",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 92,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1411",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 94,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1415",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 97,
+      "instructions": 4,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1420",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 102,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1424",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 104,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:142D",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 107,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1433",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 110,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1435",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 112,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1439",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 114,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1446",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 119,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:144C",
+      "routine": "214B:13F6",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 122,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1452",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 128,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:145C",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 133,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1465",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 136,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:146D",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 140,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1476",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 144,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1478",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 146,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:147C",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 148,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1489",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 153,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1491",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 157,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1498",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 160,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:149A",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 162,
+      "instructions": 6,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:14A6",
+      "routine": "214B:1452",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 169,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:14AC",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 175,
+      "instructions": 5,
+      "calls": 478,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "214B:14B6",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 180,
+      "instructions": 2,
+      "calls": 478,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "214B:14BA",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 183,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:14C4",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 187,
+      "instructions": 2,
+      "calls": 478,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "214B:14C8",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 189,
+      "instructions": 2,
+      "calls": 478,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "214B:14CC",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 192,
+      "instructions": 4,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:14D7",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 197,
+      "instructions": 2,
+      "calls": 478,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "214B:14DB",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 199,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:14E4",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 202,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:14EA",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 205,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:14EC",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 207,
+      "instructions": 2,
+      "calls": 478,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "214B:14F0",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 209,
+      "instructions": 4,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:14FB",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 213,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1501",
+      "routine": "214B:14AC",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 216,
+      "instructions": 3,
+      "calls": 478,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "214B:1507",
+      "routine": "214B:1507",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 222,
+      "instructions": 5,
+      "calls": 997,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "214B:1511",
+      "routine": "214B:1507",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 227,
+      "instructions": 3,
+      "calls": 177,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "214B:151A",
+      "routine": "214B:1507",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 230,
+      "instructions": 3,
+      "calls": 177,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "214B:1522",
+      "routine": "214B:1507",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 234,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:152B",
+      "routine": "214B:1507",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 238,
+      "instructions": 1,
+      "calls": 177,
+      "matches": 3,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 3
+      }
+    },
+    {
+      "address": "214B:152D",
+      "routine": "214B:1507",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 240,
+      "instructions": 2,
+      "calls": 820,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "214B:1531",
+      "routine": "214B:1507",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 242,
+      "instructions": 4,
+      "calls": 342,
+      "matches": 7,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 7
+      }
+    },
+    {
+      "address": "214B:153C",
+      "routine": "214B:1507",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 246,
+      "instructions": 3,
+      "calls": 341,
+      "matches": 7,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 7
+      }
+    },
+    {
+      "address": "214B:1544",
+      "routine": "214B:1507",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 250,
+      "instructions": 2,
+      "calls": 1,
+      "matches": 1,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 1
+      }
+    },
+    {
+      "address": "214B:154C",
+      "routine": "214B:1507",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 253,
+      "instructions": 1,
+      "calls": 342,
+      "matches": 7,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 7
+      }
+    },
+    {
+      "address": "214B:154E",
+      "routine": "214B:1507",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 255,
+      "instructions": 6,
+      "calls": 478,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "214B:155A",
+      "routine": "214B:1507",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 262,
+      "instructions": 3,
+      "calls": 997,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "214B:1560",
+      "routine": "214B:1560",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 268,
+      "instructions": 22,
+      "calls": 558,
+      "matches": 63,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 15
+      }
+    },
+    {
+      "address": "214B:158E",
+      "routine": "214B:158E",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 293,
+      "instructions": 13,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:15B1",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 309,
+      "instructions": 12,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:15CE",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 321,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:15D6",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 324,
+      "instructions": 4,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:15E1",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 328,
+      "instructions": 9,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:15F5",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 338,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1607",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 347,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:160A",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 349,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:160E",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 351,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1614",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 353,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:161D",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 356,
+      "instructions": 9,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1631",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 366,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1643",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 375,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1646",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 377,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:164A",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 379,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1653",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 382,
+      "instructions": 5,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:165F",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 387,
+      "instructions": 9,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1675",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 397,
+      "instructions": 6,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1683",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 404,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1685",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 406,
+      "instructions": 6,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1693",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 413,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1696",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 415,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:169A",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 417,
+      "instructions": 6,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:16A9",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 423,
+      "instructions": 6,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:16B9",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 429,
+      "instructions": 9,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:16CF",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 439,
+      "instructions": 8,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:16E1",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 448,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:16E3",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 450,
+      "instructions": 15,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1700",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 466,
+      "instructions": 1,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1702",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 468,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1706",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 470,
+      "instructions": 7,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1714",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 478,
+      "instructions": 2,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1718",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 480,
+      "instructions": 36,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:175F",
+      "routine": "214B:15B1",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 517,
+      "instructions": 3,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "214B:1765",
+      "routine": "214B:1765",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 523,
+      "instructions": 16,
+      "calls": 3685,
+      "matches": 62,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 14
+      }
+    },
+    {
+      "address": "214B:178A",
+      "routine": "214B:1765",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 539,
+      "instructions": 5,
+      "calls": 12,
+      "matches": 1,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 1
+      }
+    },
+    {
+      "address": "214B:1793",
+      "routine": "214B:1765",
+      "listing": "static/goal-exe/code/seg_214B_03.asm",
+      "line": 545,
+      "instructions": 4,
+      "calls": 3685,
+      "matches": 62,
+      "families_reached": {
+        "F40": 40,
+        "O8": 8,
+        "S": 14
+      }
+    },
+    {
+      "address": "235C:0000",
+      "routine": "235C:0000",
+      "listing": "static/goal-exe/code/seg_235C_01.asm",
+      "line": 9,
+      "instructions": 10,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    },
+    {
+      "address": "235C:000B",
+      "routine": "235C:000B",
+      "listing": "static/goal-exe/code/seg_235C_01.asm",
+      "line": 22,
+      "instructions": 40,
+      "calls": 0,
+      "matches": 0,
+      "families_reached": {
+        "F40": 0,
+        "O8": 0,
+        "S": 0
+      }
+    }
+  ]
+}

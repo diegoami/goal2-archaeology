@@ -344,3 +344,12 @@ computer manager bytes, and no manager decisions are offered. Captain overrides
 and pauses require a participating managed side. For a computer-only fixture,
 the draw transcript and optional seed/delay inputs begin at `play_match` entry
 after setup, since there is no human captain prompt.
+
+With `--ports menus`, the Python translations own all27 menu/key routines. The
+existing `MenuPlan` supplies compatibility keys to the Python menu bodies; cursor
+transitions and their frame/buffer effects remain exact. A decision stops in the
+08DD entry hook before Python runs, then its successful key is consumed once by
+the port. Save/resume therefore keeps the existing parked guest-call mechanism.
+The DOS.MsDos wrapper235C:0000 retains its original shifted return frame: literal
+shared `retf6` at entrySP-2 gives effective argument cleanup4. Its IVT call uses
+the ordinary guest-call FLAGS/CS/IP frame and an actual IRET return.

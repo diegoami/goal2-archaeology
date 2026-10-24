@@ -116,7 +116,9 @@ class PortFrame:
     def _finish(self, value):
         m, entry = self.m, self.entry
         self.value = value          # None: a procedure's port (the proof then counts AX, DX as scratch, prove.py)
-        m.set_reg("sp", self.sp)    # the epilogue: whatever frame the port built (mem.enter) is gone
+        m.set_reg("sp", (self.sp + entry.return_stack_delta) & 0xFFFF)
+        # Usually the entry stack again. DOS.MsDos235C:0000 shifts its real
+        # return frame down one word before falling through Intr's retf6.
         m.set_reg("bp", self.bp)
         if value is not None:
             value = int(value)
