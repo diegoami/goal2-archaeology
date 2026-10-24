@@ -337,3 +337,10 @@ manager does not play: kinds 8, 200, 201, 203; F030; the kit plays only a fixtur
 the news pages and the manager's sack check (4E0E, F025: goal2 keeps its own career state). The set-piece taker
 prompts keep the original's pick (exposing them: about 1 h). One human side. A match costs 9-13 s, 13-18 s with extra time and a shoot-out (a quick result after `R`, about 4 s, 7 s with them; the write hooks behind the stamps are included); stepping by
 minute or tick adds nothing measurable. `save()` is about 0.36 MB at minute 60 (much more with `record_draws`, which keeps every RNG write).
+
+A fixture may name a managed country outside its two participants, for example
+`Match(image, Fixture(1, 2, index=21), managed=7)`. Both participants keep their
+computer manager bytes, and no manager decisions are offered. Captain overrides
+and pauses require a participating managed side. For a computer-only fixture,
+the draw transcript and optional seed/delay inputs begin at `play_match` entry
+after setup, since there is no human captain prompt.

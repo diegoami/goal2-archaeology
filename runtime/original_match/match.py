@@ -242,8 +242,8 @@ class Match:
             if len(human) != 1:
                 raise ValueError("name the managed country: the image's human country is not in this fixture")
             managed = human[0]
-        if managed not in (fixture.first, fixture.second):
-            raise ValueError("the managed country must be one of the fixture's two countries")
+        if isinstance(managed, bool) or not isinstance(managed, int) or not 1 <= managed <= 128:
+            raise ValueError("the managed country must be 1..128")
         self._make_managed(managed, fixture)
         index = fixture.index if fixture.index is not None else self.m.rd_far(GAME_PTR, 0x26)
         if substitutions is not None:
@@ -254,8 +254,8 @@ class Match:
         self.opts = {"first": fixture.first, "second": fixture.second, "index": index, "managed": managed,
                      "captain": captain, "seed": seed, "ticks": ticks, "record_draws": record_draws,
                      "delay_byte": delay_byte, "kind": fixture.kind, "substitutions": substitutions}
-        self.side = 0 if managed == fixture.first else 1
-        if captain is not None and captain not in self._squad(managed)[:11]:
+        self.side = (0 if managed == fixture.first else 1) if managed in (fixture.first, fixture.second) else None
+        if captain is not None and (self.side is None or captain not in self._squad(managed)[:11]):
             raise ValueError(f"captain {captain} is not in the managed eleven")
         self._write_fixture(index, fixture)
         self._declare("delay calibration dword DS:A9FF", self.m.DS * 16 + DELAY_COUNT,
@@ -356,8 +356,9 @@ class Match:
                               self._country(old) + MANAGER, [old])
             self._declare(f"manager 1's country := {managed}", mgr, [managed])
         self._declare(f"country {managed} managed by manager 1 (+0x2E := 0x81)", self._country(managed) + MANAGER, [0x81])
-        if self._manager_byte(other) > 0x80:
-            raise ValueError(f"country {other} is another human manager's: two managed sides are not supported")
+        for other in (fixture.first, fixture.second):
+            if other != managed and self._manager_byte(other) > 0x80:
+                raise ValueError(f"country {other} is another human manager's: two managed sides are not supported")
 
     def _write_fixture(self, index, fixture):
         count = self.m.rd_far(GAME_PTR, 0x28)
@@ -485,6 +486,8 @@ class Match:
     def pause(self):
         """Ask the original for the team menu at its next key poll (as a manager pressing Enter in play): a
         `decision` event with context `pause` follows."""
+        if self.side is None:
+            raise MatchError("neither side is managed: there is no team menu to pause")
         if self.st["waiting"] is not None:
             raise MatchError("a decision is waiting: answer it")
         if self.st["over"] or self.st["full_time"]:
@@ -871,6 +874,17 @@ class Match:
         substitutions left; from here their writes are the match's events."""
         if not replay:
             self.st["live"] = True
+            if self.side is None:
+                # No human captain prompt exists. Start the optional inputs and
+                # draw transcript at play_match entry, after the original setup.
+                if self.opts["seed"] is not None:
+                    self._declare("main seed DS:7B62 at computer fixture kickoff",
+                                  self.m.DS * 16 + SEED, int(self.opts["seed"]).to_bytes(2, "little"))
+                if self.opts["delay_byte"] is not None:
+                    self._declare("delay byte [A923]+0x3F at computer fixture kickoff",
+                                  self.m.far(GAME_PTR) + 0x3F, [self.opts["delay_byte"]])
+                self.st["kickoff_seed"] = self.m.rd(SEED)
+                self.st["recording"] = True
             if self.opts.get("substitutions") is not None:
                 self._declare("substitution budget DS:9B3A (team 0, team 1) after the set-up's (A605)",
                               self.m.DS * 16 + S.SUBS_LEFT, self.opts["substitutions"])

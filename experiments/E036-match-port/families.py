@@ -12,7 +12,7 @@ file of its own there, found by this module with no shared list to edit. A file 
   matches      the matches: {"id": "<family>/<name>", ...fields that replace the base's}
 and a match has
   fixture      [first country, second country, calendar number, kind] (original_match.Fixture)
-  managed      the country the kit makes the human's
+  managed      the country the kit makes the human's (may be outside the fixture)
   seed         the main RNG word written at the captain prompt, or null (the set-up's own)
   delay_byte   the speed byte written there, or null (the image's)
   substitutions  null (the original's budget), a number, or [team 0's, team 1's]
@@ -211,8 +211,8 @@ class MatchSpec:
                 and 1 <= fixture[2] <= 0xFFFF and fixture[3] in KINDS):
             raise FamilyError(f"{where}: fixture {fixture!r} is not [first, second, index, kind] of two countries "
                               f"1..128, a calendar number and one of the kinds {KINDS}")
-        if not (records.is_int(managed) and managed in fixture[:2]):
-            raise FamilyError(f"{where}: managed {managed!r} is not one of the fixture's countries")
+        if not (records.is_int(managed) and 1 <= managed <= 128):
+            raise FamilyError(f"{where}: managed {managed!r} is not a country 1..128")
         if seed is not None and not (records.is_int(seed) and 0 <= seed <= 0xFFFF):
             raise FamilyError(f"{where}: seed {seed!r} is not null or 0..65535")
         if delay_byte is not None and not (records.is_int(delay_byte) and 0 <= delay_byte <= 5):
