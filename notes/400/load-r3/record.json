@@ -1,0 +1,592 @@
+{
+  "schema": "goal2-g13-original-load/1",
+  "source_sha256": "06af479da77db6e1da7847de929bf43531349f2fcddcaeac3ba93e8b16da304d",
+  "source": "G4C.GL",
+  "source_commit": "3cf746abec51dd11dadc695a65f4fb32df7701c8",
+  "status": "complete",
+  "method": "Original DOS loader via original keys; no guest-memory edits, restore or CPU rewind",
+  "max_intervention": "I3: explicit DOS date/time; I2 original keys and savestate observation",
+  "head": "f4853b64b0762d14f6ed2e6c45a7b6472450a30d",
+  "keys": [
+    "y",
+    "y",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "BackSpace",
+    "g",
+    "4",
+    "c",
+    "Return"
+  ],
+  "checkpoints": [
+    {
+      "file": ".cache/400/load-r3/loaded-manager.sav",
+      "sha256": "b2497a51f41fa52a733fe880e3b144b43db05d5de11f4da6e45c51dc76a715a0",
+      "site": "000E:75D1",
+      "bp": 16104,
+      "ss": 14453,
+      "build_problems": []
+    }
+  ],
+  "elapsed_s": 13.429,
+  "driver_events": [
+    [
+      0.043,
+      "mapper file (written), sha256 7b2f6f958fdb0a0b6a68e12611c3e3ab8554f0872c048ab8a8a05da2fff73a23: savestate on Scroll_Lock, load on Print"
+    ],
+    [
+      0.153,
+      "Xvfb poll: answered after 2 polls of 0.1s"
+    ],
+    [
+      0.153,
+      "Xvfb :806 answering"
+    ],
+    [
+      0.184,
+      "dosbox-x started"
+    ],
+    [
+      0.327,
+      "window found after 2 polls of 0.1s"
+    ],
+    [
+      0.334,
+      "window focused"
+    ],
+    [
+      0.858,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      0.86,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      1.416,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      1.416,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      1.967,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      1.968,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      2.515,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      2.516,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      3.061,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      3.062,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      3.078,
+      "title screen: matched after 5 savestate polls"
+    ],
+    [
+      3.078,
+      "DOS clock read back: '10/24/2026\\n11:59:59'"
+    ],
+    [
+      3.602,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      3.603,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      3.716,
+      "key y held 0.08s (raw keycode 29)"
+    ],
+    [
+      4.238,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      4.239,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      4.337,
+      "key y held 0.08s (raw keycode 29)"
+    ],
+    [
+      4.86,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      4.862,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      4.958,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.04,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.121,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.203,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.285,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.366,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.449,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.53,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.612,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.693,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.775,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.856,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      5.938,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.02,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.101,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.183,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.264,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.346,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.428,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.509,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.592,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.674,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.756,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.837,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      6.918,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.0,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.081,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.164,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.246,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.327,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.409,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.491,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.573,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.655,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.737,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.819,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.901,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      7.984,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.066,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.148,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.23,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.311,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.393,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.476,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.557,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.639,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.72,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.802,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.884,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      8.965,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.047,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.129,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.21,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.292,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.374,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.456,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.538,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.62,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.702,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.783,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.865,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      9.947,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.03,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.111,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.193,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.274,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.355,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.437,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.52,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.602,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.685,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.767,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.85,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      10.932,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      11.015,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      11.098,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      11.18,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      11.262,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      11.344,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      11.427,
+      "key BackSpace held 0.08s (raw keycode 22)"
+    ],
+    [
+      11.951,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      11.952,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      12.051,
+      "key g held 0.08s (raw keycode 42)"
+    ],
+    [
+      12.133,
+      "key 4 held 0.08s (raw keycode 13)"
+    ],
+    [
+      12.214,
+      "key c held 0.08s (raw keycode 54)"
+    ],
+    [
+      12.737,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      12.738,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      12.835,
+      "key Return held 0.08s (raw keycode 36)"
+    ],
+    [
+      13.358,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      13.361,
+      "savestate complete after 1 polls of 0.05s"
+    ]
+  ],
+  "runtime": {
+    "dosbox": "/home/diego/tools/dosbox-x-2024.03.01/bin/dosbox-x",
+    "config": {
+      "machine": "svga_s3",
+      "memsize": 16,
+      "cycles": "fixed 8000",
+      "core": "auto",
+      "cputype": "auto",
+      "dos_date": "10/24/2026",
+      "dos_time": "12:00:00"
+    },
+    "clock_readback": "10/24/2026\n11:59:59\n"
+  },
+  "last_observation": {
+    "file": ".cache/400/load-r3/last-observation.sav",
+    "sha256": "b2497a51f41fa52a733fe880e3b144b43db05d5de11f4da6e45c51dc76a715a0"
+  }
+}

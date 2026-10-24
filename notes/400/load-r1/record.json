@@ -1,0 +1,132 @@
+{
+  "schema": "goal2-g13-original-load/1",
+  "source_sha256": "06af479da77db6e1da7847de929bf43531349f2fcddcaeac3ba93e8b16da304d",
+  "source": "G4C.GL",
+  "source_commit": "3cf746abec51dd11dadc695a65f4fb32df7701c8",
+  "status": "aborted",
+  "method": "Original DOS loader via original keys; no guest-memory edits, restore or CPU rewind",
+  "max_intervention": "I3: explicit DOS date/time; I2 original keys and savestate observation",
+  "head": "f4853b64b0762d14f6ed2e6c45a7b6472450a30d",
+  "keys": [
+    "y",
+    "Escape"
+  ],
+  "checkpoints": [],
+  "error": "dosbox-x exited with code 0 during a savestate",
+  "elapsed_s": 4.769,
+  "driver_events": [
+    [
+      0.024,
+      "mapper file (written), sha256 7b2f6f958fdb0a0b6a68e12611c3e3ab8554f0872c048ab8a8a05da2fff73a23: savestate on Scroll_Lock, load on Print"
+    ],
+    [
+      0.128,
+      "Xvfb poll: answered after 2 polls of 0.1s"
+    ],
+    [
+      0.128,
+      "Xvfb :662 answering"
+    ],
+    [
+      0.147,
+      "dosbox-x started"
+    ],
+    [
+      0.271,
+      "window found after 2 polls of 0.1s"
+    ],
+    [
+      0.272,
+      "window focused"
+    ],
+    [
+      0.794,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      0.795,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      1.358,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      1.359,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      1.905,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      1.906,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      2.446,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      2.447,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      2.985,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      2.986,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      2.998,
+      "title screen: matched after 5 savestate polls"
+    ],
+    [
+      2.998,
+      "DOS clock read back: '10/24/2026\\n11:59:59'"
+    ],
+    [
+      3.52,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      3.521,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      3.613,
+      "key y held 0.08s (raw keycode 29)"
+    ],
+    [
+      4.135,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ],
+    [
+      4.136,
+      "savestate complete after 1 polls of 0.05s"
+    ],
+    [
+      4.229,
+      "key Escape held 0.08s (raw keycode 9)"
+    ],
+    [
+      4.769,
+      "emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)"
+    ]
+  ],
+  "runtime": {
+    "dosbox": "/home/diego/tools/dosbox-x-2024.03.01/bin/dosbox-x",
+    "config": {
+      "machine": "svga_s3",
+      "memsize": 16,
+      "cycles": "fixed 8000",
+      "core": "auto",
+      "cputype": "auto",
+      "dos_date": "10/24/2026",
+      "dos_time": "12:00:00"
+    },
+    "clock_readback": "10/24/2026\n11:59:59\n"
+  }
+}
