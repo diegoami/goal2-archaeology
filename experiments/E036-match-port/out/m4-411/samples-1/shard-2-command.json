@@ -1,0 +1,21 @@
+[
+  "/home/diego/.local/bin/python3.12",
+  "-B",
+  "experiments/E036-match-port/family.py",
+  "--family",
+  "ALL",
+  "--only",
+  "O8/c1-c2-qualifier,S/reference,S/set-piece-taker",
+  "--ports",
+  "all",
+  "--count",
+  "214B:1E5A,214B:1E8D",
+  "--workers",
+  "2",
+  "--time-limit",
+  "1800",
+  "--stretch-limit",
+  "300",
+  "--out",
+  "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/m4-411/samples-1/shard-2.jsonl"
+]
