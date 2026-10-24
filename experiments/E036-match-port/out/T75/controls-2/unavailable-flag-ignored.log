@@ -1,0 +1,13 @@
+...........F..
+======================================================================
+FAIL: test_same_block_unavailable_and_sentoff_refusals (tests.test_port_selection.Selection.test_same_block_unavailable_and_sentoff_refusals)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-j5vz6hao/tests/test_port_selection.py", line 124, in test_same_block_unavailable_and_sentoff_refusals
+    self.assertFalse(r.args('0791:C5DC'))
+AssertionError: [(0, 3, 13)] is not false
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.191s
+
+FAILED (failures=1)

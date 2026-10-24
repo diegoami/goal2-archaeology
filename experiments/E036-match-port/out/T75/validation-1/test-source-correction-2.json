@@ -1,0 +1,9 @@
+{
+  "time_utc": "2026-10-24T08:45:45.821638+00:00",
+  "reason": "test methods extended while unit process remained queued; source.json runtime hashes unchanged; this receipt supersedes its test-file hashes before unittest imports",
+  "queue_log_at_receipt": "heavy: T75-unit-1: waiting for a slot (0 ahead)\n",
+  "sources": {
+    "tests/test_port_selection.py": "15a43f1117afb9fb1d6f186879a5b349095bbc7cee7bfe6ae74150d3e5efe9c7",
+    "tests/test_original_match.py": "8313b3516beb39508a8d44c5b1e786c6f7828345febba9be683a09865a9f750e"
+  }
+}

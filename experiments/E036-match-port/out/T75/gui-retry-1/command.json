@@ -1,0 +1,13 @@
+[
+  "tools/heavy.sh",
+  "--slots",
+  "8",
+  "T75-gui-retry-1",
+  "--",
+  "/home/diego/.local/bin/python3.12",
+  "-B",
+  "-m",
+  "unittest",
+  "-v",
+  "tests.test_human_keys.GuardTests.test_scripted_sitting_produces_one_burst_snapshot_per_key_group"
+]

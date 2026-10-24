@@ -1,0 +1,13 @@
+..........F...
+======================================================================
+FAIL: test_request_toggle_and_zero_budget (tests.test_port_selection.Selection.test_request_toggle_and_zero_budget)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-m43fh43r/tests/test_port_selection.py", line 157, in test_request_toggle_and_zero_budget
+    self.assertEqual(r.mem.ds8(0x9B40),want)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.118s
+
+FAILED (failures=1)

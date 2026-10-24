@@ -1,0 +1,39 @@
+{
+  "scope": "two-case integrated sample only; fullALL63 still required",
+  "run": 40079183920,
+  "dispatch_head": "4b7d4522d520a8da7f13e64d9eb3af98c7e70a02",
+  "artifact_id": 12554819995,
+  "artifact": "shard-25",
+  "zip_sha256": "304f179a7bb0ec8388de68a372881f729342c2ca1bc358b4f6c24676fb46f72e",
+  "strict_exact_matches": 2,
+  "mask": [],
+  "skipped_ds_blocks": [],
+  "entry_call_native_triples": 18,
+  "every_selection_body_reached": true,
+  "modules": [
+    "attributes",
+    "ball",
+    "contests",
+    "discipline",
+    "display",
+    "duels",
+    "frame",
+    "geometry",
+    "menus",
+    "motion",
+    "pilot",
+    "positioning",
+    "postmatch",
+    "restarts",
+    "runtime",
+    "selection",
+    "setup",
+    "update"
+  ],
+  "member_sha256": {
+    "shard-25.jsonl": "949ec356d6918c18cb624b629ebba602e4e4549e4068471adb585f1045e206c7",
+    "shard-25.zip": "304f179a7bb0ec8388de68a372881f729342c2ca1bc358b4f6c24676fb46f72e",
+    "shard-25-run.txt": "5a852f93beddaeb92a829c9acaec887659e697a058fea4a540a00203d8fb02a2",
+    "compare.log": "79bfc9e64fa2157b13374704d019709885771a09ee7167c19320e3d8786da0f8"
+  }
+}

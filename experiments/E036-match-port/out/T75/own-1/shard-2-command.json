@@ -1,0 +1,23 @@
+[
+  "/home/diego/.local/bin/python3.12",
+  "-B",
+  "experiments/E036-match-port/family.py",
+  "--family",
+  "ALL",
+  "--only",
+  "F40/edit-3a5c,F40/edit-5e5e,F40/edit-7f31,F40/edit-9abc,F40/edit-b4d2,F40/edit-cafe,F40/edit-d00d,F40/edit-face,O8/c1-c2-friendly,O8/c1-c2-qualifier,O8/c30-c44-friendly,O8/c30-c44-qualifier,O8/c64-c90-friendly,O8/c64-c90-qualifier,O8/c101-c120-friendly,O8/c101-c120-qualifier",
+  "--ports",
+  "menus,selection",
+  "--count",
+  "0791:DE27,0791:DE51,0791:E022,0791:E2A0,0791:E44F,0791:E949,0791:EA09,1771:53E8,1771:5532,0791:DAF8,0791:DB38,0791:DBFA,0791:DC7E,0791:DDCB,0791:DEA6,0791:E2E6,1771:4FAA,1771:55FC,0791:E6A9,0791:E20B,0791:EB89",
+  "--workers",
+  "2",
+  "--time-limit",
+  "1800",
+  "--stretch-limit",
+  "300",
+  "--checkpoint",
+  ".cache/checkpoints/T75-own-1-shard-2",
+  "--out",
+  "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/T75/own-1/shard-2.jsonl"
+]

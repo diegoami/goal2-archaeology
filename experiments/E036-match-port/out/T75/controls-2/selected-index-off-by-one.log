@@ -1,0 +1,34 @@
+.....F......F.
+======================================================================
+FAIL: test_empty_slot_and_first_mark (tests.test_port_selection.Selection.test_empty_slot_and_first_mark)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-my5sdrul/tests/test_port_selection.py", line 115, in test_empty_slot_and_first_mark
+    if not missing:self.assertEqual((r.u16(PARENT-9),r.u16(PARENT-7)),(13,1))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (14, 1) != (13, 1)
+
+First differing element 0:
+14
+13
+
+- (14, 1)
+?   ^
+
++ (13, 1)
+?   ^
+
+
+======================================================================
+FAIL: test_squad_pointer_and_pool_pointer (tests.test_port_selection.Selection.test_squad_pointer_and_pool_pointer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-my5sdrul/tests/test_port_selection.py", line 94, in test_squad_pointer_and_pool_pointer
+    r=Rig();self.setup_parent(r,cursor=20);r.run('0791:DE27',[PARENT]);self.assertEqual(r.mem.reg('ax'),20)
+                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 21 != 20
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.167s
+
+FAILED (failures=2)

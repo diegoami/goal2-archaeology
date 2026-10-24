@@ -1,0 +1,52 @@
+EE
+======================================================================
+ERROR: test_selection_port_refused_eleven_keeps_swap_and_original_message (tests.test_original_match.OriginalTests.test_selection_port_refused_eleven_keeps_swap_and_original_message)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-image-base-jqxe0f8m/tests/test_original_match.py", line 487, in test_selection_port_refused_eleven_keeps_swap_and_original_message
+    m = Match(self.image, Fixture(7, 19, index=21), managed=7, ports=["menus", "selection"])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T75-image-base-jqxe0f8m/runtime/original_match/match.py", line 276, in __init__
+    self._install_ports(ports)
+  File "/tmp/T75-image-base-jqxe0f8m/runtime/original_match/match.py", line 305, in _install_ports
+    self.ports = port.install(self.m, specs, keys=_PortKeys(self))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T75-image-base-jqxe0f8m/runtime/original_match/port/__init__.py", line 147, in install
+    loaded = load(specs)
+             ^^^^^^^^^^^
+  File "/tmp/T75-image-base-jqxe0f8m/runtime/original_match/port/__init__.py", line 100, in load
+    reg = _module_registry(name)
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T75-image-base-jqxe0f8m/runtime/original_match/port/__init__.py", line 82, in _module_registry
+    raise ValueError(f"no port module {name!r} (there are: {', '.join(available()) or 'none'})")
+ValueError: no port module 'selection' (there are: attributes, ball, contests, discipline, display, duels, frame, geometry, menus, motion, pilot, positioning, postmatch, restarts, runtime, setup, update)
+
+======================================================================
+ERROR: test_selection_port_substitution_budget_per_side (tests.test_original_match.CompetitiveTests.test_selection_port_substitution_budget_per_side)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-image-base-jqxe0f8m/tests/test_original_match.py", line 666, in test_selection_port_substitution_budget_per_side
+    m, events = knockout_events(self.image, 30, policy, substitutions=(5, 0), ports=["menus", "selection"])
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T75-image-base-jqxe0f8m/tests/test_original_match.py", line 506, in knockout_events
+    m = Match(image, Fixture(7, 19, index=index, kind=200), managed=7, **kw)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T75-image-base-jqxe0f8m/runtime/original_match/match.py", line 276, in __init__
+    self._install_ports(ports)
+  File "/tmp/T75-image-base-jqxe0f8m/runtime/original_match/match.py", line 305, in _install_ports
+    self.ports = port.install(self.m, specs, keys=_PortKeys(self))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T75-image-base-jqxe0f8m/runtime/original_match/port/__init__.py", line 147, in install
+    loaded = load(specs)
+             ^^^^^^^^^^^
+  File "/tmp/T75-image-base-jqxe0f8m/runtime/original_match/port/__init__.py", line 100, in load
+    reg = _module_registry(name)
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T75-image-base-jqxe0f8m/runtime/original_match/port/__init__.py", line 82, in _module_registry
+    raise ValueError(f"no port module {name!r} (there are: {', '.join(available()) or 'none'})")
+ValueError: no port module 'selection' (there are: attributes, ball, contests, discipline, display, duels, frame, geometry, menus, motion, pilot, positioning, postmatch, restarts, runtime, setup, update)
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.254s
+
+FAILED (errors=2)

@@ -1,0 +1,45 @@
+{
+  "scope": "native and menu-only proof; integrated still pending",
+  "native_exact": 63,
+  "own_exact_with_screens": 63,
+  "ported_entries": [
+    "0791:DE27",
+    "0791:DE51",
+    "0791:E022",
+    "0791:E2A0",
+    "0791:E44F",
+    "0791:E949",
+    "0791:EA09",
+    "1771:53E8",
+    "1771:5532"
+  ],
+  "out_entries": [
+    "0791:DAF8",
+    "0791:DB38",
+    "0791:DBFA",
+    "0791:DC7E",
+    "0791:DDCB",
+    "0791:DEA6",
+    "0791:E2E6",
+    "1771:4FAA",
+    "1771:55FC"
+  ],
+  "entry_call_native_triples": 567,
+  "out_zero_pairs": 567,
+  "source_hash_checks": 101,
+  "dispatch_head": "4b7d4522d520a8da7f13e64d9eb3af98c7e70a02",
+  "immutable_input_files": [
+    "experiments/E036-match-port/families/F40.json",
+    "experiments/E036-match-port/families/O8.json",
+    "experiments/E036-match-port/families/S.json",
+    "experiments/E036-match-port/families/S-no-managed-side-reference-20261024-v1.jsonl",
+    "experiments/E036-match-port/families/display/profile.json",
+    "experiments/E036-match-port/families/display/mask.json",
+    "experiments/E036-match-port/families/display/reference-all-20261024-v1.jsonl",
+    "experiments/E036-match-port/out/T57/reference.jsonl"
+  ],
+  "candidate_sha256": {
+    "native": "d4a6e19175d168b48b42d628957b52b0d9d297f20952c3cbd134171b5f44d01b",
+    "own": "07b87d138999b55617e2af7b25efed25a1d50823ae6ac69165f5f9bd06e018da"
+  }
+}

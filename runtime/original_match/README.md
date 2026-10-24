@@ -333,9 +333,9 @@ changed or stopped; a step a port stops FAILs and the next steps still run).
 
 A kind no builder writes (4 included) is refused with a `ValueError`. Not run, because route_fixture runs them
 around run_match and the kit calls run_match itself: "Do you want to watch this match?" (asked of fixtures goal2's
-manager does not play: kinds 8, 200, 201, 203; F030; the kit plays only a fixture with the managed side in it),
+manager does not play: kinds 8, 200, 201, 203; F030),
 the news pages and the manager's sack check (4E0E, F025: goal2 keeps its own career state). The set-piece taker
-prompts keep the original's pick (exposing them: about 1 h). One human side. A match costs 9-13 s, 13-18 s with extra time and a shoot-out (a quick result after `R`, about 4 s, 7 s with them; the write hooks behind the stamps are included); stepping by
+prompts keep the original's pick (exposing them: about 1 h). At most one human participant. A match costs 9-13 s, 13-18 s with extra time and a shoot-out (a quick result after `R`, about 4 s, 7 s with them; the write hooks behind the stamps are included); stepping by
 minute or tick adds nothing measurable. `save()` is about 0.36 MB at minute 60 (much more with `record_draws`, which keeps every RNG write).
 
 A fixture may name a managed country outside its two participants, for example
@@ -347,12 +347,21 @@ after setup, since there is no human captain prompt.
 
 With `--ports menus`, the Python translations own all 27 menu/key routines. The
 existing `MenuPlan` supplies compatibility keys to the Python menu bodies; cursor
-transitions and their frame/buffer effects remain exact. SELECT TEAM's outer loop
-and substitution routines remain explicit guest callees for T75. T74's tactics,
+transitions and their frame/buffer effects remain exact. With `--ports menus,selection`,
+SELECT TEAM, substitution requests/swaps and first-eleven validation also run in
+Python, including the exit's pool sort. MenuPlan remains the compatibility key
+adapter; the selection bodies own the original squad-word, form and marking
+writes and retain their cross-row guest calls. The pre-match career pool-selection
+branches are outside the kit's supported decisions. T74's tactics,
 position, marking and own-tactic writes occur in their Python bodies at the
 original sites. A decision stops in the
 08DD entry hook before Python runs, then its successful key is consumed once by
 the port. Save/resume therefore keeps the existing parked guest-call mechanism.
+A refused eleven keeps the swap already made and returns the original warning
+with the next decision, so the manager can answer again. A zero budget prevents
+a request or swap; requesting a substitution before a stoppage retains the
+original request flag until the notice. The selection port uses the same live
+frames and save/resume mechanism.
 The DOS.MsDos wrapper 235C:0000 retains its original shifted return frame: literal
 shared `retf 6` at entry SP - 2 gives effective argument cleanup 4. Its IVT call uses
 the ordinary guest-call FLAGS/CS/IP frame and an actual IRET return.

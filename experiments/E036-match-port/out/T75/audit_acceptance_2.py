@@ -1,0 +1,60 @@
+"""Final T75 fail-closed acceptance audit; append-only output receipts."""
+import argparse,hashlib,json,subprocess,sys
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[4];OUT=Path(__file__).resolve().parent
+sys.path[:0]=[str(ROOT/'runtime'),str(ROOT/'experiments/E036-match-port')]
+import compare,families
+from original_match import port
+from original_match.port import selection
+ap=argparse.ArgumentParser();ap.add_argument('--integrated',required=True);ap.add_argument('--out',required=True);a=ap.parse_args()
+output=Path(a.out);assert not output.exists()
+def read(p):return json.loads(Path(p).read_text())
+def digest(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+specs={s.id:s.sha256 for f in families.discover().values() for s in f.matches};assert len(specs)==63
+profile=read(ROOT/'experiments/E036-match-port/families/display/profile.json');assert profile['mask']==[]
+rawref=ROOT/'experiments/E036-match-port/families/S-no-managed-side-reference-20261024-v1.jsonl';displayref=ROOT/profile['reference']
+assert set(compare.load(rawref))==set(compare.load(displayref))==set(specs)
+protected=[ROOT/'experiments/E036-match-port'/p for p in ('family.py','families.py','compare.py','records.py')]+list((ROOT/'experiments/E036-match-port/families').rglob('*.json'))+list((ROOT/'experiments/E036-match-port/families').rglob('*.jsonl'))+list((ROOT/'experiments/E036-match-port/families').glob('*.py'))
+for p in protected:
+ rel=str(p.relative_to(ROOT));before=subprocess.check_output(['git','show','bf650a337794ffd82e8e1471d45bfb6c5b753fd4:'+rel],cwd=ROOT)
+ assert before==p.read_bytes(),('immutable family/profile/reference changed',rel)
+local=read(OUT/'local-audit-1.json');assert local['milestone']=={'ported_exact':9,'OUT':9};assert local['controls_caught']==24
+own=compare.load(OUT/'own-1/own.jsonl');native=compare.load(OUT/'native-1/own.jsonl');integrated=Path(a.integrated);candidate=compare.load(integrated)
+lines,ok=compare.check(compare.load(displayref),candidate,specs,no_screen=True,strict_display=True,image_sha256=families.image_sha256());assert ok,lines
+assert compare.candidate_display_profile(candidate,True)==profile
+out=[r['address'] for r in read(OUT/'static-inventory-1.json') if r['classification']=='OUT'];pairs=[]
+for mid,r in candidate.items():
+ assert r['mask']==[] and set(r['ports'])==set(port.available())
+ for address in selection.PORTS.entries:
+  assert r['counts'][address]==r['port_calls'][address]==native[mid]['counts'][address]==own[mid]['port_calls'][address],(mid,address)
+  pairs.append({'match':mid,'address':address,'count':r['counts'][address]})
+ for address in out:assert r['counts'][address]==0
+assert len(pairs)==567
+manifest=read(integrated.parent/'manifest.json');dispatch=read(OUT/'actions-dispatch-1.json');assert manifest['sha']==dispatch['head'];assert manifest['run_id']==str(dispatch['run_id']);assert manifest['run_attempt']=='1'
+for key,value in dispatch['inputs'].items():assert manifest['inputs'][key]==value,(key,manifest['inputs'].get(key),value)
+sample=read(OUT/'main-actions-sample-1/audit.json');assert sample['run']==dispatch['run_id'] and sample['dispatch_head']==dispatch['head'];assert digest(OUT/'main-actions-sample-1/shard-25.zip')==sample['zip_sha256']
+for member in ('shard-25.jsonl','shard-25-run.txt'):assert digest(integrated.parent/member)==sample['member_sha256'][member],member
+for p in sorted((ROOT/'runtime/original_match').rglob('*.py')):
+ rel=str(p.relative_to(ROOT));before=subprocess.check_output(['git','show',dispatch['head']+':'+rel],cwd=ROOT);assert before==p.read_bytes(),rel
+validation=OUT/'validation-final-3';assert read(validation/'results.json')=={'owned-unit':0,'check':0,'annotations':0,'full-suite':1}
+assert read(validation/'source.json')['sources']==read(validation/'source-after.json')
+for rel,value in read(validation/'source.json')['sources'].items():assert digest(ROOT/rel)==value,rel
+for label in ('owned-unit','check','annotations'):assert (validation/(label+'.exit')).read_text().strip()=='0'
+full=OUT/'full-suite-4';assert (full/'full-suite.exit').read_text().strip()=='0';assert read(full/'source.json')['sources']==read(full/'source-after.json')==read(validation/'source.json')['sources'];assert (OUT/'gui-retry-1/test.exit').read_text().strip()=='0'
+cli=read(validation/'check.json');assert all(cli['checks'][name]['pass'] for name in ('engine','interactive','goals','knockout'))
+assert 'OK' in (full/'full-suite.log').read_text()
+skips=read(OUT/'skip-inventory-1.json');assert skips['identical_existing_skip_count']==13 and skips['new_skips']==[];assert digest(ROOT/skips['current'])==skips['current_sha256'];assert digest(ROOT/skips['baseline'])==skips['baseline_sha256']
+static=read(OUT/'citation-endpoints-final-main-1.json');assert static['valid_endpoints_verified']==200 and static['citations_moved']==0 and static['inherited_problem_strings_unchanged']==18
+for rel,value in static['sha256'].items():assert digest(ROOT/rel)==value,rel
+controls=read(OUT/'controls-5/summary.json');assert controls['baseline']=='bf650a337794ffd82e8e1471d45bfb6c5b753fd4';assert len(controls['results'])==24 and all(c['caught'] for c in controls['results'])
+readme_rel='runtime/original_match/README.md'
+old_readme=subprocess.check_output(['git','show',dispatch['head']+':'+readme_rel],cwd=ROOT)
+assert hashlib.sha256(old_readme).hexdigest()==controls['sources'][readme_rel]
+expected_readme=old_readme.decode().replace("manager does not play: kinds 8, 200, 201, 203; F030; the kit plays only a fixture with the managed side in it)","manager does not play: kinds 8, 200, 201, 203; F030)").replace('One human side. A match costs','At most one human participant. A match costs')
+assert (ROOT/readme_rel).read_text()==expected_readme,'README differs beyond the authorized mechanical T74 correction'
+for rel,value in controls['sources'].items():
+ if rel!=readme_rel:assert digest(ROOT/rel)==value,rel
+base=read(OUT/'image-baseline-1/receipt.json');assert not base['skipped'] and base['returncode']!=0;assert base['tests_sha256']==digest(ROOT/'tests/test_original_match.py')
+(OUT/'integrated-compare-audit-1.log').write_text('\n'.join(lines)+'\n')
+receipt={'milestone':{'ported_exact':9,'OUT':9},'matches_each_mode':63,'mask':[],'integrated_profile':profile,'integrated_sha256':digest(integrated),'own_sha256':digest(OUT/'own-1/own.jsonl'),'native_sha256':digest(OUT/'native-1/own.jsonl'),'entry_call_checks_total':1134,'OUT_zero_pairs_total':1134,'integrated_entry_call_pairs':pairs,'runtime_matches_dispatch':dispatch['head'],'validation_source_head':read(validation/'source.json')['head'],'synthetic_methods':17,'caught_controls':24,'falsifiers':local['mutants'],'protected_family_reference_hashes':{str(p.relative_to(ROOT)):digest(p) for p in protected},'accepted_validation_exit0':True,'preserved_first_full_suite_exit':1,'full_suite_retry_exit':0,'independent_shard25_matches_collector':True,'control_snapshot_README_exact_authorized_transformation':True,'script_sha256':digest(Path(__file__))}
+output.write_text(json.dumps(receipt,indent=2)+'\n');print('T75 acceptance PASS: nine exact/nineOUT;63both modes;1134entry/call checks;empty mask;24controls;3falsifiers;all finalchecksPASS')

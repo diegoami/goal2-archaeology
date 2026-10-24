@@ -1,0 +1,18 @@
+{
+  "accepted_full_suite": "experiments/E036-match-port/out/T75/full-suite-4/full-suite.log",
+  "sha256": "7db42a819d255334bdef8af3c0206f96e2cca234dd073315db6bd7f097a32f9f",
+  "tests": 2027,
+  "seconds": 931.62,
+  "exit": 0,
+  "same_existing_skips": 13,
+  "new_skips": [],
+  "baseline": "experiments/E036-match-port/out/T74/validation-final-1/full-suite.log",
+  "baseline_sha256": "8ae7114908acf31769f98cdf812a1f32dff1ac4f9664c0003837e56be0221d9f",
+  "formerly_failed_real_gui_pass": "test_scripted_sitting_produces_one_burst_snapshot_per_key_group (test_human_keys.GuardTests.test_scripted_sitting_produces_one_burst_snapshot_per_key_group) ... ok",
+  "other_required_validation_exits": {
+    "owned-unit": 0,
+    "check": 0,
+    "annotations": 0
+  },
+  "failed_attempt_preserved": "validation-final-3/full-suite.log"
+}

@@ -520,7 +520,7 @@ void __stdcall16far sort_squad_by_position(int param_1)
 
 
 // ---- 1771:53E8  pool_quicksort  (f_1771_53E8; Ghidra 4000:53E8, __stdcall16near; found by routines.tsv)
-// the recursive partition that orders A927 by the player's position byte, carrying the caller's parallel byte array; the middle element is the pivot, equal keys may swap  [established; F011; read decompiled/seg_1771_04.c; read code/seg_1771_08.asm]
+// T75 (Python match-path port in runtime/original_match/port/selection.py): the recursive partition that orders A927 by the player's position byte, carrying the caller's parallel byte array; the middle element is the pivot, equal keys may swap  [established; F011; read decompiled/seg_1771_04.c; read code/seg_1771_08.asm]
 
 void pool_quicksort(int param_1,uint param_2,uint param_3)
 
@@ -569,7 +569,7 @@ void pool_quicksort(int param_1,uint param_2,uint param_3)
 
 
 // ---- 1771:5532  sort_pool_by_position  (f_1771_5532; Ghidra 4000:5532, __cdecl16far; found by routines.tsv)
-// saves each pool player's position byte, sorts A927[base..base+79] ascending by position (1771:53E8; an empty slot is marked position 0x0E so it sorts last), then restores the saved bytes  [established; F011; read decompiled/seg_1771_04.c; read code/seg_1771_08.asm]
+// T75 (Python match-path port in runtime/original_match/port/selection.py): saves each pool player's position byte, sorts A927[base..base+79] ascending by position (1771:53E8; an empty slot is marked position 0x0E so it sorts last), then restores the saved bytes  [established; F011; read decompiled/seg_1771_04.c; read code/seg_1771_08.asm]
 
 void __cdecl16far sort_pool_by_position(void)
 

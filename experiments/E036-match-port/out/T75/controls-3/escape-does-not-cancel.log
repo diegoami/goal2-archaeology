@@ -1,0 +1,30 @@
+......F.......
+======================================================================
+FAIL: test_escape_cancels_mark_before_a_later_escape_exits (tests.test_port_selection.Selection.test_escape_cancels_mark_before_a_later_escape_exits)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-q02exhy5/tests/test_port_selection.py", line 278, in test_escape_cancels_mark_before_a_later_escape_exits
+    r.run('0791:E44F',[7],answer=mark)
+  File "/tmp/T75-control-q02exhy5/tests/test_port_selection.py", line 37, in run
+    return self._invoke(entry,variant)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T75-control-q02exhy5/tests/test_port_selection.py", line 68, in _invoke
+    if callee is not None:self._invoke(callee)
+                          ^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T75-control-q02exhy5/tests/test_port_selection.py", line 43, in _invoke
+    value=entry.fn(mem,variant)
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T75-control-q02exhy5/runtime/original_match/port/menus.py", line 56, in read_key
+    mem.read_key(_ret_site(mem))
+  File "/tmp/T75-control-q02exhy5/runtime/original_match/port/mem.py", line 125, in read_key
+    key = self._key(site)
+          ^^^^^^^^^^^^^^^
+  File "/tmp/T75-control-q02exhy5/tests/test_port_selection.py", line 15, in _key
+    if not self.keys:raise AssertionError('selection requested an unexpected additional key at '+site)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: selection requested an unexpected additional key at 0791:E61F
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.146s
+
+FAILED (failures=1)

@@ -1,0 +1,11 @@
+{
+  "baseline": "bf650a337794ffd82e8e1471d45bfb6c5b753fd4",
+  "tests_sha256": "8313b3516beb39508a8d44c5b1e786c6f7828345febba9be683a09865a9f750e",
+  "returncode": 1,
+  "command_tests": [
+    "tests.test_original_match.OriginalTests.test_selection_port_refused_eleven_keeps_swap_and_original_message",
+    "tests.test_original_match.CompetitiveTests.test_selection_port_substitution_budget_per_side"
+  ],
+  "expected_failure": "no port module selection",
+  "skipped": false
+}

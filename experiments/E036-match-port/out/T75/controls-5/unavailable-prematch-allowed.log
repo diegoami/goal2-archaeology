@@ -1,0 +1,13 @@
+...F.............
+======================================================================
+FAIL: test_each_first_team_refusal_and_parent_restoration (tests.test_port_selection.Selection.test_each_first_team_refusal_and_parent_restoration) (kwargs={'unavailable': (103,), 'used': 0})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-yab3k73w/tests/test_port_selection.py", line 211, in test_each_first_team_refusal_and_parent_restoration
+    self.assertEqual(r.mem.reg('ax')&255,int(want))
+AssertionError: 1 != 0
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.286s
+
+FAILED (failures=1)

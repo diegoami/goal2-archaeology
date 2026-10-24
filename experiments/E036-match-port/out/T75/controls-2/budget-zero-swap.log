@@ -1,0 +1,30 @@
+E.............
+======================================================================
+ERROR: test_allowed_zero_budget_never_calls_swap (tests.test_port_selection.Selection.test_allowed_zero_budget_never_calls_swap)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-gxa5gqh1/tests/test_port_selection.py", line 163, in test_allowed_zero_budget_never_calls_swap
+    r.run('0791:E44F',[7],answer=respond)
+  File "/tmp/T75-control-gxa5gqh1/tests/test_port_selection.py", line 31, in run
+    return self._invoke(entry,variant)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T75-control-gxa5gqh1/tests/test_port_selection.py", line 62, in _invoke
+    if callee is not None:self._invoke(callee)
+                          ^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T75-control-gxa5gqh1/tests/test_port_selection.py", line 37, in _invoke
+    value=entry.fn(mem,variant)
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T75-control-gxa5gqh1/runtime/original_match/port/menus.py", line 56, in read_key
+    mem.read_key(_ret_site(mem))
+  File "/tmp/T75-control-gxa5gqh1/runtime/original_match/port/mem.py", line 125, in read_key
+    key = self._key(site)
+          ^^^^^^^^^^^^^^^
+  File "/tmp/T75-control-gxa5gqh1/tests/test_port_menus.py", line 25, in _key
+    value=self.keys.pop(0)
+          ^^^^^^^^^^^^^^^^
+IndexError: pop from empty list
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.174s
+
+FAILED (errors=1)
