@@ -64,13 +64,22 @@ def main():
             if any(f['ret']=='000E:75D1' for f in row['frames']):break
             row=observe('await manager')
         print(json.dumps(row),flush=True)
+        commands=private/'commands';commands.mkdir();seen=set()
         while time.monotonic()-started<900:
-            if not select.select([sys.stdin],[],[],min(30,900-(time.monotonic()-started)))[0]:continue
-            line=sys.stdin.readline()
-            if not line:break
-            req=json.loads(line)
+            pending=sorted(p for p in commands.glob('*.json') if p.name not in seen)
+            if not pending:time.sleep(.1);continue
+            p=pending[0];req=json.loads(p.read_text());seen.add(p.name)
             if req.get('stop'):rec['status']='stopped';break
-            if 'watch' in req:
+            if req.get('advance'):
+                end=min(time.monotonic()+55,started+900)
+                while time.monotonic()<end:
+                    if 'team tactics' in row['screen']:break
+                    if 'Do you want to watch this match' in row['screen']:
+                        row=send(['y' if 'Holland' in row['screen'] or 'HOLLAND' in row['screen'] else 'n'])
+                    elif 'hit any key' in row['screen']:row=send(['Return'])
+                    else:row=observe('advance awaiting original screen')
+                print(json.dumps(row),flush=True)
+            elif 'watch' in req:
                 end=min(time.monotonic()+min(req['watch'],55),started+900)
                 while time.monotonic()<end:
                     row=observe('bounded watch poll')
