@@ -1,0 +1,22 @@
+{
+  "pre_named_commit": "6240dce1db60f7d045f93284d1ad0867b35754ba",
+  "pre_annotations_sha256": "632dfc28b8ec183cbe0544edd37e1669ae6ce517b92f6411eb4145c0c0224d79",
+  "ported_addresses": [
+    "0791:0B7C",
+    "0791:0C0B",
+    "0791:9B0C",
+    "0791:9B5B",
+    "0791:9B93",
+    "0791:9ED3",
+    "0791:A006",
+    "0791:A10A",
+    "0791:CC2E",
+    "0791:CC7B"
+  ],
+  "new_likely_names": {
+    "0791:0C0B": "increase_match_delay",
+    "0791:9B0C": "play_first_extra_time_half",
+    "0791:9B5B": "play_second_extra_time_half"
+  },
+  "accepted_result_basis": "Original D00D loads actual accepted AX; D010 epilogue; caller6D8A stores the returned word. Existing confidence retained."
+}
