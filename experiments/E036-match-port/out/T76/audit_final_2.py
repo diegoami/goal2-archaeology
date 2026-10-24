@@ -72,6 +72,10 @@ for d in observations:
   assert row['requested']==row['returned']==row['event_player']==row['stored']!=row['current']
 local=read(OUT/'local-audit-1.json');assert len(local['entry_call_triples'])==640
 assert len(local['falsifiers'])==3 and all(x['caught'] and x['completed'] and x['original_reach']>0 for x in local['falsifiers'].values())
+integration=read(OUT/'main-integration-final-1.json')
+assert integration['fixed_control_baseline']==BASE and integration['protected_sources_unchanged'] is True
+assert all(digest(ROOT/p)==d for p,d in integration['protected_sources'].items())
+assert subprocess.run(['git','merge-base','--is-ancestor',integration['main_integrated'],'HEAD'],cwd=ROOT).returncode==0
 receipt={'milestone':{'ported_exact':10},'matches_each_mode':64,'mask':[],
          'integrated_profile':profile,'integrated_sha256':digest(folder/'all-actions-1.jsonl'),
          'own_sha256':digest(OUT/'own-1/own.jsonl'),'native_sha256':digest(OUT/'native-1/own.jsonl'),
@@ -79,6 +83,7 @@ receipt={'milestone':{'ported_exact':10},'matches_each_mode':64,'mask':[],
          'dispatch_runtime_hashes':dispatch_hashes,'fixed_baseline':BASE,'unit_controls_caught':14,
          'full_suite':{'tests':int(match[1]),'seconds':float(match[2]),'skips':int(match[3])},
          'source_bound_validation':True,'source_bound_static':True,'old63_prefixes_and_specs_preserved':True,
+         'current_main_integrated':integration['main_integrated'],'integration_protected_hashes_unchanged':len(integration['protected_sources']),
          'chosen_taker_observations':observations[0]['observations'],'falsifiers':local['falsifiers']}
 (OUT/'acceptance-audit-final-2.json').write_text(json.dumps(receipt,indent=2)+'\n')
 print(json.dumps({k:v for k,v in receipt.items() if k not in ('integrated_entry_call_triples','dispatch_runtime_hashes')},indent=2))

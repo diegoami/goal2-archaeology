@@ -1,0 +1,19 @@
+{
+  "accepted_suite": "experiments/E036-match-port/out/T76/validation-final-1/full-suite.log",
+  "sha256": "0308d82498cc65195b1eaea4d7400decd02ea6e1837e85f7d58e132eb6b0c0fc",
+  "tests": 2043,
+  "seconds": 1159.389,
+  "exit": 0,
+  "inherited_skip_count": 16,
+  "previous13_unchanged": true,
+  "additional3_already_in_fixed_baseline": [
+    "test_adjacent_immutable_data_corruption_is_still_refused (test_build_guard_mutable.OriginalCheckpoint.test_adjacent_immutable_data_corruption_is_still_refused) ... skipped 'private unchanged E031 checkpoint absent; see notes/396/README.md'",
+    "test_code_and_relocation_corruption_are_still_refused (test_build_guard_mutable.OriginalCheckpoint.test_code_and_relocation_corruption_are_still_refused) ... skipped 'private unchanged E031 checkpoint absent; see notes/396/README.md'",
+    "test_real_shootout_checkpoint_is_accepted_without_any_memory_edits (test_build_guard_mutable.OriginalCheckpoint.test_real_shootout_checkpoint_is_accepted_without_any_memory_edits) ... skipped 'private unchanged E031 checkpoint absent; see notes/396/README.md'"
+  ],
+  "baseline_sha": "411fdefa0287f984e5c0efc1fb1c585263c67690",
+  "baseline_test_module": "tests/test_build_guard_mutable.py",
+  "baseline_current_test_module_sha256": "903df4fd937ab93bc2badf8f1af203fbdb45eb4b369d787fbb744c2e1d760868",
+  "t76_tests_skipped": [],
+  "real_gui_pass": "test_scripted_sitting_produces_one_burst_snapshot_per_key_group (test_human_keys.GuardTests.test_scripted_sitting_produces_one_burst_snapshot_per_key_group) ... ok"
+}
