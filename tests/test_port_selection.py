@@ -131,6 +131,9 @@ class Selection(unittest.TestCase):
             self.assertEqual(bytes(r.mem.memory[SQSEG*16+SQOFF+7*0xBF:SQSEG*16+SQOFF+7*0xBF+40]),before)
             self.assertEqual(r.messages[-1][0],1)
             if want is not None:self.assertEqual(r.messages[-1][1],want)
+            if unavailable:
+                self.assertEqual(r.args('23E4:06B7'),[(r.mem.seg(0x0791),0xE00C)])
+                self.assertEqual(r.messages[-1][1],0x2FFE-0x108)
 
     def test_swap_changes_only_squad_form_and_marking_before_refresh(self):
         for side in (0,1):
@@ -209,6 +212,14 @@ class Selection(unittest.TestCase):
                 self.assertEqual(r.u16(PARENT-5),91)
                 self.assertEqual(r.flagged,[] if where is None else [where])
                 if where=='0791:EB82':self.assertNotIn('0791:EBD7',r.warned)
+                expected_fragments={
+                    '0791:EB82':[('0791:EB7D',r.mem.seg(0x0791),0xE9A2)],
+                    '0791:EBD7':[('0791:EBBE',r.mem.seg(0x0791),0xE9CE),('0791:EBC8',r.mem.DS,0x69B6),('0791:EBD2',r.mem.seg(0x0791),0xE9DD)],
+                    '0791:EC22':[('0791:EC13',r.mem.seg(0x0791),0xE9DF),('0791:EC1D',r.mem.DS,0x69B6)],
+                    '0791:EC60':[('0791:EC5B',r.mem.seg(0x0791),0xE9E8)],
+                    '0791:ECEB':[('0791:ECC7',r.mem.seg(0x0791),0xE9CE),('0791:ECDC',r.mem.DS,0x69B6+19),('0791:ECE6',r.mem.seg(0x0791),0xE9DD)]}
+                actual=[(ret,*args) for target,args,ret,_ in r.calls if target=='23E4:06B7']
+                for fragment in expected_fragments.get(where,[]):self.assertIn(fragment,actual)
 
     def test_both_managed_sides_are_checked_and_unmanaged_side_is_accepted(self):
         r,respond=self.validation_rig()
@@ -280,3 +291,31 @@ class Selection(unittest.TestCase):
         self.assertEqual(len(r.args('0791:E022')),1)
         self.assertEqual(len(r.args('214B:00DB')),1)
         self.assertEqual(r.u16(0x2FFE-11),0)
+
+    def test_selected_player_jobs_keep_the_original_cross_row_calls(self):
+        for key,target,args in [(ord('R'),'1771:4952',(103,)),(ord('C'),'1771:4952',(103,)),
+                                (ord('T'),'1771:4B61',(103,((SQOFF+7*0xBF+4)&0xFF00)|1)),(0xA0,'1771:4859',(103,8,2))]:
+            r,respond=self.select_rig([key,27],allowed=1)
+            r.squad(7,list(range(101,121)))
+            def jobs(q,mem):
+                if q.target in ('1771:4952','1771:4B61','1771:4859'):return 0
+                return respond(q,mem)
+            r.run('0791:E44F',[7],answer=jobs)
+            self.assertEqual(r.args(target),[args])
+            self.assertEqual(r.args('0791:DE27'),[(0x2FFE,)])
+            self.assertEqual(r.args('0791:DE51'),[(1,3,0x2FFE)])
+
+    def test_locked_selection_ignores_swap_jobs_and_horizontal_keys(self):
+        r,respond=self.select_rig([13,ord('R'),ord('C'),ord('T'),0xAE,0xAF,0xB6,27],allowed=1)
+        r.ds8(0xC20,1);r.ds8(0x66D,1)
+        r.run('0791:E44F',[7],answer=respond)
+        for target in ('0791:E022','0791:DEA6','0791:DC7E','0791:E2E6','0791:DE27','1771:4952','1771:4B61'):
+            self.assertFalse(r.args(target),target)
+        self.assertEqual([a[1] for a in r.args('214B:0329')],[0x1AF6]*8)
+
+    def test_request_budget_uses_the_selected_teams_side(self):
+        for budget,want in [(0,0),(2,1)]:
+            r,respond=self.select_rig([13,27],budget=0)
+            r.ds16(0x9B36,7);r.ds8(0x9B3B,budget)
+            r.run('0791:E44F',[7],answer=respond)
+            self.assertEqual(r.mem.ds8(0x9B40),want)

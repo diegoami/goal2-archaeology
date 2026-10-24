@@ -1,0 +1,13 @@
+.....F...........
+======================================================================
+FAIL: test_empty_slot_and_first_mark (tests.test_port_selection.Selection.test_empty_slot_and_first_mark)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-f8180jom/tests/test_port_selection.py", line 119, in test_empty_slot_and_first_mark
+    self.assertEqual(r.mem.u8(PARENT-1),int(not missing))
+AssertionError: 1 != 0
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.265s
+
+FAILED (failures=1)

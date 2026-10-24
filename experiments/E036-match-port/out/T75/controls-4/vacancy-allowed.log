@@ -1,0 +1,13 @@
+...F..........
+======================================================================
+FAIL: test_each_first_team_refusal_and_parent_restoration (tests.test_port_selection.Selection.test_each_first_team_refusal_and_parent_restoration) (kwargs={'empty': (10,)})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-k2rv6xnr/tests/test_port_selection.py", line 211, in test_each_first_team_refusal_and_parent_restoration
+    self.assertEqual(r.mem.reg('ax')&255,int(want))
+AssertionError: 1 != 0
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.152s
+
+FAILED (failures=1)

@@ -1,0 +1,30 @@
+F................
+======================================================================
+FAIL: test_allowed_zero_budget_never_calls_swap (tests.test_port_selection.Selection.test_allowed_zero_budget_never_calls_swap)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-51amgxqg/tests/test_port_selection.py", line 172, in test_allowed_zero_budget_never_calls_swap
+    r.run('0791:E44F',[7],answer=respond)
+  File "/tmp/T75-control-51amgxqg/tests/test_port_selection.py", line 37, in run
+    return self._invoke(entry,variant)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T75-control-51amgxqg/tests/test_port_selection.py", line 68, in _invoke
+    if callee is not None:self._invoke(callee)
+                          ^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T75-control-51amgxqg/tests/test_port_selection.py", line 43, in _invoke
+    value=entry.fn(mem,variant)
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T75-control-51amgxqg/runtime/original_match/port/menus.py", line 56, in read_key
+    mem.read_key(_ret_site(mem))
+  File "/tmp/T75-control-51amgxqg/runtime/original_match/port/mem.py", line 125, in read_key
+    key = self._key(site)
+          ^^^^^^^^^^^^^^^
+  File "/tmp/T75-control-51amgxqg/tests/test_port_selection.py", line 15, in _key
+    if not self.keys:raise AssertionError('selection requested an unexpected additional key at '+site)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: selection requested an unexpected additional key at 0791:E61F
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.277s
+
+FAILED (failures=1)

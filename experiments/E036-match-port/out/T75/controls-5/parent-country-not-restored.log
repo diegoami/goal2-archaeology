@@ -1,0 +1,69 @@
+..FFFFFFFF.............
+======================================================================
+FAIL: test_both_managed_sides_are_checked_and_unmanaged_side_is_accepted (tests.test_port_selection.Selection.test_both_managed_sides_are_checked_and_unmanaged_side_is_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-ij43lqih/tests/test_port_selection.py", line 237, in test_both_managed_sides_are_checked_and_unmanaged_side_is_accepted
+    self.assertEqual(r.u16(PARENT-5),91)
+AssertionError: 0 != 91
+
+======================================================================
+FAIL: test_each_first_team_refusal_and_parent_restoration (tests.test_port_selection.Selection.test_each_first_team_refusal_and_parent_restoration) (kwargs={})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-ij43lqih/tests/test_port_selection.py", line 212, in test_each_first_team_refusal_and_parent_restoration
+    self.assertEqual(r.u16(PARENT-5),91)
+AssertionError: 0 != 91
+
+======================================================================
+FAIL: test_each_first_team_refusal_and_parent_restoration (tests.test_port_selection.Selection.test_each_first_team_refusal_and_parent_restoration) (kwargs={'positions': [0, 0, 1, 2, 2, 3, 3, 4, 4, 5, 5]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-ij43lqih/tests/test_port_selection.py", line 212, in test_each_first_team_refusal_and_parent_restoration
+    self.assertEqual(r.u16(PARENT-5),91)
+AssertionError: 0 != 91
+
+======================================================================
+FAIL: test_each_first_team_refusal_and_parent_restoration (tests.test_port_selection.Selection.test_each_first_team_refusal_and_parent_restoration) (kwargs={'positions': [1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-ij43lqih/tests/test_port_selection.py", line 212, in test_each_first_team_refusal_and_parent_restoration
+    self.assertEqual(r.u16(PARENT-5),91)
+AssertionError: 0 != 91
+
+======================================================================
+FAIL: test_each_first_team_refusal_and_parent_restoration (tests.test_port_selection.Selection.test_each_first_team_refusal_and_parent_restoration) (kwargs={'empty': (10,)})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-ij43lqih/tests/test_port_selection.py", line 212, in test_each_first_team_refusal_and_parent_restoration
+    self.assertEqual(r.u16(PARENT-5),91)
+AssertionError: 0 != 91
+
+======================================================================
+FAIL: test_each_first_team_refusal_and_parent_restoration (tests.test_port_selection.Selection.test_each_first_team_refusal_and_parent_restoration) (kwargs={'positions': [0, 1, 1, 1, 1, 3, 3, 4, 4, 5, 5]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-ij43lqih/tests/test_port_selection.py", line 212, in test_each_first_team_refusal_and_parent_restoration
+    self.assertEqual(r.u16(PARENT-5),91)
+AssertionError: 0 != 91
+
+======================================================================
+FAIL: test_each_first_team_refusal_and_parent_restoration (tests.test_port_selection.Selection.test_each_first_team_refusal_and_parent_restoration) (kwargs={'unavailable': (103,), 'used': 0})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-ij43lqih/tests/test_port_selection.py", line 212, in test_each_first_team_refusal_and_parent_restoration
+    self.assertEqual(r.u16(PARENT-5),91)
+AssertionError: 0 != 91
+
+======================================================================
+FAIL: test_each_first_team_refusal_and_parent_restoration (tests.test_port_selection.Selection.test_each_first_team_refusal_and_parent_restoration) (kwargs={'unavailable': (103,), 'used': 1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T75-control-ij43lqih/tests/test_port_selection.py", line 212, in test_each_first_team_refusal_and_parent_restoration
+    self.assertEqual(r.u16(PARENT-5),91)
+AssertionError: 0 != 91
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.258s
+
+FAILED (failures=8)
