@@ -4,14 +4,14 @@
   "source_sha256": "b6e3c4c14d25543d28e4d5a38a43882c562b3acfe4f8834a7b64183024c6b152",
   "covered": [
     "role2_corner",
-    "role2_space_CF3A"
+    "role2_space_CF3A",
+    "E022_E19F_nice_try"
   ],
   "unavailable": [
     "role3_penalty",
     "role4_free_kick",
     "role5_goal_kick",
     "E022_E062_no_player",
-    "E022_E19F_nice_try",
     "EA09_EC60_vacancy"
   ],
   "inputs": [
@@ -202,5 +202,77 @@
     "readback": ".cache/400-remaining/readback/t88-all-attempts-private.zip"
   },
   "private_folder_url": "https://drive.google.com/drive/folders/1a9afcTH1f_tFDgJ1OOgbH7Bzfy_gea0h",
-  "readback_verified": true
+  "readback_verified": true,
+  "nice_try": {
+    "source_sha256": "fc5b0f392a66334c3395605d0113d56f67788c7b4a7b4b176364fb028ce119e2",
+    "source_private": "goal2drive:g13-fc5b0f392a66334c-stoppage-positions.g2core",
+    "before": {
+      "file": ".cache/400-nice-try/core-r1/016.g2core",
+      "name": "t88-eeea2f27f96f4812-before-nice-try.g2core",
+      "sha256": "eeea2f27f96f481248f2fb2377990e7923f6b2fc7e80422ef8d6e5ddcfb20e8f",
+      "private": "goal2drive:goal2-archaeology/400-remaining-inputs-20261024/t88-eeea2f27f96f4812-before-nice-try.g2core",
+      "readback": ".cache/400-remaining/readback/t88-eeea2f27f96f4812-before-nice-try.g2core"
+    },
+    "at_warning": {
+      "file": ".cache/400-nice-try/core-r1/017.ucstate",
+      "name": "t88-feb8fa6edbdbc5b6-nice-try-actual-read.ucstate",
+      "sha256": "feb8fa6edbdbc5b6663f49d88303421903216ae98a5e2f60d730864e0edad401",
+      "private": "goal2drive:goal2-archaeology/400-remaining-inputs-20261024/t88-feb8fa6edbdbc5b6-nice-try-actual-read.ucstate",
+      "readback": ".cache/400-remaining/readback/t88-feb8fa6edbdbc5b6-nice-try-actual-read.ucstate"
+    },
+    "package": {
+      "file": ".cache/400-nice-try/t88-E19F-attempt-private.zip",
+      "name": "t88-ee0c00a59111bc8d-E19F-private-attempt.zip",
+      "sha256": "ee0c00a59111bc8d732532be1bcb89ff4a8d455494b1824eb800b64d70f26a10",
+      "private": "goal2drive:goal2-archaeology/400-remaining-inputs-20261024/t88-ee0c00a59111bc8d-E19F-private-attempt.zip",
+      "readback": ".cache/400-remaining/readback/t88-ee0c00a59111bc8d-E19F-private-attempt.zip"
+    },
+    "frame": {
+      "site": "214B:098A",
+      "cpu": "214B:08DD",
+      "frames": [
+        {
+          "bp": 15174,
+          "parent": 15520,
+          "return_to": "214B:054E"
+        },
+        {
+          "bp": 15520,
+          "parent": 15612,
+          "return_to": "214B:1793"
+        },
+        {
+          "bp": 15612,
+          "parent": 15888,
+          "return_to": "0791:E19F"
+        }
+      ],
+      "country": 7,
+      "outgoing": 125,
+      "outgoing_slot": 11,
+      "outgoing_status": 32,
+      "incoming": 132,
+      "incoming_slot": 12,
+      "incoming_status": 0,
+      "incoming_energy": 1,
+      "eleven": [
+        121,
+        122,
+        123,
+        124,
+        126,
+        127,
+        128,
+        137,
+        131,
+        130,
+        125
+      ],
+      "subs_left": [
+        2,
+        2
+      ],
+      "minute": 43
+    }
+  }
 }

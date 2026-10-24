@@ -3,7 +3,8 @@
 T88 / [PR #405](https://github.com/diegoami/goal2-archaeology/pull/405) supplies a genuine
 **CC7B role 2 corner** input, its **Space → pitch → CF3A** blocking read, and the return
 to that same corner selection. This is original DOSBox execution, not a constructed fixture.
-The raw records were committed before this interpretation. Findings F029/F030 retain their
+The [supplemental original-key E19F input](400-nice-try.md) also captures “Nice try” from the
+closer T114 stoppage checkpoint identified in a newer #400 comment. The raw records were committed before this interpretation. Findings F029/F030 retain their
 existing status; this collection establishes no new general game rule.
 
 ## Private inputs
@@ -77,7 +78,8 @@ unzip -n .cache/400-remaining/readback/t88-all-attempts-private.zip -d .
 python3 notes/400-remaining/verify.py
 ```
 
-Expected: 404 observations / 4 attempts verified; role 2 and CF3A only. The verifier checks
+Expected: 404 native observations / 4 native attempts plus 17 core observations / 1 bounded
+attempt verified; corner, CF3A and E19F, with five cases still unavailable. The verifier checks
 the collector against its recorded Git source, every raw observation hash and preceding link,
 original loads, verified same-mount replay, live frames, selected eleven, upload readbacks and
 the complete private package. It executes no guest instructions and changes no guest memory.
@@ -113,12 +115,13 @@ only two existing fixtures were played, with no campaign advancement beyond them
 | Role 4 free kick | Ordinary free kicks occurred, but no retained CC7B role-4 choice. A free-kick statistic does not prove that routine/role was reached. Keep its existing static contract. |
 | Role 5 goal kick | No retained CC7B role-5 input. Do not extend this corner's proof to goal kicks; F030/T84 remain static-only for this role. |
 | E022 / E062 “no player” | Inspected managed squads had nonzero player words; no original empty-slot selection was retained. E44F's inspected controls provide no direct remove-player key. Keep the conditional caller contract until a genuine empty-slot input is available. |
-| E022 / E19F “Nice try” | This tests a **sent-off pitch player**, not merely a previously substituted player (E18F–E19F). No managed sent-off-player refusal was retained. Keep the static sent-off substitution refusal. |
 | EA09 / EC60 vacancy | No actual vacancy warning/caller frame was retained. Normal menu exits and eleven checks do not establish it. Keep the conditional vacancy contract; do not invent an empty squad slot. |
 
+E19F was unavailable from the two native fixtures, but was subsequently captured by a 1.139-second
+original-key replay of the newly identified T114 sent-off-player input; see the linked supplement.
 These are collection limits, not proofs that the paths cannot occur. No absence is inferred
 from intermittent observations alone. Wider collection would need a separate cost assessment
-or a genuinely closer existing input. **#400 remains open** for all six missing cases. Desktop
+or a genuinely closer existing input. **#400 remains open** for all five missing cases. Desktop
 owns extra-time 9B42/9B70 and injury walk-off; no desktop code was changed by this work.
 
 The §14 docs-only register/handover branch and goal2 handover issue are linked from PR #405

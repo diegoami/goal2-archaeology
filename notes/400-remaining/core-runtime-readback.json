@@ -1,0 +1,24 @@
+{
+  "basis": "Supplemental environment/kept-state readback after the immutable core-r1 attempt; collector launch used this interpreter and no packages were changed",
+  "python": "3.12.14 (main, Sep  1 2026, 14:16:52) [Clang 22.1.3 ]",
+  "executable": "/home/diego/.local/bin/python3.12",
+  "unicorn": "2.1.4",
+  "inherited": {
+    "budget": 10000000000,
+    "dos_time": [
+      10,
+      0,
+      0,
+      0
+    ],
+    "date": null,
+    "load": 2083,
+    "seeds": {
+      "7B62": 60571,
+      "7B64": 2091
+    },
+    "stops": [
+      "substitution-notice"
+    ]
+  }
+}

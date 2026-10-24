@@ -32,8 +32,8 @@ def main():
             keys=[row['request']['keys'] for row in rows if isinstance(row['request'],dict) and 'keys' in row['request']]
             assert list(original[:-3].lower()) in keys
     delivery=json.loads((base/'delivery.json').read_text())
-    assert delivery['covered']==['role2_corner','role2_space_CF3A']
-    assert set(delivery['unavailable'])=={'role3_penalty','role4_free_kick','role5_goal_kick','E022_E062_no_player','E022_E19F_nice_try','EA09_EC60_vacancy'}
+    assert delivery['covered']==['role2_corner','role2_space_CF3A','E022_E19F_nice_try']
+    assert set(delivery['unavailable'])=={'role3_penalty','role4_free_kick','role5_goal_kick','E022_E062_no_player','EA09_EC60_vacancy'}
     rows=[json.loads(line) for line in (base/'native-r4/steps.jsonl').read_text().splitlines()]
     for item in delivery['inputs']:
         row=rows[item['step']-1];raw=(ROOT/row['file']).read_bytes()
@@ -46,6 +46,8 @@ def main():
     assert delivery['inputs'][1]['frame']['anchor']=='08DD far return 0791:CF3A'
     package=delivery['attempt_package']
     assert sha((ROOT/package['file']).read_bytes())==package['sha256']==sha((ROOT/package['readback']).read_bytes())
-    print(f'PASS: {n} raw observations / 4 attempts, pinned collectors, genuine original loads, same-mount replay; role2 and CF3A only; private inputs and bundle readback verified')
+    from verify_core import check
+    state=check(delivery['nice_try']);assert state==delivery['nice_try']['frame']
+    print(f'PASS: {n} native observations / 4 native attempts + 17 core observations / 1 bounded attempt; corner, CF3A and E19F; all private readbacks verified; five cases remain unavailable')
 
 if __name__=='__main__':main()
