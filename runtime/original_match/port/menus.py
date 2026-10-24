@@ -560,3 +560,213 @@ def cycle_marking(mem,variant):
             mem.wds16((r.di+0x9A3E)&M16,r.ax,'1771:4B53')
     r=yield from _g(mem,r,'1771:3EF8',ret='1771:4B5B')
     return _end(r)
+
+
+@PORTS.port('214B:1765',ret='retf 6')
+def message_if_flag(mem,variant):
+    r=Regs(mem);r.enter(0x52)
+    source=farg(mem,r,6)
+    r.di=r.bp-0x52;temporary=r.di;r.ax=80
+    r=yield from _g(mem,r,'23E4:0644',*source,r.ss,temporary,r.ax,ret='177E')
+    r.al=ss8(mem,r,r.bp+10);r.local8(-1,r.al)
+    if ss8(mem,r,r.bp+10):
+        r.di=r.bp-0x52
+        r=yield from _g(mem,r,'04F8',r.ss,r.di,ret='1793')
+    r.al=ss8(mem,r,r.bp-1)
+    return _end(r)
+
+
+@PORTS.port('214B:04F8',ret='retf 4')
+def message_wait_key(mem,variant):
+    r=Regs(mem);r.enter(0x154)
+    source=farg(mem,r,6)
+    r.di=r.bp-0x51;line=r.di;r.ax=80
+    r=yield from _g(mem,r,'23E4:0644',*source,r.ss,line,r.ax,ret='0512')
+    r.al=mem.ds8(0x7922);r.ah=0;r.local16(-0x53,r.ax)
+    r.al=mem.ds8(0x7924);mem.wds8(0x7922,r.al,'214B:051D')
+    r=yield from _g(mem,r,'0625',ret='0524')
+    r.al=25;r.push(r.ax)
+    r.di=r.bp-0x153;expression=r.di;r.push(r.ss);r.push(r.di)
+    r.di=line
+    r=yield from _g(mem,r,'23E4:062A',r.ss,r.di,ret='0537')
+    r.di=0x4E7
+    r=yield from _g(mem,r,'23E4:06B7',mem.seg(0x214B),r.di,ret='0541')
+    r.di=0xA96A
+    r=yield from _g(mem,r,'0350',mem.DS,r.di,ret='054A')
+    r=yield from _g(mem,r,'0983',ret='054E')
+    r=yield from _g(mem,r,'0643',ret='0552')
+    r.al=ss8(mem,r,r.bp-0x53);mem.wds8(0x7922,r.al,'214B:0555')
+    return _end(r)
+
+
+@PORTS.port('214B:0566',ret='retf 4')
+def ask_yes_no(mem,variant):
+    r=Regs(mem);r.enter(0x152)
+    source=farg(mem,r,6)
+    r.di=r.bp-0x52;line=r.di;r.ax=80
+    r=yield from _g(mem,r,'23E4:0644',*source,r.ss,line,r.ax,ret='0580')
+    r=yield from _g(mem,r,'0625',ret='0584')
+    r.al=25;r.push(r.ax)
+    r.di=r.bp-0x152;r.push(r.ss);r.push(r.di)
+    r.di=line
+    r=yield from _g(mem,r,'23E4:062A',r.ss,r.di,ret='0597')
+    r.di=0x55E
+    r=yield from _g(mem,r,'23E4:06B7',mem.seg(0x214B),r.di,ret='05A1')
+    r.di=0xA96A
+    r=yield from _g(mem,r,'0350',mem.DS,r.di,ret='05AA')
+    r.di=0x7946
+    r=yield from _g(mem,r,'09A7',mem.DS,r.di,ret='05B3')
+    r.al=mem.ds8(0xA976)
+    r=yield from _g(mem,r,'23E4:19B2',r.ax,ret='05BC')
+    r.al=int(r.al==ord('Y'));r.local8(-1,r.al)
+    r=yield from _g(mem,r,'0643',ret='05CD')
+    mem.wds8(0xA976,0,'214B:05CD')
+    r.al=ss8(mem,r,r.bp-1)
+    return _end(r)
+
+
+@PORTS.port('214B:09A7',ret='retf 4')
+def wait_key_in_set(mem,variant):
+    r=Regs(mem);r.enter(0x20)
+    source=farg(mem,r,6)
+    r.di=r.bp-0x20;target=r.di;r.ax=0x20
+    r=yield from _g(mem,r,'23E4:08BF',*source,r.ss,target,r.ax,ret='09C0')
+    while True:
+        r=yield from _g(mem,r,'08DD',ret='09C4')
+        r.al=mem.ds8(0xA976);element=r.ax;r.di=r.bp-0x20
+        r=yield from _g(mem,r,'23E4:08DF',element,r.ss,r.di,ret='09D2')
+        if member(mem):break
+    return _end(r)
+
+
+@PORTS.port('214B:158E',ret='ret 6')
+def set_list_pair(mem,variant):
+    r=Regs(mem);r.enter()
+    r.ax=ss16(mem,r,r.bp+8)
+    r.di=ss16(mem,r,r.bp+4)
+    parent=r.di
+    r.di,r.es=ss16(mem,r,parent+14),ss16(mem,r,parent+16)
+    w16(mem,r,0,r.ax,'214B:159B')
+    r.ax=ss16(mem,r,r.bp+6)
+    r.di=ss16(mem,r,r.bp+4)
+    parent=r.di
+    r.di,r.es=ss16(mem,r,parent+10),ss16(mem,r,parent+12)
+    w16(mem,r,0,r.ax,'214B:15A8')
+    return _end(r)
+
+
+@PORTS.port('1771:4859',ret='retf 6')
+def edit_player_name(mem,variant):
+    r=Regs(mem);r.enter(0x10E)
+    word=ss16(mem,r,r.bp+10)
+    if word:
+        r.di=r.bp-0x10D;expression=r.di;r.push(r.ss);r.push(r.di)
+        r=yield from _g(mem,r,'1771:2E93',word,ret='1771:4876')
+        r.di=r.bp-13;name=r.di;r.ax=12;r.sp=r.sp+4
+        r=yield from _g(mem,r,'23E4:0644',r.ss,expression,r.ss,name,r.ax,ret='1771:4884')
+        r.di=name;ptr=r.ss,r.di;r.al=12;maximum=r.ax
+        r.al=ss8(mem,r,r.bp+6);left=r.ax
+        r.ax=ss16(mem,r,r.bp+6)+12;right=r.ax
+        r.al=ss8(mem,r,r.bp+8)
+        r=yield from _g(mem,r,'1086',*ptr,maximum,left,right,r.ax,ret='1771:48A0')
+        r.di=name;r.push(r.ss);r.push(r.di)
+        r.di=expression;r.push(r.ss);r.push(r.di)
+        r=yield from _g(mem,r,'1771:2E93',word,ret='1771:48B2')
+        # Name result and the held comparison pointer are the compare arguments.
+        r.sp=r.sp+8
+        r=yield from _g(mem,r,'23E4:072F',r.ss,name,r.ss,expression,ret='1771:48B7')
+        if member(mem):  # string comparison leaves ZF clear for unequal strings
+            r.dx=(r.dx&0xFF00)|ss8(mem,r,r.bp-12);r.ax=word
+            r.di,r.es=mem.ds16(0x9B70),mem.ds16(0x9B72);r.di=r.di+r.ax
+            w8(mem,r,0,r.dx&0xFF,'1771:48C7')
+            r.di=name;r.ax=1;index=r.ax
+            r.al=int(ss8(mem,r,r.bp-11)==32);r.ah=0;r.ax=r.ax+1
+            r=yield from _g(mem,r,'23E4:07DB',r.ss,r.di,index,r.ax,ret='1771:48E8')
+            if ss8(mem,r,r.bp-13):
+                r.al=ss8(mem,r,r.bp-12)
+                r=yield from _g(mem,r,'23E4:19B2',r.ax,ret='1771:48F9')
+                r.local8(-12,r.al)
+                r.di=name;source=r.ss,r.di;r.ax=word;r.dx=11;mul(r,r.dx)
+                r.di,r.es=mem.ds16(0x9B6C),mem.ds16(0x9B6E);r.di=r.di+r.ax;r.ax=10
+                r=yield from _g(mem,r,'23E4:0644',*source,r.es,r.di,r.ax,ret='1771:491A')
+                mem.wds8(0xC1A,1,'1771:491A')
+    return _end(r)
+
+
+@PORTS.port('214B:15B1',ret='retf 12')
+def list_scroll(mem,variant):
+    r=Regs(mem);r.enter(2)
+    count=ss16(mem,r,r.bp+6);page=ss16(mem,r,r.bp+8)
+    farg(mem,r,10);r.ax=rw(mem,r,0);top=r.ax
+    farg(mem,r,14);r.ax=r.ax+rw(mem,r,0)-1;position=r.ax
+    cursor=rw(mem,r,0);r.local16(-2,position)
+    r.al=mem.ds8(0xA976);key=r.al
+    pair=None;ret=None
+    if key==0xB1:
+        r.ax=position
+        if r.ax<count:
+            farg(mem,r,14);r.ax=rw(mem,r,0)
+            if r.ax==page:
+                farg(mem,r,14);newcursor=rw(mem,r,0)
+                farg(mem,r,10);r.ax=rw(mem,r,0)+1
+                pair=newcursor,r.ax;ret='15F3'
+            else:
+                farg(mem,r,14);r.ax=rw(mem,r,0)+1;newcursor=r.ax
+                farg(mem,r,10);pair=newcursor,rw(mem,r,0);ret='1607'
+    elif key==0xAC:
+        if position>1:
+            farg(mem,r,14)
+            if rw(mem,r,0)==1:
+                farg(mem,r,14);newcursor=rw(mem,r,0)
+                farg(mem,r,10);r.ax=rw(mem,r,0)-1
+                pair=newcursor,r.ax;ret='162F'
+            else:
+                farg(mem,r,14);r.ax=rw(mem,r,0)-1;newcursor=r.ax
+                farg(mem,r,10);pair=newcursor,rw(mem,r,0);ret='1643'
+    elif key==0xAD:
+        farg(mem,r,10)
+        if rw(mem,r,0)>1:
+            r.ax=page+1;farg(mem,r,10)
+            if r.ax<=rw(mem,r,0):
+                farg(mem,r,14);newcursor=rw(mem,r,0)
+                farg(mem,r,10);r.ax=rw(mem,r,0)-page
+                pair=newcursor,r.ax;ret='1673'
+            else:
+                farg(mem,r,14);newcursor=rw(mem,r,0);r.ax=1
+                pair=newcursor,r.ax;ret='1683'
+        else:
+            r.ax=1;newcursor=r.ax;farg(mem,r,10)
+            pair=newcursor,rw(mem,r,0);ret='1693'
+    elif key==0xB2:
+        farg(mem,r,10);r.ax=rw(mem,r,0)+page-1
+        if r.ax<count:
+            r.ax=(page<<1)&M16;farg(mem,r,10);r.ax=r.ax+rw(mem,r,0)
+            if r.ax<=count:
+                farg(mem,r,14);newcursor=rw(mem,r,0)
+                farg(mem,r,10);r.ax=rw(mem,r,0)+page
+                pair=newcursor,r.ax;ret='16CD'
+            else:
+                farg(mem,r,14);newcursor=rw(mem,r,0);r.ax=count-page+1
+                pair=newcursor,r.ax;ret='16E1'
+        else:
+            r.ax=page;r.dx=0
+            r=yield from _g(mem,r,'0D1C',0,count,0,page,ret='16F5')
+            newcursor=r.ax;farg(mem,r,10);pair=newcursor,rw(mem,r,0);ret='1700'
+    elif key==0xAB:
+        r.ax=1;pair=1,1;ret='1712'
+    elif key==0xB0:
+        r.ax=count;r.dx=0
+        r=yield from _g(mem,r,'0D1C',0,page,0,count,ret='172A')
+        newcursor=r.ax;r.push(newcursor)
+        r.ax=1;r.dx=0;r.push(r.dx);r.push(r.ax)
+        r.ax=count;r.dx=0;r.cx=r.ax;r.bx=r.dx
+        # 173B..1752 is a signed32-bit count-page+1, without16-bit truncation.
+        value=(count-page+1)&0xFFFFFFFF;r.ax=value&M16;r.dx=value>>16
+        r=yield from _g(mem,r,'0D56',r.dx,r.ax,ret='175A')
+        newtop=r.ax
+        # The earlier cursor word remains live across min/max and becomes arg2.
+        r.sp=r.sp+2
+        pair=newcursor,newtop;ret='175F'
+    if pair is not None:
+        r=yield from _g(mem,r,'158E',pair[0],pair[1],r.bp,ret=ret,far=False)
+    return _end(r)
