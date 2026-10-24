@@ -1,0 +1,39 @@
+{
+  "git_head": "1d19e02dd4f3246e5dbb9607b29c97caa2327ef3",
+  "local_source_count": 183,
+  "local_before_after_current_and_git_identical": true,
+  "dispatch_head": "f90dada50cf2d0b2f65b3da5e75a26f5053a79e4",
+  "dispatch_input_count": 184,
+  "dispatch_current_and_git_identical": true,
+  "historical_family_files_preserved": {
+    "experiments/E036-match-port/families/F40.json": "2d7a29e38b671b0e503092ba0a7522babe9556c8e95288c228c152b67356bbc9",
+    "experiments/E036-match-port/families/O8.json": "f82c2edbbd77a11c4b14db21a74f9ba3349cf7a5818c33ec81afbf0e11bcfeca",
+    "experiments/E036-match-port/families/S-no-managed-side-reference-20261024-v1.jsonl": "da7c626f053f54b013eaed8a9e9893baa7673cc997db1aac994f8098802b6b8c",
+    "experiments/E036-match-port/families/S-set-piece-taker-reference-20261024-v1.jsonl": "9539e0c683930bbe0733d8d6de6f0086a7d47568e3c5578fe0a4c32065d0a77e",
+    "experiments/E036-match-port/families/S-set-piece-taker.py": "30481cf9cd47823d4c22f9fb9c529176c0f74b77bf66f88803d48f1d0315ad58",
+    "experiments/E036-match-port/families/S.json": "ff9c73cd0d5f67e61f60de1a6609cd2ea662584c97044190c555ee67190c67c4",
+    "experiments/E036-match-port/families/display/mask.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "experiments/E036-match-port/families/display/reference-all-20261023-v1.jsonl": "69db748fc71827a1cb96ee8c2146b0c6510d97f9ffa7ac92b61a6aa86e21d83e",
+    "experiments/E036-match-port/families/display/reference-all-20261024-v1.jsonl": "4a5736317e80dcc1c526b4effdf15545b0175f449f809d0acc4d6281ddd1a860",
+    "experiments/E036-match-port/families/display/reference-all-set-piece-20261024-v1.jsonl": "429243396e4d2af4a5dfd89a19544916a80c77a7041e3a2bb57c3167122e00d5",
+    "experiments/E036-match-port/families/display/reference-all-set-piece-20261024-v2.jsonl": "7fd664eec8ad0f00b1578c87f807e472a75ba8fdc3b2b14de93068104400db7c"
+  },
+  "historical_profile_only_changes_reference_path": true,
+  "static_fingerprints_current": true,
+  "suite": {
+    "tests": 2065,
+    "seconds": 1165.986,
+    "sha256": "e78fd9f578c175cfa7a0b9f206fa3f4534d3c9250c77f42045976884518c7e98",
+    "inherited_skips": 16,
+    "T77_skips": [],
+    "real_gui": "test_scripted_sitting_produces_one_burst_snapshot_per_key_group (test_human_keys.GuardTests.test_scripted_sitting_produces_one_burst_snapshot_per_key_group) ... ok"
+  },
+  "focused_tests": 134,
+  "static_tests": 47,
+  "CLI_PASS": [
+    "engine",
+    "interactive",
+    "goals",
+    "knockout"
+  ]
+}
