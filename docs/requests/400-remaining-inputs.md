@@ -124,5 +124,8 @@ from intermittent observations alone. Wider collection would need a separate cos
 or a genuinely closer existing input. **#400 remains open** for all five missing cases. Desktop
 owns extra-time 9B42/9B70 and injury walk-off; no desktop code was changed by this work.
 
-The §14 docs-only register/handover branch and goal2 handover issue are linked from PR #405
-and #400 after the evidence merges.
+The §14 handover is [goal2 #368](https://github.com/diegoami/goal2/issues/368), with the private
+delivery/reproduction links published before merge. The docs-only register/handover branch
+is produced after upstream merge, as §14 requires register rows to cite merged research;
+its final head is linked there, on PR #405 and on #400. That post-merge step is not claimed
+complete before the branch exists.
