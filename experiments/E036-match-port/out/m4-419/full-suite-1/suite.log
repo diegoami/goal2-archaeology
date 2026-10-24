@@ -1,0 +1,1092 @@
+test_a_dotted_path_out_of_tmp_is_not_under_tmp (test_agent_permissions.AgentTmpGrantTests.test_a_dotted_path_out_of_tmp_is_not_under_tmp) ... ok
+test_nothing_else_outside_the_worktree_is_granted (test_agent_permissions.AgentTmpGrantTests.test_nothing_else_outside_the_worktree_is_granted) ... ok
+test_only_the_authorized_timezone_read_is_allowed (test_agent_permissions.AgentTmpGrantTests.test_only_the_authorized_timezone_read_is_allowed) ... ok
+test_path_insensitive_search_tools_stay_disabled (test_agent_permissions.AgentTmpGrantTests.test_path_insensitive_search_tools_stay_disabled) ... ok
+test_the_dosbox_bundle_is_open_to_the_reviewer (test_agent_permissions.AgentTmpGrantTests.test_the_dosbox_bundle_is_open_to_the_reviewer) ... ok
+test_the_reviewers_are_the_only_opencode_agents (test_agent_permissions.AgentTmpGrantTests.test_the_reviewers_are_the_only_opencode_agents) ... ok
+test_the_scratch_folder_on_disk_is_open_to_the_reviewer (test_agent_permissions.AgentTmpGrantTests.test_the_scratch_folder_on_disk_is_open_to_the_reviewer) ... ok
+test_the_scratch_grant_is_only_that_folder_and_edit_stays_denied (test_agent_permissions.AgentTmpGrantTests.test_the_scratch_grant_is_only_that_folder_and_edit_stays_denied) ... ok
+test_tmp_is_open_to_the_reviewer (test_agent_permissions.AgentTmpGrantTests.test_tmp_is_open_to_the_reviewer) ... ok
+test_writes_and_parsed_bash_paths_to_etc_are_denied (test_agent_permissions.AgentTmpGrantTests.test_writes_and_parsed_bash_paths_to_etc_are_denied) ... ok
+test_a_cached_file_is_used_with_neither (test_asset_cache.CommonCacheTests.test_a_cached_file_is_used_with_neither) ... ok
+test_a_file_in_the_common_cache_is_copied_in_with_no_download (test_asset_cache.CommonCacheTests.test_a_file_in_the_common_cache_is_copied_in_with_no_download) ... ok
+test_a_file_missing_from_the_common_cache_is_downloaded (test_asset_cache.CommonCacheTests.test_a_file_missing_from_the_common_cache_is_downloaded) ... ok
+test_a_wrong_file_in_the_common_cache_is_refused (test_asset_cache.CommonCacheTests.test_a_wrong_file_in_the_common_cache_is_refused) ... ok
+test_common_dl_in_a_main_checkout_is_its_own_cache (test_asset_cache.CommonCacheTests.test_common_dl_in_a_main_checkout_is_its_own_cache) ... ok
+test_common_dl_is_the_main_checkouts_cache (test_asset_cache.CommonCacheTests.test_common_dl_is_the_main_checkouts_cache) ... ok
+test_no_common_cache_is_downloaded (test_asset_cache.CommonCacheTests.test_no_common_cache_is_downloaded) ... ok
+test_a_download_that_writes_nothing_is_a_failure (test_asset_cache.FailureTests.test_a_download_that_writes_nothing_is_a_failure) ... ok
+test_a_failed_download_exits_with_the_command_and_leaves_the_cache_empty (test_asset_cache.FailureTests.test_a_failed_download_exits_with_the_command_and_leaves_the_cache_empty) ... ok
+test_main_writes_nothing_under_out_when_a_later_record_cannot_be_fetched (test_asset_cache.FailureTests.test_main_writes_nothing_under_out_when_a_later_record_cannot_be_fetched) ... ok
+test_two_first_runs_end_with_the_right_file_and_no_partial (test_asset_cache.TwoProcessTests.test_two_first_runs_end_with_the_right_file_and_no_partial) ... ok
+test_only_the_proven_mutable_byte_is_removed_and_all_code_is_retained (test_build_guard_mutable.Coverage.test_only_the_proven_mutable_byte_is_removed_and_all_code_is_retained) ... ok
+test_regeneration_cannot_reintroduce_the_observed_key_writer (test_build_guard_mutable.Coverage.test_regeneration_cannot_reintroduce_the_observed_key_writer) ... ok
+test_adjacent_immutable_data_corruption_is_still_refused (test_build_guard_mutable.OriginalCheckpoint.test_adjacent_immutable_data_corruption_is_still_refused) ... ok
+test_code_and_relocation_corruption_are_still_refused (test_build_guard_mutable.OriginalCheckpoint.test_code_and_relocation_corruption_are_still_refused) ... ok
+test_real_shootout_checkpoint_is_accepted_without_any_memory_edits (test_build_guard_mutable.OriginalCheckpoint.test_real_shootout_checkpoint_is_accepted_without_any_memory_edits) ... ok
+test_canonical_record_passes (test_check_morale.CheckerTests.test_canonical_record_passes) ... ok
+test_case_without_known_shape_fails (test_check_morale.CheckerTests.test_case_without_known_shape_fails) ... ok
+test_empty_set_fails (test_check_morale.CheckerTests.test_empty_set_fails) ... ok
+test_missing_got_live_fails (test_check_morale.CheckerTests.test_missing_got_live_fails) ... ok
+test_missing_got_panel_fails (test_check_morale.CheckerTests.test_missing_got_panel_fails) ... ok
+test_mutated_expected_live_fails (test_check_morale.CheckerTests.test_mutated_expected_live_fails) ... ok
+test_mutated_expected_panel_fails (test_check_morale.CheckerTests.test_mutated_expected_panel_fails) ... ok
+test_mutated_got_live_fails (test_check_morale.CheckerTests.test_mutated_got_live_fails) ... ok
+test_mutated_got_panel_fails (test_check_morale.CheckerTests.test_mutated_got_panel_fails) ... ok
+test_r1_monkey_patch_event_clamp_fails_checker (test_check_morale.CheckerTests.test_r1_monkey_patch_event_clamp_fails_checker)
+If the model's event_clamp returns (99, 99), the checker must ... ok
+test_r1_monkey_patch_listing_event_clamp_fails_checker (test_check_morale.CheckerTests.test_r1_monkey_patch_listing_event_clamp_fails_checker)
+R1 (Sol r3): the probe file's `expected_*` and `got_*` must ... ok
+test_r1_monkey_patch_listing_team_panel_fails_checker (test_check_morale.CheckerTests.test_r1_monkey_patch_listing_team_panel_fails_checker)
+R1 (Sol r3): the panel case's `expected_panel` and ... ok
+test_r1_monkey_patch_team_panel_fails_checker (test_check_morale.CheckerTests.test_r1_monkey_patch_team_panel_fails_checker)
+If the model's team_panel_morale returns 99, the checker must ... ok
+test_r1_wrong_expected_live_fails_checker (test_check_morale.CheckerTests.test_r1_wrong_expected_live_fails_checker)
+If the listing-derived expected_live is mutated to 99, the ... ok
+test_r1_wrong_expected_panel_fails_checker (test_check_morale.CheckerTests.test_r1_wrong_expected_panel_fails_checker)
+If the listing-derived expected_panel is mutated to 99, the ... ok
+test_r2_missing_player_word_fails (test_check_morale.CheckerTests.test_r2_missing_player_word_fails) ... ok
+test_r2_missing_player_words_panel_fails (test_check_morale.CheckerTests.test_r2_missing_player_words_panel_fails) ... ok
+test_r2_player_word_must_be_16bit (test_check_morale.CheckerTests.test_r2_player_word_must_be_16bit) ... ok
+test_r2_side_slot_only_no_player_word_fails (test_check_morale.CheckerTests.test_r2_side_slot_only_no_player_word_fails)
+A record keyed only by side/slot (no player_word) is the ... ok
+test_r2_wrong_player_words_length_fails (test_check_morale.CheckerTests.test_r2_wrong_player_words_length_fails) ... ok
+test_unknown_schema_fails (test_check_morale.CheckerTests.test_unknown_schema_fails) ... ok
+test_garbage_is_not_a_pass (test_ci_gate.CheckRuns.test_garbage_is_not_a_pass) ... ok
+test_only_a_successful_checks_job_counts (test_ci_gate.CheckRuns.test_only_a_successful_checks_job_counts) ... ok
+test_a_change_obliges_the_union_of_its_files (test_ci_gate.Classify.test_a_change_obliges_the_union_of_its_files) ... ok
+test_every_dependency_prefix_exists (test_ci_gate.Classify.test_every_dependency_prefix_exists) ... ok
+test_every_doc_a_test_reads_exists (test_ci_gate.Classify.test_every_doc_a_test_reads_exists) ... ok
+test_every_path_a_slow_module_reads_obliges_that_module (test_ci_gate.Classify.test_every_path_a_slow_module_reads_obliges_that_module)
+The traces of the six slow modules: every repo file one opens or executes must oblige it. ... ok
+test_what_examples_oblige (test_ci_gate.Classify.test_what_examples_oblige) ... ok
+test_a_docs_push_to_a_code_pr_runs_docs_when_the_previous_head_passed (test_ci_gate.Decide.test_a_docs_push_to_a_code_pr_runs_docs_when_the_previous_head_passed) ... ok
+test_a_docs_push_to_a_code_pr_runs_the_whole_pr_when_the_previous_head_did_not_pass (test_ci_gate.Decide.test_a_docs_push_to_a_code_pr_runs_the_whole_pr_when_the_previous_head_did_not_pass)
+The case the rule exists for: a red run followed by a prose-only fix must not go green. ... ok
+test_a_force_push_whose_old_head_is_gone_takes_the_whole_pr (test_ci_gate.Decide.test_a_force_push_whose_old_head_is_gone_takes_the_whole_pr) ... ok
+test_a_new_pr_obliges_what_its_whole_diff_does (test_ci_gate.Decide.test_a_new_pr_obliges_what_its_whole_diff_does) ... ok
+test_a_push_runs_only_the_modules_it_touches (test_ci_gate.Decide.test_a_push_runs_only_the_modules_it_touches) ... ok
+test_a_push_that_obliges_all_the_pr_does_does_not_ask (test_ci_gate.Decide.test_a_push_that_obliges_all_the_pr_does_does_not_ask) ... ok
+test_an_output_only_push_runs_nothing_only_after_a_pass (test_ci_gate.Decide.test_an_output_only_push_runs_nothing_only_after_a_pass) ... ok
+test_an_unreadable_diff_runs_everything (test_ci_gate.Decide.test_an_unreadable_diff_runs_everything) ... ok
+test_manual_runs_are_everything (test_ci_gate.Decide.test_manual_runs_are_everything) ... ok
+test_no_before_takes_the_whole_pr (test_ci_gate.Decide.test_no_before_takes_the_whole_pr) ... ok
+test_the_nightly_run_is_everything_only_when_code_landed_in_the_day (test_ci_gate.Decide.test_the_nightly_run_is_everything_only_when_code_landed_in_the_day) ... ok
+test_the_slow_modules_run_only_when_named (test_ci_gate.Suite.test_the_slow_modules_run_only_when_named) ... ok
+test_a_nightly_full_run_on_main_exists (test_ci_gate.Workflow.test_a_nightly_full_run_on_main_exists) ... ok
+test_no_unquoted_if_holds_a_hash (test_ci_gate.Workflow.test_no_unquoted_if_holds_a_hash)
+In YAML a ` #` inside a plain scalar starts a comment: the first push of PR 298 made ... ok
+test_the_cheap_checks_run_in_every_tier_that_runs (test_ci_gate.Workflow.test_the_cheap_checks_run_in_every_tier_that_runs) ... ok
+test_the_code_tier_installs_the_pinned_unicorn (test_ci_gate.Workflow.test_the_code_tier_installs_the_pinned_unicorn)
+Issue #304: without unicorn the emulator tests skip and their assertions never run in CI. ... ok
+test_the_merge_commit_of_a_research_pr_skips_quick_on_main (test_ci_gate.Workflow.test_the_merge_commit_of_a_research_pr_skips_quick_on_main) ... ok
+test_the_status_job_has_no_needs_and_no_gate_output_in_its_if (test_ci_gate.Workflow.test_the_status_job_has_no_needs_and_no_gate_output_in_its_if)
+A PR that is not a draft always gets a `checks` status: a skipped job must not block. ... ok
+test_the_unit_suite_gets_the_modules_the_gate_chose (test_ci_gate.Workflow.test_the_unit_suite_gets_the_modules_the_gate_chose) ... ok
+test_a_longer_or_other_version_is_refused (test_dosbox_pin.ExactVersionTests.test_a_longer_or_other_version_is_refused) ... ok
+test_bare_and_banner_versions_parse_exactly (test_dosbox_pin.ExactVersionTests.test_bare_and_banner_versions_parse_exactly) ... ok
+test_the_driver_launch_refuses_before_anything_starts (test_dosbox_pin.ExactVersionTests.test_the_driver_launch_refuses_before_anything_starts) ... ok
+test_the_exact_version_passes (test_dosbox_pin.ExactVersionTests.test_the_exact_version_passes) ... ok
+test_the_recorder_play_refuses_before_any_session (test_dosbox_pin.ExactVersionTests.test_the_recorder_play_refuses_before_any_session) ... play: refused: dosbox-x 2024.03.01 is required, found 2026.01.02 (/tmp/tmp5ougtact/dosbox-x); run: bash setup/dosbox-x-2024.03.01.sh
+ok
+test_dosbox_x_env_wins (test_dosbox_pin.ResolverTests.test_dosbox_x_env_wins) ... ok
+test_path_when_no_bundle (test_dosbox_pin.ResolverTests.test_path_when_no_bundle) ... ok
+test_the_bundle_when_installed (test_dosbox_pin.ResolverTests.test_the_bundle_when_installed) ... ok
+test_the_recorder_checks_the_resolved_binary (test_dosbox_pin.ResolverTests.test_the_recorder_checks_the_resolved_binary) ... ok
+test_a_longer_version_is_refused_too (test_dosbox_pin.ScriptedKeysRefusesTests.test_a_longer_version_is_refused_too) ... ok
+test_another_version_is_refused_before_anything_starts (test_dosbox_pin.ScriptedKeysRefusesTests.test_another_version_is_refused_before_anything_starts) ... ok
+test_reads_counter_score_delay_and_lines (test_driver_commentary.SnapshotTest.test_reads_counter_score_delay_and_lines) ... ok
+test_a_large_step_is_noted_as_a_gap (test_driver_commentary.TrackerTest.test_a_large_step_is_noted_as_a_gap) ... ok
+test_a_read_between_the_counters_increment_and_the_write_keeps_the_line (test_driver_commentary.TrackerTest.test_a_read_between_the_counters_increment_and_the_write_keeps_the_line) ... ok
+test_a_record_still_unwritten_at_the_last_read_is_reported_unread (test_driver_commentary.TrackerTest.test_a_record_still_unwritten_at_the_last_read_is_reported_unread) ... ok
+test_accumulates_across_reads_and_wraps (test_driver_commentary.TrackerTest.test_accumulates_across_reads_and_wraps) ... ok
+test_an_end_marker_stops_the_read_until_the_record_is_written (test_driver_commentary.TrackerTest.test_an_end_marker_stops_the_read_until_the_record_is_written) ... ok
+test_events (test_driver_commentary.TrackerTest.test_events) ... ok
+test_no_new_line (test_driver_commentary.TrackerTest.test_no_new_line) ... ok
+test_check_clock (test_driver_dataseg.ClockApplied.test_check_clock) ... ok
+test_impossible_dates_and_times_refused (test_driver_dataseg.ClockApplied.test_impossible_dates_and_times_refused) ... ok
+test_launch_checks_the_read_back (test_driver_dataseg.ClockApplied.test_launch_checks_the_read_back) ... /home/diego/projects/goal2-archaeology/runtime/driver/driver.py:362: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp76kcovlf/work/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/runtime/driver/driver.py:362: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpf5bnq33l/work/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/runtime/driver/driver.py:362: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpuciq6blf/work/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_readback_lines_follow_the_setting (test_driver_dataseg.ClockApplied.test_readback_lines_follow_the_setting) ... ok
+test_record_declares_what_dos_reported (test_driver_dataseg.ClockApplied.test_record_declares_what_dos_reported) ... ok
+test_record_never_declares_an_unapplied_clock_applied (test_driver_dataseg.ClockApplied.test_record_never_declares_an_unapplied_clock_applied) ... ok
+test_runner_refuses_before_any_run (test_driver_dataseg.ClockApplied.test_runner_refuses_before_any_run) ... ok
+test_date_and_time_lines_before_goal (test_driver_dataseg.ClockOption.test_date_and_time_lines_before_goal) ... ok
+test_forms_dosbox_ignores_are_refused (test_driver_dataseg.ClockOption.test_forms_dosbox_ignores_are_refused) ... ok
+test_no_clock_setting_by_default (test_driver_dataseg.ClockOption.test_no_clock_setting_by_default) ... ok
+test_same_drives_with_and_without_the_clock_option (test_driver_dataseg.ClockOption.test_same_drives_with_and_without_the_clock_option) ... ok
+test_describe_names_the_segments (test_driver_dataseg.DataSegment.test_describe_names_the_segments) ... ok
+test_goal_mcb_without_psp_signature_is_rejected (test_driver_dataseg.DataSegment.test_goal_mcb_without_psp_signature_is_rejected) ... ok
+test_mcb_owned_by_another_block_is_ignored (test_driver_dataseg.DataSegment.test_mcb_owned_by_another_block_is_ignored) ... ok
+test_no_or_two_programs_raise (test_driver_dataseg.DataSegment.test_no_or_two_programs_raise) ... ok
+test_other_program_is_ignored (test_driver_dataseg.DataSegment.test_other_program_is_ignored) ... ok
+test_program_found_where_planted (test_driver_dataseg.DataSegment.test_program_found_where_planted) ... ok
+test_seed_words (test_driver_dataseg.DataSegment.test_seed_words) ... ok
+test_cycle_refuses_before_any_record (test_driver_dataseg.StartStateLayout.test_cycle_refuses_before_any_record) ... ok
+test_cycle_reset_restore_refused (test_driver_dataseg.StartStateLayout.test_cycle_reset_restore_refused) ... ok
+test_direct_restore_refused_before_copy_and_host_l (test_driver_dataseg.StartStateLayout.test_direct_restore_refused_before_copy_and_host_l) ... ok
+test_run_d3_and_d3b_refuse_before_any_run (test_driver_dataseg.StartStateLayout.test_run_d3_and_d3b_refuse_before_any_run) ... ok
+test_state_made_without_d_refused (test_driver_dataseg.StartStateLayout.test_state_made_without_d_refused) ... ok
+test_state_with_this_layout_passes_the_check (test_driver_dataseg.StartStateLayout.test_state_with_this_layout_passes_the_check) ... ok
+test_state_without_layout_refused_before_restore (test_driver_dataseg.StartStateLayout.test_state_without_layout_refused_before_restore) ... ok
+test_clock_of_ticks (test_driver_dataseg.Summarise.test_clock_of_ticks) ... ok
+test_lcg_of_214B_0688 (test_driver_dataseg.Summarise.test_lcg_of_214B_0688) ... ok
+test_module_hashes_the_script_at_load (test_driver_e003.RecordNamesTheLoadedScript.test_module_hashes_the_script_at_load)
+The mechanism: the module computes its own hash once, at load, from the file as loaded. ... ok
+test_record_carries_the_load_time_script_hash (test_driver_e003.RecordNamesTheLoadedScript.test_record_carries_the_load_time_script_hash)
+A record names the code that ran: an edit of the script after the module was loaded ... ok
+test_captain_reached_directly (test_driver_e004.GoTest.test_captain_reached_directly) ... ok
+test_no_match_without_the_captain_screen (test_driver_e004.GoTest.test_no_match_without_the_captain_screen) ... ok
+test_team_screen_then_captain (test_driver_e004.GoTest.test_team_screen_then_captain) ... ok
+test_a_state_with_another_layout_is_refused_with_the_remake_command (test_driver_e004.LoadStateTest.test_a_state_with_another_layout_is_refused_with_the_remake_command) ... ok
+test_range (test_driver_e004.MinutesTest.test_range) ... ok
+test_refusals (test_driver_e004.MinutesTest.test_refusals) ... ok
+test_state_names (test_driver_e004.MinutesTest.test_state_names) ... ok
+test_an_id_taken_meanwhile_is_skipped (test_driver_e004.ReserveTest.test_an_id_taken_meanwhile_is_skipped)
+Another slot reserves the same number between the scan and the mkdir: the next is taken. ... ok
+test_next_free_number_over_records_and_reservations (test_driver_e004.ReserveTest.test_next_free_number_over_records_and_reservations) ... ok
+test_captain_and_team_screens (test_driver_e004.ScreensTest.test_captain_and_team_screens) ... ok
+test_disallowed_goal_is_the_one_followed_by_offside (test_driver_e004.SummariseTest.test_disallowed_goal_is_the_one_followed_by_offside) ... ok
+test_load_takes_goals_from_the_score_bytes_and_the_rest_from_the_commentary (test_driver_e004.SummariseTest.test_load_takes_goals_from_the_score_bytes_and_the_rest_from_the_commentary) ... ok
+test_same (test_driver_e004.SummariseTest.test_same) ... ok
+test_scoreboard (test_driver_e004.SummariseTest.test_scoreboard) ... ok
+test_stats_screen (test_driver_e004.SummariseTest.test_stats_screen) ... ok
+test_tests_separate_equal_from_different_samples (test_driver_e004.SummariseTest.test_tests_separate_equal_from_different_samples) ... ok
+test_half_time_before_the_probes_first_key (test_driver_e005.BeforeFirstKeyTest.test_half_time_before_the_probes_first_key) ... ok
+test_a_record_naming_its_cycles_passes (test_driver_e005.CheckTest.test_a_record_naming_its_cycles_passes) ... ok
+test_a_record_not_naming_its_cycles_fails (test_driver_e005.CheckTest.test_a_record_not_naming_its_cycles_fails) ... ok
+test_named_cycles_must_agree_with_the_config_fingerprint_and_arm (test_driver_e005.CheckTest.test_named_cycles_must_agree_with_the_config_fingerprint_and_arm) ... ok
+test_reading_the_clock_back_is_not_setting_it (test_driver_e005.CheckTest.test_reading_the_clock_back_is_not_setting_it) ... ok
+test_setting_the_clock_without_i3_fails (test_driver_e005.CheckTest.test_setting_the_clock_without_i3_fails) ... ok
+test_since_counts_from_the_first_call (test_driver_e005.ClockTest.test_since_counts_from_the_first_call) ... ok
+test_observations_carry_the_count_and_the_ticks (test_driver_e005.DelayCountTest.test_observations_carry_the_count_and_the_ticks) ... ok
+test_reads_the_dword_low_word_at_a9ff_high_word_at_aa01 (test_driver_e005.DelayCountTest.test_reads_the_dword_low_word_at_a9ff_high_word_at_aa01) ... ok
+test_the_savestate_lines_of_dosbox_out_are_counted_not_kept (test_driver_e005.DelayCountTest.test_the_savestate_lines_of_dosbox_out_are_counted_not_kept) ... ok
+test_lists_other_dosbox_and_xvfb_only (test_driver_e005.EmulatorsTest.test_lists_other_dosbox_and_xvfb_only) ... ok
+test_host_and_guest_seconds_of_each_half (test_driver_e005.HalvesTest.test_host_and_guest_seconds_of_each_half) ... ok
+test_no_halves_without_half_time (test_driver_e005.HalvesTest.test_no_halves_without_half_time) ... ok
+test_the_compact_form_gives_the_same_halves (test_driver_e005.HalvesTest.test_the_compact_form_gives_the_same_halves) ... ok
+test_the_verdict_on_f001s_unequal_halves (test_driver_e005.HalvesTest.test_the_verdict_on_f001s_unequal_halves) ... ok
+test_identical_needs_score_events_seed_counter_and_every_line (test_driver_e005.IdentityTest.test_identical_needs_score_events_seed_counter_and_every_line) ... ok
+test_reference_is_the_first_30000_restore_of_the_same_state_and_arm (test_driver_e005.IdentityTest.test_reference_is_the_first_30000_restore_of_the_same_state_and_arm) ... ok
+test_last_counter_in_each_form (test_driver_e005.LastCounterTest.test_last_counter_in_each_form) ... ok
+test_polls_are_decoded_only_inside_the_match_and_the_keys_are_the_probes (test_driver_e005.ProbeWrapperTest.test_polls_are_decoded_only_inside_the_match_and_the_keys_are_the_probes) ... ok
+test_the_pre_read_is_poll_0_before_the_probes_first_key (test_driver_e005.ProbeWrapperTest.test_the_pre_read_is_poll_0_before_the_probes_first_key) ... ok
+test_a_clean_tree_runs (test_driver_e005.RecordIntegrityTest.test_a_clean_tree_runs) ... ok
+test_a_record_holding_a_host_path_is_refused_unwritten (test_driver_e005.RecordIntegrityTest.test_a_record_holding_a_host_path_is_refused_unwritten) ... ok
+test_a_record_is_never_replaced (test_driver_e005.RecordIntegrityTest.test_a_record_is_never_replaced) ... ok
+test_uncommitted_sources_stop_the_runner_before_any_run (test_driver_e005.RecordIntegrityTest.test_uncommitted_sources_stop_the_runner_before_any_run) ... ok
+test_arm_names_route_state_and_cycles (test_driver_e005.RunTest.test_arm_names_route_state_and_cycles) ... ok
+test_each_read_is_one_row_of_one_observation (test_driver_e005.RunTest.test_each_read_is_one_row_of_one_observation) ... ok
+test_fresh_launch_sets_the_states_clock_and_the_restore_does_not (test_driver_e005.RunTest.test_fresh_launch_sets_the_states_clock_and_the_restore_does_not) ... ok
+test_load_state_refuses_a_state_made_at_another_setting (test_driver_e005.RunTest.test_load_state_refuses_a_state_made_at_another_setting) ... ok
+test_refuses_a_cycles_setting_outside_the_task (test_driver_e005.RunTest.test_refuses_a_cycles_setting_outside_the_task) ... ok
+test_the_match_gets_e005s_bound_and_the_runs_clock (test_driver_e005.RunTest.test_the_match_gets_e005s_bound_and_the_runs_clock) ... ok
+test_a_line_the_run_never_read_is_undetermined_whatever_it_held (test_driver_e005.VerdictPathsTest.test_a_line_the_run_never_read_is_undetermined_whatever_it_held) ... ok
+test_a_recovered_record_is_counted_once_and_leaves_no_flag (test_driver_e005.VerdictPathsTest.test_a_recovered_record_is_counted_once_and_leaves_no_flag) ... ok
+test_a_reference_with_only_stride_flags_has_no_unread_lines (test_driver_e005.VerdictPathsTest.test_a_reference_with_only_stride_flags_has_no_unread_lines) ... ok
+test_a_stride_flag_beside_an_unknown_flag_is_undetermined (test_driver_e005.VerdictPathsTest.test_a_stride_flag_beside_an_unknown_flag_is_undetermined) ... ok
+test_a_stride_flag_is_reported_and_does_not_decide (test_driver_e005.VerdictPathsTest.test_a_stride_flag_is_reported_and_does_not_decide) ... ok
+test_an_incomplete_reference_makes_a_complete_run_undetermined (test_driver_e005.VerdictPathsTest.test_an_incomplete_reference_makes_a_complete_run_undetermined) ... ok
+test_an_undetermined_verdict_claims_line_equality_only_when_lines_were_compared (test_driver_e005.VerdictPathsTest.test_an_undetermined_verdict_claims_line_equality_only_when_lines_were_compared) ... ok
+test_both_sides_missed_the_same_line_is_never_identical (test_driver_e005.VerdictPathsTest.test_both_sides_missed_the_same_line_is_never_identical) ... ok
+test_memory_read_at_full_time_differs_whatever_the_lines (test_driver_e005.VerdictPathsTest.test_memory_read_at_full_time_differs_whatever_the_lines) ... ok
+test_more_lines_written_is_differs_even_with_a_side_incomplete (test_driver_e005.VerdictPathsTest.test_more_lines_written_is_differs_even_with_a_side_incomplete) ... ok
+test_sols_hidden_laps_get_no_claim_of_completeness (test_driver_e005.VerdictPathsTest.test_sols_hidden_laps_get_no_claim_of_completeness) ... ok
+test_the_occurrence_is_the_flagged_reads_not_any_with_that_record_number (test_driver_e005.VerdictPathsTest.test_the_occurrence_is_the_flagged_reads_not_any_with_that_record_number) ... ok
+test_unequal_totals_differ_even_when_losses_cannot_be_located (test_driver_e005.VerdictPathsTest.test_unequal_totals_differ_even_when_losses_cannot_be_located) ... ok
+test_unlocatable_losses_are_undetermined (test_driver_e005.VerdictPathsTest.test_unlocatable_losses_are_undetermined) ... ok
+test_unread_occurrences (test_driver_e005.VerdictPathsTest.test_unread_occurrences) ... ok
+test_verdict_counts (test_driver_e005.VerdictPathsTest.test_verdict_counts) ... ok
+test_what_both_read_and_differs_makes_differs_even_when_incomplete (test_driver_e005.VerdictPathsTest.test_what_both_read_and_differs_makes_differs_even_when_incomplete) ... ok
+test_arrays_are_the_allocations (test_driver_e006.Arrays.test_arrays_are_the_allocations) ... ok
+test_check_places_the_arrays (test_driver_e006.Arrays.test_check_places_the_arrays) ... ok
+test_check_refuses_a_shifted_country_array (test_driver_e006.Arrays.test_check_refuses_a_shifted_country_array) ... ok
+test_check_refuses_a_shifted_player_array (test_driver_e006.Arrays.test_check_refuses_a_shifted_player_array) ... ok
+test_check_refuses_a_short_array (test_driver_e006.Arrays.test_check_refuses_a_short_array) ... ok
+test_last_country_last_player (test_driver_e006.Arrays.test_last_country_last_player) ... ok
+test_pointers (test_driver_e006.Arrays.test_pointers) ... ok
+test_squad_words (test_driver_e006.Arrays.test_squad_words) ... ok
+test_r007_r008_offsets (test_driver_e006.GoalDat.test_r007_r008_offsets) ... ok
+test_lcg_matches_f004 (test_driver_e006.Model.test_lcg_matches_f004) ... ok
+test_ratings (test_driver_e006.Model.test_ratings) ... ok
+test_seed_search_finds_0xf5db (test_driver_e006.Model.test_seed_search_finds_0xf5db) ... ok
+test_squads_of_countries_1_and_2 (test_driver_e006.Model.test_squads_of_countries_1_and_2) ... ok
+test_the_80_players_of_the_managed_country (test_driver_e006.Model.test_the_80_players_of_the_managed_country) ... ok
+test_recorded_args_are_the_argv_and_parse (test_driver_e006.RecordedInvocation.test_recorded_args_are_the_argv_and_parse) ... ok
+test_country_colour_is_0x0f_above_0x80_else_ds_6905 (test_driver_e007.Formulas.test_country_colour_is_0x0f_above_0x80_else_ds_6905) ... ok
+test_fitness_follows_plus_0xD_and_energy_plus_0xE (test_driver_e007.Formulas.test_fitness_follows_plus_0xD_and_energy_plus_0xE) ... ok
+test_glyph_is_ds_69a8_and_its_colour_ds_699a_by_plus_6 (test_driver_e007.Formulas.test_glyph_is_ds_69a8_and_its_colour_ds_699a_by_plus_6) ... ok
+test_hardness_takes_one_off_when_plus_3_is_odd (test_driver_e007.Formulas.test_hardness_takes_one_off_when_plus_3_is_odd) ... ok
+test_leadership_is_the_remainder_by_8_halved_under_21 (test_driver_e007.Formulas.test_leadership_is_the_remainder_by_8_halved_under_21) ... ok
+test_mark_by_position_and_flags (test_driver_e007.Formulas.test_mark_by_position_and_flags) ... ok
+test_morale_index_stops_at_0x20_and_the_bar_is_drawn_below_it (test_driver_e007.Formulas.test_morale_index_stops_at_0x20_and_the_bar_is_drawn_below_it) ... ok
+test_name_colour_injured_then_suspended_or_sent_off_then_the_position (test_driver_e007.Formulas.test_name_colour_injured_then_suspended_or_sent_off_then_the_position) ... ok
+test_position_is_plus_6_and_club_position_plus_7_and_the_height_and_skills_follow_plus_7 (test_driver_e007.Formulas.test_position_is_plus_6_and_club_position_plus_7_and_the_height_and_skills_follow_plus_7) ... ok
+test_skill_bars_are_the_class_value_times_plus_4_plus_1_over_256 (test_driver_e007.Formulas.test_skill_bars_are_the_class_value_times_plus_4_plus_1_over_256) ... ok
+test_skill_tables_are_read_row_by_row_to_the_last_position_and_profile (test_driver_e007.Formulas.test_skill_tables_are_read_row_by_row_to_the_last_position_and_profile) ... ok
+test_squad_numbers_are_the_country_records_first_20_words (test_driver_e007.Formulas.test_squad_numbers_are_the_country_records_first_20_words) ... ok
+test_squad_slot_highlight_paints_the_twelve_name_cells (test_driver_e007.Formulas.test_squad_slot_highlight_paints_the_twelve_name_cells) ... ok
+test_static_image_rows_and_repeats (test_driver_e007.Formulas.test_static_image_rows_and_repeats) ... ok
+test_status_takes_the_first_test_that_holds (test_driver_e007.Formulas.test_status_takes_the_first_test_that_holds) ... ok
+test_status_text_is_ready_to_play_when_ds_0c1e_is_0 (test_driver_e007.Formulas.test_status_text_is_ready_to_play_when_ds_0c1e_is_0) ... ok
+test_tables_refuse_a_byte_two_records_give_differently (test_driver_e007.Formulas.test_tables_refuse_a_byte_two_records_give_differently) ... ok
+test_tactics_are_the_players_own_when_the_flag_is_set_else_the_countrys (test_driver_e007.Formulas.test_tactics_are_the_players_own_when_the_flag_is_set_else_the_countrys) ... ok
+test_the_static_image_has_the_header_bytes (test_driver_e007.Formulas.test_the_static_image_has_the_header_bytes) ... ok
+test_two_footed_is_a_sum_of_30 (test_driver_e007.Formulas.test_two_footed_is_a_sum_of_30) ... ok
+test_a_length_byte_beyond_the_record_stays_in_the_record (test_driver_e007.Names.test_a_length_byte_beyond_the_record_stays_in_the_record) ... ok
+test_arrays_are_the_allocations (test_driver_e007.Names.test_arrays_are_the_allocations) ... ok
+test_full_name (test_driver_e007.Names.test_full_name) ... ok
+test_80_players_from_4_countries_every_value_as_the_model_says (test_driver_e007.Records.test_80_players_from_4_countries_every_value_as_the_model_says) ... ok
+test_a_changed_header_is_seen (test_driver_e007.Records.test_a_changed_header_is_seen) ... ok
+test_a_changed_squad_list_value_is_seen (test_driver_e007.Records.test_a_changed_squad_list_value_is_seen) ... ok
+test_a_wrong_formula_is_seen (test_driver_e007.Records.test_a_wrong_formula_is_seen) ... ok
+test_every_cell_that_changes_between_screens_is_transcribed (test_driver_e007.Records.test_every_cell_that_changes_between_screens_is_transcribed) ... ok
+test_every_goalkeeper_shows_goalkeeper_twice (test_driver_e007.Records.test_every_goalkeeper_shows_goalkeeper_twice) ... ok
+test_every_record_byte_but_0x11_is_needed (test_driver_e007.Records.test_every_record_byte_but_0x11_is_needed) ... ok
+test_replication_counts_a_changed_and_a_missing_screen (test_driver_e007.Records.test_replication_counts_a_changed_and_a_missing_screen) ... ok
+test_the_analysed_records_are_the_full_ones_and_the_earlier_ones_replicate (test_driver_e007.Records.test_the_analysed_records_are_the_full_ones_and_the_earlier_ones_replicate) ... ok
+test_the_card_is_the_highlighted_list_row (test_driver_e007.Records.test_the_card_is_the_highlighted_list_row) ... ok
+test_the_comparison_visits_every_shown_value (test_driver_e007.Records.test_the_comparison_visits_every_shown_value) ... ok
+test_candidates_are_the_players_with_the_shown_name (test_driver_e007.Runner.test_candidates_are_the_players_with_the_shown_name) ... ok
+test_every_word_a_player_shows_is_in_the_kept_range (test_driver_e007.Runner.test_every_word_a_player_shows_is_in_the_kept_range) ... ok
+test_table_observations_are_the_planted_bytes (test_driver_e007.Runner.test_table_observations_are_the_planted_bytes) ... ok
+test_tables_cover_every_byte_the_model_reads (test_driver_e007.Runner.test_tables_cover_every_byte_the_model_reads) ... ok
+test_the_player_is_found_by_name_and_age (test_driver_e007.Runner.test_the_player_is_found_by_name_and_age) ... ok
+test_a_word_as_wide_as_the_field_has_no_filler (test_driver_e007.Screens.test_a_word_as_wide_as_the_field_has_no_filler) ... ok
+test_country_header (test_driver_e007.Screens.test_country_header) ... ok
+test_full_bar (test_driver_e007.Screens.test_full_bar) ... ok
+test_goalkeeper_left_footed (test_driver_e007.Screens.test_goalkeeper_left_footed) ... ok
+test_only_a_player_screen_is_parsed (test_driver_e007.Screens.test_only_a_player_screen_is_parsed) ... ok
+test_squad_list_background_after_the_name (test_driver_e007.Screens.test_squad_list_background_after_the_name) ... ok
+test_squad_list_name_is_cols_64_to_75_and_the_glyph_col_77 (test_driver_e007.Screens.test_squad_list_name_is_cols_64_to_75_and_the_glyph_col_77) ... ok
+test_squad_list_rows_names_glyphs_and_the_highlight (test_driver_e007.Screens.test_squad_list_rows_names_glyphs_and_the_highlight) ... ok
+test_tactics_rows (test_driver_e007.Screens.test_tactics_rows) ... ok
+test_the_bar_field_is_cols_10_to_35 (test_driver_e007.Screens.test_the_bar_field_is_cols_10_to_35) ... ok
+test_the_longest_position_name_and_two_footed (test_driver_e007.Screens.test_the_longest_position_name_and_two_footed) ... ok
+test_the_right_bar_field_is_cols_47_to_60 (test_driver_e007.Screens.test_the_right_bar_field_is_cols_47_to_60) ... ok
+test_e006_means_skip_records_not_completed (test_driver_e008.Ranks.test_e006_means_skip_records_not_completed) ... ok
+test_not_a_permutation_refused (test_driver_e008.Ranks.test_not_a_permutation_refused) ... ok
+test_order (test_driver_e008.Ranks.test_order) ... ok
+test_positions_become_ranks (test_driver_e008.Ranks.test_positions_become_ranks) ... ok
+test_rating_formula (test_driver_e008.Ranks.test_rating_formula) ... ok
+test_access_counted_only_with_its_array_pointer (test_driver_e008.Readers.test_access_counted_only_with_its_array_pointer) ... ok
+test_reach_follows_edges (test_driver_e008.Readers.test_reach_follows_edges) ... ok
+test_a_byte_that_did_not_load_aborts_the_run (test_driver_e008.Runner.test_a_byte_that_did_not_load_aborts_the_run) ... ok
+test_a_host_path_in_the_record_is_refused (test_driver_e008.Runner.test_a_host_path_in_the_record_is_refused) ... ok
+test_a_record_is_never_overwritten (test_driver_e008.Runner.test_a_record_is_never_overwritten) ... ok
+test_edited_arm_loads_the_xor_and_completes (test_driver_e008.Runner.test_edited_arm_loads_the_xor_and_completes) ... ok
+test_not_at_the_captain_screen_aborts_the_run (test_driver_e008.Runner.test_not_at_the_captain_screen_aborts_the_run) ... ok
+test_unchanged_arm_loads_the_captain_state_as_saved (test_driver_e008.Runner.test_unchanged_arm_loads_the_captain_state_as_saved) ... ok
+test_uncommitted_changes_refused (test_driver_e008.Runner.test_uncommitted_changes_refused) ... ok
+test_unknown_arm_refused (test_driver_e008.Runner.test_unknown_arm_refused) ... ok
+test_edits_only_the_named_bytes (test_driver_e008.WithMemory.test_edits_only_the_named_bytes) ... ok
+test_other_components_order_compression_and_trailer_kept (test_driver_e008.WithMemory.test_other_components_order_compression_and_trailer_kept) ... ok
+test_outside_memory_refused (test_driver_e008.WithMemory.test_outside_memory_refused) ... ok
+test_every_check_holds_on_the_record (test_driver_e009.CommittedRecord.test_every_check_holds_on_the_record) ... ok
+test_the_pool_is_the_80_records_past_2560 (test_driver_e009.CommittedRecord.test_the_pool_is_the_80_records_past_2560) ... ok
+test_there_is_one_completed_record (test_driver_e009.CommittedRecord.test_there_is_one_completed_record) ... ok
+test_observations_round_trip (test_driver_e009.Parsing.test_observations_round_trip) ... ok
+test_base_ok (test_driver_e009.Predicates.test_base_ok) ... ok
+test_pool_ok (test_driver_e009.Predicates.test_pool_ok) ... ok
+test_pool_records_ok (test_driver_e009.Predicates.test_pool_records_ok) ... ok
+test_positions_sorted_ok (test_driver_e009.Predicates.test_positions_sorted_ok) ... ok
+test_screen_has (test_driver_e009.Predicates.test_screen_has) ... ok
+test_no_alt_is_held_and_f10_arrives_as_f10 (test_driver_keys.EndToEnd.test_no_alt_is_held_and_f10_arrives_as_f10) ... ok
+test_a_custom_mapper_decides_the_keys_pressed (test_driver_keys.KeyCalls.test_a_custom_mapper_decides_the_keys_pressed) ... ok
+test_a_mapper_whose_savestate_or_load_bind_cannot_be_read_is_refused_at_once (test_driver_keys.KeyCalls.test_a_mapper_whose_savestate_or_load_bind_cannot_be_read_is_refused_at_once) ... ok
+test_play_refuses_a_mapper_it_cannot_read_the_savestate_keys_from (test_driver_keys.KeyCalls.test_play_refuses_a_mapper_it_cannot_read_the_savestate_keys_from) ... ok
+test_play_the_four_combinations (test_driver_keys.KeyCalls.test_play_the_four_combinations) ... ok
+test_play_with_a_custom_f12_mapper_presses_what_that_mapper_binds (test_driver_keys.KeyCalls.test_play_with_a_custom_f12_mapper_presses_what_that_mapper_binds) ... ok
+test_play_with_fkeys_xdotool_sends_function_keys_by_xdotool_under_the_normal_mapper (test_driver_keys.KeyCalls.test_play_with_fkeys_xdotool_sends_function_keys_by_xdotool_under_the_normal_mapper) ... ok
+test_raw_with_the_default_mapper_presses_scroll_lock_raw (test_driver_keys.KeyCalls.test_raw_with_the_default_mapper_presses_scroll_lock_raw) ... ok
+test_raw_with_the_dosbox_mapper_presses_the_f12_chord_raw_without_alt (test_driver_keys.KeyCalls.test_raw_with_the_dosbox_mapper_presses_the_f12_chord_raw_without_alt) ... ok
+test_xdotool_with_the_default_mapper_presses_scroll_lock_by_xdotool (test_driver_keys.KeyCalls.test_xdotool_with_the_default_mapper_presses_scroll_lock_by_xdotool) ... ok
+test_xdotool_with_the_dosbox_mapper_is_the_old_driver (test_driver_keys.KeyCalls.test_xdotool_with_the_dosbox_mapper_is_the_old_driver) ... ok
+test_a_custom_save_hold_is_honoured_at_call_time (test_driver_keys.KeySending.test_a_custom_save_hold_is_honoured_at_call_time) ... skipped 'needs Xvfb, xinput and xmodmap'
+test_a_function_key_is_sent_as_itself_without_alt (test_driver_keys.KeySending.test_a_function_key_is_sent_as_itself_without_alt) ... skipped 'needs Xvfb, xinput and xmodmap'
+test_a_key_that_would_need_a_modifier_or_does_not_exist_is_refused (test_driver_keys.KeySending.test_a_key_that_would_need_a_modifier_or_does_not_exist_is_refused) ... skipped 'needs Xvfb, xinput and xmodmap'
+test_a_raw_key_the_display_cannot_send_is_refused_before_the_emulator_starts (test_driver_keys.KeySending.test_a_raw_key_the_display_cannot_send_is_refused_before_the_emulator_starts) ... skipped 'needs Xvfb, xinput and xmodmap'
+test_an_upper_case_letter_is_sent_with_shift_around_it_and_nothing_else (test_driver_keys.KeySending.test_an_upper_case_letter_is_sent_with_shift_around_it_and_nothing_else) ... skipped 'needs Xvfb, xinput and xmodmap'
+test_every_function_key_arrives_alone (test_driver_keys.KeySending.test_every_function_key_arrives_alone) ... skipped 'needs Xvfb, xinput and xmodmap'
+test_legacy_keys_is_the_old_fault_kept_to_reproduce_it (test_driver_keys.KeySending.test_legacy_keys_is_the_old_fault_kept_to_reproduce_it) ... skipped 'needs Xvfb, xinput and xmodmap'
+test_the_default_hold_of_the_savestate_key_is_the_old_read_pace (test_driver_keys.KeySending.test_the_default_hold_of_the_savestate_key_is_the_old_read_pace) ... skipped 'needs Xvfb, xinput and xmodmap'
+test_the_keys_the_callers_send_are_single_keys (test_driver_keys.KeySending.test_the_keys_the_callers_send_are_single_keys) ... skipped 'needs Xvfb, xinput and xmodmap'
+test_the_savestate_key_is_one_key_and_never_f12_or_alt (test_driver_keys.KeySending.test_the_savestate_key_is_one_key_and_never_f12_or_alt) ... skipped 'needs Xvfb, xinput and xmodmap'
+test_the_sendable_check_never_opens_a_display_the_driver_did_not_start (test_driver_keys.KeySending.test_the_sendable_check_never_opens_a_display_the_driver_did_not_start) ... skipped 'needs Xvfb, xinput and xmodmap'
+test_launch_with_a_fake_display_does_not_open_one (test_driver_keys.LaunchWithFakes.test_launch_with_a_fake_display_does_not_open_one) ... /home/diego/projects/goal2-archaeology/runtime/driver/driver.py:362: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpv86bk3aa/work/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_a_default_bind_that_is_not_there_exactly_once_is_refused (test_driver_keys.Mapper.test_a_default_bind_that_is_not_there_exactly_once_is_refused) ... ok
+test_launch_writes_the_mapper_and_the_dosbox_mapper_removes_a_stale_one (test_driver_keys.Mapper.test_launch_writes_the_mapper_and_the_dosbox_mapper_removes_a_stale_one) ... ok
+test_the_mapper_is_the_one_e031_wrote (test_driver_keys.Mapper.test_the_mapper_is_the_one_e031_wrote) ... ok
+test_the_mapper_moves_the_savestate_off_f12_to_scroll_lock (test_driver_keys.Mapper.test_the_mapper_moves_the_savestate_off_f12_to_scroll_lock) ... ok
+test_a_key_shared_by_two_binds_of_different_lines_is_refused_even_when_not_first (test_driver_keys.MapperSets.test_a_key_shared_by_two_binds_of_different_lines_is_refused_even_when_not_first) ... ok
+test_a_key_that_is_no_x_keysym_is_refused_when_the_driver_is_made (test_driver_keys.MapperSets.test_a_key_that_is_no_x_keysym_is_refused_when_the_driver_is_made) ... ok
+test_a_missing_savestate_or_load_line_is_refused (test_driver_keys.MapperSets.test_a_missing_savestate_or_load_line_is_refused) ... ok
+test_a_modifier_other_than_host_is_refused (test_driver_keys.MapperSets.test_a_modifier_other_than_host_is_refused) ... ok
+test_an_empty_bind_is_refused (test_driver_keys.MapperSets.test_an_empty_bind_is_refused) ... ok
+test_an_unreadable_bind_is_refused_even_after_a_readable_one (test_driver_keys.MapperSets.test_an_unreadable_bind_is_refused_even_after_a_readable_one) ... ok
+test_the_driver_accepts_a_valid_custom_file (test_driver_keys.MapperSets.test_the_driver_accepts_a_valid_custom_file) ... ok
+test_the_host_key_itself_is_refused (test_driver_keys.MapperSets.test_the_host_key_itself_is_refused) ... ok
+test_the_same_key_for_savestate_and_load_is_refused (test_driver_keys.MapperSets.test_the_same_key_for_savestate_and_load_is_refused) ... ok
+test_the_same_key_for_the_screenshot_and_savestate_or_load_is_refused (test_driver_keys.MapperSets.test_the_same_key_for_the_screenshot_and_savestate_or_load_is_refused) ... ok
+test_the_same_scancode_with_and_without_host_are_different_keys (test_driver_keys.MapperSets.test_the_same_scancode_with_and_without_host_are_different_keys) ... ok
+test_two_lines_for_one_action_with_different_binds_are_refused (test_driver_keys.MapperSets.test_two_lines_for_one_action_with_different_binds_are_refused) ... ok
+test_valid_sets_are_accepted (test_driver_keys.MapperSets.test_valid_sets_are_accepted) ... ok
+test_a_key_not_acted_on_aborts (test_driver_match.PlayTest.test_a_key_not_acted_on_aborts) ... ok
+test_a_long_match_inside_the_deadline_is_not_cut_short (test_driver_match.PlayTest.test_a_long_match_inside_the_deadline_is_not_cut_short)
+300 reads of play, then full time, well inside the deadline: completed, every read made. ... ok
+test_enter_on_hit_any_key_and_team_screen_only_when_stable (test_driver_match.PlayTest.test_enter_on_hit_any_key_and_team_screen_only_when_stable) ... ok
+test_full_time_needs_two_equal_reads (test_driver_match.PlayTest.test_full_time_needs_two_equal_reads) ... ok
+test_full_time_with_hit_any_key_ends_without_a_key (test_driver_match.PlayTest.test_full_time_with_hit_any_key_ends_without_a_key) ... ok
+test_keys_sent_are_held_by_the_caller_when_the_match_aborts (test_driver_match.PlayTest.test_keys_sent_are_held_by_the_caller_when_the_match_aborts) ... ok
+test_no_key_on_a_stable_screen_that_is_not_a_wait (test_driver_match.PlayTest.test_no_key_on_a_stable_screen_that_is_not_a_wait) ... ok
+test_no_second_key_while_the_first_is_pending (test_driver_match.PlayTest.test_no_second_key_while_the_first_is_pending) ... ok
+test_one_read_of_hit_any_key_gets_no_key (test_driver_match.PlayTest.test_one_read_of_hit_any_key_gets_no_key) ... ok
+test_starting_burst_per_arm (test_driver_match.PlayTest.test_starting_burst_per_arm) ... ok
+test_the_deadline_and_nothing_else_ends_a_match_without_full_time (test_driver_match.PlayTest.test_the_deadline_and_nothing_else_ends_a_match_without_full_time)
+Review round 2 R2: the match ends by the clock passing the deadline, not by any read count. ... ok
+test_timeout (test_driver_match.PlayTest.test_timeout) ... ok
+test_unknown_arm_refused (test_driver_match.PlayTest.test_unknown_arm_refused) ... ok
+test_cases (test_driver_match.WantsKeyTest.test_cases) ... ok
+test_an_aborted_record_keeps_launch_time_and_the_reads_made (test_driver_savestate.AbortedCycle.test_an_aborted_record_keeps_launch_time_and_the_reads_made) ... ok
+test_host_times_carry_utc_and_local_with_offset (test_driver_savestate.RecordObservations.test_host_times_carry_utc_and_local_with_offset) ... ok
+test_one_read_gives_clock_screen_mode_and_ticks (test_driver_savestate.RecordObservations.test_one_read_gives_clock_screen_mode_and_ticks) ... ok
+test_memory_at_the_measured_offset (test_driver_savestate.SavestateParser.test_memory_at_the_measured_offset) ... ok
+test_out_of_range_memory_is_refused (test_driver_savestate.SavestateParser.test_out_of_range_memory_is_refused) ... ok
+test_reads_a_file_too (test_driver_savestate.SavestateParser.test_reads_a_file_too) ... ok
+test_short_vga_component_is_refused (test_driver_savestate.SavestateParser.test_short_vga_component_is_refused) ... ok
+test_text_page_at_the_measured_offset (test_driver_savestate.SavestateParser.test_text_page_at_the_measured_offset) ... ok
+test_a_changed_savestate_is_refused (test_driver_savestate.StartStates.test_a_changed_savestate_is_refused) ... ok
+test_a_state_from_another_mounted_folder_is_refused_before_launch (test_driver_savestate.StartStates.test_a_state_from_another_mounted_folder_is_refused_before_launch) ... ok
+test_launch_never_restores_into_a_dos_prompt_session (test_driver_terminate.DosPromptRestoreEdge.test_launch_never_restores_into_a_dos_prompt_session) ... /home/diego/projects/goal2-archaeology/runtime/driver/driver.py:362: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/diego/projects/goal2-archaeology/scratch/driver/test-dosprompt/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_where_the_release_verifies_the_edge_tests_own_setUp_does_not_skip (test_driver_terminate.ReleaseGuard.test_where_the_release_verifies_the_edge_tests_own_setUp_does_not_skip)
+R1 rework (#63 review): the test above re-reads release_problem(), so a regression that ... ok
+test_where_the_release_verifies_the_skip_condition_is_false (test_driver_terminate.ReleaseGuard.test_where_the_release_verifies_the_skip_condition_is_false)
+Done-when 3: after setup/goal2-runtime.sh, the same check the driver makes passes, so the ... ok
+test_with_an_unverified_cache_the_edge_test_skips_instead_of_erroring (test_driver_terminate.ReleaseGuard.test_with_an_unverified_cache_the_edge_test_skips_instead_of_erroring)
+Done-when 1 with the driver's cache pointed at an empty directory, so this runs wherever ... ok
+test_a_clean_sigterm_exit_is_never_sigkilled (test_driver_terminate.Terminate.test_a_clean_sigterm_exit_is_never_sigkilled) ... ok
+test_a_sigterm_ignoring_process_is_gone_within_2s (test_driver_terminate.Terminate.test_a_sigterm_ignoring_process_is_gone_within_2s) ... ok
+test_no_group_the_driver_did_not_start_is_signalled (test_driver_terminate.Terminate.test_no_group_the_driver_did_not_start_is_signalled) ... ok
+test_the_log_names_the_method_and_the_time_for_each_process (test_driver_terminate.Terminate.test_the_log_names_the_method_and_the_time_for_each_process) ... ok
+test_a_failing_producer_fails_the_run (test_e031_checks.ChecksRunner.test_a_failing_producer_fails_the_run) ... ok
+test_all_passing (test_e031_checks.ChecksRunner.test_all_passing) ... ok
+test_checks_sh_propagates_the_exit_status (test_e031_checks.ChecksRunner.test_checks_sh_propagates_the_exit_status) ... ok
+test_a_guide_sentence_without_backing_fails (test_e031_checks.Claims.test_a_guide_sentence_without_backing_fails) ... /home/diego/projects/goal2-archaeology/experiments/E031-play-the-game/claims.py:149: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpnocga0mo/e031/claims.tsv' mode='r' encoding='UTF-8'>
+  rows = list(csv.DictReader((base / "claims.tsv").open(), delimiter="\t", quoting=csv.QUOTE_NONE))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_a_row_no_sentence_cites_fails (test_e031_checks.Claims.test_a_row_no_sentence_cites_fails) ... /home/diego/projects/goal2-archaeology/experiments/E031-play-the-game/claims.py:149: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpiqswvazn/e031/claims.tsv' mode='r' encoding='UTF-8'>
+  rows = list(csv.DictReader((base / "claims.tsv").open(), delimiter="\t", quoting=csv.QUOTE_NONE))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_an_emptied_evidence_file_fails (test_e031_checks.Claims.test_an_emptied_evidence_file_fails) ... /home/diego/projects/goal2-archaeology/experiments/E031-play-the-game/claims.py:149: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpeyg60uft/e031/claims.tsv' mode='r' encoding='UTF-8'>
+  rows = list(csv.DictReader((base / "claims.tsv").open(), delimiter="\t", quoting=csv.QUOTE_NONE))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_an_emptied_saves_table_fails (test_e031_checks.Claims.test_an_emptied_saves_table_fails) ... /home/diego/projects/goal2-archaeology/experiments/E031-play-the-game/claims.py:149: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpa40x46bf/e031/claims.tsv' mode='r' encoding='UTF-8'>
+  rows = list(csv.DictReader((base / "claims.tsv").open(), delimiter="\t", quoting=csv.QUOTE_NONE))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_an_emptied_session_log_fails (test_e031_checks.Claims.test_an_emptied_session_log_fails) ... /home/diego/projects/goal2-archaeology/experiments/E031-play-the-game/claims.py:149: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmptqgh5zqk/e031/claims.tsv' mode='r' encoding='UTF-8'>
+  rows = list(csv.DictReader((base / "claims.tsv").open(), delimiter="\t", quoting=csv.QUOTE_NONE))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_an_empty_claims_table_fails (test_e031_checks.Claims.test_an_empty_claims_table_fails) ... /home/diego/projects/goal2-archaeology/experiments/E031-play-the-game/claims.py:149: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpbloomk5g/e031/claims.tsv' mode='r' encoding='UTF-8'>
+  rows = list(csv.DictReader((base / "claims.tsv").open(), delimiter="\t", quoting=csv.QUOTE_NONE))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_the_real_evidence_passes (test_e031_checks.Claims.test_the_real_evidence_passes) ... /home/diego/projects/goal2-archaeology/experiments/E031-play-the-game/claims.py:149: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp3_fei5ha/e031/claims.tsv' mode='r' encoding='UTF-8'>
+  rows = list(csv.DictReader((base / "claims.tsv").open(), delimiter="\t", quoting=csv.QUOTE_NONE))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_an_empty_log_fails (test_e031_checks.Progress.test_an_empty_log_fails) ... ok
+test_a_changed_file_fails (test_e031_checks.VerifySaves.test_a_changed_file_fails) ... ok
+test_an_empty_table_fails (test_e031_checks.VerifySaves.test_an_empty_table_fails) ... ok
+test_an_unlisted_file_fails (test_e031_checks.VerifySaves.test_an_unlisted_file_fails) ... ok
+test_matching (test_e031_checks.VerifySaves.test_matching) ... ok
+test_completed_run_is_tabulated (test_e032_compare.AnalyzeRefusesIncompleteRuns.test_completed_run_is_tabulated) ... ok
+test_errored_run_is_refused (test_e032_compare.AnalyzeRefusesIncompleteRuns.test_errored_run_is_refused) ... ok
+test_malformed_row_contents_are_refused (test_e032_compare.AnalyzeRefusesIncompleteRuns.test_malformed_row_contents_are_refused)
+Round 3 (issue 246's class): the rows' values, not only their keys. ... ok
+test_run_missing_completion_keys_is_refused (test_e032_compare.AnalyzeRefusesIncompleteRuns.test_run_missing_completion_keys_is_refused) ... ok
+test_run_with_strays_is_refused (test_e032_compare.AnalyzeRefusesIncompleteRuns.test_run_with_strays_is_refused) ... ok
+test_pilot_batch_with_a_used_stamp_fails (test_e032_compare.BatchesNeverCompareStaleOutput.test_pilot_batch_with_a_used_stamp_fails) ... ok
+test_skip_batch_with_a_used_stamp_fails (test_e032_compare.BatchesNeverCompareStaleOutput.test_skip_batch_with_a_used_stamp_fails) ... ok
+test_another_start_state_is_refused (test_e032_compare.CompareFailsClosed.test_another_start_state_is_refused) ... ok
+test_completion_keys_missing_fail (test_e032_compare.CompareFailsClosed.test_completion_keys_missing_fail) ... ok
+test_differing_field_fails (test_e032_compare.CompareFailsClosed.test_differing_field_fails) ... ok
+test_duplicate_seed_fails (test_e032_compare.CompareFailsClosed.test_duplicate_seed_fails) ... ok
+test_empty_candidate_fails (test_e032_compare.CompareFailsClosed.test_empty_candidate_fails) ... ok
+test_errored_record_with_equal_fields_fails (test_e032_compare.CompareFailsClosed.test_errored_record_with_equal_fields_fails) ... ok
+test_errored_reference_fails (test_e032_compare.CompareFailsClosed.test_errored_reference_fails) ... ok
+test_evidence_missing_in_both_is_not_a_caught_falsifier (test_e032_compare.CompareFailsClosed.test_evidence_missing_in_both_is_not_a_caught_falsifier) ... ok
+test_evidence_missing_in_both_is_not_identical (test_e032_compare.CompareFailsClosed.test_evidence_missing_in_both_is_not_identical) ... ok
+test_evidence_missing_in_candidate_is_not_a_caught_falsifier (test_e032_compare.CompareFailsClosed.test_evidence_missing_in_candidate_is_not_a_caught_falsifier) ... ok
+test_evidence_missing_in_candidate_is_not_identical (test_e032_compare.CompareFailsClosed.test_evidence_missing_in_candidate_is_not_identical) ... ok
+test_falsifier_caught_by_difference_or_failure (test_e032_compare.CompareFailsClosed.test_falsifier_caught_by_difference_or_failure) ... ok
+test_falsifier_not_caught_fails (test_e032_compare.CompareFailsClosed.test_falsifier_not_caught_fails) ... ok
+test_field_names_the_run (test_e032_compare.CompareFailsClosed.test_field_names_the_run) ... ok
+test_hooked_reference_is_refused (test_e032_compare.CompareFailsClosed.test_hooked_reference_is_refused) ... ok
+test_identical_family_passes (test_e032_compare.CompareFailsClosed.test_identical_family_passes) ... ok
+test_loose_seed_arguments_are_refused (test_e032_compare.CompareFailsClosed.test_loose_seed_arguments_are_refused) ... ok
+test_not_stopped_at_board_fails (test_e032_compare.CompareFailsClosed.test_not_stopped_at_board_fails) ... ok
+test_strays_fail (test_e032_compare.CompareFailsClosed.test_strays_fail) ... ok
+test_truncated_candidate_fails (test_e032_compare.CompareFailsClosed.test_truncated_candidate_fails) ... ok
+test_undecodable_or_bom_logs_are_refused (test_e032_compare.CompareFailsClosed.test_undecodable_or_bom_logs_are_refused) ... ok
+test_unexpected_seed_fails (test_e032_compare.CompareFailsClosed.test_unexpected_seed_fails) ... ok
+test_a_changed_figure_fails (test_e032_compare.PlanFiguresEqualTheReport.test_a_changed_figure_fails) ... ok
+test_an_untied_cost_figure_fails (test_e032_compare.PlanFiguresEqualTheReport.test_an_untied_cost_figure_fails) ... ok
+test_the_plan_matches_the_report (test_e032_compare.PlanFiguresEqualTheReport.test_the_plan_matches_the_report) ... ok
+test_analyze_refuses_loose_json (test_e032_compare.ReadersParseStrictly.test_analyze_refuses_loose_json) ... ok
+test_plancheck_refuses_loose_json (test_e032_compare.ReadersParseStrictly.test_plancheck_refuses_loose_json) ... ok
+test_a_transcript_without_a_clean_end_fails (test_e032_recheck.RecheckFailsClosed.test_a_transcript_without_a_clean_end_fails) ... ok
+test_an_unexpected_log_fails (test_e032_recheck.RecheckFailsClosed.test_an_unexpected_log_fails) ... ok
+test_each_log_replaced_by_an_empty_object_fails (test_e032_recheck.RecheckFailsClosed.test_each_log_replaced_by_an_empty_object_fails) ... ok
+test_each_missing_log_fails (test_e032_recheck.RecheckFailsClosed.test_each_missing_log_fails) ... ok
+test_each_missing_transcript_fails (test_e032_recheck.RecheckFailsClosed.test_each_missing_transcript_fails) ... ok
+test_only_the_seven_logs_after_the_old_loop_fails (test_e032_recheck.RecheckFailsClosed.test_only_the_seven_logs_after_the_old_loop_fails) ... ok
+test_the_full_state_passes (test_e032_recheck.RecheckFailsClosed.test_the_full_state_passes) ... ok
+test_every_mutation_is_malformed (test_e032_record_mutations.EveryMutationIsMalformed.test_every_mutation_is_malformed) ... ok
+test_the_real_record_is_accepted (test_e032_record_mutations.EveryMutationIsMalformed.test_the_real_record_is_accepted) ... ok
+test_round4_review_cases (test_e032_record_mutations.EveryPathologicalValueIsMalformed.test_round4_review_cases) ... ok
+test_the_fuzz_is_malformed (test_e032_record_mutations.EveryPathologicalValueIsMalformed.test_the_fuzz_is_malformed) ... ok
+test_no_match_search_or_dollar_anchor (test_e032_record_mutations.NoLooseValidationPatterns.test_no_match_search_or_dollar_anchor) ... ok
+test_the_schema_uses_ascii_digit_classes (test_e032_record_mutations.NoLooseValidationPatterns.test_the_schema_uses_ascii_digit_classes) ... ok
+test_a_refused_join_commits_the_shards_and_fails (test_e036_collect_run.CollectRun.test_a_refused_join_commits_the_shards_and_fails) ... ok
+test_a_rerun_of_the_same_run_writes_its_own_folder_and_both_are_pushed (test_e036_collect_run.CollectRun.test_a_rerun_of_the_same_run_writes_its_own_folder_and_both_are_pushed) ... ok
+test_a_blank_line_is_skipped_but_a_broken_one_is_not (test_e036_compare.CommandLine.test_a_blank_line_is_skipped_but_a_broken_one_is_not) ... ok
+test_all_asks_for_every_family (test_e036_compare.CommandLine.test_all_asks_for_every_family) ... ok
+test_each_family_uses_its_own_reference_by_default (test_e036_compare.CommandLine.test_each_family_uses_its_own_reference_by_default)
+Without --reference the reference is the family's declared one: the committed log (T57's) compared with ... ok
+test_strict_json_and_encoding (test_e036_compare.CommandLine.test_strict_json_and_encoding) ... ok
+test_unknown_family_and_missing_files_are_malformed (test_e036_compare.CommandLine.test_unknown_family_and_missing_files_are_malformed) ... ok
+test_a_candidate_over_the_same_mask_as_its_reference_passes (test_e036_compare.CompareFailsClosed.test_a_candidate_over_the_same_mask_as_its_reference_passes) ... ok
+test_a_container_is_checked_down_to_its_contents (test_e036_compare.CompareFailsClosed.test_a_container_is_checked_down_to_its_contents)
+E032's class 'a container checked but not its contents': right length, wrong contents. ... ok
+test_a_duplicate_match_is_malformed (test_e036_compare.CompareFailsClosed.test_a_duplicate_match_is_malformed) ... ok
+test_a_duplicate_reference_match_is_malformed (test_e036_compare.CompareFailsClosed.test_a_duplicate_reference_match_is_malformed) ... ok
+test_a_malformed_leaf_in_the_candidate_is_malformed_not_a_difference (test_e036_compare.CompareFailsClosed.test_a_malformed_leaf_in_the_candidate_is_malformed_not_a_difference) ... ok
+test_a_missing_match_is_malformed (test_e036_compare.CompareFailsClosed.test_a_missing_match_is_malformed) ... ok
+test_a_missing_reference_match_is_malformed (test_e036_compare.CompareFailsClosed.test_a_missing_reference_match_is_malformed) ... ok
+test_an_errored_candidate_with_equal_fields_fails (test_e036_compare.CompareFailsClosed.test_an_errored_candidate_with_equal_fields_fails) ... ok
+test_an_incomplete_candidate_without_evidence_fails (test_e036_compare.CompareFailsClosed.test_an_incomplete_candidate_without_evidence_fails) ... ok
+test_an_incomplete_reference_is_malformed (test_e036_compare.CompareFailsClosed.test_an_incomplete_reference_is_malformed) ... ok
+test_an_unexpected_match_is_malformed (test_e036_compare.CompareFailsClosed.test_an_unexpected_match_is_malformed) ... ok
+test_an_unknown_key_is_refused (test_e036_compare.CompareFailsClosed.test_an_unknown_key_is_refused)
+No hooked reference passes as the unhooked one (T59's ports and variant are keys of a later grammar). ... ok
+test_another_declaration_image_or_mask_is_refused (test_e036_compare.CompareFailsClosed.test_another_declaration_image_or_mask_is_refused) ... ok
+test_completion_keys_missing_are_malformed (test_e036_compare.CompareFailsClosed.test_completion_keys_missing_are_malformed) ... ok
+test_each_compared_field_fails_when_it_differs (test_e036_compare.CompareFailsClosed.test_each_compared_field_fails_when_it_differs) ... ok
+test_empty_candidate_is_malformed (test_e036_compare.CompareFailsClosed.test_empty_candidate_is_malformed) ... ok
+test_every_range_and_the_first_differing_block_is_named (test_e036_compare.CompareFailsClosed.test_every_range_and_the_first_differing_block_is_named) ... ok
+test_evidence_beside_an_error_or_partial_evidence_is_refused (test_e036_compare.CompareFailsClosed.test_evidence_beside_an_error_or_partial_evidence_is_refused) ... ok
+test_falsifier_caught_by_difference_or_failure (test_e036_compare.CompareFailsClosed.test_falsifier_caught_by_difference_or_failure) ... ok
+test_falsifier_not_caught_on_an_identical_candidate (test_e036_compare.CompareFailsClosed.test_falsifier_not_caught_on_an_identical_candidate) ... ok
+test_identical_family_passes (test_e036_compare.CompareFailsClosed.test_identical_family_passes) ... ok
+test_missing_evidence_is_neither_identical_nor_caught (test_e036_compare.CompareFailsClosed.test_missing_evidence_is_neither_identical_nor_caught) ... ok
+test_no_screen_leaves_out_only_the_screen (test_e036_compare.CompareFailsClosed.test_no_screen_leaves_out_only_the_screen) ... ok
+test_one_uncaught_match_fails_the_falsifier (test_e036_compare.CompareFailsClosed.test_one_uncaught_match_fails_the_falsifier) ... ok
+test_the_draws_per_minute_must_add_up (test_e036_compare.CompareFailsClosed.test_the_draws_per_minute_must_add_up) ... ok
+test_the_first_differing_minute_is_named (test_e036_compare.CompareFailsClosed.test_the_first_differing_minute_is_named) ... ok
+test_the_range_digests_must_have_the_exact_count (test_e036_compare.CompareFailsClosed.test_the_range_digests_must_have_the_exact_count) ... ok
+test_the_reference_may_hold_more_matches (test_e036_compare.CompareFailsClosed.test_the_reference_may_hold_more_matches) ... ok
+test_unsorted_or_overlapping_masks_are_refused (test_e036_compare.CompareFailsClosed.test_unsorted_or_overlapping_masks_are_refused) ... ok
+test_a_missing_incomplete_or_other_match_is_malformed (test_e036_compare.E032Seeds.test_a_missing_incomplete_or_other_match_is_malformed) ... ok
+test_each_field_that_differs_fails_that_seed (test_e036_compare.E032Seeds.test_each_field_that_differs_fails_that_seed) ... ok
+test_the_ten_seeds_are_printed_and_equal (test_e036_compare.E032Seeds.test_the_ten_seeds_are_printed_and_equal) ... ok
+test_an_error_text_is_one_clean_ascii_line (test_e036_compare.LeafFuzz.test_an_error_text_is_one_clean_ascii_line) ... ok
+test_every_key_removed_and_every_unknown_key_added_is_invalid (test_e036_compare.LeafFuzz.test_every_key_removed_and_every_unknown_key_added_is_invalid) ... ok
+test_every_leaf_changed_is_invalid (test_e036_compare.LeafFuzz.test_every_leaf_changed_is_invalid) ... ok
+test_every_list_one_element_longer_or_shorter_is_invalid_where_the_length_is_fixed (test_e036_compare.LeafFuzz.test_every_list_one_element_longer_or_shorter_is_invalid_where_the_length_is_fixed) ... ok
+test_numbers_are_ints_not_floats_and_floats_are_finite (test_e036_compare.LeafFuzz.test_numbers_are_ints_not_floats_and_floats_are_finite) ... ok
+test_the_valid_synthetic_record_is_valid (test_e036_compare.LeafFuzz.test_the_valid_synthetic_record_is_valid) ... ok
+test_dumps_refuses_non_finite (test_e036_compare.StrictLoads.test_dumps_refuses_non_finite) ... ok
+test_loads_refuses_what_json_loads_accepts (test_e036_compare.StrictLoads.test_loads_refuses_what_json_loads_accepts) ... ok
+test_apply_mask (test_e036_family.Masks.test_apply_mask) ... ok
+test_a_match_killed_after_a_checkpoint_resumes_to_the_straight_runs_record (test_e036_family.OneRealMatch.test_a_match_killed_after_a_checkpoint_resumes_to_the_straight_runs_record)
+#359: S/quick-30 with the motion port and a --count, killed just after its second checkpoint (minute event 20) ... ok
+test_seed_0x1234_is_e032s_record_and_count_counts_the_ticks (test_e036_family.OneRealMatch.test_seed_0x1234_is_e032s_record_and_count_counts_the_ticks) ... ok
+test_the_write_watch_finds_what_is_declared (test_e036_family.OneRealMatch.test_the_write_watch_finds_what_is_declared)
+--find-ranges on the quickest match: every span it saw written outside DS and the screen is in a declared ... ok
+test_two_workers_play_two_matches_the_same_as_the_reference (test_e036_family.OneRealMatch.test_two_workers_play_two_matches_the_same_as_the_reference)
+--workers 2 (run as the script, since a worker process imports it by name): two processes, one match at a ... ok
+test_a_byte_written_back_as_it_was_is_no_change (test_e036_family.RunMatch.test_a_byte_written_back_as_it_was_is_no_change) ... ok
+test_a_p_space_mask_covers_the_ranges (test_e036_family.RunMatch.test_a_p_space_mask_covers_the_ranges) ... ok
+test_a_pause_is_made_once_at_its_minute (test_e036_family.RunMatch.test_a_pause_is_made_once_at_its_minute) ... ok
+test_a_record_is_valid_and_complete (test_e036_family.RunMatch.test_a_record_is_valid_and_complete) ... ok
+test_a_stray_decision_is_recorded_and_played_on (test_e036_family.RunMatch.test_a_stray_decision_is_recorded_and_played_on) ... ok
+test_a_worker_passes_the_stretch_limit_on (test_e036_family.RunMatch.test_a_worker_passes_the_stretch_limit_on) ... ok
+test_a_write_inside_ds_a_range_or_the_screen_is_no_error (test_e036_family.RunMatch.test_a_write_inside_ds_a_range_or_the_screen_is_no_error) ... ok
+test_a_write_outside_the_declared_ranges_is_an_error (test_e036_family.RunMatch.test_a_write_outside_the_declared_ranges_is_an_error) ... ok
+test_an_error_is_a_record_without_evidence (test_e036_family.RunMatch.test_an_error_is_a_record_without_evidence) ... ok
+test_count_counts_each_execution_of_each_address (test_e036_family.RunMatch.test_count_counts_each_execution_of_each_address) ... ok
+test_memory_digests_one_per_kib_of_ds_and_of_each_range (test_e036_family.RunMatch.test_memory_digests_one_per_kib_of_ds_and_of_each_range) ... ok
+test_no_board_is_not_completed (test_e036_family.RunMatch.test_no_board_is_not_completed) ... ok
+test_one_changed_byte_changes_one_digest (test_e036_family.RunMatch.test_one_changed_byte_changes_one_digest) ... ok
+test_set_piece_context_is_the_only_runner_opt_in (test_e036_family.RunMatch.test_set_piece_context_is_the_only_runner_opt_in) ... ok
+test_the_draws_are_counted_and_digested_per_minute (test_e036_family.RunMatch.test_the_draws_are_counted_and_digested_per_minute) ... ok
+test_the_error_text_is_one_clean_line (test_e036_family.RunMatch.test_the_error_text_is_one_clean_line) ... ok
+test_the_fixture_seed_budget_and_edits_reach_the_kit (test_e036_family.RunMatch.test_the_fixture_seed_budget_and_edits_reach_the_kit) ... ok
+test_the_mask_covers_what_it_names_and_nothing_else (test_e036_family.RunMatch.test_the_mask_covers_what_it_names_and_nothing_else) ... ok
+test_the_stretch_limit_reaches_the_kit_capped_by_the_time_limit (test_e036_family.RunMatch.test_the_stretch_limit_reaches_the_kit_capped_by_the_time_limit) ... ok
+test_the_time_limit_is_a_record (test_e036_family.RunMatch.test_the_time_limit_is_a_record) ... ok
+test_the_write_watch_run_leaves_the_undeclared_write_check_out (test_e036_family.RunMatch.test_the_write_watch_run_leaves_the_undeclared_write_check_out) ... ok
+test_merge_joins_spans_within_the_gap (test_e036_family.SpanArithmetic.test_merge_joins_spans_within_the_gap) ... ok
+test_subtract_cuts_a_span_out (test_e036_family.SpanArithmetic.test_subtract_cuts_a_span_out) ... ok
+test_undeclared_changes_ignore_the_allowed_spans_and_rewrites (test_e036_family.SpanArithmetic.test_undeclared_changes_ignore_the_allowed_spans_and_rewrites) ... ok
+test_a_bad_mask_file_is_refused (test_e036_family.TheCommand.test_a_bad_mask_file_is_refused) ... ok
+test_a_checkpoint_goes_once_its_record_is_in_the_log (test_e036_family.TheCommand.test_a_checkpoint_goes_once_its_record_is_in_the_log) ... ok
+test_a_checkpoint_reads_back_only_under_its_own_key_and_drop_removes_it (test_e036_family.TheCommand.test_a_checkpoint_reads_back_only_under_its_own_key_and_drop_removes_it) ... ok
+test_a_complete_log_runs_nothing_and_is_not_rewritten (test_e036_family.TheCommand.test_a_complete_log_runs_nothing_and_is_not_rewritten) ... ok
+test_a_log_that_is_not_this_runs_is_refused_and_left_alone (test_e036_family.TheCommand.test_a_log_that_is_not_this_runs_is_refused_and_left_alone) ... ok
+test_a_run_appends_each_record_as_its_match_ends (test_e036_family.TheCommand.test_a_run_appends_each_record_as_its_match_ends) ... ok
+test_an_incomplete_match_in_the_log_fails_the_command_and_is_not_rerun (test_e036_family.TheCommand.test_an_incomplete_match_in_the_log_fails_the_command_and_is_not_rerun) ... ok
+test_find_ranges_never_overwrites_a_file (test_e036_family.TheCommand.test_find_ranges_never_overwrites_a_file) ... ok
+test_refused_commands_exit_2 (test_e036_family.TheCommand.test_refused_commands_exit_2) ... ok
+test_resume_adds_only_the_missing_matches_in_order_and_max_stops_early (test_e036_family.TheCommand.test_resume_adds_only_the_missing_matches_in_order_and_max_stops_early) ... ok
+test_a_new_file_is_found_and_the_others_are_unchanged (test_e036_family.TheDirectory.test_a_new_file_is_found_and_the_others_are_unchanged) ... ok
+test_a_policy_module_in_the_directory_is_found_too (test_e036_family.TheDirectory.test_a_policy_module_in_the_directory_is_found_too) ... ok
+test_builtin_policies_have_a_code_digest_of_their_own (test_e036_family.TheDirectory.test_builtin_policies_have_a_code_digest_of_their_own) ... ok
+test_every_field_of_a_family_file_is_checked (test_e036_family.TheDirectory.test_every_field_of_a_family_file_is_checked) ... ok
+test_json_is_read_strictly (test_e036_family.TheDirectory.test_json_is_read_strictly) ... ok
+test_select_asks_for_known_distinct_families (test_e036_family.TheDirectory.test_select_asks_for_known_distinct_families) ... ok
+test_the_digest_changes_with_everything_that_makes_the_match (test_e036_family.TheDirectory.test_the_digest_changes_with_everything_that_makes_the_match) ... ok
+test_the_digest_changes_with_the_policys_code (test_e036_family.TheDirectory.test_the_digest_changes_with_the_policys_code) ... ok
+test_two_families_are_found_and_an_empty_directory_is_refused (test_e036_family.TheDirectory.test_two_families_are_found_and_an_empty_directory_is_refused) ... ok
+test_a_country_edit_changes_the_country_record (test_e036_family.TheEdits.test_a_country_edit_changes_the_country_record) ... ok
+test_edits_apply_in_order (test_e036_family.TheEdits.test_edits_apply_in_order) ... ok
+test_ops_set_add_xor_or_and_the_clamps (test_e036_family.TheEdits.test_ops_set_add_xor_or_and_the_clamps) ... ok
+test_squad_edits_touch_the_named_squad_only (test_e036_family.TheEdits.test_squad_edits_touch_the_named_squad_only) ... ok
+test_each_family_names_its_reference_and_every_id_is_unique (test_e036_family.TheFamilies.test_each_family_names_its_reference_and_every_id_is_unique) ... ok
+test_f40_holds_e032s_ten_seeds_exactly (test_e036_family.TheFamilies.test_f40_holds_e032s_ten_seeds_exactly) ... ok
+test_f40_is_twenty_seeds_as_they_are_and_the_same_twenty_edited (test_e036_family.TheFamilies.test_f40_is_twenty_seeds_as_they_are_and_the_same_twenty_edited) ... ok
+test_o8_is_four_other_pairs_each_a_friendly_and_a_qualifier (test_e036_family.TheFamilies.test_o8_is_four_other_pairs_each_a_friendly_and_a_qualifier) ... ok
+test_r_has_independent_original_reference_and_closed_declarations (test_e036_family.TheFamilies.test_r_has_independent_original_reference_and_closed_declarations) ... ok
+test_s_holds_the_kits_scenarios_with_their_answer_policies (test_e036_family.TheFamilies.test_s_holds_the_kits_scenarios_with_their_answer_policies) ... ok
+test_t76_preserves_old_reference_bytes_and_spec_digests (test_e036_family.TheFamilies.test_t76_preserves_old_reference_bytes_and_spec_digests) ... ok
+test_the_five_families_and_their_exact_sizes (test_e036_family.TheFamilies.test_the_five_families_and_their_exact_sizes) ... ok
+test_a_declared_range_lies_in_a_range_the_report_suggests (test_e036_family.TheRanges.test_a_declared_range_lies_in_a_range_the_report_suggests) ... ok
+test_every_watched_write_is_in_a_declared_range (test_e036_family.TheRanges.test_every_watched_write_is_in_a_declared_range) ... ok
+test_a_declaration_for_another_pair_of_versions_does_not_cover_it (test_e036_family.TheReferences.test_a_declaration_for_another_pair_of_versions_does_not_cover_it) ... ok
+test_a_declaration_is_not_stale (test_e036_family.TheReferences.test_a_declaration_is_not_stale) ... ok
+test_a_different_version_with_no_declaration_is_found (test_e036_family.TheReferences.test_a_different_version_with_no_declaration_is_found) ... ok
+test_a_reference_of_mixed_versions_is_found (test_e036_family.TheReferences.test_a_reference_of_mixed_versions_is_found) ... ok
+test_every_committed_reference_names_the_kits_version_or_declares_the_difference (test_e036_family.TheReferences.test_every_committed_reference_names_the_kits_version_or_declares_the_difference) ... ok
+test_mixed_version_declaration_is_exact_path_set_and_target (test_e036_family.TheReferences.test_mixed_version_declaration_is_exact_path_set_and_target) ... ok
+test_comparator_refuses_source_swap_in_either_log_and_missing_bindings (test_e036_image_sources.ImageSources.test_comparator_refuses_source_swap_in_either_log_and_missing_bindings) ... ok
+test_extended_calendar_is_required_and_last_block_remains_compared (test_e036_image_sources.ImageSources.test_extended_calendar_is_required_and_last_block_remains_compared) ... ok
+test_legacy_specs_stay_byte_for_byte_bound_to_old_references (test_e036_image_sources.ImageSources.test_legacy_specs_stay_byte_for_byte_bound_to_old_references) ... ok
+test_nondefault_source_enters_spec_digest_and_checkpoint_identity (test_e036_image_sources.ImageSources.test_nondefault_source_enters_spec_digest_and_checkpoint_identity) ... ok
+test_private_source_has_no_automatic_download (test_e036_image_sources.ImageSources.test_private_source_has_no_automatic_download) ... ok
+test_single_worker_uses_each_specs_image (test_e036_image_sources.ImageSources.test_single_worker_uses_each_specs_image) ... ok
+test_unknown_image_is_refused (test_e036_image_sources.ImageSources.test_unknown_image_is_refused) ... ok
+test_wrong_cached_file_never_becomes_an_image (test_e036_image_sources.ImageSources.test_wrong_cached_file_never_becomes_an_image) ... ok
+test_wrong_memory_image_refused_before_match_construction (test_e036_image_sources.ImageSources.test_wrong_memory_image_refused_before_match_construction) ... ok
+test_a_missing_twice_or_unselected_match_is_refused_and_nothing_is_written (test_e036_shards.Collect.test_a_missing_twice_or_unselected_match_is_refused_and_nothing_is_written) ... ok
+test_an_existing_output_is_never_overwritten (test_e036_shards.Collect.test_an_existing_output_is_never_overwritten) ... ok
+test_the_join_is_in_the_family_order_with_each_line_as_written (test_e036_shards.Collect.test_the_join_is_in_the_family_order_with_each_line_as_written) ... ok
+test_shards_are_consecutive_cover_every_match_once_and_differ_by_at_most_one (test_e036_shards.Plan.test_shards_are_consecutive_cover_every_match_once_and_differ_by_at_most_one) ... ok
+test_the_command_prints_a_matrix (test_e036_shards.Plan.test_the_command_prints_a_matrix) ... ok
+test_the_selection_is_the_family_runs_in_its_order (test_e036_shards.Plan.test_the_selection_is_the_family_runs_in_its_order) ... ok
+test_a_changed_caller_fails (test_e038_summarise.Summarise.test_a_changed_caller_fails) ... /home/diego/projects/goal2-archaeology/experiments/E038-new-game-keywait/summarise.py:33: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp2rj_0dh1/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E038-new-game-keywait/summarise.py:33: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp2rj_0dh1/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_a_changed_screen_fails (test_e038_summarise.Summarise.test_a_changed_screen_fails) ... /home/diego/projects/goal2-archaeology/experiments/E038-new-game-keywait/summarise.py:33: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpwysvxh3v/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E038-new-game-keywait/summarise.py:33: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpwysvxh3v/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_a_trace_missing_the_manager_menu_read_fails (test_e038_summarise.Summarise.test_a_trace_missing_the_manager_menu_read_fails) ... /home/diego/projects/goal2-archaeology/experiments/E038-new-game-keywait/summarise.py:33: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpje_jshlk/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E038-new-game-keywait/summarise.py:33: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpje_jshlk/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_a_trace_with_no_reads_fails (test_e038_summarise.Summarise.test_a_trace_with_no_reads_fails) ... /home/diego/projects/goal2-archaeology/experiments/E038-new-game-keywait/summarise.py:33: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp9kp33dzq/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E038-new-game-keywait/summarise.py:33: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp9kp33dzq/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_a_trace_with_one_read_more_fails (test_e038_summarise.Summarise.test_a_trace_with_one_read_more_fails) ... /home/diego/projects/goal2-archaeology/experiments/E038-new-game-keywait/summarise.py:33: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpb4z2rsc0/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E038-new-game-keywait/summarise.py:33: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpb4z2rsc0/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_each_seed_word_that_differs_fails (test_e038_summarise.Summarise.test_each_seed_word_that_differs_fails) ... /home/diego/projects/goal2-archaeology/experiments/E038-new-game-keywait/summarise.py:33: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpa2t_bwp0/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E038-new-game-keywait/summarise.py:33: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpa2t_bwp0/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_the_committed_trace_matches_the_record (test_e038_summarise.Summarise.test_the_committed_trace_matches_the_record) ... /home/diego/projects/goal2-archaeology/experiments/E038-new-game-keywait/summarise.py:33: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp8m70bcqr/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E038-new-game-keywait/summarise.py:33: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp8m70bcqr/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_a_changed_screen_fails (test_e039_summarise.Summarise.test_a_changed_screen_fails) ... /home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmphn6qb7vw/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmphn6qb7vw/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_a_changed_stage_fails (test_e039_summarise.Summarise.test_a_changed_stage_fails) ... /home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp9j4oppt5/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp9j4oppt5/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_a_changed_year_fails (test_e039_summarise.Summarise.test_a_changed_year_fails) ... /home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp4dk_m6gv/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp4dk_m6gv/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_a_trace_missing_reads_or_holding_one_more_fails (test_e039_summarise.Summarise.test_a_trace_missing_reads_or_holding_one_more_fails) ... /home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpm__oamsv/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpm__oamsv/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp2k5anldu/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp2k5anldu/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpv9lmbbz7/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpv9lmbbz7/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmprjgkxsmx/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmprjgkxsmx/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpvrp_7zit/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpvrp_7zit/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmppagtnlq8/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmppagtnlq8/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_both_dates_match (test_e039_summarise.Summarise.test_both_dates_match) ... /home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpzxlqig4i/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpzxlqig4i/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr7kamp4j/record.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/experiments/E039-start-year/summarise.py:34: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr7kamp4j/trace.json' mode='r' encoding='utf-8'>
+  record, trace = (json.load(open(p, encoding="utf-8")) for p in argv[:2])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_the_two_dates_give_two_start_years_and_stages (test_e039_summarise.Summarise.test_the_two_dates_give_two_start_years_and_stages) ... ok
+test_ah_is_the_draws_high_byte (test_emul_match.GateReaderTests.test_ah_is_the_draws_high_byte) ... ok
+test_n_follows_278as_value (test_emul_match.GateReaderTests.test_n_follows_278as_value) ... ok
+test_result_registers_and_the_seed_write (test_emul_match.GateReaderTests.test_result_registers_and_the_seed_write) ... ok
+test_the_arguments_reach_278a_in_the_stack_order (test_emul_match.GateReaderTests.test_the_arguments_reach_278a_in_the_stack_order) ... ok
+test_the_falsifiers_change_the_result (test_emul_match.GateReaderTests.test_the_falsifiers_change_the_result) ... ok
+test_the_seed_is_read_through_the_far_pointer (test_emul_match.GateReaderTests.test_the_seed_is_read_through_the_far_pointer) ... ok
+test_the_tally_follows_the_models_own_run (test_emul_match.GateReaderTests.test_the_tally_follows_the_models_own_run) ... ok
+test_lcg_step_returns_far_popping_six (test_emul_match.ListingReturnTests.test_lcg_step_returns_far_popping_six) ... ok
+test_near_routine (test_emul_match.ListingReturnTests.test_near_routine) ... ok
+test_each_stopping_falsifier_is_stopped_naming_the_helper_and_the_call (test_emul_match.LongProofTests.test_each_stopping_falsifier_is_stopped_naming_the_helper_and_the_call) ... ok
+test_the_models_are_proved_with_no_scratch_difference (test_emul_match.LongProofTests.test_the_models_are_proved_with_no_scratch_difference) ... ok
+test_the_scratch_falsifier_is_counted_not_stopped (test_emul_match.LongProofTests.test_the_scratch_falsifier_is_counted_not_stopped) ... WARNING: call #1 of 2000:0279: uncompared register SI at the return: the original 0x0003, the model 0x3333 (counted, not an error; further ones counted only)
+ok
+test_tie_a_is_not_stopped_it_changes_no_register (test_emul_match.LongProofTests.test_tie_a_is_not_stopped_it_changes_no_register) ... ok
+test_max_falsifiers (test_emul_match.LongReaderTests.test_max_falsifiers)
+Kills: min not applied (returns the max), min applied on a tie, tie-a changing a non-tie, tie-a ... ok
+test_max_registers_are_exact (test_emul_match.LongReaderTests.test_max_registers_are_exact)
+Kills: the arguments taken in another order (a/b swapped, lo/hi swapped), AX/DX/ES from the wrong word, ES ... ok
+test_max_tally_counts_exactly (test_emul_match.LongReaderTests.test_max_tally_counts_exactly)
+Kills: any counter's condition or increment. Eight calls: a wins 4 ((5,3) (0x20000,0x10005) (-1,-2) (0,-1)), ... ok
+test_mul_falsifiers (test_emul_match.LongReaderTests.test_mul_falsifiers)
+Kills: product+1 adding to AX only (no carry into DX), adding 2, or changing the scratch registers; the ... ok
+test_mul_registers_are_exact (test_emul_match.LongReaderTests.test_mul_registers_are_exact)
+Kills: the operands taken from other registers (CX is the LOW word of the second operand), a term ... ok
+test_mul_tally_counts_exactly (test_emul_match.LongReaderTests.test_mul_tally_counts_exactly)
+Kills: any counter's condition or increment. Seven calls (3,0,0,5) (2,3,5,7) (0xFFFF,0,0,2) (0,0,0xFFFF,0xFFFF) ... ok
+test_a_hook_inside_a_proved_original_does_not_fire_but_a_direct_call_does (test_emul_match.NestedProofTests.test_a_hook_inside_a_proved_original_does_not_fire_but_a_direct_call_does) ... ok
+test_a_model_that_misses_the_inner_effect_is_stopped (test_emul_match.NestedProofTests.test_a_model_that_misses_the_inner_effect_is_stopped) ... ok
+test_the_instructions_that_write_below_sp (test_emul_match.PushOpcodeTests.test_the_instructions_that_write_below_sp) ... ok
+test_a_hidden_seed_write_is_in_the_trace_and_fails_the_comparison (test_emul_match.RealGuestTests.test_a_hidden_seed_write_is_in_the_trace_and_fails_the_comparison) ... ok
+test_a_raw_write_to_the_seed_restored_is_stopped (test_emul_match.RealGuestTests.test_a_raw_write_to_the_seed_restored_is_stopped) ... ok
+test_a_write_to_the_sub_tick_restored_is_stopped (test_emul_match.RealGuestTests.test_a_write_to_the_sub_tick_restored_is_stopped) ... ok
+test_a_wrong_step_off_the_main_seed_is_stopped (test_emul_match.RealGuestTests.test_a_wrong_step_off_the_main_seed_is_stopped) ... WARNING: call #1 of 214B:0688: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register SI at the return: the original 0x7B64, the model 0x6130 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register DI at the return: the original 0x7B64, the model 0x7B62 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register FLAGS at the return: the original 0x7202, the model 0x7206 (counted, not an error; further ones counted only)
+ok
+test_an_undeclared_first_key_read_raises (test_emul_match.RealGuestTests.test_an_undeclared_first_key_read_raises) ... ok
+test_f004_is_proved_at_every_call_with_no_difference (test_emul_match.RealGuestTests.test_f004_is_proved_at_every_call_with_no_difference) ... WARNING: call #1 of 214B:0688: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register SI at the return: the original 0x7B64, the model 0x6130 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register DI at the return: the original 0x7B64, the model 0x7B62 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register FLAGS at the return: the original 0x7202, the model 0x7206 (counted, not an error; further ones counted only)
+ok
+test_hooked_step_never_runs_and_keeps_the_trajectory (test_emul_match.RealGuestTests.test_hooked_step_never_runs_and_keeps_the_trajectory) ... ok
+test_the_gate_falsifier_is_not_reached_by_e011 (test_emul_match.RealGuestTests.test_the_gate_falsifier_is_not_reached_by_e011) ... ok
+test_the_gate_falsifier_proves_on_e011 (test_emul_match.RealGuestTests.test_the_gate_falsifier_proves_on_e011) ... WARNING: call #1 of 0791:278A: uncompared register BX at the return: the original 0x001E, the model 0x016A (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register CX at the return: the original 0x0010, the model 0x0004 (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register ES at the return: the original 0x2DA4, the model 0x4E5B (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register FLAGS at the return: the original 0x7202, the model 0x7296 (counted, not an error; further ones counted only)
+ok
+test_the_skill_reader_278a_is_proved_by_the_model (test_emul_match.RealGuestTests.test_the_skill_reader_278a_is_proved_by_the_model) ... WARNING: call #1 of 0791:278A: uncompared register BX at the return: the original 0x001E, the model 0x016A (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register CX at the return: the original 0x0010, the model 0x0004 (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register ES at the return: the original 0x2DA4, the model 0x4E5B (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register FLAGS at the return: the original 0x7202, the model 0x7296 (counted, not an error; further ones counted only)
+ok
+test_the_skill_reader_falsifiers_are_stopped (test_emul_match.RealGuestTests.test_the_skill_reader_falsifiers_are_stopped) ... ok
+test_available_right_foot_ax_and_dx (test_emul_match.StrengthReaderTests.test_available_right_foot_ax_and_dx) ... ok
+test_foot_zero_in_the_second_position_set (test_emul_match.StrengthReaderTests.test_foot_zero_in_the_second_position_set) ... ok
+test_the_clamp_edges (test_emul_match.StrengthReaderTests.test_the_clamp_edges) ... ok
+test_the_falsifiers_change_the_result (test_emul_match.StrengthReaderTests.test_the_falsifiers_change_the_result) ... ok
+test_the_foot_index_table_is_indexed_by_the_word_mod_3 (test_emul_match.StrengthReaderTests.test_the_foot_index_table_is_indexed_by_the_word_mod_3) ... ok
+test_the_foot_table_decides_the_wrong_foot (test_emul_match.StrengthReaderTests.test_the_foot_table_decides_the_wrong_foot) ... ok
+test_the_form_threshold_edge_0x20 (test_emul_match.StrengthReaderTests.test_the_form_threshold_edge_0x20) ... ok
+test_the_tally_follows_the_models_own_run (test_emul_match.StrengthReaderTests.test_the_tally_follows_the_models_own_run) ... ok
+test_the_word_decides_the_record (test_emul_match.StrengthReaderTests.test_the_word_decides_the_record) ... ok
+test_unavailable_by_energy_leaves_the_high_word_of_the_record_offset (test_emul_match.StrengthReaderTests.test_unavailable_by_energy_leaves_the_high_word_of_the_record_offset) ... ok
+test_unavailable_by_flag_leaves_the_element_minus_one (test_emul_match.StrengthReaderTests.test_unavailable_by_flag_leaves_the_element_minus_one) ... ok
+test_wrong_foot_dx_is_the_remainder_of_the_value_before_halving (test_emul_match.StrengthReaderTests.test_wrong_foot_dx_is_the_remainder_of_the_value_before_halving) ... ok
+test_a_correct_model_is_proved_with_no_difference (test_emul_match.SyntheticHookTests.test_a_correct_model_is_proved_with_no_difference) ... WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+ok
+test_a_correct_model_passes_with_the_output_just_below_the_entry_sp (test_emul_match.SyntheticHookTests.test_a_correct_model_passes_with_the_output_just_below_the_entry_sp) ... WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+ok
+test_a_correct_model_still_passes_with_the_stack_aliased (test_emul_match.SyntheticHookTests.test_a_correct_model_still_passes_with_the_stack_aliased) ... WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+ok
+test_a_model_leaving_another_cx_passes_with_a_warning_count (test_emul_match.SyntheticHookTests.test_a_model_leaving_another_cx_passes_with_a_warning_count) ... ok
+test_a_model_writing_another_byte_is_stopped_with_the_call_and_address (test_emul_match.SyntheticHookTests.test_a_model_writing_another_byte_is_stopped_with_the_call_and_address) ... ok
+test_a_write_through_a_mu_writer_bound_before_the_hook_is_recorded (test_emul_match.SyntheticHookTests.test_a_write_through_a_mu_writer_bound_before_the_hook_is_recorded) ... ok
+test_an_error_in_fn_stops_the_run_and_is_raised (test_emul_match.SyntheticHookTests.test_an_error_in_fn_stops_the_run_and_is_raised) ... ok
+test_an_output_aliased_into_the_stack_segment_below_sp_is_compared (test_emul_match.SyntheticHookTests.test_an_output_aliased_into_the_stack_segment_below_sp_is_compared) ... ok
+test_an_output_aliased_just_below_the_entry_sp_is_compared (test_emul_match.SyntheticHookTests.test_an_output_aliased_just_below_the_entry_sp_is_compared) ... ok
+test_every_fn_write_to_a_watched_word_is_reported (test_emul_match.SyntheticHookTests.test_every_fn_write_to_a_watched_word_is_reported) ... ok
+test_hooked_routine_is_not_executed_and_the_count_is_exact (test_emul_match.SyntheticHookTests.test_hooked_routine_is_not_executed_and_the_count_is_exact) ... ok
+test_the_originals_pushes_local_and_nested_call_are_its_frame (test_emul_match.SyntheticHookTests.test_the_originals_pushes_local_and_nested_call_are_its_frame) ... WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+ok
+test_unhooked_routine_runs_as_guest_code (test_emul_match.SyntheticHookTests.test_unhooked_routine_runs_as_guest_code) ... ok
+test_06d0_al_and_ah_cases (test_emul_match.WrapperReaderTests.test_06d0_al_and_ah_cases)
+Kills: AL = draw & 0xFF (B: draw 1199 -> AL would be 0xAF), AH from the wrong byte, AL true on the ... ok
+test_every_register_and_the_seed_write_of_each_wrapper (test_emul_match.WrapperReaderTests.test_every_register_and_the_seed_write_of_each_wrapper)
+Kills, per wrapper: AX = low byte only, AX = 0, AX + 1, DX = 0, DX = draw + 1, AH dropped (06D0), ... ok
+test_falsifier_inverted (test_emul_match.WrapperReaderTests.test_falsifier_inverted)
+Kills: AL not flipped, AH or DX disturbed, the seed write dropped or changed. ... ok
+test_falsifier_n_plus_1 (test_emul_match.WrapperReaderTests.test_falsifier_n_plus_1)
+Kills: the falsifier not adding 1 to n, adding it on the wrong wrapper's draw (06B1 case D: n = 3 ... ok
+test_falsifier_seed_write (test_emul_match.WrapperReaderTests.test_falsifier_seed_write)
+Kills: the seed write kept, or the registers changed when it is dropped. ... ok
+test_falsifier_value_plus_1 (test_emul_match.WrapperReaderTests.test_falsifier_value_plus_1)
+Kills: AX not + 1, DX also + 1, the seed write dropped or changed. ... ok
+test_n_is_the_first_argument_and_16_bit_free_of_other_args (test_emul_match.WrapperReaderTests.test_n_is_the_first_argument_and_16_bit_free_of_other_args)
+Kills: n read from arg(1) or arg(2) (GateGuest gives (n, 0x...)), n ignored. ... ok
+test_the_seed_is_read_through_the_far_pointer (test_emul_match.WrapperReaderTests.test_the_seed_is_read_through_the_far_pointer)
+Kills: the seed read from DS:7B62 (the decoy 0xBEEF), the pointer's segment or offset swapped. ... ok
+test_the_tally_counts_exactly (test_emul_match.WrapperReaderTests.test_the_tally_counts_exactly)
+Kills: any counter's condition or increment. Six calls A-F per wrapper: 'n+1 changes the draw' is ... ok
+test_near_return (test_emul_skip_ret.SkipRetNearTests.test_near_return) ... ok
+test_initial_subtick_one_lower_is_rejected (test_emul_watched.MutationTests.test_initial_subtick_one_lower_is_rejected) ... ok
+test_holder_write_preserves_830c (test_emul_watched.ResumeTests.test_holder_write_preserves_830c) ... ok
+test_word_write_would_clobber_830c (test_emul_watched.ResumeTests.test_word_write_would_clobber_830c) ... ok
+test_read_on_its_own_tick_matches (test_emul_watched.TickValuesTests.test_read_on_its_own_tick_matches) ... ok
+test_shifted_by_one_sub_tick_misses (test_emul_watched.TickValuesTests.test_shifted_by_one_sub_tick_misses) ... ok
+test_tick_without_draws_holds_its_value (test_emul_watched.TickValuesTests.test_tick_without_draws_holds_its_value) ... ok
+test_check_never_downloads (test_fetch_artifact.FakeReleaseTest.test_check_never_downloads) ... ok
+test_download_of_an_unknown_set_exits_naming_it (test_fetch_artifact.FakeReleaseTest.test_download_of_an_unknown_set_exits_naming_it) ... ok
+test_download_takes_every_file_from_the_release (test_fetch_artifact.FakeReleaseTest.test_download_takes_every_file_from_the_release) ... ok
+test_failing_gh_and_https_stop_the_download (test_fetch_artifact.FakeReleaseTest.test_failing_gh_and_https_stop_the_download) ... ok
+test_failing_gh_falls_back_to_https_and_verifies (test_fetch_artifact.FakeReleaseTest.test_failing_gh_falls_back_to_https_and_verifies) ... ok
+test_fetch_downloads_only_when_the_cache_does_not_verify (test_fetch_artifact.FakeReleaseTest.test_fetch_downloads_only_when_the_cache_does_not_verify) ... ok
+test_fetch_exits_when_the_download_does_not_verify (test_fetch_artifact.FakeReleaseTest.test_fetch_exits_when_the_download_does_not_verify) ... ok
+test_missing_file_is_reported (test_fetch_artifact.FakeReleaseTest.test_missing_file_is_reported) ... ok
+test_wrong_byte_count_is_reported (test_fetch_artifact.FakeReleaseTest.test_wrong_byte_count_is_reported) ... ok
+test_cli_exits_1_when_one_byte_is_flipped (test_fetch_artifact.FetchArtifactTest.test_cli_exits_1_when_one_byte_is_flipped) ... ok
+test_set_verifies_against_known_json (test_fetch_artifact.FetchArtifactTest.test_set_verifies_against_known_json) ... ok
+test_unknown_set_is_reported (test_fetch_artifact.FetchArtifactTest.test_unknown_set_is_reported) ... ok
+test_a_failed_upload_leaves_saves_json_unchanged (test_fetch_saves.AddSave.test_a_failed_upload_leaves_saves_json_unchanged) ... ok
+test_a_missing_save_is_downloaded_and_verified (test_fetch_saves.FetchSaves.test_a_missing_save_is_downloaded_and_verified) ... ok
+test_a_verified_cache_is_not_downloaded_again (test_fetch_saves.FetchSaves.test_a_verified_cache_is_not_downloaded_again) ... ok
+test_check_reports_a_missing_save (test_fetch_saves.FetchSaves.test_check_reports_a_missing_save) ... ok
+test_only_the_bad_save_is_downloaded_again (test_fetch_saves.FetchSaves.test_only_the_bad_save_is_downloaded_again) ... ok
+test_refresh_downloads_every_save (test_fetch_saves.FetchSaves.test_refresh_downloads_every_save) ... ok
+test_the_real_manifest_lists_2b_with_its_hash (test_fetch_saves.FetchSaves.test_the_real_manifest_lists_2b_with_its_hash) ... ok
+test_wrong_bytes_from_the_release_fail (test_fetch_saves.FetchSaves.test_wrong_bytes_from_the_release_fail) ... ok
+test_a_download_that_cannot_run_warns_and_goes_on (test_fetch_saves.RecorderFetches.test_a_download_that_cannot_run_warns_and_goes_on) ... warning: the saved games could not be fetched (no network); run: python3 tools/fetch_saves.py
+ok
+test_a_hash_mismatch_stops_the_sitting (test_fetch_saves.RecorderFetches.test_a_hash_mismatch_stops_the_sitting) ... ok
+test_an_earlier_session_save_wins_over_the_fetched_one (test_fetch_saves.RecorderFetches.test_an_earlier_session_save_wins_over_the_fetched_one) ... ok
+test_an_offline_sitting_with_a_tampered_cached_save_stops (test_fetch_saves.RecorderFetches.test_an_offline_sitting_with_a_tampered_cached_save_stops) ... ok
+test_an_unlisted_cached_save_is_never_placed (test_fetch_saves.RecorderFetches.test_an_unlisted_cached_save_is_never_placed) ... ok
+test_equal_mtime_saves_are_chosen_by_name_not_by_listing_order (test_fetch_saves.RecorderFetches.test_equal_mtime_saves_are_chosen_by_name_not_by_listing_order) ... ok
+test_new_session_fetches_before_it_places_a_save (test_fetch_saves.RecorderFetches.test_new_session_fetches_before_it_places_a_save) ... ok
+test_with_no_earlier_session_the_fetched_save_is_placed (test_fetch_saves.RecorderFetches.test_with_no_earlier_session_the_fetched_save_is_placed) ... ok
+test_complete_cache_is_used_and_nothing_is_downloaded (test_ga.GaFetchTest.test_complete_cache_is_used_and_nothing_is_downloaded) ... ok
+test_edited_cached_tool_is_a_named_blob_sha_error (test_ga.GaFetchTest.test_edited_cached_tool_is_a_named_blob_sha_error) ... ok
+test_gh_failure_is_a_named_error (test_ga.GaFetchTest.test_gh_failure_is_a_named_error) ... ok
+test_git_blob_sha_is_the_sha_git_gives_the_blob (test_ga.GaFetchTest.test_git_blob_sha_is_the_sha_git_gives_the_blob) ... ok
+test_partial_cache_is_fetched_again (test_ga.GaFetchTest.test_partial_cache_is_fetched_again) ... ok
+test_root_is_the_cache_path_for_that_commit (test_ga.GaFetchTest.test_root_is_the_cache_path_for_that_commit) ... ok
+test_stale_cached_pyc_is_never_run (test_ga.GaFetchTest.test_stale_cached_pyc_is_never_run) ... ok
+test_stale_pyc_under_a_pycache_prefix_is_never_run (test_ga.GaFetchTest.test_stale_pyc_under_a_pycache_prefix_is_never_run) ... ok
+test_symlinked_cache_root_or_commit_is_a_named_error (test_ga.GaFetchTest.test_symlinked_cache_root_or_commit_is_a_named_error) ... ok
+test_unreadable_formats_directory_is_a_named_error (test_ga.GaFetchTest.test_unreadable_formats_directory_is_a_named_error) ... ok
+test_unreadable_tools_directory_is_a_named_error (test_ga.GaFetchTest.test_unreadable_tools_directory_is_a_named_error) ... ok
+test_a_tool_killed_by_a_signal_terminates_the_wrapper_with_it (test_ga.WrapperPassThroughTest.test_a_tool_killed_by_a_signal_terminates_the_wrapper_with_it) ... ok
+test_check_citations_passes_arguments_and_exit_code (test_ga.WrapperPassThroughTest.test_check_citations_passes_arguments_and_exit_code) ... ok
+test_fetched_tool_never_runs_stale_pyc_under_a_pycache_prefix (test_ga.WrapperPassThroughTest.test_fetched_tool_never_runs_stale_pyc_under_a_pycache_prefix) ... ok
+test_launch_failure_is_a_named_error_and_exits_1 (test_ga.WrapperPassThroughTest.test_launch_failure_is_a_named_error_and_exits_1) ... ok
+test_verify_evidence_passes_arguments_and_exit_code (test_ga.WrapperPassThroughTest.test_verify_evidence_passes_arguments_and_exit_code) ... ok
+test_wrapper_reports_the_ga_error_by_name_and_exits_1 (test_ga.WrapperPassThroughTest.test_wrapper_reports_the_ga_error_by_name_and_exits_1) ... ok
+test_the_timings_relate_as_their_comment_says (test_heavy_slot.ConstantsTest.test_the_timings_relate_as_their_comment_says) ... ok
+test_a_command_line_the_script_refuses_does_not_queue (test_heavy_slot.EntryPointsTest.test_a_command_line_the_script_refuses_does_not_queue) ... ok
+test_a_valid_command_line_waits_in_the_queue (test_heavy_slot.EntryPointsTest.test_a_valid_command_line_waits_in_the_queue)
+Each entry point queues a line it will run (the refused ones do not: RefusedAfterParsingTest). #328 changed the ... ok
+test_the_entry_points_take_a_slot (test_heavy_slot.EntryPointsTest.test_the_entry_points_take_a_slot) ... ok
+test_a_command_line_main_refuses_holds_no_slot (test_heavy_slot.FamilyWorkersTest.test_a_command_line_main_refuses_holds_no_slot) ... ok
+test_a_line_main_refuses_after_parsing_holds_no_slot_either (test_heavy_slot.FamilyWorkersTest.test_a_line_main_refuses_after_parsing_holds_no_slot_either) ... ok
+test_check_py_runs_in_one_process_in_every_mode (test_heavy_slot.FamilyWorkersTest.test_check_py_runs_in_one_process_in_every_mode)
+Audit of #318 round 3: check.py's modes (--family, --ports, --variant, --image, --json) run their matches one after ... ok
+test_parsed_prints_nothing_and_returns_none_on_a_refused_line (test_heavy_slot.FamilyWorkersTest.test_parsed_prints_nothing_and_returns_none_on_a_refused_line) ... ok
+test_the_weight_is_the_load_of_the_mode_not_the_workers_option (test_heavy_slot.FamilyWorkersTest.test_the_weight_is_the_load_of_the_mode_not_the_workers_option) ... ok
+test_the_weight_is_the_workers_main_uses_whatever_the_spelling (test_heavy_slot.FamilyWorkersTest.test_the_weight_is_the_workers_main_uses_whatever_the_spelling) ... ok
+test_a_fifo_is_not_a_file_and_does_not_block (test_heavy_slot.PathOptionsTest.test_a_fifo_is_not_a_file_and_does_not_block)
+Opening a FIFO for reading waits for a writer: the check must refuse it before it opens anything. ... ok
+test_check_cache (test_heavy_slot.PathOptionsTest.test_check_cache) ... ok
+test_check_cache_permissions (test_heavy_slot.PathOptionsTest.test_check_cache_permissions) ... ok
+test_check_image (test_heavy_slot.PathOptionsTest.test_check_image) ... ok
+test_check_image_permissions (test_heavy_slot.PathOptionsTest.test_check_image_permissions) ... ok
+test_check_json (test_heavy_slot.PathOptionsTest.test_check_json) ... ok
+test_check_json_permissions (test_heavy_slot.PathOptionsTest.test_check_json_permissions) ... ok
+test_every_path_option_is_in_a_table (test_heavy_slot.PathOptionsTest.test_every_path_option_is_in_a_table)
+The audit: the options of the three parsers. A new option that names a file fails here until it has a table. ... ok
+test_family_cache (test_heavy_slot.PathOptionsTest.test_family_cache) ... ok
+test_family_cache_permissions (test_heavy_slot.PathOptionsTest.test_family_cache_permissions) ... ok
+test_family_checkpoint (test_heavy_slot.PathOptionsTest.test_family_checkpoint) ... ok
+test_family_checkpoint_permissions (test_heavy_slot.PathOptionsTest.test_family_checkpoint_permissions) ... ok
+test_family_find_ranges (test_heavy_slot.PathOptionsTest.test_family_find_ranges) ... ok
+test_family_find_ranges_permissions (test_heavy_slot.PathOptionsTest.test_family_find_ranges_permissions) ... ok
+test_family_mask (test_heavy_slot.PathOptionsTest.test_family_mask) ... ok
+test_family_mask_permissions (test_heavy_slot.PathOptionsTest.test_family_mask_permissions) ... ok
+test_family_out (test_heavy_slot.PathOptionsTest.test_family_out) ... ok
+test_family_out_permissions (test_heavy_slot.PathOptionsTest.test_family_out_permissions) ... ok
+test_check_refusals (test_heavy_slot.RefusedAfterParsingTest.test_check_refusals) ... ok
+test_ci_gate_refusals (test_heavy_slot.RefusedAfterParsingTest.test_ci_gate_refusals) ... ok
+test_family_refusals (test_heavy_slot.RefusedAfterParsingTest.test_family_refusals) ... ok
+test_main_asks_the_same_validation (test_heavy_slot.RefusedAfterParsingTest.test_main_asks_the_same_validation)
+The slot step and main() share one function: main() refuses through it, so the two cannot diverge. ... ok
+test_a_job_waits_for_the_slot_a_heavy_job_holds_and_then_runs (test_heavy_slot.TakeTest.test_a_job_waits_for_the_slot_a_heavy_job_holds_and_then_runs) ... ok
+test_in_ci_and_when_switched_off_it_runs_as_it_is (test_heavy_slot.TakeTest.test_in_ci_and_when_switched_off_it_runs_as_it_is) ... ok
+test_inside_a_heavy_job_it_runs_at_once (test_heavy_slot.TakeTest.test_inside_a_heavy_job_it_runs_at_once) ... ok
+test_take_replaces_the_process_by_heavy_sh_with_the_original_command (test_heavy_slot.TakeTest.test_take_replaces_the_process_by_heavy_sh_with_the_original_command) ... match: 22/22
+MISS case injury_high_morale: predicted does not match expected
+match: 21/22
+MISS case all_zero: predicted does not match expected
+match: 21/22
+MISS case injury_high_morale: predicted does not match expected
+match: 21/22
+MISS case all_zero: predicted does not match expected
+match: 21/22
+MISS case injury_high_morale: predicted does not match expected
+MISS case injury_low_morale: predicted does not match expected
+MISS case injury_floor_morale: predicted does not match expected
+MISS case scorer_plus_one: predicted does not match expected
+MISS case scorer_minus_one: predicted does not match expected
+MISS case team_reaction_no_persist_pos: predicted does not match expected
+MISS case team_reaction_no_persist_neg: predicted does not match expected
+MISS case send_off_tail_other_team: predicted does not match expected
+MISS case clamp_below_one: predicted does not match expected
+MISS case clamp_above_255: predicted does not match expected
+MISS case clamp_signed_overflow: predicted does not match expected
+MISS case signed_wrap_floor: predicted does not match expected
+MISS case signed_wrap_high_persist: predicted does not match expected
+match: 9/22
+wrote 22 cases to /home/diego/projects/goal2-archaeology/experiments/E019-q017-events-morale/probe-literal-001.json
+MISS case injury_high_morale: predicted does not match expected
+MISS case injury_low_morale: predicted does not match expected
+MISS case injury_floor_morale: predicted does not match expected
+MISS case scorer_plus_one: predicted does not match expected
+MISS case scorer_minus_one: predicted does not match expected
+MISS case team_reaction_no_persist_pos: predicted does not match expected
+MISS case team_reaction_no_persist_neg: predicted does not match expected
+MISS case send_off_tail_other_team: predicted does not match expected
+MISS case clamp_below_one: predicted does not match expected
+MISS case clamp_above_255: predicted does not match expected
+MISS case clamp_signed_overflow: predicted does not match expected
+MISS case signed_wrap_floor: predicted does not match expected
+MISS case signed_wrap_high_persist: predicted does not match expected
+match: 9/22
+wrote 22 cases to /home/diego/projects/goal2-archaeology/experiments/E019-q017-events-morale/probe-literal-001.json
+MISS case all_zero: predicted does not match expected
+MISS case all_32: predicted does not match expected
+MISS case all_16: predicted does not match expected
+MISS case mixed_low_high: predicted does not match expected
+MISS case one_signed_negative_r1: predicted does not match expected
+MISS case one_just_above_32: predicted does not match expected
+MISS case all_signed_negative: predicted does not match expected
+MISS case exactly_below_one: predicted does not match expected
+MISS case one_signed_neg_one: predicted does not match expected
+match: 13/22
+MISS case all_zero: predicted does not match expected
+MISS case all_32: predicted does not match expected
+MISS case all_16: predicted does not match expected
+MISS case mixed_low_high: predicted does not match expected
+MISS case one_signed_negative_r1: predicted does not match expected
+MISS case one_just_above_32: predicted does not match expected
+MISS case all_signed_negative: predicted does not match expected
+MISS case exactly_below_one: predicted does not match expected
+MISS case one_signed_neg_one: predicted does not match expected
+match: 13/22
+MISS case injury_high_morale: predicted does not match expected
+match: 21/22
+MISS case all_zero: predicted does not match expected
+match: 21/22
+E003-r9999 d0-time-100000-date-10041993: aborted: RuntimeError: stop after launch (test)
+E003-r9999 d0-time-100000-date-10041993: aborted: ClockNotApplied: DOS date set to 10/04/1993, DOS reports 10/04/2026
+E003-r8888 d0-time-free: completed
+2 of 2 runs completed
+E005-r9999 quick-restore-e004-1001-cycles-5000: completed
+E006-r0007 10:00:00: completed
+ok
+test_the_weight_is_the_number_of_slots_held (test_heavy_slot.TakeTest.test_the_weight_is_the_number_of_slots_held) ... ok
+test_a_named_injected_key_is_no_owner_press_and_the_log_stays_raw (test_human_coach.ExtractMarksTests.test_a_named_injected_key_is_no_owner_press_and_the_log_stays_raw) ... ok
+test_notes_and_pauses_land_between_the_states_they_fall_between (test_human_coach.ExtractMarksTests.test_notes_and_pauses_land_between_the_states_they_fall_between) ... ok
+test_the_saved_game_the_recorder_placed_and_declared_interventions_are_in_the_record (test_human_coach.ExtractMarksTests.test_the_saved_game_the_recorder_placed_and_declared_interventions_are_in_the_record) ... ok
+test_without_the_monotonic_clock_a_note_is_placed_by_utc (test_human_coach.ExtractMarksTests.test_without_the_monotonic_clock_a_note_is_placed_by_utc) ... ok
+test_a_paused_sitting_says_so (test_human_coach.LiveTests.test_a_paused_sitting_says_so) ... ok
+test_the_newest_screen_and_the_keys_since_the_last_call_writing_nothing_in_the_session (test_human_coach.LiveTests.test_the_newest_screen_and_the_keys_since_the_last_call_writing_nothing_in_the_session) ... ok
+test_a_folder_that_is_not_a_session_is_refused (test_human_coach.NoteTests.test_a_folder_that_is_not_a_session_is_refused) ... ok
+test_a_note_is_appended_with_utc_and_the_monotonic_clock (test_human_coach.NoteTests.test_a_note_is_appended_with_utc_and_the_monotonic_clock) ... ok
+test_cadence_must_be_positive (test_human_cycles.CadenceTests.test_cadence_must_be_positive) ... ok
+test_owner_sittings_tick_every_5_s_scripted_keep_20 (test_human_cycles.CadenceTests.test_owner_sittings_tick_every_5_s_scripted_keep_20) ... ok
+test_watcher_takes_the_cadence (test_human_cycles.CadenceTests.test_watcher_takes_the_cadence) ... ok
+test_empty_cycles_and_nan_cadence_are_refused_before_anything_starts (test_human_cycles.CliTests.test_empty_cycles_and_nan_cadence_are_refused_before_anything_starts) ... ok
+test_accepted_values (test_human_cycles.CyclesTests.test_accepted_values) ... ok
+test_default_is_fixed_8000 (test_human_cycles.CyclesTests.test_default_is_fixed_8000) ... ok
+test_no_cycles_keeps_the_driver_config (test_human_cycles.CyclesTests.test_no_cycles_keeps_the_driver_config) ... ok
+test_play_without_cycles_calls_new_session_as_before (test_human_cycles.CyclesTests.test_play_without_cycles_calls_new_session_as_before) ... ok
+test_refused_values (test_human_cycles.CyclesTests.test_refused_values) ... ok
+test_scripted_sittings_keep_the_driver_config (test_human_cycles.CyclesTests.test_scripted_sittings_keep_the_driver_config) ... ok
+test_a_fast_overwrite_is_superseded_not_staged (test_human_keys.AttributionBypassTests.test_a_fast_overwrite_is_superseded_not_staged) ... ok
+test_a_head_jobs_two_saves_in_one_poll_gap_are_refused (test_human_keys.AttributionBypassTests.test_a_head_jobs_two_saves_in_one_poll_gap_are_refused) ... ok
+test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request (test_human_keys.AttributionBypassTests.test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request) ... ok
+test_the_stability_fallback_never_restages_consumed_bytes (test_human_keys.AttributionBypassTests.test_the_stability_fallback_never_restages_consumed_bytes) ... ok
+test_a_pipeline_timeout_marks_the_request_skipped (test_human_keys.BurstPipelineTests.test_a_pipeline_timeout_marks_the_request_skipped) ... ok
+test_ten_keys_at_051_s_gaps_are_all_accounted_for (test_human_keys.BurstPipelineTests.test_ten_keys_at_051_s_gaps_are_all_accounted_for) ... ok
+test_a_clean_pipeline_sitting_has_no_superseded_requests (test_human_keys.DeferredCaptureTests.test_a_clean_pipeline_sitting_has_no_superseded_requests) ... ok
+test_a_deferred_stage_job_is_marked_superseded_and_never_stages (test_human_keys.DeferredCaptureTests.test_a_deferred_stage_job_is_marked_superseded_and_never_stages) ... ok
+test_the_guard_rejects_a_superseded_sitting (test_human_keys.DeferredCaptureTests.test_the_guard_rejects_a_superseded_sitting) ... ok
+test_a_key_with_no_write_in_10_s_is_sent_again (test_human_keys.EarlySaveRuleTests.test_a_key_with_no_write_in_10_s_is_sent_again) ... ok
+test_a_save_before_the_watcher_is_counted_and_refused (test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused) ... ok
+test_a_save_still_being_written_after_10_s_gets_no_second_key (test_human_keys.EarlySaveRuleTests.test_a_save_still_being_written_after_10_s_gets_no_second_key) ... ok
+test_a_sitting_without_an_early_save_passes_the_same_guard (test_human_keys.EarlySaveRuleTests.test_a_sitting_without_an_early_save_passes_the_same_guard) ... ok
+test_a_write_that_begins_in_the_last_sleep_before_10_s_gets_no_second_key (test_human_keys.EarlySaveRuleTests.test_a_write_that_begins_in_the_last_sleep_before_10_s_gets_no_second_key) ... ok
+test_no_whole_save_in_30_s_fails_the_sitting (test_human_keys.EarlySaveRuleTests.test_no_whole_save_in_30_s_fails_the_sitting) ... ok
+test_the_hook_waits_for_the_whole_save_through_a_writer_pause (test_human_keys.EarlySaveRuleTests.test_the_hook_waits_for_the_whole_save_through_a_writer_pause) ... ok
+test_a_save_before_the_watcher_is_refused (test_human_keys.EarlySaveTests.test_a_save_before_the_watcher_is_refused) ... ok
+test_a_later_save_under_a_matching_window_is_rejected (test_human_keys.GuardAttributionTests.test_a_later_save_under_a_matching_window_is_rejected) ... ok
+test_a_line_two_saves_past_the_previous_is_rejected (test_human_keys.GuardAttributionTests.test_a_line_two_saves_past_the_previous_is_rejected) ... ok
+test_a_line_with_write_accounting_but_no_pre_send_state_is_rejected (test_human_keys.GuardAttributionTests.test_a_line_with_write_accounting_but_no_pre_send_state_is_rejected) ... ok
+test_a_line_without_only_the_pre_send_state_is_rejected (test_human_keys.GuardAttributionTests.test_a_line_without_only_the_pre_send_state_is_rejected) ... ok
+test_a_line_without_the_accept_time_state_is_rejected (test_human_keys.GuardAttributionTests.test_a_line_without_the_accept_time_state_is_rejected) ... ok
+test_a_request_that_staged_nothing_is_rejected (test_human_keys.GuardAttributionTests.test_a_request_that_staged_nothing_is_rejected) ... ok
+test_a_save_before_the_first_request_is_rejected (test_human_keys.GuardAttributionTests.test_a_save_before_the_first_request_is_rejected) ... ok
+test_a_session_without_its_write_total_is_rejected (test_human_keys.GuardAttributionTests.test_a_session_without_its_write_total_is_rejected) ... ok
+test_a_well_evidenced_sitting_passes (test_human_keys.GuardAttributionTests.test_a_well_evidenced_sitting_passes) ... ok
+test_an_ordinary_staged_line_without_evidence_is_rejected (test_human_keys.GuardAttributionTests.test_an_ordinary_staged_line_without_evidence_is_rejected) ... ok
+test_staged_requests_must_own_increasing_writes (test_human_keys.GuardAttributionTests.test_staged_requests_must_own_increasing_writes) ... ok
+test_two_saves_in_one_request_window_are_rejected (test_human_keys.GuardAttributionTests.test_two_saves_in_one_request_window_are_rejected) ... ok
+test_a_request_window_opened_before_its_group_fails (test_human_keys.GuardTests.test_a_request_window_opened_before_its_group_fails) ... ok
+test_fewer_snapshots_than_groups_fails (test_human_keys.GuardTests.test_fewer_snapshots_than_groups_fails) ... ok
+test_group_presses_splits_on_the_quiet_interval (test_human_keys.GuardTests.test_group_presses_splits_on_the_quiet_interval) ... ok
+test_one_snapshot_per_group_passes (test_human_keys.GuardTests.test_one_snapshot_per_group_passes) ... ok
+test_request_windows_clustered_after_every_group_fail (test_human_keys.GuardTests.test_request_windows_clustered_after_every_group_fail) ... ok
+test_request_windows_interleaved_with_their_groups_pass (test_human_keys.GuardTests.test_request_windows_interleaved_with_their_groups_pass) ... ok
+test_scripted_sitting_produces_one_burst_snapshot_per_key_group (test_human_keys.GuardTests.test_scripted_sitting_produces_one_burst_snapshot_per_key_group) ... ok
+test_the_same_snapshot_cannot_bracket_two_groups (test_human_keys.GuardTests.test_the_same_snapshot_cannot_bracket_two_groups) ... ok
+test_unmapped_presses_fail_the_coverage_guard (test_human_keys.GuardTests.test_unmapped_presses_fail_the_coverage_guard) ... ok
+test_a_key_episodes_request_goes_out_at_the_settle_not_at_due (test_human_keys.KeyTests.test_a_key_episodes_request_goes_out_at_the_settle_not_at_due) ... ok
+test_burst_preserves_group_boundaries_across_drains (test_human_keys.KeyTests.test_burst_preserves_group_boundaries_across_drains) ... ok
+test_burst_waits_for_quiet_and_only_consumes_once (test_human_keys.KeyTests.test_burst_waits_for_quiet_and_only_consumes_once) ... ok
+test_human_paced_keys_account_for_every_group_in_a_request_or_a_merge (test_human_keys.KeyTests.test_human_paced_keys_account_for_every_group_in_a_request_or_a_merge) ... ok
+test_logger_rejects_outer_display (test_human_keys.KeyTests.test_logger_rejects_outer_display) ... ok
+test_loop_takes_burst_snapshot_between_cadence_ticks (test_human_keys.KeyTests.test_loop_takes_burst_snapshot_between_cadence_ticks) ... ok
+test_private_display_logs_game_keys_not_outer_app_keys (test_human_keys.KeyTests.test_private_display_logs_game_keys_not_outer_app_keys) ... XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+ok
+test_raw_events_only_and_key_fields (test_human_keys.KeyTests.test_raw_events_only_and_key_fields) ... ok
+test_the_recorders_own_save_events_make_no_raw_key_burst (test_human_keys.KeyTests.test_the_recorders_own_save_events_make_no_raw_key_burst) ... ok
+test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen (test_human_keys.MapTests.test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen) ... ok
+test_a_key_inside_a_request_window_is_ambiguous (test_human_keys.MapTests.test_a_key_inside_a_request_window_is_ambiguous) ... ok
+test_a_skipped_snapshot_request_unmaps_its_burst (test_human_keys.MapTests.test_a_skipped_snapshot_request_unmaps_its_burst) ... ok
+test_a_snapshot_inside_a_burst_splits_it (test_human_keys.MapTests.test_a_snapshot_inside_a_burst_splits_it) ... ok
+test_an_entry_without_a_request_time_brackets_nothing_before_its_staging (test_human_keys.MapTests.test_an_entry_without_a_request_time_brackets_nothing_before_its_staging) ... ok
+test_keymap_prints_and_writes_no_record (test_human_keys.MapTests.test_keymap_prints_and_writes_no_record) ... ok
+test_literal_session_map (test_human_keys.MapTests.test_literal_session_map) ... ok
+test_map_boundaries_order_identity_and_counts (test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts) ... ok
+test_the_headline_skips_host_paths (test_human_keys.MapTests.test_the_headline_skips_host_paths) ... ok
+test_the_quiet_interval_decides_one_burst_or_two (test_human_keys.MapTests.test_the_quiet_interval_decides_one_burst_or_two) ... ok
+test_two_bursts_between_the_same_snapshots_are_unmapped (test_human_keys.MapTests.test_two_bursts_between_the_same_snapshots_are_unmapped) ... ok
+test_a_marker_naming_the_merge_lists_the_earlier_groups (test_human_keys.MergedMapTests.test_a_marker_naming_the_merge_lists_the_earlier_groups) ... ok
+test_a_marker_smaller_than_the_bursts_excuses_nothing (test_human_keys.MergedMapTests.test_a_marker_smaller_than_the_bursts_excuses_nothing) ... ok
+test_without_a_marker_two_bursts_in_a_gap_stay_unmapped (test_human_keys.MergedMapTests.test_without_a_marker_two_bursts_in_a_gap_stay_unmapped) ... ok
+test_a_live_xephyr_without_its_titled_window_is_never_accepted (test_human_keys.NestedDisplayTests.test_a_live_xephyr_without_its_titled_window_is_never_accepted) ... ok
+test_self_test_requires_nested_tools (test_human_keys.NestedDisplayTests.test_self_test_requires_nested_tools) ... missing: Xephyr; xinput
+ok
+test_start_nested_binds_the_real_xephyr_window (test_human_keys.NestedDisplayTests.test_start_nested_binds_the_real_xephyr_window) ... ok
+test_the_xephyr_window_is_the_unique_exact_title (test_human_keys.NestedDisplayTests.test_the_xephyr_window_is_the_unique_exact_title) ... ok
+test_try_start_skips_busy_number_and_changes_only_child_display (test_human_keys.NestedDisplayTests.test_try_start_skips_busy_number_and_changes_only_child_display) ... ok
+test_a_cadence_tick_due_in_flight_is_sent_after_it_once (test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once) ... ok
+test_a_fast_run_of_keys_gets_its_one_request_after_the_run (test_human_keys.OneSaveInFlightTests.test_a_fast_run_of_keys_gets_its_one_request_after_the_run) ... ok
+test_a_scroll_faster_than_the_save_keeps_one_request_in_flight (test_human_keys.OneSaveInFlightTests.test_a_scroll_faster_than_the_save_keeps_one_request_in_flight) ... ok
+test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request) ... ok
+test_keys_spaced_over_the_settle_get_one_request_each (test_human_keys.OneSaveInFlightTests.test_keys_spaced_over_the_settle_get_one_request_each) ... ok
+test_requests_between_keys_wait_for_the_one_in_flight (test_human_keys.OneSaveInFlightTests.test_requests_between_keys_wait_for_the_one_in_flight) ... ok
+test_the_resume_request_waits_for_the_request_in_flight (test_human_keys.OneSaveInFlightTests.test_the_resume_request_waits_for_the_request_in_flight) ... ok
+test_the_matching_window_reproduction_is_refused (test_human_keys.ReproductionWrapperTests.test_the_matching_window_reproduction_is_refused) ... ok
+test_the_r4_r1_reproduction_is_refused (test_human_keys.ReproductionWrapperTests.test_the_r4_r1_reproduction_is_refused) ... ok
+test_the_r4_r2_reproduction_is_refused (test_human_keys.ReproductionWrapperTests.test_the_r4_r2_reproduction_is_refused) ... ok
+test_a_video_sitting_records_the_xephyr_window (test_human_keys.VideoTests.test_a_video_sitting_records_the_xephyr_window) ... ok
+test_the_video_films_the_nested_display_not_what_covers_the_window_outside (test_human_keys.VideoTests.test_the_video_films_the_nested_display_not_what_covers_the_window_outside) ... 

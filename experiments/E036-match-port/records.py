@@ -53,6 +53,7 @@ import hashlib
 import json
 import math
 import re
+import image_sources
 
 KIT_VERSION_PATTERN = re.compile(r"[0-9]{1,3}")
 DIGEST = re.compile(r"[0-9a-f]{64}")
@@ -78,6 +79,12 @@ RANGES = {
     "w5eb30": (387888, 64),             # 64 bytes that three of the kind-200 matches change (notes/T57.md)
     "pitch_background": (388368, 4016),     # DS:7C1E's block: the pitch picture's background copy, which 8E24
 }                                           # restores cells from (E032 notes), with its 6-byte header and tail
+
+def ranges_for_source(image_sha256=None):
+    """Same closed range names; later calendars protect their full source-bound extent."""
+    start, length = RANGES['records']
+    expanded = image_sources.records_length(image_sha256,length)
+    return RANGES if expanded == length else {**RANGES,'records':(start,expanded)}
 # The 1 KiB blocks of DS that only the screen's text buffers carry (DS:A96E and DS:A972 point at the two 4000-byte
 # buffers from DS:ED10; block 59 is the first that holds any of it): compare.py --no-screen leaves them out.
 SCREEN_DS_BLOCKS = (59, 60, 61, 62, 63)
@@ -341,7 +348,7 @@ def validate_evidence(r):
     for i, h in enumerate(a["ds"]):
         _str(h, DIGEST, f"after.ds[{i}]")
     _keys(a["ranges"], tuple(RANGES), "after.ranges")
-    for name, (_, length) in RANGES.items():
+    for name, (_, length) in ranges_for_source(r["image_sha256"]).items():
         _list(a["ranges"][name], f"after.ranges.{name}", -(-length // BLOCK))
         for i, h in enumerate(a["ranges"][name]):
             _str(h, DIGEST, f"after.ranges.{name}[{i}]")

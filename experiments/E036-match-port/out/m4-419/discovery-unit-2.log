@@ -1,0 +1,15 @@
+test_comparator_refuses_source_swap_in_either_log_and_missing_bindings (tests.test_e036_image_sources.ImageSources.test_comparator_refuses_source_swap_in_either_log_and_missing_bindings) ... ok
+test_extended_calendar_is_required_and_last_block_remains_compared (tests.test_e036_image_sources.ImageSources.test_extended_calendar_is_required_and_last_block_remains_compared) ... ok
+test_legacy_specs_stay_byte_for_byte_bound_to_old_references (tests.test_e036_image_sources.ImageSources.test_legacy_specs_stay_byte_for_byte_bound_to_old_references) ... ok
+test_nondefault_source_enters_spec_digest_and_checkpoint_identity (tests.test_e036_image_sources.ImageSources.test_nondefault_source_enters_spec_digest_and_checkpoint_identity) ... ok
+test_private_source_has_no_automatic_download (tests.test_e036_image_sources.ImageSources.test_private_source_has_no_automatic_download) ... ok
+test_replay_diagnostic_loads_the_selected_source (tests.test_e036_image_sources.ImageSources.test_replay_diagnostic_loads_the_selected_source) ... ok
+test_single_worker_uses_each_specs_image (tests.test_e036_image_sources.ImageSources.test_single_worker_uses_each_specs_image) ... ok
+test_unknown_image_is_refused (tests.test_e036_image_sources.ImageSources.test_unknown_image_is_refused) ... ok
+test_wrong_cached_file_never_becomes_an_image (tests.test_e036_image_sources.ImageSources.test_wrong_cached_file_never_becomes_an_image) ... ok
+test_wrong_memory_image_refused_before_match_construction (tests.test_e036_image_sources.ImageSources.test_wrong_memory_image_refused_before_match_construction) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.449s
+
+OK

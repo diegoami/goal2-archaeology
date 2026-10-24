@@ -1,0 +1,11 @@
+{
+  "source_sha256": "3ea57029282b849fd3114a995178f35e48c420c768f0702b9d3b7d48600dc1fc",
+  "writes": [
+    {
+      "writer": "0791:F0B1",
+      "program_relative_address": "0x5a3ce",
+      "size": 2
+    }
+  ],
+  "checker_error": "UndeclaredWrite: 1 bytes changed outside the declared ranges, first at P+0x5A3CE: rerun --find-ranges"
+}

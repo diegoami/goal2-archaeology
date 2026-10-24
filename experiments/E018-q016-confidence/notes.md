@@ -106,7 +106,7 @@ unchanged, not a second confidence rule.
 | 1771:13D0 | reads capped +C into team aggregate DS:9B5A | named/seg_1771_01.c:1021–1038 |
 | 1771:377E | reads signed +C into player strength, special branch >=32 | named/seg_1771_03.c:308–325 |
 | 1771:42BC | reads +C for description and bar | code/seg_1771_06.asm:1114–1142; named/seg_1771_03.c:881–892 |
-| 1771:96D3 | writes draw(32) at player creation | named/seg_1771_06.c:1001–1006 |
+| 1771:96D3 | writes draw(32) at player creation | named/seg_1771_07.c:62–67 |
 
 ### Callers that cause field or saved-field writes
 

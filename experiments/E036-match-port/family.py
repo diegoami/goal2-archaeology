@@ -7,7 +7,8 @@
     python3 -B experiments/E036-match-port/family.py --family ALL --find-ranges experiments/E036-match-port/out/T57/ranges-<stamp>.json [--only ID,...]
 
 --family is ALL (the union of the families under families/) or comma-separated family names. The matches are the
-declared ones (families.py); the image is E006-r0001, fetched by hash into --cache (default .cache/dl).
+declared ones (families.py); each spec binds a registered image source, fetched or verified by hash in --cache
+(default .cache/dl). Historical specs retain E006-r0001.
 
 The unhooked kit is the reference: no port is installed. `--ports M,...|all` (T59) runs the kit's port mode
 (runtime/original_match/port/, as check.py takes it): those modules' Python routines in place of the original's;
@@ -61,6 +62,7 @@ sys.path.insert(0, str(HERE))
 import families  # noqa: E402
 import fileopts  # noqa: E402
 import records  # noqa: E402
+import image_sources  # noqa: E402
 
 DEFAULT_CACHE = ".cache/dl"
 DISPLAY_PROFILE = HERE / "families/display/profile.json"
@@ -77,7 +79,7 @@ class Refused(Exception):
     """A command the script will not run (exit 2)."""
 
 
-REFUSALS = (Refused, families.FamilyError, fileopts.PathError)    # what main() prints as "refused: ..." and the slot step skips
+REFUSALS = (Refused, families.FamilyError, fileopts.PathError, image_sources.SourceError)    # what main() prints as "refused: ..." and the slot step skips
 
 
 def clean_error(e):
@@ -162,11 +164,11 @@ class UndeclaredWrite(Exception):
     pass
 
 
-def allowed_spans(machine):
+def allowed_spans(machine, image_sha256=None):
     """The linear spans a match may change: DS, records.RANGES, and the screen's page and two text buffers."""
     base = machine.load * 16
     spans = [(machine.DS * 16, machine.DS * 16 + records.DS_SIZE)]
-    spans += [(base + start, base + start + length) for start, length in records.RANGES.values()]
+    spans += [(base + start, base + start + length) for start, length in records.ranges_for_source(image_sha256).values()]
     spans += [(machine.far(p), machine.far(p) + SCREEN_BYTES) for p in SCREEN_POINTERS]
     return spans
 
@@ -185,13 +187,13 @@ def undeclared_changes(before, after, spans):
     return merge([[j, j + 1] for j in changed], gap=15)
 
 
-def digest_memory(m, mask):
+def digest_memory(m, mask, image_sha256=None):
     """{'seed', 'ds', 'ranges'}: the main seed word, one digest per 1 KiB of DS, and of each of records.RANGES,
     after the post-match update, over the mask."""
     machine = m.m
     ds = records.apply_mask(machine.read(machine.DS * 16, records.DS_SIZE), "DS", 0, mask)
     out = {"seed": machine.rd(SEED_WORD), "ds": records.block_digests(ds), "ranges": {}}
-    for name, (start, length) in records.RANGES.items():
+    for name, (start, length) in records.ranges_for_source(image_sha256).items():
         buf = machine.read(machine.load * 16 + start, length)
         out["ranges"][name] = records.block_digests(records.apply_mask(buf, "P", start, mask))
     return out
@@ -314,7 +316,7 @@ def port_specs(ports, variant):
 def checkpoint_key(spec, mask, counts, ports, display_profile=False):
     """What a checkpoint must have been taken under to be resumed: the same match, image, kit, mask, --count and ports."""
     from original_match.match import VERSION
-    key = {"spec_sha256": spec.sha256, "image_sha256": families.image_sha256(), "kit": VERSION,
+    key = {"spec_sha256": spec.sha256, "image_sha256": spec.image_sha256, "kit": VERSION,
            "mask": [list(s) for s in mask], "counts": list(counts), "ports": sorted(ports)}
     if display_profile:
         key["display_profile"] = 1
@@ -331,9 +333,13 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
     `every` minute events (not with a watch)."""
     from original_match import Match, Fixture
     from original_match.match import VERSION, MatchError
+    try:
+        image_sources.validate_image(image, spec.image)
+    except image_sources.SourceError as e:
+        raise Refused(str(e)) from e
     cpu0, wall0 = time.process_time(), time.time()
     cpu_before = wall_before = 0.0          # the time a resumed match had used before its checkpoint
-    rec = {"id": spec.id, "family": spec.family, "spec_sha256": spec.sha256, "image_sha256": families.image_sha256(),
+    rec = {"id": spec.id, "family": spec.family, "spec_sha256": spec.sha256, "image_sha256": spec.image_sha256,
            "kit": VERSION, "mask": [list(s) for s in mask], "error": None, "stopped_at_board": False, "strays": [],
            "cpu_s": 0.0, "wall_s": 0.0, "score": None, "ticks": None, "draws": None, "board": None,
            "templates": None, "result_sha256": None, "events": None, "decisions": None, "after": None,
@@ -405,7 +411,7 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
                     before_z)
         events, decisions, strays, board = play(m, spec, time.time() + time_limit - wall_before, say, state, hook)
         result = m.result()
-        outside = undeclared_changes(before, m.m.read(0, 0x110000), allowed_spans(m.m)) if check_writes else []
+        outside = undeclared_changes(before, m.m.read(0, 0x110000), allowed_spans(m.m,spec.image_sha256)) if check_writes else []
         if outside:
             raise UndeclaredWrite(f"{sum(b - a for a, b in outside)} bytes changed outside the declared ranges, first at "
                                   f"P+0x{outside[0][0] - m.m.load * 16:X}: rerun --find-ranges")
@@ -420,7 +426,7 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
                    "man_of_the_match": b["man_of_the_match"], "final_score": list(b["final_score"]), "seed": b["seed"],
                    "screen_sha256": b["screen_sha256"]},
             templates=records.template_counts(result["commentary"]), result_sha256=records.result_digest(result),
-            events={"count": n_events, "sha256": events_sha}, decisions=decisions, after=digest_memory(m, mask))
+            events={"count": n_events, "sha256": events_sha}, decisions=decisions, after=digest_memory(m, mask,spec.image_sha256))
     except Exception as e:      # the record says what failed; a missing record would be a silent gap
         rec.update(error=clean_error(e), score=None, ticks=None, draws=None, board=None, templates=None,
                    result_sha256=None, events=None, decisions=None, after=None)
@@ -444,14 +450,21 @@ def _init_worker(cache, mask, counts, time_limit, ports=(), stretch_limit=DEFAUL
     """A worker finds the declared matches itself (families.discover), so no policy object crosses a process."""
     from original_match import Image
     from original_match.assets import reference_image
-    _worker.update(image=Image.from_bytes(reference_image(cache)), mask=mask, counts=counts, time_limit=time_limit,
+    _worker.update(image=image_sources.load(image_sources.DEFAULT,cache), images={}, cache=cache, mask=mask, counts=counts, time_limit=time_limit,
                    ports=list(ports), stretch_limit=stretch_limit, display_profile=display_profile,
                    checkpoints=Checkpoints(checkpoint) if checkpoint else None, specs={m.id: m for fam in families.discover().values() for m in fam.matches})
 
 
 def _run_in_worker(match_id):
     lines = []
-    rec = run_match(_worker["image"], _worker["specs"][match_id], _worker["mask"], _worker["counts"],
+    spec = _worker["specs"][match_id]
+    if spec.image == image_sources.DEFAULT:
+        image = _worker["image"]
+    else:
+        if spec.image not in _worker["images"]:
+            _worker["images"][spec.image] = image_sources.load(spec.image,_worker["cache"])
+        image = _worker["images"][spec.image]
+    rec = run_match(image, spec, _worker["mask"], _worker["counts"],
                     _worker["time_limit"], ports=_worker["ports"], say=lines.append,
                     stretch_limit=_worker["stretch_limit"], checkpoints=_worker.get("checkpoints"),
                     display_profile=_worker.get("display_profile",False))
@@ -474,7 +487,7 @@ def existing_records(out, selected, mask, ports=()):
             raise Refused(f"{out} holds {r['id']}, which is not a selected match")
         if r["id"] in done:
             raise Refused(f"{out} holds {r['id']} twice")
-        if r["spec_sha256"] != expected[r["id"]].sha256 or r["image_sha256"] != families.image_sha256():
+        if r["spec_sha256"] != expected[r["id"]].sha256 or r["image_sha256"] != expected[r["id"]].image_sha256:
             raise Refused(f"{out}: {r['id']} was run from another declaration or image than the one declared now")
         if r["mask"] != [list(s) for s in mask]:
             raise Refused(f"{out}: {r['id']} was taken over another mask than --mask")
@@ -532,8 +545,11 @@ def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask
     elif workers == 1:
         from original_match import Image
         from original_match.assets import reference_image
-        image = Image.from_bytes(reference_image(cache))
+        images = {}
         for spec in todo:
+            if spec.image not in images:
+                images[spec.image] = image_sources.load(spec.image,cache)
+            image = images[spec.image]
             took(run_match(image, spec, mask, counts, time_limit, ports=ports, say=say, stretch_limit=stretch_limit,
                            checkpoints=checkpoints, display_profile=display_profile))
     else:
@@ -582,6 +598,9 @@ def write_ranges(path, report):
 def find_ranges(image, selected, path, time_limit=3600.0, say=print):
     """Play the selected matches under a write watch on all guest memory and write the report to the new file `path`."""
     from unicorn import UC_HOOK_MEM_WRITE
+    if not selected or len({s.image for s in selected}) != 1:
+        raise Refused("--find-ranges requires matches from exactly one registered image")
+    image_sources.validate_image(image,selected[0].image)
     blocks, info, ids = set(), {}, []
 
     def watch(m):
@@ -614,7 +633,7 @@ def find_ranges(image, selected, path, time_limit=3600.0, say=print):
     ds_lo, ds_hi = info["ds"]
     ds_blocks = sorted({(x - ds_lo) // records.BLOCK for a, b in written for x in range(max(a, ds_lo), min(b, ds_hi), 16)})
     screen_blocks = sorted({(x - ds_lo) // records.BLOCK for lo, hi in info["screen"] for x in range(max(lo, ds_lo), min(hi, ds_hi))})
-    report = {"image_sha256": families.image_sha256(), "matches": ids, "load_segment": info["load"],
+    report = {"image_sha256": selected[0].image_sha256, "matches": ids, "load_segment": info["load"],
               "ds_program_relative": info["ds"], "screen_program_relative": info["screen"],
               "records_program_relative": info["records"],
               "written_outside_ds_and_screen": outside, "written_inside_records": inside_records,
@@ -722,7 +741,10 @@ def main(argv=None):
         if a.find_ranges:
             from original_match import Image
             from original_match.assets import reference_image
-            find_ranges(Image.from_bytes(reference_image(a.cache)), selected[:a.max], a.find_ranges)
+            find_selected=selected[:a.max]
+            if not find_selected or len({s.image for s in find_selected}) != 1:
+                raise Refused("--find-ranges requires matches from exactly one registered image")
+            find_ranges(image_sources.load(find_selected[0].image,a.cache), find_selected, a.find_ranges)
             return 0
         recs = run_family(selected, a.out, a.workers, a.max, a.cache, mask, counts, a.time_limit, ports=ports,
                           stretch_limit=a.stretch_limit, checkpoint=a.checkpoint, display_profile=display_profile_selected(a))

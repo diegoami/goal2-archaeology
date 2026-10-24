@@ -54,6 +54,7 @@ FAMILIES = families.discover()
 EXPECTED = {mid: d for fam in FAMILIES.values() for mid, d in fam.expected().items()}
 F40 = sorted(FAMILIES["F40"].expected())
 IMAGE = families.image_sha256()
+IMAGES = {m.id:m.image_sha256 for f in FAMILIES.values() for m in f.matches}
 
 
 def dg(*parts):
@@ -69,7 +70,7 @@ def record(mid, **over):
     n = int(dg(mid)[:6], 16)
     per_minute = [[m, 90 + (n + m) % 50, dg(mid, "minute", m)] for m in range(1, 92)]
     r = {
-        "id": mid, "family": mid.split("/")[0], "spec_sha256": EXPECTED[mid], "image_sha256": IMAGE, "kit": "2",
+        "id": mid, "family": mid.split("/")[0], "spec_sha256": EXPECTED[mid], "image_sha256": IMAGES[mid], "kit": "2",
         "mask": [], "error": None, "stopped_at_board": True, "strays": [], "cpu_s": 9.5, "wall_s": 10.25,
         "score": [1, n % 3], "ticks": 4000 + n % 97,
         "draws": {"count": sum(row[1] for row in per_minute), "digest": dg(mid, "draws"), "per_minute": per_minute},
@@ -82,7 +83,7 @@ def record(mid, **over):
         "decisions": [[46, "half_time"]],
         "after": {"seed": n % 65536, "ds": blocks(records.DS_BLOCKS, mid),
                   "ranges": {name: blocks(-(-length // records.BLOCK), mid, name)
-                             for name, (_, length) in records.RANGES.items()}},
+                             for name, (_, length) in records.ranges_for_source(IMAGES[mid]).items()}},
         "counts": {},
     }
     r.update(over)
@@ -411,7 +412,7 @@ class CommandLine(Base):
         self.assertEqual(FAMILIES["O8"].reference,FAMILIES["F40"].reference)
         self.assertNotEqual(FAMILIES["S"].reference,FAMILIES["F40"].reference)
         original=compare_module.load(historical)
-        expected_old={mid:digest for mid,digest in EXPECTED.items() if mid not in ('S/no-managed-side','S/set-piece-taker') and not mid.startswith('R/')}
+        expected_old={mid:digest for mid,digest in EXPECTED.items() if mid not in ('S/no-managed-side','S/set-piece-taker') and not mid.startswith(('R/','FS/'))}
         lines,ok=compare_module.check(original,original,expected_old,image_sha256=IMAGE)
         self.assertTrue(ok,lines)
         self.assertIn("62 matches expected identical, 62 pass, 0 fail",lines)
@@ -421,16 +422,16 @@ class CommandLine(Base):
         self.assertIn("64 matches expected identical, 64 pass, 0 fail",r.stdout)
         raw_r=ROOT/FAMILIES['R'].reference
         self.assertNotEqual(raw_r,extended)
-        joined=Path(self.tmp.name)/'all74-original.jsonl'
-        joined.write_bytes(extended.read_bytes()+raw_r.read_bytes())
+        joined=Path(self.tmp.name)/'all75-original.jsonl'
+        joined.write_bytes(extended.read_bytes()+raw_r.read_bytes()+(ROOT/FAMILIES['FS'].reference).read_bytes())
         complete=subprocess.run([sys.executable,'-B',str(COMPARE),'--family','ALL','--candidate',str(joined)],capture_output=True,text=True)
         self.assertEqual(complete.returncode,0,complete.stdout[-500:])
-        self.assertIn('74 matches expected identical, 74 pass, 0 fail',complete.stdout)
+        self.assertIn('75 matches expected identical, 75 pass, 0 fail',complete.stdout)
         for oldsize,path in [(62,historical),(63,ROOT/'experiments/E036-match-port/families/S-no-managed-side-reference-20261024-v1.jsonl'),(64,extended)]:
             refused=subprocess.run([sys.executable,'-B',str(COMPARE),'--family','ALL','--candidate',str(path)],capture_output=True,text=True)
             self.assertEqual(refused.returncode,2,(oldsize,refused.stdout))
             self.assertIn('R/',refused.stdout)
-        # Historical62 cannot be silently accepted as the now74-match family.
+        # Historical62 cannot be silently accepted as the now75-match family.
         short=subprocess.run([sys.executable,"-B",str(COMPARE),"--family","F40,O8,S","--candidate",str(historical)],
                              capture_output=True,text=True,cwd=self.tmp.name)
         self.assertEqual(short.returncode,2)

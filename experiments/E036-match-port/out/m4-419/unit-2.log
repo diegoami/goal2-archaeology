@@ -1,0 +1,26 @@
+.FE...................................................................................................................................................................................................................
+======================================================================
+ERROR: test_each_family_uses_its_own_reference_by_default (tests.test_e036_compare.CommandLine.test_each_family_uses_its_own_reference_by_default)
+Without --reference the reference is the family's declared one: the committed log (T57's) compared with
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_e036_compare.py", line 415, in test_each_family_uses_its_own_reference_by_default
+    lines,ok=compare_module.check(original,original,expected_old,image_sha256=IMAGE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/compare.py", line 159, in check
+    raise Malformed("match family mismatch: " + "; ".join(
+e036_compare.Malformed: match family mismatch: missing from the reference: FS/public-stage8-holland-belgium; missing from the candidate: FS/public-stage8-holland-belgium
+
+======================================================================
+FAIL: test_all_asks_for_every_family (tests.test_e036_compare.CommandLine.test_all_asks_for_every_family)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_e036_compare.py", line 401, in test_all_asks_for_every_family
+    self.assertEqual(r.returncode, 0, r.stdout)
+AssertionError: 2 != 0 : MALFORMED: reference FS/public-stage8-holland-belgium: it was played from another image than 3ea57029...
+
+
+----------------------------------------------------------------------
+Ran 214 tests in 68.947s
+
+FAILED (failures=1, errors=1)

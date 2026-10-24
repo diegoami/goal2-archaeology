@@ -1,0 +1,75 @@
+EE...E...
+======================================================================
+ERROR: test_comparator_refuses_source_swap_in_either_log_and_missing_bindings (tests.test_e036_image_sources.ImageSources.test_comparator_refuses_source_swap_in_either_log_and_missing_bindings)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/records.py", line 149, in read_log
+    validate(r)
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/records.py", line 290, in validate
+    validate_evidence(r)
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/records.py", line 315, in validate_evidence
+    raise SchemaError(f"board.statistics: rows {list(b['statistics'])} are not in the board's order {list(STAT_NAMES)}")
+e036_records.SchemaError: board.statistics: rows ['bookings', 'corners', 'fouls', 'free_kicks', 'injuries', 'on_target', 'penalties', 'red_cards', 'saves', 'shots'] are not in the board's order ['corners', 'free_kicks', 'penalties', 'shots', 'on_target', 'saves', 'fouls', 'bookings', 'red_cards', 'injuries']
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_e036_image_sources.py", line 55, in test_comparator_refuses_source_swap_in_either_log_and_missing_bindings
+    spec=self.spec();r=records.read_log(OUT/'FS-native-raw-2.jsonl')[0];expected={spec.id:spec.sha256}
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/records.py", line 151, in read_log
+    raise SchemaError(f"{path}:{n}: {e}")
+e036_records.SchemaError: /home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/m4-419/FS-native-raw-2.jsonl:1: board.statistics: rows ['bookings', 'corners', 'fouls', 'free_kicks', 'injuries', 'on_target', 'penalties', 'red_cards', 'saves', 'shots'] are not in the board's order ['corners', 'free_kicks', 'penalties', 'shots', 'on_target', 'saves', 'fouls', 'bookings', 'red_cards', 'injuries']
+
+======================================================================
+ERROR: test_extended_calendar_is_required_and_last_block_remains_compared (tests.test_e036_image_sources.ImageSources.test_extended_calendar_is_required_and_last_block_remains_compared)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/records.py", line 149, in read_log
+    validate(r)
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/records.py", line 290, in validate
+    validate_evidence(r)
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/records.py", line 315, in validate_evidence
+    raise SchemaError(f"board.statistics: rows {list(b['statistics'])} are not in the board's order {list(STAT_NAMES)}")
+e036_records.SchemaError: board.statistics: rows ['bookings', 'corners', 'fouls', 'free_kicks', 'injuries', 'on_target', 'penalties', 'red_cards', 'saves', 'shots'] are not in the board's order ['corners', 'free_kicks', 'penalties', 'shots', 'on_target', 'saves', 'fouls', 'bookings', 'red_cards', 'injuries']
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_e036_image_sources.py", line 63, in test_extended_calendar_is_required_and_last_block_remains_compared
+    r=records.read_log(OUT/'FS-native-raw-2.jsonl')[0]
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/records.py", line 151, in read_log
+    raise SchemaError(f"{path}:{n}: {e}")
+e036_records.SchemaError: /home/diego/projects/goal2-archaeology/experiments/E036-match-port/out/m4-419/FS-native-raw-2.jsonl:1: board.statistics: rows ['bookings', 'corners', 'fouls', 'free_kicks', 'injuries', 'on_target', 'penalties', 'red_cards', 'saves', 'shots'] are not in the board's order ['corners', 'free_kicks', 'penalties', 'shots', 'on_target', 'saves', 'fouls', 'bookings', 'red_cards', 'injuries']
+
+======================================================================
+ERROR: test_single_worker_uses_each_specs_image (tests.test_e036_image_sources.ImageSources.test_single_worker_uses_each_specs_image)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_e036_image_sources.py", line 76, in test_single_worker_uses_each_specs_image
+    family.run_family(specs,str(Path(d)/'out.jsonl'),say=lambda x:None)
+  File "/home/diego/projects/goal2-archaeology/experiments/E036-match-port/family.py", line 552, in run_family
+    took(run_match(image, spec, mask, counts, time_limit, ports=ports, say=say, stretch_limit=stretch_limit,
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/unittest/mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/tests/test_e036_image_sources.py", line 74, in rec
+    def rec(image,spec,*args,**kwargs):return record(spec.id)
+                                              ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/tests/test_e036_compare.py", line 72, in record
+    "id": mid, "family": mid.split("/")[0], "spec_sha256": EXPECTED[mid], "image_sha256": IMAGE, "kit": "2",
+                                                           ~~~~~~~~^^^^^
+KeyError: 'FS/public-stage8-holland-belgium'
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.438s
+
+FAILED (errors=3)

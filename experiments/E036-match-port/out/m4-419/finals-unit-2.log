@@ -1,0 +1,13 @@
+........F
+======================================================================
+FAIL: test_world_bracket_gates_unpublished_and_labels_completed_final (tests.test_port_display_finals.Finals.test_world_bracket_gates_unpublished_and_labels_completed_final)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/tests/test_port_display_finals.py", line 111, in test_world_bracket_gates_unpublished_and_labels_completed_final
+    self.assertEqual(len(r.args('1771:8CCF')),want)
+AssertionError: 0 != 16
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.055s
+
+FAILED (failures=1)

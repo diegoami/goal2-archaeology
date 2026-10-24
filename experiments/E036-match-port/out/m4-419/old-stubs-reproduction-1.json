@@ -1,0 +1,32 @@
+{
+  "input_edits": [],
+  "results": [
+    {
+      "mode": "reference",
+      "completed": true,
+      "score": [
+        1,
+        0
+      ],
+      "DS_AAB2": 6,
+      "9509_calls": 1
+    },
+    {
+      "mode": "old-stubs",
+      "completed": true,
+      "score": [
+        1,
+        0
+      ],
+      "DS_AAB2": 3,
+      "9509_calls": 1
+    }
+  ],
+  "strict_differences": [
+    [
+      "after.ds",
+      "DS+0xA800"
+    ]
+  ],
+  "DS_differing_bytes": 2617
+}

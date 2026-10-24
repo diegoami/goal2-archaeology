@@ -1,0 +1,18 @@
+{
+ "run_id": "40126565563",
+ "run_attempt": "1",
+ "workflow": "E036 family run",
+ "ref": "fix/419-finals-table-state",
+ "sha": "158790a0620c486a5c8dad0e0670cc6064151e8d",
+ "inputs": {
+  "task": "m4-419",
+  "name": "all-actions-2",
+  "family": "ALL",
+  "ports": "all",
+  "count": "1771:883F,1771:89C1,1771:89FE,1771:8A5D,1771:8CCF,1771:8D84,1771:9028,1771:91CE,1771:937C,1771:9509,1771:5C94,1771:5CCB",
+  "shards": "38",
+  "time_limit": "6000",
+  "stretch_limit": "600"
+ },
+ "run_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/40126565563"
+}

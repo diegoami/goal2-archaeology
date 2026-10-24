@@ -258,7 +258,7 @@ void open_selected_team_screen(int param_1)
 
 
 // ---- 0791:EA09  first_team_valid  (f_0791_EA09; Ghidra 2000:EA09, __stdcall16near; found by routines.tsv)
-// T75 (Python match-path port in runtime/original_match/port/selection.py): checks both managed sides' first elevens (squad[0..10]): a player_unavailable member while DS:0C1F == 0 marks the side invalid outright, position counts are taken over available players only, and each warning it shows ("X has an ineligible player in the first team", 0791:E9A2; "X has too many / no ...", 0791:E9CE/E9E0, through u214b_message_if_flag 214B:1765) also marks the side invalid; returns 1 only when both sides stayed valid - ED8A's ' play ' silently loops while it returns 0 (F016's r0002-r0004 stall)  [likely; F016; read named/seg_0791_11.c]
+// "T75 (Python match-path port in runtime/original_match/port/selection.py): checks both managed sides' first elevens (squad[0..10]): a player_unavailable member while DS:0C1F == 0 marks the side invalid outright, position counts are taken over available players only, and each warning it shows (""X has an ineligible player in the first team"", 0791:E9A2; ""X has too many / no ..."", 0791:E9CE/E9E0, through u214b_message_if_flag 214B:1765) also marks the side invalid; returns 1 only when both sides stayed valid - ED8A's ' play ' silently loops while it returns 0 (F016's r0002-r0004 stall)"  [likely; F016; read named/seg_0791_11.c]
 
 undefined1 first_team_valid(int param_1)
 

@@ -155,18 +155,16 @@ def main(argv=None):
             if a.match not in log:
                 raise Refused(f"{a.match} is not in the {what}")
             r = log[a.match]
-            if r["spec_sha256"] != spec.sha256 or r["image_sha256"] != families.image_sha256():
+            if r["spec_sha256"] != spec.sha256 or r["image_sha256"] != spec.image_sha256:
                 raise Refused(f"the {what}'s {a.match} is not the declared match on the declared image")
         ref, cand = ref_log[a.match], cand_log[a.match]
         if compare.completed(ref):
             raise Refused(f"the reference's {a.match} is not a completed match")
         if ref["mask"] != cand["mask"]:
             raise Refused(f"{a.match}: the reference and the candidate were taken over different masks")
-        from original_match import Image
-        from original_match.assets import reference_image
-        image = Image.from_bytes(reference_image(a.cache))
+        image = family.image_sources.load(spec.image,a.cache)
         ok = locate(ref, cand, spec, image, a.time_limit, say)
-    except (Refused, families.FamilyError, compare.Malformed) as e:
+    except (Refused, families.FamilyError, compare.Malformed, family.image_sources.SourceError) as e:
         print(f"refused: {e}")
         return 2
     if a.out:

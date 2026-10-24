@@ -160,14 +160,21 @@ def check(ref, cand, expected, expect="identical", no_screen=False, image_sha256
             f"{what}: {', '.join(lst[:8])}" + (f" and {len(lst) - 8} more" if len(lst) > 8 else "") for what, lst in (
                 ("missing from the reference", missing_ref), ("missing from the candidate", missing),
                 ("unexpected in the candidate", unexpected)) if lst))
+    if isinstance(image_sha256, dict):
+        missing_images = sorted(set(expected) - set(image_sha256))
+        if missing_images:
+            raise Malformed(f"missing declared image bindings: {', '.join(missing_images)}")
+        if any(not isinstance(image_sha256[mid], str) or not records.DIGEST.fullmatch(image_sha256[mid]) for mid in expected):
+            raise Malformed("invalid declared image binding")
     for what, log in (("reference", ref), ("candidate", cand)):
         for mid in expected:
             r = log[mid]
             if r["spec_sha256"] != expected[mid]:
                 raise Malformed(f"{what} {mid}: its spec digest is not the declared match's (another seed, edit, "
                                 "fixture, policy or policy code)")
-            if image_sha256 is not None and r["image_sha256"] != image_sha256:
-                raise Malformed(f"{what} {mid}: it was played from another image than {image_sha256[:8]}...")
+            wanted_image = image_sha256[mid] if isinstance(image_sha256, dict) else image_sha256
+            if wanted_image is not None and r["image_sha256"] != wanted_image:
+                raise Malformed(f"{what} {mid}: it was played from another image than {wanted_image[:8]}...")
     for mid in expected:
         why = completed(ref[mid])
         if why:
@@ -279,7 +286,8 @@ def main(argv=None):
                     expected[mid] = digest
                     if mid in log:
                         ref[mid] = log[mid]
-        lines, ok = check(ref, cand, expected, a.expect, a.no_screen, families.image_sha256(), strict_display=profile is not None)
+        images = {m.id: m.image_sha256 for f in chosen for m in f.matches}
+        lines, ok = check(ref, cand, expected, a.expect, a.no_screen, images, strict_display=profile is not None)
     except Malformed as e:
         print(f"MALFORMED: {e}")
         return 2

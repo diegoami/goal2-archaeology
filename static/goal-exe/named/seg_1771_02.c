@@ -1047,7 +1047,7 @@ int __stdcall16far player_hardness(int param_1)
 
 
 // ---- 1771:3041  is_two_footed  (f_1771_3041; Ghidra 4000:3041, __stdcall16far; found by routines.tsv)
-// true when +5 + +2 = 30 (the screen then shows "two footed")  [established; F008; read decompiled/seg_1771_02.c]
+// "true when +5 + +2 = 30 (the screen then shows ""two footed"")"  [established; F008; read decompiled/seg_1771_02.c]
 
 undefined2 __stdcall16far is_two_footed(int param_1)
 

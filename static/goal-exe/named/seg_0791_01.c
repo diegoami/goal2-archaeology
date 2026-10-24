@@ -510,7 +510,7 @@ undefined2 f_0791_07BA(char param_1)
 
 
 // ---- 0791:0955  prompt_goal_file_name  (f_0791_0955; Ghidra 2000:0955, __stdcall16near; found by routines.tsv)
-// draws the template DS:06E0 ("Please enter name of file") with the extension DS:06D6 + 5 * DS:066D (.HIL or .SUM) and runs the line editor 214B:1086 on the name string; no timer  [likely; F030; read code/seg_0791_02.asm:6]
+// "draws the template DS:06E0 (""Please enter name of file"") with the extension DS:06D6 + 5 * DS:066D (.HIL or .SUM) and runs the line editor 214B:1086 on the name string; no timer"  [likely; F030; read code/seg_0791_02.asm:6]
 
 void prompt_goal_file_name(undefined4 param_1)
 
@@ -639,7 +639,7 @@ void __cdecl16near save_goal_file(void)
 
 
 // ---- 0791:0B7C  ask_do_you_want  (f_0791_0B7C; Ghidra 2000:0B7C, __stdcall16near; found by routines.tsv)
-// T76 (Python port in runtime/original_match/port/takers.py): a timed Y/N prompt: shows "Do you want " + its string argument + "? (Y/N)" on the bottom line, waits 0791:CC2E(600), returns 1 only when a key is waiting and it is Y, 0 with no key; the action-replay and save-goal questions both use it; the wait is 600 polls of a key test and 214B:1E09(10), 6.0 s in the start-up calibration's time (pace-dependent, F030); the answer is Yes only for a waiting Y, No for any other key or none; asked by 0C65 (replay, save goal) and run_match (summary, when DS:9A3E is clear)  [established; F005; F006; read code/seg_0791_02.asm; F030]
+// "T76 (Python port in runtime/original_match/port/takers.py): a timed Y/N prompt: shows ""Do you want "" + its string argument + ""? (Y/N)"" on the bottom line, waits 0791:CC2E(600), returns 1 only when a key is waiting and it is Y, 0 with no key; the action-replay and save-goal questions both use it; the wait is 600 polls of a key test and 214B:1E09(10), 6.0 s in the start-up calibration's time (pace-dependent, F030); the answer is Yes only for a waiting Y, No for any other key or none; asked by 0C65 (replay, save goal) and run_match (summary, when DS:9A3E is clear)"  [established; F005; F006; read code/seg_0791_02.asm; F030]
 
 undefined1 ask_do_you_want(undefined4 param_1)
 
@@ -699,7 +699,7 @@ void __cdecl16near increase_match_delay(void)
 
 
 // ---- 0791:0C65  action_replay  (f_0791_0C65; Ghidra 2000:0C65, __cdecl16near; found by routines.tsv)
-// the action replay after a goal (tick loop, when DS:7C37 is set): when [DS:A923]+0x41 and DS:0C1E are set, asks "Do you want an action replay?" (0791:0B7C) and skips on no, then asks "to save this goal" and on yes calls 0791:0A6B; then from 0CB2 it RESTORES the snapshot taken by 0791:15B9 into the live state (0x7FB bytes DS:8439 to DS:7C3E, both countries' 0xBF-byte records from DS:8C34 + 0xBF t, each squad player's 0x14-byte record, the manager words, tables, the substitution counters, the score and the RNG word) and redraws the pitch, so a goal's replay re-simulates from the last snapshot; the snapshot is refreshed (15B9 by the tick loop 97D0) after a substitution, tactic change or half start (9B55) EXCEPT in an iteration where a goal is pending (DS:7C37 set) as well: 97D0 then runs this routine instead of 15B9, so a substitution made in that same iteration is not in the snapshot it restores (read, not run, no recorded state shows it)  [likely; F005; F029; read code/seg_0791_02.asm:340-460 (Pascal Move: the first pushed pointer is the source)]
+// "the action replay after a goal (tick loop, when DS:7C37 is set): when [DS:A923]+0x41 and DS:0C1E are set, asks ""Do you want an action replay?"" (0791:0B7C) and skips on no, then asks ""to save this goal"" and on yes calls 0791:0A6B; then from 0CB2 it RESTORES the snapshot taken by 0791:15B9 into the live state (0x7FB bytes DS:8439 to DS:7C3E, both countries' 0xBF-byte records from DS:8C34 + 0xBF t, each squad player's 0x14-byte record, the manager words, tables, the substitution counters, the score and the RNG word) and redraws the pitch, so a goal's replay re-simulates from the last snapshot; the snapshot is refreshed (15B9 by the tick loop 97D0) after a substitution, tactic change or half start (9B55) EXCEPT in an iteration where a goal is pending (DS:7C37 set) as well: 97D0 then runs this routine instead of 15B9, so a substitution made in that same iteration is not in the snapshot it restores (read, not run, no recorded state shows it)"  [likely; F005; F029; read code/seg_0791_02.asm:340-460 (Pascal Move: the first pushed pointer is the source)]
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

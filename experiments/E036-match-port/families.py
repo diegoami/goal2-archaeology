@@ -12,6 +12,7 @@ file of its own there, found by this module with no shared list to edit. A file 
   matches      the matches: {"id": "<family>/<name>", ...fields that replace the base's}
 and a match has
   fixture      [first country, second country, calendar number, kind] (original_match.Fixture)
+  image        optional registered source key (default E006); nondefault source SHA enters the spec digest
   managed      the country the kit makes the human's (may be outside the fixture)
   seed         the main RNG word written at the captain prompt, or null (the set-up's own)
   delay_byte   the speed byte written there, or null (the image's)
@@ -39,6 +40,7 @@ FAMILIES_DIR = HERE / "families"
 sys.path.insert(0, str(ROOT / "runtime"))
 sys.path.insert(0, str(HERE))
 import records  # noqa: E402
+import image_sources  # noqa: E402
 from original_match.assets import REFERENCE  # noqa: E402    (imports the kit's package, which needs no unicorn)
 from original_match.match import KINDS  # noqa: E402
 
@@ -196,13 +198,15 @@ def apply_edits(players, countries, edits):
 
 
 # ---- the matches ---------------------------------------------------------------------------------------
-MATCH_FIELDS = ("fixture", "managed", "seed", "delay_byte", "substitutions", "edits", "policy")
+REQUIRED_MATCH_FIELDS = ("fixture", "managed", "seed", "delay_byte", "substitutions", "edits", "policy")
+MATCH_FIELDS = REQUIRED_MATCH_FIELDS + ("image",)
 
 
 class MatchSpec:
     """One declared match. `spec()` is the JSON-able declaration and `sha256` its digest with the policy's code."""
 
-    def __init__(self, id, family, fixture, managed, seed, delay_byte, substitutions, edits, policy, policies=POLICIES):
+    def __init__(self, id, family, fixture, managed, seed, delay_byte, substitutions, edits, policy, policies=POLICIES,
+                 image=image_sources.DEFAULT):
         where = f"match {id!r}"
         if not (isinstance(id, str) and records.RECORD_ID.fullmatch(id) and id.split("/")[0] == family):
             raise FamilyError(f"{where}: the id is not '{family}/<name>'")
@@ -230,11 +234,23 @@ class MatchSpec:
         self.substitutions, self.edits, self.policy_spec = substitutions, edits, policy
         self.policy = policy_from(policy, policies)
         self.policy_cls = type(self.policy)
+        try:
+            image_sources.get(image)
+        except image_sources.SourceError as e:
+            raise FamilyError(f"{where}: {e}") from e
+        self.image = image
 
     def spec(self):
-        return {"id": self.id, "fixture": self.fixture, "managed": self.managed, "seed": self.seed,
+        declaration = {"id": self.id, "fixture": self.fixture, "managed": self.managed, "seed": self.seed,
                 "delay_byte": self.delay_byte, "substitutions": self.substitutions, "edits": self.edits,
                 "policy": self.policy.declare(), "policy_code_sha256": self.policy_cls.code_sha256()}
+        if self.image != image_sources.DEFAULT:
+            declaration["image_sha256"] = self.image_sha256
+        return declaration
+
+    @property
+    def image_sha256(self):
+        return image_sha256() if self.image == image_sources.DEFAULT else image_sources.get(self.image)["sha256"]
 
     @property
     def sha256(self):
@@ -301,7 +317,7 @@ def load_family(path, policies=POLICIES):
         if not isinstance(entry, dict) or "id" not in entry or not set(entry) <= set(MATCH_FIELDS) | {"id"}:
             raise FamilyError(f"{path.name}: matches[{i}] is not an object with an id and fields of {MATCH_FIELDS}")
         fields = {**base, **{k: v for k, v in entry.items() if k != "id"}}
-        missing = [k for k in MATCH_FIELDS if k not in fields]
+        missing = [k for k in REQUIRED_MATCH_FIELDS if k not in fields]
         if missing:
             raise FamilyError(f"{path.name}: {entry['id']!r} lacks {missing} (neither it nor the base gives them)")
         if isinstance(fields["edits"], str):
