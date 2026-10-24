@@ -1,0 +1,37 @@
+.............FFF.F..........................
+======================================================================
+FAIL: test_marking_cycle_default_opponent_wrap_and_skip_unavailable (tests.test_port_menus.Menus.test_marking_cycle_default_opponent_wrap_and_skip_unavailable) (status=64, oldmark=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-j9akwniq/tests/test_port_menus.py", line 314, in test_marking_cycle_default_opponent_wrap_and_skip_unavailable
+    self.assertEqual(r.mem.u8(PSEG*16+POFF+0x14*5+16),wantstatus)
+AssertionError: 0 != 64
+
+======================================================================
+FAIL: test_marking_cycle_default_opponent_wrap_and_skip_unavailable (tests.test_port_menus.Menus.test_marking_cycle_default_opponent_wrap_and_skip_unavailable) (status=64, oldmark=211)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-j9akwniq/tests/test_port_menus.py", line 314, in test_marking_cycle_default_opponent_wrap_and_skip_unavailable
+    self.assertEqual(r.mem.u8(PSEG*16+POFF+0x14*5+16),wantstatus)
+AssertionError: 64 != 0
+
+======================================================================
+FAIL: test_marking_cycle_default_opponent_wrap_and_skip_unavailable (tests.test_port_menus.Menus.test_marking_cycle_default_opponent_wrap_and_skip_unavailable) (status=64, oldmark=202)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-j9akwniq/tests/test_port_menus.py", line 315, in test_marking_cycle_default_opponent_wrap_and_skip_unavailable
+    self.assertEqual(r.mem.ds16(0x9A44),wantmark)
+AssertionError: 0 != 204
+
+======================================================================
+FAIL: test_marking_second_side_uses_first_country_and_second_mark_array (tests.test_port_menus.Menus.test_marking_second_side_uses_first_country_and_second_mark_array)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-j9akwniq/tests/test_port_menus.py", line 466, in test_marking_second_side_uses_first_country_and_second_mark_array
+    self.assertEqual(r.mem.ds16(0x9A6C),102)
+AssertionError: 0 != 102
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.490s
+
+FAILED (failures=4)

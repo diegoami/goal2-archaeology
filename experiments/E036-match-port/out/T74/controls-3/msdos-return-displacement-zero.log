@@ -1,0 +1,27 @@
+....E.F...................................
+======================================================================
+ERROR: test_msdos_fallthrough_adds_int21_without_changing_pointer_cleanup (tests.test_port_menus.IVT.test_msdos_fallthrough_adds_int21_without_changing_pointer_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-lsj_2t33/tests/test_port_menus.py", line 530, in test_msdos_fallthrough_adds_int21_without_changing_pointer_cleanup
+    m,inst,actual,values=self.run_interrupt('235C:0000',bytes.fromhex('b83412bb7856cf'))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T74-controls-lsj_2t33/tests/test_port_menus.py", line 517, in run_interrupt
+    self.assertIsNone(m.run(end,5,fresh=True))
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T74-controls-lsj_2t33/runtime/original_match/machine.py", line 416, in run
+    raise GuestError(f"the run ended at {self.where(self.reg('cs'), self.reg('ip'))} without reaching its end "
+original_match.machine.GuestError: the run ended at 0020:4CE0 without reaching its end (time limit 5 s)
+
+======================================================================
+FAIL: test_all27_listing_returns (tests.test_port_menus.Menus.test_all27_listing_returns)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-lsj_2t33/tests/test_port_menus.py", line 113, in test_all27_listing_returns
+    self.assertEqual(entry.return_stack_delta,-2 if address=='235C:0000' else 0)
+AssertionError: 0 != -2
+
+----------------------------------------------------------------------
+Ran 42 tests in 6.437s
+
+FAILED (failures=1, errors=1)

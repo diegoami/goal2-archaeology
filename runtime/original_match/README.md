@@ -353,3 +353,10 @@ the port. Save/resume therefore keeps the existing parked guest-call mechanism.
 The DOS.MsDos wrapper235C:0000 retains its original shifted return frame: literal
 shared `retf6` at entrySP-2 gives effective argument cleanup4. Its IVT call uses
 the ordinary guest-call FLAGS/CS/IP frame and an actual IRET return.
+
+Known limit: direct side-by-side `Prover` runs of DOS.MsDos235C:0000 do not yet
+account for its nonzero return-stack displacement. Both Prover return-SP
+predictions currently use entrySP+return-size+cleanup, without the displacement.
+Actual IVT/IRET runner tests pass; ordinary ALL matches never reach this wrapper.
+Closing this limit requires both top-level/nested predictions to include the
+delta and an actual MSDOS side-by-side proof test.

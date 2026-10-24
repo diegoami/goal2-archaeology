@@ -1,0 +1,13 @@
+F.........................................
+======================================================================
+FAIL: test_cached_key_is_consumed_once_and_board_is_not_emitted_twice (tests.test_port_menus.DecisionPreflight.test_cached_key_is_consumed_once_and_board_is_not_emitted_twice)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-_2e1396e/tests/test_port_menus.py", line 555, in test_cached_key_is_consumed_once_and_board_is_not_emitted_twice
+    self.assertFalse(hasattr(match,'_ported_key') and '_ported_key' in match.__dict__)
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.717s
+
+FAILED (failures=1)

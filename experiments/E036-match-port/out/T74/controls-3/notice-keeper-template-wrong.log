@@ -1,0 +1,13 @@
+.....................................F....
+======================================================================
+FAIL: test_timed_notice_keeper_template_and_key_or_escape (tests.test_port_menus.Menus.test_timed_notice_keeper_template_and_key_or_escape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-jxb4bbea/tests/test_port_menus.py", line 402, in test_timed_notice_keeper_template_and_key_or_escape
+    self.assertEqual(r.args('214B:0329')[0][1],0x5B66 if keeper else 0x5B30)
+AssertionError: 23398 != 23344
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.507s
+
+FAILED (failures=1)

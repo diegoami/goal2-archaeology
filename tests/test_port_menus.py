@@ -217,7 +217,7 @@ class Menus(unittest.TestCase):
         self.assertEqual(r.args('0791:0106'),[(0xAB00,)])
 
     def test_poll_speed_arrows_clamp_at_zero_and_five(self):
-        for key,speed,want in [(0xAE,2,3),(0xAE,5,5),(0xAF,2,1),(0xAF,0,0)]:
+        for key,speed,want in [(0xAE,2,3),(0xAE,4,5),(0xAE,5,5),(0xAF,2,1),(0xAF,1,0),(0xAF,0,0)]:
             with self.subTest(key=key,speed=speed):
                 r=Rig();r.mem.waiting=True;r.mem.keys=[key]
                 address=r.mem.ds_far(0xA923)+0x3F;r.lin8(address,speed)
