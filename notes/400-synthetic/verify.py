@@ -80,6 +80,8 @@ def main():
    if case=='E062':
     assert ev['0791:E062']['ax']&255==1
     assert rows[2]['site']=='0791:E61F' and rows[2]['reason']=='read'
+    returned,rr=state(private/rows[2]['machine_file'])
+    assert returned[ss+(rr['regs']['EBP']&65535)-1]==0
    else:
     assert all(ev[s]['ax']&255==0 for s in ['0791:EB82','0791:EBD7','0791:EC22'])
     assert ev['0791:EC60']['ax']&255==1
