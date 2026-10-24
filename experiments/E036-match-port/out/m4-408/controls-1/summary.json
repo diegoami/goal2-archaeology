@@ -1,0 +1,62 @@
+{
+  "source_sha256": "4deae55d95da0cb2fa46fe11ba8d1e3eb5d8461d90f9afde571cfd70d4b3da32",
+  "baseline": "922fd8d8",
+  "results": [
+    {
+      "control": "old-stubs",
+      "caught": true,
+      "exit": 1,
+      "function": null,
+      "old": null,
+      "new": null
+    },
+    {
+      "control": "wrong-byte",
+      "caught": true,
+      "exit": 1,
+      "function": "toggle_sound_memory",
+      "old": "mem.wds8(0xA9FC,r.al,",
+      "new": "mem.wds8(0xA9FD,r.al,"
+    },
+    {
+      "control": "inverted-toggle",
+      "caught": true,
+      "exit": 1,
+      "function": "toggle_sound_memory",
+      "old": "r.al=int(disabled==0)",
+      "new": "r.al=int(disabled!=0)"
+    },
+    {
+      "control": "missing-speaker-call",
+      "caught": true,
+      "exit": 1,
+      "function": "toggle_sound_memory",
+      "old": "r=yield from guest(mem,r,'214B:1E8D',ret='214B:1E61')",
+      "new": "pass"
+    },
+    {
+      "control": "missing-compare-flags",
+      "caught": false,
+      "exit": 0,
+      "function": "toggle_sound_memory",
+      "old": "r.arith(sub_flags(disabled,0,8))",
+      "new": "pass"
+    },
+    {
+      "control": "wrong-saved-frame",
+      "caught": true,
+      "exit": 1,
+      "function": "speaker_off_memory",
+      "old": "r=Regs(mem);r.enter()",
+      "new": "r=Regs(mem);r.enter();r.local16(0,0)"
+    },
+    {
+      "control": "wrong-input-result",
+      "caught": true,
+      "exit": 1,
+      "function": "speaker_off_memory",
+      "old": "if not disabled:r.al=0",
+      "new": "if not disabled:r.al=1"
+    }
+  ]
+}

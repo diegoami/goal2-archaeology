@@ -1,0 +1,1 @@
+V1 automated instruction PCs are correct. Its hand-written parent-frame summary names 90A6 instead of the actual instruction at90A5. V2 corrects that summary coordinate and spacing only; all31 classifications, native counts and automatically extracted writes/calls are unchanged. V1 is preserved. No runtime/test/reference or measured game record changes.
