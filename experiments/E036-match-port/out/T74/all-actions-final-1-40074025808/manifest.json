@@ -1,0 +1,18 @@
+{
+ "run_id": "40074025808",
+ "run_attempt": "1",
+ "workflow": "E036 family run",
+ "ref": "task/T74-port-menus",
+ "sha": "5af9a54901fe469002ace850ee3874a53a9545fc",
+ "inputs": {
+  "task": "T74",
+  "name": "all-actions-final-1",
+  "family": "ALL",
+  "ports": "all",
+  "count": "0791:7FCF,0791:92FC,0791:9372,0791:ED8A,1771:1981,1771:4859,1771:4925,1771:4952,1771:49B8,1771:4B61,214B:04F8,214B:0566,214B:0723,214B:08DD,214B:0983,214B:0993,214B:09A7,214B:13F6,214B:1452,214B:14AC,214B:1507,214B:1560,214B:158E,214B:15B1,214B:1765,235C:0000,235C:000B",
+  "shards": "31",
+  "time_limit": "6000",
+  "stretch_limit": "600"
+ },
+ "run_url": "https://github.com/diegoami/goal2-archaeology/actions/runs/40074025808"
+}

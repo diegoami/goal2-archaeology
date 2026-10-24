@@ -1,0 +1,1 @@
+nohup PID25716 disappeared before source/log output. setsid-f PID26333 launcher and26337 family disappeared after launch/source/log but before any completed records; no exit file. Their launch logs/source/log are retained; these attempts are not accepted coverage. Replacement uses persistent exec session with independently detached process group and supervisor wait.

@@ -1,0 +1,382 @@
+{
+  "0791:7FCF": {
+    "listing": "static/goal-exe/code/seg_0791_13.asm:841",
+    "lines": 64,
+    "returns": [
+      "ret 4"
+    ],
+    "callees": [
+      "214B:0625",
+      "214B:0329",
+      "214B:0329",
+      "1771:0F58",
+      "214B:003C",
+      "0xcc2e",
+      "214B:0723",
+      "214B:08DD",
+      "214B:0643"
+    ]
+  },
+  "0791:92FC": {
+    "listing": "static/goal-exe/code/seg_0791_15.asm:677",
+    "lines": 49,
+    "returns": [
+      "ret 2"
+    ],
+    "callees": [
+      "214B:0329",
+      "0x10106"
+    ]
+  },
+  "0791:9372": {
+    "listing": "static/goal-exe/code/seg_0791_15.asm:726",
+    "lines": 158,
+    "returns": [
+      "ret"
+    ],
+    "callees": [
+      "214B:0723",
+      "214B:1E8D",
+      "214B:08DD",
+      "23E4:19B2",
+      "0x1a04",
+      "214B:1D6F",
+      "0x10691",
+      "0xed8a",
+      "23E4:025D",
+      "16D6:0945",
+      "23E4:025D",
+      "214B:1E5A",
+      "0x92fc",
+      "0x92fc",
+      "214B:1E8D"
+    ]
+  },
+  "0791:ED8A": {
+    "listing": "static/goal-exe/code/seg_0791_23.asm:562",
+    "lines": 356,
+    "returns": [
+      "ret 2"
+    ],
+    "callees": [
+      "23E4:025D",
+      "0x1230c",
+      "1771:0B77",
+      "1771:0B77",
+      "23E4:08DF",
+      "0xa75d",
+      "214B:02C8",
+      "214B:0329",
+      "214B:13C5",
+      "214B:02C8",
+      "214B:1560",
+      "1771:0B77",
+      "1771:0B77",
+      "23E4:08DF",
+      "0xe949",
+      "214B:0329",
+      "1771:0B77",
+      "214B:0329",
+      "1771:0F58",
+      "1771:1981",
+      "0xe949",
+      "0x10106",
+      "214B:1765",
+      "0xe929",
+      "0xea09",
+      "23E4:025D",
+      "0x1230c"
+    ]
+  },
+  "1771:1981": {
+    "listing": "static/goal-exe/code/seg_1771_03.asm:513",
+    "lines": 114,
+    "returns": [
+      "retf 2"
+    ],
+    "callees": [
+      "0xb77",
+      "214B:0329",
+      "214B:0329",
+      "0x157d",
+      "214B:13C5",
+      "214B:1560",
+      "214B:0CF4",
+      "0x3ef8"
+    ]
+  },
+  "1771:4859": {
+    "listing": "static/goal-exe/code/seg_1771_07.asm:6",
+    "lines": 95,
+    "returns": [
+      "retf 6"
+    ],
+    "callees": [
+      "0x2e93",
+      "23E4:0644",
+      "214B:1086",
+      "0x2e93",
+      "23E4:072F",
+      "23E4:07DB",
+      "23E4:19B2",
+      "23E4:0644"
+    ]
+  },
+  "1771:4925": {
+    "listing": "static/goal-exe/code/seg_1771_07.asm:101",
+    "lines": 20,
+    "returns": [
+      "ret 4"
+    ],
+    "callees": [
+      "214B:1452"
+    ]
+  },
+  "1771:4952": {
+    "listing": "static/goal-exe/code/seg_1771_07.asm:121",
+    "lines": 44,
+    "returns": [
+      "retf 2"
+    ],
+    "callees": [
+      "23E4:19B2",
+      "0x4925",
+      "0x3ef8"
+    ]
+  },
+  "1771:49B8": {
+    "listing": "static/goal-exe/code/seg_1771_07.asm:165",
+    "lines": 182,
+    "returns": [
+      "ret 2"
+    ],
+    "callees": [
+      "0x3a82",
+      "214B:0CA1",
+      "214B:0C57",
+      "0x3216",
+      "214B:0CA1",
+      "214B:0C79",
+      "0x3ef8"
+    ]
+  },
+  "1771:4B61": {
+    "listing": "static/goal-exe/code/seg_1771_07.asm:347",
+    "lines": 163,
+    "returns": [
+      "retf 4"
+    ],
+    "callees": [
+      "214B:0329",
+      "0x3216",
+      "0x42bc",
+      "214B:13C5",
+      "214B:1560",
+      "0x49b8",
+      "214B:0C57",
+      "214B:0C79",
+      "214B:0CA1",
+      "214B:0C57",
+      "214B:0C79",
+      "214B:0CA1",
+      "214B:0C57",
+      "214B:0CCB"
+    ]
+  },
+  "214B:04F8": {
+    "listing": "static/goal-exe/code/seg_214B_01.asm:661",
+    "lines": 51,
+    "returns": [
+      "retf 4"
+    ],
+    "callees": [
+      "23E4:0644",
+      "0x625",
+      "23E4:062A",
+      "23E4:06B7",
+      "0x350",
+      "0x983",
+      "0x643"
+    ]
+  },
+  "214B:0566": {
+    "listing": "static/goal-exe/code/seg_214B_01.asm:712",
+    "lines": 58,
+    "returns": [
+      "retf 4"
+    ],
+    "callees": [
+      "23E4:0644",
+      "0x625",
+      "23E4:062A",
+      "23E4:06B7",
+      "0x350",
+      "0x9a7",
+      "23E4:19B2",
+      "0x643"
+    ]
+  },
+  "214B:0723": {
+    "listing": "static/goal-exe/code/seg_214B_01.asm:962",
+    "lines": 27,
+    "returns": [
+      "retf"
+    ],
+    "callees": [
+      "235C:000B"
+    ]
+  },
+  "214B:08DD": {
+    "listing": "static/goal-exe/code/seg_214B_02.asm:6",
+    "lines": 76,
+    "returns": [
+      "retf"
+    ],
+    "callees": [
+      "235C:000B",
+      "23E4:00D8",
+      "0x813",
+      "0xb4d",
+      "0x723"
+    ]
+  },
+  "214B:0983": {
+    "listing": "static/goal-exe/code/seg_214B_02.asm:82",
+    "lines": 11,
+    "returns": [
+      "retf"
+    ],
+    "callees": [
+      "0x8dd"
+    ]
+  },
+  "214B:0993": {
+    "listing": "static/goal-exe/code/seg_214B_02.asm:93",
+    "lines": 11,
+    "returns": [
+      "retf 2"
+    ],
+    "callees": []
+  },
+  "214B:09A7": {
+    "listing": "static/goal-exe/code/seg_214B_02.asm:104",
+    "lines": 28,
+    "returns": [
+      "retf 4"
+    ],
+    "callees": [
+      "23E4:08BF",
+      "0x8dd",
+      "23E4:08DF"
+    ]
+  },
+  "214B:13F6": {
+    "listing": "static/goal-exe/code/seg_214B_03.asm:78",
+    "lines": 48,
+    "returns": [
+      "retf 6"
+    ],
+    "callees": []
+  },
+  "214B:1452": {
+    "listing": "static/goal-exe/code/seg_214B_03.asm:126",
+    "lines": 47,
+    "returns": [
+      "retf 6"
+    ],
+    "callees": [
+      "0x13f6"
+    ]
+  },
+  "214B:14AC": {
+    "listing": "static/goal-exe/code/seg_214B_03.asm:173",
+    "lines": 47,
+    "returns": [
+      "retf 6"
+    ],
+    "callees": []
+  },
+  "214B:1507": {
+    "listing": "static/goal-exe/code/seg_214B_03.asm:220",
+    "lines": 46,
+    "returns": [
+      "retf 6"
+    ],
+    "callees": [
+      "0x14ac"
+    ]
+  },
+  "214B:1560": {
+    "listing": "static/goal-exe/code/seg_214B_03.asm:266",
+    "lines": 25,
+    "returns": [
+      "retf 6"
+    ],
+    "callees": [
+      "23E4:025D",
+      "0x8dd",
+      "0x1507"
+    ]
+  },
+  "214B:158E": {
+    "listing": "static/goal-exe/code/seg_214B_03.asm:291",
+    "lines": 16,
+    "returns": [
+      "ret 6"
+    ],
+    "callees": []
+  },
+  "214B:15B1": {
+    "listing": "static/goal-exe/code/seg_214B_03.asm:307",
+    "lines": 214,
+    "returns": [
+      "retf 12"
+    ],
+    "callees": [
+      "0x158e",
+      "0x158e",
+      "0x158e",
+      "0x158e",
+      "0x158e",
+      "0x158e",
+      "0x158e",
+      "0x158e",
+      "0x158e",
+      "0xd1c",
+      "0x158e",
+      "0x158e",
+      "0xd1c",
+      "0xd56",
+      "0x158e"
+    ]
+  },
+  "214B:1765": {
+    "listing": "static/goal-exe/code/seg_214B_03.asm:521",
+    "lines": 29,
+    "returns": [
+      "retf 6"
+    ],
+    "callees": [
+      "23E4:0644",
+      "0x4f8"
+    ]
+  },
+  "235C:0000": {
+    "listing": "static/goal-exe/code/seg_235C_01.asm:7",
+    "lines": 13,
+    "returns": [
+      "retf 4"
+    ],
+    "callees": [],
+    "abi_note": "MsDos adds interrupt-number argument and falls through000B, whose final retf6 cleans it and original4-byte pointer"
+  },
+  "235C:000B": {
+    "listing": "static/goal-exe/code/seg_235C_01.asm:20",
+    "lines": 45,
+    "returns": [
+      "retf 6"
+    ],
+    "callees": [],
+    "abi_note": "0044 retf transfers to interrupt vector;0045..0069 stores returned register record, then retf6"
+  }
+}

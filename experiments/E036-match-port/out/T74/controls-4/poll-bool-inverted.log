@@ -1,0 +1,181 @@
+........F............FFFFFFFEFFFFFF.............E....
+======================================================================
+ERROR: test_poll_queued_quick_and_idle_deferred_call_use_parent_bp (tests.test_port_menus.Menus.test_poll_queued_quick_and_idle_deferred_call_use_parent_bp)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 246, in test_poll_queued_quick_and_idle_deferred_call_use_parent_bp
+    r.run('0791:9372')
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 53, in run
+    return self._invoke(entry,variant)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 84, in _invoke
+    if callee is not None:self._invoke(callee)
+                          ^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 59, in _invoke
+    value=entry.fn(mem,variant)
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T74-controls-hnbxul86/runtime/original_match/port/menus.py", line 56, in read_key
+    mem.read_key(_ret_site(mem))
+  File "/tmp/T74-controls-hnbxul86/runtime/original_match/port/mem.py", line 125, in read_key
+    key = self._key(site)
+          ^^^^^^^^^^^^^^^
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 25, in _key
+    value=self.keys.pop(0)
+          ^^^^^^^^^^^^^^^^
+IndexError: pop from empty list
+
+======================================================================
+ERROR: test_timed_notice_keeper_template_and_key_or_escape (tests.test_port_menus.Menus.test_timed_notice_keeper_template_and_key_or_escape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 401, in test_timed_notice_keeper_template_and_key_or_escape
+    r.run('0791:7FCF',[1,keeper],answer=respond)
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 53, in run
+    return self._invoke(entry,variant)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 84, in _invoke
+    if callee is not None:self._invoke(callee)
+                          ^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 59, in _invoke
+    value=entry.fn(mem,variant)
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T74-controls-hnbxul86/runtime/original_match/port/menus.py", line 56, in read_key
+    mem.read_key(_ret_site(mem))
+  File "/tmp/T74-controls-hnbxul86/runtime/original_match/port/mem.py", line 125, in read_key
+    key = self._key(site)
+          ^^^^^^^^^^^^^^^
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 25, in _key
+    value=self.keys.pop(0)
+          ^^^^^^^^^^^^^^^^
+IndexError: pop from empty list
+
+======================================================================
+FAIL: test_key_pressed_service_preserves_frame_and_high_ax (tests.test_port_menus.Menus.test_key_pressed_service_preserves_frame_and_high_ax)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 120, in test_key_pressed_service_preserves_frame_and_high_ax
+    self.assertEqual(r.mem.reg('ax'),0xA500+waiting)
+AssertionError: 42241 != 42240
+
+======================================================================
+FAIL: test_poll_dispatches_board_menu_sound_help_and_pitch (tests.test_port_menus.Menus.test_poll_dispatches_board_menu_sound_help_and_pitch) (key=32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 238, in test_poll_dispatches_board_menu_sound_help_and_pitch
+    self.assertTrue(r.args(target) or any(t==target for t,_,_,_ in r.calls))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_poll_dispatches_board_menu_sound_help_and_pitch (tests.test_port_menus.Menus.test_poll_dispatches_board_menu_sound_help_and_pitch) (key=13)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 238, in test_poll_dispatches_board_menu_sound_help_and_pitch
+    self.assertTrue(r.args(target) or any(t==target for t,_,_,_ in r.calls))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_poll_dispatches_board_menu_sound_help_and_pitch (tests.test_port_menus.Menus.test_poll_dispatches_board_menu_sound_help_and_pitch) (key=27)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 238, in test_poll_dispatches_board_menu_sound_help_and_pitch
+    self.assertTrue(r.args(target) or any(t==target for t,_,_,_ in r.calls))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_poll_dispatches_board_menu_sound_help_and_pitch (tests.test_port_menus.Menus.test_poll_dispatches_board_menu_sound_help_and_pitch) (key=167)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 238, in test_poll_dispatches_board_menu_sound_help_and_pitch
+    self.assertTrue(r.args(target) or any(t==target for t,_,_,_ in r.calls))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_poll_dispatches_board_menu_sound_help_and_pitch (tests.test_port_menus.Menus.test_poll_dispatches_board_menu_sound_help_and_pitch) (key=159)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 238, in test_poll_dispatches_board_menu_sound_help_and_pitch
+    self.assertTrue(r.args(target) or any(t==target for t,_,_,_ in r.calls))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_poll_dispatches_board_menu_sound_help_and_pitch (tests.test_port_menus.Menus.test_poll_dispatches_board_menu_sound_help_and_pitch) (key=172)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 238, in test_poll_dispatches_board_menu_sound_help_and_pitch
+    self.assertTrue(r.args(target) or any(t==target for t,_,_,_ in r.calls))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_poll_dispatches_board_menu_sound_help_and_pitch (tests.test_port_menus.Menus.test_poll_dispatches_board_menu_sound_help_and_pitch) (key=177)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 238, in test_poll_dispatches_board_menu_sound_help_and_pitch
+    self.assertTrue(r.args(target) or any(t==target for t,_,_,_ in r.calls))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_poll_speed_arrows_clamp_at_zero_and_five (tests.test_port_menus.Menus.test_poll_speed_arrows_clamp_at_zero_and_five) (key=174, speed=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 225, in test_poll_speed_arrows_clamp_at_zero_and_five
+    self.assertEqual(r.mem.u8(address),want)
+AssertionError: 2 != 3
+
+======================================================================
+FAIL: test_poll_speed_arrows_clamp_at_zero_and_five (tests.test_port_menus.Menus.test_poll_speed_arrows_clamp_at_zero_and_five) (key=174, speed=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 225, in test_poll_speed_arrows_clamp_at_zero_and_five
+    self.assertEqual(r.mem.u8(address),want)
+AssertionError: 4 != 5
+
+======================================================================
+FAIL: test_poll_speed_arrows_clamp_at_zero_and_five (tests.test_port_menus.Menus.test_poll_speed_arrows_clamp_at_zero_and_five) (key=174, speed=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 226, in test_poll_speed_arrows_clamp_at_zero_and_five
+    self.assertEqual(r.mem.key_sites,['0791:93D3'])
+AssertionError: Lists differ: [] != ['0791:93D3']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'0791:93D3'
+
+- []
++ ['0791:93D3']
+
+======================================================================
+FAIL: test_poll_speed_arrows_clamp_at_zero_and_five (tests.test_port_menus.Menus.test_poll_speed_arrows_clamp_at_zero_and_five) (key=175, speed=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 225, in test_poll_speed_arrows_clamp_at_zero_and_five
+    self.assertEqual(r.mem.u8(address),want)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_poll_speed_arrows_clamp_at_zero_and_five (tests.test_port_menus.Menus.test_poll_speed_arrows_clamp_at_zero_and_five) (key=175, speed=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 225, in test_poll_speed_arrows_clamp_at_zero_and_five
+    self.assertEqual(r.mem.u8(address),want)
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_poll_speed_arrows_clamp_at_zero_and_five (tests.test_port_menus.Menus.test_poll_speed_arrows_clamp_at_zero_and_five) (key=175, speed=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-hnbxul86/tests/test_port_menus.py", line 226, in test_poll_speed_arrows_clamp_at_zero_and_five
+    self.assertEqual(r.mem.key_sites,['0791:93D3'])
+AssertionError: Lists differ: [] != ['0791:93D3']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'0791:93D3'
+
+- []
++ ['0791:93D3']
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.451s
+
+FAILED (failures=14, errors=2)

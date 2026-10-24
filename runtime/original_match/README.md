@@ -337,3 +337,33 @@ manager does not play: kinds 8, 200, 201, 203; F030; the kit plays only a fixtur
 the news pages and the manager's sack check (4E0E, F025: goal2 keeps its own career state). The set-piece taker
 prompts keep the original's pick (exposing them: about 1 h). One human side. A match costs 9-13 s, 13-18 s with extra time and a shoot-out (a quick result after `R`, about 4 s, 7 s with them; the write hooks behind the stamps are included); stepping by
 minute or tick adds nothing measurable. `save()` is about 0.36 MB at minute 60 (much more with `record_draws`, which keeps every RNG write).
+
+A fixture may name a managed country outside its two participants, for example
+`Match(image, Fixture(1, 2, index=21), managed=7)`. Both participants keep their
+computer manager bytes, and no manager decisions are offered. Captain overrides
+and pauses require a participating managed side. For a computer-only fixture,
+the draw transcript and optional seed/delay inputs begin at `play_match` entry
+after setup, since there is no human captain prompt.
+
+With `--ports menus`, the Python translations own all 27 menu/key routines. The
+existing `MenuPlan` supplies compatibility keys to the Python menu bodies; cursor
+transitions and their frame/buffer effects remain exact. SELECT TEAM's outer loop
+and substitution routines remain explicit guest callees for T75. T74's tactics,
+position, marking and own-tactic writes occur in their Python bodies at the
+original sites. A decision stops in the
+08DD entry hook before Python runs, then its successful key is consumed once by
+the port. Save/resume therefore keeps the existing parked guest-call mechanism.
+The DOS.MsDos wrapper 235C:0000 retains its original shifted return frame: literal
+shared `retf 6` at entry SP - 2 gives effective argument cleanup 4. Its IVT call uses
+the ordinary guest-call FLAGS/CS/IP frame and an actual IRET return.
+
+Known limit: direct side-by-side `Prover` runs of DOS.MsDos 235C:0000 do not yet
+account for its nonzero return-stack displacement. Both Prover return-SP
+predictions currently use entrySP+return-size+cleanup, without the displacement.
+This is a static prediction mismatch; an end-to-end Prover reproduction has not
+been run. Actual IVT/IRET runner tests pass separately, and ordinary ALL matches
+never reach this wrapper.
+The separate [T74 follow-up #394](https://github.com/diegoami/goal2-archaeology/issues/394)
+requires the actual MSDOS side-by-side proof, including original 0000-to-000B
+fallthrough sequencing versus the Python common helper; propagating the delta
+in both return predictions alone is not assumed sufficient.

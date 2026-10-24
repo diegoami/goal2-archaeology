@@ -1,0 +1,26 @@
+[
+  {
+    "variant": "tactics-adjacent-bit",
+    "match": "S/decisions-70",
+    "branch": "1771:1A33",
+    "original_branch_calls": 2,
+    "mutant_routine_calls": 2,
+    "mutant_entry_count": 2
+  },
+  {
+    "variant": "speed-right-increments",
+    "match": "S/quick-1",
+    "branch": "0791:940F",
+    "original_branch_calls": 1,
+    "mutant_routine_calls": 1150,
+    "mutant_entry_count": 1150
+  },
+  {
+    "variant": "menu-tactics-wrong-country",
+    "match": "S/decisions-70",
+    "branch": "0791:EFBC",
+    "original_branch_calls": 2,
+    "mutant_routine_calls": 12,
+    "mutant_entry_count": 12
+  }
+]

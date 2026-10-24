@@ -30,11 +30,12 @@ __all__ = ["Registry", "PortError", "load", "install", "available"]
 
 
 class Entry:
-    def __init__(self, address, ret, fn, name, long=False, stub=None):
+    def __init__(self, address, ret, fn, name, long=False, stub=None, return_stack_delta=0):
         m = re.fullmatch(r"(retf|ret)(?: (0x[0-9a-fA-F]+|\d+))?", ret.strip())
         if not m:
             raise ValueError(f"{address}: ret {ret!r} is not the listing's `ret n` or `retf n`")
         self.address, self.ret, self.fn, self.name, self.long, self.stub = address, ret, fn, name, long, stub
+        self.return_stack_delta = return_stack_delta
         self.far, self.pop = m.group(1) == "retf", int(m.group(2), 0) if m.group(2) else 0
 
 
@@ -51,9 +52,9 @@ class Registry:
             raise ValueError(f"{self.name}: two ports of {entry.address}")
         self.entries[entry.address] = entry
 
-    def port(self, address, ret, long=False):
+    def port(self, address, ret, long=False, return_stack_delta=0):
         def deco(fn):
-            self._add(Entry(address, ret, fn, fn.__name__, long))
+            self._add(Entry(address, ret, fn, fn.__name__, long, return_stack_delta=return_stack_delta))
             return fn
         return deco
 

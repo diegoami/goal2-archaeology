@@ -1,0 +1,1361 @@
+{
+  "pre_named_commit": "e4ad3d5ef8007411daafe5e73c44417e46ee182b",
+  "changes": [
+    {
+      "document": "experiments/E025-sacking-and-end/notes.md",
+      "before": "named/seg_1771_05.c:770-799",
+      "after": "named/seg_1771_05.c:792-821",
+      "same_endpoint_texts": [
+        "      local_a = local_a + 1;",
+        "    *(undefined2 *)(iVar3 + 0x2a) = *(undefined2 *)(iVar3 + 0x28);"
+      ]
+    },
+    {
+      "document": "findings/F025-sacking-and-end-of-the-game.md",
+      "before": "static:static/goal-exe/named/seg_1771_05.c:798",
+      "after": "static:static/goal-exe/named/seg_1771_05.c:820",
+      "same_endpoint_texts": [
+        "  if (cVar1 == '\\x04') {"
+      ]
+    },
+    {
+      "document": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "static:static/goal-exe/named/seg_1771_04.c:430",
+      "after": "static:static/goal-exe/named/seg_1771_04.c:447",
+      "same_endpoint_texts": [
+        "      pcVar4[iVar2].squad[local_4 - 1] = pcVar4[iVar2].squad[local_6 - 1];"
+      ]
+    },
+    {
+      "document": "spec/competitions.md",
+      "before": "named/seg_1771_05.c:682",
+      "after": "named/seg_1771_05.c:704",
+      "same_endpoint_texts": [
+        "  byte *pbVar5;"
+      ]
+    },
+    {
+      "document": "spec/competitions.md",
+      "before": "named/seg_1771_05.c:142-330",
+      "after": "named/seg_1771_05.c:164-352",
+      "same_endpoint_texts": [
+        "void __cdecl16near recompute_country_ranks(void)",
+        "    local_e = local_e + 8;"
+      ]
+    },
+    {
+      "document": "spec/competitions.md",
+      "before": "named/seg_1771_05.c:240-300",
+      "after": "named/seg_1771_05.c:262-322",
+      "same_endpoint_texts": [
+        "  undefined2 uVar4;",
+        "  iVar1 = (int)DS:A923;"
+      ]
+    },
+    {
+      "document": "spec/friendlies.md",
+      "before": "named/seg_1771_05.c:240-290",
+      "after": "named/seg_1771_05.c:262-312",
+      "same_endpoint_texts": [
+        "  undefined2 uVar4;",
+        "  undefined2 uVar5;"
+      ]
+    }
+  ],
+  "verified_endpoints": [
+    {
+      "document": "docs/play-guide.md",
+      "before": "seg_214B_01.c:729",
+      "after": "named/seg_214B_01.c:729",
+      "same_text": "void __cdecl16far u214b_read_key(void)"
+    },
+    {
+      "document": "experiments/E014-q013-ageing/notes.md",
+      "before": "seg_0791_09.c:54",
+      "after": "named/seg_0791_09.c:54",
+      "same_text": "      iVar4 = local_4;"
+    },
+    {
+      "document": "experiments/E014-q013-ageing/notes.md",
+      "before": "seg_0791_09.c:93",
+      "after": "named/seg_0791_09.c:93",
+      "same_text": "            if (DS:8302 != '\\0') {"
+    },
+    {
+      "document": "experiments/E014-q013-ageing/notes.md",
+      "before": "seg_1771_03.c:110",
+      "after": "named/seg_1771_03.c:110",
+      "same_text": "  cVar1 = u214b_random_1_to_n(3);"
+    },
+    {
+      "document": "experiments/E014-q013-ageing/notes.md",
+      "before": "seg_1771_03.c:116",
+      "after": "named/seg_1771_03.c:116",
+      "same_text": ""
+    },
+    {
+      "document": "experiments/E014-q013-ageing/notes.md",
+      "before": "seg_000E_04.c:646",
+      "after": "named/seg_000E_04.c:646",
+      "same_text": ""
+    },
+    {
+      "document": "experiments/E014-q013-ageing/notes.md",
+      "before": "seg_000E_04.c:710",
+      "after": "named/seg_000E_04.c:710",
+      "same_text": "  return;"
+    },
+    {
+      "document": "experiments/E014-q013-ageing/notes.md",
+      "before": "seg_1771_06.c:969",
+      "after": "named/seg_1771_06.c:969",
+      "same_text": "  if (*(int *)(param_1 + -4) == 9) {"
+    },
+    {
+      "document": "experiments/E014-q013-ageing/notes.md",
+      "before": "seg_1771_06.c:973",
+      "after": "named/seg_1771_06.c:973",
+      "same_text": "      u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x2d3c,0xb000);"
+    },
+    {
+      "document": "experiments/E014-q013-ageing/notes.md",
+      "before": "seg_0791_09.c:419",
+      "after": "named/seg_0791_09.c:419",
+      "same_text": "  DS:9B41 = 1;"
+    },
+    {
+      "document": "experiments/E014-q013-ageing/notes.md",
+      "before": "seg_0791_09.c:443",
+      "after": "named/seg_0791_09.c:443",
+      "same_text": "  undefined1 *puVar7;"
+    },
+    {
+      "document": "experiments/E017-q015-energy/notes.md",
+      "before": "seg_0791_08.c:436",
+      "after": "named/seg_0791_08.c:436",
+      "same_text": "    if (iVar5 < 0) {"
+    },
+    {
+      "document": "experiments/E017-q015-energy/notes.md",
+      "before": "seg_1771_02.c:232",
+      "after": "named/seg_1771_02.c:232",
+      "same_text": "  if (param_1 == '\\0') {"
+    },
+    {
+      "document": "experiments/E017-q015-energy/notes.md",
+      "before": "seg_1771_02.c:256",
+      "after": "named/seg_1771_02.c:256",
+      "same_text": "      local_4 = 10;"
+    },
+    {
+      "document": "experiments/E017-q015-energy/notes.md",
+      "before": "seg_1771_06.c:297",
+      "after": "named/seg_1771_06.c:297",
+      "same_text": "  uVar1 = (ulong)players >> 0x10;"
+    },
+    {
+      "document": "experiments/E017-q015-energy/notes.md",
+      "before": "seg_1771_06.c:315",
+      "after": "named/seg_1771_06.c:315",
+      "same_text": "  uint local_4;"
+    },
+    {
+      "document": "experiments/E017-q015-energy/notes.md",
+      "before": "seg_0791_04.c:23",
+      "after": "named/seg_0791_04.c:23",
+      "same_text": "  uVar1 = ball_record._0_2_;"
+    },
+    {
+      "document": "experiments/E017-q015-energy/notes.md",
+      "before": "seg_0791_04.c:79",
+      "after": "named/seg_0791_04.c:79",
+      "same_text": "    commentary_with_ball_slot(CONCAT11(extraout_AH,0x16));"
+    },
+    {
+      "document": "experiments/E017-q015-energy/notes.md",
+      "before": "seg_0791_04.c:105",
+      "after": "named/seg_0791_04.c:105",
+      "same_text": "  return;"
+    },
+    {
+      "document": "experiments/E017-q015-energy/notes.md",
+      "before": "seg_0791_04.c:122",
+      "after": "named/seg_0791_04.c:122",
+      "same_text": "  local_7 = (pitch *)CONCAT22(0xb000,(pitch *)pitch_records + DS:830B);"
+    },
+    {
+      "document": "experiments/E017-q015-energy/notes.md",
+      "before": "seg_0791_09.c:346",
+      "after": "named/seg_0791_09.c:346",
+      "same_text": "  undefined1 extraout_AH;"
+    },
+    {
+      "document": "experiments/E017-q015-energy/notes.md",
+      "before": "seg_0791_09.c:358",
+      "after": "named/seg_0791_09.c:358",
+      "same_text": "  while( true ) {"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:245",
+      "after": "named/seg_0791_09.c:245",
+      "same_text": "    }"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:279",
+      "after": "named/seg_0791_09.c:279",
+      "same_text": "  cVar1 = DS:9A3E;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_11.c:700",
+      "after": "named/seg_0791_11.c:700",
+      "same_text": "      if (((country *)countries)[((undefined2 *)&DS:9B34)[local_3]].squad[local_5 + -1] != 0)"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_11.c:700",
+      "after": "named/seg_0791_11.c:700",
+      "same_text": "      if (((country *)countries)[((undefined2 *)&DS:9B34)[local_3]].squad[local_5 + -1] != 0)"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_000E_05.c:605",
+      "after": "named/seg_000E_05.c:605",
+      "same_text": "        cVar2 = is_managed(*(undefined2 *)(pbVar8 + local_5 * 2 + 4));"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_000E_05.c:640",
+      "after": "named/seg_000E_05.c:640",
+      "same_text": "                       (int)((ulong)fixtures >> 0x10),*(undefined2 *)(pbVar8 + local_5 * 2 + 4));"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_11.c:658",
+      "after": "named/seg_0791_11.c:658",
+      "same_text": "        local_9 = ppVar5[wVar2].performance;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_11.c:649",
+      "after": "named/seg_0791_11.c:649",
+      "same_text": "  pcVar4 = (country *)countries;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_11.c:674",
+      "after": "named/seg_0791_11.c:674",
+      "same_text": "  } while( true );"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_000E_05.c:392",
+      "after": "named/seg_000E_05.c:392",
+      "same_text": "  undefined4 local_c;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_000E_05.c:406",
+      "after": "named/seg_000E_05.c:406",
+      "same_text": "            ((byte *)fixtures + *(int *)(iVar6 + 0x26) * 8 + -8,(int)((ulong)fixtures >> 0x10));"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:122",
+      "after": "named/seg_0791_09.c:122",
+      "same_text": "    local_4 = local_4 + 1;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:116",
+      "after": "named/seg_0791_09.c:116",
+      "same_text": "    if (local_4 == 0x16) {"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:350",
+      "after": "named/seg_0791_09.c:350",
+      "same_text": "  player *ppVar3;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_000E_05.c:605",
+      "after": "named/seg_000E_05.c:605",
+      "same_text": "        cVar2 = is_managed(*(undefined2 *)(pbVar8 + local_5 * 2 + 4));"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_000E_05.c:612",
+      "after": "named/seg_000E_05.c:612",
+      "same_text": "      uVar6 = (undefined2)((ulong)local_12 >> 0x10);"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_03.c:881",
+      "after": "named/seg_1771_03.c:881",
+      "same_text": "              ((undefined4 *)&DS:A96E,0xb000,CONCAT11(uVar4,0x15),CONCAT11(uVar4,10),"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_03.c:892",
+      "after": "named/seg_1771_03.c:892",
+      "same_text": "                 (uint)*(byte *)((char)ppVar5->energy + 0x78d5) * 0x10 + 0x6eb4,0xb000);"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_02.c:73",
+      "after": "named/seg_1771_02.c:73",
+      "same_text": "  u214b_write_string_at_fwd"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_02.c:88",
+      "after": "named/seg_1771_02.c:88",
+      "same_text": "  u214b_fill_back_attr_70((uint)(DS:9B5A << 4) / 0x20,0x2e,0x17);"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_01.c:551",
+      "after": "named/seg_1771_01.c:551",
+      "same_text": "  int iVar1;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_01.c:562",
+      "after": "named/seg_1771_01.c:562",
+      "same_text": "                 ,0xaf0,0x4000);"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_02.c:73",
+      "after": "named/seg_1771_02.c:73",
+      "same_text": "  u214b_write_string_at_fwd"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_02.c:84",
+      "after": "named/seg_1771_02.c:84",
+      "same_text": "             (uint)*(byte *)(DS:9B5A + 0x78a3) * 0x10 + 0x6eb4,0xb000);"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_01.c:1054",
+      "after": "named/seg_1771_01.c:1054",
+      "same_text": "  DS:9B64 = DS:9B64 / 0xb;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_01.c:1061",
+      "after": "named/seg_1771_01.c:1061",
+      "same_text": ""
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_03.c:862",
+      "after": "named/seg_1771_03.c:862",
+      "same_text": "               CONCAT11(extraout_AH_03,8),puVar7,unaff_SS);"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_03.c:889",
+      "after": "named/seg_1771_03.c:889",
+      "same_text": "    if (ppVar5->energy == 0) {"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_02.c:540",
+      "after": "named/seg_0791_02.c:540",
+      "same_text": "    local_7 = 0xc;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_02.c:549",
+      "after": "named/seg_0791_02.c:549",
+      "same_text": "            swap_squad_slots(&stack0xfffe);"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_06.c:610",
+      "after": "named/seg_0791_06.c:610",
+      "same_text": "  "
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_06.c:625",
+      "after": "named/seg_0791_06.c:625",
+      "same_text": "    uVar2 = mirror_to_team_frame(iVar3,uVar4,DS:0820);"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_10.c:112",
+      "after": "named/seg_0791_10.c:112",
+      "same_text": "  puVar4 = local_112;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_10.c:83",
+      "after": "named/seg_0791_10.c:83",
+      "same_text": "}"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_11.c:658",
+      "after": "named/seg_0791_11.c:658",
+      "same_text": "        local_9 = ppVar5[wVar2].performance;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_11.c:649",
+      "after": "named/seg_0791_11.c:649",
+      "same_text": "  pcVar4 = (country *)countries;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_01.c:1021",
+      "after": "named/seg_1771_01.c:1021",
+      "same_text": "  DS:9B5A = 6;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_01.c:1038",
+      "after": "named/seg_1771_01.c:1038",
+      "same_text": "        DS:9B5C = DS:9B5C + (int)(char)ppVar6[wVar1].fitness;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_03.c:308",
+      "after": "named/seg_1771_03.c:308",
+      "same_text": "  ppVar5[param_2].fitness = (byte)local_4;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_03.c:325",
+      "after": "named/seg_1771_03.c:325",
+      "same_text": "  undefined2 uVar4;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_03.c:881",
+      "after": "named/seg_1771_03.c:881",
+      "same_text": "              ((undefined4 *)&DS:A96E,0xb000,CONCAT11(uVar4,0x15),CONCAT11(uVar4,10),"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_03.c:892",
+      "after": "named/seg_1771_03.c:892",
+      "same_text": "                 (uint)*(byte *)((char)ppVar5->energy + 0x78d5) * 0x10 + 0x6eb4,0xb000);"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_06.c:1001",
+      "after": "named/seg_1771_06.c:1001",
+      "same_text": "                   *(undefined2 *)"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_1771_06.c:1006",
+      "after": "named/seg_1771_06.c:1006",
+      "same_text": "                    )), local_4 != 0xc; local_4 = local_4 + 1) {"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:130",
+      "after": "named/seg_0791_09.c:130",
+      "same_text": "undefined1 match_clock(void)"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:112",
+      "after": "named/seg_0791_09.c:112",
+      "same_text": "    match_key_poll();"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:323",
+      "after": "named/seg_0791_09.c:323",
+      "same_text": "  DS:831B = 0x5b;"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:312",
+      "after": "named/seg_0791_09.c:312",
+      "same_text": ""
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:366",
+      "after": "named/seg_0791_09.c:366",
+      "same_text": "    }"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_05.c:543",
+      "after": "named/seg_0791_05.c:543",
+      "same_text": "// T65 (ported, exact on ALL): nested in 59B3 (parent BP, template): random_is_one(DS:07FC[DS:8324]), not in mode DS:8327 = 5 and, for template 0x1B, not on a coin: velocities DS:82FC/82FE negated, speed DS:8300 = max(1, speed div 4), the template said (2AA3), the parent's result set and DS:8324 cleared  [likely; read code/seg_0791_09.asm]"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_05.c:545",
+      "after": "named/seg_0791_05.c:545",
+      "same_text": "void woodwork_bounce(int param_1,char param_2)"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_06.c:565",
+      "after": "named/seg_0791_06.c:565",
+      "same_text": "      iVar3 = u214b_random_1_to_n(uVar2);"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_06.c:572",
+      "after": "named/seg_0791_06.c:572",
+      "same_text": "    goal_scored(&stack0xfffe);"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_06.c:656",
+      "after": "named/seg_0791_06.c:656",
+      "same_text": "  "
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_11.c:700",
+      "after": "named/seg_0791_11.c:700",
+      "same_text": "      if (((country *)countries)[((undefined2 *)&DS:9B34)[local_3]].squad[local_5 + -1] != 0)"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:240",
+      "after": "named/seg_0791_09.c:240",
+      "same_text": "    local_3 = '\\0';"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_0791_09.c:230",
+      "after": "named/seg_0791_09.c:230",
+      "same_text": "    fill_pitch_state(CONCAT11(extraout_AH,1));"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_000E_05.c:614",
+      "after": "named/seg_000E_05.c:614",
+      "same_text": "      if (pbVar7[iVar3 + -6] == 0) {"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "before": "seg_000E_05.c:624",
+      "after": "named/seg_000E_05.c:624",
+      "same_text": "            uVar4 = (uint)((country *)countries)[*(int *)(pbVar8 + local_5 * 2 + 4)].manager;"
+    },
+    {
+      "document": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_1771_02.c:72",
+      "after": "named/seg_1771_02.c:72",
+      "same_text": "  team_panel_aggregate(param_1);"
+    },
+    {
+      "document": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_0791_06.c:712",
+      "after": "named/seg_0791_06.c:712",
+      "same_text": "  iVar2 = (int)((ulong)lVar1 >> 0x10);"
+    },
+    {
+      "document": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_1771_02.c:7",
+      "after": "named/seg_1771_02.c:7",
+      "same_text": "void draw_team_panel(int param_1)"
+    },
+    {
+      "document": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_0791_02.c:540",
+      "after": "named/seg_0791_02.c:540",
+      "same_text": "    local_7 = 0xc;"
+    },
+    {
+      "document": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_0791_10.c:112",
+      "after": "named/seg_0791_10.c:112",
+      "same_text": "  puVar4 = local_112;"
+    },
+    {
+      "document": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_0791_11.c:658",
+      "after": "named/seg_0791_11.c:658",
+      "same_text": "        local_9 = ppVar5[wVar2].performance;"
+    },
+    {
+      "document": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_1771_03.c:308",
+      "after": "named/seg_1771_03.c:308",
+      "same_text": "  ppVar5[param_2].fitness = (byte)local_4;"
+    },
+    {
+      "document": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_1771_03.c:881",
+      "after": "named/seg_1771_03.c:881",
+      "same_text": "              ((undefined4 *)&DS:A96E,0xb000,CONCAT11(uVar4,0x15),CONCAT11(uVar4,10),"
+    },
+    {
+      "document": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_1771_06.c:1001",
+      "after": "named/seg_1771_06.c:1001",
+      "same_text": "                   *(undefined2 *)"
+    },
+    {
+      "document": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_0791_09.c:130",
+      "after": "named/seg_0791_09.c:130",
+      "same_text": "undefined1 match_clock(void)"
+    },
+    {
+      "document": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_0791_09.c:323",
+      "after": "named/seg_0791_09.c:323",
+      "same_text": "  DS:831B = 0x5b;"
+    },
+    {
+      "document": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_0791_09.c:366",
+      "after": "named/seg_0791_09.c:366",
+      "same_text": "    }"
+    },
+    {
+      "document": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_0791_05.c:543",
+      "after": "named/seg_0791_05.c:543",
+      "same_text": "// T65 (ported, exact on ALL): nested in 59B3 (parent BP, template): random_is_one(DS:07FC[DS:8324]), not in mode DS:8327 = 5 and, for template 0x1B, not on a coin: velocities DS:82FC/82FE negated, speed DS:8300 = max(1, speed div 4), the template said (2AA3), the parent's result set and DS:8324 cleared  [likely; read code/seg_0791_09.asm]"
+    },
+    {
+      "document": "experiments/E019-q017-events-morale/notes.md",
+      "before": "seg_0791_11.c:700",
+      "after": "named/seg_0791_11.c:700",
+      "same_text": "      if (((country *)countries)[((undefined2 *)&DS:9B34)[local_3]].squad[local_5 + -1] != 0)"
+    },
+    {
+      "document": "experiments/E024-computer-managers/notes.md",
+      "before": "seg_0791_11.c:506",
+      "after": "named/seg_0791_11.c:506",
+      "same_text": "  local_8[1] = '\\0';"
+    },
+    {
+      "document": "experiments/E025-sacking-and-end/notes.md",
+      "before": "seg_000E_04.c:388",
+      "after": "named/seg_000E_04.c:388",
+      "same_text": "// ---- 000E:4E0E  post_match_news_and_sack  (f_000E_4E0E; Ghidra 1000:4E0E, __stdcall16near; found by routines.tsv)"
+    },
+    {
+      "document": "experiments/E025-sacking-and-end/notes.md",
+      "before": "seg_1771_05.c:770",
+      "after": "named/seg_1771_05.c:792",
+      "same_text": "      local_a = local_a + 1;"
+    },
+    {
+      "document": "experiments/E025-sacking-and-end/notes.md",
+      "before": "seg_1771_05.c:799",
+      "after": "named/seg_1771_05.c:821",
+      "same_text": "    *(undefined2 *)(iVar3 + 0x2a) = *(undefined2 *)(iVar3 + 0x28);"
+    },
+    {
+      "document": "findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md",
+      "before": "seg_0791_04.c:128",
+      "after": "named/seg_0791_04.c:128",
+      "same_text": "      iVar4 = -iVar4;"
+    },
+    {
+      "document": "findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md",
+      "before": "seg_0791_11.c:578",
+      "after": "named/seg_0791_11.c:578",
+      "same_text": "  uVar3 = (undefined2)((ulong)param_4 >> 0x10);"
+    },
+    {
+      "document": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_1771_03.c:881",
+      "after": "named/seg_1771_03.c:881",
+      "same_text": "              ((undefined4 *)&DS:A96E,0xb000,CONCAT11(uVar4,0x15),CONCAT11(uVar4,10),"
+    },
+    {
+      "document": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_0791_09.c:248",
+      "after": "named/seg_0791_09.c:248",
+      "same_text": "  DS:8325 = 0;"
+    },
+    {
+      "document": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_000E_05.c:392",
+      "after": "named/seg_000E_05.c:392",
+      "same_text": "  undefined4 local_c;"
+    },
+    {
+      "document": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_0791_09.c:123",
+      "after": "named/seg_0791_09.c:123",
+      "same_text": "  } while( true );"
+    },
+    {
+      "document": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_0791_11.c:704",
+      "after": "named/seg_0791_11.c:704",
+      "same_text": "        ppVar2 = (player *)players;"
+    },
+    {
+      "document": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_0791_11.c:746",
+      "after": "named/seg_0791_11.c:746",
+      "same_text": "  int iVar1;"
+    },
+    {
+      "document": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_0791_09.c:328",
+      "after": "named/seg_0791_09.c:328",
+      "same_text": "                    ((country *)countries + ((undefined2 *)&DS:9B34)[cVar1],"
+    },
+    {
+      "document": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_000E_05.c:606",
+      "after": "named/seg_000E_05.c:606",
+      "same_text": "        if (cVar2 != '\\0') {"
+    },
+    {
+      "document": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_0791_05.c:543",
+      "after": "named/seg_0791_05.c:543",
+      "same_text": "// T65 (ported, exact on ALL): nested in 59B3 (parent BP, template): random_is_one(DS:07FC[DS:8324]), not in mode DS:8327 = 5 and, for template 0x1B, not on a coin: velocities DS:82FC/82FE negated, speed DS:8300 = max(1, speed div 4), the template said (2AA3), the parent's result set and DS:8324 cleared  [likely; read code/seg_0791_09.asm]"
+    },
+    {
+      "document": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_0791_05.c:628",
+      "after": "named/seg_0791_05.c:628",
+      "same_text": "  if (DS:8326 == '\\0') {"
+    },
+    {
+      "document": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_0791_09.c:371",
+      "after": "named/seg_0791_09.c:371",
+      "same_text": "  DS:9B41 = 1;"
+    },
+    {
+      "document": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "before": "seg_000E_05.c:606",
+      "after": "named/seg_000E_05.c:606",
+      "same_text": "        if (cVar2 != '\\0') {"
+    },
+    {
+      "document": "findings/F023-the-stage-builders-write-the-competition-calendar-from-ranked-pots-and-a-points-sort-with-no-coin.md",
+      "before": "seg_000E_05.c:513",
+      "after": "named/seg_000E_05.c:513",
+      "same_text": "}"
+    },
+    {
+      "document": "findings/F023-the-stage-builders-write-the-competition-calendar-from-ranked-pots-and-a-points-sort-with-no-coin.md",
+      "before": "seg_000E_05.c:4",
+      "after": "named/seg_000E_05.c:4",
+      "same_text": "// ---- 000E:60CB  announce_stage_to_manager  (f_000E_60CB; Ghidra 1000:60CB, __stdcall16far; found by routines.tsv)"
+    },
+    {
+      "document": "findings/F025-sacking-and-end-of-the-game.md",
+      "before": "seg_000E_04.c:388",
+      "after": "named/seg_000E_04.c:388",
+      "same_text": "// ---- 000E:4E0E  post_match_news_and_sack  (f_000E_4E0E; Ghidra 1000:4E0E, __stdcall16near; found by routines.tsv)"
+    },
+    {
+      "document": "findings/F025-sacking-and-end-of-the-game.md",
+      "before": "seg_000E_01.c:104",
+      "after": "named/seg_000E_01.c:104",
+      "same_text": "  *(undefined1 *)((int)DS:A923 + param_1 + 0x47) = 1;"
+    },
+    {
+      "document": "findings/F025-sacking-and-end-of-the-game.md",
+      "before": "seg_000E_01.c:147",
+      "after": "named/seg_000E_01.c:147",
+      "same_text": "  u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x4ed8,0xb000);"
+    },
+    {
+      "document": "findings/F025-sacking-and-end-of-the-game.md",
+      "before": "seg_000E_05.c:726",
+      "after": "named/seg_000E_05.c:726",
+      "same_text": "                ((char *)s_phenomenal_b000_7094 + 5,0x4000,CONCAT11(extraout_AH,pbVar2[0x3c]));"
+    },
+    {
+      "document": "findings/F025-sacking-and-end-of-the-game.md",
+      "before": "seg_000E_05.c:942",
+      "after": "named/seg_000E_05.c:942",
+      "same_text": "          uVar6 = (undefined2)((ulong)local_8 >> 0x10);"
+    },
+    {
+      "document": "findings/F025-sacking-and-end-of-the-game.md",
+      "before": "seg_000E_05.c:990",
+      "after": "named/seg_000E_05.c:990",
+      "same_text": "    else if (DS:00B0 == 6) {"
+    },
+    {
+      "document": "findings/F025-sacking-and-end-of-the-game.md",
+      "before": "seg_1771_05.c:798",
+      "after": "named/seg_1771_05.c:820",
+      "same_text": "  if (cVar1 == '\\x04') {"
+    },
+    {
+      "document": "findings/F025-sacking-and-end-of-the-game.md",
+      "before": "seg_000E_05.c:726",
+      "after": "named/seg_000E_05.c:726",
+      "same_text": "                ((char *)s_phenomenal_b000_7094 + 5,0x4000,CONCAT11(extraout_AH,pbVar2[0x3c]));"
+    },
+    {
+      "document": "findings/F025-sacking-and-end-of-the-game.md",
+      "before": "seg_000E_05.c:989",
+      "after": "named/seg_000E_05.c:989",
+      "same_text": "    }"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_0791_07.c:663",
+      "after": "named/seg_0791_07.c:663",
+      "same_text": "      uVar2 = CONCAT11((char)(uVar2 >> 8),1);"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_0791_03.c:1126",
+      "after": "named/seg_0791_03.c:1126",
+      "same_text": "  undefined2 uVar4;"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_0791_05.c:158",
+      "after": "named/seg_0791_05.c:158",
+      "same_text": "{"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_0791_03.c:1126",
+      "after": "named/seg_0791_03.c:1126",
+      "same_text": "  undefined2 uVar4;"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_0791_03.c:1084",
+      "after": "named/seg_0791_03.c:1084",
+      "same_text": "  }"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_0791_04.c:438",
+      "after": "named/seg_0791_04.c:438",
+      "same_text": "                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1), cVar1 == '\\0'))"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_0791_04.c:142",
+      "after": "named/seg_0791_04.c:142",
+      "same_text": "          uVar3 = -uVar3;"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_0791_04.c:379",
+      "after": "named/seg_0791_04.c:379",
+      "same_text": "    if ((int)in_AX < 0) {"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_0791_04.c:379",
+      "after": "named/seg_0791_04.c:379",
+      "same_text": "    if ((int)in_AX < 0) {"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_0791_04.c:379",
+      "after": "named/seg_0791_04.c:379",
+      "same_text": "    if ((int)in_AX < 0) {"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_0791_05.c:103",
+      "after": "named/seg_0791_05.c:103",
+      "same_text": "      return 1;"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_0791_04.c:699",
+      "after": "named/seg_0791_04.c:699",
+      "same_text": "  char cVar1;"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_0791_04.c:699",
+      "after": "named/seg_0791_04.c:699",
+      "same_text": "  char cVar1;"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_0791_04.c:587",
+      "after": "named/seg_0791_04.c:587",
+      "same_text": "         cVar3 = near_post_zone((int)*(undefined4 *)(param_1 + 6),"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_1771_03.c:687",
+      "after": "named/seg_1771_03.c:687",
+      "same_text": "// ---- 1771:3EF8  set_marking_words  (f_1771_3EF8; Ghidra 4000:3EF8, __cdecl16far; found by routines.tsv)"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_1771_03.c:687",
+      "after": "named/seg_1771_03.c:687",
+      "same_text": "// ---- 1771:3EF8  set_marking_words  (f_1771_3EF8; Ghidra 4000:3EF8, __cdecl16far; found by routines.tsv)"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_1771_03.c:642",
+      "after": "named/seg_1771_03.c:642",
+      "same_text": "// ---- 1771:3E2F  pick_mark_target  (f_1771_3E2F; Ghidra 4000:3E2F, __stdcall16near; found by routines.tsv)"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_0791_04.c:297",
+      "after": "named/seg_0791_04.c:297",
+      "same_text": "    if (*(char *)(iVar4 + 0x12) == '\\t') {"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_0791_04.c:297",
+      "after": "named/seg_0791_04.c:297",
+      "same_text": "    if (*(char *)(iVar4 + 0x12) == '\\t') {"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "before": "seg_1771_03.c:687",
+      "after": "named/seg_1771_03.c:687",
+      "same_text": "// ---- 1771:3EF8  set_marking_words  (f_1771_3EF8; Ghidra 4000:3EF8, __cdecl16far; found by routines.tsv)"
+    },
+    {
+      "document": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "before": "seg_0791_09.c:652",
+      "after": "named/seg_0791_09.c:652",
+      "same_text": "    cVar2 = is_managed(((undefined2 *)&DS:9B34)[local_21]);"
+    },
+    {
+      "document": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "before": "seg_0791_09.c:654",
+      "after": "named/seg_0791_09.c:654",
+      "same_text": "      pick_shootout_takers(&stack0xfffe);"
+    },
+    {
+      "document": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "before": "seg_1771_02.c:68",
+      "after": "named/seg_1771_02.c:68",
+      "same_text": "  formation_label(param_1);"
+    },
+    {
+      "document": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "before": "seg_0791_05.c:4",
+      "after": "named/seg_0791_05.c:4",
+      "same_text": "// ---- 0791:5049  energy_chance_branch  (f_0791_5049; Ghidra 2000:5049, __stdcall16near; found by routines.tsv)"
+    },
+    {
+      "document": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "before": "seg_0791_05.c:27",
+      "after": "named/seg_0791_05.c:27",
+      "same_text": "    if (iVar2 < 0) {"
+    },
+    {
+      "document": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "before": "seg_1771_03.c:715",
+      "after": "named/seg_1771_03.c:715",
+      "same_text": "    if (((player *)players)[pcVar5[iVar1].squad[1]].position == 1) {"
+    },
+    {
+      "document": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "before": "seg_1771_03.c:725",
+      "after": "named/seg_1771_03.c:725",
+      "same_text": "      if (((ppVar6[wVar2].position == 1) ||"
+    },
+    {
+      "document": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "before": "seg_1771_03.c:642",
+      "after": "named/seg_1771_03.c:642",
+      "same_text": "// ---- 1771:3E2F  pick_mark_target  (f_1771_3E2F; Ghidra 4000:3E2F, __stdcall16near; found by routines.tsv)"
+    },
+    {
+      "document": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "before": "seg_1771_03.c:725",
+      "after": "named/seg_1771_03.c:725",
+      "same_text": "      if (((ppVar6[wVar2].position == 1) ||"
+    },
+    {
+      "document": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "before": "seg_0791_09.c:654",
+      "after": "named/seg_0791_09.c:654",
+      "same_text": "      pick_shootout_takers(&stack0xfffe);"
+    },
+    {
+      "document": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "before": "seg_1771_03.c:715",
+      "after": "named/seg_1771_03.c:715",
+      "same_text": "    if (((player *)players)[pcVar5[iVar1].squad[1]].position == 1) {"
+    },
+    {
+      "document": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_09.c:263",
+      "after": "named/seg_0791_09.c:263",
+      "same_text": "  int local_4;"
+    },
+    {
+      "document": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_10.c:620",
+      "after": "named/seg_0791_10.c:620",
+      "same_text": "          *(uint *)(iVar2 + local_4 * 0x60 + (local_6 - 1) * 0x10 + -100)) {"
+    },
+    {
+      "document": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_11.c:621",
+      "after": "named/seg_0791_11.c:621",
+      "same_text": "  }"
+    },
+    {
+      "document": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_11.c:558",
+      "after": "named/seg_0791_11.c:558",
+      "same_text": "    local_4 = local_4 + 1;"
+    },
+    {
+      "document": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_11.c:437",
+      "after": "named/seg_0791_11.c:437",
+      "same_text": "  u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x5f8c,0xb000);"
+    },
+    {
+      "document": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_02.c:364",
+      "after": "named/seg_0791_02.c:364",
+      "same_text": "      *(undefined2 *)((undefined1 *)&DS:9976 + param_3 * 10 + param_1 * 2) ="
+    },
+    {
+      "document": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_1771_04.c:430",
+      "after": "named/seg_1771_04.c:447",
+      "same_text": "      pcVar4[iVar2].squad[local_4 - 1] = pcVar4[iVar2].squad[local_6 - 1];"
+    },
+    {
+      "document": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_1771_07.c:473",
+      "after": "named/seg_1771_07.c:473",
+      "same_text": "    for (local_4 = 1; pcVar2[local_6].squad[local_4 + -1] = local_8 + local_4, local_4 != 0x14;"
+    },
+    {
+      "document": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_01.c:730",
+      "after": "named/seg_0791_01.c:730",
+      "same_text": "    local_3 = '\\0';"
+    },
+    {
+      "document": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_01.c:955",
+      "after": "named/seg_0791_01.c:955",
+      "same_text": "      }"
+    },
+    {
+      "document": "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md",
+      "before": "seg_0791_02.c:20",
+      "after": "named/seg_0791_02.c:20",
+      "same_text": "  while( true ) {"
+    },
+    {
+      "document": "findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md",
+      "before": "seg_1771_07.c:509",
+      "after": "named/seg_1771_07.c:509",
+      "same_text": "  *(undefined1 *)(iVar1 + 0x41) = 1;"
+    },
+    {
+      "document": "findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md",
+      "before": "seg_1771_01.c:159",
+      "after": "named/seg_1771_01.c:159",
+      "same_text": "  f_1771_0232(&stack0xfffe,0x10e,(int)DS:A923,(int)((ulong)DS:A923 >> 0x10));"
+    },
+    {
+      "document": "findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md",
+      "before": "seg_0791_01.c:894",
+      "after": "named/seg_0791_01.c:894",
+      "same_text": "      uVar1 = *(undefined1 *)(iVar6 + 1);"
+    },
+    {
+      "document": "findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md",
+      "before": "seg_0791_08.c:32",
+      "after": "named/seg_0791_08.c:32",
+      "same_text": "          cVar4 = u214b_set_test_bit(ppVar5[iVar1].status,6);"
+    },
+    {
+      "document": "spec/competitions.md",
+      "before": "seg_1771_05.c:682",
+      "after": "named/seg_1771_05.c:704",
+      "same_text": "  byte *pbVar5;"
+    },
+    {
+      "document": "spec/competitions.md",
+      "before": "seg_0791_10.c:469",
+      "after": "named/seg_0791_10.c:469",
+      "same_text": "  "
+    },
+    {
+      "document": "spec/competitions.md",
+      "before": "seg_0791_10.c:520",
+      "after": "named/seg_0791_10.c:520",
+      "same_text": "    cVar1 = u214b_set_test_bit(ppVar2[param_1].status,4);"
+    },
+    {
+      "document": "spec/competitions.md",
+      "before": "seg_1771_05.c:142",
+      "after": "named/seg_1771_05.c:164",
+      "same_text": "void __cdecl16near recompute_country_ranks(void)"
+    },
+    {
+      "document": "spec/competitions.md",
+      "before": "seg_1771_05.c:330",
+      "after": "named/seg_1771_05.c:352",
+      "same_text": "    local_e = local_e + 8;"
+    },
+    {
+      "document": "spec/competitions.md",
+      "before": "seg_1771_05.c:240",
+      "after": "named/seg_1771_05.c:262",
+      "same_text": "  undefined2 uVar4;"
+    },
+    {
+      "document": "spec/competitions.md",
+      "before": "seg_1771_05.c:300",
+      "after": "named/seg_1771_05.c:322",
+      "same_text": "  iVar1 = (int)DS:A923;"
+    },
+    {
+      "document": "spec/countries.md",
+      "before": "seg_0791_01.c:820",
+      "after": "named/seg_0791_01.c:820",
+      "same_text": "  return;"
+    },
+    {
+      "document": "spec/countries.md",
+      "before": "seg_0791_01.c:841",
+      "after": "named/seg_0791_01.c:841",
+      "same_text": "    if (DS:832E == DS:8331) {"
+    },
+    {
+      "document": "spec/discipline.md",
+      "before": "seg_0791_08.c:446",
+      "after": "named/seg_0791_08.c:446",
+      "same_text": "                   (0x8869,0x2000,"
+    },
+    {
+      "document": "spec/discipline.md",
+      "before": "seg_0791_06.c:829",
+      "after": "named/seg_0791_06.c:829",
+      "same_text": "  "
+    },
+    {
+      "document": "spec/discipline.md",
+      "before": "seg_0791_06.c:880",
+      "after": "named/seg_0791_06.c:880",
+      "same_text": "}"
+    },
+    {
+      "document": "spec/discipline.md",
+      "before": "seg_0791_06.c:546",
+      "after": "named/seg_0791_06.c:546",
+      "same_text": "{"
+    },
+    {
+      "document": "spec/discipline.md",
+      "before": "seg_0791_06.c:651",
+      "after": "named/seg_0791_06.c:651",
+      "same_text": "  char cVar1;"
+    },
+    {
+      "document": "spec/discipline.md",
+      "before": "seg_0791_06.c:746",
+      "after": "named/seg_0791_06.c:746",
+      "same_text": "  fill_pitch_state(param_1);"
+    },
+    {
+      "document": "spec/discipline.md",
+      "before": "seg_0791_06.c:582",
+      "after": "named/seg_0791_06.c:582",
+      "same_text": ""
+    },
+    {
+      "document": "spec/discipline.md",
+      "before": "seg_0791_06.c:630",
+      "after": "named/seg_0791_06.c:630",
+      "same_text": "    if (cVar1 != '\\0') {"
+    },
+    {
+      "document": "spec/discipline.md",
+      "before": "seg_0791_08.c:466",
+      "after": "named/seg_0791_08.c:466",
+      "same_text": "                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));"
+    },
+    {
+      "document": "spec/discipline.md",
+      "before": "seg_0791_06.c:910",
+      "after": "named/seg_0791_06.c:910",
+      "same_text": "  undefined1 extraout_AH_00;"
+    },
+    {
+      "document": "spec/discipline.md",
+      "before": "seg_0791_10.c:978",
+      "after": "named/seg_0791_10.c:978",
+      "same_text": "  return;"
+    },
+    {
+      "document": "spec/discipline.md",
+      "before": "seg_0791_07.c:839",
+      "after": "named/seg_0791_07.c:839",
+      "same_text": "      }"
+    },
+    {
+      "document": "spec/discipline.md",
+      "before": "seg_0791_07.c:875",
+      "after": "named/seg_0791_07.c:875",
+      "same_text": ""
+    },
+    {
+      "document": "spec/friendlies.md",
+      "before": "seg_0791_08.c:446",
+      "after": "named/seg_0791_08.c:446",
+      "same_text": "                   (0x8869,0x2000,"
+    },
+    {
+      "document": "spec/friendlies.md",
+      "before": "seg_0791_08.c:466",
+      "after": "named/seg_0791_08.c:466",
+      "same_text": "                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));"
+    },
+    {
+      "document": "spec/friendlies.md",
+      "before": "seg_1771_05.c:240",
+      "after": "named/seg_1771_05.c:262",
+      "same_text": "  undefined2 uVar4;"
+    },
+    {
+      "document": "spec/friendlies.md",
+      "before": "seg_1771_05.c:290",
+      "after": "named/seg_1771_05.c:312",
+      "same_text": "  undefined2 uVar5;"
+    },
+    {
+      "document": "spec/friendlies.md",
+      "before": "seg_0791_09.c:215",
+      "after": "named/seg_0791_09.c:215",
+      "same_text": ""
+    },
+    {
+      "document": "spec/friendlies.md",
+      "before": "seg_0791_09.c:256",
+      "after": "named/seg_0791_09.c:256",
+      "same_text": ""
+    },
+    {
+      "document": "spec/friendlies.md",
+      "before": "seg_0791_10.c:767",
+      "after": "named/seg_0791_10.c:767",
+      "same_text": "  if ((cVar4 == '\\0') && (cVar4 = is_managed(*(undefined2 *)(iVar2 + 6)), cVar4 == '\\0')) {"
+    },
+    {
+      "document": "spec/friendlies.md",
+      "before": "seg_0791_10.c:840",
+      "after": "named/seg_0791_10.c:840",
+      "same_text": ""
+    }
+  ],
+  "inherited_invalid_unchanged": [
+    {
+      "document": "experiments/E017-q015-energy/notes.md",
+      "citation": "named/seg_0791_10.c:969\u2013980",
+      "reason": "pre-existing out-of-range endpoint"
+    },
+    {
+      "document": "experiments/E017-q015-energy/notes.md",
+      "citation": "named/seg_1771_05.c:1035\u20131170",
+      "reason": "pre-existing out-of-range endpoint"
+    },
+    {
+      "document": "experiments/E018-q016-confidence/notes.md",
+      "citation": "named/seg_0791_08.c:1118\u20131126",
+      "reason": "pre-existing out-of-range endpoint"
+    },
+    {
+      "document": "experiments/E019-q017-events-morale/notes.md",
+      "citation": "named/seg_0791_08.c:1118",
+      "reason": "pre-existing out-of-range endpoint"
+    },
+    {
+      "document": "experiments/E019-q017-events-morale/notes.md",
+      "citation": "named/seg_0791_06.c:431",
+      "reason": "pre-existing blank single-line endpoint"
+    },
+    {
+      "document": "findings/F019-confidence-follows-result-relative-to-country-ranks.md",
+      "citation": "static:static/goal-exe/named/seg_0791_06.c:610",
+      "reason": "pre-existing blank single-line endpoint"
+    },
+    {
+      "document": "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md",
+      "citation": "static:static/goal-exe/named/seg_0791_04.c:556",
+      "reason": "pre-existing blank single-line endpoint"
+    },
+    {
+      "document": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "citation": "static:static/goal-exe/named/seg_0791_09.c:630",
+      "reason": "pre-existing blank single-line endpoint"
+    },
+    {
+      "document": "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md",
+      "citation": "static:static/goal-exe/named/seg_0791_04.c:396",
+      "reason": "pre-existing blank single-line endpoint"
+    },
+    {
+      "document": "spec/competitions.md",
+      "citation": "named/seg_1771_04.c:651",
+      "reason": "pre-existing blank single-line endpoint"
+    },
+    {
+      "document": "spec/competitions.md",
+      "citation": "named/seg_0791_10.c:419",
+      "reason": "pre-existing blank single-line endpoint"
+    },
+    {
+      "document": "spec/competitions.md",
+      "citation": "named/seg_000E_05.c:693",
+      "reason": "pre-existing blank single-line endpoint"
+    },
+    {
+      "document": "spec/competitions.md",
+      "citation": "named/seg_1771_05.c:934-1040",
+      "reason": "pre-existing out-of-range endpoint"
+    },
+    {
+      "document": "spec/discipline.md",
+      "citation": "named/seg_0791_08.c:1092-1123",
+      "reason": "pre-existing out-of-range endpoint"
+    },
+    {
+      "document": "spec/discipline.md",
+      "citation": "named/seg_1771_04.c:764",
+      "reason": "pre-existing blank single-line endpoint"
+    },
+    {
+      "document": "spec/friendlies.md",
+      "citation": "named/seg_1771_04.c:651",
+      "reason": "pre-existing blank single-line endpoint"
+    },
+    {
+      "document": "spec/friendlies.md",
+      "citation": "named/seg_1771_05.c:934-1040",
+      "reason": "pre-existing out-of-range endpoint"
+    },
+    {
+      "document": "spec/friendlies.md",
+      "citation": "named/seg_1771_05.c:1021-1033",
+      "reason": "pre-existing out-of-range endpoint"
+    }
+  ],
+  "unresolved": [],
+  "written": true
+}

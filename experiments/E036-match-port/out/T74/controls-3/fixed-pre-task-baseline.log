@@ -1,0 +1,18 @@
+E
+======================================================================
+ERROR: test_port_menus (unittest.loader._FailedTest.test_port_menus)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_port_menus
+Traceback (most recent call last):
+  File "/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/T74-controls-hiecakho/tests/test_port_menus.py", line 12, in <module>
+    from original_match.port import menus
+ImportError: cannot import name 'menus' from 'original_match.port' (/tmp/T74-controls-hiecakho/runtime/original_match/port/__init__.py)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

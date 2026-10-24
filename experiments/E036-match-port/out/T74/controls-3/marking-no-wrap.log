@@ -1,0 +1,13 @@
+.............F............................
+======================================================================
+FAIL: test_marking_cycle_default_opponent_wrap_and_skip_unavailable (tests.test_port_menus.Menus.test_marking_cycle_default_opponent_wrap_and_skip_unavailable) (status=64, oldmark=211)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-5p18seuj/tests/test_port_menus.py", line 314, in test_marking_cycle_default_opponent_wrap_and_skip_unavailable
+    self.assertEqual(r.mem.u8(PSEG*16+POFF+0x14*5+16),wantstatus)
+AssertionError: 64 != 0
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.475s
+
+FAILED (failures=1)

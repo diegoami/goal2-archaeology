@@ -151,7 +151,7 @@ void f_1771_1934(int param_1)
 
 
 // ---- 1771:1981  edit_team_tactics  (f_1771_1981; Ghidra 4000:1981, __stdcall16far; found by routines.tsv)
-// the team-tactics screen: shows +0x2D (the default team tactic set) and edits it by toggling element DS:6BBF[row] (214B:0CF4 XORs the bit); reached from the main menu (000E:7439) and from the match's team menu 0791:ED8A, which sets DS:9B55 when +0x2D changed  [established; F010]
+// T74 (Python port in runtime/original_match/port/menus.py): the team-tactics screen: shows +0x2D (the default team tactic set) and edits it by toggling element DS:6BBF[row] (214B:0CF4 XORs the bit); reached from the main menu (000E:7439) and from the match's team menu 0791:ED8A, which sets DS:9B55 when +0x2D changed  [established; F010]
 
 void __stdcall16far edit_team_tactics(int param_1)
 

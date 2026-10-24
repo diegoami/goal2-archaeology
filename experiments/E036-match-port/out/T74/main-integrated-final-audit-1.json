@@ -1,0 +1,128 @@
+{
+  "candidate": "experiments/E036-match-port/out/T74/all-actions-final-1-40074025808/all-actions-final-1.jsonl",
+  "candidate_sha256": "a15180d7874160a115abda338e032a0f26141c68998d322bd54649222ed3bbf6",
+  "strict_profile_selected": true,
+  "mask": [],
+  "skipped_ds_blocks": [],
+  "exact_matches": 63,
+  "candidate_entry_port_call_checks": 1701,
+  "modules": [
+    "attributes",
+    "ball",
+    "contests",
+    "discipline",
+    "display",
+    "duels",
+    "frame",
+    "geometry",
+    "menus",
+    "motion",
+    "pilot",
+    "positioning",
+    "postmatch",
+    "restarts",
+    "runtime",
+    "setup",
+    "update"
+  ],
+  "independent_shard24_bytes_match_collected": true,
+  "dispatch_manifest_inputs_exact": true,
+  "successful_jobs": 33,
+  "actual_runner_seconds": 39636.0,
+  "actual_runner_minutes": 660.6,
+  "billable_ms": 0,
+  "original_entry_count_differences": [
+    {
+      "match": "F40/e032-4c1d",
+      "entry": "214B:0723",
+      "original": 112093,
+      "integrated": 111521,
+      "difference": 572,
+      "archived_native_78F1": 572
+    },
+    {
+      "match": "F40/more-cafe",
+      "entry": "214B:0723",
+      "original": 98478,
+      "integrated": 98192,
+      "difference": 286,
+      "archived_native_78F1": 286
+    },
+    {
+      "match": "F40/edit-0042",
+      "entry": "214B:0723",
+      "original": 100285,
+      "integrated": 99999,
+      "difference": 286,
+      "archived_native_78F1": 286
+    },
+    {
+      "match": "F40/edit-9abc",
+      "entry": "214B:0723",
+      "original": 99894,
+      "integrated": 99784,
+      "difference": 110,
+      "archived_native_78F1": 110
+    },
+    {
+      "match": "F40/edit-b4d2",
+      "entry": "214B:0723",
+      "original": 102142,
+      "integrated": 101680,
+      "difference": 462,
+      "archived_native_78F1": 462
+    },
+    {
+      "match": "F40/edit-face",
+      "entry": "214B:0723",
+      "original": 108429,
+      "integrated": 108319,
+      "difference": 110,
+      "archived_native_78F1": 110
+    },
+    {
+      "match": "O8/c30-c44-qualifier",
+      "entry": "214B:0723",
+      "original": 107852,
+      "integrated": 107390,
+      "difference": 462,
+      "archived_native_78F1": 462
+    },
+    {
+      "match": "S/injury-70",
+      "entry": "214B:0723",
+      "original": 105182,
+      "integrated": 104852,
+      "difference": 330,
+      "archived_native_78F1": 330
+    },
+    {
+      "match": "S/hard-4",
+      "entry": "214B:0723",
+      "original": 105947,
+      "integrated": 105353,
+      "difference": 594,
+      "archived_native_78F1": 594
+    },
+    {
+      "match": "S/ko-39-budget-5",
+      "entry": "214B:0723",
+      "original": 149552,
+      "integrated": 148716,
+      "difference": 836,
+      "archived_native_78F1": 836
+    },
+    {
+      "match": "S/ko-30-extra-time",
+      "entry": "214B:0723",
+      "original": 136562,
+      "integrated": 136474,
+      "difference": 88,
+      "archived_native_78F1": 88
+    }
+  ],
+  "reconciliation_source": "experiments/E036-match-port/out/T67/coverage-unported-39873774715/coverage-unported.jsonl",
+  "reconciliation_source_sha256": "945c4f4e91980744b04ce351e791094fa1421a4b8232354546904669ab6af49a",
+  "archive_native_full_field_checks": 11,
+  "inline_poll_source": "runtime/original_match/port/restarts.py:1176; static/goal-exe/code/seg_0791_13.asm:78F4,7940"
+}

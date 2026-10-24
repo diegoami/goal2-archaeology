@@ -45,6 +45,10 @@ IMAGE_FILE = ROOT / ".cache/dl/e0afff6751747233-e006-1000-r0001.sav"
 # the kit version it was last compared with, and why the records still stand). A declaration holds for exactly those two
 # versions: the next VERSION bump fails the check below until someone compares again and edits the second one (#316).
 DECLARED_KIT_VERSIONS = {
+    "experiments/E036-match-port/families/S-no-managed-side-reference-20261024-v1.jsonl":
+        (frozenset({"2", "4"}), "4", "T74 preserves old62 kit2 records byte-for-byte and appends one kit4 "
+         "computer-only record; unhooked ALL63 strict full-field comparison passes in "
+         "out/T74/coverage-unhooked-1-compare.log"),
     "experiments/E036-match-port/out/T57/reference.jsonl": ("2", "4", "T69 moved VERSION to 4 for replay of live port "
                                                             "frames; the two-worker real-match comparison rerun on "
                                                             "2026-10-18 matches every field except cpu_s, wall_s and kit "
@@ -60,7 +64,10 @@ def undeclared_kit_versions(references, version, declared):
         recorded = {r["kit"] for r in records.read_log(ROOT / rel)}
         if recorded == {version}:
             continue
-        if len(recorded) == 1 and declared.get(rel, (None, None))[:2] == (next(iter(recorded)), version):
+        declaration=declared.get(rel,(None,None))
+        allowed=declaration[0]
+        allowed=allowed if isinstance(allowed,frozenset) else {allowed}
+        if recorded == allowed and declaration[1] == version:
             continue
         problems.append((rel, f"records kit {sorted(recorded)}, the kit is {version!r}, declared {declared.get(rel)!r}"))
     return problems
@@ -69,8 +76,8 @@ def undeclared_kit_versions(references, version, declared):
 # ---- the families --------------------------------------------------------------------------------------------
 class TheFamilies(unittest.TestCase):
     def test_the_three_families_and_their_sizes(self):
-        self.assertEqual({n: len(f.matches) for n, f in FAMILIES.items()}, {"F40": 40, "O8": 8, "S": 14})
-        self.assertEqual(len(EXPECTED), 62)
+        self.assertEqual({n: len(f.matches) for n, f in FAMILIES.items()}, {"F40": 40, "O8": 8, "S": 15})
+        self.assertEqual(len(EXPECTED), 63)
 
     def test_f40_is_twenty_seeds_as_they_are_and_the_same_twenty_edited(self):
         plain = [m for m in FAMILIES["F40"].matches if not m.edits]
@@ -112,7 +119,9 @@ class TheFamilies(unittest.TestCase):
 
     def test_each_family_names_its_reference_and_every_id_is_unique(self):
         for fam in FAMILIES.values():
-            self.assertRegex(fam.reference, r"experiments/E036-match-port/out/T57/reference\.jsonl")
+            expected=("experiments/E036-match-port/families/S-no-managed-side-reference-20261024-v1.jsonl"
+                      if fam.name=="S" else "experiments/E036-match-port/out/T57/reference.jsonl")
+            self.assertEqual(fam.reference,expected)
             for m in fam.matches:
                 self.assertTrue(m.id.startswith(fam.name + "/"))
         self.assertEqual(len(EXPECTED), sum(len(f.matches) for f in FAMILIES.values()))
@@ -207,7 +216,7 @@ class TheDirectory(unittest.TestCase):
             "an unknown edit set": variant(matches=[{"id": "X1/a", "edits": "nosuch"}]),
             "same country twice": with_base(fixture=[7, 7, 21, 1]), "country 0": with_base(fixture=[0, 19, 21, 1]),
             "country 129": with_base(fixture=[7, 129, 21, 1]), "a kind the builders do not write": with_base(fixture=[7, 19, 21, 4]),
-            "a calendar number 0": with_base(fixture=[7, 19, 0, 1]), "managed outside": with_base(managed=3),
+            "a calendar number 0": with_base(fixture=[7, 19, 0, 1]), "managed129": with_base(managed=129), "managed0": with_base(managed=0), "managed bool": with_base(managed=True),
             "seed 65536": with_base(seed=65536), "seed negative": with_base(seed=-1), "seed a bool": with_base(seed=True),
             "delay 6": with_base(delay_byte=6), "budget 256": with_base(substitutions=256), "budget triple": with_base(substitutions=[1, 2, 3]),
             "edits not a list": with_base(edits={}), "an edit with an unknown op": with_base(edits=[
@@ -839,6 +848,20 @@ class TheReferences(unittest.TestCase):
         self.assertEqual(undeclared_kit_versions([self.REF], "3", decl), [])
         self.assertEqual(len(undeclared_kit_versions([self.REF], "4", decl)), 1)       # the kit moved again
         self.assertEqual(len(undeclared_kit_versions([self.REF], "3", {self.REF: ("1", "3", "why")})), 1)  # not its version
+
+    def test_mixed_version_declaration_is_exact_path_set_and_target(self):
+        recs=records.read_log(ROOT/self.REF)[:2]
+        with tempfile.TemporaryDirectory() as tmp:
+            lines=[json.dumps(dict(r,kit=k)) for r,k in zip(recs,("2","4"))]
+            (Path(tmp)/"mixed.jsonl").write_text("\n".join(lines)+"\n")
+            declaration={"mixed.jsonl":(frozenset({"2","4"}),"4","exact comparison receipt")}
+            with mock.patch(f"{__name__}.ROOT",Path(tmp)):
+                self.assertEqual(undeclared_kit_versions(["mixed.jsonl"],"4",declaration),[])
+                for wrong in ({}, {"other.jsonl":declaration["mixed.jsonl"]},
+                              {"mixed.jsonl":(frozenset({"2","3","4"}),"4","why")},
+                              {"mixed.jsonl":(frozenset({"2","4"}),"5","why")}):
+                    self.assertEqual(len(undeclared_kit_versions(["mixed.jsonl"],"4",wrong)),1)
+                self.assertEqual(len(undeclared_kit_versions(["mixed.jsonl"],"5",declaration)),1)
 
     def test_a_reference_of_mixed_versions_is_found(self):
         recs = records.read_log(ROOT / self.REF)[:2]

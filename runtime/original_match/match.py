@@ -164,13 +164,20 @@ class _PortKeys:
         self._unprovable(site)
         k = self.match
         m, mem = k.m, k.ports.mem
-        if site == SITE_BOARD:
+        cached = getattr(k, "_ported_key", None)
+        if site == SITE_BOARD and cached is None:
             k._on_board()
         if m.rd(PUSHED_BACK, 1):
             mem.wds8(PUSHED_BACK, 0, "214B:08EA")
             key = m.rd(KEY, 1)
         else:
-            key = k._key_for(site)
+            if cached is not None:
+                if cached[0] != site:
+                    raise MatchError(f"cached menu key for {cached[0]}, read at {site}")
+                key = cached[1]
+                del k._ported_key
+            else:
+                key = k._key_for(site)
             if key is None:
                 return None             # stopped for a decision: mem.read_key refuses it (PortError)
             mem.wds8(KEY, key, "214B:0947")
@@ -242,8 +249,8 @@ class Match:
             if len(human) != 1:
                 raise ValueError("name the managed country: the image's human country is not in this fixture")
             managed = human[0]
-        if managed not in (fixture.first, fixture.second):
-            raise ValueError("the managed country must be one of the fixture's two countries")
+        if isinstance(managed, bool) or not isinstance(managed, int) or not 1 <= managed <= 128:
+            raise ValueError("the managed country must be 1..128")
         self._make_managed(managed, fixture)
         index = fixture.index if fixture.index is not None else self.m.rd_far(GAME_PTR, 0x26)
         if substitutions is not None:
@@ -254,8 +261,8 @@ class Match:
         self.opts = {"first": fixture.first, "second": fixture.second, "index": index, "managed": managed,
                      "captain": captain, "seed": seed, "ticks": ticks, "record_draws": record_draws,
                      "delay_byte": delay_byte, "kind": fixture.kind, "substitutions": substitutions}
-        self.side = 0 if managed == fixture.first else 1
-        if captain is not None and captain not in self._squad(managed)[:11]:
+        self.side = (0 if managed == fixture.first else 1) if managed in (fixture.first, fixture.second) else None
+        if captain is not None and (self.side is None or captain not in self._squad(managed)[:11]):
             raise ValueError(f"captain {captain} is not in the managed eleven")
         self._write_fixture(index, fixture)
         self._declare("delay calibration dword DS:A9FF", self.m.DS * 16 + DELAY_COUNT,
@@ -356,8 +363,9 @@ class Match:
                               self._country(old) + MANAGER, [old])
             self._declare(f"manager 1's country := {managed}", mgr, [managed])
         self._declare(f"country {managed} managed by manager 1 (+0x2E := 0x81)", self._country(managed) + MANAGER, [0x81])
-        if self._manager_byte(other) > 0x80:
-            raise ValueError(f"country {other} is another human manager's: two managed sides are not supported")
+        for other in (fixture.first, fixture.second):
+            if other != managed and self._manager_byte(other) > 0x80:
+                raise ValueError(f"country {other} is another human manager's: two managed sides are not supported")
 
     def _write_fixture(self, index, fixture):
         count = self.m.rd_far(GAME_PTR, 0x28)
@@ -485,6 +493,8 @@ class Match:
     def pause(self):
         """Ask the original for the team menu at its next key poll (as a manager pressing Enter in play): a
         `decision` event with context `pause` follows."""
+        if self.side is None:
+            raise MatchError("neither side is managed: there is no team menu to pause")
         if self.st["waiting"] is not None:
             raise MatchError("a decision is waiting: answer it")
         if self.st["over"] or self.st["full_time"]:
@@ -600,7 +610,12 @@ class Match:
         if self._menu is not None:
             self._menu.last_message = text
 
+    def _menus_ported(self):
+        return self.ports is not None and any(n.split(".")[0] == "menus" for n in self.ports.names)
+
     def _on_keypressed(self, replay):
+        if self._menus_ported():
+            return                      # the port implements the same key service
         m = self.m
         has = self._key_waiting(m.where(m.stack_word(2), m.stack_word(0)))
         m.set_reg("ax", (m.reg("ax") & 0xFF00) | (1 if has else 0))
@@ -635,6 +650,9 @@ class Match:
         key = self._key_for(site)      # 9B93's last Down, 9E5B, passes the full-time board)
         if key is None:
             return                     # stopped for a decision
+        if self._menus_ported():
+            self._ported_key = (site, key)  # decision preflight precedes the Python port
+            return
         m.wr(KEY, key | (key << 8))    # DS:A976 the key, DS:A977 the last key
         m.return_from(True, 0)
 
@@ -713,7 +731,11 @@ class Match:
             plan = None
         if plan is None:
             context = st["menu_context"]
-            if context in DECIDED_AT_MENU or (context == "substitution" and st.get("refused")):
+            if self.side is None:
+                # run_match still visits its menu for two computer sides. Keep
+                # its sorting/validation and choose play, with no human answer.
+                self._menu = S.MenuPlan(1)
+            elif context in DECIDED_AT_MENU or (context == "substitution" and st.get("refused")):
                 if st["answer"] is None:
                     self._decide(context, substitutions_now=bool(self.m.rd(S.SUBS_ALLOWED, 1)),
                                  refused=st.get("refused"))
@@ -871,6 +893,17 @@ class Match:
         substitutions left; from here their writes are the match's events."""
         if not replay:
             self.st["live"] = True
+            if self.side is None:
+                # No human captain prompt exists. Start the optional inputs and
+                # draw transcript at play_match entry, after the original setup.
+                if self.opts["seed"] is not None:
+                    self._declare("main seed DS:7B62 at computer fixture kickoff",
+                                  self.m.DS * 16 + SEED, int(self.opts["seed"]).to_bytes(2, "little"))
+                if self.opts["delay_byte"] is not None:
+                    self._declare("delay byte [A923]+0x3F at computer fixture kickoff",
+                                  self.m.far(GAME_PTR) + 0x3F, [self.opts["delay_byte"]])
+                self.st["kickoff_seed"] = self.m.rd(SEED)
+                self.st["recording"] = True
             if self.opts.get("substitutions") is not None:
                 self._declare("substitution budget DS:9B3A (team 0, team 1) after the set-up's (A605)",
                               self.m.DS * 16 + S.SUBS_LEFT, self.opts["substitutions"])

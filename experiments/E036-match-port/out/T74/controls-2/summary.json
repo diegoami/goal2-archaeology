@@ -1,0 +1,385 @@
+{
+  "baseline": "53b011249446c4a562624b573b84640726134c6b",
+  "menus_sha256": "4cda0ba7b20953b244dc07cecfcdef67e8a1535d464bfdc4e3064a1666a06f41",
+  "tests_sha256": "2f46bcc739c83f49dcdc93ff3e26506fe8f3f4175b558e453b657b8ff8fbcd16",
+  "results": [
+    {
+      "name": "fixed-pre-task-baseline",
+      "caught": true,
+      "returncode": 1,
+      "path": null,
+      "function": null,
+      "original": null,
+      "replacement": null
+    },
+    {
+      "name": "poll-bool-inverted",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "key_pressed",
+      "original": "has = mem.keypressed(_ret_site(mem))",
+      "replacement": "has = not mem.keypressed(_ret_site(mem))"
+    },
+    {
+      "name": "pushed-back-flag-kept",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "read_key",
+      "original": "mem.wds8(0x79AE, 0, '214B:08EA')",
+      "replacement": "mem.wds8(0x79AE, 1, '214B:08EA')"
+    },
+    {
+      "name": "pushback-flag-clear",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "push_back_key",
+      "original": "mem.wds8(0x79AE, 1, '214B:0996')",
+      "replacement": "mem.wds8(0x79AE, 0, '214B:0996')"
+    },
+    {
+      "name": "wait-current-key-kept",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "wait_key_clear",
+      "original": "mem.wds8(0xA976, 0, '214B:098A')",
+      "replacement": "mem.wds8(0xA976, 1, '214B:098A')"
+    },
+    {
+      "name": "home-clamps-to-two",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "_clamp",
+      "original": "put(mem,r,0,1,'214B:'",
+      "replacement": "put(mem,r,0,2,'214B:'"
+    },
+    {
+      "name": "clamp-down-at-max",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "_clamp",
+      "original": "if r.ax<ss16(mem,r,r.bp+6):",
+      "replacement": "if r.ax<=ss16(mem,r,r.bp+6):"
+    },
+    {
+      "name": "wrap-down-stores-two",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "_wrap",
+      "original": "put(mem,r,0,1,'214B:'",
+      "replacement": "put(mem,r,0,2,'214B:'"
+    },
+    {
+      "name": "position-cycle-thirteen",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "next_position",
+      "original": "farg(mem,r,4);r.ax=14",
+      "replacement": "farg(mem,r,4);r.ax=13"
+    },
+    {
+      "name": "club-role-not-restored",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "edit_position",
+      "original": "farg(mem,r,-4);r.al=rb(mem,r,7)",
+      "replacement": "farg(mem,r,-4);r.al=rb(mem,r,6)"
+    },
+    {
+      "name": "position-refresh-unconditional",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "edit_position",
+      "original": "if mem.ds8(0x0C1F):",
+      "replacement": "if True:"
+    },
+    {
+      "name": "quick-guard-omitted",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "switch_to_quick",
+      "original": "if not mem.ds8(0x9A3E) and mem.ds16(0x831B)",
+      "replacement": "if True and mem.ds16(0x831B)"
+    },
+    {
+      "name": "quick-defer-not-marked",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "switch_to_quick",
+      "original": "mem.wds8(0x7C38,1,'0791:934F')",
+      "replacement": "mem.wds8(0x7C38,0,'0791:934F')"
+    },
+    {
+      "name": "quick-active-flag-clear",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "switch_to_quick",
+      "original": "mem.wds8(0x9A3E,1,'0791:9356')",
+      "replacement": "mem.wds8(0x9A3E,0,'0791:9356')"
+    },
+    {
+      "name": "speed-left-cap-four",
+      "caught": false,
+      "returncode": 0,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "match_key_poll",
+      "original": "key==0xAE and speed<5",
+      "replacement": "key==0xAE and speed<4"
+    },
+    {
+      "name": "speed-right-wrong-step",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "match_key_poll",
+      "original": "else speed-1,'9413'",
+      "replacement": "else speed+1,'9413'"
+    },
+    {
+      "name": "poll-key-return-site-wrong",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "match_key_poll",
+      "original": "ret='93D3'",
+      "replacement": "ret='93D4'"
+    },
+    {
+      "name": "notice-keeper-template-wrong",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "timed_notice",
+      "original": "0x5B66 if keeper else 0x5B30",
+      "replacement": "0x5B30 if keeper else 0x5B66"
+    },
+    {
+      "name": "notice-timeout-key-zero",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "timed_notice",
+      "original": "mem.wds8(0xA977,0x1B,'0791:8052')",
+      "replacement": "mem.wds8(0xA977,0,'0791:8052')"
+    },
+    {
+      "name": "tactics-ignore-lock",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "edit_team_tactics",
+      "original": "bool(r.al) and not mem.ds8(0x0C20)",
+      "replacement": "bool(r.al)"
+    },
+    {
+      "name": "tactics-no-save-flag",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "edit_team_tactics",
+      "original": "mem.wds8(0xC1A,1,'1771:1A72')",
+      "replacement": "mem.wds8(0xC1A,0,'1771:1A72')"
+    },
+    {
+      "name": "menu-no-tactics-refresh",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "in_match_menu",
+      "original": "mem.wds8(0x9B55,1,'0791:F004')",
+      "replacement": "mem.wds8(0x9B55,0,'0791:F004')"
+    },
+    {
+      "name": "menu-all-esc-exit",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "in_match_menu",
+      "original": "and bool(mem.ds8(0xC1F))",
+      "replacement": "and True"
+    },
+    {
+      "name": "menu-ignores-invalid-eleven",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "in_match_menu",
+      "original": "if r.al:break",
+      "replacement": "if True:break"
+    },
+    {
+      "name": "own-default-override-set",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "edit_own_tactics",
+      "original": "_g(mem,r,'0CA1',element,r.es,r.di,ret='1771:4C6F')",
+      "replacement": "_g(mem,r,'0C79',element,r.es,r.di,ret='1771:4C6F')"
+    },
+    {
+      "name": "own-override-not-cleared",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "edit_own_tactics",
+      "original": "_g(mem,r,'0CA1',element,r.es,r.di,ret='1771:4CB1')",
+      "replacement": "_g(mem,r,'0C79',element,r.es,r.di,ret='1771:4CB1')"
+    },
+    {
+      "name": "marking-other-side-wrong",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "cycle_marking",
+      "original": "r.al=int(not second)",
+      "replacement": "r.al=int(second)"
+    },
+    {
+      "name": "marking-no-wrap",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "cycle_marking",
+      "original": "if index>11:",
+      "replacement": "if index>12:"
+    },
+    {
+      "name": "marking-unavailable-not-skipped",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "cycle_marking",
+      "original": "if not r.al:break",
+      "replacement": "if True:break"
+    },
+    {
+      "name": "message-return-low-flag-wrong",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "message_if_flag",
+      "original": "r.al=ss8(mem,r,r.bp-1)",
+      "replacement": "r.al=0"
+    },
+    {
+      "name": "message-attribute-not-restored",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "message_wait_key",
+      "original": "mem.wds8(0x7922,r.al,'214B:0555')",
+      "replacement": "mem.wds8(0x7922,0,'214B:0555')"
+    },
+    {
+      "name": "yes-no-tests-n",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "ask_yes_no",
+      "original": "r.al==ord('Y')",
+      "replacement": "r.al==ord('N')"
+    },
+    {
+      "name": "key-set-accepts-nonmember",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "wait_key_in_set",
+      "original": "if member(mem):break",
+      "replacement": "if not member(mem):break"
+    },
+    {
+      "name": "list-pair-cursor-wrong-arg",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "set_list_pair",
+      "original": "r.ax=ss16(mem,r,r.bp+8)",
+      "replacement": "r.ax=ss16(mem,r,r.bp+6)"
+    },
+    {
+      "name": "name-save-flag-clear",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "edit_player_name",
+      "original": "mem.wds8(0xC1A,1,'1771:491A')",
+      "replacement": "mem.wds8(0xC1A,0,'1771:491A')"
+    },
+    {
+      "name": "name-delete-count-one",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "edit_player_name",
+      "original": "r.ax=r.ax+1",
+      "replacement": "r.ax=1"
+    },
+    {
+      "name": "list-home-cursor-two",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "list_scroll",
+      "original": "r.ax=1;pair=1,1",
+      "replacement": "r.ax=2;pair=2,1"
+    },
+    {
+      "name": "list-end-top-off-by-one",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "list_scroll",
+      "original": "value=(count-page+1)",
+      "replacement": "value=(count-page)"
+    },
+    {
+      "name": "interrupt-flags-df-lost",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": "_dos_interrupt",
+      "original": "saved_flags=mem.reg('eflags')&M16",
+      "replacement": "saved_flags=mem.reg('eflags')&M16&~0x400"
+    },
+    {
+      "name": "msdos-return-displacement-zero",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/menus.py",
+      "function": null,
+      "original": "return_stack_delta=-2",
+      "replacement": "return_stack_delta=0"
+    },
+    {
+      "name": "cached-key-consumed-twice",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/match.py",
+      "function": null,
+      "original": "del k._ported_key",
+      "replacement": "pass  # mutation: cache retained"
+    },
+    {
+      "name": "return-displacement-ignored",
+      "caught": true,
+      "returncode": 1,
+      "path": "runtime/original_match/port/guest.py",
+      "function": null,
+      "original": "self.sp + entry.return_stack_delta",
+      "replacement": "self.sp"
+    }
+  ]
+}

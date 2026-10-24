@@ -1,0 +1,39 @@
+.........F.................F..............
+======================================================================
+FAIL: test_key_read_service_and_pushed_key_are_distinct_paths (tests.test_port_menus.Menus.test_key_read_service_and_pushed_key_are_distinct_paths)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-2e78lvur/tests/test_port_menus.py", line 131, in test_key_read_service_and_pushed_key_are_distinct_paths
+    self.assertEqual((p.mem.ds8(0x79AE),p.mem.ds8(0xA977),p.mem.reg('ax')),(0,0xB1,0xCAB1))
+AssertionError: Tuples differ: (1, 177, 51889) != (0, 177, 51889)
+
+First differing element 0:
+1
+0
+
+- (1, 177, 51889)
+?  ^
+
++ (0, 177, 51889)
+?  ^
+
+
+======================================================================
+FAIL: test_pushback_and_wait_clear (tests.test_port_menus.Menus.test_pushback_and_wait_clear)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-2e78lvur/tests/test_port_menus.py", line 138, in test_pushback_and_wait_clear
+    self.assertEqual((r.mem.ds8(0x79AE),r.mem.ds8(0xA976),r.mem.ds8(0xA977)),(0,0,0x52))
+AssertionError: Tuples differ: (1, 0, 82) != (0, 0, 82)
+
+First differing element 0:
+1
+0
+
+- (1, 0, 82)
++ (0, 0, 82)
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.718s
+
+FAILED (failures=2)

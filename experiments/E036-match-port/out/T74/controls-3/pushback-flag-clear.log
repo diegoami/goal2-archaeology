@@ -1,0 +1,25 @@
+...........................F..............
+======================================================================
+FAIL: test_pushback_and_wait_clear (tests.test_port_menus.Menus.test_pushback_and_wait_clear)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-bsq3bizb/tests/test_port_menus.py", line 136, in test_pushback_and_wait_clear
+    r=Rig();r.run('214B:0993',[0x52]);self.assertEqual((r.mem.ds8(0x79AE),r.mem.ds8(0xA976)),(1,0x52))
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (0, 82) != (1, 82)
+
+First differing element 0:
+0
+1
+
+- (0, 82)
+?  ^
+
++ (1, 82)
+?  ^
+
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.477s
+
+FAILED (failures=1)

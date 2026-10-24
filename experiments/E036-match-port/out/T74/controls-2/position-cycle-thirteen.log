@@ -1,0 +1,13 @@
+.........................F................
+======================================================================
+FAIL: test_position_next_wraps13_to0_and_clears_key (tests.test_port_menus.Menus.test_position_next_wraps13_to0_and_clears_key)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-8wx5ygn7/tests/test_port_menus.py", line 165, in test_position_next_wraps13_to0_and_clears_key
+    self.assertEqual(r.mem.u8(0x42000),want)
+AssertionError: 0 != 13
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.622s
+
+FAILED (failures=1)

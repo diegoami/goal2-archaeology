@@ -60,4 +60,4 @@ diff /tmp/searches.log experiments/E025-sacking-and-end/searches.log   # no outp
 | `[A923]+m+1` is the group number | stage builders | read only (`60CB` use); writers not located |
 | `+0xBE` always 0 | saved games, computed-pointer stores | read only; `likely` |
 | "No terminal condition" | the three fields' direct references, Halt callers, constants 0 | `searches2.log`, `searches.log`; not covered: indirect arithmetic into the block, the 14 other constant tests |
-| Stage-8 continuation under a frozen stage | `74BE` acts on rounds 4..1 | read (`named/seg_1771_05.c:770-799`) plus P2's rounds trace; whether the added fixtures are played was not run |
+| Stage-8 continuation under a frozen stage | `74BE` acts on rounds 4..1 | read (`named/seg_1771_05.c:792-821`) plus P2's rounds trace; whether the added fixtures are played was not run |

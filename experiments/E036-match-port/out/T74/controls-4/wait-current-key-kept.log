@@ -1,0 +1,43 @@
+.................F.........F..............
+======================================================================
+FAIL: test_message_wait_restores_attribute_and_uses_press_any_key (tests.test_port_menus.Menus.test_message_wait_restores_attribute_and_uses_press_any_key)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-_cvk6b_5/tests/test_port_menus.py", line 432, in test_message_wait_restores_attribute_and_uses_press_any_key
+    self.assertEqual((r.mem.ds8(0xA976),r.mem.ds8(0xA977)),(0,13))
+AssertionError: Tuples differ: (1, 13) != (0, 13)
+
+First differing element 0:
+1
+0
+
+- (1, 13)
+?  ^
+
++ (0, 13)
+?  ^
+
+
+======================================================================
+FAIL: test_pushback_and_wait_clear (tests.test_port_menus.Menus.test_pushback_and_wait_clear)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-_cvk6b_5/tests/test_port_menus.py", line 138, in test_pushback_and_wait_clear
+    self.assertEqual((r.mem.ds8(0x79AE),r.mem.ds8(0xA976),r.mem.ds8(0xA977)),(0,0,0x52))
+AssertionError: Tuples differ: (0, 1, 82) != (0, 0, 82)
+
+First differing element 1:
+1
+0
+
+- (0, 1, 82)
+?     ^
+
++ (0, 0, 82)
+?     ^
+
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.753s
+
+FAILED (failures=2)

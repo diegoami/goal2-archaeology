@@ -1,0 +1,43 @@
+...FF.....................................
+======================================================================
+FAIL: test_interrupt_wrapper_actual_iret_preserves_record_and_flags (tests.test_port_menus.IVT.test_interrupt_wrapper_actual_iret_preserves_record_and_flags)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-6puyko0y/tests/test_port_menus.py", line 523, in test_interrupt_wrapper_actual_iret_preserves_record_and_flags
+    self.assertEqual(actual,values+[0x602])
+AssertionError: Lists differ: [257, 514, 771, 1028, 1285, 1542, 1799, 2560, 2816, 514] != [257, 514, 771, 1028, 1285, 1542, 1799, 2560, 2816, 1538]
+
+First differing element 9:
+514
+1538
+
+- [257, 514, 771, 1028, 1285, 1542, 1799, 2560, 2816, 514]
+?                                                      ^^
+
++ [257, 514, 771, 1028, 1285, 1542, 1799, 2560, 2816, 1538]
+?                                                     + ^^
+
+
+======================================================================
+FAIL: test_msdos_fallthrough_adds_int21_without_changing_pointer_cleanup (tests.test_port_menus.IVT.test_msdos_fallthrough_adds_int21_without_changing_pointer_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-6puyko0y/tests/test_port_menus.py", line 531, in test_msdos_fallthrough_adds_int21_without_changing_pointer_cleanup
+    self.assertEqual(actual,[0x1234,0x5678]+values[2:]+[0x602])
+AssertionError: Lists differ: [4660, 22136, 771, 1028, 1285, 1542, 1799, 2560, 2816, 514] != [4660, 22136, 771, 1028, 1285, 1542, 1799, 2560, 2816, 1538]
+
+First differing element 9:
+514
+1538
+
+- [4660, 22136, 771, 1028, 1285, 1542, 1799, 2560, 2816, 514]
+?                                                         ^^
+
++ [4660, 22136, 771, 1028, 1285, 1542, 1799, 2560, 2816, 1538]
+?                                                        + ^^
+
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.743s
+
+FAILED (failures=2)

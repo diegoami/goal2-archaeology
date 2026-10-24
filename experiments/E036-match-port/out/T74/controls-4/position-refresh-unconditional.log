@@ -1,0 +1,14 @@
+..........................F...............
+======================================================================
+FAIL: test_position_rotation_and_no_refresh_flags (tests.test_port_menus.Menus.test_position_rotation_and_no_refresh_flags)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-kb65ga14/tests/test_port_menus.py", line 181, in test_position_rotation_and_no_refresh_flags
+    self.assertEqual(r.mem.ds8(0x9B55),0);self.assertFalse(r.args('1771:3EF8'))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.716s
+
+FAILED (failures=1)

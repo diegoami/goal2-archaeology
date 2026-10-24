@@ -1,0 +1,21 @@
+.......FF..................................
+======================================================================
+FAIL: test_byte_and_word_clamp_boundaries (tests.test_port_menus.Menus.test_byte_and_word_clamp_boundaries) (address='214B:13F6', key=177, start=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-jqfok2z8/tests/test_port_menus.py", line 149, in test_byte_and_word_clamp_boundaries
+    self.assertEqual(r.u16(0x42000),want)
+AssertionError: 10 != 9
+
+======================================================================
+FAIL: test_byte_and_word_clamp_boundaries (tests.test_port_menus.Menus.test_byte_and_word_clamp_boundaries) (address='214B:14AC', key=177, start=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-jqfok2z8/tests/test_port_menus.py", line 149, in test_byte_and_word_clamp_boundaries
+    self.assertEqual(r.u16(0x42000),want)
+AssertionError: 10 != 9
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.563s
+
+FAILED (failures=2)

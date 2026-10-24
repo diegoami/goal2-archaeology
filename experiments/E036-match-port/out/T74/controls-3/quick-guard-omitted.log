@@ -1,0 +1,13 @@
+.............................F............
+======================================================================
+FAIL: test_quick_result_guards_and_deferred_notice (tests.test_port_menus.Menus.test_quick_result_guards_and_deferred_notice)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/T74-controls-z4hna_uv/tests/test_port_menus.py", line 202, in test_quick_result_guards_and_deferred_notice
+    self.assertFalse(r.calls)
+AssertionError: [('0791:0106', (0,), '0791:936C', True)] is not false
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.411s
+
+FAILED (failures=1)
