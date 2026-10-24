@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/tmp/T88-portable-check/notes/400-remaining/verify.py", line 53, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/tmp/T88-portable-check/notes/400-remaining/verify.py", line 29, in main
+    assert (ROOT/'.cache/400-remaining'/folder.name/'preceding-driver-files/dosbox.conf').exists()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+AssertionError
+
+exit=1

@@ -1,0 +1,17 @@
+{
+  "head": "26cc7ca466203e1eb5852905afa5ccc518780718",
+  "collector_sha256": "bcc878b5c8eae9d3ec44d2568bf3acbe32827e773998316ce839662318de77bc",
+  "core_source_commit": "5061474420b842ee98a4a1e4c9c2673c0764b1f2",
+  "core_files": {
+    "goal2/core/__init__.py": "a89702a4719522cdb9be9f66e4e0f873bf50c9313dfa034b490018309199be70",
+    "goal2/core/driver.py": "6e114fecd8778297a61b7cd2644e4be65021f7d7a94a02f0536ff8fa419524ef",
+    "goal2/core/runner.py": "d86465519b8f7fbc52dca7378b6b169c7973c4cd3ea3fe46d385adf16bcbddb4",
+    "goal2/core/screens.py": "9b291b70f2211b71e0eab3e8f602fe0768261f530e1f531b5f87045b71c24155",
+    "goal2/core/views.py": "1f44577508bd4a76fed57d27e21d4b595b50062307d51435af0f6b61b3a82492"
+  },
+  "source_sha256": "fc5b0f392a66334c3395605d0113d56f67788c7b4a7b4b176364fb028ce119e2",
+  "bound_s": 120,
+  "status": "aborted",
+  "method": "Unchanged Core.load then original key codes through Core.press; no collector guest writes or register edits",
+  "keys": []
+}
