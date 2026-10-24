@@ -131,7 +131,7 @@ def main():
   observe('SYNTHETIC pre-input exact machine')
   if a.case in ['role3','role4']:
    # Every independent control replay begins from the identical constructed machine.
-   for control,keys in [('navigation',[0xB0,0xB1,13]),('computer',[ord('c')]),('escape',[27]),('default',[]),('pitch',[32,13,13])]:
+   for control,keys in [('navigation',[0xAC,0xB1,13]),('computer',[ord('c')]),('escape',[27]),('default',[]),('pitch',[32,13,13])]:
     m.restore(initial);c.pending=None;c.default=False
     row=run({'control':control,'from_same_input':True})
     assert row['reason']=='poll' and row['site']=='0791:CC54'

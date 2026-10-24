@@ -17,3 +17,7 @@ Run under `tools/heavy.sh --slots 4 T92-CASE-r1 -- python3 notes/400-synthetic/p
 ## Revision1: E062 return assertion
 
 First execution produced the actual E062 message and dismissal to E61F, but the observer incorrectly asserted E654 (a later local-store instruction, not a read). Listing E61A calls214B:08DD and returnsE61F. Preserve E062-r1 as failed validation; revision changes only that assertion, with the identical construction and controls. No extra game edits or entry changes.
+
+## Revision1 for both takers: actual Up code
+
+The offline live-highlight verifier caught that B0 is not Up. The pinned original_match/screens.py key table gives Up=AC, Down=B1 (original BIOS scan48/50 plus64h, 214B:08DD). First taker attempts retained all other controls but do not meet the requested Up criterion. Change only navigation B0→AC and rerun from identical synthetic inputs; preserve both r1 receipts.
