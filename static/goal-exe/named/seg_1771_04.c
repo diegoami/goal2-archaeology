@@ -927,7 +927,7 @@ int __stdcall16far fixture_absolute_margin(char *param_1)
 
 
 // ---- 1771:5C94  fixture_winner  (f_1771_5C94; Ghidra 4000:5C94, __stdcall16far; found by routines.tsv)
-// the side word +4 + 2 (+3 == 1) of a fixture: the side its +3 byte names  [likely; F017; read code/seg_1771_08.asm]
+// #419 retains the full listing body in display, including stack residue and state effects: the side word +4 + 2 (+3 == 1) of a fixture: the side its +3 byte names  [likely; F017; read code/seg_1771_08.asm]
 
 undefined2 __stdcall16far fixture_winner(undefined4 param_1)
 
@@ -940,7 +940,7 @@ undefined2 __stdcall16far fixture_winner(undefined4 param_1)
 
 
 // ---- 1771:5CCB  fixture_loser  (f_1771_5CCB; Ghidra 4000:5CCB, __stdcall16far; found by routines.tsv)
-// the side word +4 + 2 (+3 == 0) of a fixture: the side 1771:5C94 does not return  [likely; F017; read code/seg_1771_08.asm]
+// #419 retains the full listing body in display, including stack residue and state effects: the side word +4 + 2 (+3 == 0) of a fixture: the side 1771:5C94 does not return  [likely; F017; read code/seg_1771_08.asm]
 
 undefined2 __stdcall16far fixture_loser(undefined4 param_1)
 
@@ -1054,49 +1054,6 @@ void set_manager_groups(byte param_1)
   if (bVar1 != 0) {
     for (local_4 = 1; pbVar2[local_4 + 1] = param_1, local_4 != bVar1; local_4 = local_4 + 1) {
     }
-  }
-  return;
-}
-
-
-// ---- 1771:5EE1  sort_countries_by_points  (f_1771_5EE1; Ghidra 4000:5EE1, __stdcall16near; found by routines.tsv)
-// quicksorts the range [lo, hi] of the order array [DS:9B56] by the countries' +0x2F word, largest first (5F1D-5F69), swapping with 214B:007B  [established; F017; read code/seg_1771_09.asm]
-
-void sort_countries_by_points(undefined2 param_1,uint param_2,uint param_3)
-
-{
-  uint uVar1;
-  byte *pbVar2;
-  undefined2 uVar3;
-  undefined2 uVar4;
-  uint local_6;
-  uint local_4;
-  
-  local_4 = param_3;
-  local_6 = param_2;
-  uVar1 = ((country *)countries)[((byte *)country_order_ptr)[(param_3 + param_2) / 2]].points;
-  do {
-    while( true ) {
-      uVar3 = (undefined2)((ulong)country_order_ptr >> 0x10);
-      pbVar2 = (byte *)country_order_ptr;
-      uVar4 = (undefined2)((ulong)countries >> 0x10);
-      if (((country *)countries)[pbVar2[local_4]].points <= uVar1) break;
-      local_4 = local_4 + 1;
-    }
-    while (((country *)countries)[pbVar2[local_6]].points < uVar1) {
-      local_6 = local_6 - 1;
-    }
-    if (local_4 <= local_6) {
-      u214b_swap_bytes(1,pbVar2 + local_6,uVar3,pbVar2 + local_4,uVar3);
-      local_4 = local_4 + 1;
-      local_6 = local_6 - 1;
-    }
-  } while (local_4 <= local_6);
-  if (param_3 < local_6) {
-    sort_countries_by_points(param_1,local_6,param_3);
-  }
-  if (local_4 < param_2) {
-    sort_countries_by_points(param_1,param_2,local_4);
   }
   return;
 }

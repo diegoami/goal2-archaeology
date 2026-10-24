@@ -12,6 +12,7 @@ file of its own there, found by this module with no shared list to edit. A file 
   matches      the matches: {"id": "<family>/<name>", ...fields that replace the base's}
 and a match has
   fixture      [first country, second country, calendar number, kind] (original_match.Fixture)
+  image        optional registered source key (default E006); nondefault source SHA enters the spec digest
   managed      the country the kit makes the human's (may be outside the fixture)
   seed         the main RNG word written at the captain prompt, or null (the set-up's own)
   delay_byte   the speed byte written there, or null (the image's)

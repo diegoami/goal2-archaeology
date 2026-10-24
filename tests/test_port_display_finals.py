@@ -4,7 +4,7 @@ from tests.test_port_display import Rig, Case, PARENT, FXSEG, FXOFF, GSEG, GOFF
 
 class Finals(Case):
     def rig(self,snapshot=0,interactive=0):
-        r=Rig()
+        r=Rig();r.mem.regs.update(ax=0xBEEF,dx=0xCAFE)
         r.lin8(PARENT-9,snapshot);r.lin16(PARENT-8,20);r.lin16(PARENT-4,3);r.lin16(PARENT-2,3)
         r.lin8(PARENT+10,interactive)
         r.ds16(0xA92B,FXOFF);r.ds16(0xA92D,FXSEG)
@@ -69,6 +69,7 @@ class Finals(Case):
         self.assertEqual(len(r.args('1771:8CA2')),8)
         self.assertEqual([x[0] for x in r.args('1771:8CA2')],[100+k for k in range(8)])
         self.assertEqual([x[0] for x in r.args('1771:8CCF')],[0x961+k for k in range(4)])
+        self.assertEqual([x[1] for x in r.args('1771:8CCF')],[9,11,13,15])
         r=self.rig();r.lin8(GSEG*16+GOFF+0x3C,5);r.run('1771:8D84',(PARENT,))
         self.assertEqual(r.calls,[])
 

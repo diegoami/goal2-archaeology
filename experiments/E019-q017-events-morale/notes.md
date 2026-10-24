@@ -310,7 +310,7 @@ delta. No other direct writer exists in the named view.
 | `0791:F1F6` (run_match) | reads `+0xC` into saved `DS:9B07` | `code/seg_0791_23.asm:1035..`; `named/seg_0791_11.c:662..649` |
 | `1771:377E` (strength) | reads signed `+0xC` for player strength (special branch >=32) | `named/seg_1771_03.c:308..325` |
 | `1771:42BC` (description) | reads `+0xC` for description string and bar | `code/seg_1771_06.asm:1114..1142`; `named/seg_1771_03.c:881..892` |
-| `1771:96D3` (creation) | writes `draw(32)` at player creation | `named/seg_1771_06.c:1001..1006` |
+| `1771:96D3` (creation) | writes `draw(32)` at player creation | `named/seg_1771_07.c:62..1006` |
 
 Callers of the direct writers (event-result rule chain):
 

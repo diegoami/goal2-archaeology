@@ -485,7 +485,7 @@ undefined1 __stdcall16far on_tour(int param_1)
 
 
 // ---- 0791:DBFA  squad_change_allowed  (f_0791_DBFA; Ghidra 2000:DBFA, __stdcall16near; found by routines.tsv)
-// (country) the gate of a squad/pool exchange: refuses with "cannot alter squad during finals" when [A923]+0x13+m (the finals flag) is set, else with "cannot alter squad whilst on tour" when 0791:DB38 holds; returns 1 only when neither  [established; F031]
+// "(country) the gate of a squad/pool exchange: refuses with ""cannot alter squad during finals"" when [A923]+0x13+m (the finals flag) is set, else with ""cannot alter squad whilst on tour"" when 0791:DB38 holds; returns 1 only when neither"  [established; F031]
 
 undefined2 squad_change_allowed(undefined2 param_1)
 

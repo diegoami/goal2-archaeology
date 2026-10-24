@@ -7,7 +7,8 @@
     python3 -B experiments/E036-match-port/family.py --family ALL --find-ranges experiments/E036-match-port/out/T57/ranges-<stamp>.json [--only ID,...]
 
 --family is ALL (the union of the families under families/) or comma-separated family names. The matches are the
-declared ones (families.py); the image is E006-r0001, fetched by hash into --cache (default .cache/dl).
+declared ones (families.py); each spec binds a registered image source, fetched or verified by hash in --cache
+(default .cache/dl). Historical specs retain E006-r0001.
 
 The unhooked kit is the reference: no port is installed. `--ports M,...|all` (T59) runs the kit's port mode
 (runtime/original_match/port/, as check.py takes it): those modules' Python routines in place of the original's;

@@ -127,7 +127,7 @@ void f_1771_0232(int param_1,undefined2 param_2,undefined4 param_3)
 
 
 // ---- 1771:027B  save_or_load_game  (f_1771_027B; Ghidra 4000:027B, __stdcall16near; found by routines.tsv)
-// saves (mode 0, "Saving game...", 214B:1AD1 writes; a failure clears the result) or loads (mode non-zero, "Loading game...", 214B:1B47 reads) the game's 22 blocks: names, countries, players, the state [DS:A923], fixtures and others; closes the file and returns the success flag  [likely; F002; F007; read decompiled/seg_1771_01.c]
+// "saves (mode 0, ""Saving game..."", 214B:1AD1 writes; a failure clears the result) or loads (mode non-zero, ""Loading game..."", 214B:1B47 reads) the game's 22 blocks: names, countries, players, the state [DS:A923], fixtures and others; closes the file and returns the success flag"  [likely; F002; F007; read decompiled/seg_1771_01.c]
 
 undefined1 save_or_load_game(char param_1)
 
@@ -173,7 +173,7 @@ undefined1 save_or_load_game(char param_1)
 
 
 // ---- 1771:03FF  prompt_saved_game_name  (f_1771_03FF; Ghidra 4000:03FF, __cdecl16near; found by routines.tsv)
-// draws the template DS:0CC4 ("Please enter name of saved game :") and runs the line editor on the string at DS:0C72 (80 characters at most; the first key typed replaces the text); no timer  [likely; F030; read code/seg_1771_01.asm:464]
+// "draws the template DS:0CC4 (""Please enter name of saved game :"") and runs the line editor on the string at DS:0C72 (80 characters at most; the first key typed replaces the text); no timer"  [likely; F030; read code/seg_1771_01.asm:464]
 
 void __cdecl16near prompt_saved_game_name(void)
 
@@ -279,7 +279,7 @@ void __cdecl16near choose_saved_game_name(void)
 
 
 // ---- 1771:0657  open_saved_game_file  (f_1771_0657; Ghidra 4000:0657, __stdcall16far; found by routines.tsv)
-// the save (param 0) or load: a load first goes through 1771:0480 when the drive test 214B:dos_drive_not_cd is zero, otherwise 1771:03FF; Esc cancels (DS:A965 = 0xFF); the file is DS:0C72 + ".GL" (CS:0653), created or opened, then 1771:027B  [likely; F030; read code/seg_1771_01.asm:733]
+// "the save (param 0) or load: a load first goes through 1771:0480 when the drive test 214B:dos_drive_not_cd is zero, otherwise 1771:03FF; Esc cancels (DS:A965 = 0xFF); the file is DS:0C72 + "".GL"" (CS:0653), created or opened, then 1771:027B"  [likely; F030; read code/seg_1771_01.asm:733]
 
 char __stdcall16far open_saved_game_file(char param_1)
 

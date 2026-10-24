@@ -519,7 +519,7 @@ void draw_mark_text(undefined2 param_1,char param_2)
 
 
 // ---- 1771:3B3F  draw_mark_row  (f_1771_3B3F; Ghidra 4000:3B3F, __stdcall16near; found by routines.tsv)
-// the mark row: blank when +6 < 2, "Protect zone" when +0x10 bit 7, else bit 8 of the country's +0x2D through 1771:3AE2  [established; F008]
+// "the mark row: blank when +6 < 2, ""Protect zone"" when +0x10 bit 7, else bit 8 of the country's +0x2D through 1771:3AE2"  [established; F008]
 
 void draw_mark_row(int param_1)
 
