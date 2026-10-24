@@ -6,6 +6,7 @@ kept privately and every key/CPU/caller observation is recorded append-only.
 """
 import hashlib,json,shutil,subprocess,sys,time
 from pathlib import Path
+from types import SimpleNamespace
 ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT/'runtime/driver'),str(ROOT/'runtime')]
 import driver
@@ -29,17 +30,28 @@ def inspect(raw):
     return dict(regs=r,load=im.load,chain=chain,taker=taker,warnings=warnings,build_problems=im.build_problems())
 
 def main():
-    attempt,filename=sys.argv[1:3];pub=ROOT/'notes/400-next'/attempt;pub.mkdir(exist_ok=False)
+    attempt,filename=sys.argv[1:3];resume=Path(sys.argv[3]).resolve() if len(sys.argv)>3 else None
+    pub=ROOT/'notes/400-next'/attempt;pub.mkdir(exist_ok=False)
     private=ROOT/'.cache/400-next'/attempt;private.mkdir(parents=True,exist_ok=False)
     source=ROOT/'.cache'/filename
     a=next(a for a in json.loads((ROOT/'notes/390/inventory.json').read_text())['assets'] if a['file']==filename)
     assert sha(source.read_bytes())==a['sha256']
     rec=dict(head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),collector_sha256=sha(Path(__file__).read_bytes()),source=filename,source_sha256=a['sha256'],bound_s=240,fixture_bound=1,status='aborted',method='Original DOS loader, normal original keys, native observations; no restore or guest edits')
+    targets=(3,4) if resume else (3,4,5);rec['target_roles']=targets
+    game=private/'game';work=private/'driver';start_state=None
+    if resume:
+        previous=resume.parent;old=json.loads((ROOT/'notes/400-next'/previous.name/'record.json').read_text());assert old['status']=='target captured'
+        game=previous/'game';work=previous/'driver';conf=(work/'dosbox.conf').read_bytes()
+        mounts=[l for l in conf.decode().splitlines() if l.startswith('mount ')]
+        assert mounts==[f'mount c {game}',f'mount d {work/driver.CLOCK_DIR}']
+        (pub/'preceding-dosbox.conf').write_bytes(conf)
+        rec['resume']=dict(file=str(resume.relative_to(ROOT)),sha256=sha(resume.read_bytes()),verified_mounts=mounts,config_sha256=sha(conf))
     (pub/'collector.py').write_bytes(Path(__file__).read_bytes());(pub/'source.json').write_text(json.dumps(rec,indent=2)+'\n')
     class Loaded(driver.Driver):
         def _start_xvfb(self):shutil.copy2(source,self.game_dir/source.name);super()._start_xvfb()
-    d=Loaded(config=dict(cycles='fixed 8000',dos_date='10/24/2026',dos_time='12:00:00'),workdir=private/'driver',game_dir=private/'game',mapper='nohost')
-    start=time.monotonic();n=0;last=None;speed=False;own=False
+    d=Loaded(config=dict(cycles='fixed 8000',dos_date='10/24/2026',dos_time='12:00:00'),workdir=work,game_dir=game,mapper='nohost')
+    if resume:start_state=SimpleNamespace(name=resume.stem,path=resume,game_dir=str(game),drive_layout=d.drive_layout(),screen_digest=driver.savestate.Savestate(resume.read_bytes()).screen().digest())
+    start=time.monotonic();n=0;last=None;speed=bool(resume);own=bool(resume)
     def observe(request):
         nonlocal n,last
         times,state,raw=d.read();n+=1;p=private/f'{n:04}.sav';p.write_bytes(raw)
@@ -48,18 +60,19 @@ def main():
         last=row['sha256'];return row
     def key(*keys):d.keys(*keys);return observe(dict(keys=keys))
     try:
-        d.launch();row=observe('launch')
-        for _ in range(4):
-            row=key('y')
-            if 'Please enter name' in row['screen']:break
-        assert 'Please enter name' in row['screen']
-        key(*(['BackSpace']*80));key(*list(source.stem.lower()));row=key('Return')
+        d.launch(start_state);row=observe('same-mount genuine resume' if resume else 'launch')
+        if not resume:
+            for _ in range(4):
+                row=key('y')
+                if 'Please enter name' in row['screen']:break
+            assert 'Please enter name' in row['screen']
+            key(*(['BackSpace']*80));key(*list(source.stem.lower()));row=key('Return')
         while time.monotonic()-start<240:
             text=row['screen'];t=row['taker']
             if row['warnings']:
                 rec['status']='warning candidate captured';rec['candidate']=row['n'];break
             if t:
-                if t['role'] in (3,4,5):
+                if t['role'] in targets:
                     before=row;board=key('space');back=key('Return')
                     assert board['taker'] and board['taker']['role']==t['role'] and board['taker']['read_CF3A']
                     assert back['taker'] and back['taker']['role']==t['role']
