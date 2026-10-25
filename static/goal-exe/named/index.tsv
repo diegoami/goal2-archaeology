@@ -384,7 +384,7 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 1771:0947	format_manager_name	established	decompiled	seg_1771_01.c	458	4000:0947	routines.tsv	
 1771:09A0			decompiled	seg_1771_01.c	477	4000:09A0	routines.tsv	
 1771:0AA7	manager_bonus	established	decompiled	seg_1771_01.c	534	4000:0AA7	routines.tsv	
-1771:0AF8	draw_manager_status	likely	decompiled	seg_1771_01.c	545	4000:0AF8	routines.tsv	
+1771:0AF8	draw_manager_skill_label	established	decompiled	seg_1771_01.c	545	4000:0AF8	routines.tsv	
 1771:0B77	is_managed	established	decompiled	seg_1771_01.c	575	4000:0B77	routines.tsv	
 1771:0BC4	compute_team_line_strengths	established	decompiled	seg_1771_01.c	591	4000:0BC4	routines.tsv	
 1771:0E24	country_colour	established	decompiled	seg_1771_01.c	691	4000:0E24	routines.tsv	
@@ -397,7 +397,7 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 1771:11E1	draw_team_line_strength_bars	likely	decompiled	seg_1771_01.c	922	4000:11E1	routines.tsv	
 1771:1289	draw_live_team_line_performance	likely	decompiled	seg_1771_01.c	952	4000:1289	routines.tsv	
 1771:13D0	team_panel_aggregate	established	decompiled	seg_1771_01.c	1003	4000:13D0	routines.tsv	
-1771:1527	draw_country_rating_label	likely	decompiled	seg_1771_01.c	1062	4000:1527	routines.tsv	
+1771:1527	draw_country_status_label	established	decompiled	seg_1771_01.c	1062	4000:1527	routines.tsv	
 1771:157D	draw_team_panel	likely	decompiled	seg_1771_02.c	4	4000:157D	routines.tsv	
 1771:1934			decompiled	seg_1771_02.c	135	4000:1934	routines.tsv	
 1771:1981	edit_team_tactics	established	decompiled	seg_1771_02.c	153	4000:1981	routines.tsv	
