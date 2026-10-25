@@ -542,10 +542,10 @@ int __stdcall16far manager_bonus(int param_1)
 }
 
 
-// ---- 1771:0AF8  draw_manager_status  (f_1771_0AF8; Ghidra 4000:0AF8, __stdcall16far; found by routines.tsv)
-// Manager0 draws nothing; status byte+1 of the three-byte manager record chooses a fixed CS:0AF0 string at zero or a DS:7894 band indexed by (status-1)/8  [likely; read code/seg_1771_02.asm:39]
+// ---- 1771:0AF8  draw_manager_skill_label  (f_1771_0AF8; Ghidra 4000:0AF8, __stdcall16far; found by routines.tsv)
+// TEAM row10 column24 Skill: manager0 draws nothing; manager record byte+1 zero draws unknown at CS:0AF0, else unsigned (ability-1)/8 indexes DS:7894 then 16-byte label at DS:6EB4; no display clamp  [established; F035; read code/seg_1771_02.asm:39]
 
-void __stdcall16far draw_manager_status(undefined1 param_1,undefined1 param_2,int param_3)
+void __stdcall16far draw_manager_skill_label(undefined1 param_1,undefined1 param_2,int param_3)
 
 {
   int iVar1;
@@ -1059,10 +1059,10 @@ void team_panel_aggregate(int param_1)
 }
 
 
-// ---- 1771:1527  draw_country_rating_label  (f_1771_1527; Ghidra 4000:1527, __stdcall16near; found by routines.tsv)
-// Calls10E7 for the country, indexes DS:7884 with signed (result-1)/8, and draws the selected16-byte DS:6EB4 label at the requested row/column  [likely; read code/seg_1771_03.asm:6]
+// ---- 1771:1527  draw_country_status_label  (f_1771_1527; Ghidra 4000:1527, __stdcall16near; found by routines.tsv)
+// TEAM row8 column25 Status: country_rating10E7 from rank bytes, signed (rating-1)/8 indexes DS:7884 then 16-byte label at DS:6EB4; normal rating1..128  [established; F035; read code/seg_1771_03.asm:6]
 
-void draw_country_rating_label(undefined1 param_1,undefined1 param_2,undefined2 param_3)
+void draw_country_status_label(undefined1 param_1,undefined1 param_2,undefined2 param_3)
 
 {
   int iVar1;

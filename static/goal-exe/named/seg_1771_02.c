@@ -31,14 +31,14 @@ void draw_team_panel(int param_1)
   local_8 = (country *)countries + param_1;
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x4bbe,0xb000);
   draw_country_name(2,8,param_1);
-  draw_country_rating_label(0x19,8,param_1);
+  draw_country_status_label(0x19,8,param_1);
   puVar4 = local_108;
   uVar5 = unaff_SS;
   format_manager_name(local_8->manager);
   u214b_write_string_at_fwd
             ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH,2),CONCAT11(extraout_AH,10),
              puVar4,uVar5);
-  draw_manager_status(0x18,10,local_8->manager);
+  draw_manager_skill_label(0x18,10,local_8->manager);
   puVar4 = local_108;
   uVar5 = unaff_SS;
   u214b_number_to_string(local_8->world_rank,0);

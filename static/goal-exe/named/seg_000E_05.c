@@ -830,7 +830,7 @@ void __cdecl16near f_000E_724A(void)
   u214b_write_string_at_fwd
             ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH,4),CONCAT11(extraout_AH,8),
              puVar3,uVar2);
-  draw_manager_status(0x13,8,*(byte *)(local_1f + 1) + 0x80);
+  draw_manager_skill_label(0x13,8,*(byte *)(local_1f + 1) + 0x80);
   uVar2 = shareware_limit_reached();
   cVar1 = draw_template_if(&stack0xfffe,0x19d6,0xb000,uVar2);
   if ((cVar1 == '\0') &&

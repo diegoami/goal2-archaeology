@@ -1,0 +1,60 @@
+{
+  "baseline_tests": 7,
+  "mutants": [
+    {
+      "mutation": "swap_labels",
+      "failures": 2,
+      "errors": 0
+    },
+    {
+      "mutation": "wrong_country_table",
+      "failures": 11,
+      "errors": 0
+    },
+    {
+      "mutation": "wrong_manager_table",
+      "failures": 3,
+      "errors": 0
+    },
+    {
+      "mutation": "country_band_boundary",
+      "failures": 4,
+      "errors": 0
+    },
+    {
+      "mutation": "manager_band_boundary",
+      "failures": 2,
+      "errors": 0
+    },
+    {
+      "mutation": "manager_confidence_byte",
+      "failures": 2,
+      "errors": 0
+    },
+    {
+      "mutation": "drop_manager_zero",
+      "failures": 2,
+      "errors": 0
+    },
+    {
+      "mutation": "drop_unknown",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "clamp_ability",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "wrong_rating",
+      "failures": 9,
+      "errors": 0
+    },
+    {
+      "mutation": "unbounded_label",
+      "failures": 1,
+      "errors": 0
+    }
+  ]
+}
