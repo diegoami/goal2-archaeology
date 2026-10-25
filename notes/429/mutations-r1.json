@@ -1,0 +1,35 @@
+{
+  "baseline_tests": 5,
+  "mutants": [
+    {
+      "mutation": "nul_control",
+      "failures": 4,
+      "errors": 0
+    },
+    {
+      "mutation": "period",
+      "failures": 4,
+      "errors": 0
+    },
+    {
+      "mutation": "short_store",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "c_terminator",
+      "failures": 3,
+      "errors": 0
+    },
+    {
+      "mutation": "ignore_length",
+      "failures": 2,
+      "errors": 0
+    },
+    {
+      "mutation": "width",
+      "failures": 1,
+      "errors": 4
+    }
+  ]
+}
