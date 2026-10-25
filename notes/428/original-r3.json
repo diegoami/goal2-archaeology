@@ -1,0 +1,4852 @@
+{
+  "source_commit": "24191a71140eeb3867274c847988c0981f7c8c1e",
+  "producer_sha256": "c2a46d82d1e9bfc491da64865bf4f3b4d9cd2585201b91afa9c33da777ed53e0",
+  "helper_sha256": "2fb5c28a41274ef9f26e77ca08a82720b79766beea701f3a6e4c232cdc42ab92",
+  "unicorn": "2.1.4",
+  "method": "isolated original routines and full original TEAM drawing; synthetic call frames, no behavior hooks",
+  "bound_per_call": "2seconds/500000instructions",
+  "states": [
+    {
+      "run": "E010-r0001",
+      "base_sha256": "e1dee7e2f5ad443ee0d62eb6dd203394ef81f43732845aa04d969f422b556920",
+      "countries": [
+        {
+          "country": 1,
+          "continent": 1,
+          "continental_rank": 28,
+          "world_rank": 80,
+          "rating": 34,
+          "manager": 1,
+          "status_byte": 34,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 2,
+          "continent": 1,
+          "continental_rank": 27,
+          "world_rank": 20,
+          "rating": 66,
+          "manager": 2,
+          "status_byte": 66,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 3,
+          "continent": 1,
+          "continental_rank": 23,
+          "world_rank": 11,
+          "rating": 79,
+          "manager": 3,
+          "status_byte": 79,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 4,
+          "continent": 1,
+          "continental_rank": 19,
+          "world_rank": 42,
+          "rating": 71,
+          "manager": 4,
+          "status_byte": 71,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 5,
+          "continent": 1,
+          "continental_rank": 32,
+          "world_rank": 72,
+          "rating": 30,
+          "manager": 5,
+          "status_byte": 30,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 6,
+          "continent": 1,
+          "continental_rank": 11,
+          "world_rank": 6,
+          "rating": 105,
+          "manager": 6,
+          "status_byte": 105,
+          "status": "very big",
+          "skill": "excellent"
+        },
+        {
+          "country": 7,
+          "continent": 1,
+          "continental_rank": 1,
+          "world_rank": 29,
+          "rating": 114,
+          "manager": 129,
+          "status_byte": 0,
+          "status": "major",
+          "skill": "unknown"
+        },
+        {
+          "country": 8,
+          "continent": 1,
+          "continental_rank": 13,
+          "world_rank": 7,
+          "rating": 101,
+          "manager": 8,
+          "status_byte": 101,
+          "status": "very good",
+          "skill": "talented"
+        },
+        {
+          "country": 9,
+          "continent": 1,
+          "continental_rank": 7,
+          "world_rank": 4,
+          "rating": 114,
+          "manager": 9,
+          "status_byte": 114,
+          "status": "major",
+          "skill": "exceptional"
+        },
+        {
+          "country": 10,
+          "continent": 1,
+          "continental_rank": 25,
+          "world_rank": 53,
+          "rating": 54,
+          "manager": 10,
+          "status_byte": 54,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 11,
+          "continent": 1,
+          "continental_rank": 6,
+          "world_rank": 28,
+          "rating": 104,
+          "manager": 11,
+          "status_byte": 104,
+          "status": "very good",
+          "skill": "talented"
+        },
+        {
+          "country": 12,
+          "continent": 1,
+          "continental_rank": 2,
+          "world_rank": 1,
+          "rating": 126,
+          "manager": 12,
+          "status_byte": 126,
+          "status": "giant",
+          "skill": "eclectic"
+        },
+        {
+          "country": 13,
+          "continent": 1,
+          "continental_rank": 20,
+          "world_rank": 38,
+          "rating": 71,
+          "manager": 13,
+          "status_byte": 71,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 14,
+          "continent": 1,
+          "continental_rank": 21,
+          "world_rank": 30,
+          "rating": 73,
+          "manager": 14,
+          "status_byte": 73,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 15,
+          "continent": 1,
+          "continental_rank": 26,
+          "world_rank": 33,
+          "rating": 62,
+          "manager": 15,
+          "status_byte": 62,
+          "status": "minor",
+          "skill": "poor"
+        },
+        {
+          "country": 16,
+          "continent": 1,
+          "continental_rank": 15,
+          "world_rank": 3,
+          "rating": 99,
+          "manager": 16,
+          "status_byte": 99,
+          "status": "very good",
+          "skill": "talented"
+        },
+        {
+          "country": 17,
+          "continent": 1,
+          "continental_rank": 30,
+          "world_rank": 73,
+          "rating": 34,
+          "manager": 17,
+          "status_byte": 34,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 18,
+          "continent": 1,
+          "continental_rank": 29,
+          "world_rank": 55,
+          "rating": 45,
+          "manager": 18,
+          "status_byte": 45,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 19,
+          "continent": 1,
+          "continental_rank": 22,
+          "world_rank": 36,
+          "rating": 68,
+          "manager": 19,
+          "status_byte": 68,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 20,
+          "continent": 1,
+          "continental_rank": 3,
+          "world_rank": 14,
+          "rating": 117,
+          "manager": 20,
+          "status_byte": 117,
+          "status": "major",
+          "skill": "exceptional"
+        },
+        {
+          "country": 21,
+          "continent": 1,
+          "continental_rank": 18,
+          "world_rank": 32,
+          "rating": 78,
+          "manager": 21,
+          "status_byte": 78,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 22,
+          "continent": 1,
+          "continental_rank": 17,
+          "world_rank": 34,
+          "rating": 79,
+          "manager": 22,
+          "status_byte": 79,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 23,
+          "continent": 1,
+          "continental_rank": 14,
+          "world_rank": 27,
+          "rating": 89,
+          "manager": 23,
+          "status_byte": 89,
+          "status": "big",
+          "skill": "useful"
+        },
+        {
+          "country": 24,
+          "continent": 1,
+          "continental_rank": 16,
+          "world_rank": 12,
+          "rating": 92,
+          "manager": 24,
+          "status_byte": 92,
+          "status": "big",
+          "skill": "useful"
+        },
+        {
+          "country": 25,
+          "continent": 1,
+          "continental_rank": 5,
+          "world_rank": 18,
+          "rating": 111,
+          "manager": 25,
+          "status_byte": 111,
+          "status": "very big",
+          "skill": "excellent"
+        },
+        {
+          "country": 26,
+          "continent": 1,
+          "continental_rank": 24,
+          "world_rank": 10,
+          "rating": 77,
+          "manager": 26,
+          "status_byte": 77,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 27,
+          "continent": 1,
+          "continental_rank": 4,
+          "world_rank": 19,
+          "rating": 113,
+          "manager": 27,
+          "status_byte": 113,
+          "status": "major",
+          "skill": "exceptional"
+        },
+        {
+          "country": 28,
+          "continent": 1,
+          "continental_rank": 10,
+          "world_rank": 35,
+          "rating": 93,
+          "manager": 28,
+          "status_byte": 93,
+          "status": "big",
+          "skill": "useful"
+        },
+        {
+          "country": 29,
+          "continent": 1,
+          "continental_rank": 31,
+          "world_rank": 31,
+          "rating": 53,
+          "manager": 29,
+          "status_byte": 53,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 30,
+          "continent": 1,
+          "continental_rank": 8,
+          "world_rank": 17,
+          "rating": 106,
+          "manager": 30,
+          "status_byte": 106,
+          "status": "very big",
+          "skill": "excellent"
+        },
+        {
+          "country": 31,
+          "continent": 1,
+          "continental_rank": 12,
+          "world_rank": 54,
+          "rating": 79,
+          "manager": 31,
+          "status_byte": 79,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 32,
+          "continent": 1,
+          "continental_rank": 9,
+          "world_rank": 8,
+          "rating": 108,
+          "manager": 32,
+          "status_byte": 108,
+          "status": "very big",
+          "skill": "excellent"
+        },
+        {
+          "country": 33,
+          "continent": 2,
+          "continental_rank": 32,
+          "world_rank": 99,
+          "rating": 16,
+          "manager": 33,
+          "status_byte": 16,
+          "status": "tiny",
+          "skill": "rubbish"
+        },
+        {
+          "country": 34,
+          "continent": 2,
+          "continental_rank": 1,
+          "world_rank": 2,
+          "rating": 111,
+          "manager": 34,
+          "status_byte": 111,
+          "status": "very big",
+          "skill": "excellent"
+        },
+        {
+          "country": 35,
+          "continent": 2,
+          "continental_rank": 29,
+          "world_rank": 121,
+          "rating": 10,
+          "manager": 35,
+          "status_byte": 10,
+          "status": "tiny",
+          "skill": "rubbish"
+        },
+        {
+          "country": 36,
+          "continent": 2,
+          "continental_rank": 28,
+          "world_rank": 104,
+          "rating": 20,
+          "manager": 36,
+          "status_byte": 20,
+          "status": "very poor",
+          "skill": "incompetent"
+        },
+        {
+          "country": 37,
+          "continent": 2,
+          "continental_rank": 9,
+          "world_rank": 37,
+          "rating": 82,
+          "manager": 37,
+          "status_byte": 82,
+          "status": "contender",
+          "skill": "good"
+        },
+        {
+          "country": 38,
+          "continent": 2,
+          "continental_rank": 2,
+          "world_rank": 9,
+          "rating": 106,
+          "manager": 38,
+          "status_byte": 106,
+          "status": "very big",
+          "skill": "excellent"
+        },
+        {
+          "country": 39,
+          "continent": 2,
+          "continental_rank": 19,
+          "world_rank": 98,
+          "rating": 36,
+          "manager": 39,
+          "status_byte": 36,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 40,
+          "continent": 2,
+          "continental_rank": 3,
+          "world_rank": 39,
+          "rating": 90,
+          "manager": 40,
+          "status_byte": 90,
+          "status": "big",
+          "skill": "useful"
+        },
+        {
+          "country": 41,
+          "continent": 2,
+          "continental_rank": 4,
+          "world_rank": 15,
+          "rating": 100,
+          "manager": 41,
+          "status_byte": 100,
+          "status": "very good",
+          "skill": "talented"
+        },
+        {
+          "country": 42,
+          "continent": 2,
+          "continental_rank": 15,
+          "world_rank": 13,
+          "rating": 85,
+          "manager": 42,
+          "status_byte": 85,
+          "status": "contender",
+          "skill": "good"
+        },
+        {
+          "country": 43,
+          "continent": 2,
+          "continental_rank": 14,
+          "world_rank": 97,
+          "rating": 44,
+          "manager": 43,
+          "status_byte": 44,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 44,
+          "continent": 2,
+          "continental_rank": 25,
+          "world_rank": 105,
+          "rating": 24,
+          "manager": 44,
+          "status_byte": 24,
+          "status": "very poor",
+          "skill": "incompetent"
+        },
+        {
+          "country": 45,
+          "continent": 2,
+          "continental_rank": 7,
+          "world_rank": 51,
+          "rating": 78,
+          "manager": 45,
+          "status_byte": 78,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 46,
+          "continent": 2,
+          "continental_rank": 21,
+          "world_rank": 71,
+          "rating": 47,
+          "manager": 46,
+          "status_byte": 47,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 47,
+          "continent": 2,
+          "continental_rank": 31,
+          "world_rank": 122,
+          "rating": 6,
+          "manager": 47,
+          "status_byte": 6,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 48,
+          "continent": 2,
+          "continental_rank": 26,
+          "world_rank": 70,
+          "rating": 40,
+          "manager": 48,
+          "status_byte": 40,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 49,
+          "continent": 2,
+          "continental_rank": 27,
+          "world_rank": 106,
+          "rating": 20,
+          "manager": 49,
+          "status_byte": 20,
+          "status": "very poor",
+          "skill": "incompetent"
+        },
+        {
+          "country": 50,
+          "continent": 2,
+          "continental_rank": 17,
+          "world_rank": 107,
+          "rating": 35,
+          "manager": 50,
+          "status_byte": 35,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 51,
+          "continent": 2,
+          "continental_rank": 12,
+          "world_rank": 94,
+          "rating": 49,
+          "manager": 51,
+          "status_byte": 49,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 52,
+          "continent": 2,
+          "continental_rank": 22,
+          "world_rank": 85,
+          "rating": 38,
+          "manager": 52,
+          "status_byte": 38,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 53,
+          "continent": 2,
+          "continental_rank": 13,
+          "world_rank": 86,
+          "rating": 51,
+          "manager": 53,
+          "status_byte": 51,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 54,
+          "continent": 2,
+          "continental_rank": 30,
+          "world_rank": 84,
+          "rating": 27,
+          "manager": 54,
+          "status_byte": 27,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 55,
+          "continent": 2,
+          "continental_rank": 20,
+          "world_rank": 116,
+          "rating": 26,
+          "manager": 55,
+          "status_byte": 26,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 56,
+          "continent": 2,
+          "continental_rank": 16,
+          "world_rank": 95,
+          "rating": 42,
+          "manager": 56,
+          "status_byte": 42,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 57,
+          "continent": 2,
+          "continental_rank": 6,
+          "world_rank": 43,
+          "rating": 83,
+          "manager": 57,
+          "status_byte": 83,
+          "status": "contender",
+          "skill": "good"
+        },
+        {
+          "country": 58,
+          "continent": 2,
+          "continental_rank": 8,
+          "world_rank": 81,
+          "rating": 61,
+          "manager": 58,
+          "status_byte": 61,
+          "status": "minor",
+          "skill": "poor"
+        },
+        {
+          "country": 59,
+          "continent": 2,
+          "continental_rank": 24,
+          "world_rank": 96,
+          "rating": 30,
+          "manager": 59,
+          "status_byte": 30,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 60,
+          "continent": 2,
+          "continental_rank": 18,
+          "world_rank": 108,
+          "rating": 33,
+          "manager": 60,
+          "status_byte": 33,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 61,
+          "continent": 2,
+          "continental_rank": 23,
+          "world_rank": 26,
+          "rating": 66,
+          "manager": 61,
+          "status_byte": 66,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 62,
+          "continent": 2,
+          "continental_rank": 11,
+          "world_rank": 23,
+          "rating": 86,
+          "manager": 62,
+          "status_byte": 86,
+          "status": "contender",
+          "skill": "good"
+        },
+        {
+          "country": 63,
+          "continent": 2,
+          "continental_rank": 5,
+          "world_rank": 16,
+          "rating": 98,
+          "manager": 63,
+          "status_byte": 98,
+          "status": "very good",
+          "skill": "talented"
+        },
+        {
+          "country": 64,
+          "continent": 2,
+          "continental_rank": 10,
+          "world_rank": 82,
+          "rating": 58,
+          "manager": 64,
+          "status_byte": 58,
+          "status": "minor",
+          "skill": "poor"
+        },
+        {
+          "country": 65,
+          "continent": 3,
+          "continental_rank": 9,
+          "world_rank": 40,
+          "rating": 68,
+          "manager": 65,
+          "status_byte": 68,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 66,
+          "continent": 3,
+          "continental_rank": 28,
+          "world_rank": 58,
+          "rating": 40,
+          "manager": 66,
+          "status_byte": 40,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 67,
+          "continent": 3,
+          "continental_rank": 15,
+          "world_rank": 100,
+          "rating": 32,
+          "manager": 67,
+          "status_byte": 32,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 68,
+          "continent": 3,
+          "continental_rank": 3,
+          "world_rank": 5,
+          "rating": 92,
+          "manager": 68,
+          "status_byte": 92,
+          "status": "big",
+          "skill": "useful"
+        },
+        {
+          "country": 69,
+          "continent": 3,
+          "continental_rank": 6,
+          "world_rank": 88,
+          "rating": 47,
+          "manager": 69,
+          "status_byte": 47,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 70,
+          "continent": 3,
+          "continental_rank": 11,
+          "world_rank": 21,
+          "rating": 76,
+          "manager": 70,
+          "status_byte": 76,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 71,
+          "continent": 3,
+          "continental_rank": 27,
+          "world_rank": 109,
+          "rating": 16,
+          "manager": 71,
+          "status_byte": 16,
+          "status": "tiny",
+          "skill": "rubbish"
+        },
+        {
+          "country": 72,
+          "continent": 3,
+          "continental_rank": 16,
+          "world_rank": 59,
+          "rating": 52,
+          "manager": 72,
+          "status_byte": 52,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 73,
+          "continent": 3,
+          "continental_rank": 2,
+          "world_rank": 87,
+          "rating": 52,
+          "manager": 73,
+          "status_byte": 52,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 74,
+          "continent": 3,
+          "continental_rank": 18,
+          "world_rank": 110,
+          "rating": 24,
+          "manager": 74,
+          "status_byte": 24,
+          "status": "very poor",
+          "skill": "incompetent"
+        },
+        {
+          "country": 75,
+          "continent": 3,
+          "continental_rank": 1,
+          "world_rank": 56,
+          "rating": 68,
+          "manager": 75,
+          "status_byte": 68,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 76,
+          "continent": 3,
+          "continental_rank": 12,
+          "world_rank": 57,
+          "rating": 57,
+          "manager": 76,
+          "status_byte": 57,
+          "status": "minor",
+          "skill": "poor"
+        },
+        {
+          "country": 77,
+          "continent": 3,
+          "continental_rank": 23,
+          "world_rank": 101,
+          "rating": 24,
+          "manager": 77,
+          "status_byte": 24,
+          "status": "very poor",
+          "skill": "incompetent"
+        },
+        {
+          "country": 78,
+          "continent": 3,
+          "continental_rank": 32,
+          "world_rank": 45,
+          "rating": 43,
+          "manager": 78,
+          "status_byte": 43,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 79,
+          "continent": 3,
+          "continental_rank": 13,
+          "world_rank": 93,
+          "rating": 38,
+          "manager": 79,
+          "status_byte": 38,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 80,
+          "continent": 3,
+          "continental_rank": 20,
+          "world_rank": 111,
+          "rating": 22,
+          "manager": 80,
+          "status_byte": 22,
+          "status": "very poor",
+          "skill": "incompetent"
+        },
+        {
+          "country": 81,
+          "continent": 3,
+          "continental_rank": 29,
+          "world_rank": 48,
+          "rating": 44,
+          "manager": 81,
+          "status_byte": 44,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 82,
+          "continent": 3,
+          "continental_rank": 10,
+          "world_rank": 49,
+          "rating": 63,
+          "manager": 82,
+          "status_byte": 63,
+          "status": "minor",
+          "skill": "poor"
+        },
+        {
+          "country": 83,
+          "continent": 3,
+          "continental_rank": 24,
+          "world_rank": 114,
+          "rating": 16,
+          "manager": 83,
+          "status_byte": 16,
+          "status": "tiny",
+          "skill": "rubbish"
+        },
+        {
+          "country": 84,
+          "continent": 3,
+          "continental_rank": 4,
+          "world_rank": 41,
+          "rating": 73,
+          "manager": 84,
+          "status_byte": 73,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 85,
+          "continent": 3,
+          "continental_rank": 31,
+          "world_rank": 124,
+          "rating": 4,
+          "manager": 85,
+          "status_byte": 4,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 86,
+          "continent": 3,
+          "continental_rank": 8,
+          "world_rank": 89,
+          "rating": 45,
+          "manager": 86,
+          "status_byte": 45,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 87,
+          "continent": 3,
+          "continental_rank": 17,
+          "world_rank": 102,
+          "rating": 29,
+          "manager": 87,
+          "status_byte": 29,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 88,
+          "continent": 3,
+          "continental_rank": 30,
+          "world_rank": 123,
+          "rating": 6,
+          "manager": 88,
+          "status_byte": 6,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 89,
+          "continent": 3,
+          "continental_rank": 25,
+          "world_rank": 117,
+          "rating": 14,
+          "manager": 89,
+          "status_byte": 14,
+          "status": "tiny",
+          "skill": "rubbish"
+        },
+        {
+          "country": 90,
+          "continent": 3,
+          "continental_rank": 22,
+          "world_rank": 113,
+          "rating": 19,
+          "manager": 90,
+          "status_byte": 19,
+          "status": "very poor",
+          "skill": "incompetent"
+        },
+        {
+          "country": 91,
+          "continent": 3,
+          "continental_rank": 21,
+          "world_rank": 112,
+          "rating": 20,
+          "manager": 91,
+          "status_byte": 20,
+          "status": "very poor",
+          "skill": "incompetent"
+        },
+        {
+          "country": 92,
+          "continent": 3,
+          "continental_rank": 14,
+          "world_rank": 44,
+          "rating": 61,
+          "manager": 92,
+          "status_byte": 61,
+          "status": "minor",
+          "skill": "poor"
+        },
+        {
+          "country": 93,
+          "continent": 3,
+          "continental_rank": 19,
+          "world_rank": 103,
+          "rating": 27,
+          "manager": 93,
+          "status_byte": 27,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 94,
+          "continent": 3,
+          "continental_rank": 5,
+          "world_rank": 47,
+          "rating": 69,
+          "manager": 94,
+          "status_byte": 69,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 95,
+          "continent": 3,
+          "continental_rank": 7,
+          "world_rank": 46,
+          "rating": 67,
+          "manager": 95,
+          "status_byte": 67,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 96,
+          "continent": 3,
+          "continental_rank": 26,
+          "world_rank": 76,
+          "rating": 33,
+          "manager": 96,
+          "status_byte": 33,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 97,
+          "continent": 4,
+          "continental_rank": 10,
+          "world_rank": 65,
+          "rating": 43,
+          "manager": 97,
+          "status_byte": 43,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 98,
+          "continent": 4,
+          "continental_rank": 20,
+          "world_rank": 78,
+          "rating": 32,
+          "manager": 98,
+          "status_byte": 32,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 99,
+          "continent": 4,
+          "continental_rank": 31,
+          "world_rank": 126,
+          "rating": 2,
+          "manager": 99,
+          "status_byte": 2,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 100,
+          "continent": 4,
+          "continental_rank": 4,
+          "world_rank": 92,
+          "rating": 33,
+          "manager": 100,
+          "status_byte": 33,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 101,
+          "continent": 4,
+          "continental_rank": 28,
+          "world_rank": 119,
+          "rating": 7,
+          "manager": 101,
+          "status_byte": 7,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 102,
+          "continent": 4,
+          "continental_rank": 16,
+          "world_rank": 74,
+          "rating": 36,
+          "manager": 102,
+          "status_byte": 36,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 103,
+          "continent": 4,
+          "continental_rank": 27,
+          "world_rank": 118,
+          "rating": 8,
+          "manager": 103,
+          "status_byte": 8,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 104,
+          "continent": 4,
+          "continental_rank": 23,
+          "world_rank": 75,
+          "rating": 32,
+          "manager": 104,
+          "status_byte": 32,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 105,
+          "continent": 4,
+          "continental_rank": 5,
+          "world_rank": 50,
+          "rating": 53,
+          "manager": 105,
+          "status_byte": 53,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 106,
+          "continent": 4,
+          "continental_rank": 29,
+          "world_rank": 60,
+          "rating": 36,
+          "manager": 106,
+          "status_byte": 36,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 107,
+          "continent": 4,
+          "continental_rank": 12,
+          "world_rank": 25,
+          "rating": 62,
+          "manager": 107,
+          "status_byte": 62,
+          "status": "minor",
+          "skill": "poor"
+        },
+        {
+          "country": 108,
+          "continent": 4,
+          "continental_rank": 1,
+          "world_rank": 64,
+          "rating": 48,
+          "manager": 108,
+          "status_byte": 48,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 109,
+          "continent": 4,
+          "continental_rank": 22,
+          "world_rank": 67,
+          "rating": 36,
+          "manager": 109,
+          "status_byte": 36,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 110,
+          "continent": 4,
+          "continental_rank": 15,
+          "world_rank": 91,
+          "rating": 28,
+          "manager": 110,
+          "status_byte": 28,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 111,
+          "continent": 4,
+          "continental_rank": 25,
+          "world_rank": 120,
+          "rating": 8,
+          "manager": 111,
+          "status_byte": 8,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 112,
+          "continent": 4,
+          "continental_rank": 14,
+          "world_rank": 62,
+          "rating": 43,
+          "manager": 112,
+          "status_byte": 43,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 113,
+          "continent": 4,
+          "continental_rank": 26,
+          "world_rank": 127,
+          "rating": 4,
+          "manager": 113,
+          "status_byte": 4,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 114,
+          "continent": 4,
+          "continental_rank": 13,
+          "world_rank": 90,
+          "rating": 29,
+          "manager": 114,
+          "status_byte": 29,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 115,
+          "continent": 4,
+          "continental_rank": 9,
+          "world_rank": 66,
+          "rating": 43,
+          "manager": 115,
+          "status_byte": 43,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 116,
+          "continent": 4,
+          "continental_rank": 7,
+          "world_rank": 63,
+          "rating": 46,
+          "manager": 116,
+          "status_byte": 46,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 117,
+          "continent": 4,
+          "continental_rank": 21,
+          "world_rank": 77,
+          "rating": 32,
+          "manager": 117,
+          "status_byte": 32,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 118,
+          "continent": 4,
+          "continental_rank": 32,
+          "world_rank": 128,
+          "rating": 1,
+          "manager": 118,
+          "status_byte": 1,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 119,
+          "continent": 4,
+          "continental_rank": 6,
+          "world_rank": 52,
+          "rating": 52,
+          "manager": 119,
+          "status_byte": 52,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 120,
+          "continent": 4,
+          "continental_rank": 2,
+          "world_rank": 61,
+          "rating": 49,
+          "manager": 120,
+          "status_byte": 49,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 121,
+          "continent": 4,
+          "continental_rank": 18,
+          "world_rank": 69,
+          "rating": 37,
+          "manager": 121,
+          "status_byte": 37,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 122,
+          "continent": 4,
+          "continental_rank": 11,
+          "world_rank": 22,
+          "rating": 64,
+          "manager": 122,
+          "status_byte": 64,
+          "status": "minor",
+          "skill": "poor"
+        },
+        {
+          "country": 123,
+          "continent": 4,
+          "continental_rank": 30,
+          "world_rank": 125,
+          "rating": 3,
+          "manager": 123,
+          "status_byte": 3,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 124,
+          "continent": 4,
+          "continental_rank": 19,
+          "world_rank": 68,
+          "rating": 37,
+          "manager": 124,
+          "status_byte": 37,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 125,
+          "continent": 4,
+          "continental_rank": 24,
+          "world_rank": 115,
+          "rating": 11,
+          "manager": 125,
+          "status_byte": 11,
+          "status": "tiny",
+          "skill": "rubbish"
+        },
+        {
+          "country": 126,
+          "continent": 4,
+          "continental_rank": 8,
+          "world_rank": 79,
+          "rating": 37,
+          "manager": 126,
+          "status_byte": 37,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 127,
+          "continent": 4,
+          "continental_rank": 3,
+          "world_rank": 24,
+          "rating": 67,
+          "manager": 127,
+          "status_byte": 67,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 128,
+          "continent": 4,
+          "continental_rank": 17,
+          "world_rank": 83,
+          "rating": 31,
+          "manager": 128,
+          "status_byte": 31,
+          "status": "very small",
+          "skill": "negligible"
+        }
+      ],
+      "panels": [
+        {
+          "country": 12,
+          "skill": "eclectic",
+          "status": "giant",
+          "row8": "\u2502Germany-------- status giant     \u251c\u2500\u2500\u2500\u2500\u2500",
+          "row10": "\u2502B Vogts         skill eclectic   \u251cprote"
+        },
+        {
+          "country": 27,
+          "skill": "exceptional",
+          "status": "major",
+          "row8": "\u2502Sweden--------- status major     \u251c\u2500\u2500\u2500\u2500\u2500",
+          "row10": "\u2502T Svensson      skill exceptional\u251cprote"
+        },
+        {
+          "country": 128,
+          "skill": "negligible",
+          "status": "very small",
+          "row8": "\u2502Yemen AR------- status very small\u251c\u2500\u2500\u2500\u2500\u2500",
+          "row10": "\u2502P Hussein       skill negligible \u251cprote"
+        }
+      ]
+    },
+    {
+      "run": "E006-r0001",
+      "base_sha256": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d",
+      "countries": [
+        {
+          "country": 1,
+          "continent": 1,
+          "continental_rank": 28,
+          "world_rank": 80,
+          "rating": 34,
+          "manager": 1,
+          "status_byte": 34,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 2,
+          "continent": 1,
+          "continental_rank": 27,
+          "world_rank": 20,
+          "rating": 66,
+          "manager": 2,
+          "status_byte": 66,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 3,
+          "continent": 1,
+          "continental_rank": 23,
+          "world_rank": 11,
+          "rating": 79,
+          "manager": 3,
+          "status_byte": 79,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 4,
+          "continent": 1,
+          "continental_rank": 19,
+          "world_rank": 42,
+          "rating": 71,
+          "manager": 4,
+          "status_byte": 71,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 5,
+          "continent": 1,
+          "continental_rank": 32,
+          "world_rank": 72,
+          "rating": 30,
+          "manager": 5,
+          "status_byte": 30,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 6,
+          "continent": 1,
+          "continental_rank": 11,
+          "world_rank": 6,
+          "rating": 105,
+          "manager": 6,
+          "status_byte": 105,
+          "status": "very big",
+          "skill": "excellent"
+        },
+        {
+          "country": 7,
+          "continent": 1,
+          "continental_rank": 1,
+          "world_rank": 29,
+          "rating": 114,
+          "manager": 129,
+          "status_byte": 0,
+          "status": "major",
+          "skill": "unknown"
+        },
+        {
+          "country": 8,
+          "continent": 1,
+          "continental_rank": 13,
+          "world_rank": 7,
+          "rating": 101,
+          "manager": 8,
+          "status_byte": 101,
+          "status": "very good",
+          "skill": "talented"
+        },
+        {
+          "country": 9,
+          "continent": 1,
+          "continental_rank": 7,
+          "world_rank": 4,
+          "rating": 114,
+          "manager": 9,
+          "status_byte": 114,
+          "status": "major",
+          "skill": "exceptional"
+        },
+        {
+          "country": 10,
+          "continent": 1,
+          "continental_rank": 25,
+          "world_rank": 53,
+          "rating": 54,
+          "manager": 10,
+          "status_byte": 54,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 11,
+          "continent": 1,
+          "continental_rank": 6,
+          "world_rank": 28,
+          "rating": 104,
+          "manager": 11,
+          "status_byte": 104,
+          "status": "very good",
+          "skill": "talented"
+        },
+        {
+          "country": 12,
+          "continent": 1,
+          "continental_rank": 2,
+          "world_rank": 1,
+          "rating": 126,
+          "manager": 12,
+          "status_byte": 126,
+          "status": "giant",
+          "skill": "eclectic"
+        },
+        {
+          "country": 13,
+          "continent": 1,
+          "continental_rank": 20,
+          "world_rank": 38,
+          "rating": 71,
+          "manager": 13,
+          "status_byte": 71,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 14,
+          "continent": 1,
+          "continental_rank": 21,
+          "world_rank": 30,
+          "rating": 73,
+          "manager": 14,
+          "status_byte": 73,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 15,
+          "continent": 1,
+          "continental_rank": 26,
+          "world_rank": 33,
+          "rating": 62,
+          "manager": 15,
+          "status_byte": 62,
+          "status": "minor",
+          "skill": "poor"
+        },
+        {
+          "country": 16,
+          "continent": 1,
+          "continental_rank": 15,
+          "world_rank": 3,
+          "rating": 99,
+          "manager": 16,
+          "status_byte": 99,
+          "status": "very good",
+          "skill": "talented"
+        },
+        {
+          "country": 17,
+          "continent": 1,
+          "continental_rank": 30,
+          "world_rank": 73,
+          "rating": 34,
+          "manager": 17,
+          "status_byte": 34,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 18,
+          "continent": 1,
+          "continental_rank": 29,
+          "world_rank": 55,
+          "rating": 45,
+          "manager": 18,
+          "status_byte": 45,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 19,
+          "continent": 1,
+          "continental_rank": 22,
+          "world_rank": 36,
+          "rating": 68,
+          "manager": 19,
+          "status_byte": 68,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 20,
+          "continent": 1,
+          "continental_rank": 3,
+          "world_rank": 14,
+          "rating": 117,
+          "manager": 20,
+          "status_byte": 117,
+          "status": "major",
+          "skill": "exceptional"
+        },
+        {
+          "country": 21,
+          "continent": 1,
+          "continental_rank": 18,
+          "world_rank": 32,
+          "rating": 78,
+          "manager": 21,
+          "status_byte": 78,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 22,
+          "continent": 1,
+          "continental_rank": 17,
+          "world_rank": 34,
+          "rating": 79,
+          "manager": 22,
+          "status_byte": 79,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 23,
+          "continent": 1,
+          "continental_rank": 14,
+          "world_rank": 27,
+          "rating": 89,
+          "manager": 23,
+          "status_byte": 89,
+          "status": "big",
+          "skill": "useful"
+        },
+        {
+          "country": 24,
+          "continent": 1,
+          "continental_rank": 16,
+          "world_rank": 12,
+          "rating": 92,
+          "manager": 24,
+          "status_byte": 92,
+          "status": "big",
+          "skill": "useful"
+        },
+        {
+          "country": 25,
+          "continent": 1,
+          "continental_rank": 5,
+          "world_rank": 18,
+          "rating": 111,
+          "manager": 25,
+          "status_byte": 111,
+          "status": "very big",
+          "skill": "excellent"
+        },
+        {
+          "country": 26,
+          "continent": 1,
+          "continental_rank": 24,
+          "world_rank": 10,
+          "rating": 77,
+          "manager": 26,
+          "status_byte": 77,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 27,
+          "continent": 1,
+          "continental_rank": 4,
+          "world_rank": 19,
+          "rating": 113,
+          "manager": 27,
+          "status_byte": 113,
+          "status": "major",
+          "skill": "exceptional"
+        },
+        {
+          "country": 28,
+          "continent": 1,
+          "continental_rank": 10,
+          "world_rank": 35,
+          "rating": 93,
+          "manager": 28,
+          "status_byte": 93,
+          "status": "big",
+          "skill": "useful"
+        },
+        {
+          "country": 29,
+          "continent": 1,
+          "continental_rank": 31,
+          "world_rank": 31,
+          "rating": 53,
+          "manager": 29,
+          "status_byte": 53,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 30,
+          "continent": 1,
+          "continental_rank": 8,
+          "world_rank": 17,
+          "rating": 106,
+          "manager": 30,
+          "status_byte": 106,
+          "status": "very big",
+          "skill": "excellent"
+        },
+        {
+          "country": 31,
+          "continent": 1,
+          "continental_rank": 12,
+          "world_rank": 54,
+          "rating": 79,
+          "manager": 31,
+          "status_byte": 79,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 32,
+          "continent": 1,
+          "continental_rank": 9,
+          "world_rank": 8,
+          "rating": 108,
+          "manager": 32,
+          "status_byte": 108,
+          "status": "very big",
+          "skill": "excellent"
+        },
+        {
+          "country": 33,
+          "continent": 2,
+          "continental_rank": 32,
+          "world_rank": 99,
+          "rating": 16,
+          "manager": 33,
+          "status_byte": 16,
+          "status": "tiny",
+          "skill": "rubbish"
+        },
+        {
+          "country": 34,
+          "continent": 2,
+          "continental_rank": 1,
+          "world_rank": 2,
+          "rating": 111,
+          "manager": 34,
+          "status_byte": 111,
+          "status": "very big",
+          "skill": "excellent"
+        },
+        {
+          "country": 35,
+          "continent": 2,
+          "continental_rank": 29,
+          "world_rank": 121,
+          "rating": 10,
+          "manager": 35,
+          "status_byte": 10,
+          "status": "tiny",
+          "skill": "rubbish"
+        },
+        {
+          "country": 36,
+          "continent": 2,
+          "continental_rank": 28,
+          "world_rank": 104,
+          "rating": 20,
+          "manager": 36,
+          "status_byte": 20,
+          "status": "very poor",
+          "skill": "incompetent"
+        },
+        {
+          "country": 37,
+          "continent": 2,
+          "continental_rank": 9,
+          "world_rank": 37,
+          "rating": 82,
+          "manager": 37,
+          "status_byte": 82,
+          "status": "contender",
+          "skill": "good"
+        },
+        {
+          "country": 38,
+          "continent": 2,
+          "continental_rank": 2,
+          "world_rank": 9,
+          "rating": 106,
+          "manager": 38,
+          "status_byte": 106,
+          "status": "very big",
+          "skill": "excellent"
+        },
+        {
+          "country": 39,
+          "continent": 2,
+          "continental_rank": 19,
+          "world_rank": 98,
+          "rating": 36,
+          "manager": 39,
+          "status_byte": 36,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 40,
+          "continent": 2,
+          "continental_rank": 3,
+          "world_rank": 39,
+          "rating": 90,
+          "manager": 40,
+          "status_byte": 90,
+          "status": "big",
+          "skill": "useful"
+        },
+        {
+          "country": 41,
+          "continent": 2,
+          "continental_rank": 4,
+          "world_rank": 15,
+          "rating": 100,
+          "manager": 41,
+          "status_byte": 100,
+          "status": "very good",
+          "skill": "talented"
+        },
+        {
+          "country": 42,
+          "continent": 2,
+          "continental_rank": 15,
+          "world_rank": 13,
+          "rating": 85,
+          "manager": 42,
+          "status_byte": 85,
+          "status": "contender",
+          "skill": "good"
+        },
+        {
+          "country": 43,
+          "continent": 2,
+          "continental_rank": 14,
+          "world_rank": 97,
+          "rating": 44,
+          "manager": 43,
+          "status_byte": 44,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 44,
+          "continent": 2,
+          "continental_rank": 25,
+          "world_rank": 105,
+          "rating": 24,
+          "manager": 44,
+          "status_byte": 24,
+          "status": "very poor",
+          "skill": "incompetent"
+        },
+        {
+          "country": 45,
+          "continent": 2,
+          "continental_rank": 7,
+          "world_rank": 51,
+          "rating": 78,
+          "manager": 45,
+          "status_byte": 78,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 46,
+          "continent": 2,
+          "continental_rank": 21,
+          "world_rank": 71,
+          "rating": 47,
+          "manager": 46,
+          "status_byte": 47,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 47,
+          "continent": 2,
+          "continental_rank": 31,
+          "world_rank": 122,
+          "rating": 6,
+          "manager": 47,
+          "status_byte": 6,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 48,
+          "continent": 2,
+          "continental_rank": 26,
+          "world_rank": 70,
+          "rating": 40,
+          "manager": 48,
+          "status_byte": 40,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 49,
+          "continent": 2,
+          "continental_rank": 27,
+          "world_rank": 106,
+          "rating": 20,
+          "manager": 49,
+          "status_byte": 20,
+          "status": "very poor",
+          "skill": "incompetent"
+        },
+        {
+          "country": 50,
+          "continent": 2,
+          "continental_rank": 17,
+          "world_rank": 107,
+          "rating": 35,
+          "manager": 50,
+          "status_byte": 35,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 51,
+          "continent": 2,
+          "continental_rank": 12,
+          "world_rank": 94,
+          "rating": 49,
+          "manager": 51,
+          "status_byte": 49,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 52,
+          "continent": 2,
+          "continental_rank": 22,
+          "world_rank": 85,
+          "rating": 38,
+          "manager": 52,
+          "status_byte": 38,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 53,
+          "continent": 2,
+          "continental_rank": 13,
+          "world_rank": 86,
+          "rating": 51,
+          "manager": 53,
+          "status_byte": 51,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 54,
+          "continent": 2,
+          "continental_rank": 30,
+          "world_rank": 84,
+          "rating": 27,
+          "manager": 54,
+          "status_byte": 27,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 55,
+          "continent": 2,
+          "continental_rank": 20,
+          "world_rank": 116,
+          "rating": 26,
+          "manager": 55,
+          "status_byte": 26,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 56,
+          "continent": 2,
+          "continental_rank": 16,
+          "world_rank": 95,
+          "rating": 42,
+          "manager": 56,
+          "status_byte": 42,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 57,
+          "continent": 2,
+          "continental_rank": 6,
+          "world_rank": 43,
+          "rating": 83,
+          "manager": 57,
+          "status_byte": 83,
+          "status": "contender",
+          "skill": "good"
+        },
+        {
+          "country": 58,
+          "continent": 2,
+          "continental_rank": 8,
+          "world_rank": 81,
+          "rating": 61,
+          "manager": 58,
+          "status_byte": 61,
+          "status": "minor",
+          "skill": "poor"
+        },
+        {
+          "country": 59,
+          "continent": 2,
+          "continental_rank": 24,
+          "world_rank": 96,
+          "rating": 30,
+          "manager": 59,
+          "status_byte": 30,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 60,
+          "continent": 2,
+          "continental_rank": 18,
+          "world_rank": 108,
+          "rating": 33,
+          "manager": 60,
+          "status_byte": 33,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 61,
+          "continent": 2,
+          "continental_rank": 23,
+          "world_rank": 26,
+          "rating": 66,
+          "manager": 61,
+          "status_byte": 66,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 62,
+          "continent": 2,
+          "continental_rank": 11,
+          "world_rank": 23,
+          "rating": 86,
+          "manager": 62,
+          "status_byte": 86,
+          "status": "contender",
+          "skill": "good"
+        },
+        {
+          "country": 63,
+          "continent": 2,
+          "continental_rank": 5,
+          "world_rank": 16,
+          "rating": 98,
+          "manager": 63,
+          "status_byte": 98,
+          "status": "very good",
+          "skill": "talented"
+        },
+        {
+          "country": 64,
+          "continent": 2,
+          "continental_rank": 10,
+          "world_rank": 82,
+          "rating": 58,
+          "manager": 64,
+          "status_byte": 58,
+          "status": "minor",
+          "skill": "poor"
+        },
+        {
+          "country": 65,
+          "continent": 3,
+          "continental_rank": 9,
+          "world_rank": 40,
+          "rating": 68,
+          "manager": 65,
+          "status_byte": 68,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 66,
+          "continent": 3,
+          "continental_rank": 28,
+          "world_rank": 58,
+          "rating": 40,
+          "manager": 66,
+          "status_byte": 40,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 67,
+          "continent": 3,
+          "continental_rank": 15,
+          "world_rank": 100,
+          "rating": 32,
+          "manager": 67,
+          "status_byte": 32,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 68,
+          "continent": 3,
+          "continental_rank": 3,
+          "world_rank": 5,
+          "rating": 92,
+          "manager": 68,
+          "status_byte": 92,
+          "status": "big",
+          "skill": "useful"
+        },
+        {
+          "country": 69,
+          "continent": 3,
+          "continental_rank": 6,
+          "world_rank": 88,
+          "rating": 47,
+          "manager": 69,
+          "status_byte": 47,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 70,
+          "continent": 3,
+          "continental_rank": 11,
+          "world_rank": 21,
+          "rating": 76,
+          "manager": 70,
+          "status_byte": 76,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 71,
+          "continent": 3,
+          "continental_rank": 27,
+          "world_rank": 109,
+          "rating": 16,
+          "manager": 71,
+          "status_byte": 16,
+          "status": "tiny",
+          "skill": "rubbish"
+        },
+        {
+          "country": 72,
+          "continent": 3,
+          "continental_rank": 16,
+          "world_rank": 59,
+          "rating": 52,
+          "manager": 72,
+          "status_byte": 52,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 73,
+          "continent": 3,
+          "continental_rank": 2,
+          "world_rank": 87,
+          "rating": 52,
+          "manager": 73,
+          "status_byte": 52,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 74,
+          "continent": 3,
+          "continental_rank": 18,
+          "world_rank": 110,
+          "rating": 24,
+          "manager": 74,
+          "status_byte": 24,
+          "status": "very poor",
+          "skill": "incompetent"
+        },
+        {
+          "country": 75,
+          "continent": 3,
+          "continental_rank": 1,
+          "world_rank": 56,
+          "rating": 68,
+          "manager": 75,
+          "status_byte": 68,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 76,
+          "continent": 3,
+          "continental_rank": 12,
+          "world_rank": 57,
+          "rating": 57,
+          "manager": 76,
+          "status_byte": 57,
+          "status": "minor",
+          "skill": "poor"
+        },
+        {
+          "country": 77,
+          "continent": 3,
+          "continental_rank": 23,
+          "world_rank": 101,
+          "rating": 24,
+          "manager": 77,
+          "status_byte": 24,
+          "status": "very poor",
+          "skill": "incompetent"
+        },
+        {
+          "country": 78,
+          "continent": 3,
+          "continental_rank": 32,
+          "world_rank": 45,
+          "rating": 43,
+          "manager": 78,
+          "status_byte": 43,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 79,
+          "continent": 3,
+          "continental_rank": 13,
+          "world_rank": 93,
+          "rating": 38,
+          "manager": 79,
+          "status_byte": 38,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 80,
+          "continent": 3,
+          "continental_rank": 20,
+          "world_rank": 111,
+          "rating": 22,
+          "manager": 80,
+          "status_byte": 22,
+          "status": "very poor",
+          "skill": "incompetent"
+        },
+        {
+          "country": 81,
+          "continent": 3,
+          "continental_rank": 29,
+          "world_rank": 48,
+          "rating": 44,
+          "manager": 81,
+          "status_byte": 44,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 82,
+          "continent": 3,
+          "continental_rank": 10,
+          "world_rank": 49,
+          "rating": 63,
+          "manager": 82,
+          "status_byte": 63,
+          "status": "minor",
+          "skill": "poor"
+        },
+        {
+          "country": 83,
+          "continent": 3,
+          "continental_rank": 24,
+          "world_rank": 114,
+          "rating": 16,
+          "manager": 83,
+          "status_byte": 16,
+          "status": "tiny",
+          "skill": "rubbish"
+        },
+        {
+          "country": 84,
+          "continent": 3,
+          "continental_rank": 4,
+          "world_rank": 41,
+          "rating": 73,
+          "manager": 84,
+          "status_byte": 73,
+          "status": "good",
+          "skill": "reasonable"
+        },
+        {
+          "country": 85,
+          "continent": 3,
+          "continental_rank": 31,
+          "world_rank": 124,
+          "rating": 4,
+          "manager": 85,
+          "status_byte": 4,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 86,
+          "continent": 3,
+          "continental_rank": 8,
+          "world_rank": 89,
+          "rating": 45,
+          "manager": 86,
+          "status_byte": 45,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 87,
+          "continent": 3,
+          "continental_rank": 17,
+          "world_rank": 102,
+          "rating": 29,
+          "manager": 87,
+          "status_byte": 29,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 88,
+          "continent": 3,
+          "continental_rank": 30,
+          "world_rank": 123,
+          "rating": 6,
+          "manager": 88,
+          "status_byte": 6,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 89,
+          "continent": 3,
+          "continental_rank": 25,
+          "world_rank": 117,
+          "rating": 14,
+          "manager": 89,
+          "status_byte": 14,
+          "status": "tiny",
+          "skill": "rubbish"
+        },
+        {
+          "country": 90,
+          "continent": 3,
+          "continental_rank": 22,
+          "world_rank": 113,
+          "rating": 19,
+          "manager": 90,
+          "status_byte": 19,
+          "status": "very poor",
+          "skill": "incompetent"
+        },
+        {
+          "country": 91,
+          "continent": 3,
+          "continental_rank": 21,
+          "world_rank": 112,
+          "rating": 20,
+          "manager": 91,
+          "status_byte": 20,
+          "status": "very poor",
+          "skill": "incompetent"
+        },
+        {
+          "country": 92,
+          "continent": 3,
+          "continental_rank": 14,
+          "world_rank": 44,
+          "rating": 61,
+          "manager": 92,
+          "status_byte": 61,
+          "status": "minor",
+          "skill": "poor"
+        },
+        {
+          "country": 93,
+          "continent": 3,
+          "continental_rank": 19,
+          "world_rank": 103,
+          "rating": 27,
+          "manager": 93,
+          "status_byte": 27,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 94,
+          "continent": 3,
+          "continental_rank": 5,
+          "world_rank": 47,
+          "rating": 69,
+          "manager": 94,
+          "status_byte": 69,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 95,
+          "continent": 3,
+          "continental_rank": 7,
+          "world_rank": 46,
+          "rating": 67,
+          "manager": 95,
+          "status_byte": 67,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 96,
+          "continent": 3,
+          "continental_rank": 26,
+          "world_rank": 76,
+          "rating": 33,
+          "manager": 96,
+          "status_byte": 33,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 97,
+          "continent": 4,
+          "continental_rank": 10,
+          "world_rank": 65,
+          "rating": 43,
+          "manager": 97,
+          "status_byte": 43,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 98,
+          "continent": 4,
+          "continental_rank": 20,
+          "world_rank": 78,
+          "rating": 32,
+          "manager": 98,
+          "status_byte": 32,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 99,
+          "continent": 4,
+          "continental_rank": 31,
+          "world_rank": 126,
+          "rating": 2,
+          "manager": 99,
+          "status_byte": 2,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 100,
+          "continent": 4,
+          "continental_rank": 4,
+          "world_rank": 92,
+          "rating": 33,
+          "manager": 100,
+          "status_byte": 33,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 101,
+          "continent": 4,
+          "continental_rank": 28,
+          "world_rank": 119,
+          "rating": 7,
+          "manager": 101,
+          "status_byte": 7,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 102,
+          "continent": 4,
+          "continental_rank": 16,
+          "world_rank": 74,
+          "rating": 36,
+          "manager": 102,
+          "status_byte": 36,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 103,
+          "continent": 4,
+          "continental_rank": 27,
+          "world_rank": 118,
+          "rating": 8,
+          "manager": 103,
+          "status_byte": 8,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 104,
+          "continent": 4,
+          "continental_rank": 23,
+          "world_rank": 75,
+          "rating": 32,
+          "manager": 104,
+          "status_byte": 32,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 105,
+          "continent": 4,
+          "continental_rank": 5,
+          "world_rank": 50,
+          "rating": 53,
+          "manager": 105,
+          "status_byte": 53,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 106,
+          "continent": 4,
+          "continental_rank": 29,
+          "world_rank": 60,
+          "rating": 36,
+          "manager": 106,
+          "status_byte": 36,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 107,
+          "continent": 4,
+          "continental_rank": 12,
+          "world_rank": 25,
+          "rating": 62,
+          "manager": 107,
+          "status_byte": 62,
+          "status": "minor",
+          "skill": "poor"
+        },
+        {
+          "country": 108,
+          "continent": 4,
+          "continental_rank": 1,
+          "world_rank": 64,
+          "rating": 48,
+          "manager": 108,
+          "status_byte": 48,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 109,
+          "continent": 4,
+          "continental_rank": 22,
+          "world_rank": 67,
+          "rating": 36,
+          "manager": 109,
+          "status_byte": 36,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 110,
+          "continent": 4,
+          "continental_rank": 15,
+          "world_rank": 91,
+          "rating": 28,
+          "manager": 110,
+          "status_byte": 28,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 111,
+          "continent": 4,
+          "continental_rank": 25,
+          "world_rank": 120,
+          "rating": 8,
+          "manager": 111,
+          "status_byte": 8,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 112,
+          "continent": 4,
+          "continental_rank": 14,
+          "world_rank": 62,
+          "rating": 43,
+          "manager": 112,
+          "status_byte": 43,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 113,
+          "continent": 4,
+          "continental_rank": 26,
+          "world_rank": 127,
+          "rating": 4,
+          "manager": 113,
+          "status_byte": 4,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 114,
+          "continent": 4,
+          "continental_rank": 13,
+          "world_rank": 90,
+          "rating": 29,
+          "manager": 114,
+          "status_byte": 29,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 115,
+          "continent": 4,
+          "continental_rank": 9,
+          "world_rank": 66,
+          "rating": 43,
+          "manager": 115,
+          "status_byte": 43,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 116,
+          "continent": 4,
+          "continental_rank": 7,
+          "world_rank": 63,
+          "rating": 46,
+          "manager": 116,
+          "status_byte": 46,
+          "status": "minnow",
+          "skill": "bad"
+        },
+        {
+          "country": 117,
+          "continent": 4,
+          "continental_rank": 21,
+          "world_rank": 77,
+          "rating": 32,
+          "manager": 117,
+          "status_byte": 32,
+          "status": "very small",
+          "skill": "negligible"
+        },
+        {
+          "country": 118,
+          "continent": 4,
+          "continental_rank": 32,
+          "world_rank": 128,
+          "rating": 1,
+          "manager": 118,
+          "status_byte": 1,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 119,
+          "continent": 4,
+          "continental_rank": 6,
+          "world_rank": 52,
+          "rating": 52,
+          "manager": 119,
+          "status_byte": 52,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 120,
+          "continent": 4,
+          "continental_rank": 2,
+          "world_rank": 61,
+          "rating": 49,
+          "manager": 120,
+          "status_byte": 49,
+          "status": "small",
+          "skill": "limited"
+        },
+        {
+          "country": 121,
+          "continent": 4,
+          "continental_rank": 18,
+          "world_rank": 69,
+          "rating": 37,
+          "manager": 121,
+          "status_byte": 37,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 122,
+          "continent": 4,
+          "continental_rank": 11,
+          "world_rank": 22,
+          "rating": 64,
+          "manager": 122,
+          "status_byte": 64,
+          "status": "minor",
+          "skill": "poor"
+        },
+        {
+          "country": 123,
+          "continent": 4,
+          "continental_rank": 30,
+          "world_rank": 125,
+          "rating": 3,
+          "manager": 123,
+          "status_byte": 3,
+          "status": "no hoper",
+          "skill": "none"
+        },
+        {
+          "country": 124,
+          "continent": 4,
+          "continental_rank": 19,
+          "world_rank": 68,
+          "rating": 37,
+          "manager": 124,
+          "status_byte": 37,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 125,
+          "continent": 4,
+          "continental_rank": 24,
+          "world_rank": 115,
+          "rating": 11,
+          "manager": 125,
+          "status_byte": 11,
+          "status": "tiny",
+          "skill": "rubbish"
+        },
+        {
+          "country": 126,
+          "continent": 4,
+          "continental_rank": 8,
+          "world_rank": 79,
+          "rating": 37,
+          "manager": 126,
+          "status_byte": 37,
+          "status": "poor",
+          "skill": "very bad"
+        },
+        {
+          "country": 127,
+          "continent": 4,
+          "continental_rank": 3,
+          "world_rank": 24,
+          "rating": 67,
+          "manager": 127,
+          "status_byte": 67,
+          "status": "medium",
+          "skill": "capable"
+        },
+        {
+          "country": 128,
+          "continent": 4,
+          "continental_rank": 17,
+          "world_rank": 83,
+          "rating": 31,
+          "manager": 128,
+          "status_byte": 31,
+          "status": "very small",
+          "skill": "negligible"
+        }
+      ],
+      "panels": [
+        {
+          "country": 12,
+          "skill": "eclectic",
+          "status": "giant",
+          "row8": "\u2502Germany-------- status giant     \u251c\u2500\u2500\u2500\u2500\u2500",
+          "row10": "\u2502B Vogts         skill eclectic   \u251cprote"
+        },
+        {
+          "country": 27,
+          "skill": "exceptional",
+          "status": "major",
+          "row8": "\u2502Sweden--------- status major     \u251c\u2500\u2500\u2500\u2500\u2500",
+          "row10": "\u2502T Svensson      skill exceptional\u251cprote"
+        },
+        {
+          "country": 128,
+          "skill": "negligible",
+          "status": "very small",
+          "row8": "\u2502Yemen AR------- status very small\u251c\u2500\u2500\u2500\u2500\u2500",
+          "row10": "\u2502P Hussein       skill negligible \u251cprote"
+        }
+      ]
+    }
+  ],
+  "synthetic_manager_skills": [
+    {
+      "status_byte": 0,
+      "text": "unknown"
+    },
+    {
+      "status_byte": 1,
+      "text": "none"
+    },
+    {
+      "status_byte": 2,
+      "text": "none"
+    },
+    {
+      "status_byte": 3,
+      "text": "none"
+    },
+    {
+      "status_byte": 4,
+      "text": "none"
+    },
+    {
+      "status_byte": 5,
+      "text": "none"
+    },
+    {
+      "status_byte": 6,
+      "text": "none"
+    },
+    {
+      "status_byte": 7,
+      "text": "none"
+    },
+    {
+      "status_byte": 8,
+      "text": "none"
+    },
+    {
+      "status_byte": 9,
+      "text": "rubbish"
+    },
+    {
+      "status_byte": 10,
+      "text": "rubbish"
+    },
+    {
+      "status_byte": 11,
+      "text": "rubbish"
+    },
+    {
+      "status_byte": 12,
+      "text": "rubbish"
+    },
+    {
+      "status_byte": 13,
+      "text": "rubbish"
+    },
+    {
+      "status_byte": 14,
+      "text": "rubbish"
+    },
+    {
+      "status_byte": 15,
+      "text": "rubbish"
+    },
+    {
+      "status_byte": 16,
+      "text": "rubbish"
+    },
+    {
+      "status_byte": 17,
+      "text": "incompetent"
+    },
+    {
+      "status_byte": 18,
+      "text": "incompetent"
+    },
+    {
+      "status_byte": 19,
+      "text": "incompetent"
+    },
+    {
+      "status_byte": 20,
+      "text": "incompetent"
+    },
+    {
+      "status_byte": 21,
+      "text": "incompetent"
+    },
+    {
+      "status_byte": 22,
+      "text": "incompetent"
+    },
+    {
+      "status_byte": 23,
+      "text": "incompetent"
+    },
+    {
+      "status_byte": 24,
+      "text": "incompetent"
+    },
+    {
+      "status_byte": 25,
+      "text": "negligible"
+    },
+    {
+      "status_byte": 26,
+      "text": "negligible"
+    },
+    {
+      "status_byte": 27,
+      "text": "negligible"
+    },
+    {
+      "status_byte": 28,
+      "text": "negligible"
+    },
+    {
+      "status_byte": 29,
+      "text": "negligible"
+    },
+    {
+      "status_byte": 30,
+      "text": "negligible"
+    },
+    {
+      "status_byte": 31,
+      "text": "negligible"
+    },
+    {
+      "status_byte": 32,
+      "text": "negligible"
+    },
+    {
+      "status_byte": 33,
+      "text": "very bad"
+    },
+    {
+      "status_byte": 34,
+      "text": "very bad"
+    },
+    {
+      "status_byte": 35,
+      "text": "very bad"
+    },
+    {
+      "status_byte": 36,
+      "text": "very bad"
+    },
+    {
+      "status_byte": 37,
+      "text": "very bad"
+    },
+    {
+      "status_byte": 38,
+      "text": "very bad"
+    },
+    {
+      "status_byte": 39,
+      "text": "very bad"
+    },
+    {
+      "status_byte": 40,
+      "text": "very bad"
+    },
+    {
+      "status_byte": 41,
+      "text": "bad"
+    },
+    {
+      "status_byte": 42,
+      "text": "bad"
+    },
+    {
+      "status_byte": 43,
+      "text": "bad"
+    },
+    {
+      "status_byte": 44,
+      "text": "bad"
+    },
+    {
+      "status_byte": 45,
+      "text": "bad"
+    },
+    {
+      "status_byte": 46,
+      "text": "bad"
+    },
+    {
+      "status_byte": 47,
+      "text": "bad"
+    },
+    {
+      "status_byte": 48,
+      "text": "bad"
+    },
+    {
+      "status_byte": 49,
+      "text": "limited"
+    },
+    {
+      "status_byte": 50,
+      "text": "limited"
+    },
+    {
+      "status_byte": 51,
+      "text": "limited"
+    },
+    {
+      "status_byte": 52,
+      "text": "limited"
+    },
+    {
+      "status_byte": 53,
+      "text": "limited"
+    },
+    {
+      "status_byte": 54,
+      "text": "limited"
+    },
+    {
+      "status_byte": 55,
+      "text": "limited"
+    },
+    {
+      "status_byte": 56,
+      "text": "limited"
+    },
+    {
+      "status_byte": 57,
+      "text": "poor"
+    },
+    {
+      "status_byte": 58,
+      "text": "poor"
+    },
+    {
+      "status_byte": 59,
+      "text": "poor"
+    },
+    {
+      "status_byte": 60,
+      "text": "poor"
+    },
+    {
+      "status_byte": 61,
+      "text": "poor"
+    },
+    {
+      "status_byte": 62,
+      "text": "poor"
+    },
+    {
+      "status_byte": 63,
+      "text": "poor"
+    },
+    {
+      "status_byte": 64,
+      "text": "poor"
+    },
+    {
+      "status_byte": 65,
+      "text": "capable"
+    },
+    {
+      "status_byte": 66,
+      "text": "capable"
+    },
+    {
+      "status_byte": 67,
+      "text": "capable"
+    },
+    {
+      "status_byte": 68,
+      "text": "capable"
+    },
+    {
+      "status_byte": 69,
+      "text": "capable"
+    },
+    {
+      "status_byte": 70,
+      "text": "capable"
+    },
+    {
+      "status_byte": 71,
+      "text": "capable"
+    },
+    {
+      "status_byte": 72,
+      "text": "capable"
+    },
+    {
+      "status_byte": 73,
+      "text": "reasonable"
+    },
+    {
+      "status_byte": 74,
+      "text": "reasonable"
+    },
+    {
+      "status_byte": 75,
+      "text": "reasonable"
+    },
+    {
+      "status_byte": 76,
+      "text": "reasonable"
+    },
+    {
+      "status_byte": 77,
+      "text": "reasonable"
+    },
+    {
+      "status_byte": 78,
+      "text": "reasonable"
+    },
+    {
+      "status_byte": 79,
+      "text": "reasonable"
+    },
+    {
+      "status_byte": 80,
+      "text": "reasonable"
+    },
+    {
+      "status_byte": 81,
+      "text": "good"
+    },
+    {
+      "status_byte": 82,
+      "text": "good"
+    },
+    {
+      "status_byte": 83,
+      "text": "good"
+    },
+    {
+      "status_byte": 84,
+      "text": "good"
+    },
+    {
+      "status_byte": 85,
+      "text": "good"
+    },
+    {
+      "status_byte": 86,
+      "text": "good"
+    },
+    {
+      "status_byte": 87,
+      "text": "good"
+    },
+    {
+      "status_byte": 88,
+      "text": "good"
+    },
+    {
+      "status_byte": 89,
+      "text": "useful"
+    },
+    {
+      "status_byte": 90,
+      "text": "useful"
+    },
+    {
+      "status_byte": 91,
+      "text": "useful"
+    },
+    {
+      "status_byte": 92,
+      "text": "useful"
+    },
+    {
+      "status_byte": 93,
+      "text": "useful"
+    },
+    {
+      "status_byte": 94,
+      "text": "useful"
+    },
+    {
+      "status_byte": 95,
+      "text": "useful"
+    },
+    {
+      "status_byte": 96,
+      "text": "useful"
+    },
+    {
+      "status_byte": 97,
+      "text": "talented"
+    },
+    {
+      "status_byte": 98,
+      "text": "talented"
+    },
+    {
+      "status_byte": 99,
+      "text": "talented"
+    },
+    {
+      "status_byte": 100,
+      "text": "talented"
+    },
+    {
+      "status_byte": 101,
+      "text": "talented"
+    },
+    {
+      "status_byte": 102,
+      "text": "talented"
+    },
+    {
+      "status_byte": 103,
+      "text": "talented"
+    },
+    {
+      "status_byte": 104,
+      "text": "talented"
+    },
+    {
+      "status_byte": 105,
+      "text": "excellent"
+    },
+    {
+      "status_byte": 106,
+      "text": "excellent"
+    },
+    {
+      "status_byte": 107,
+      "text": "excellent"
+    },
+    {
+      "status_byte": 108,
+      "text": "excellent"
+    },
+    {
+      "status_byte": 109,
+      "text": "excellent"
+    },
+    {
+      "status_byte": 110,
+      "text": "excellent"
+    },
+    {
+      "status_byte": 111,
+      "text": "excellent"
+    },
+    {
+      "status_byte": 112,
+      "text": "excellent"
+    },
+    {
+      "status_byte": 113,
+      "text": "exceptional"
+    },
+    {
+      "status_byte": 114,
+      "text": "exceptional"
+    },
+    {
+      "status_byte": 115,
+      "text": "exceptional"
+    },
+    {
+      "status_byte": 116,
+      "text": "exceptional"
+    },
+    {
+      "status_byte": 117,
+      "text": "exceptional"
+    },
+    {
+      "status_byte": 118,
+      "text": "exceptional"
+    },
+    {
+      "status_byte": 119,
+      "text": "exceptional"
+    },
+    {
+      "status_byte": 120,
+      "text": "exceptional"
+    },
+    {
+      "status_byte": 121,
+      "text": "eclectic"
+    },
+    {
+      "status_byte": 122,
+      "text": "eclectic"
+    },
+    {
+      "status_byte": 123,
+      "text": "eclectic"
+    },
+    {
+      "status_byte": 124,
+      "text": "eclectic"
+    },
+    {
+      "status_byte": 125,
+      "text": "eclectic"
+    },
+    {
+      "status_byte": 126,
+      "text": "eclectic"
+    },
+    {
+      "status_byte": 127,
+      "text": "eclectic"
+    },
+    {
+      "status_byte": 128,
+      "text": "eclectic"
+    },
+    {
+      "status_byte": 129,
+      "text": "none"
+    },
+    {
+      "status_byte": 130,
+      "text": "none"
+    },
+    {
+      "status_byte": 131,
+      "text": "none"
+    },
+    {
+      "status_byte": 132,
+      "text": "none"
+    },
+    {
+      "status_byte": 133,
+      "text": "none"
+    },
+    {
+      "status_byte": 134,
+      "text": "none"
+    },
+    {
+      "status_byte": 135,
+      "text": "none"
+    },
+    {
+      "status_byte": 136,
+      "text": "none"
+    },
+    {
+      "status_byte": 137,
+      "text": "demoralised"
+    },
+    {
+      "status_byte": 138,
+      "text": "demoralised"
+    },
+    {
+      "status_byte": 139,
+      "text": "demoralised"
+    },
+    {
+      "status_byte": 140,
+      "text": "demoralised"
+    },
+    {
+      "status_byte": 141,
+      "text": "demoralised"
+    },
+    {
+      "status_byte": 142,
+      "text": "demoralised"
+    },
+    {
+      "status_byte": 143,
+      "text": "demoralised"
+    },
+    {
+      "status_byte": 144,
+      "text": "demoralised"
+    },
+    {
+      "status_byte": 145,
+      "text": "overawed"
+    },
+    {
+      "status_byte": 146,
+      "text": "overawed"
+    },
+    {
+      "status_byte": 147,
+      "text": "overawed"
+    },
+    {
+      "status_byte": 148,
+      "text": "overawed"
+    },
+    {
+      "status_byte": 149,
+      "text": "overawed"
+    },
+    {
+      "status_byte": 150,
+      "text": "overawed"
+    },
+    {
+      "status_byte": 151,
+      "text": "overawed"
+    },
+    {
+      "status_byte": 152,
+      "text": "overawed"
+    },
+    {
+      "status_byte": 153,
+      "text": "terrified"
+    },
+    {
+      "status_byte": 154,
+      "text": "terrified"
+    },
+    {
+      "status_byte": 155,
+      "text": "terrified"
+    },
+    {
+      "status_byte": 156,
+      "text": "terrified"
+    },
+    {
+      "status_byte": 157,
+      "text": "terrified"
+    },
+    {
+      "status_byte": 158,
+      "text": "terrified"
+    },
+    {
+      "status_byte": 159,
+      "text": "terrified"
+    },
+    {
+      "status_byte": 160,
+      "text": "terrified"
+    },
+    {
+      "status_byte": 161,
+      "text": "tearful"
+    },
+    {
+      "status_byte": 162,
+      "text": "tearful"
+    },
+    {
+      "status_byte": 163,
+      "text": "tearful"
+    },
+    {
+      "status_byte": 164,
+      "text": "tearful"
+    },
+    {
+      "status_byte": 165,
+      "text": "tearful"
+    },
+    {
+      "status_byte": 166,
+      "text": "tearful"
+    },
+    {
+      "status_byte": 167,
+      "text": "tearful"
+    },
+    {
+      "status_byte": 168,
+      "text": "tearful"
+    },
+    {
+      "status_byte": 169,
+      "text": "scared"
+    },
+    {
+      "status_byte": 170,
+      "text": "scared"
+    },
+    {
+      "status_byte": 171,
+      "text": "scared"
+    },
+    {
+      "status_byte": 172,
+      "text": "scared"
+    },
+    {
+      "status_byte": 173,
+      "text": "scared"
+    },
+    {
+      "status_byte": 174,
+      "text": "scared"
+    },
+    {
+      "status_byte": 175,
+      "text": "scared"
+    },
+    {
+      "status_byte": 176,
+      "text": "scared"
+    },
+    {
+      "status_byte": 177,
+      "text": "worried"
+    },
+    {
+      "status_byte": 178,
+      "text": "worried"
+    },
+    {
+      "status_byte": 179,
+      "text": "worried"
+    },
+    {
+      "status_byte": 180,
+      "text": "worried"
+    },
+    {
+      "status_byte": 181,
+      "text": "worried"
+    },
+    {
+      "status_byte": 182,
+      "text": "worried"
+    },
+    {
+      "status_byte": 183,
+      "text": "worried"
+    },
+    {
+      "status_byte": 184,
+      "text": "worried"
+    },
+    {
+      "status_byte": 185,
+      "text": "nervous"
+    },
+    {
+      "status_byte": 186,
+      "text": "nervous"
+    },
+    {
+      "status_byte": 187,
+      "text": "nervous"
+    },
+    {
+      "status_byte": 188,
+      "text": "nervous"
+    },
+    {
+      "status_byte": 189,
+      "text": "nervous"
+    },
+    {
+      "status_byte": 190,
+      "text": "nervous"
+    },
+    {
+      "status_byte": 191,
+      "text": "nervous"
+    },
+    {
+      "status_byte": 192,
+      "text": "nervous"
+    },
+    {
+      "status_byte": 193,
+      "text": "anxious"
+    },
+    {
+      "status_byte": 194,
+      "text": "anxious"
+    },
+    {
+      "status_byte": 195,
+      "text": "anxious"
+    },
+    {
+      "status_byte": 196,
+      "text": "anxious"
+    },
+    {
+      "status_byte": 197,
+      "text": "anxious"
+    },
+    {
+      "status_byte": 198,
+      "text": "anxious"
+    },
+    {
+      "status_byte": 199,
+      "text": "anxious"
+    },
+    {
+      "status_byte": 200,
+      "text": "anxious"
+    },
+    {
+      "status_byte": 201,
+      "text": "shaky"
+    },
+    {
+      "status_byte": 202,
+      "text": "shaky"
+    },
+    {
+      "status_byte": 203,
+      "text": "shaky"
+    },
+    {
+      "status_byte": 204,
+      "text": "shaky"
+    },
+    {
+      "status_byte": 205,
+      "text": "shaky"
+    },
+    {
+      "status_byte": 206,
+      "text": "shaky"
+    },
+    {
+      "status_byte": 207,
+      "text": "shaky"
+    },
+    {
+      "status_byte": 208,
+      "text": "shaky"
+    },
+    {
+      "status_byte": 209,
+      "text": "concerned"
+    },
+    {
+      "status_byte": 210,
+      "text": "concerned"
+    },
+    {
+      "status_byte": 211,
+      "text": "concerned"
+    },
+    {
+      "status_byte": 212,
+      "text": "concerned"
+    },
+    {
+      "status_byte": 213,
+      "text": "concerned"
+    },
+    {
+      "status_byte": 214,
+      "text": "concerned"
+    },
+    {
+      "status_byte": 215,
+      "text": "concerned"
+    },
+    {
+      "status_byte": 216,
+      "text": "concerned"
+    },
+    {
+      "status_byte": 217,
+      "text": "lacking"
+    },
+    {
+      "status_byte": 218,
+      "text": "lacking"
+    },
+    {
+      "status_byte": 219,
+      "text": "lacking"
+    },
+    {
+      "status_byte": 220,
+      "text": "lacking"
+    },
+    {
+      "status_byte": 221,
+      "text": "lacking"
+    },
+    {
+      "status_byte": 222,
+      "text": "lacking"
+    },
+    {
+      "status_byte": 223,
+      "text": "lacking"
+    },
+    {
+      "status_byte": 224,
+      "text": "lacking"
+    },
+    {
+      "status_byte": 225,
+      "text": "tentative"
+    },
+    {
+      "status_byte": 226,
+      "text": "tentative"
+    },
+    {
+      "status_byte": 227,
+      "text": "tentative"
+    },
+    {
+      "status_byte": 228,
+      "text": "tentative"
+    },
+    {
+      "status_byte": 229,
+      "text": "tentative"
+    },
+    {
+      "status_byte": 230,
+      "text": "tentative"
+    },
+    {
+      "status_byte": 231,
+      "text": "tentative"
+    },
+    {
+      "status_byte": 232,
+      "text": "tentative"
+    },
+    {
+      "status_byte": 233,
+      "text": "below par"
+    },
+    {
+      "status_byte": 234,
+      "text": "below par"
+    },
+    {
+      "status_byte": 235,
+      "text": "below par"
+    },
+    {
+      "status_byte": 236,
+      "text": "below par"
+    },
+    {
+      "status_byte": 237,
+      "text": "below par"
+    },
+    {
+      "status_byte": 238,
+      "text": "below par"
+    },
+    {
+      "status_byte": 239,
+      "text": "below par"
+    },
+    {
+      "status_byte": 240,
+      "text": "below par"
+    },
+    {
+      "status_byte": 241,
+      "text": "could be worse"
+    },
+    {
+      "status_byte": 242,
+      "text": "could be worse"
+    },
+    {
+      "status_byte": 243,
+      "text": "could be worse"
+    },
+    {
+      "status_byte": 244,
+      "text": "could be worse"
+    },
+    {
+      "status_byte": 245,
+      "text": "could be worse"
+    },
+    {
+      "status_byte": 246,
+      "text": "could be worse"
+    },
+    {
+      "status_byte": 247,
+      "text": "could be worse"
+    },
+    {
+      "status_byte": 248,
+      "text": "could be worse"
+    },
+    {
+      "status_byte": 249,
+      "text": "ok"
+    },
+    {
+      "status_byte": 250,
+      "text": "ok"
+    },
+    {
+      "status_byte": 251,
+      "text": "ok"
+    },
+    {
+      "status_byte": 252,
+      "text": "ok"
+    },
+    {
+      "status_byte": 253,
+      "text": "ok"
+    },
+    {
+      "status_byte": 254,
+      "text": "ok"
+    },
+    {
+      "status_byte": 255,
+      "text": "ok"
+    }
+  ],
+  "synthetic_country_statuses": [
+    {
+      "rating": 1,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 127,
+      "text": "no hoper"
+    },
+    {
+      "rating": 2,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 125,
+      "text": "no hoper"
+    },
+    {
+      "rating": 3,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 123,
+      "text": "no hoper"
+    },
+    {
+      "rating": 4,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 121,
+      "text": "no hoper"
+    },
+    {
+      "rating": 5,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 119,
+      "text": "no hoper"
+    },
+    {
+      "rating": 6,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 117,
+      "text": "no hoper"
+    },
+    {
+      "rating": 7,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 115,
+      "text": "no hoper"
+    },
+    {
+      "rating": 8,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 113,
+      "text": "no hoper"
+    },
+    {
+      "rating": 9,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 111,
+      "text": "tiny"
+    },
+    {
+      "rating": 10,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 109,
+      "text": "tiny"
+    },
+    {
+      "rating": 11,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 107,
+      "text": "tiny"
+    },
+    {
+      "rating": 12,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 105,
+      "text": "tiny"
+    },
+    {
+      "rating": 13,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 103,
+      "text": "tiny"
+    },
+    {
+      "rating": 14,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 101,
+      "text": "tiny"
+    },
+    {
+      "rating": 15,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 99,
+      "text": "tiny"
+    },
+    {
+      "rating": 16,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 97,
+      "text": "tiny"
+    },
+    {
+      "rating": 17,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 95,
+      "text": "very poor"
+    },
+    {
+      "rating": 18,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 93,
+      "text": "very poor"
+    },
+    {
+      "rating": 19,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 91,
+      "text": "very poor"
+    },
+    {
+      "rating": 20,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 89,
+      "text": "very poor"
+    },
+    {
+      "rating": 21,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 87,
+      "text": "very poor"
+    },
+    {
+      "rating": 22,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 85,
+      "text": "very poor"
+    },
+    {
+      "rating": 23,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 83,
+      "text": "very poor"
+    },
+    {
+      "rating": 24,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 81,
+      "text": "very poor"
+    },
+    {
+      "rating": 25,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 79,
+      "text": "very small"
+    },
+    {
+      "rating": 26,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 77,
+      "text": "very small"
+    },
+    {
+      "rating": 27,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 75,
+      "text": "very small"
+    },
+    {
+      "rating": 28,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 73,
+      "text": "very small"
+    },
+    {
+      "rating": 29,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 71,
+      "text": "very small"
+    },
+    {
+      "rating": 30,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 69,
+      "text": "very small"
+    },
+    {
+      "rating": 31,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 67,
+      "text": "very small"
+    },
+    {
+      "rating": 32,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 65,
+      "text": "very small"
+    },
+    {
+      "rating": 33,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 63,
+      "text": "poor"
+    },
+    {
+      "rating": 34,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 61,
+      "text": "poor"
+    },
+    {
+      "rating": 35,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 59,
+      "text": "poor"
+    },
+    {
+      "rating": 36,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 57,
+      "text": "poor"
+    },
+    {
+      "rating": 37,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 55,
+      "text": "poor"
+    },
+    {
+      "rating": 38,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 53,
+      "text": "poor"
+    },
+    {
+      "rating": 39,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 51,
+      "text": "poor"
+    },
+    {
+      "rating": 40,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 49,
+      "text": "poor"
+    },
+    {
+      "rating": 41,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 47,
+      "text": "minnow"
+    },
+    {
+      "rating": 42,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 45,
+      "text": "minnow"
+    },
+    {
+      "rating": 43,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 43,
+      "text": "minnow"
+    },
+    {
+      "rating": 44,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 41,
+      "text": "minnow"
+    },
+    {
+      "rating": 45,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 39,
+      "text": "minnow"
+    },
+    {
+      "rating": 46,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 37,
+      "text": "minnow"
+    },
+    {
+      "rating": 47,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 35,
+      "text": "minnow"
+    },
+    {
+      "rating": 48,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 33,
+      "text": "minnow"
+    },
+    {
+      "rating": 49,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 31,
+      "text": "small"
+    },
+    {
+      "rating": 50,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 29,
+      "text": "small"
+    },
+    {
+      "rating": 51,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 27,
+      "text": "small"
+    },
+    {
+      "rating": 52,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 25,
+      "text": "small"
+    },
+    {
+      "rating": 53,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 23,
+      "text": "small"
+    },
+    {
+      "rating": 54,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 21,
+      "text": "small"
+    },
+    {
+      "rating": 55,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 19,
+      "text": "small"
+    },
+    {
+      "rating": 56,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 17,
+      "text": "small"
+    },
+    {
+      "rating": 57,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 15,
+      "text": "minor"
+    },
+    {
+      "rating": 58,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 13,
+      "text": "minor"
+    },
+    {
+      "rating": 59,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 11,
+      "text": "minor"
+    },
+    {
+      "rating": 60,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 9,
+      "text": "minor"
+    },
+    {
+      "rating": 61,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 7,
+      "text": "minor"
+    },
+    {
+      "rating": 62,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 5,
+      "text": "minor"
+    },
+    {
+      "rating": 63,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 3,
+      "text": "minor"
+    },
+    {
+      "rating": 64,
+      "continent": 4,
+      "continental_rank": 32,
+      "world_rank": 1,
+      "text": "minor"
+    },
+    {
+      "rating": 65,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 127,
+      "text": "medium"
+    },
+    {
+      "rating": 66,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 125,
+      "text": "medium"
+    },
+    {
+      "rating": 67,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 123,
+      "text": "medium"
+    },
+    {
+      "rating": 68,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 121,
+      "text": "medium"
+    },
+    {
+      "rating": 69,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 119,
+      "text": "medium"
+    },
+    {
+      "rating": 70,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 117,
+      "text": "medium"
+    },
+    {
+      "rating": 71,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 115,
+      "text": "medium"
+    },
+    {
+      "rating": 72,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 113,
+      "text": "medium"
+    },
+    {
+      "rating": 73,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 111,
+      "text": "good"
+    },
+    {
+      "rating": 74,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 109,
+      "text": "good"
+    },
+    {
+      "rating": 75,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 107,
+      "text": "good"
+    },
+    {
+      "rating": 76,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 105,
+      "text": "good"
+    },
+    {
+      "rating": 77,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 103,
+      "text": "good"
+    },
+    {
+      "rating": 78,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 101,
+      "text": "good"
+    },
+    {
+      "rating": 79,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 99,
+      "text": "good"
+    },
+    {
+      "rating": 80,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 97,
+      "text": "good"
+    },
+    {
+      "rating": 81,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 95,
+      "text": "contender"
+    },
+    {
+      "rating": 82,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 93,
+      "text": "contender"
+    },
+    {
+      "rating": 83,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 91,
+      "text": "contender"
+    },
+    {
+      "rating": 84,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 89,
+      "text": "contender"
+    },
+    {
+      "rating": 85,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 87,
+      "text": "contender"
+    },
+    {
+      "rating": 86,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 85,
+      "text": "contender"
+    },
+    {
+      "rating": 87,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 83,
+      "text": "contender"
+    },
+    {
+      "rating": 88,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 81,
+      "text": "contender"
+    },
+    {
+      "rating": 89,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 79,
+      "text": "big"
+    },
+    {
+      "rating": 90,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 77,
+      "text": "big"
+    },
+    {
+      "rating": 91,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 75,
+      "text": "big"
+    },
+    {
+      "rating": 92,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 73,
+      "text": "big"
+    },
+    {
+      "rating": 93,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 71,
+      "text": "big"
+    },
+    {
+      "rating": 94,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 69,
+      "text": "big"
+    },
+    {
+      "rating": 95,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 67,
+      "text": "big"
+    },
+    {
+      "rating": 96,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 65,
+      "text": "big"
+    },
+    {
+      "rating": 97,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 63,
+      "text": "very good"
+    },
+    {
+      "rating": 98,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 61,
+      "text": "very good"
+    },
+    {
+      "rating": 99,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 59,
+      "text": "very good"
+    },
+    {
+      "rating": 100,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 57,
+      "text": "very good"
+    },
+    {
+      "rating": 101,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 55,
+      "text": "very good"
+    },
+    {
+      "rating": 102,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 53,
+      "text": "very good"
+    },
+    {
+      "rating": 103,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 51,
+      "text": "very good"
+    },
+    {
+      "rating": 104,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 49,
+      "text": "very good"
+    },
+    {
+      "rating": 105,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 47,
+      "text": "very big"
+    },
+    {
+      "rating": 106,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 45,
+      "text": "very big"
+    },
+    {
+      "rating": 107,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 43,
+      "text": "very big"
+    },
+    {
+      "rating": 108,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 41,
+      "text": "very big"
+    },
+    {
+      "rating": 109,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 39,
+      "text": "very big"
+    },
+    {
+      "rating": 110,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 37,
+      "text": "very big"
+    },
+    {
+      "rating": 111,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 35,
+      "text": "very big"
+    },
+    {
+      "rating": 112,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 33,
+      "text": "very big"
+    },
+    {
+      "rating": 113,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 31,
+      "text": "major"
+    },
+    {
+      "rating": 114,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 29,
+      "text": "major"
+    },
+    {
+      "rating": 115,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 27,
+      "text": "major"
+    },
+    {
+      "rating": 116,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 25,
+      "text": "major"
+    },
+    {
+      "rating": 117,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 23,
+      "text": "major"
+    },
+    {
+      "rating": 118,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 21,
+      "text": "major"
+    },
+    {
+      "rating": 119,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 19,
+      "text": "major"
+    },
+    {
+      "rating": 120,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 17,
+      "text": "major"
+    },
+    {
+      "rating": 121,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 15,
+      "text": "giant"
+    },
+    {
+      "rating": 122,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 13,
+      "text": "giant"
+    },
+    {
+      "rating": 123,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 11,
+      "text": "giant"
+    },
+    {
+      "rating": 124,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 9,
+      "text": "giant"
+    },
+    {
+      "rating": 125,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 7,
+      "text": "giant"
+    },
+    {
+      "rating": 126,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 5,
+      "text": "giant"
+    },
+    {
+      "rating": 127,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 3,
+      "text": "giant"
+    },
+    {
+      "rating": 128,
+      "continent": 1,
+      "continental_rank": 1,
+      "world_rank": 1,
+      "text": "giant"
+    }
+  ],
+  "manager_zero_draws_nothing": true,
+  "synthetic_manager_contexts": [
+    {
+      "synthetic": true,
+      "country": 12,
+      "manager": 129,
+      "ability": 0,
+      "status": "giant",
+      "skill": "unknown",
+      "country_rating": 126
+    },
+    {
+      "synthetic": true,
+      "country": 12,
+      "manager": 129,
+      "ability": 1,
+      "status": "giant",
+      "skill": "none",
+      "country_rating": 126
+    },
+    {
+      "synthetic": true,
+      "country": 12,
+      "manager": 129,
+      "ability": 128,
+      "status": "giant",
+      "skill": "eclectic",
+      "country_rating": 126
+    },
+    {
+      "synthetic": true,
+      "country": 12,
+      "manager": 129,
+      "ability": 255,
+      "status": "giant",
+      "skill": "ok",
+      "country_rating": 126
+    }
+  ],
+  "interpretation": "TEAM status is country rank-derived label; TEAM skill is manager ability label; r1 field names were reversed, its raw panel rows are retained",
+  "source_hashes": {
+    "static/goal-exe/code/seg_1771_02.asm": "22d7089c0f0bc9b7dcb78d51531e127ec9e13db7c8c5d5627aca26b0103a21ec",
+    "static/goal-exe/code/seg_1771_03.asm": "3061f1a54d1ab95422f7c76708f2a1951e5a41eb4eee8a5e074b579caf94ac27"
+  }
+}
