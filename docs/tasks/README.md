@@ -7,6 +7,8 @@ exists.
 
 | Task | Title | Issue | Merge after |
 | --- | --- | --- | --- |
+| T93 | Manager-name boundaries and the B Vogts glyph | #429 | — |
+| T94 | Country TEAM Status and Skill | #428 | T93 |
 | T01 | The GOAL2 research repository: layout, the artifact by hash, the plan (G0) | #1 | — |
 | T02 | Runtime feasibility: launch, act, observe, reset GOAL2 under DOSBox-X (G1) | #3 | T01 |
 | T03 | The record tools, adapted from toy-archaeology (G2) | #4 | T01 |
