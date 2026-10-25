@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'runtime'))
 from original_match.image import Image, build_problems
 from emul.watched_match import Guest
+from decoders.manager import manager_payload, manager_text
 import unicorn
 
 BASE = ROOT / '.cache/dl/e1dee7e2f5ad443e-E010-r0001-halftime.sav'
@@ -95,6 +96,8 @@ def main():
         independent = (initial + b' ' + rec[1:1+rec[0]])[:14]
         assert payload == independent
         rendered = original.render(payload)
+        assert manager_payload(initial[0], rec) == payload
+        assert manager_text(initial[0], rec) == rendered
         names.append(dict(manager=manager, surname_length=rec[0],
                           embedded_nul=0 in payload, original_text=rendered,
                           downstream_text=payload.decode('cp437'),
