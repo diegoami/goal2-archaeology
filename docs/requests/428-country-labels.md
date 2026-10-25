@@ -21,14 +21,14 @@ goal2 consumer task:
 
 1. Read exactly 191 current bytes at `far(DS:A917)+191*country` (country 1..128).
 2. Read m from country+0x2E. Read exactly three bytes at `far(DS:A91F)+3*m`
-   when m is nonzero, including human manager slots129..134; do not use the country
+   when m is nonzero, including human manager slots 129..134; do not use the country
    number as a shortcut. Manager+1 is ability; +2 is confidence and is not read.
 3. Supply `read_ds(off,n)` and `read_code(image_segment,off,n)` returning exact
    bytes from the current original memory. Code segments are original image
-   paragraphs: the code label is1771:0AF0. Call `team_labels` and forward only
+   paragraphs: the code label is 1771:0AF0. Call `team_labels` and forward only
    `status` and `skill`; its `country_rating` is a provenance/debug value.
-4. Manager0 yields Skill = None because the original draws no label. Ability0
-   yields `unknown`. The full unsigned ability byte is preserved:129..255 look
+4. Manager 0 yields Skill = None because the original draws no label. Ability 0
+   yields `unknown`. The full unsigned ability byte is preserved: 129..255 look
    into neighboring table entries in the original; do not invent a clamp or
    attach semantic meaning to those values. Rank inputs outside the normal
    domain are explicit host errors, not claims about original validation.
@@ -45,7 +45,7 @@ No original executable/data/savestate/screenshot bytes cross repositories.
 | --- | --- | --- |
 | Ranking top | F007/C-TEAM-01/02 establish current ranks; C-CTY-05 leaves+0x28/+0x29 unknown. TEAM displays them beside current continental/world ranks. | Establish best-rank semantics from writers and independent original bounds. |
 | Strips | F002 R007 establishes three country-indexed bytes at DS:9D80; C-ALT-04's color interpretation is hypothesis. | Full TEAM palette/layout/context mapping is not an accepted decoder contract. |
-| Team skills | F010/F012 and supported C-TEAM-06 establish quick-engine line sums. C-TEAM-07 explicitly leaves the panel connection unestablished. | Prove0BC4→11E1 display division/clamp/scaling, not merely use raw sums. |
+| Team skills | F010/F012 and supported C-TEAM-06 establish quick-engine line sums. C-TEAM-07 explicitly leaves the panel connection unestablished. | Prove 0BC4→11E1 display division/clamp/scaling, not merely use raw sums. |
 | Performance | F014 establishes individual performance words/deltas. T73's reviewed 1289/11E1 port is source evidence. | No complete accepted TEAM role-distribution/bar/context decoder finding. |
 | Characteristics | F020/F021 establish the team morale aggregate, signed/wrapping behavior and display-only role.13D0 writes six aggregates. | Complete other aggregates and every descriptor/bar contract; do not extrapolate morale to all fields. |
 
@@ -63,9 +63,9 @@ audit neither claims research is absent nor silently implements other fields.
 tools/heavy.sh T94-original -- /home/diego/.local/bin/python3.12 -B notes/428/probe.py --output /tmp/T94-review-original-unique.json
 ```
 
-12 tests pass (7 country /5 manager),11 country mutants are rejected. The original
+12 tests pass (7 country / 5 manager), 11 country mutants are rejected. The original
 probe checks two existing input hashes against their immutable run records and
-the original build guard, runs256 genuine country/state label pairs, six complete
+the original build guard, runs 256 genuine country/state label pairs, six complete
 original TEAM panels and four explicitly synthetic context panels, all 128 normal
 country rating values and all 256 manager byte values. Every call must return
 with its expected stack cleanup under its time/instruction bound. These are
