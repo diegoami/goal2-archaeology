@@ -456,7 +456,7 @@ void __cdecl16far f_1771_090F(void)
 
 
 // ---- 1771:0947  format_manager_name  (f_1771_0947; Ghidra 4000:0947, __stdcall16far; found by routines.tsv)
-// Builds a manager marker from DS:9B78, the separator at CS:0945 and the manager string at DS:9B74 plus13 times manager; stores at most14 characters through the hidden caller result pointer  [likely; read code/seg_1771_01.asm:1036]
+// Builds initial plus one space plus the declared Pascal surname at DS:9B74+13*m (not NUL-terminated); stores at most14 payload bytes through the hidden caller pointer; Germany includes a trailing NUL cell  [established; F034; read code/seg_1771_01.asm:1036]
 
 void __stdcall16far format_manager_name(int param_1,undefined4 param_2)
 
