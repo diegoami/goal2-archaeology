@@ -63,20 +63,20 @@ def main():
             assert 1<=rating<=128
             manager=rec[46]
             status=g.mem(g.far(0xA91F)+3*manager+1,1)[0]
-            skill_payload=label(g,0x7884,(rating-1)//8)
-            status_payload=(b'' if manager==0 else pstr(g,g.lin('1771:0AF0')) if status==0
+            country_payload=label(g,0x7884,(rating-1)//8)
+            manager_payload=(b'' if manager==0 else pstr(g,g.lin('1771:0AF0')) if status==0
                             else label(g,0x7894,(status-1)//8))
-            skill=drawn(original,'1771:1527',[25,8,country],skill_payload,8,25,False,6)
-            status_text=drawn(original,'1771:0AF8',[24,10,manager],status_payload,10,24,True,6)
+            status_text=drawn(original,'1771:1527',[25,8,country],country_payload,8,25,False,6)
+            skill=drawn(original,'1771:0AF8',[24,10,manager],manager_payload,10,24,True,6)
             rows.append(dict(country=country,continent=rec[44],continental_rank=rec[42],world_rank=rec[43],
                              rating=rating,manager=manager,status_byte=status,
-                             skill=skill,status=None if manager==0 else status_text))
+                             status=status_text,skill=None if manager==0 else skill))
         panels=[]
         for country in (12,27,128):
             screen_setup(g)
             original.call('1771:157D',[country],far=False,pop=2)
             row=rows[country-1]
-            for key,line,col in [('skill',8,25),('status',10,24)]:
+            for key,line,col in [('status',8,25),('skill',10,24)]:
                 expected=row[key] or ''
                 assert glyphs(cells(g,line,col,len(expected)))==expected,(run,country,key)
             panels.append(dict(country=country,skill=row['skill'],status=row['status'],
@@ -108,7 +108,8 @@ def main():
                  producer_sha256=sha(Path(__file__).read_bytes()),helper_sha256=sha((ROOT/'notes/429/probe.py').read_bytes()),
                  unicorn=helper.unicorn.__version__,method='isolated original routines and full original TEAM drawing; synthetic call frames, no behavior hooks',
                  bound_per_call='2seconds/500000instructions',states=receipts,
-                 synthetic_statuses=statuses,synthetic_skills=skills,manager_zero_draws_nothing=True,
+                 synthetic_manager_skills=statuses,synthetic_country_statuses=skills,manager_zero_draws_nothing=True,
+                 interpretation='TEAM status is country rank-derived label; TEAM skill is manager ability label; r1 field names were reversed, its raw panel rows are retained',
                  source_hashes={p:sha((ROOT/p).read_bytes()) for p in [
                      'static/goal-exe/code/seg_1771_02.asm','static/goal-exe/code/seg_1771_03.asm']})
     a.output.parent.mkdir(parents=True,exist_ok=True)
