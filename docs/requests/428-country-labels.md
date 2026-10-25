@@ -10,7 +10,7 @@ The original TEAM layout resolves a misleading routine annotation:
 F035 remains proposed. Independent review and merged source/file hashes are linked
 on the delivery issue. The finding and `notes/428/original-r3.json` contain the exact
 contract and original observations. The earlier r1 receipt's semantic keys were
-reversed; its raw screen rows are preserved. Use r2/r3 for interpreted values.
+reversed; its raw screen rows are preserved. Use r2/r3 for interpreted visible `status`/`skill` values. Their legacy `status_byte` key means manager ability (+1), not the visible country Status; it is retained unchanged for provenance.
 
 ## Consumer adapter
 
@@ -32,7 +32,7 @@ goal2 consumer task:
    into neighboring table entries in the original; do not invent a clamp or
    attach semantic meaning to those values. Rank inputs outside the normal
    domain are explicit host errors, not claims about original validation.
-5. Add independent Germany, Albania, Holland, Yemen, every band boundary,
+5. Add independent Germany, Albania, Sweden, Yemen, every band boundary,
    zero/missing-manager and current-human-manager context regressions. Existing
    player-card skills and team line-strength bars do not supply these labels.
 
