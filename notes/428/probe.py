@@ -12,6 +12,7 @@ spec = importlib.util.spec_from_file_location('manager_probe', ROOT/'notes/429/p
 helper = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(helper)
 Image, Original, glyphs, sha = helper.Image, helper.Original, helper.glyphs, helper.sha
+from decoders.country import country_rating, country_status, manager_skill, team_labels
 
 
 def pstr(g, address):
@@ -56,6 +57,8 @@ def main():
         image=Image.from_savestate(raw)
         assert not helper.build_problems(image.memory,image.load)
         original=Original(image);g=original.g
+        read_ds=lambda off,n:g.mem(g.DS*16+off,n)
+        read_code=lambda seg,off,n:g.mem(g.seg(seg)*16+off,n)
         rows=[]
         for country in range(1,129):
             rec=g.mem(g.far(0xA917)+191*country,191)
@@ -68,6 +71,8 @@ def main():
                             else label(g,0x7894,(status-1)//8))
             status_text=drawn(original,'1771:1527',[25,8,country],country_payload,8,25,False,6)
             skill=drawn(original,'1771:0AF8',[24,10,manager],manager_payload,10,24,True,6)
+            decoded=team_labels(rec,g.mem(g.far(0xA91F)+3*manager,3),read_ds,read_code)
+            assert decoded==dict(status=status_text,skill=None if manager==0 else skill,country_rating=rating)
             rows.append(dict(country=country,continent=rec[44],continental_rank=rec[42],world_rank=rec[43],
                              rating=rating,manager=manager,status_byte=status,
                              status=status_text,skill=None if manager==0 else skill))
@@ -89,6 +94,7 @@ def main():
         g.put(g.far(0xA91F)+3*manager+1,bytes([value]))
         payload=pstr(g,g.lin('1771:0AF0')) if value==0 else label(g,0x7894,(value-1)//8)
         text=drawn(original,'1771:0AF8',[24,10,manager],payload,10,24,True,6)
+        assert manager_skill(manager,value,read_ds,read_code)==text
         statuses.append(dict(status_byte=value,text=text))
     assert drawn(original,'1771:0AF8',[24,10,0],b'',10,24,True,6)==''
     skills=[]
@@ -103,18 +109,35 @@ def main():
         assert g.reg('ax')==rating
         payload=label(g,0x7884,(rating-1)//8)
         text=drawn(original,'1771:1527',[25,8,128],payload,8,25,False,6)
+        assert country_rating(continent,crank,world)==rating
+        assert country_status(continent,crank,world,read_ds)==text
         skills.append(dict(rating=rating,continent=continent,continental_rank=crank,world_rank=world,text=text))
+    contexts=[]
+    # A real Germany record with only the manager selector and its ability changed.
+    # Demonstrates dependence on current human manager memory; not natural reachability.
+    address=g.far(0xA917)+191*12
+    g.put(address+46,bytes([129]))
+    for ability in (0,1,128,255):
+        g.put(g.far(0xA91F)+3*129+1,bytes([ability]))
+        decoded=team_labels(g.mem(address,191),g.mem(g.far(0xA91F)+3*129,3),read_ds,read_code)
+        screen_setup(g)
+        original.call('1771:157D',[12],far=False,pop=2)
+        for key,row,col in [('status',8,25),('skill',10,24)]:
+            assert glyphs(cells(g,row,col,len(decoded[key])))==decoded[key]
+        assert decoded['status']=='giant'
+        contexts.append(dict(synthetic=True,country=12,manager=129,ability=ability,**decoded))
     receipt=dict(source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
                  producer_sha256=sha(Path(__file__).read_bytes()),helper_sha256=sha((ROOT/'notes/429/probe.py').read_bytes()),
                  unicorn=helper.unicorn.__version__,method='isolated original routines and full original TEAM drawing; synthetic call frames, no behavior hooks',
                  bound_per_call='2seconds/500000instructions',states=receipts,
                  synthetic_manager_skills=statuses,synthetic_country_statuses=skills,manager_zero_draws_nothing=True,
+                 synthetic_manager_contexts=contexts,
                  interpretation='TEAM status is country rank-derived label; TEAM skill is manager ability label; r1 field names were reversed, its raw panel rows are retained',
                  source_hashes={p:sha((ROOT/p).read_bytes()) for p in [
                      'static/goal-exe/code/seg_1771_02.asm','static/goal-exe/code/seg_1771_03.asm']})
     a.output.parent.mkdir(parents=True,exist_ok=True)
     a.output.write_text(json.dumps(receipt,indent=2,ensure_ascii=True)+'\n')
-    print('256 genuine country/state label pairs; 6 complete original TEAM panels; 256 status and 128 skill controls exact')
+    print('256 genuine country/state pairs; 6 genuine-context and 4 synthetic-context TEAM panels; 256 manager Skill and 128 country Status controls exact')
     print(json.dumps(receipts[0]['countries'][11]))
     print(json.dumps(receipts[0]['panels'][0]))
 
