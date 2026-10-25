@@ -91,3 +91,6 @@ Applied 2026-10-15 to what is open (the remaster's register rows and our issues)
 
 A new question gets its row here when it is filed, with the grade and the decision; the register row it
 feeds says `assumed` and what the assumption is.
+
+| TEAM manager trailing glyph (#429, T93) | M | S (formatter/writer probes) | Investigate; preserve Pascal length and original cell glyphs |
+| TEAM Status/Skill (#428, T94) | M | S (label routines and full-panel probes) | Investigate; actual template establishes Status=country ranks, Skill=manager ability |
