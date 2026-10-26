@@ -18,7 +18,7 @@ from tables import load_ds
 CALLERS={
  '0791:1FDD':'Strictly better skill replaces an eligible incumbent; selection, no outcome draw.',
  '0791:287C':'Single-player quantised skill gate, covered by T99a.',
- '0791:34C1':'Shot/header reach from max(timer+5,(V+pitch_extra)//3); event3/4 continuation is indexed but not reduced to a fresh complete path probability here.',
+ '0791:34C1':'Events 1/2: max(timer+5,U16(V+pitch_extra)//3); events 3/4: max(timer+5,V//3), without the extra pitch byte. Full continuation probability remains unresolved here.',
  '0791:3B15':'Kicking reach max(30,rand(V2//4)); still draws when the floor makes the result constant.',
  '0791:3EF8':'Two reach modes: heading V4/div6/floor20 or kicking V2/div4/floor30, selected by argument/table.',
  '0791:47C5':'Marking versus feinting comparison changes a random offset weight by a divided difference; not a binary duel.',

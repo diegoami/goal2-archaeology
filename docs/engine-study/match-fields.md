@@ -6,7 +6,7 @@ different values. Persistent records also change after play, so a second fixture
 with the first fixture's inputs.
 
 The [source/layout ledger](../../notes/engine-study/T97/persistent-v2.json) pins original routines
-and accounts for country191, fixture8, manager3 and game270 byte spans. Unknown groups remain
+and accounts for country 191, fixture 8, manager 3 and game 270 byte spans. Unknown groups remain
 explicit; byte coverage is not a claim that every historical subfield has been decoded.
 
 ## Identity, indexing and ownership

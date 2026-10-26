@@ -18,16 +18,16 @@ new_seed = U16(seed * 0x7ABD + 0x1B0F)
 draw = ((new_seed * U16(n)) >> 16) + 1
 ```
 
-The source-derived recurrence visits all65,536 states before returning to seed0. That period
+The source-derived recurrence visits all 65,536 states before returning to seed 0. That period
 does not make successive draws independent. The seed step is independent of n, and every call
-advances it—even n=1 or n=0. At seed0 both those bounds return1 and leave seed6927.
+advances it—even n=1 or n=0. At seed 0 both those bounds return 1 and leave seed 6927.
 Replacing a constant-result draw with no call changes later behaviour.
 
-For positive n, the encoded word ranges1..n. For **n=0 it returns1**, rather than throwing
+For positive n, the encoded word ranges 1..n. For **n=0 it returns 1**, rather than throwing
 a host random-library range error. Comparison signedness is a separate caller decision.
-`06D0(n)` returns true when the draw equals1; `06FA` does that with n=2.
+`06D0(n)` returns true when the draw equals 1; `06FA` does that with n=2.
 
-The finite mapping is only approximately uniform when n does not divide65536. Under the stated
+The finite mapping is only approximately uniform when n does not divide 65536. Under the stated
 entry-seed law:
 
 ```text
@@ -36,8 +36,8 @@ P(draw == 1) = that_count / 65536
 P(draw == 1) = 1                   for n == 0
 ```
 
-For n=3, the first bin has21,846 states. The usual 1/3 expression is an ideal-uniform
-approximation; the exact first-bin probability is21846/65536. These small quantisation
+For n=3, the first bin has 21,846 states. The usual 1/3 expression is an ideal-uniform
+approximation; the exact first-bin probability is 21846/65536. These small quantisation
 differences are distinct from dependence between consecutive draws.
 
 A different bound can leave the seed chain identical if call count/order stay unchanged.
@@ -47,8 +47,8 @@ visible changes.
 
 ## Skill gate thresholds
 
-`0791:287C` calls the effective reader278A, sets `n = V // 32 + 1`, calls06D0 and
-**returns1 when the draw is not1**. The direction matters: the is-one helper itself returns
+`0791:287C` calls the effective reader 278A, sets `n = V // 32 + 1`, calls 06D0 and
+**returns 1 when the draw is not 1**. The direction matters: the is-one helper itself returns
 the opposite Boolean.
 
 | Effective V | n | Passing entry states | Exact local pass probability | Ideal-uniform expression |
@@ -69,12 +69,12 @@ the opposite Boolean.
 | 65535 | 2048 | 65504/65536 | 0.999511719 | 2047/2048 |
 
 The last row is a synthetic word endpoint, not a claim that ordinary players attain that value.
-Values0..31 all fail this predicate, yet still consume a draw. Values32..63 share one threshold;
+Values 0..31 all fail this predicate, yet still consume a draw. Values 32..63 share one threshold;
 64..95 share another. Improving a value within a bucket need not change this gate, while crossing
 a boundary can change it sharply.
 
-For the [worked skill example](attribute-formulas.md), V72 gives n3, while the form32 value54
-gives n2. That is a local gate difference conditional on calling287C, not a match win-rate claim.
+For the [worked skill example](attribute-formulas.md), V72 gives n3, while the form 32 value 54
+gives n2. That is a local gate difference conditional on calling 287C, not a match win-rate claim.
 
 Callers assign meaning to the Boolean. In the launch/miscue route it changes ball travel;
 elsewhere it controls a challenge, reception, heading or a shot branch. Some geometry/state
@@ -104,21 +104,21 @@ availability restrictions still apply.
 
 Watched foul gate `4DA9` first makes the chance test with bound
 `18-u8(hardness)`; only if it fails does it test the effective go-in-hard tactic. With ordinary
-hardness0..16 the bound is18..2. A second opposed hardness comparison is still needed.
+hardness 0..16 the bound is 18..2. A second opposed hardness comparison is still needed.
 An enabled tactic does not justify skipping the earlier chance draw in a faithful rewrite.
 
 Deterministic selectors must be separated too. `1FDD` replaces an incumbent on a strictly
 better skill; `9ED3` ranks shoot-out takers using penalty skill. Their actual scan/swap order,
 eligibility and initial state determine ties. They are not random wins, and an arbitrary stable
-sort is not automatically the original algorithm. T99b accounts for every direct278A caller.
+sort is not automatically the original algorithm. T99b accounts for every direct 278A caller.
 
 Set conventions also depend on the helper: the byte-set tactic/status helpers use element k
 at bit k-1; the compiler's 256-element membership helper tests bit e for an enum value e.
-Thus a CS set byte0x18 denotes event members3 and4, not event24 or status elements3/4.
+Thus a CS set byte 0x18 denotes event members 3 and 4, not event 24 or status elements 3/4.
 
 ## Validation and limits
 
-The analytical checker enumerates all65,536 entry seeds for twelve selected bounds and fourteen
+The analytical checker enumerates all 65,536 entry seeds for twelve selected bounds and fourteen
 skill-threshold examples, and verifies the closed first-bin counts. It also verifies the full
 recurrence period. Controls expose a missing +1 in the gate denominator, an inverted Boolean
 and skipped degenerate draws. Source locations/hashes include the original RNG wrappers and
