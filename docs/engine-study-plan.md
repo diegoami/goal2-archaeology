@@ -88,6 +88,20 @@ Dependencies express research needs, not permission to run several tasks in this
 T111 is optional and is not a dependency of T112 or T113. If its conclusions are included as
 established results, they require ES-R4P acceptance.
 
+## Model selection and spawned agents
+
+[designed: owner, 2026-10-26] Every T95–T113 brief names the advised Codex model/effort and a
+Claude implementation alternative. For each ready slice, spawn an implementer with the selected
+model and effort explicitly set; the main session coordinates and merges. Slices inherit their
+package's assignment. The [model/spawn policy](engine-study-models.md) records all nineteen
+assignments, handover and model-receipt requirements, and independent-review defaults.
+
+For Codex implementations, default to a fresh Claude Opus 5.5/xhigh reviewer, with Kimi as an
+alternative. For Claude implementations, use a fresh Codex Astra/xhigh reviewer or Kimi. The reviewer
+must not be an author; owner-selected review models override defaults. T113's implementation agent
+prepares the packet; the independent reviewer supplies the final verdict. Existing readiness,
+prototype, evidence, budget and milestone gates still apply; recording this policy starts no agent.
+
 ## Dispatch and milestones
 
 These files are **planning briefs**, not a set of ready implementation contracts. This is
