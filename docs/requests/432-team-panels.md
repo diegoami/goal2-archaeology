@@ -9,6 +9,7 @@ are unchanged. Ranking-top and strips stay open on #432.
 | --- | --- | --- | --- |
 | Team skills, rows 15..18 | T114 | [F036](../../findings/F036-team-skills-bars-are-0bc4-side-one-line-sums-scaled-by-11e1.md) | `runtime/decoders/team_skills.py`, `team_bars.py` |
 | Performance, rows 20..23 | T115 | [F037](../../findings/F037-team-performance-bars-sum-the-match-sides-performance-words-by-role-after-the-first-in-match-menu.md) | `runtime/decoders/team_performance.py`, `team_bars.py` |
+| Characteristics, rows 19..23 | T116 | [F038](../../findings/F038-team-characteristics-are-six-13d0-averages-over-eleven-with-four-descriptors-and-two-numbers.md) | `runtime/decoders/team_characteristics.py` (with `team_skills.unavailable`, `manager.screen_text`) |
 
 Findings start `proposed`. The probes are original code run on genuine memory, plus genuine DOSBox
 screens of the owner's sitting E015-r0007. That is static-adjacent corroboration, not a new
@@ -110,6 +111,73 @@ Pinned for vendoring: `team_performance.py` sha256
 /home/diego/.local/bin/python3.12 -B notes/432/performance/mutations.py /tmp/T115-mutations-<new>.json
 tools/heavy.sh T115-original -- /home/diego/.local/bin/python3.12 -B notes/432/performance/probe.py --output /tmp/T115-original-<new>.json
 ```
+
+## Characteristics (T116, F038)
+
+`team_characteristics(country_record, read_player, read_ds)` returns three things:
+`descriptors` (hardness, fitness, energy, morale: `row`, `column`, `value`, `text`, `cells`,
+`in_table`), `numbers` (caps, age: `row`, `column`, `value`, `text`) and `aggregates` (the six words).
+
+- **Inputs**: the panel country's squad words for slots 1..11 (a zero word reads player 0). For
+  each player: +1 age, +3 bit 0, +5 hardness base, word +8 caps, +0xC morale, +0xD fitness,
+  +0xE energy and +0x10 status. The tables come from `DS:78A3`, `78C4`, `78D5`, `78F6` with the
+  labels at `DS:6EB4`. These are the same descriptors the player panel uses.
+- **Arithmetic**: start each average at 6. Add the terms of available players only (energy at
+  least 1, and none of status elements 8, 6, 3). The terms are morale `min(32, s8)`, fitness s8,
+  hardness `(+5 - (+3 and 1)) and 0xFF`, energy s8, age, caps. Wrap each sum at 16 bits, then
+  divide it unsigned by 11, even when players are missing. Then raise morale to at least 1; the
+  other five have no floor.
+- **Rendering**:
+  - Row 19: caps text at column 49 and age text at column 59, written over the template.
+  - Rows 20..23 (hardness, fitness, energy, morale): the label at column 46, then attribute 0x70
+    on `cells` cells starting at column 46, the label's own cells included.
+  - Within the tables a bar is at most the template's 16 cells.
+- **Out of table**: all genuine states stay within the tables. When `in_table` is false, the
+  original reads the next table's entry (e.g. hardness 17 shows `injured`). Its bar runs on
+  across the following rows, cell by cell in row-major order. goal2 should keep the
+  original's lookup, or treat the case as unreachable; it should not clamp silently. A label
+  slot with a length above 15 raises `ValueError` as a host error.
+
+Regressions:
+
+| Country | Hardness | Fitness | Energy | Morale | Bars | Age | Caps |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Denmark | `tough` (10) | `very fit` (25) | `energetic` (25) | `not bad` (17) | 10/12/12/8 | 29 | 0 |
+| Holland | `average` (8) | `supreme` (29) | `electrified` (29) | `lacking` (12) | | | |
+| In-match Italy | `aggressive` (11) | `total` (31) | `full of life` (27) | `could be worse` (15) | | 29 | |
+
+Add a year-one state with nonzero caps, an unavailable starter, a zero squad word, morale 40 and
+-128 (5946), fitness 0, and the hardness bit.
+
+Pinned for vendoring: `team_characteristics.py` sha256
+`29ce61b550537fa0e98c31144124b7e1cd07a1bd2767fc8ff3d9c5b1a465efe0`. Its dependencies are
+`team_skills.py`, `team_bars.py` (both above) and `manager.py` (T93, sha256
+`1d4340eb8ab57c65c7d4186390842d769eaaf954ed7f205ca9ad83a3f1bba5bf`).
+
+```sh
+/home/diego/.local/bin/python3.12 -B -m unittest tests.test_team_characteristics_decoder
+/home/diego/.local/bin/python3.12 -B notes/432/characteristics/mutations.py /tmp/T116-mutations-<new>.json
+tools/heavy.sh T116-original -- /home/diego/.local/bin/python3.12 -B notes/432/characteristics/probe.py --output /tmp/T116-original-<new>.json
+```
+
+The T116 probe additionally needs E014-r0006's start state `e014-cal3-y1.sav` (release E014).
+
+## goal2 handover
+
+One goal2 task, separately scoped, can replace the three placeholders:
+
+1. Vendor `team_bars.py`, `team_skills.py`, `team_performance.py`, `team_characteristics.py`
+   and `manager.py` unchanged. Record their hashes above and the merge commits of #501, #502
+   and the T116 PR.
+2. Build the five read callbacks over goal2's original-memory view (stage 3 runs the original
+   under Unicorn). On each card draw, call `team_skills` and `team_characteristics`. Call
+   `team_performance` with the two gate bytes and the two match-side words.
+3. Render each bar as a run of attribute 0x70 over the template cells. Draw the descriptor and
+   number text at the given cells. Draw nothing for performance when it returns None.
+4. Carry the regressions above, plus independent boundary tests, into goal2.
+
+Still open on #432 and not part of this delivery: ranking-top (+0x28/+0x29 best ranks) and
+strips (DS:9D80 colours).
 
 No original executable, data, savestate or screenshot bytes cross repositories. No goal2 change is
 part of this delivery.
