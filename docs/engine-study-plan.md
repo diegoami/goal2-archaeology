@@ -40,10 +40,14 @@ The [wide-pass cost/importance rules](wide-pass.md) still decide which unknowns 
 The size estimate excludes CPU/runner time and owner waiting. T105 sets an explicit compute cap
 before any new batch; an expensive or low-value question can remain an assumption or an evidence gap.
 
-The nineteen packages total **35–70 active hours**, including the optional prototype (2–4 hours):
-**33–66 hours mandatory, plus 2–4 if T111 is approved**. This is the sum of provisional ranges,
-not a measured forecast. Reuse of findings may lower the work; gaps found by T95 may raise it.
-No match count or runner budget is authorised by this estimate.
+The nineteen work packages originally totalled 33–66 mandatory active hours (including the final
+T113 review), plus 2–4 for an optional prototype. The [independent review schedule](engine-study-reviews.md)
+adds four earlier mandatory reviews (8–16 hours) and one conditional prototype review (2–4 hours).
+The revised programme is **41–82 mandatory active hours**, plus **4–8 hours for the optional
+prototype and its review**, or **45–90 hours including that option**. These provisional first-pass
+ranges exclude findings/fixes, repeat review rounds and compute; re-estimate those before execution.
+Reuse of findings may lower the work; gaps found by T95 may raise it. No match count or runner budget
+is authorised by this estimate.
 
 ## Ten areas and independently tracked packages
 
@@ -66,22 +70,23 @@ No match count or runner budget is authorised by this estimate.
 | [T98](tasks/T98.md) | [#437](https://github.com/diegoami/goal2-archaeology/issues/437) | Attribute formulas and worked player examples | hard | M; 2–4 h | high | high | T96, T97 |
 | [T99](tasks/T99.md) | [#438](https://github.com/diegoami/goal2-archaeology/issues/438) | Contest probabilities and decision thresholds | hard | M; 2–4 h | high | high | T98 |
 | [T100](tasks/T100.md) | [#439](https://github.com/diegoami/goal2-archaeology/issues/439) | Match tick, state transitions and random-number flow | hard | S; 0.5–1 h | high | high | T95, T97 |
-| [T101](tasks/T101.md) | [#440](https://github.com/diegoami/goal2-archaeology/issues/440) | Pitch positioning, marking and movement anatomy | hard | M; 2–4 h | high | high | T97, T100 |
+| [T101](tasks/T101.md) | [#440](https://github.com/diegoami/goal2-archaeology/issues/440) | Pitch positioning, marking and movement anatomy | hard | M; 2–4 h | high | high | T97, T100; [ES-R1](engine-study-reviews.md#es-r1) accepted |
 | [T102](tasks/T102.md) | [#441](https://github.com/diegoami/goal2-archaeology/issues/441) | Possession, ball actions and scoring anatomy | hard | M; 2–4 h | high | high | T99, T100, T101 |
 | [T103](tasks/T103.md) | [#442](https://github.com/diegoami/goal2-archaeology/issues/442) | Tactics, formation choices and computer-manager behaviour | hard | M; 2–4 h | high | medium | T96, T97, T101, T102 |
 | [T104](tasks/T104.md) | [#443](https://github.com/diegoami/goal2-archaeology/issues/443) | Restarts, discipline, substitutions and post-match effects | hard | M; 2–4 h | high | high | T96, T97, T100, T102 |
 | [T105](tasks/T105.md) | [#444](https://github.com/diegoami/goal2-archaeology/issues/444) | Preregister bounded experiments and synthetic scenarios | hard | M; 2–4 h | high | high | T98, T99, T101, T102, T103, T104 |
-| [T106](tasks/T106.md) | [#445](https://github.com/diegoami/goal2-archaeology/issues/445) | Validate isolated mechanisms with synthetic probes | hard | M; 2–4 h | medium | high | T105 |
-| [T107](tasks/T107.md) | [#446](https://github.com/diegoami/goal2-archaeology/issues/446) | Run the first bounded match sensitivity batch | hard | M; 2–4 h + capped compute | high | medium | T105, T106 |
-| [T108](tasks/T108.md) | [#447](https://github.com/diegoami/goal2-archaeology/issues/447) | Audit arithmetic, boundaries and record indexing | hard | M; 2–4 h | high | high | T96, T97, T98, T99 |
+| [T106](tasks/T106.md) | [#445](https://github.com/diegoami/goal2-archaeology/issues/445) | Validate isolated mechanisms with synthetic probes | hard | M; 2–4 h | medium | high | T105; [ES-R2](engine-study-reviews.md#es-r2) accepted |
+| [T107](tasks/T107.md) | [#446](https://github.com/diegoami/goal2-archaeology/issues/446) | Run the first bounded match sensitivity batch | hard | M; 2–4 h + capped compute | high | medium | T105, T106; [ES-R2](engine-study-reviews.md#es-r2) accepted |
+| [T108](tasks/T108.md) | [#447](https://github.com/diegoami/goal2-archaeology/issues/447) | Audit arithmetic, boundaries and record indexing | hard | M; 2–4 h | high | high | T96, T97, T98, T99; [ES-R1](engine-study-reviews.md#es-r1) accepted |
 | [T109](tasks/T109.md) | [#448](https://github.com/diegoami/goal2-archaeology/issues/448) | Audit cross-module consistency and execution paths | hard | M; 2–4 h | high | high | T100, T101, T102, T103, T104, T106 |
-| [T110](tasks/T110.md) | [#449](https://github.com/diegoami/goal2-archaeology/issues/449) | Readable-engine architecture and rewrite decision | hard | M; 2–4 h | high | high | T95, T98, T99, T100, T101, T102, T103, T104, T108, T109 |
-| [T111](tasks/T111.md) | [#450](https://github.com/diegoami/goal2-archaeology/issues/450) | Conditional readable-rule prototype | hard | M; 2–4 h; re-estimate after T110 | high | medium | T110 |
-| [T112](tasks/T112.md) | [#451](https://github.com/diegoami/goal2-archaeology/issues/451) | Assemble the engine guide and exploration atlas | hard | M; 2–4 h | medium | high | T95, T96, T97, T98, T99, T100, T101, T102, T103, T104, T106, T107, T108, T109, T110 |
+| [T110](tasks/T110.md) | [#449](https://github.com/diegoami/goal2-archaeology/issues/449) | Readable-engine architecture and rewrite decision | hard | M; 2–4 h | high | high | T95, T98, T99, T100, T101, T102, T103, T104, T108, T109; [ES-R3](engine-study-reviews.md#es-r3) accepted |
+| [T111](tasks/T111.md) | [#450](https://github.com/diegoami/goal2-archaeology/issues/450) | Conditional readable-rule prototype | hard | M; 2–4 h; re-estimate after T110 | high | medium | T110; [ES-R4](engine-study-reviews.md#es-r4) accepted |
+| [T112](tasks/T112.md) | [#451](https://github.com/diegoami/goal2-archaeology/issues/451) | Assemble the engine guide and exploration atlas | hard | M; 2–4 h | medium | high | T95, T96, T97, T98, T99, T100, T101, T102, T103, T104, T106, T107, T108, T109, T110; [ES-R3](engine-study-reviews.md#es-r3) accepted, [ES-R4](engine-study-reviews.md#es-r4) accepted |
 | [T113](tasks/T113.md) | [#452](https://github.com/diegoami/goal2-archaeology/issues/452) | Independent milestone review of the engine study | hard | M; 2–4 h | high | high | T112 |
 
 Dependencies express research needs, not permission to run several tasks in this checkout.
-T111 is optional and is not a dependency of T112 or T113.
+T111 is optional and is not a dependency of T112 or T113. If its conclusions are included as
+established results, they require ES-R4P acceptance.
 
 ## Dispatch and milestones
 
@@ -96,6 +101,12 @@ dispatch into independently mergeable slices of about one hour**, using suffixes
 T96b. Each slice has its own issue, ownership, evidence and measurable completion criterion.
 The package issue remains their parent. Even an S package is split if inspection shows it is too large.
 Task-specific acceptance outcomes below must survive that decomposition.
+
+Five mandatory independent reviews and one conditional prototype review are defined in
+[engine-study-reviews.md](engine-study-reviews.md), with entry work, exact review scope, exit criteria
+and dependent-work gates. T113 implements the final ES-R5 review; it is counted once. These are
+planned checkpoints, activated under the existing milestone process only when a candidate is ready.
+No review or experiment is launched by defining them.
 
 1. **Inventory:** T95 accounts for the current engine/evidence universe and records counts and gaps.
    Use it to refine estimates and schedule the first static chapter.
