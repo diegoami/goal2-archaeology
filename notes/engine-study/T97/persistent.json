@@ -1,0 +1,367 @@
+{
+  "analysis_sha256": "876cc42ad585d892c6f4d331ada81558641a488485e011009f61ec1f344b3225",
+  "host_rule": "A6E4: second country unless result-kind set; else game host[calendar_class?5:continent(second)]; D44C compares host to second country",
+  "locations": [
+    {
+      "address": "000E:6970",
+      "file": "static/goal-exe/named/seg_000E_05.c",
+      "heading_sha256": "d969f4480a58e6c768bd88db3d905cd0c777961c6fd86018560fad21efd903fa",
+      "line": 375
+    },
+    {
+      "address": "000E:6CA7",
+      "file": "static/goal-exe/named/seg_000E_05.c",
+      "heading_sha256": "36c99772df260238ea0c0da483dd5d6b511713efd33b35406ffc7c58c3ca8958",
+      "line": 516
+    },
+    {
+      "address": "0791:A4A1",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "ef95a1fe479c75ffa821c44a3a3656814f92134bb93bbb8da7a41e7ee872fd34",
+      "line": 834
+    },
+    {
+      "address": "0791:A6E4",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "86fa93ba259e8abb69fdc6034c323a15b90f3260f749c02f25f334c13a0813d0",
+      "line": 936
+    },
+    {
+      "address": "0791:B6CC",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "126104a4a084a6982764e903ba723756e4d197f322a46b0903608630cd85636c",
+      "line": 674
+    },
+    {
+      "address": "0791:B7FA",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "585d243403576224041c5dfffe45b41c0bf9068d9bd56f6012cac6ca0d1a6ea1",
+      "line": 741
+    },
+    {
+      "address": "0791:BC5D",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "8f6cc10712b219f30dbca2b1b3e8f4ae9dcd97c3e4ea3c3de42067e133390ab5",
+      "line": 952
+    },
+    {
+      "address": "0791:D050",
+      "file": "static/goal-exe/named/seg_0791_12.c",
+      "heading_sha256": "b3c75c2b5c8ffcad69ed348af6492d90b1d786ea6cc768619e2a1e393908f318",
+      "line": 4
+    },
+    {
+      "address": "0791:D44C",
+      "file": "static/goal-exe/named/seg_0791_12.c",
+      "heading_sha256": "6507df718dbc34c04411d8418351e58c8d3c1f3a2fda5c5615b350bfa045a07d",
+      "line": 136
+    },
+    {
+      "address": "0791:D47E",
+      "file": "static/goal-exe/named/seg_0791_12.c",
+      "heading_sha256": "b835b359b0c6be445d7727404992bcc7961ebe7c255987f9b06ebdd92dd32f4a",
+      "line": 151
+    },
+    {
+      "address": "1771:0AA7",
+      "file": "static/goal-exe/named/seg_1771_01.c",
+      "heading_sha256": "7651f966eab32d460c09ffff1a3ad176a753a0ccc35b6a702c0b338bf6020578",
+      "line": 534
+    },
+    {
+      "address": "1771:0AF8",
+      "file": "static/goal-exe/named/seg_1771_01.c",
+      "heading_sha256": "8cd83fbebf75cb897e65a82f9ed775ca799e1004ce9136fdc355be80490fc687",
+      "line": 545
+    },
+    {
+      "address": "1771:0B77",
+      "file": "static/goal-exe/named/seg_1771_01.c",
+      "heading_sha256": "d67aa3c6a642932f5acdcea0ac5be8d191ed465955b6bb2c99b0db987b664f2e",
+      "line": 575
+    },
+    {
+      "address": "1771:10E7",
+      "file": "static/goal-exe/named/seg_1771_01.c",
+      "heading_sha256": "8b7994dc64734f83a6b27cae3ad5bddcfb226d938809a66bb6497d2924ac866e",
+      "line": 874
+    },
+    {
+      "address": "1771:5A03",
+      "file": "static/goal-exe/named/seg_1771_04.c",
+      "heading_sha256": "423980f88c657543891979e1bfa84107d1f5186ba61829125e07107422cb4e0e",
+      "line": 774
+    },
+    {
+      "address": "1771:9A40",
+      "file": "static/goal-exe/named/seg_1771_07.c",
+      "heading_sha256": "744ddbd2c640bdf0d5dc1ed96adc8b0c421a47349ef22cd928771c9742e3375c",
+      "line": 508
+    },
+    {
+      "address": "1771:9B85",
+      "file": "static/goal-exe/named/seg_1771_07.c",
+      "heading_sha256": "5f8855a2bf824441f0aa670687252d88b13a8ae1588f49c7e0e3432c796f9301",
+      "line": 562
+    },
+    {
+      "address": "2139:0000",
+      "file": "static/goal-exe/named/seg_2139_01.c",
+      "heading_sha256": "2de2811c18ce9c967ac952c32aba264ae7d4f8b896d6a9aaa29a1386b0cad4e8",
+      "line": 4
+    }
+  ],
+  "manager_bonus": "floor(u8(manager[1])/8)+16",
+  "records": {
+    "country": {
+      "fields": [
+        {
+          "meaning": "Twenty little-endian player-index words; slots 1..11 are starters, 12..20 bench; order changes can persist.",
+          "name": "squad",
+          "offset": 0,
+          "width": 40
+        },
+        {
+          "meaning": "Unexpanded country bytes +28..29; no invented skill or lifetime assignment.",
+          "name": "unresolved_28_29",
+          "offset": 40,
+          "width": 2
+        },
+        {
+          "meaning": "Ordinary continental rank 1..32; country-rating/development/result-expectation input.",
+          "name": "continent_rank",
+          "offset": 42,
+          "width": 1
+        },
+        {
+          "meaning": "Ordinary world rank 1..128; country-rating and result-expectation input.",
+          "name": "world_rank",
+          "offset": 43,
+          "width": 1
+        },
+        {
+          "meaning": "Ordinary continent code 1..4; rating, venue-host lookup and competition/recovery routing.",
+          "name": "continent",
+          "offset": 44,
+          "width": 1
+        },
+        {
+          "meaning": "Eight Pascal-set defaults, modified/reset by setup/AI/manager paths; player overrides are separate.",
+          "name": "team_tactics",
+          "offset": 45,
+          "width": 1
+        },
+        {
+          "meaning": "Index into 3-byte manager entries; >128 means human-managed. Not itself manager ability.",
+          "name": "manager_index",
+          "offset": 46,
+          "width": 1
+        },
+        {
+          "meaning": "Persistent ranking/competition points; not the quick engine line sums.",
+          "name": "ranking_points",
+          "offset": 47,
+          "width": 2
+        },
+        {
+          "meaning": "Persistent historical/season totals; D050 includes a season block at +3B. Exact subfield types/lifetimes are not all resolved in this foundation.",
+          "name": "historical_totals_unexpanded",
+          "offset": 49,
+          "width": 70
+        },
+        {
+          "meaning": "D050 largest win/loss fixture-record area +77..A6; preserve as historical data, not player attributes.",
+          "name": "largest_result_records",
+          "offset": 119,
+          "width": 48
+        },
+        {
+          "meaning": "D050 home/away/all streak/current-maximum area +A7..BE; subfield enumeration remains reader-specific.",
+          "name": "streaks_unexpanded",
+          "offset": 167,
+          "width": 24
+        }
+      ],
+      "size": 191
+    },
+    "fixture": {
+      "fields": [
+        {
+          "meaning": "Side-0 score after play; pending marker such as FE/FF before play. Phase-dependent, not always a score.",
+          "name": "first_score_or_pending_mark",
+          "offset": 0,
+          "width": 1
+        },
+        {
+          "meaning": "Side-1 score after play; pending representation must be read with its phase.",
+          "name": "second_score",
+          "offset": 1,
+          "width": 1
+        },
+        {
+          "meaning": "Competition/friendly kind; 1 is friendly; gates budgets, fouls, results/deciders and venue.",
+          "name": "kind",
+          "offset": 2,
+          "width": 1
+        },
+        {
+          "meaning": "Played result: 0 side-0 winner, 1 side-1 winner, 2 draw; a silent decider coin may choose 0/1 despite equal score bytes.",
+          "name": "result_code",
+          "offset": 3,
+          "width": 1
+        },
+        {
+          "meaning": "Country for engine side 0; API first does not mean home.",
+          "name": "first_country",
+          "offset": 4,
+          "width": 2
+        },
+        {
+          "meaning": "Country for engine side 1; used by the venue-host equality flag.",
+          "name": "second_country",
+          "offset": 6,
+          "width": 2
+        }
+      ],
+      "size": 8
+    },
+    "game": {
+      "fields": [
+        {
+          "meaning": "Number of human managers at creation (ordinary 1..6).",
+          "name": "human_count",
+          "offset": 0,
+          "width": 1
+        },
+        {
+          "meaning": "Manager/selection flags and context not fully typed here; preserve them.",
+          "name": "manager_context_unexpanded",
+          "offset": 1,
+          "width": 37
+        },
+        {
+          "meaning": "Current fixture index used to locate the 8-byte fixture, not stored inside it.",
+          "name": "fixture_index",
+          "offset": 38,
+          "width": 2
+        },
+        {
+          "meaning": "Fixture-list count/context.",
+          "name": "fixture_count",
+          "offset": 40,
+          "width": 2
+        },
+        {
+          "meaning": "Includes the dummy/base host-table region; no further semantics assigned.",
+          "name": "host_prefix_unexpanded",
+          "offset": 42,
+          "width": 4
+        },
+        {
+          "meaning": "Five host-country words: continent slots 1..4 and slot 5 selected by the calendar-class flag.",
+          "name": "host_countries",
+          "offset": 46,
+          "width": 10
+        },
+        {
+          "meaning": "Year/cycle offset: initialised to 0; incremented by the yearly progression.",
+          "name": "elapsed_year",
+          "offset": 56,
+          "width": 2
+        },
+        {
+          "meaning": "Initial calendar-base year from DOS year+1 made even, not the elapsed counter.",
+          "name": "initial_year",
+          "offset": 58,
+          "width": 2
+        },
+        {
+          "meaning": "Stage byte in the competition cycle.",
+          "name": "cycle_stage",
+          "offset": 60,
+          "width": 1
+        },
+        {
+          "meaning": "Initial option byte 1; exact UI meaning not established here.",
+          "name": "option_3d_unexpanded",
+          "offset": 61,
+          "width": 1
+        },
+        {
+          "meaning": "Initial option byte 2; exact UI meaning not established here.",
+          "name": "option_3e_unexpanded",
+          "offset": 62,
+          "width": 1
+        },
+        {
+          "meaning": "Match speed/delay option; simulation determinism still requires the stated key discipline.",
+          "name": "speed_delay",
+          "offset": 63,
+          "width": 1
+        },
+        {
+          "meaning": "Initial year modulo 4==2 flag; chooses host slot 5 and stage calendar variant.",
+          "name": "calendar_class",
+          "offset": 64,
+          "width": 1
+        },
+        {
+          "meaning": "Other options, manager flags, pool viewports and strings within the 0x10E-byte allocation; not fully typed here.",
+          "name": "remaining_context_unexpanded",
+          "offset": 65,
+          "width": 205
+        }
+      ],
+      "size": 270
+    },
+    "manager-entry": {
+      "fields": [
+        {
+          "meaning": "Country association; computer entries start with their country, human entries use 129..134.",
+          "name": "managed_country",
+          "offset": 0,
+          "width": 1
+        },
+        {
+          "meaning": "Unsigned manager ability; 0AA7 reads this byte to compute floor(ability/8)+16. TEAM Skill labels also read it.",
+          "name": "ability",
+          "offset": 1,
+          "width": 1
+        },
+        {
+          "meaning": "Signed manager result-delta accumulator; B6CC adds and clips to -127..127. Distinct from ability and country rank.",
+          "name": "result_delta",
+          "offset": 2,
+          "width": 1
+        }
+      ],
+      "size": 3
+    }
+  },
+  "schema": 1,
+  "sections": [
+    "Identity, indexing and ownership",
+    "Persistent layouts",
+    "Fixture routing and venue",
+    "Cross-match lifetime and unresolved groups"
+  ],
+  "source_commit": "08beac2e9d43faf766e445e924da096b8a99d748",
+  "source_sha256": {
+    "runtime/decoders/country.py": "d2ab97927ecd7ae269f9351f7244dde9eee56af41ffa774a34f520428c4c7b3a",
+    "runtime/original_match/image.py": "0b6c8a98c0d4fabdfe63be52561dd2afc56a4f0a8238e8ccc06dfd33e78e35a9",
+    "runtime/original_match/port/setup.py": "0f703063621cd8a96d9ac0acde56da89754aa885a3d94d9333991a115e8185e2",
+    "runtime/original_match/port/update.py": "0a4b3f58a48aec4fc69a229410e566af2144cc9e7153cbfd604da1557deb36b2",
+    "static/goal-exe/annotations/fields.tsv": "dc2b5cc8fbd3ad9ff326bb052b281ae035c0f1ff6b5271a7534ee0e86fd08986",
+    "static/goal-exe/annotations/globals.tsv": "b27170890d5cddfdfaeb2755dc858a3fe3a7b8113df935f3f05db3992dae6315",
+    "static/goal-exe/named/index.tsv": "7688e639f8b35910e8c2ec8dc8734a2e40413a8d3b40d2b247400e29bdf79b19",
+    "static/goal-exe/named/seg_000E_05.c": "1d8d433efe82c172f1223f9f139e140da465e2ee2b6adee53d0af91d7625aa4d",
+    "static/goal-exe/named/seg_0791_09.c": "71a912e2c5564f75078a0db0220c5388a74ec168783371a63c74cdddae22275f",
+    "static/goal-exe/named/seg_0791_10.c": "307274e4e5007f1e809b5b54708a686d106a61d77848ddc6967c9fb0fd88e52f",
+    "static/goal-exe/named/seg_0791_12.c": "6484f6f6014e480e1cfecb34ff96b7032da39aa5b9338a133e9c596ab7964e8c",
+    "static/goal-exe/named/seg_1771_01.c": "d47615c756800af552cb83a614ccc4f2b4bf6ac0088af024f0633bd375996bd3",
+    "static/goal-exe/named/seg_1771_04.c": "6a067b79adaf6f9d2239d247c68a5fd3389b8c6afdc1d20b991bd3bb91a24965",
+    "static/goal-exe/named/seg_1771_07.c": "1f82e75602364766631056643e33408b7a5caf1ed68a5a83019abd48ee17a962",
+    "static/goal-exe/named/seg_2139_01.c": "8f8a951e33d397c8715786abbddedf70e979bd0752aea23f747e4520d46f1411"
+  },
+  "task": "T97a"
+}
