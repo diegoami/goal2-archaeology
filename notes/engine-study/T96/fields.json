@@ -1,0 +1,602 @@
+{
+  "access_scope": "All 20 bytes have a field owner; listed readers/writers are primary routes, not an exhaustive alias-resolved site census.",
+  "locations": [
+    {
+      "address": "0791:1E53",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "dc142fb75741f8c040b0793c941d5b84a5c7d3fcc2f17289715aa3f89a1e75a3",
+      "line": 243
+    },
+    {
+      "address": "0791:26D7",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "8e56e851b7331109287ac4244698c1ee94e6fdb643e804d203ae904ee1b89bf0",
+      "line": 645
+    },
+    {
+      "address": "0791:278A",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "53ab03c3ffdb1889db40be192b3cb0a701e875093f3d860b9bf19332f68c5a2d",
+      "line": 671
+    },
+    {
+      "address": "0791:419C",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "c319c5034a3bcbf5c84eb3de66005b4d63e931f51add7218ab8cd2485a6352da",
+      "line": 177
+    },
+    {
+      "address": "0791:6443",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "4cf93918a27e1f289b8aebf840a534b5f5ddf083d05f7c8043e3354a45795380",
+      "line": 281
+    },
+    {
+      "address": "0791:798D",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "8a98c7284e79537d78b9b872269625b8a9bbfb80e8ce66d3a8ae1ecf7258fac6",
+      "line": 598
+    },
+    {
+      "address": "0791:7B77",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "ae3eb593439cb94cf112cf031f9999b1a99a9371ff9788c87a6bc69146b7d7b8",
+      "line": 703
+    },
+    {
+      "address": "0791:7CC5",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "3abacdff67ba47ea28ab867a4950c52d9baea9c079913e4508267622726407a6",
+      "line": 762
+    },
+    {
+      "address": "0791:7D56",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "3b5711e17a376bdc8ae66361f1bbe05959a3873d6734a5af2b97b1c30767b4ca",
+      "line": 798
+    },
+    {
+      "address": "0791:8062",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "54e27532ea5c8efc460b5011355d465c085df66a0556dbfdb236f5f93d55cf99",
+      "line": 4
+    },
+    {
+      "address": "0791:8AE9",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "d198ef91981f2306bba5156f0205aca906ebee7a59fb4756eea87dd05689daff",
+      "line": 505
+    },
+    {
+      "address": "0791:B27F",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "be84abb6420e6603ae855df35f4b70f4eab879a2698e2646010072f7c41c6eba",
+      "line": 500
+    },
+    {
+      "address": "0791:B364",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "dc0d76c39237fb1b43273683ea35810784b798c85bb29ef7faf10eaf77943bec",
+      "line": 534
+    },
+    {
+      "address": "0791:B3B7",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "0d691c01ab511fa080025b94cca27642d890f76868c1e5d7e9719a19c5b4e52a",
+      "line": 556
+    },
+    {
+      "address": "0791:B602",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "671f0aa985c7dfd75595e064f0f5c8441fbe4fe1289e544a9472ab50e440b00f",
+      "line": 631
+    },
+    {
+      "address": "0791:B7FA",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "585d243403576224041c5dfffe45b41c0bf9068d9bd56f6012cac6ca0d1a6ea1",
+      "line": 741
+    },
+    {
+      "address": "0791:BC5D",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "8f6cc10712b219f30dbca2b1b3e8f4ae9dcd97c3e4ea3c3de42067e133390ab5",
+      "line": 952
+    },
+    {
+      "address": "0791:C5DC",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "5f4a815b51f7175daff81dcdb48b2ba6b5602ca3798c8a2ac79f16c9f3a4c2f4",
+      "line": 464
+    },
+    {
+      "address": "0791:CAB0",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "3be15769cecff95b082aeb11bfc92d85f22f8df8807d1ad3d6132332edf468e3",
+      "line": 630
+    },
+    {
+      "address": "0791:CB7D",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "b3b5e4d8b46fc2c4224e9feeac1e644c57337347f729c33422f10120ccc54784",
+      "line": 687
+    },
+    {
+      "address": "0791:D733",
+      "file": "static/goal-exe/named/seg_0791_12.c",
+      "heading_sha256": "b29c21d70040973b426c40903117cbe82d1c8697c14d88f78ea898a3a80d2f4f",
+      "line": 265
+    },
+    {
+      "address": "0791:F1F6",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "309bb749731f2aa2e0c544242a947ad0d22d45c528553e98451fd8481e85f0bd",
+      "line": 603
+    },
+    {
+      "address": "1771:0BC4",
+      "file": "static/goal-exe/named/seg_1771_01.c",
+      "heading_sha256": "1d2765207d4c60f71f31472e29534bda23e273a4d98dcfc98978f520c3c1cf91",
+      "line": 591
+    },
+    {
+      "address": "1771:13D0",
+      "file": "static/goal-exe/named/seg_1771_01.c",
+      "heading_sha256": "743756c428da47e500e850cbf0cb1b9ec2173f45c73ebb5e6cccaa1f5f21871d",
+      "line": 1003
+    },
+    {
+      "address": "1771:2FAD",
+      "file": "static/goal-exe/named/seg_1771_02.c",
+      "heading_sha256": "22e50acc9fc2ede6141e4e9f25c4ffa9fd49b738ff79b2e00e41dabdf85b9147",
+      "line": 1024
+    },
+    {
+      "address": "1771:2FFB",
+      "file": "static/goal-exe/named/seg_1771_02.c",
+      "heading_sha256": "029eaaa7e69325b1c13f203003c0021b59e1aa61ea1269db9513616ebef169d8",
+      "line": 1035
+    },
+    {
+      "address": "1771:3041",
+      "file": "static/goal-exe/named/seg_1771_02.c",
+      "heading_sha256": "45fedc624473dd460572a388c04c29df3dceef88db00d482da238493819bd40c",
+      "line": 1049
+    },
+    {
+      "address": "1771:3088",
+      "file": "static/goal-exe/named/seg_1771_02.c",
+      "heading_sha256": "9275a8ec0de581f9f1e1f8b3b2d0d8091846e133931d8dee24a508a82a9d0e85",
+      "line": 1065
+    },
+    {
+      "address": "1771:30D9",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "b676c12ea188f2ab7d8704c2d78445f9d190eb64c33a945c43fff200047658fb",
+      "line": 4
+    },
+    {
+      "address": "1771:3179",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "60325708baff4e710c5a05ea2a66e5b9c48352991d85e11ee4152aaf63909227",
+      "line": 24
+    },
+    {
+      "address": "1771:3216",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "cf2efc3f95929549dda5cd550fc761119ebf69ebd0cc42daa2823596d3838491",
+      "line": 75
+    },
+    {
+      "address": "1771:3291",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "70f9eb27ae0617dc0b1ac4aad109cfb1f5222f934d92ac5ff8fa1465c04677ff",
+      "line": 97
+    },
+    {
+      "address": "1771:32EB",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "b3b0e14abf69789a7812de3ceda6f97af81e21254313735406c9f32c6fafb7ec",
+      "line": 118
+    },
+    {
+      "address": "1771:3431",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "1c0ff8d75b7724e28c16ad3e05404508529fa8dff6aa0a347a2bce7c3596fe1b",
+      "line": 167
+    },
+    {
+      "address": "1771:3558",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "cbba01db57004da98a49ecc375ecbeaaa33bfafc1afdfc1ac0bd7b08f6ac0cb4",
+      "line": 228
+    },
+    {
+      "address": "1771:3651",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "5113eacb9f14a224a9cc820875ebc0ec4b9881534c4e164b639d139ff1ee654f",
+      "line": 266
+    },
+    {
+      "address": "1771:377E",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "be609e51b5b2a56ec30ad217e3c03269eca62b554142c7b632f65b57e552eb65",
+      "line": 316
+    },
+    {
+      "address": "1771:3947",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "fb06e95b13cd54e822376386ebf13cde67e8311e0ead496732f9b36d5c6b2a1d",
+      "line": 427
+    },
+    {
+      "address": "1771:3A06",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "c243812d3bf7c7a7900c06a91e8653fbfbee029227fd99eed057d166eae4d048",
+      "line": 459
+    },
+    {
+      "address": "1771:3EF8",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "a1a41d73b22dd92b677e18f609c0c0ea39b2a677c580708c11d04706d8becbb0",
+      "line": 687
+    },
+    {
+      "address": "1771:42BC",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "25d3e8815a0f0af74986367c2b3ca7e8235c9bdb6601212497514233348e7580",
+      "line": 805
+    },
+    {
+      "address": "1771:7E4A",
+      "file": "static/goal-exe/named/seg_1771_06.c",
+      "heading_sha256": "f04d74e856229f74fc3c63bf70fbcb746ce8d3e38d5664c8212848c7a70a8769",
+      "line": 277
+    },
+    {
+      "address": "1771:7F40",
+      "file": "static/goal-exe/named/seg_1771_06.c",
+      "heading_sha256": "33534ea16f2fd65c076bbbbd50026161525f9c37f598ed82a0d50f20d173bfc0",
+      "line": 327
+    },
+    {
+      "address": "1771:7FB1",
+      "file": "static/goal-exe/named/seg_1771_06.c",
+      "heading_sha256": "809044c2cd816174c768008898233d04076df4837445e0eabf18dc8b4456095e",
+      "line": 355
+    },
+    {
+      "address": "1771:96D3",
+      "file": "static/goal-exe/named/seg_1771_07.c",
+      "heading_sha256": "7be5b7370dc6ec59c8887e298dd0ad07a8e299e7d542b8e31f2474f0be9f5de1",
+      "line": 363
+    }
+  ],
+  "records": {
+    "player": {
+      "fields": [
+        {
+          "effect_and_lifetime": "Persistent identity; resolves country defaults/management, not an independent talent score.",
+          "meaning": "Owning country index; ordinary countries are 1..128; record zero is not a normal player.",
+          "name": "country",
+          "offset": 0,
+          "primary_readers": [
+            "1771:0BC4"
+          ],
+          "primary_writers": [
+            "1771:96D3"
+          ],
+          "representation": "u8 storage; signedness is reader-specific",
+          "width": 1
+        },
+        {
+          "effect_and_lifetime": "Persistent; ability evolution, leadership and recovery/retirement routes; no standalone age multiplier in 278A.",
+          "meaning": "Unsigned age; new-game samples are not a universal legal range.",
+          "name": "age",
+          "offset": 1,
+          "primary_readers": [
+            "1771:32EB",
+            "1771:30D9",
+            "1771:7F40"
+          ],
+          "primary_writers": [
+            "1771:96D3",
+            "1771:7E4A"
+          ],
+          "representation": "u8 storage; signedness is reader-specific",
+          "width": 1
+        },
+        {
+          "effect_and_lifetime": "Persistent; indirect skill scale and recovery effects; the displayed card does not show a peak-age field.",
+          "meaning": "Creation-time age parameter controlling the ability curve; also an input to two-footedness.",
+          "name": "peak_age",
+          "offset": 2,
+          "primary_readers": [
+            "1771:32EB",
+            "1771:3041"
+          ],
+          "primary_writers": [
+            "1771:3291"
+          ],
+          "representation": "u8 storage; signedness is reader-specific",
+          "width": 1
+        },
+        {
+          "effect_and_lifetime": "Persistent; ability curve and derived hardness/leadership. Raising it alone is not the same as raising current ability.",
+          "meaning": "Creation ceiling/rating parameter, conventionally called potential; not a stored skill.",
+          "name": "rating",
+          "offset": 3,
+          "primary_readers": [
+            "1771:32EB",
+            "1771:2FFB",
+            "1771:30D9"
+          ],
+          "primary_writers": [
+            "1771:96D3"
+          ],
+          "representation": "u8 storage; signedness is reader-specific",
+          "width": 1
+        },
+        {
+          "effect_and_lifetime": "Persistent; directly scales derived skills and quick/silent strength; recomputed during ageing.",
+          "meaning": "Current ability/skill scale, an interpretive name supported by its arithmetic use.",
+          "name": "ability",
+          "offset": 4,
+          "primary_readers": [
+            "1771:3A06",
+            "1771:3947",
+            "1771:377E"
+          ],
+          "primary_writers": [
+            "1771:32EB"
+          ],
+          "representation": "u8 storage; signedness is reader-specific",
+          "width": 1
+        },
+        {
+          "effect_and_lifetime": "Persistent; skills, hardness, leadership and two-footedness. Profile numbers are not a simple quality ranking.",
+          "meaning": "Profile selector, normally 1..16 at creation; shapes a curve rather than storing twelve independent values.",
+          "name": "skill_profile",
+          "offset": 5,
+          "primary_readers": [
+            "1771:3A06",
+            "1771:3947",
+            "1771:2FFB",
+            "1771:3041",
+            "1771:30D9"
+          ],
+          "primary_writers": [
+            "1771:96D3"
+          ],
+          "representation": "u8 storage; signedness is reader-specific",
+          "width": 1
+        },
+        {
+          "effect_and_lifetime": "Persistent squad role; formation/movement/line allocation and placement penalty; distinct from club position.",
+          "meaning": "Current played position code, normally 0..13; zero is the goalkeeper role.",
+          "name": "position",
+          "offset": 6,
+          "primary_readers": [
+            "1771:3179",
+            "1771:0BC4",
+            "0791:419C"
+          ],
+          "primary_writers": [
+            "1771:96D3",
+            "0791:BC5D",
+            "0791:C5DC"
+          ],
+          "representation": "u8 storage; signedness is reader-specific",
+          "width": 1
+        },
+        {
+          "effect_and_lifetime": "Persistent; moving played position does not rewrite the natural skill profile.",
+          "meaning": "Natural/club position code, normally 0..13; feeds class, height and foot tables.",
+          "name": "club_position",
+          "offset": 7,
+          "primary_readers": [
+            "1771:3A06",
+            "1771:2FAD",
+            "1771:3088",
+            "1771:3179"
+          ],
+          "primary_writers": [
+            "1771:96D3"
+          ],
+          "representation": "u8 storage; signedness is reader-specific",
+          "width": 1
+        },
+        {
+          "effect_and_lifetime": "Persistent history; participant update increments it, retirement can read it. No identified direct skill term.",
+          "meaning": "Little-endian 16-bit appearance count; +09 is the high byte, not another attribute.",
+          "name": "caps",
+          "offset": 8,
+          "primary_readers": [
+            "1771:42BC",
+            "1771:7F40"
+          ],
+          "primary_writers": [
+            "0791:B7FA"
+          ],
+          "representation": "u16 little-endian",
+          "width": 2
+        },
+        {
+          "effect_and_lifetime": "Persistent history/statistic; update and attribution depend on the goal route, not a talent input.",
+          "meaning": "Little-endian 16-bit recorded goals count; distinct from the seasonal scorer byte.",
+          "name": "goals",
+          "offset": 10,
+          "primary_readers": [
+            "1771:42BC"
+          ],
+          "primary_writers": [
+            "0791:6443",
+            "0791:B602"
+          ],
+          "representation": "u16 little-endian",
+          "width": 2
+        },
+        {
+          "effect_and_lifetime": "Live and persistent; directly affects skill/strength. Match snapshots distinguish transient team swings from saved form.",
+          "meaning": "Player confidence/form. Arithmetic reads s8; result clipping is 1..32, while live adjustment can reach other bytes.",
+          "name": "morale",
+          "offset": 12,
+          "primary_readers": [
+            "0791:278A",
+            "1771:377E",
+            "1771:13D0"
+          ],
+          "primary_writers": [
+            "1771:96D3",
+            "0791:7CC5",
+            "0791:B364",
+            "0791:CB7D"
+          ],
+          "representation": "u8 storage; signedness is reader-specific",
+          "width": 1
+        },
+        {
+          "effect_and_lifetime": "Indirect match influence through restored energy and recovery; no identified direct arithmetic term in 278A/377E.",
+          "meaning": "Persistent condition/recovery baseline; not the same field as current energy.",
+          "name": "fitness",
+          "offset": 13,
+          "primary_readers": [
+            "1771:3558",
+            "1771:3651",
+            "1771:42BC",
+            "0791:CB7D"
+          ],
+          "primary_writers": [
+            "1771:3558",
+            "1771:3651"
+          ],
+          "representation": "u8 storage; signedness is reader-specific",
+          "width": 1
+        },
+        {
+          "effect_and_lifetime": "Live and persistent; skill/strength/chance/availability effects. Ordinary match decay stops at 1 and does not decrement fitness.",
+          "meaning": "Current energy, read signed for availability/strength. Zero means injury on the card; signed-negative bytes are unavailable too.",
+          "name": "energy",
+          "offset": 14,
+          "primary_readers": [
+            "1771:3216",
+            "0791:278A",
+            "1771:377E"
+          ],
+          "primary_writers": [
+            "1771:3558",
+            "1771:3651",
+            "0791:CB7D",
+            "0791:8AE9",
+            "0791:D733",
+            "0791:7D56"
+          ],
+          "representation": "u8 storage; signedness is reader-specific",
+          "width": 1
+        },
+        {
+          "effect_and_lifetime": "Persistent/managed controls with setup/reset rules; a clear override-enable bit means use the country's setting.",
+          "meaning": "Pascal-set byte: elements 1..4 are values, elements 5..8 enable the respective overrides.",
+          "name": "own_tactic_set",
+          "offset": 15,
+          "primary_readers": [
+            "0791:26D7",
+            "1771:0BC4"
+          ],
+          "primary_writers": [
+            "1771:3431",
+            "0791:BC5D"
+          ],
+          "representation": "u8 storage; signedness is reader-specific",
+          "width": 1
+        },
+        {
+          "effect_and_lifetime": "Mixed lifetime: carried booking/ban, live booking/send-off, substituted-off and protect-zone flags; distinguish each flag.",
+          "meaning": "Packed flags, not an ordinal status score; element k occupies bit k-1.",
+          "name": "status",
+          "offset": 16,
+          "primary_readers": [
+            "1771:3216",
+            "1771:3EF8",
+            "1771:42BC"
+          ],
+          "primary_writers": [
+            "0791:798D",
+            "0791:7B77",
+            "0791:C5DC",
+            "0791:B27F"
+          ],
+          "representation": "u8 storage; signedness is reader-specific",
+          "width": 1
+        },
+        {
+          "effect_and_lifetime": "Persistent within its season/year accounting; scorer-table maintenance and yearly clearing, not a shot-skill input.",
+          "meaning": "Season/year scorer-table count; separate byte from the recorded goals word.",
+          "name": "scorer_count",
+          "offset": 17,
+          "primary_readers": [
+            "0791:B3B7"
+          ],
+          "primary_writers": [
+            "0791:B3B7",
+            "1771:7FB1"
+          ],
+          "representation": "u8 storage; signedness is reader-specific",
+          "width": 1
+        },
+        {
+          "effect_and_lifetime": "Live match assessment; commentary deltas, man of the match and automatic substitution decisions. It is not an independent skill.",
+          "meaning": "Signed rating word with sentinels/encoding: 0x7FFF blank, 55 starter baseline, +10000 substitute marker.",
+          "name": "performance",
+          "offset": 18,
+          "primary_readers": [
+            "1771:42BC",
+            "0791:CAB0",
+            "0791:8062"
+          ],
+          "primary_writers": [
+            "0791:F1F6",
+            "0791:1E53",
+            "0791:C5DC"
+          ],
+          "representation": "u16 little-endian",
+          "width": 2
+        }
+      ],
+      "size": 20
+    }
+  },
+  "schema": 1,
+  "sections": [
+    "Record and identity",
+    "Stored fields",
+    "How to interpret influence",
+    "Bounds and uncertainty"
+  ],
+  "source_commit": "08beac2e9d43faf766e445e924da096b8a99d748",
+  "source_sha256": {
+    "findings/F007-player-values-are-made-at-a-new-game-from-a-seed-per-country-not-from-the-dos-time.md": "f916bc906297c29c73010327597b8e87f2174236db2cd2c1e3db4a9f111697f6",
+    "findings/F008-the-player-screen-draws-12-skills-as-bars-derived-from-three-record-bytes.md": "6bb5b82a9f99893ddd29604187c63a0a4ea4d27d3a14c6f9fef60a0ccbdf75ff",
+    "findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md": "6ff9964045ca26b331829403294cf076ec78be7e546932bd1a54dac12a40b36d",
+    "findings/F021-energy-and-form-set-a-players-strength-fitness-is-never-read-in-a-match.md": "30d16bab8733f73809813ce7fd9bc525912fbb98a9845df323188818af5049f5",
+    "runtime/original_match/image.py": "0b6c8a98c0d4fabdfe63be52561dd2afc56a4f0a8238e8ccc06dfd33e78e35a9",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "static/goal-exe/annotations/fields.tsv": "dc2b5cc8fbd3ad9ff326bb052b281ae035c0f1ff6b5271a7534ee0e86fd08986",
+    "static/goal-exe/named/index.tsv": "7688e639f8b35910e8c2ec8dc8734a2e40413a8d3b40d2b247400e29bdf79b19",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_04.c": "0118b26c212562f1eaecefe22850166c2e2b7755952a09abad00a5b42fbf8325",
+    "static/goal-exe/named/seg_0791_06.c": "1c03cc01069ce4f4eedb386688654af7c3a3900eeb3470971111b2caa3bbe945",
+    "static/goal-exe/named/seg_0791_07.c": "f8be0e2879e8a4bc18eb228dcca17ae91cf318c8b6f8b4b4ac94baa67ac2ad85",
+    "static/goal-exe/named/seg_0791_08.c": "130e91927a5bb2fed2adb998225fc88091816752051eee90ae004e30fcfecc96",
+    "static/goal-exe/named/seg_0791_10.c": "307274e4e5007f1e809b5b54708a686d106a61d77848ddc6967c9fb0fd88e52f",
+    "static/goal-exe/named/seg_0791_11.c": "6e51b68715ebeca24e6616c99258668b5df0bb927e5e133105e04af66fee650e",
+    "static/goal-exe/named/seg_0791_12.c": "6484f6f6014e480e1cfecb34ff96b7032da39aa5b9338a133e9c596ab7964e8c",
+    "static/goal-exe/named/seg_0791_13.c": "4fe6fb41281082fba52ebdc61c6ba147de1dff5bf3ee94fe0bf1314e33878d21",
+    "static/goal-exe/named/seg_1771_01.c": "d47615c756800af552cb83a614ccc4f2b4bf6ac0088af024f0633bd375996bd3",
+    "static/goal-exe/named/seg_1771_02.c": "10d72b6a4d43a82ff53c1fcdb6a658df25c066a29fcc91ffecf1d5a9ae0ee4f1",
+    "static/goal-exe/named/seg_1771_03.c": "b67f87b01f0d18c0f69f8a21e9f6c8983942778097f54778138c210a98262e21",
+    "static/goal-exe/named/seg_1771_06.c": "2724ab4bb08efd659e44a4f583e1f5b23235e8b58599650e7c1e157038756f28",
+    "static/goal-exe/named/seg_1771_07.c": "1f82e75602364766631056643e33408b7a5caf1ed68a5a83019abd48ee17a962"
+  },
+  "task": "T96a"
+}
