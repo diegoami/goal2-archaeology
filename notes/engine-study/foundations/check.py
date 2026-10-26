@@ -12,7 +12,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[3]
 BASE = "08beac2e9d43faf766e445e924da096b8a99d748"
 FILES = {
-    "T96a": ("T96/fields.json", "player-fields.md"),
+    "T96a": ("T96/fields-v2.json", "player-fields.md"),
     "T96b": ("T96/derived.json", "player-derived.md"),
     "T97a": ("T97/persistent.json", "match-fields.md"),
     "T97b": ("T97/transient.json", "transient-state.md"),
@@ -108,7 +108,7 @@ def validate(task, data):
         skills = data.get("skills", [])
         if {s["element"] for s in skills} != set(range(1, 13)) or len(skills) != 12:
             raise ValueError("missing/duplicate displayed skill")
-        stored = json.loads((ROOT / "notes/engine-study/T96/fields.json").read_text())
+        stored = json.loads((ROOT / "notes/engine-study" / FILES['T96a'][0]).read_text())
         names = {f["name"] for f in stored["records"]["player"]["fields"]}
         if set(data.get("field_roles", {})) != names or not data.get("access_boundaries"):
             raise ValueError("missing stored-field disposition or indirect-access boundary")

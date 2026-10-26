@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Generate the interpreted player-field inventory from the explicit source-reading ledger."""
+import argparse
+import json
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "notes/engine-study/foundations"))
-from check import pin, write_new
+from check import pin, sha, write_new
 
 # offset, width, name, meaning, primary readers, primary writers, influence/lifetime.
 ROWS = [
@@ -15,7 +17,7 @@ ROWS = [
  (3,1,"rating","Creation ceiling/rating parameter, conventionally called potential; not a stored skill.","1771:32EB 1771:2FFB 1771:30D9","1771:96D3","Persistent; ability curve and derived hardness/leadership. Raising it alone is not the same as raising current ability."),
  (4,1,"ability","Current ability/skill scale, an interpretive name supported by its arithmetic use.","1771:3A06 1771:3947 1771:377E","1771:32EB","Persistent; directly scales derived skills and quick/silent strength; recomputed during ageing."),
  (5,1,"skill_profile","Profile selector, normally 1..16 at creation; shapes a curve rather than storing twelve independent values.","1771:3A06 1771:3947 1771:2FFB 1771:3041 1771:30D9","1771:96D3","Persistent; skills, hardness, leadership and two-footedness. Profile numbers are not a simple quality ranking."),
- (6,1,"position","Current played position code, normally 0..13; zero is the goalkeeper role.","1771:3179 1771:0BC4 0791:419C","1771:96D3 0791:BC5D 0791:C5DC","Persistent squad role; formation/movement/line allocation and placement penalty; distinct from club position."),
+ (6,1,"position","Current played position code, normally 0..13; zero is the goalkeeper role.","1771:3179 1771:0BC4 0791:419C","1771:96D3 0791:BC5D 0791:BEC7 1771:4952 1771:4925","Persistent squad role; formation/movement/line allocation and placement penalty; distinct from club position."),
  (7,1,"club_position","Natural/club position code, normally 0..13; feeds class, height and foot tables.","1771:3A06 1771:2FAD 1771:3088 1771:3179","1771:96D3","Persistent; moving played position does not rewrite the natural skill profile."),
  (8,2,"caps","Little-endian 16-bit appearance count; +09 is the high byte, not another attribute.","1771:42BC 1771:7F40","0791:B7FA","Persistent history; participant update increments it, retirement can read it. No identified direct skill term."),
  (10,2,"goals","Little-endian 16-bit recorded goals count; distinct from the seasonal scorer byte.","1771:42BC","0791:6443 0791:B602","Persistent history/statistic; update and attribution depend on the goal route, not a talent input."),
@@ -29,7 +31,7 @@ ROWS = [
 ]
 
 
-def main():
+def build():
     fields, addresses = [], set()
     for offset,width,name,meaning,reads,writes,effect in ROWS:
         readers,writers=reads.split(),writes.split()
@@ -37,16 +39,28 @@ def main():
         fields.append({"offset":offset,"width":width,"name":name,"meaning":meaning,
                        "representation":"u16 little-endian" if width==2 else "u8 storage; signedness is reader-specific",
                        "primary_readers":readers,"primary_writers":writers,"effect_and_lifetime":effect})
-    data=pin({"task":"T96a","sections":["Record and identity","Stored fields","How to interpret influence","Bounds and uncertainty"],
+    return pin({"task":"T96a","sections":["Record and identity","Stored fields","How to interpret influence","Bounds and uncertainty"],
               "records":{"player":{"size":20,"fields":fields}},
+              "access_route_notes":{"0791:7B77":"Status write mediated by 0791:7B24, not a direct player-byte store.",
+                                    "1771:42BC":"Performance value/text read mediated by 1771:3827.",
+                                    "1771:4925":"Writes through the caller-supplied position-byte pointer; 1771:4952 also directly restores club_position.",
+                                    "0791:C5DC":"Refreshes the pitch slot and other player fields; not a played-position writer."},
+              "analysis_sha256":sha(Path(__file__).read_bytes()),
               "access_scope":"All 20 bytes have a field owner; listed readers/writers are primary routes, not an exhaustive alias-resolved site census."},
-             addresses,["runtime/original_match/image.py","runtime/original_match/port/attributes.py",
+             addresses|{"0791:7B24","1771:3827","0791:C5DC"},["runtime/original_match/image.py","runtime/original_match/port/attributes.py",
                         "static/goal-exe/annotations/fields.tsv","findings/F007-player-values-are-made-at-a-new-game-from-a-seed-per-country-not-from-the-dos-time.md",
                         "findings/F008-the-player-screen-draws-12-skills-as-bars-derived-from-three-record-bytes.md",
                         "findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md",
                         "findings/F021-energy-and-form-set-a-players-strength-fitness-is-never-read-in-a-match.md"])
-    write_new(ROOT / "notes/engine-study/T96/fields.json",data)
-    print("wrote player-field ledger: 17 fields, 20 bytes; primary source locations pinned")
+
+
+def main():
+    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--check',action='store_true');args=ap.parse_args()
+    data=build();path=ROOT/'notes/engine-study/T96/fields-v2.json'
+    if args.check:
+        assert json.loads(path.read_text())==data,'player field/source ledger differs'
+        print('PASS: regenerated 17 fields/20 bytes; direct and mediated source routes pinned')
+    else:write_new(path,data);print('wrote player-field v2 ledger: 17 fields, 20 bytes')
 
 
 if __name__=="__main__":

@@ -5,7 +5,7 @@ card calls a skill or characteristic is derived from this record, lookup tables 
 the player's index. Playing context then changes the effective value used in a contest.
 
 This is a source-backed interpretation for review, not a promotion of the underlying findings.
-The [field ledger](../../notes/engine-study/T96/fields.json) pins primary original-code readers
+The [field ledger](../../notes/engine-study/T96/fields-v2.json) pins primary original-code readers
 and writers, their exact source locations/hashes and the 17 fields covering all 20 bytes.
 
 ## Record and identity
