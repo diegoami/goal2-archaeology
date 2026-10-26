@@ -7,6 +7,25 @@ exists.
 
 | Task | Title | Issue | Merge after |
 | --- | --- | --- | --- |
+| [T95](T95.md) | Engine inventory and evidence map (engine study) | [#434](https://github.com/diegoami/goal2-archaeology/issues/434) | planning merge |
+| [T96](T96.md) | Player attribute dictionary (engine study) | [#435](https://github.com/diegoami/goal2-archaeology/issues/435) | T95 |
+| [T97](T97.md) | Team, fixture and transient match-state dictionary (engine study) | [#436](https://github.com/diegoami/goal2-archaeology/issues/436) | T95 |
+| [T98](T98.md) | Attribute formulas and worked player examples (engine study) | [#437](https://github.com/diegoami/goal2-archaeology/issues/437) | T96, T97 |
+| [T99](T99.md) | Contest probabilities and decision thresholds (engine study) | [#438](https://github.com/diegoami/goal2-archaeology/issues/438) | T98 |
+| [T100](T100.md) | Match tick, state transitions and random-number flow (engine study) | [#439](https://github.com/diegoami/goal2-archaeology/issues/439) | T95, T97 |
+| [T101](T101.md) | Pitch positioning, marking and movement anatomy (engine study) | [#440](https://github.com/diegoami/goal2-archaeology/issues/440) | T97, T100 |
+| [T102](T102.md) | Possession, ball actions and scoring anatomy (engine study) | [#441](https://github.com/diegoami/goal2-archaeology/issues/441) | T99, T100, T101 |
+| [T103](T103.md) | Tactics, formation choices and computer-manager behaviour (engine study) | [#442](https://github.com/diegoami/goal2-archaeology/issues/442) | T96, T97, T101, T102 |
+| [T104](T104.md) | Restarts, discipline, substitutions and post-match effects (engine study) | [#443](https://github.com/diegoami/goal2-archaeology/issues/443) | T96, T97, T100, T102 |
+| [T105](T105.md) | Preregister bounded experiments and synthetic scenarios (engine study) | [#444](https://github.com/diegoami/goal2-archaeology/issues/444) | T98, T99, T101, T102, T103, T104 |
+| [T106](T106.md) | Validate isolated mechanisms with synthetic probes (engine study) | [#445](https://github.com/diegoami/goal2-archaeology/issues/445) | T105 |
+| [T107](T107.md) | Run the first bounded match sensitivity batch (engine study) | [#446](https://github.com/diegoami/goal2-archaeology/issues/446) | T105, T106 |
+| [T108](T108.md) | Audit arithmetic, boundaries and record indexing (engine study) | [#447](https://github.com/diegoami/goal2-archaeology/issues/447) | T96, T97, T98, T99 |
+| [T109](T109.md) | Audit cross-module consistency and execution paths (engine study) | [#448](https://github.com/diegoami/goal2-archaeology/issues/448) | T100, T101, T102, T103, T104, T106 |
+| [T110](T110.md) | Readable-engine architecture and rewrite decision (engine study) | [#449](https://github.com/diegoami/goal2-archaeology/issues/449) | T95, T98, T99, T100, T101, T102, T103, T104, T108, T109 |
+| [T111](T111.md) | Conditional readable-rule prototype (engine study) | [#450](https://github.com/diegoami/goal2-archaeology/issues/450) | T110 |
+| [T112](T112.md) | Assemble the engine guide and exploration atlas (engine study) | [#451](https://github.com/diegoami/goal2-archaeology/issues/451) | T95, T96, T97, T98, T99, T100, T101, T102, T103, T104, T106, T107, T108, T109, T110 |
+| [T113](T113.md) | Independent milestone review of the engine study (engine study) | [#452](https://github.com/diegoami/goal2-archaeology/issues/452) | T112 |
 | T93 | Manager-name boundaries and the B Vogts glyph | #429 | — |
 | T94 | Country TEAM Status and Skill | #428 | T93 |
 | T01 | The GOAL2 research repository: layout, the artifact by hash, the plan (G0) | #1 | — |
