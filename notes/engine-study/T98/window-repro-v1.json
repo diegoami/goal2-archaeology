@@ -1,0 +1,47 @@
+{
+  "analysis_sha256": "017da31e2bf141d9167224e591147c72e17080dffb8feaa296403e0c209abd9b",
+  "cases": [
+    {
+      "ability": 180,
+      "club_position": 13,
+      "element": 12,
+      "extended_source_window_result": 107,
+      "independent_formula": 107,
+      "legacy_result": "IndexError",
+      "profile": 8
+    },
+    {
+      "ability": 180,
+      "club_position": 2,
+      "element": 3,
+      "extended_source_window_result": 135,
+      "independent_formula": 135,
+      "legacy_result": "IndexError",
+      "profile": 16
+    }
+  ],
+  "class_window_bytes": 168,
+  "locations": [
+    {
+      "address": "1771:3A06",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "c243812d3bf7c7a7900c06a91e8653fbfbee029227fd99eed057d166eae4d048",
+      "line": 459
+    }
+  ],
+  "profile_window_bytes": 192,
+  "schema": 1,
+  "scope": "Legacy analytical helper/data window, not the memory-faithful engine port. No new original-code call.",
+  "source_commit": "08beac2e9d43faf766e445e924da096b8a99d748",
+  "source_sha256": {
+    "experiments/E020-q018-condition-performance/records/contest-001.json": "c55b0c3bc701dfa340d71bb07f0a42d3bf80f5b36ff9c86a6f65ffbfed1dc0e3",
+    "runtime/model/keeping.py": "e485fec0f6faedeadda37f92791992bf10848500370dc324b089fe9b57e04a90",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "7688e639f8b35910e8c2ec8dc8734a2e40413a8d3b40d2b247400e29bdf79b19",
+    "static/goal-exe/named/seg_1771_03.c": "b67f87b01f0d18c0f69f8a21e9f6c8983942778097f54778138c210a98262e21"
+  },
+  "task": "T98a-window-boundary"
+}

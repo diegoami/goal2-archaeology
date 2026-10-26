@@ -1,0 +1,593 @@
+{
+  "analysis_sha256": {
+    "notes/engine-study/T98/skill.py": "969f475209d777a798dd2c634b188405cade97f24e260daafac6bc24d734f936",
+    "notes/engine-study/T98/tables.py": "f5e0836d57f8816943f2b2648818cb3a6175060b834f827dff64f27d535215fb"
+  },
+  "checks": {
+    "caught_original_return_controls": {
+      "divisor31": 138,
+      "form-cutoff33": 21,
+      "omit-placement": 2
+    },
+    "element11_source_control": "caught on worked trace",
+    "mismatches": 0,
+    "retained_original_literal_cases": 209
+  },
+  "examples": [
+    {
+      "inputs": {
+        "ability": 180,
+        "club_position": 2,
+        "element": 3,
+        "energy": 32,
+        "event": 0,
+        "extra": 56,
+        "form": 31,
+        "halved": 0,
+        "profile": 8,
+        "slot": 13,
+        "venue": 0
+      },
+      "name": "healthy-tackling",
+      "trace": {
+        "base_word": 64,
+        "before_venue": 72,
+        "condition_term": 36,
+        "derived_skill": 147,
+        "display_bar": 18,
+        "energy_signed": 32,
+        "extra_added": 0,
+        "extra_applies": false,
+        "form_signed": 31,
+        "klass": 1,
+        "product_low": 9408,
+        "quarter_term": 36,
+        "scale": 181,
+        "skill_after_placement": 147,
+        "value": 72,
+        "venue_share": 0,
+        "weight": 26
+      }
+    },
+    {
+      "inputs": {
+        "ability": 180,
+        "club_position": 2,
+        "element": 3,
+        "energy": 32,
+        "event": 0,
+        "extra": 56,
+        "form": 32,
+        "halved": 0,
+        "profile": 8,
+        "slot": 13,
+        "venue": 0
+      },
+      "name": "form32-tackling",
+      "trace": {
+        "base_word": 32,
+        "before_venue": 54,
+        "condition_term": 18,
+        "derived_skill": 147,
+        "display_bar": 18,
+        "energy_signed": 32,
+        "extra_added": 0,
+        "extra_applies": false,
+        "form_signed": 32,
+        "klass": 1,
+        "product_low": 4704,
+        "quarter_term": 36,
+        "scale": 181,
+        "skill_after_placement": 147,
+        "value": 54,
+        "venue_share": 0,
+        "weight": 26
+      }
+    },
+    {
+      "inputs": {
+        "ability": 180,
+        "club_position": 2,
+        "element": 3,
+        "energy": 1,
+        "event": 0,
+        "extra": 56,
+        "form": 31,
+        "halved": 0,
+        "profile": 8,
+        "slot": 13,
+        "venue": 0
+      },
+      "name": "energy1-tackling",
+      "trace": {
+        "base_word": 33,
+        "before_venue": 54,
+        "condition_term": 18,
+        "derived_skill": 147,
+        "display_bar": 18,
+        "energy_signed": 1,
+        "extra_added": 0,
+        "extra_applies": false,
+        "form_signed": 31,
+        "klass": 1,
+        "product_low": 4851,
+        "quarter_term": 36,
+        "scale": 181,
+        "skill_after_placement": 147,
+        "value": 54,
+        "venue_share": 0,
+        "weight": 26
+      }
+    },
+    {
+      "inputs": {
+        "ability": 180,
+        "club_position": 2,
+        "element": 3,
+        "energy": 32,
+        "event": 0,
+        "extra": 56,
+        "form": 31,
+        "halved": 1,
+        "profile": 8,
+        "slot": 13,
+        "venue": 0
+      },
+      "name": "placement-tackling",
+      "trace": {
+        "base_word": 64,
+        "before_venue": 36,
+        "condition_term": 18,
+        "derived_skill": 147,
+        "display_bar": 18,
+        "energy_signed": 32,
+        "extra_added": 0,
+        "extra_applies": false,
+        "form_signed": 31,
+        "klass": 1,
+        "product_low": 4672,
+        "quarter_term": 18,
+        "scale": 181,
+        "skill_after_placement": 73,
+        "value": 36,
+        "venue_share": 0,
+        "weight": 26
+      }
+    },
+    {
+      "inputs": {
+        "ability": 180,
+        "club_position": 2,
+        "element": 11,
+        "energy": 32,
+        "event": 0,
+        "extra": 56,
+        "form": 31,
+        "halved": 0,
+        "profile": 8,
+        "slot": 13,
+        "venue": 0
+      },
+      "name": "shooting-extra",
+      "trace": {
+        "base_word": 64,
+        "before_venue": 98,
+        "condition_term": 21,
+        "derived_skill": 84,
+        "display_bar": 10,
+        "energy_signed": 32,
+        "extra_added": 56,
+        "extra_applies": true,
+        "form_signed": 31,
+        "klass": 8,
+        "product_low": 5376,
+        "quarter_term": 21,
+        "scale": 181,
+        "skill_after_placement": 84,
+        "value": 98,
+        "venue_share": 0,
+        "weight": 15
+      }
+    },
+    {
+      "inputs": {
+        "ability": 180,
+        "club_position": 2,
+        "element": 11,
+        "energy": 32,
+        "event": 0,
+        "extra": 56,
+        "form": 31,
+        "halved": 1,
+        "profile": 8,
+        "slot": 13,
+        "venue": 0
+      },
+      "name": "placement-shooting",
+      "trace": {
+        "base_word": 64,
+        "before_venue": 76,
+        "condition_term": 10,
+        "derived_skill": 84,
+        "display_bar": 10,
+        "energy_signed": 32,
+        "extra_added": 56,
+        "extra_applies": true,
+        "form_signed": 31,
+        "klass": 8,
+        "product_low": 2688,
+        "quarter_term": 10,
+        "scale": 181,
+        "skill_after_placement": 42,
+        "value": 76,
+        "venue_share": 0,
+        "weight": 15
+      }
+    },
+    {
+      "inputs": {
+        "ability": 180,
+        "club_position": 2,
+        "element": 12,
+        "energy": 1,
+        "event": 0,
+        "extra": 56,
+        "form": 31,
+        "halved": 0,
+        "profile": 8,
+        "slot": 13,
+        "venue": 0
+      },
+      "name": "penalty-energy1",
+      "trace": {
+        "base_word": 64,
+        "before_venue": 108,
+        "condition_term": 26,
+        "derived_skill": 107,
+        "display_bar": 13,
+        "energy_signed": 1,
+        "extra_added": 56,
+        "extra_applies": true,
+        "form_signed": 31,
+        "klass": 6,
+        "product_low": 6848,
+        "quarter_term": 26,
+        "scale": 181,
+        "skill_after_placement": 107,
+        "value": 108,
+        "venue_share": 0,
+        "weight": 19
+      }
+    },
+    {
+      "inputs": {
+        "ability": 180,
+        "club_position": 2,
+        "element": 12,
+        "energy": 32,
+        "event": 0,
+        "extra": 56,
+        "form": 31,
+        "halved": 0,
+        "profile": 8,
+        "slot": 13,
+        "venue": 0
+      },
+      "name": "penalty-energy32",
+      "trace": {
+        "base_word": 64,
+        "before_venue": 108,
+        "condition_term": 26,
+        "derived_skill": 107,
+        "display_bar": 13,
+        "energy_signed": 32,
+        "extra_added": 56,
+        "extra_applies": true,
+        "form_signed": 31,
+        "klass": 6,
+        "product_low": 6848,
+        "quarter_term": 26,
+        "scale": 181,
+        "skill_after_placement": 107,
+        "value": 108,
+        "venue_share": 0,
+        "weight": 19
+      }
+    },
+    {
+      "inputs": {
+        "ability": 180,
+        "club_position": 0,
+        "element": 1,
+        "energy": 32,
+        "event": 0,
+        "extra": 56,
+        "form": 31,
+        "halved": 0,
+        "profile": 8,
+        "slot": 1,
+        "venue": 1
+      },
+      "name": "keeper-side1-host",
+      "trace": {
+        "base_word": 64,
+        "before_venue": 72,
+        "condition_term": 36,
+        "derived_skill": 147,
+        "display_bar": 18,
+        "energy_signed": 32,
+        "extra_added": 0,
+        "extra_applies": false,
+        "form_signed": 31,
+        "klass": 1,
+        "product_low": 9408,
+        "quarter_term": 36,
+        "scale": 181,
+        "skill_after_placement": 147,
+        "value": 76,
+        "venue_share": 4,
+        "weight": 26
+      }
+    },
+    {
+      "inputs": {
+        "ability": 180,
+        "club_position": 0,
+        "element": 1,
+        "energy": 32,
+        "event": 0,
+        "extra": 56,
+        "form": 31,
+        "halved": 0,
+        "profile": 8,
+        "slot": 12,
+        "venue": 1
+      },
+      "name": "keeper-side0-context",
+      "trace": {
+        "base_word": 64,
+        "before_venue": 72,
+        "condition_term": 36,
+        "derived_skill": 147,
+        "display_bar": 18,
+        "energy_signed": 32,
+        "extra_added": 0,
+        "extra_applies": false,
+        "form_signed": 31,
+        "klass": 1,
+        "product_low": 9408,
+        "quarter_term": 36,
+        "scale": 181,
+        "skill_after_placement": 147,
+        "value": 72,
+        "venue_share": 0,
+        "weight": 26
+      }
+    },
+    {
+      "inputs": {
+        "ability": 180,
+        "club_position": 0,
+        "element": 1,
+        "energy": 32,
+        "event": 3,
+        "extra": 56,
+        "form": 31,
+        "halved": 0,
+        "profile": 8,
+        "slot": 1,
+        "venue": 0
+      },
+      "name": "keeper-event3",
+      "trace": {
+        "base_word": 64,
+        "before_venue": 128,
+        "condition_term": 36,
+        "derived_skill": 147,
+        "display_bar": 18,
+        "energy_signed": 32,
+        "extra_added": 56,
+        "extra_applies": true,
+        "form_signed": 31,
+        "klass": 1,
+        "product_low": 9408,
+        "quarter_term": 36,
+        "scale": 181,
+        "skill_after_placement": 147,
+        "value": 128,
+        "venue_share": 0,
+        "weight": 26
+      }
+    },
+    {
+      "inputs": {
+        "ability": 180,
+        "club_position": 2,
+        "element": 3,
+        "energy": 1,
+        "event": 0,
+        "extra": 56,
+        "form": 128,
+        "halved": 0,
+        "profile": 8,
+        "slot": 13,
+        "venue": 0
+      },
+      "name": "synthetic-negative-form",
+      "trace": {
+        "base_word": 65410,
+        "before_venue": 219,
+        "condition_term": 183,
+        "derived_skill": 147,
+        "display_bar": 18,
+        "energy_signed": 1,
+        "extra_added": 0,
+        "extra_applies": false,
+        "form_signed": -128,
+        "klass": 1,
+        "product_low": 47014,
+        "quarter_term": 36,
+        "scale": 181,
+        "skill_after_placement": 147,
+        "value": 219,
+        "venue_share": 0,
+        "weight": 26
+      }
+    },
+    {
+      "inputs": {
+        "ability": 180,
+        "club_position": 13,
+        "element": 12,
+        "energy": 32,
+        "event": 0,
+        "extra": 56,
+        "form": 31,
+        "halved": 0,
+        "profile": 16,
+        "slot": 13,
+        "venue": 0
+      },
+      "name": "profile16-last-role",
+      "trace": {
+        "base_word": 64,
+        "before_venue": 120,
+        "condition_term": 32,
+        "derived_skill": 130,
+        "display_bar": 16,
+        "energy_signed": 32,
+        "extra_added": 56,
+        "extra_applies": true,
+        "form_signed": 31,
+        "klass": 5,
+        "product_low": 8320,
+        "quarter_term": 32,
+        "scale": 181,
+        "skill_after_placement": 130,
+        "value": 120,
+        "venue_share": 0,
+        "weight": 23
+      }
+    },
+    {
+      "inputs": {
+        "ability": 255,
+        "club_position": 0,
+        "element": 1,
+        "energy": 32,
+        "event": 0,
+        "extra": 56,
+        "form": 31,
+        "halved": 0,
+        "profile": 1,
+        "slot": 13,
+        "venue": 0
+      },
+      "name": "ability255-display-edge",
+      "trace": {
+        "base_word": 64,
+        "before_venue": 104,
+        "condition_term": 52,
+        "derived_skill": 208,
+        "display_bar": 26,
+        "energy_signed": 32,
+        "extra_added": 0,
+        "extra_applies": false,
+        "form_signed": 31,
+        "klass": 1,
+        "product_low": 13312,
+        "quarter_term": 52,
+        "scale": 256,
+        "skill_after_placement": 208,
+        "value": 104,
+        "venue_share": 0,
+        "weight": 26
+      }
+    }
+  ],
+  "legacy_window_bounds": {
+    "class_max_index": 168,
+    "class_saved_bytes": 168,
+    "profile_max_index": 204,
+    "profile_saved_bytes": 192
+  },
+  "locations": [
+    {
+      "address": "0791:278A",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "53ab03c3ffdb1889db40be192b3cb0a701e875093f3d860b9bf19332f68c5a2d",
+      "line": 671
+    },
+    {
+      "address": "0791:2974",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "646c97b2c9e16aac28baffbfe592c4f19e6e536a0bd1b5bd0cf226f014d9cd34",
+      "line": 792
+    },
+    {
+      "address": "0791:A260",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "0bff3a304491431a72141f468b52345724055563f4f845adffb1bbbcaf058fa9",
+      "line": 690
+    },
+    {
+      "address": "1771:0AA7",
+      "file": "static/goal-exe/named/seg_1771_01.c",
+      "heading_sha256": "7651f966eab32d460c09ffff1a3ad176a753a0ccc35b6a702c0b338bf6020578",
+      "line": 534
+    },
+    {
+      "address": "1771:3947",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "fb06e95b13cd54e822376386ebf13cde67e8311e0ead496732f9b36d5c6b2a1d",
+      "line": 427
+    },
+    {
+      "address": "1771:3A06",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "c243812d3bf7c7a7900c06a91e8653fbfbee029227fd99eed057d166eae4d048",
+      "line": 459
+    }
+  ],
+  "retained_files": [
+    {
+      "cases": 155,
+      "path": "experiments/E020-q018-condition-performance/records/contest-001.json"
+    },
+    {
+      "cases": 12,
+      "path": "experiments/E020-q018-condition-performance/records/contest-002-events.json"
+    },
+    {
+      "cases": 42,
+      "path": "experiments/E020-q018-condition-performance/records/contest-003-fitness.json"
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "Inputs and finite-width operations",
+    "Effective skill pipeline",
+    "Worked traces",
+    "Validation scope and limitations"
+  ],
+  "source_commit": "08beac2e9d43faf766e445e924da096b8a99d748",
+  "source_sha256": {
+    "experiments/E020-q018-condition-performance/records/contest-001.json": "c55b0c3bc701dfa340d71bb07f0a42d3bf80f5b36ff9c86a6f65ffbfed1dc0e3",
+    "experiments/E020-q018-condition-performance/records/contest-002-events.json": "7dba50cc5b396e80fc8d24176998ad78ad08fb9ae1d75228d1166a03f75244b0",
+    "experiments/E020-q018-condition-performance/records/contest-003-fitness.json": "f4dda9643a7f3db1e3303b64f3309d6754efaa5c9f18d1289fa5c590df255777",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_1771_05.asm": "4a856a9af9dee3d93fe6e6275ead612d2d3ba4c81363389c68fa5424ca8483d9",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "7688e639f8b35910e8c2ec8dc8734a2e40413a8d3b40d2b247400e29bdf79b19",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_09.c": "71a912e2c5564f75078a0db0220c5388a74ec168783371a63c74cdddae22275f",
+    "static/goal-exe/named/seg_1771_01.c": "d47615c756800af552cb83a614ccc4f2b4bf6ac0088af024f0633bd375996bd3",
+    "static/goal-exe/named/seg_1771_03.c": "b67f87b01f0d18c0f69f8a21e9f6c8983942778097f54778138c210a98262e21"
+  },
+  "task": "T98a"
+}
