@@ -7,6 +7,14 @@ exists.
 
 | Task | Title | Issue | Merge after |
 | --- | --- | --- | --- |
+| [T96a](T96a.md) | Persistent player-record dictionary (ES-R1) | [#464](https://github.com/diegoami/goal2-archaeology/issues/464) | T95 |
+| [T96b](T96b.md) | Derived player traits and field-use boundaries (ES-R1) | [#465](https://github.com/diegoami/goal2-archaeology/issues/465) | T96a |
+| [T97a](T97a.md) | Persistent team and fixture state (ES-R1) | [#466](https://github.com/diegoami/goal2-archaeology/issues/466) | T95 |
+| [T97b](T97b.md) | Transient pitch, ball and match globals (ES-R1) | [#467](https://github.com/diegoami/goal2-archaeology/issues/467) | T97a |
+| [T98a](T98a.md) | Effective skill arithmetic and worked examples (ES-R1) | [#468](https://github.com/diegoami/goal2-archaeology/issues/468) | T96b, T97b |
+| [T98b](T98b.md) | Strength, availability and foot arithmetic (ES-R1) | [#469](https://github.com/diegoami/goal2-archaeology/issues/469) | T98a |
+| [T99a](T99a.md) | RNG and single-player skill gates (ES-R1) | [#470](https://github.com/diegoami/goal2-archaeology/issues/470) | T98b |
+| [T99b](T99b.md) | Opposing contests and quick scoring probabilities (ES-R1) | [#471](https://github.com/diegoami/goal2-archaeology/issues/471) | T99a |
 | [T95](T95.md) | Engine inventory and evidence map (engine study) | [#434](https://github.com/diegoami/goal2-archaeology/issues/434) | planning merge |
 | [T96](T96.md) | Player attribute dictionary (engine study) | [#435](https://github.com/diegoami/goal2-archaeology/issues/435) | T95 |
 | [T97](T97.md) | Team, fixture and transient match-state dictionary (engine study) | [#436](https://github.com/diegoami/goal2-archaeology/issues/436) | T95 |
