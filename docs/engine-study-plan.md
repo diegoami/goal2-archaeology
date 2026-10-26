@@ -88,19 +88,19 @@ Dependencies express research needs, not permission to run several tasks in this
 T111 is optional and is not a dependency of T112 or T113. If its conclusions are included as
 established results, they require ES-R4P acceptance.
 
-## Model selection and spawned agents
+## Main-session implementation and targeted help
 
-[designed: owner, 2026-10-26] Every T95–T113 brief names the advised Codex model/effort and a
-Claude implementation alternative. For each ready slice, spawn an implementer with the selected
-model and effort explicitly set; the main session coordinates and merges. Slices inherit their
-package's assignment. The [model/spawn policy](engine-study-models.md) records all nineteen
-assignments, handover and model-receipt requirements, and independent-review defaults.
+[designed: owner correction, 2026-10-26] Do all implementation and analysis in the main session
+on `gpt-6.1-sol` at `high`. Sparingly use a separate `gpt-6.1-sol` / `xhigh` agent for only the
+hardest, narrowly scoped subproblems after working them at high. No task automatically requires
+delegation or extra-high effort. The [main-session model policy](engine-study-models.md) supersedes
+the previous per-task model assignments, mandatory implementer spawning and Claude implementation
+alternatives. Astra is excluded; xhigh is the Codex effort ceiling.
 
-For Codex implementations, default to a fresh Claude Opus 5.5/xhigh reviewer, with Kimi as an
-alternative. For Claude implementations, use a fresh Codex Astra/xhigh reviewer or Kimi. The reviewer
-must not be an author; owner-selected review models override defaults. T113's implementation agent
-prepares the packet; the independent reviewer supplies the final verdict. Existing readiness,
-prototype, evidence, budget and milestone gates still apply; recording this policy starts no agent.
+Independent milestone reviews remain Claude or Kimi reviews with model/settings selected at
+activation. T113's packet preparation and fixes use the main session at Sol/high; its reviewer
+supplies the independent verdict. Existing readiness, source/evidence, budget and milestone gates
+continue to apply.
 
 ## Dispatch and milestones
 
