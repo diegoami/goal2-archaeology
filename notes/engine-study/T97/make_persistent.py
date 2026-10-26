@@ -8,14 +8,29 @@ import sys
 ROOT=Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(ROOT/'notes/engine-study/foundations'))
 from check import pin,sha,write_new
+F023='findings/F023-the-stage-builders-write-the-competition-calendar-from-ranked-pots-and-a-points-sort-with-no-coin.md'
+
+
+def require_sources(paths):
+    for path in paths:
+        if not (ROOT/path).is_file():raise FileNotFoundError(path)
+
+
+def source_controls():
+    require_sources([F023])
+    try:require_sources(['findings/__missing_ES_R1_source__.md'])
+    except FileNotFoundError:return {'required_F023':'present','missing_pinned_source':'rejected'}
+    raise AssertionError('missing required source silently accepted')
 
 
 def f(offset,width,name,meaning):return dict(offset=offset,width=width,name=name,meaning=meaning)
 
 
 def build():
+    require_sources([F023])
     country=[f(0,40,'squad','Twenty little-endian player-index words; slots 1..11 are starters, 12..20 bench; order changes can persist.'),
-      f(40,2,'unresolved_28_29','Unexpanded country bytes +28..29; no invented skill or lifetime assignment.'),
+      f(40,1,'best_continent_rank','Initialised by 97CC; 63A4 lowers it only when the world-rank branch did not improve.'),
+      f(41,1,'best_world_rank','Initialised by 97CC; 63A4 lowers it before the else-if test for the continental byte.'),
       f(42,1,'continent_rank','Ordinary continental rank 1..32; country-rating/development/result-expectation input.'),
       f(43,1,'world_rank','Ordinary world rank 1..128; country-rating and result-expectation input.'),
       f(44,1,'continent','Ordinary continent code 1..4; rating, venue-host lookup and competition/recovery routing.'),
@@ -26,7 +41,7 @@ def build():
       f(119,48,'largest_result_records','D050 largest win/loss fixture-record area +77..A6; preserve as historical data, not player attributes.'),
       f(167,24,'streaks_unexpanded','D050 home/away/all streak/current-maximum area +A7..BE; subfield enumeration remains reader-specific.')]
     fixture=[f(0,1,'first_score_or_pending_mark','Side-0 score after play; pending marker such as FE/FF before play. Phase-dependent, not always a score.'),
-      f(1,1,'second_score','Side-1 score after play; pending representation must be read with its phase.'),
+      f(1,1,'second_score_or_group','Side-1 score after play; before play 5D94 writes the group number (0 for no group table); A3DE copies it to 9976.'),
       f(2,1,'kind','Competition/friendly kind; 1 is friendly; gates budgets, fouls, results/deciders and venue.'),
       f(3,1,'result_code','Played result: 0 side-0 winner, 1 side-1 winner, 2 draw; a silent decider coin may choose 0/1 despite equal score bytes.'),
       f(4,2,'first_country','Country for engine side 0; API first does not mean home.'),
@@ -52,14 +67,15 @@ def build():
     addresses=['2139:0000','1771:9A40','1771:9B85','1771:10E7','1771:0AA7','1771:0AF8','1771:0B77','1771:5A03','0791:A4A1','0791:A6E4','0791:D44C','0791:D47E','0791:B6CC','0791:B7FA','0791:BC5D','0791:D050','000E:6CA7','000E:6970']
     return pin({'task':'T97a','sections':['Identity, indexing and ownership','Persistent layouts','Fixture routing and venue','Cross-match lifetime and unresolved groups'],
                 'records':records,'manager_bonus':'floor(u8(manager[1])/8)+16','host_rule':'A6E4: second country unless result-kind set; else game host[calendar_class?5:continent(second)]; D44C compares host to second country',
-                'analysis_sha256':sha(Path(__file__).read_bytes())},addresses,
+                'analysis_sha256':sha(Path(__file__).read_bytes())},addresses+['1771:5D94','1771:97CC','1771:63A4','0791:A3DE'],
                ['runtime/original_match/image.py','runtime/original_match/port/setup.py','runtime/original_match/port/update.py','runtime/decoders/country.py',
-                'static/goal-exe/annotations/fields.tsv','static/goal-exe/annotations/globals.tsv','findings/F023-competition-calendar-stages-groups-seeding-and-hosts.md'] if (ROOT/'findings/F023-competition-calendar-stages-groups-seeding-and-hosts.md').exists() else
-               ['runtime/original_match/image.py','runtime/original_match/port/setup.py','runtime/original_match/port/update.py','runtime/decoders/country.py','static/goal-exe/annotations/fields.tsv','static/goal-exe/annotations/globals.tsv'])
+                'static/goal-exe/annotations/fields.tsv','static/goal-exe/annotations/globals.tsv',F023])
 
 
 def main():
-    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--check',action='store_true');a=ap.parse_args();path=ROOT/'notes/engine-study/T97/persistent.json';data=build()
+    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--check',action='store_true');ap.add_argument('--controls',action='store_true');a=ap.parse_args()
+    if a.controls:print(json.dumps(source_controls(),indent=2));return
+    path=ROOT/'notes/engine-study/T97/persistent-v2.json';data=build()
     if a.check:
         assert json.loads(path.read_text())==data,'persistent layout/source ledger differs';print('PASS: country191, fixture8, manager3 and game270 byte coverage; original source locations/hashes')
     else:write_new(path,data);print('wrote persistent layouts and venue/routing ledger')
