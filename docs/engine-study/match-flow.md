@@ -7,7 +7,7 @@ the [inventory](inventory.md), [stored player fields](player-fields.md),
 [strength](strength-formulas.md), [skill gates](skill-gates.md) and
 [opposing contests](contest-formulas.md) for the values moving through it.
 
-The [flow ledger](../../notes/engine-study/T100/flow.json) binds this reading to original
+The [flow ledger](../../notes/engine-study/T100/flow-v2.json) binds this reading to original
 locations and extracts the port's lexical guest-call sites. Static call order is not a dynamic
 execution count: branches and loops still control which calls happen.
 
@@ -66,7 +66,9 @@ flowchart TD
   SO --> END
   D -- no --> END
   END --> T[Summary and F1F6 post-match tail]
-  T --> U[Separate post-fixture B7FA continuation]
+  T --> V[Conditional router result updates: B71C then B6CC per side]
+  V --> N[Router 4E0E news / sack for each managed side]
+  N --> U[Separate post-fixture B7FA continuation]
 ```
 
 Setup derives current countries/venue, selects/corrects computer lineups, creates pitch values,
@@ -78,6 +80,13 @@ F098 calls first_half, half-end sweeps and the half-time/second-half sequence, w
 fixture score/result, then conditionally extra time and shootout. Watched settling can call9564
 directly outside97D0. The tail includes summary, table/history, reset/pool and player-restoration
 stages; detailed lifecycle belongs to T104.
+
+The original router calls F1F6 at 6F18. Its result-update branch (managed involvement and
+kind not friendly) then calls B71C and B6CC per side at 6F80/6F86. For each managed side,
+it calls 4E0E for post-match news/sack checks at 6FD8, before B7FA at 6FF8.
+These are conditional outer-router calls, not unconditional work inside F1F6.
+The kit calls F1F6 followed by B7FA; it omits this outer B71C/B6CC/4E0E sequence.
+The diagram above describes the original route, with those original-only stages explicit.
 
 The outer/kit post-fixture B7FA entry updates participants and other squad state separately.
 A full-time board/event is not by itself a guarantee that all campaign/participant updates
@@ -172,6 +181,66 @@ That is not automatically a universal five-minute cap on total extra play if new
 occur while time is being consumed. The full event/restart lifecycle remains part of T104.
 
 ## Randomness, events and saved continuations
+
+### Draw sites and why branches shift the stream
+
+Setup `2648` assigns the main seed word `U16(fixture_index*(elapsed_year+1))`, then
+calls `rand(16)-1` 255 times at 2682 to fill foul-table entries 1..255. The index is
+initialised from the second country. This happens before the kit's optional captain or
+computer-kickoff seed intervention, so that intervention does not resample the foul table.
+
+The ordinary watched sweep contains conditional ball phases, variable player work and
+movement retries. Its draw count is not fixed. In `8889`, being off the target square
+reaches the sprint-axis coin at 8A2E; a failed movement attempt can additionally reach
+`rand(5)` at 8AD1 before retrying. Changing a target, occupancy result or branch can
+therefore add draws before later players or ball work use the same main stream.
+
+| Original call site | Draw / condition |
+| --- | --- |
+| `0791:2682` | Setup `rand(16)`, repeated 255 times; stored byte is draw minus one. |
+| `0791:8A2E` | Sprint-axis coin in an off-target movement path. |
+| `0791:8AD1` | `rand(5)` after a failed move; retry path. |
+| `0791:B1DA`, `B1EC` | Quick attempt: opponent midfield draw, then own midfield draw. |
+| `0791:B20E`, `B220` | Only after midfield success: twice opponent defence, then own attack. |
+| `0791:B23F`, `B251` | Only after defence success: opponent keeper, then own attack. |
+
+The [historical E011 instrumented half](../../experiments/E011-q010-watched-engine/rng-counts.txt)
+records 91,985 main-seed draws over 2,077 ticks (about 44.29 per tick), with 0..6 ball
+phases and 1..23 sprint-axis coins per sweep. These are observations from that particular
+half, not universal limits or a fixed tick budget. The ledger re-reads its histogram totals;
+no new match or original-code run was made here. [F013](../../findings/F013-the-watched-engine-tick-map.md)
+connects these counts to the source's movement and sweep branches.
+
+The quick-attempt routine B19D provides a bounded example of the same dependency:
+
+```mermaid
+flowchart LR
+  M[Two midfield draws] --> W{Own wins?}
+  W -- no --> END[Next consumer]
+  W -- yes --> D[Two defence / attack draws]
+  D --> X{Own wins?}
+  X -- no --> END
+  X -- yes --> K[Two keeper / attack draws]
+  K --> END
+```
+
+One attempt takes 2, 4 or 6 draws because each strict signed loss/tie exits immediately.
+At entry seed 0, fix own keeper/defence/attack to 2/1/8 and opponent lines to [2,1,2,2].
+Changing only own midfield from 1 to 8 gives this source-derived local projection:
+
+| Own midfield | Opponent/own results, in order | Draws | End seed | Next common `rand(100)` |
+| ---: | --- | ---: | --- | ---: |
+| 1 | midfield 1/1: tie, stop | 2 | `0x3B22` | 97 |
+| 8 | midfield 1/2: win; defence/attack 2/1: loss, stop | 4 | `0x1E54` | 53 |
+
+The next call has the same bound but starts at a different point in the stream.
+Unconditionally consuming six draws would falsely align the two end seeds; the projection's
+negative control detects that error. This is arithmetic from B19D/0688 with declared line
+inputs, not a measured match, natural-lineup claim or probability estimate. See the
+[contest chapter](contest-formulas.md) for full one-attempt enumeration. It is B19D, not
+the tackle routine 5474, that supplies this three-stage example.
+
+### Events and saved continuations
 
 The main LCG, precomputed foul table/index, separate sound seed and original replay snapshot
 have different roles. Setup/table generation precedes later seed interventions. Restoring only
