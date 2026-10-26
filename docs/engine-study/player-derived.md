@@ -118,11 +118,16 @@ interpretation of every memory operation. Explicit unresolved access families ar
 These families point back to T95's registry/source census and T97's state dictionary; they are
 not an assertion that all aliases have been resolved.
 
-The [access frontier](../../notes/engine-study/T96/access-frontier-v1.json) makes this boundary
-concrete: 2,278 memory/record-API call sites across the 22 port source files, with operation names
+The [access frontier](../../notes/engine-study/T96/access-frontier-v2.json) makes this boundary
+concrete: 3,460 memory/record-API call sites across the 22 port source files, with operation names
 and source line lists. It deliberately includes non-player, table, stack and copy accesses; their
 record kind remains unresolved in that ledger until pointer/caller provenance is followed.
-This is an exhaustive syntactic census at the listed API names, not an exhaustive semantic census
+This includes 1,182 plain-function `_read`/`_write` sites in quick.py, rare.py and
+_display_finals.py, as well as the four inner API sites in the wrapper definitions.
+The original v1 frontier omitted those wrapper calls; it is retained as historical evidence.
+Counts are lexical sites, not distinct dynamic accesses. Stack/control helpers such as `_pop`
+and `_call` are represented by their inner access sites rather than expanded per caller.
+This is a syntactic census at the listed API names, not an exhaustive semantic census
 of player accesses or evidence that each candidate actually reads a player. Raw machinery is
 listed as excluded. Reproduce it with `python3 -B notes/engine-study/T96/make_accesses.py --check`.
 
