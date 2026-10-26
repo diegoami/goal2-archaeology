@@ -20,7 +20,9 @@ tracked by [#433](https://github.com/diegoami/goal2-archaeology/issues/433), add
 T95–T113 for code/field explanations, controlled experiments, defect investigation and a
 readable-rewrite assessment. The plan contains difficulty, size, complexity and impact ratings,
 dependencies, provisional active-effort estimates and acceptance outcomes for every package;
-the [task index](tasks/README.md) links each planning brief and issue.
+the [task index](tasks/README.md) links each planning brief and issue. The
+[independent review schedule](engine-study-reviews.md) defines five mandatory checkpoints and a
+conditional prototype review, with acceptance gates and separately stated review effort.
 
 Read static evidence first. Experiments need a pinned question and budget; the optional prototype
 needs a design decision. M/L packages split into independently mergeable slices before dispatch.
