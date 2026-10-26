@@ -949,10 +949,10 @@ void draw_team_line_bars(int param_1)
 }
 
 
-// ---- 1771:1289  draw_live_team_line_performance  (f_1771_1289; Ghidra 4000:1289, __stdcall16near; found by routines.tsv)
-// Clears DS:9B45..9B54, accumulates eleven starter performances into the role words at DS:9B47 using DS:0D7C (hybrid roles split a signed half), then calls11E1 at row20  [likely; read code/seg_1771_02.asm:870]
+// ---- 1771:1289  draw_team_performance_bars  (f_1771_1289; Ghidra 4000:1289, __stdcall16near; found by routines.tsv)
+// (side) the TEAM performance bars: clears DS:9B45..9B54, then for squad slots 1..11 of country DS:9B34[side] (no zero-word or availability test) adds v = ((+0x12 - 0x37), minus 10000 when signed above 5000) + 100 to the role word DS:9B47+4k, k = DS:0D7C[+6] (roles 4, 5: a signed idiv-2 half to k-3 and k-2); its 3A82 call is unused; then 11E1(20). 157D calls it only when DS:0C1E and DS:0C1F are both set, side 1 when DS:9B36 is the panel's country else 0  [established; F037; F014; read code/seg_1771_02.asm:871]
 
-void draw_live_team_line_performance(char param_1)
+void draw_team_performance_bars(char param_1)
 
 {
   word wVar1;
@@ -1055,21 +1055,5 @@ void team_panel_aggregate(int param_1)
   if (DS:9B5A == 0) {
     DS:9B5A = 1;
   }
-  return;
-}
-
-
-// ---- 1771:1527  draw_country_status_label  (f_1771_1527; Ghidra 4000:1527, __stdcall16near; found by routines.tsv)
-// TEAM row8 column25 Status: country_rating10E7 from rank bytes, signed (rating-1)/8 indexes DS:7884 then 16-byte label at DS:6EB4; normal rating1..128  [established; F035; read code/seg_1771_03.asm:6]
-
-void draw_country_status_label(undefined1 param_1,undefined1 param_2,undefined2 param_3)
-
-{
-  int iVar1;
-  
-  iVar1 = country_rating(param_3);
-  u214b_write_string_at_fwd
-            ((undefined4 *)&DS:A96E,0xb000,param_1,param_2,
-             (uint)*(byte *)((iVar1 + -1) / 8 + 0x7884) * 0x10 + 0x6eb4,0xb000);
   return;
 }

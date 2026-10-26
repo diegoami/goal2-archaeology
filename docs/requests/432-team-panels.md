@@ -8,6 +8,7 @@ are unchanged. Ranking-top and strips stay open on #432.
 | Panel | Task | Finding | Decoder |
 | --- | --- | --- | --- |
 | Team skills, rows 15..18 | T114 | [F036](../../findings/F036-team-skills-bars-are-0bc4-side-one-line-sums-scaled-by-11e1.md) | `runtime/decoders/team_skills.py`, `team_bars.py` |
+| Performance, rows 20..23 | T115 | [F037](../../findings/F037-team-performance-bars-sum-the-match-sides-performance-words-by-role-after-the-first-in-match-menu.md) | `runtime/decoders/team_performance.py`, `team_bars.py` |
 
 Findings start `proposed`. The probes are original code run on genuine memory, plus genuine DOSBox
 screens of the owner's sitting E015-r0007. That is static-adjacent corroboration, not a new
@@ -73,6 +74,42 @@ tools/heavy.sh T114-original -- /home/diego/.local/bin/python3.12 -B notes/432/s
 The probe needs the cached E006-r0001, E010-r0001..r0010 and E011-r0001 savestates and the 19
 E015-r0007 snapshots (release assets, verified by hash against their run records and manifest).
 Missing inputs are prerequisites, not permission to skip the comparison.
+
+## Performance (T115, F037)
+
+`team_performance(country, match_set_up, in_match_menu_used, sides, read_country, read_player, read_ds)`
+returns None when the original draws no performance bars. Otherwise it returns `side`, `team`,
+`bars` (as for skills, rows 20..23) and `role_sums`.
+
+- **Gate**: pass `DS:0C1E` as `match_set_up`, `DS:0C1F` as `in_match_menu_used`, and the words
+  `DS:9B34` and `DS:9B36` as `sides`. The bars exist only when both bytes are nonzero: during a
+  match, after the first (pre-match) visit of the in-match menu has returned. In goal2's terms, a
+  fixture is set up and the in-match menu has been left at least once. On the country list, the
+  main menu and the pre-match menu, leave rows 20..23 as the template: 25 unhighlighted `■` per
+  row. That is not a bar of zero, and not "no data".
+- **Which team**: side 1 when `DS:9B36` is the panel's country, else side 0. In a match the panel is
+  reached for either side. A non-participant would show side 0's bars. Keep that rule; do not
+  substitute the panel's own country.
+- **Inputs**: the chosen side's eleven squad words (slots 1..11, a zero word included as player 0).
+  For each, the player's `+0x12` performance word and `+6` position, plus the table `DS:0D7C`.
+  Each word becomes `((p - 0x37), minus 10000 when signed above 5000) + 100` in 16-bit
+  arithmetic, so a fresh starter or substitute is 100 and a blank 0x7FFF is 22812. Roles 4 and 5
+  give a signed, truncating half to two lines. Sums wrap at 16 bits.
+- **Rendering**: identical to skills, at rows 20..23 from column 10, with attribute 0x70.
+
+Regressions: in-match Italy (side 1 of 29 v 16) gives role sums 99/497/600/204 and cells
+9/12/14/4. The gate is closed (None) on every country-selection screen. Add the substitute word
+10055, the blank, raw 5055 against 5056, odd negative hybrid halves on a cell boundary, a
+non-participant country, and each gate byte alone.
+
+Pinned for vendoring: `team_performance.py` sha256
+`cd65009941455e7a0c1bd98a7d920ad3e57782f47e4940ccfe949c1a3e17200a` with `team_bars.py` as above.
+
+```sh
+/home/diego/.local/bin/python3.12 -B -m unittest tests.test_team_performance_decoder
+/home/diego/.local/bin/python3.12 -B notes/432/performance/mutations.py /tmp/T115-mutations-<new>.json
+tools/heavy.sh T115-original -- /home/diego/.local/bin/python3.12 -B notes/432/performance/probe.py --output /tmp/T115-original-<new>.json
+```
 
 No original executable, data, savestate or screenshot bytes cross repositories. No goal2 change is
 part of this delivery.
