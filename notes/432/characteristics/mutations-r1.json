@@ -1,0 +1,125 @@
+{
+  "baseline_tests": 11,
+  "mutants": [
+    {
+      "mutation": "seed_zero",
+      "failures": 3,
+      "errors": 0
+    },
+    {
+      "mutation": "seed_five",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "divide_by_ten",
+      "failures": 10,
+      "errors": 0
+    },
+    {
+      "mutation": "signed_sums",
+      "failures": 3,
+      "errors": 0
+    },
+    {
+      "mutation": "count_unavailable",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "morale_unclamped",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "morale_unsigned",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "no_morale_floor",
+      "failures": 2,
+      "errors": 0
+    },
+    {
+      "mutation": "floor_everything",
+      "failures": 2,
+      "errors": 0
+    },
+    {
+      "mutation": "fitness_unsigned",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "hardness_ignores_bit",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "hardness_signed",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "age_from_fitness",
+      "failures": 4,
+      "errors": 0
+    },
+    {
+      "mutation": "caps_byte",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "slot_twelve",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "hardness_bar_32",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "morale_bar_16",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "no_shift_mask",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "swap_fitness_energy_tables",
+      "failures": 2,
+      "errors": 0
+    },
+    {
+      "mutation": "morale_table_offset",
+      "failures": 2,
+      "errors": 0
+    },
+    {
+      "mutation": "column_47",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "caps_column",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "clamp_to_table",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "unbounded_label",
+      "failures": 1,
+      "errors": 0
+    }
+  ]
+}

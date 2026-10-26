@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT/'notes/432/skills'))
 import harness as h  # noqa: E402
-from decoders.team_characteristics import FIELDS, aggregates, team_characteristics  # noqa: E402
+from decoders.team_characteristics import DESCRIPTORS, FIELDS, aggregates, bar_cells, team_characteristics  # noqa: E402
 
 WIDTH = 16   # the template's characteristics cells, columns 46..61
 
@@ -65,6 +65,33 @@ def direct(m, country):
     return {f: m.ds_word(0x9B5A+2*i) for i, f in enumerate(FIELDS)}
 
 
+WIDE = 6144   # cells: the furthest bar (row 23, column 46, 4095 cells) ends at 5900
+
+
+def wide_panel(m, country):
+    """157D into a scratch buffer cleared well past the screen: a run-on bar's whole length is visible."""
+    m.g.put(h.SCREEN, b'\x20\x07'*2000+bytes(2*(WIDE-2000)))
+    m.put_ds(0xA96E, b'\0\0'+(h.SCREEN >> 4).to_bytes(2, 'little'))
+    m.original.call('1771:157D', [country], far=False, pop=2)
+    raw = m.g.mem(h.SCREEN, 2*WIDE)
+    return raw[::2], raw[1::2]
+
+
+def exact_extent(m, country, descriptors):
+    """With no performance bars on rows 20..23, the cells from row 20 column 46 onwards carrying 0x70
+    are exactly the union of the four bars, beyond the screen's end included."""
+    if m.read_ds(0xC1E, 1)[0] and m.read_ds(0xC1F, 1)[0]:
+        return False
+    _, attrs = wide_panel(m, country)
+    on = set()
+    for x in descriptors:
+        start = 80*(x['row']-1)+x['column']-1
+        on.update(range(start, start+x['cells']))
+    first = 80*19+45
+    assert {c for c in range(first, WIDE) if attrs[c] == 0x70} == {c for c in on if c >= first}, (country, 'extent')
+    return True
+
+
 def compare(m, country, where, screen=None):
     """13D0 directly against the aggregates; 157D's cells against the decoded panel. A label the
     host refuses (a Pascal length above 15 read from outside the tables) returns None."""
@@ -73,11 +100,22 @@ def compare(m, country, where, screen=None):
     try:
         d = team_characteristics(m.read_country(country), m.read_player, m.read_ds)
     except ValueError:
+        # the label is refused; the bars and the highlight still come from the aggregates alone
+        bars = dict(descriptors=[dict(field=f, row=row, column=46, cells=bar_cells(values[f], divisor))
+                                 for f, _, row, divisor, _ in DESCRIPTORS])
+        _, attrs = m.panel(country)
+        on = lit(bars)
+        for x in bars['descriptors']:
+            start = 80*(x['row']-1)+x['column']-1
+            assert all((attrs[c] == 0x70) == (c in on) for c in range(start, start+WIDTH)), (where, x)
+        assert all(attrs[c] == 0x70 for c in on), (where, 'run-on')
+        exact_extent(m, country, bars['descriptors'])
         return None
     chars, attrs = m.panel(country)
     assert observed(chars, attrs, d) == expected(d), (where, observed(chars, attrs, d), expected(d))
     on = lit(d)
     assert all((attrs[c] == 0x70) for c in on), (where, 'run-on')
+    exact_extent(m, country, d['descriptors'])
     if screen is not None:
         assert observed(screen.chars, screen.attrs, d) == expected(d), (where, 'genuine')
     return d
@@ -153,6 +191,25 @@ def fuzz(m, rnd, cases):
     return rows
 
 
+def wrap_controls(m, country):
+    """Synthetic: eleven available players with fitness, then morale, of -k (k = 1..128): the
+    wrapped sums divide unsigned to 5830..5957, past the shift's 4096 limit."""
+    record = m.read_country(country)
+    words = [int.from_bytes(record[2*i:2*i+2], 'little') for i in range(11)]
+    compared = refused = 0
+    for offset in (0xD, 0xC):
+        for k in range(1, 129):
+            for w in words:
+                p = bytearray(m.read_player(w))
+                p[0xC], p[0xD], p[0xE], p[0x10] = 16, 20, 20, 0
+                p[offset] = (-k) & 0xFF
+                m.put_player(w, 0, bytes(p))
+            d = compare(m, country, ('wrap', offset, k))
+            compared += d is not None
+            refused += d is None
+    return dict(labels_compared=compared, label_refusals_bars_compared=refused)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--output', type=Path, required=True)
@@ -166,6 +223,7 @@ def main():
     renders, ranges = genuine_renders(states + [year_one()] + [(label, raw) for label, raw, _ in h.sitting_screens()[::6]])
     fuzzed = fuzz(h.Machine(states[0][1]), random.Random(432116), a.cases)
     refused = fuzzed.count(None)
+    wraps = wrap_controls(h.Machine(states[0][1]), 12)
     fuzzed = [x for x in fuzzed if x is not None]
     out_of_table = sum(1 for x in fuzzed if not (x['hardness'] <= 16 and x['fitness'] <= 32 and x['energy'] <= 32))
     receipt = dict(h.receipt_base(__file__),
@@ -173,6 +231,7 @@ def main():
                           'unmodified original 13D0 and 157D on genuine states; synthetic controls are '
                           'labelled and edit a private copied machine only',
                    genuine_screens=screens, genuine_renders=renders, genuine_aggregate_ranges=ranges,
+                   synthetic_wrap=wraps,
                    synthetic_fuzz=dict(cases=len(fuzzed)+refused, compared=len(fuzzed), host_refusals=refused, seed=432116,
                                        out_of_table_cases=out_of_table,
                                        ranges={f: [min(x[f] for x in fuzzed), max(x[f] for x in fuzzed)]
@@ -185,7 +244,7 @@ def main():
     a.output.parent.mkdir(parents=True, exist_ok=True)
     a.output.write_text(json.dumps(receipt, indent=1, ensure_ascii=False)+'\n')
     print(f'{len(screens)} genuine TEAM screens; {len(renders)} genuine states x 128 original renders; '
-          f'{len(fuzzed)} synthetic squads compared ({out_of_table} out of table, {refused} host refusals): all exact')
+          f'{len(fuzzed)} synthetic squads compared ({out_of_table} out of table, {refused} host refusals); wrap controls {wraps}: all exact')
 
 
 if __name__ == '__main__':

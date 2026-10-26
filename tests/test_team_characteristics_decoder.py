@@ -63,6 +63,10 @@ class TestAggregates(unittest.TestCase):
         out = self.agg([player()]*5)
         self.assertEqual(out['caps'], (6+50)//11)
 
+    def test_slot_twelve_is_ignored(self):
+        self.m.players[1], self.m.players[2] = player(), player(caps=1000)
+        self.assertEqual(aggregates(country([1]*11+[2]), self.m.read_player)['caps'], (6+110)//11)
+
     def test_morale_terms(self):
         self.assertEqual(self.agg([player(morale=40)]*11)['morale'], (6+11*32)//11)
         self.assertEqual(self.agg([player(morale=0)]*11)['morale'], 1)          # floor 1, morale only
