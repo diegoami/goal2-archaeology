@@ -2,7 +2,7 @@
 // Headings give listing addresses (SEGMENT:OFFSET, as in ../code/). DS:XXXX is the data segment 2581. A segment number written in the code (a far pointer's segment, a far call's) is Ghidra's: listing=Ghidra 0000=0000, 000E=1000, 0791=2000, 16D6=3000, 1771=4000, 2138=5000, 2139=6000, 214B=7000, 235C=8000, 2382=9000, 23E4=A000, 2581=B000.
 
 // ---- 1771:157D  draw_team_panel  (f_1771_157D; Ghidra 4000:157D, __stdcall16near; found by routines.tsv)
-// a country's information panel (template DS:4BBE): name, manager, ranks (world_rank, continent_rank, +0x28, +0x29), line counts (1771:0E6C), word bars DS:9B5A..9B60, the 8 team-tactic flags of +0x2D, line strengths (1771:0BC4), continent. The bar at row 0x17 is filled from DS:9B5A via DS:78A3[DS:9B5A] (the team morale string index in the same 6EB4-rooted table the player panel reads for individual morale). The team morale aggregate DS:9B5A is recomputed here by 1771:13D0 every panel render; it is NEVER persisted into the country record (the listing has no other writer of DS:9B5A)  [likely; F008; F010; F020; read decompiled/seg_1771_01.c; F021]
+// a country's information panel (template DS:4BBE): name, manager, ranks (world_rank, continent_rank, +0x28, +0x29), line counts (1771:0E6C), word bars DS:9B5A..9B60, the 8 team-tactic flags of +0x2D, the skills bars (1771:0BC4(country, side 1, flag 0) then 1771:11E1(15), F036), continent. The bar at row 0x17 is filled from DS:9B5A via DS:78A3[DS:9B5A] (the team morale string index in the same 6EB4-rooted table the player panel reads for individual morale). The team morale aggregate DS:9B5A is recomputed here by 1771:13D0 every panel render; it is NEVER persisted into the country record (the listing has no other writer of DS:9B5A)  [likely; F008; F010; F020; read decompiled/seg_1771_01.c; F021; F036]
 
 void draw_team_panel(int param_1)
 
@@ -109,7 +109,7 @@ void draw_team_panel(int param_1)
     local_4 = local_4 + 1;
   }
   compute_team_line_strengths((uint)extraout_AH_07 << 8,CONCAT11(extraout_AH_07,1),param_1);
-  draw_team_line_strength_bars(0xf);
+  draw_team_line_bars(0xf);
   if ((match_set_up != 0) && (in_match_menu_used != 0)) {
     draw_live_team_line_performance(DS:9B36 == param_1);
   }

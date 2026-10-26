@@ -1,0 +1,120 @@
+{
+  "baseline_tests": 14,
+  "mutants": [
+    {
+      "mutation": "divide_keeper",
+      "failures": 3,
+      "errors": 0
+    },
+    {
+      "mutation": "divide_by_eight",
+      "failures": 2,
+      "errors": 0
+    },
+    {
+      "mutation": "clamp_from_zero",
+      "failures": 2,
+      "errors": 0
+    },
+    {
+      "mutation": "clamp_255",
+      "failures": 3,
+      "errors": 0
+    },
+    {
+      "mutation": "scale_26",
+      "failures": 3,
+      "errors": 0
+    },
+    {
+      "mutation": "round_scale",
+      "failures": 2,
+      "errors": 0
+    },
+    {
+      "mutation": "column_11",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "bonus_always",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "bonus_quarter",
+      "failures": 2,
+      "errors": 0
+    },
+    {
+      "mutation": "bonus_formula",
+      "failures": 4,
+      "errors": 0
+    },
+    {
+      "mutation": "ability_from_confidence",
+      "failures": 3,
+      "errors": 0
+    },
+    {
+      "mutation": "keeper_gets_tactics",
+      "failures": 3,
+      "errors": 0
+    },
+    {
+      "mutation": "tactic_sides_swapped",
+      "failures": 2,
+      "errors": 0
+    },
+    {
+      "mutation": "no_player_override",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "panel_country_tactics",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "hybrid_whole",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "hybrid_wrong_lines",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "slot_twelve",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "form_threshold",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "no_halving",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "availability_ignores_status",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "strength_offset",
+      "failures": 7,
+      "errors": 0
+    },
+    {
+      "mutation": "no_line_bound",
+      "failures": 0,
+      "errors": 1
+    }
+  ]
+}
