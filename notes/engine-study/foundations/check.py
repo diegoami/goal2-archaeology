@@ -104,8 +104,14 @@ def validate(task, data):
             raise ValueError(f"unexplained field: {name}")
     if task == "T96a" and len(data["records"]["player"]["fields"]) != 17:
         raise ValueError("player word/byte field census changed")
-    if task == "T96b" and len(data.get("skills", [])) != 12:
-        raise ValueError("missing displayed skill")
+    if task == "T96b":
+        skills = data.get("skills", [])
+        if {s["element"] for s in skills} != set(range(1, 13)) or len(skills) != 12:
+            raise ValueError("missing/duplicate displayed skill")
+        stored = json.loads((ROOT / "notes/engine-study/T96/fields.json").read_text())
+        names = {f["name"] for f in stored["records"]["player"]["fields"]}
+        if set(data.get("field_roles", {})) != names or not data.get("access_boundaries"):
+            raise ValueError("missing stored-field disposition or indirect-access boundary")
     if task == "T97b" and not {"clock", "score-statistics", "rng", "marking", "restart", "occupancy", "save-decisions"} <= set(data.get("state_groups", [])):
         raise ValueError("missing transient state family")
     if task in {"T98a", "T98b", "T99a", "T99b"} and not data.get("checks"):
