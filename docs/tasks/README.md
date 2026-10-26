@@ -34,6 +34,9 @@ exists.
 | [T111](T111.md) | Conditional readable-rule prototype (engine study) | [#450](https://github.com/diegoami/goal2-archaeology/issues/450) | T110; [ES-R4](../engine-study-reviews.md#es-r4) accepted |
 | [T112](T112.md) | Assemble the engine guide and exploration atlas (engine study) | [#451](https://github.com/diegoami/goal2-archaeology/issues/451) | T95, T96, T97, T98, T99, T100, T101, T102, T103, T104, T106, T107, T108, T109, T110; [ES-R3](../engine-study-reviews.md#es-r3) accepted, [ES-R4](../engine-study-reviews.md#es-r4) accepted |
 | [T113](T113.md) | Independent milestone review of the engine study (engine study) | [#452](https://github.com/diegoami/goal2-archaeology/issues/452) | T112 |
+| [T114](T114.md) | Country TEAM team-skills bars | [#432](https://github.com/diegoami/goal2-archaeology/issues/432) | T94 |
+| [T115](T115.md) | Country TEAM performance bars | [#432](https://github.com/diegoami/goal2-archaeology/issues/432) | T114 |
+| [T116](T116.md) | Country TEAM characteristics | [#432](https://github.com/diegoami/goal2-archaeology/issues/432) | T114 |
 | T93 | Manager-name boundaries and the B Vogts glyph | #429 | — |
 | T94 | Country TEAM Status and Skill | #428 | T93 |
 | T01 | The GOAL2 research repository: layout, the artifact by hash, the plan (G0) | #1 | — |
