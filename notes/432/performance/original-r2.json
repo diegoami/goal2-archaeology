@@ -1,0 +1,868 @@
+{
+ "source_commit": "cb3b5e0aa4e3d7cb25efd1a1670f42b9f0b78e99",
+ "producer_sha256": "24270dfd33ef065b1fee4635d2a464ec744de7045cb32ce5d13426f67034a0e4",
+ "harness_sha256": "6c83219a2f77ae2717ae2f202363090b64c4fab27f0356df8ccecc3ab23a1d37",
+ "helper_sha256": "2fb5c28a41274ef9f26e77ca08a82720b79766beea701f3a6e4c232cdc42ab92",
+ "unicorn": "2.1.4",
+ "bound_per_call": "2seconds/500000instructions",
+ "method": "genuine E015-r0007 DOSBox screens paired by digest with their snapshots, and unmodified original 157D (1289/11E1) on genuine states; synthetic controls are labelled and edit a private copied machine only",
+ "genuine_screens": [
+  {
+   "state": "E015-r0007:snap-0003-20261011T141009Z.sav",
+   "genuine_screen": true,
+   "stale_rows": [],
+   "country": 7,
+   "name": "Denmark",
+   "c1e": 0,
+   "c1f": 0,
+   "sides": [
+    0,
+    0
+   ],
+   "shown": false,
+   "side": null,
+   "role_sums": null,
+   "cells": null
+  },
+  {
+   "state": "E015-r0007:snap-0004-20261011T141011Z.sav",
+   "genuine_screen": true,
+   "stale_rows": [],
+   "country": 20,
+   "name": "Holland",
+   "c1e": 0,
+   "c1f": 0,
+   "sides": [
+    0,
+    0
+   ],
+   "shown": false,
+   "side": null,
+   "role_sums": null,
+   "cells": null
+  },
+  {
+   "state": "E015-r0007:snap-0005-20261011T141012Z.sav",
+   "genuine_screen": true,
+   "stale_rows": [],
+   "country": 25,
+   "name": "Scotland",
+   "c1e": 0,
+   "c1f": 0,
+   "sides": [
+    0,
+    0
+   ],
+   "shown": false,
+   "side": null,
+   "role_sums": null,
+   "cells": null
+  },
+  {
+   "state": "E015-r0007:snap-0006-20261011T141012Z.sav",
+   "genuine_screen": true,
+   "stale_rows": [],
+   "country": 30,
+   "name": "Russia",
+   "c1e": 0,
+   "c1f": 0,
+   "sides": [
+    0,
+    0
+   ],
+   "shown": false,
+   "side": null,
+   "role_sums": null,
+   "cells": null
+  },
+  {
+   "state": "E015-r0007:snap-0007-20261011T141013Z.sav",
+   "genuine_screen": true,
+   "stale_rows": [],
+   "country": 32,
+   "name": "Yugoslavia",
+   "c1e": 0,
+   "c1f": 0,
+   "sides": [
+    0,
+    0
+   ],
+   "shown": false,
+   "side": null,
+   "role_sums": null,
+   "cells": null
+  },
+  {
+   "state": "E015-r0007:snap-0008-20261011T141013Z.sav",
+   "genuine_screen": true,
+   "stale_rows": [],
+   "country": 6,
+   "name": "R.C.S",
+   "c1e": 0,
+   "c1f": 0,
+   "sides": [
+    0,
+    0
+   ],
+   "shown": false,
+   "side": null,
+   "role_sums": null,
+   "cells": null
+  },
+  {
+   "state": "E015-r0007:snap-0009-20261011T141014Z.sav",
+   "genuine_screen": true,
+   "stale_rows": [],
+   "country": 16,
+   "name": "Italy",
+   "c1e": 0,
+   "c1f": 0,
+   "sides": [
+    0,
+    0
+   ],
+   "shown": false,
+   "side": null,
+   "role_sums": null,
+   "cells": null
+  },
+  {
+   "state": "E015-r0007:snap-0010-20261011T141014Z.sav",
+   "genuine_screen": false,
+   "stale_rows": [
+    8,
+    10,
+    12,
+    13,
+    15,
+    16,
+    17,
+    18
+   ],
+   "country": 16,
+   "name": "Italy",
+   "c1e": 0,
+   "c1f": 0,
+   "sides": [
+    0,
+    0
+   ],
+   "shown": false,
+   "side": null,
+   "role_sums": null,
+   "cells": null
+  },
+  {
+   "state": "E015-r0007:snap-0011-20261011T141017Z.sav",
+   "genuine_screen": false,
+   "stale_rows": [
+    8,
+    10,
+    12,
+    13,
+    15,
+    16,
+    17,
+    18
+   ],
+   "country": 16,
+   "name": "Italy",
+   "c1e": 0,
+   "c1f": 0,
+   "sides": [
+    0,
+    0
+   ],
+   "shown": false,
+   "side": null,
+   "role_sums": null,
+   "cells": null
+  },
+  {
+   "state": "E015-r0007:snap-0012-20261011T141017Z.sav",
+   "genuine_screen": false,
+   "stale_rows": [
+    8,
+    10,
+    12,
+    13,
+    15,
+    16,
+    17,
+    18
+   ],
+   "country": 16,
+   "name": "Italy",
+   "c1e": 0,
+   "c1f": 0,
+   "sides": [
+    0,
+    0
+   ],
+   "shown": false,
+   "side": null,
+   "role_sums": null,
+   "cells": null
+  },
+  {
+   "state": "E015-r0007:snap-0013-20261011T141018Z.sav",
+   "genuine_screen": false,
+   "stale_rows": [
+    8,
+    10,
+    12,
+    13,
+    15,
+    16,
+    17,
+    18
+   ],
+   "country": 16,
+   "name": "Italy",
+   "c1e": 0,
+   "c1f": 0,
+   "sides": [
+    0,
+    0
+   ],
+   "shown": false,
+   "side": null,
+   "role_sums": null,
+   "cells": null
+  },
+  {
+   "state": "E015-r0007:snap-0119-20261011T141630Z.sav",
+   "genuine_screen": true,
+   "stale_rows": [],
+   "country": 16,
+   "name": "Italy",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    29,
+    16
+   ],
+   "shown": true,
+   "side": 1,
+   "role_sums": [
+    99,
+    497,
+    600,
+    204
+   ],
+   "cells": [
+    9,
+    12,
+    14,
+    4
+   ]
+  },
+  {
+   "state": "E015-r0007:snap-0120-20261011T141631Z.sav",
+   "genuine_screen": true,
+   "stale_rows": [],
+   "country": 16,
+   "name": "Italy",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    29,
+    16
+   ],
+   "shown": true,
+   "side": 1,
+   "role_sums": [
+    99,
+    497,
+    600,
+    204
+   ],
+   "cells": [
+    9,
+    12,
+    14,
+    4
+   ]
+  },
+  {
+   "state": "E015-r0007:snap-0121-20261011T141632Z.sav",
+   "genuine_screen": true,
+   "stale_rows": [],
+   "country": 16,
+   "name": "Italy",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    29,
+    16
+   ],
+   "shown": true,
+   "side": 1,
+   "role_sums": [
+    99,
+    497,
+    600,
+    204
+   ],
+   "cells": [
+    9,
+    12,
+    14,
+    4
+   ]
+  },
+  {
+   "state": "E015-r0007:snap-0122-20261011T141634Z.sav",
+   "genuine_screen": true,
+   "stale_rows": [],
+   "country": 16,
+   "name": "Italy",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    29,
+    16
+   ],
+   "shown": true,
+   "side": 1,
+   "role_sums": [
+    99,
+    497,
+    600,
+    204
+   ],
+   "cells": [
+    9,
+    12,
+    14,
+    4
+   ]
+  },
+  {
+   "state": "E015-r0007:snap-0125-20261011T141636Z.sav",
+   "genuine_screen": true,
+   "stale_rows": [],
+   "country": 16,
+   "name": "Italy",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    29,
+    16
+   ],
+   "shown": true,
+   "side": 1,
+   "role_sums": [
+    99,
+    497,
+    600,
+    204
+   ],
+   "cells": [
+    9,
+    12,
+    14,
+    4
+   ]
+  },
+  {
+   "state": "E015-r0007:snap-0126-20261011T141637Z.sav",
+   "genuine_screen": true,
+   "stale_rows": [],
+   "country": 16,
+   "name": "Italy",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    29,
+    16
+   ],
+   "shown": true,
+   "side": 1,
+   "role_sums": [
+    99,
+    497,
+    600,
+    204
+   ],
+   "cells": [
+    9,
+    12,
+    14,
+    4
+   ]
+  },
+  {
+   "state": "E015-r0007:snap-0127-20261011T141637Z.sav",
+   "genuine_screen": true,
+   "stale_rows": [],
+   "country": 16,
+   "name": "Italy",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    29,
+    16
+   ],
+   "shown": true,
+   "side": 1,
+   "role_sums": [
+    99,
+    497,
+    600,
+    204
+   ],
+   "cells": [
+    9,
+    12,
+    14,
+    4
+   ]
+  },
+  {
+   "state": "E015-r0007:snap-0128-20261011T141638Z.sav",
+   "genuine_screen": true,
+   "stale_rows": [],
+   "country": 16,
+   "name": "Italy",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    29,
+    16
+   ],
+   "shown": true,
+   "side": 1,
+   "role_sums": [
+    99,
+    497,
+    600,
+    204
+   ],
+   "cells": [
+    9,
+    12,
+    14,
+    4
+   ]
+  }
+ ],
+ "genuine_renders": [
+  {
+   "state": "E006-r0001:e006-1000-r0001.sav",
+   "c1e": 0,
+   "c1f": 0,
+   "sides": [
+    0,
+    0
+   ],
+   "countries": 128,
+   "shown": 0
+  },
+  {
+   "state": "E010-r0001:E010-r0001-halftime.sav",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    27,
+    7
+   ],
+   "countries": 128,
+   "shown": 128
+  },
+  {
+   "state": "E010-r0002:E010-r0002-halftime.sav",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    27,
+    7
+   ],
+   "countries": 128,
+   "shown": 128
+  },
+  {
+   "state": "E010-r0003:E010-r0003-halftime.sav",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    9,
+    7
+   ],
+   "countries": 128,
+   "shown": 128
+  },
+  {
+   "state": "E010-r0004:E010-r0004-halftime.sav",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    9,
+    7
+   ],
+   "countries": 128,
+   "shown": 128
+  },
+  {
+   "state": "E010-r0005:E010-r0005-halftime.sav",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    31,
+    7
+   ],
+   "countries": 128,
+   "shown": 128
+  },
+  {
+   "state": "E010-r0006:E010-r0006-halftime.sav",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    31,
+    7
+   ],
+   "countries": 128,
+   "shown": 128
+  },
+  {
+   "state": "E010-r0007:E010-r0007-halftime.sav",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    7,
+    27
+   ],
+   "countries": 128,
+   "shown": 128
+  },
+  {
+   "state": "E010-r0008:E010-r0008-halftime.sav",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    7,
+    27
+   ],
+   "countries": 128,
+   "shown": 128
+  },
+  {
+   "state": "E010-r0009:E010-r0009-halftime.sav",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    7,
+    19
+   ],
+   "countries": 128,
+   "shown": 128
+  },
+  {
+   "state": "E010-r0010:E010-r0010-halftime.sav",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    7,
+    19
+   ],
+   "countries": 128,
+   "shown": 128
+  },
+  {
+   "state": "E011-r0001:E011-r0001-watchstart.sav",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    7,
+    19
+   ],
+   "countries": 128,
+   "shown": 128
+  },
+  {
+   "state": "E011-r0001:E011-r0001-halftime.sav",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    7,
+    19
+   ],
+   "countries": 128,
+   "shown": 128
+  },
+  {
+   "state": "E015-r0007:snap-0003-20261011T141009Z.sav",
+   "c1e": 0,
+   "c1f": 0,
+   "sides": [
+    0,
+    0
+   ],
+   "countries": 128,
+   "shown": 0
+  },
+  {
+   "state": "E015-r0007:snap-0009-20261011T141014Z.sav",
+   "c1e": 0,
+   "c1f": 0,
+   "sides": [
+    0,
+    0
+   ],
+   "countries": 128,
+   "shown": 0
+  },
+  {
+   "state": "E015-r0007:snap-0120-20261011T141631Z.sav",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    29,
+    16
+   ],
+   "countries": 128,
+   "shown": 128
+  },
+  {
+   "state": "E015-r0007:snap-0128-20261011T141638Z.sav",
+   "c1e": 1,
+   "c1f": 1,
+   "sides": [
+    29,
+    16
+   ],
+   "countries": 128,
+   "shown": 128
+  }
+ ],
+ "synthetic_gates": [
+  {
+   "c1e": 0,
+   "c1f": 0,
+   "second": 7,
+   "shown": false,
+   "side": null
+  },
+  {
+   "c1e": 0,
+   "c1f": 0,
+   "second": 12,
+   "shown": false,
+   "side": null
+  },
+  {
+   "c1e": 0,
+   "c1f": 0,
+   "second": 0,
+   "shown": false,
+   "side": null
+  },
+  {
+   "c1e": 0,
+   "c1f": 1,
+   "second": 7,
+   "shown": false,
+   "side": null
+  },
+  {
+   "c1e": 0,
+   "c1f": 1,
+   "second": 12,
+   "shown": false,
+   "side": null
+  },
+  {
+   "c1e": 0,
+   "c1f": 1,
+   "second": 0,
+   "shown": false,
+   "side": null
+  },
+  {
+   "c1e": 0,
+   "c1f": 255,
+   "second": 7,
+   "shown": false,
+   "side": null
+  },
+  {
+   "c1e": 0,
+   "c1f": 255,
+   "second": 12,
+   "shown": false,
+   "side": null
+  },
+  {
+   "c1e": 0,
+   "c1f": 255,
+   "second": 0,
+   "shown": false,
+   "side": null
+  },
+  {
+   "c1e": 1,
+   "c1f": 0,
+   "second": 7,
+   "shown": false,
+   "side": null
+  },
+  {
+   "c1e": 1,
+   "c1f": 0,
+   "second": 12,
+   "shown": false,
+   "side": null
+  },
+  {
+   "c1e": 1,
+   "c1f": 0,
+   "second": 0,
+   "shown": false,
+   "side": null
+  },
+  {
+   "c1e": 1,
+   "c1f": 1,
+   "second": 7,
+   "shown": true,
+   "side": 0
+  },
+  {
+   "c1e": 1,
+   "c1f": 1,
+   "second": 12,
+   "shown": true,
+   "side": 1
+  },
+  {
+   "c1e": 1,
+   "c1f": 1,
+   "second": 0,
+   "shown": true,
+   "side": 0
+  },
+  {
+   "c1e": 1,
+   "c1f": 255,
+   "second": 7,
+   "shown": true,
+   "side": 0
+  },
+  {
+   "c1e": 1,
+   "c1f": 255,
+   "second": 12,
+   "shown": true,
+   "side": 1
+  },
+  {
+   "c1e": 1,
+   "c1f": 255,
+   "second": 0,
+   "shown": true,
+   "side": 0
+  },
+  {
+   "c1e": 255,
+   "c1f": 0,
+   "second": 7,
+   "shown": false,
+   "side": null
+  },
+  {
+   "c1e": 255,
+   "c1f": 0,
+   "second": 12,
+   "shown": false,
+   "side": null
+  },
+  {
+   "c1e": 255,
+   "c1f": 0,
+   "second": 0,
+   "shown": false,
+   "side": null
+  },
+  {
+   "c1e": 255,
+   "c1f": 1,
+   "second": 7,
+   "shown": true,
+   "side": 0
+  },
+  {
+   "c1e": 255,
+   "c1f": 1,
+   "second": 12,
+   "shown": true,
+   "side": 1
+  },
+  {
+   "c1e": 255,
+   "c1f": 1,
+   "second": 0,
+   "shown": true,
+   "side": 0
+  },
+  {
+   "c1e": 255,
+   "c1f": 255,
+   "second": 7,
+   "shown": true,
+   "side": 0
+  },
+  {
+   "c1e": 255,
+   "c1f": 255,
+   "second": 12,
+   "shown": true,
+   "side": 1
+  },
+  {
+   "c1e": 255,
+   "c1f": 255,
+   "second": 0,
+   "shown": true,
+   "side": 0
+  }
+ ],
+ "synthetic_hybrid_halves": 608,
+ "synthetic_values": {
+  "cases": 3000,
+  "seed": 432115,
+  "boundary_words": [
+   0,
+   1,
+   54,
+   55,
+   56,
+   211,
+   212,
+   -44,
+   -45,
+   5055,
+   5056,
+   5000,
+   5001,
+   10055,
+   9956,
+   32767,
+   32768,
+   32822,
+   32823,
+   32824,
+   65535
+  ],
+  "distinct_role_sums": 3000,
+  "min_sum": -32752,
+  "max_sum": 32756
+ },
+ "source_hashes": {
+  "runtime/decoders/team_bars.py": "4631ccf2c135a151800d0cddd6a84819aaf7ef0ce7b1c646fc746a2bb94582cf",
+  "runtime/decoders/team_performance.py": "cd65009941455e7a0c1bd98a7d920ad3e57782f47e4940ccfe949c1a3e17200a",
+  "static/goal-exe/code/seg_1771_02.asm": "22d7089c0f0bc9b7dcb78d51531e127ec9e13db7c8c5d5627aca26b0103a21ec",
+  "static/goal-exe/code/seg_1771_03.asm": "3061f1a54d1ab95422f7c76708f2a1951e5a41eb4eee8a5e074b579caf94ac27"
+ },
+ "seconds": 7
+}
