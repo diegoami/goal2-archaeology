@@ -1,0 +1,662 @@
+{
+  "analysis_sha256": {
+    "notes/engine-study/T98/skill.py": "969f475209d777a798dd2c634b188405cade97f24e260daafac6bc24d734f936",
+    "notes/engine-study/T98/strength.py": "86a7fdbec15723a063b957affad294670dc35ab381fa70f74a37ea4144eccf9f",
+    "notes/engine-study/T98/tables.py": "f5e0836d57f8816943f2b2648818cb3a6175060b834f827dff64f27d535215fb"
+  },
+  "checks": {
+    "caught_original_return_controls": {
+      "clamp255": 11,
+      "form-cutoff33": 18,
+      "ignore-unavailable": 46
+    },
+    "mismatches": 0,
+    "retained_original_literal_cases": 376
+  },
+  "examples": [
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 32,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "healthy",
+      "trace": {
+        "after_form_word": 226,
+        "base_word": 195,
+        "clamped": 226,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 0,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 226
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 32,
+        "fitness": 32,
+        "form": 32,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "form32",
+      "trace": {
+        "after_form_word": 183,
+        "base_word": 195,
+        "clamped": 183,
+        "foot_index": 0,
+        "form_high": true,
+        "placement": 0,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 183
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 1,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "energy1",
+      "trace": {
+        "after_form_word": 195,
+        "base_word": 164,
+        "clamped": 195,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 0,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 195
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 32,
+        "fitness": 0,
+        "form": 31,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "fitness0-same-strength",
+      "trace": {
+        "after_form_word": 226,
+        "base_word": 195,
+        "clamped": 226,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 0,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 226
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 32,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 5,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "different-centre-role",
+      "trace": {
+        "after_form_word": 226,
+        "base_word": 195,
+        "clamped": 226,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 0,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 226
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 32,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 4,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "left-index-right-flank",
+      "trace": {
+        "after_form_word": 226,
+        "base_word": 195,
+        "clamped": 226,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 1,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 113
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 32,
+        "fitness": 32,
+        "form": 31,
+        "peak": 25,
+        "played": 4,
+        "player_index": 1,
+        "profile": 5,
+        "status": 0
+      },
+      "name": "left-two-footed-right-flank",
+      "trace": {
+        "after_form_word": 226,
+        "base_word": 195,
+        "clamped": 226,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 1,
+        "two_footed": true,
+        "unavailable": null,
+        "value": 113
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 32,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 3,
+        "player_index": 2,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "right-index-left-flank",
+      "trace": {
+        "after_form_word": 226,
+        "base_word": 195,
+        "clamped": 226,
+        "foot_index": 1,
+        "form_high": false,
+        "placement": 1,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 113
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 32,
+        "fitness": 32,
+        "form": 31,
+        "peak": 25,
+        "played": 3,
+        "player_index": 2,
+        "profile": 5,
+        "status": 0
+      },
+      "name": "right-two-footed-left-flank",
+      "trace": {
+        "after_form_word": 226,
+        "base_word": 195,
+        "clamped": 226,
+        "foot_index": 1,
+        "form_high": false,
+        "placement": 0,
+        "two_footed": true,
+        "unavailable": null,
+        "value": 226
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 0,
+        "energy": 32,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "keeper-outfield",
+      "trace": {
+        "after_form_word": 226,
+        "base_word": 195,
+        "clamped": 226,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 1,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 113
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 32,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 0,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "outfielder-in-goal",
+      "trace": {
+        "after_form_word": 226,
+        "base_word": 195,
+        "clamped": 226,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 1,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 113
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 0,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "injured-zero-energy",
+      "trace": {
+        "after_form_word": null,
+        "base_word": null,
+        "clamped": null,
+        "foot_index": null,
+        "form_high": null,
+        "placement": null,
+        "two_footed": null,
+        "unavailable": "energy",
+        "value": 0
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 32,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 4
+      },
+      "name": "substituted-off",
+      "trace": {
+        "after_form_word": null,
+        "base_word": null,
+        "clamped": null,
+        "foot_index": null,
+        "form_high": null,
+        "placement": null,
+        "two_footed": null,
+        "unavailable": "status-element-3",
+        "value": 0
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 32,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 16
+      },
+      "name": "booked-only",
+      "trace": {
+        "after_form_word": 226,
+        "base_word": 195,
+        "clamped": 226,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 0,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 226
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 32,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 32
+      },
+      "name": "sent-off",
+      "trace": {
+        "after_form_word": null,
+        "base_word": null,
+        "clamped": null,
+        "foot_index": null,
+        "form_high": null,
+        "placement": null,
+        "two_footed": null,
+        "unavailable": "status-element-6",
+        "value": 0
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 32,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 64
+      },
+      "name": "mark-override-only",
+      "trace": {
+        "after_form_word": 226,
+        "base_word": 195,
+        "clamped": 226,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 0,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 226
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 32,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 128
+      },
+      "name": "suspended",
+      "trace": {
+        "after_form_word": null,
+        "base_word": null,
+        "clamped": null,
+        "foot_index": null,
+        "form_high": null,
+        "placement": null,
+        "two_footed": null,
+        "unavailable": "status-element-8",
+        "value": 0
+      }
+    },
+    {
+      "inputs": {
+        "ability": 255,
+        "club": 2,
+        "energy": 127,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "upper-clamp",
+      "trace": {
+        "after_form_word": 351,
+        "base_word": 320,
+        "clamped": 256,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 0,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 256
+      }
+    },
+    {
+      "inputs": {
+        "ability": 255,
+        "club": 2,
+        "energy": 127,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 4,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "clamp-before-placement",
+      "trace": {
+        "after_form_word": 351,
+        "base_word": 320,
+        "clamped": 256,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 1,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 128
+      }
+    },
+    {
+      "inputs": {
+        "ability": 0,
+        "club": 2,
+        "energy": 1,
+        "fitness": 32,
+        "form": 1,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "available-zero-strength",
+      "trace": {
+        "after_form_word": 65476,
+        "base_word": 65475,
+        "clamped": 0,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 0,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 0
+      }
+    },
+    {
+      "inputs": {
+        "ability": 180,
+        "club": 2,
+        "energy": 1,
+        "fitness": 32,
+        "form": 128,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "synthetic-negative-form",
+      "trace": {
+        "after_form_word": 65527,
+        "base_word": 119,
+        "clamped": 0,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 0,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 0
+      }
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:BD03",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "28315dee75ff3ac7a646098176554ad346f6f72cace33471a8bd1ea4f9b9e9d5",
+      "line": 4
+    },
+    {
+      "address": "1771:0AA7",
+      "file": "static/goal-exe/named/seg_1771_01.c",
+      "heading_sha256": "7651f966eab32d460c09ffff1a3ad176a753a0ccc35b6a702c0b338bf6020578",
+      "line": 534
+    },
+    {
+      "address": "1771:0BC4",
+      "file": "static/goal-exe/named/seg_1771_01.c",
+      "heading_sha256": "1d2765207d4c60f71f31472e29534bda23e273a4d98dcfc98978f520c3c1cf91",
+      "line": 591
+    },
+    {
+      "address": "1771:3041",
+      "file": "static/goal-exe/named/seg_1771_02.c",
+      "heading_sha256": "45fedc624473dd460572a388c04c29df3dceef88db00d482da238493819bd40c",
+      "line": 1049
+    },
+    {
+      "address": "1771:3088",
+      "file": "static/goal-exe/named/seg_1771_02.c",
+      "heading_sha256": "9275a8ec0de581f9f1e1f8b3b2d0d8091846e133931d8dee24a508a82a9d0e85",
+      "line": 1065
+    },
+    {
+      "address": "1771:3179",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "60325708baff4e710c5a05ea2a66e5b9c48352991d85e11ee4152aaf63909227",
+      "line": 24
+    },
+    {
+      "address": "1771:3216",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "cf2efc3f95929549dda5cd550fc761119ebf69ebd0cc42daa2823596d3838491",
+      "line": 75
+    },
+    {
+      "address": "1771:377E",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "be609e51b5b2a56ec30ad217e3c03269eca62b554142c7b632f65b57e552eb65",
+      "line": 316
+    },
+    {
+      "address": "1771:97CC",
+      "file": "static/goal-exe/named/seg_1771_07.c",
+      "heading_sha256": "ad96771ae0fbfdf01cf90104453416035db17891bd1c483092b927a2faab6e41",
+      "line": 407
+    }
+  ],
+  "retained_files": [
+    {
+      "cases": 172,
+      "path": "experiments/E020-q018-condition-performance/records/strength-001.json"
+    },
+    {
+      "cases": 21,
+      "path": "experiments/E020-q018-condition-performance/records/strength-002-fitness.json"
+    },
+    {
+      "cases": 183,
+      "path": "experiments/E020-q018-condition-performance/records/strength-003-structure.json"
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "Strength is a different reader",
+    "Availability and placement",
+    "Worked strength traces",
+    "Validation and interpretation limits"
+  ],
+  "source_commit": "08beac2e9d43faf766e445e924da096b8a99d748",
+  "source_sha256": {
+    "experiments/E020-q018-condition-performance/records/strength-001.json": "638969a0dd7c452316d1a03e0979180636a63200bbf63af4b879a9cf890198ac",
+    "experiments/E020-q018-condition-performance/records/strength-002-fitness.json": "ec128468cca879b3a42c0d440a56241be7734854e03639e2bf4e4bf629861857",
+    "experiments/E020-q018-condition-performance/records/strength-003-structure.json": "34dd66e10272ffc628e9d5d28d28f9aa4bcda8ef53ef8f1a50be913129994061",
+    "findings/F007-player-values-are-made-at-a-new-game-from-a-seed-per-country-not-from-the-dos-time.md": "f916bc906297c29c73010327597b8e87f2174236db2cd2c1e3db4a9f111697f6",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "runtime/original_match/port/quick.py": "28836a578a2937b72a4fff05ab315bb0a9f665f24cf79e5a14bd4da710432590",
+    "static/goal-exe/code/seg_1771_05.asm": "4a856a9af9dee3d93fe6e6275ead612d2d3ba4c81363389c68fa5424ca8483d9",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "7688e639f8b35910e8c2ec8dc8734a2e40413a8d3b40d2b247400e29bdf79b19",
+    "static/goal-exe/named/seg_0791_11.c": "6e51b68715ebeca24e6616c99258668b5df0bb927e5e133105e04af66fee650e",
+    "static/goal-exe/named/seg_1771_01.c": "d47615c756800af552cb83a614ccc4f2b4bf6ac0088af024f0633bd375996bd3",
+    "static/goal-exe/named/seg_1771_02.c": "10d72b6a4d43a82ff53c1fcdb6a658df25c066a29fcc91ffecf1d5a9ae0ee4f1",
+    "static/goal-exe/named/seg_1771_03.c": "b67f87b01f0d18c0f69f8a21e9f6c8983942778097f54778138c210a98262e21",
+    "static/goal-exe/named/seg_1771_07.c": "1f82e75602364766631056643e33408b7a5caf1ed68a5a83019abd48ee17a962"
+  },
+  "task": "T98b"
+}
