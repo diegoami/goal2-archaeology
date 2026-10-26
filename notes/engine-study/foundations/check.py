@@ -19,7 +19,7 @@ FILES = {
     "T98a": ("T98/skill-v1.json", "attribute-formulas.md"),
     "T98b": ("T98/strength-v1.json", "strength-formulas.md"),
     "T99a": ("T99/gates-v1.json", "skill-gates.md"),
-    "T99b": ("T99/contests-v1.json", "contest-formulas.md"),
+    "T99b": ("T99/contests-v2.json", "contest-formulas.md"),
     "T100": ("T100/flow-v2.json", "match-flow.md"),
 }
 RECORDS = {"T96a": {"player": 20}, "T97a": {"country": 191, "fixture": 8, "manager-entry": 3},

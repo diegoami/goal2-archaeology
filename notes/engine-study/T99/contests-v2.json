@@ -1,0 +1,541 @@
+{
+  "analysis_sha256": {
+    "notes/engine-study/T98/tables.py": "f5e0836d57f8816943f2b2648818cb3a6175060b834f827dff64f27d535215fb",
+    "notes/engine-study/T99/contests.py": "27f5e117a1d4e2297de05225b45521cd5b6e9b7d4a94cde571c7dc08c9bcff40",
+    "notes/engine-study/T99/gates.py": "cfbcf0452dffdba48198ce810767e287409edc1d9a09aa22558459189e3d2172",
+    "notes/engine-study/T99/rng.py": "70501d788f68d7e690347c374ea3534708de8c485201044cfc8000a51ad14f77"
+  },
+  "attempts": [
+    {
+      "draw_count_cases": {
+        "2": 49153,
+        "4": 12289,
+        "6": 4094
+      },
+      "ideal_independent": {
+        "fraction": "1/64",
+        "value": 0.015625
+      },
+      "independent_quantised": {
+        "fraction": "1/64",
+        "value": 0.015625
+      },
+      "name": "equal-two-bounds",
+      "opponent_lines_gk_def_mid_atk": [
+        2,
+        1,
+        2,
+        2
+      ],
+      "order_control_different_end_seeds": 32766,
+      "order_control_different_outcomes": 2006,
+      "own_lines_gk_def_mid_atk": [
+        2,
+        1,
+        2,
+        2
+      ],
+      "serial_lcg": {
+        "fraction": "1003/65536",
+        "value": 0.0153045654296875
+      },
+      "tie_control_different_outcomes": 26657,
+      "winning_entry_seeds": 1003
+    },
+    {
+      "draw_count_cases": {
+        "2": 24177,
+        "4": 35623,
+        "6": 5736
+      },
+      "ideal_independent": {
+        "fraction": "641034/9264035",
+        "value": 0.06919598209635434
+      },
+      "independent_quantised": {
+        "fraction": "1370609900973535714723241881/19807040628566084398385987584",
+        "value": 0.06919811629995934
+      },
+      "name": "F021-fit-v-tired",
+      "opponent_lines_gk_def_mid_atk": [
+        181,
+        778,
+        770,
+        341
+      ],
+      "order_control_different_end_seeds": 53128,
+      "order_control_different_outcomes": 9054,
+      "own_lines_gk_def_mid_atk": [
+        242,
+        1022,
+        1045,
+        433
+      ],
+      "serial_lcg": {
+        "fraction": "2263/32768",
+        "value": 0.069061279296875
+      },
+      "tie_control_different_outcomes": 44,
+      "winning_entry_seeds": 4526
+    },
+    {
+      "draw_count_cases": {
+        "2": 41425,
+        "4": 22103,
+        "6": 2008
+      },
+      "ideal_independent": {
+        "fraction": "5739047/291347672",
+        "value": 0.019698276497640936
+      },
+      "independent_quantised": {
+        "fraction": "390195868346814198107342493/19807040628566084398385987584",
+        "value": 0.019699857018724263
+      },
+      "name": "F021-tired-v-fit",
+      "opponent_lines_gk_def_mid_atk": [
+        242,
+        1022,
+        1045,
+        433
+      ],
+      "order_control_different_end_seeds": 48223,
+      "order_control_different_outcomes": 2585,
+      "own_lines_gk_def_mid_atk": [
+        181,
+        778,
+        770,
+        341
+      ],
+      "serial_lcg": {
+        "fraction": "645/32768",
+        "value": 0.019683837890625
+      },
+      "tie_control_different_outcomes": 19,
+      "winning_entry_seeds": 1290
+    }
+  ],
+  "caller_map": {
+    "0791:1FDD": {
+      "reading": "Strictly better skill replaces an eligible incumbent; selection, no outcome draw.",
+      "static_call_sites": 2
+    },
+    "0791:287C": {
+      "reading": "Single-player quantised skill gate, covered by T99a.",
+      "static_call_sites": 1
+    },
+    "0791:34C1": {
+      "reading": "Events 1/2: max(timer+5,U16(V+pitch_extra)//3); events 3/4: max(timer+5,V//3), without the extra pitch byte. Full continuation probability remains unresolved here.",
+      "static_call_sites": 2
+    },
+    "0791:3B15": {
+      "reading": "Kicking reach max(30,rand(V2//4)); still draws when the floor makes the result constant.",
+      "static_call_sites": 1
+    },
+    "0791:3EF8": {
+      "reading": "Two reach modes: heading V4/div6/floor20 or kicking V2/div4/floor30, selected by argument/table.",
+      "static_call_sites": 1
+    },
+    "0791:47C5": {
+      "reading": "Marking versus feinting comparison changes a random offset weight by a divided difference; not a binary duel.",
+      "static_call_sites": 4
+    },
+    "0791:5474": {
+      "reading": "Holder dribbling10 or heading4 draw first; challenger tackling3 or heading4, factor4 only in the ground/2C54 geometry branch; strict signed word win.",
+      "static_call_sites": 2
+    },
+    "0791:5B36": {
+      "reading": "Ground duel: holder10 vs keeper1 plus conditional1 INSIDE keeper bound; air duel: holder4 vs doubled keeper1. In-flight catch is a separate travel/penalty-threshold wide comparison.",
+      "static_call_sites": 6
+    },
+    "0791:690C": {
+      "reading": "Conditional finish on events3/4: rand(selected holder skill) > rand32, constant opponent draw first; flags/set predicates can bypass this contest.",
+      "static_call_sites": 1
+    },
+    "0791:9ED3": {
+      "reading": "Shootout taker ordering by element12, including keeper; preserve loop/swap/tie behaviour, not a random chance.",
+      "static_call_sites": 2
+    },
+    "0791:D5C1": {
+      "reading": "Quick foul: unsigned deterministic own tackling3 < other dribbling10, tactic/chance gate then opposed hardness draws; not the quick goal-trial mechanism.",
+      "static_call_sites": 2
+    }
+  },
+  "checks": {
+    "attempt_examples": 3,
+    "direct_skill_callers": 11,
+    "entry_seeds_per_serial_example": 65536,
+    "formula_mismatches": 0,
+    "ideal_formula_grid_cases": 64,
+    "order_and_tie_controls": "caught",
+    "pair_examples": 9,
+    "static_skill_call_sites": 24
+  },
+  "locations": [
+    {
+      "address": "0791:1FDD",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "036bf6b788d54c1fd8c47955db23778224a9be62dcf37040a4f79d6a99cf7648",
+      "line": 330
+    },
+    {
+      "address": "0791:287C",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "8438c5b68e91adb37534a752e83aa84dd526ef9c739a72a03b109d5f9b7686f3",
+      "line": 723
+    },
+    {
+      "address": "0791:34C1",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "3052249b4ee925eb9e6e9566db23469245aadb67ba1d0545532812ac1f63e730",
+      "line": 577
+    },
+    {
+      "address": "0791:3B15",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "9b5415c4e4ab2864403e92af7f7222973144894174adb3362d75142a3ebe133a",
+      "line": 911
+    },
+    {
+      "address": "0791:3EF8",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "84fb66e4bc6f55bbb2eb730dc9484a31230e3770d3413b20210b12a770adb11d",
+      "line": 4
+    },
+    {
+      "address": "0791:47C5",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "f29f16774cf062e05a5be68beac7af09eb52fd602a5884539972f0abafc94db9",
+      "line": 552
+    },
+    {
+      "address": "0791:4DA9",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "dafd755a9614da1b7bfd1329b86781ed784d0c2cefec1e65b6dcb9317c5b905e",
+      "line": 812
+    },
+    {
+      "address": "0791:5474",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "9146ab061ac15204300069a452889d0966f8d1ef0420c8d730dd74fe54b17985",
+      "line": 234
+    },
+    {
+      "address": "0791:5B36",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "973535149ca09d68330db25d05bd5ff5b49436e7ee6d4ca4906d1a577f8b3ad2",
+      "line": 672
+    },
+    {
+      "address": "0791:690C",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "7ff6c3e7ece08b4b8067972df73dcc55f230d97df049fdedc854fcf0aa2d909d",
+      "line": 541
+    },
+    {
+      "address": "0791:7EEF",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "4ea882e04d59110dc202b11b87e5fcd275fb8baa05b5ee2ad118712456312720",
+      "line": 879
+    },
+    {
+      "address": "0791:9ED3",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "7ebeb4c5a07d8353c3baa91ccfdcb01d125acf354460957fe0c693d66d7ff98e",
+      "line": 544
+    },
+    {
+      "address": "0791:B19D",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "747ec8c84f337abb48c41631180998ac767deb0c214471057e640999d071adfc",
+      "line": 458
+    },
+    {
+      "address": "0791:D5C1",
+      "file": "static/goal-exe/named/seg_0791_12.c",
+      "heading_sha256": "24429be6dd6aab88bf67b47777110eb735e97fbc368cbbce42173f12cff8574a",
+      "line": 212
+    },
+    {
+      "address": "214B:0688",
+      "file": "static/goal-exe/named/seg_214B_01.c",
+      "heading_sha256": "34ad314d6c5f1c221a39452ebc11149f1bf59052e4c6efc0d0b5b1d15db1718d",
+      "line": 590
+    }
+  ],
+  "pairs": [
+    {
+      "comparison": "word",
+      "first_order_witness_seed": 0,
+      "ideal_uniform": {
+        "fraction": "99/200",
+        "value": 0.495
+      },
+      "independent_quantised": {
+        "fraction": "66437775/134217728",
+        "value": 0.494999997317791
+      },
+      "name": "equal100",
+      "opponent_add_after_signed_extension": 0,
+      "opponent_bound": 100,
+      "order_control_different_outcomes": 64640,
+      "own_bound": 100,
+      "serial_lcg": {
+        "fraction": "32127/65536",
+        "value": 0.4902191162109375
+      },
+      "tie_control_different_outcomes": 896,
+      "winning_entry_seeds": 32127
+    },
+    {
+      "comparison": "word",
+      "first_order_witness_seed": 2,
+      "ideal_uniform": {
+        "fraction": "699/800",
+        "value": 0.87375
+      },
+      "independent_quantised": {
+        "fraction": "234544005/268435456",
+        "value": 0.8737445063889027
+      },
+      "name": "tackle-factor4",
+      "opponent_add_after_signed_extension": 0,
+      "opponent_bound": 100,
+      "order_control_different_outcomes": 16545,
+      "own_bound": 400,
+      "serial_lcg": {
+        "fraction": "28631/32768",
+        "value": 0.873748779296875
+      },
+      "tie_control_different_outcomes": 165,
+      "winning_entry_seeds": 57262
+    },
+    {
+      "comparison": "word",
+      "first_order_witness_seed": 0,
+      "ideal_uniform": {
+        "fraction": "1/2",
+        "value": 0.5
+      },
+      "independent_quantised": {
+        "fraction": "1073741013/2147483648",
+        "value": 0.499999622348696
+      },
+      "name": "ground-keeper-bound-plus1",
+      "opponent_add_after_signed_extension": 0,
+      "opponent_bound": 100,
+      "order_control_different_outcomes": 65005,
+      "own_bound": 101,
+      "serial_lcg": {
+        "fraction": "16421/32768",
+        "value": 0.501129150390625
+      },
+      "tie_control_different_outcomes": 553,
+      "winning_entry_seeds": 32842
+    },
+    {
+      "comparison": "word",
+      "first_order_witness_seed": 0,
+      "ideal_uniform": {
+        "fraction": "299/400",
+        "value": 0.7475
+      },
+      "independent_quantised": {
+        "fraction": "25081815/33554432",
+        "value": 0.7474963366985321
+      },
+      "name": "air-keeper-double",
+      "opponent_add_after_signed_extension": 0,
+      "opponent_bound": 100,
+      "order_control_different_outcomes": 33088,
+      "own_bound": 200,
+      "serial_lcg": {
+        "fraction": "1531/2048",
+        "value": 0.74755859375
+      },
+      "tie_control_different_outcomes": 321,
+      "winning_entry_seeds": 48992
+    },
+    {
+      "comparison": "wide",
+      "first_order_witness_seed": 4,
+      "ideal_uniform": {
+        "fraction": "49/800",
+        "value": 0.06125
+      },
+      "independent_quantised": {
+        "fraction": "16442163/268435456",
+        "value": 0.06125183030962944
+      },
+      "name": "inflight-catch-offset50",
+      "opponent_add_after_signed_extension": 50,
+      "opponent_bound": 200,
+      "order_control_different_outcomes": 8020,
+      "own_bound": 100,
+      "serial_lcg": {
+        "fraction": "4007/65536",
+        "value": 0.0611419677734375
+      },
+      "tie_control_different_outcomes": 170,
+      "winning_entry_seeds": 4007
+    },
+    {
+      "comparison": "word",
+      "first_order_witness_seed": 2,
+      "ideal_uniform": {
+        "fraction": "167/200",
+        "value": 0.835
+      },
+      "independent_quantised": {
+        "fraction": "875553/1048576",
+        "value": 0.8349924087524414
+      },
+      "name": "finish-versus32",
+      "opponent_add_after_signed_extension": 0,
+      "opponent_bound": 32,
+      "order_control_different_outcomes": 21597,
+      "own_bound": 100,
+      "serial_lcg": {
+        "fraction": "54725/65536",
+        "value": 0.8350372314453125
+      },
+      "tie_control_different_outcomes": 651,
+      "winning_entry_seeds": 54725
+    },
+    {
+      "comparison": "word",
+      "first_order_witness_seed": null,
+      "ideal_uniform": {
+        "fraction": "0",
+        "value": 0.0
+      },
+      "independent_quantised": {
+        "fraction": "0",
+        "value": 0.0
+      },
+      "name": "zero-own-bound",
+      "opponent_add_after_signed_extension": 0,
+      "opponent_bound": 10,
+      "order_control_different_outcomes": 0,
+      "own_bound": 0,
+      "serial_lcg": {
+        "fraction": "0",
+        "value": 0.0
+      },
+      "tie_control_different_outcomes": 6554,
+      "winning_entry_seeds": 0
+    },
+    {
+      "comparison": "word",
+      "first_order_witness_seed": null,
+      "ideal_uniform": {
+        "fraction": "0",
+        "value": 0.0
+      },
+      "independent_quantised": {
+        "fraction": "0",
+        "value": 0.0
+      },
+      "name": "equal1",
+      "opponent_add_after_signed_extension": 0,
+      "opponent_bound": 1,
+      "order_control_different_outcomes": 0,
+      "own_bound": 1,
+      "serial_lcg": {
+        "fraction": "0",
+        "value": 0.0
+      },
+      "tie_control_different_outcomes": 65536,
+      "winning_entry_seeds": 0
+    },
+    {
+      "comparison": "word",
+      "first_order_witness_seed": 1,
+      "ideal_uniform": {
+        "fraction": "65433/80000",
+        "value": 0.8179125
+      },
+      "independent_quantised": {
+        "fraction": "1756455283/2147483648",
+        "value": 0.8179132281802595
+      },
+      "name": "synthetic-signed-bound40000",
+      "opponent_add_after_signed_extension": 0,
+      "opponent_bound": 100,
+      "order_control_different_outcomes": 19470,
+      "own_bound": 40000,
+      "serial_lcg": {
+        "fraction": "26801/32768",
+        "value": 0.817901611328125
+      },
+      "tie_control_different_outcomes": 2,
+      "winning_entry_seeds": 53602
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "What the original compares",
+    "Local opposed probabilities",
+    "Quick attempts and stream dependence",
+    "Coverage and evidence limits"
+  ],
+  "seed_law": "Uniform all65536 entry seeds with fixed inputs; no assertion about reached game call-site distributions.",
+  "selector_tables": {
+    "DS:078E": [
+      11,
+      4
+    ],
+    "DS:07F4": [
+      3,
+      4
+    ],
+    "DS:07F6": [
+      10,
+      4
+    ],
+    "DS:07F8": [
+      4,
+      1
+    ],
+    "DS:07FE": [
+      1,
+      1
+    ],
+    "DS:0800": [
+      12,
+      12
+    ],
+    "DS:080C": [
+      10,
+      11,
+      4,
+      12,
+      12
+    ]
+  },
+  "source_commit": "08beac2e9d43faf766e445e924da096b8a99d748",
+  "source_sha256": {
+    "findings/F022-contest-sites-287c-5474-5d69-and-the-branches-e011-takes.md": "25dcab7f1338d63b0a5917d2d7e10fc81d2c3cb7fe1e870ef6a5b2afdc1e8b64",
+    "runtime/original_match/port/contests.py": "b4db099959a09a1dcb78f031e9a44dc64624a5ffd8ea7b0be3441298bb0ec40e",
+    "runtime/original_match/port/duels.py": "37fe8ea7dec6c3aff8c80d26367d3225460af037a839912e98b4e6217dd739b6",
+    "runtime/original_match/port/quick.py": "28836a578a2937b72a4fff05ab315bb0a9f665f24cf79e5a14bd4da710432590",
+    "static/goal-exe/calls.tsv": "8d76bfed99345b295745720e12f757daceb4e68abceeb0e4581da2fdbe6ba18c",
+    "static/goal-exe/code/seg_0791_10.asm": "dabf426d52c0c137574a07b97044e43868ebe0e0e49b4b7367be05e98842c88c",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "7688e639f8b35910e8c2ec8dc8734a2e40413a8d3b40d2b247400e29bdf79b19",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_03.c": "c49d73137a03e70e2f02b8b54dfe04d8805239f55fc80a99d23a6943354e5800",
+    "static/goal-exe/named/seg_0791_04.c": "0118b26c212562f1eaecefe22850166c2e2b7755952a09abad00a5b42fbf8325",
+    "static/goal-exe/named/seg_0791_05.c": "b0871f197621d5abfd3b4db00ec3eca42c9eea6cb45626651842147b4d8ce228",
+    "static/goal-exe/named/seg_0791_06.c": "1c03cc01069ce4f4eedb386688654af7c3a3900eeb3470971111b2caa3bbe945",
+    "static/goal-exe/named/seg_0791_07.c": "f8be0e2879e8a4bc18eb228dcca17ae91cf318c8b6f8b4b4ac94baa67ac2ad85",
+    "static/goal-exe/named/seg_0791_09.c": "71a912e2c5564f75078a0db0220c5388a74ec168783371a63c74cdddae22275f",
+    "static/goal-exe/named/seg_0791_10.c": "307274e4e5007f1e809b5b54708a686d106a61d77848ddc6967c9fb0fd88e52f",
+    "static/goal-exe/named/seg_0791_12.c": "6484f6f6014e480e1cfecb34ff96b7032da39aa5b9338a133e9c596ab7964e8c",
+    "static/goal-exe/named/seg_214B_01.c": "b49ca1bb9367f8bad97a41a4cbd2f5646d7653de9d9acb9d16a28c7ac1331c53"
+  },
+  "task": "T99b"
+}

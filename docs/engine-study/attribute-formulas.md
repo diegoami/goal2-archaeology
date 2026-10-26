@@ -64,7 +64,7 @@ Keeping (1) adds it for event codes 3 and 4. The byte 0x18 encoding that set is 
 The gate is not a test of whether the player is a goalkeeper. A260 assigns K to all bound players
 as `floor(u8(manager_ability)/8)+16+32`, using the persistent player's country.
 
-Likewise s<12 is a side test: active slots 1..11 are side1, including keeper slot1.
+Likewise s<12 is a side test: active slots 1..11 are side 1, including keeper slot 1.
 It is not an outfield-only predicate. The final share is one sixteenth of the value **after**
 the extra, and all divisions round at their actual stage.
 
@@ -75,8 +75,8 @@ record edit is not equivalent to performing the normal rebind/setup path.
 
 ## Worked traces
 
-Unless specified otherwise, the examples use A=180, P=8, C=2, F=31, E=32, slot13, no venue
-share, event0 and K=56 (a possible bound extra). The ledger states every exception, including
+Unless specified otherwise, the examples use A=180, P=8, C=2, F=31, E=32, slot 13, no venue
+share, event 0 and K=56 (a possible bound extra). The ledger states every exception, including
 keeper/natural-role and raw-byte cases. They are controlled local inputs, not complete match
 fixtures. The condition-plus-quarter column shows the two terms before K.
 
@@ -97,7 +97,7 @@ fixtures. The condition-plus-quarter column shows the two terms before K.
 | profile16-last-role | 12 | 31/32 | 130 | 64 | 32+32 | 56 | 0 | **120** |
 | ability255-display-edge | 1 | 31/32 | 208 | 64 | 52+52 | 0 | 0 | **104** |
 
-The ordinary tackling example selects class1, weight26: `26*181=4706`, D0=147 and bar=18.
+The ordinary tackling example selects class 1, weight 26: `26*181=4706`, D0=147 and bar=18.
 At F31/E32, B=64 and the value is 36+36=72. At F32/E32, the form contribution disappears:
 B=32 and the value falls to 18+36=54. This discontinuity is in the source; more form is not
 monotonically better across that boundary.
@@ -105,18 +105,18 @@ monotonically better across that boundary.
 Placement halves tackling's D147 to D73, producing V36 here. Shooting illustrates why that is
 not a universal final-value halving: D84 becomes D42, but K56 remains, so V98 becomes V76.
 
-Element12 substitutes 32 for energy in this reader; the E1 and E32 penalty traces both give108.
+Element 12 substitutes 32 for energy in this reader; the E1 and E32 penalty traces both give 108.
 Energy can still affect availability and other actions. This is not a claim that an exhausted or
 injured player is always eligible to take a penalty.
 
-For the keeper example, slot1 with the host flag receives 72//16=4, while slot12 does not.
-Event3 instead activates K56, giving128 without a venue share. These traces separate slot,
+For the keeper example, slot 1 with the host flag receives 72//16=4, while slot 12 does not.
+Event 3 instead activates K56, giving 128 without a venue share. These traces separate slot,
 event and role conditions that older short descriptions can conflate.
 
-The negative-form case is deliberately synthetic: byte128 means -128, giving B=65410 after
+The negative-form case is deliberately synthetic: byte 128 means -128, giving B=65410 after
 word wrapping and V219. It is not evidence that this state occurs naturally or that lower
-confidence is a winning strategy. The ability255 edge gives a display-formula length26; F008's
-observed new-game maximum25 does not by itself justify a universal raw-byte clamp.
+confidence is a winning strategy. The ability 255 edge gives a display-formula length 26; F008's
+observed new-game maximum 25 does not by itself justify a universal raw-byte clamp.
 
 ## Validation scope and limitations
 
@@ -126,19 +126,26 @@ mismatches. Deliberate changes are caught against those recorded returns:
 
 | Control | Recorded cases that disagree |
 | --- | ---: |
-| Skill divisor31 instead of32 | 138 |
-| Form cutoff33 instead of32 | 21 |
+| Skill divisor 31 instead of 32 | 138 |
+| Form cutoff 33 instead of 32 | 21 |
 | Omit placement halving | 2 |
 
-These are probe-design counts, not frequencies in football play. The retained calls use profile8
-and club position2; they do not validate every profile/role combination. Element11's worked
+These are probe-design counts, not frequencies in football play. The retained calls use profile 8
+and club position 2; they do not validate every profile/role combination. Element 11's worked
 gate is source-backed and linked to F015/T42's earlier correction; it is not another new E020
 original-call observation. No whole half or match was rerun here.
 
-**[Table-window limitation (#477)](https://github.com/diegoami/goal2-archaeology/issues/477):** the retained class window has168 bytes but valid one-based indices
-reach168; the profile window has192 bytes but indices reach204. Using those windows in the old
-analytical helper raises IndexError for ordinary argument domains such as club13/element12 or
-profile16. The current port reads full guest memory and is not shown faulty by this helper error.
+The side-1 host share and its ordering after K are supported by the source, but the retained
+209 returns do not distinguish either dropping that share or applying it before K: both
+mutations change zero recorded returns. The retained host-flag cases have shares that round
+to zero. The keeper/host worked rows above are analytical predictions, not additional
+original-call observations. The [validation-scope audit](../../notes/engine-study/T98/validation-scope-v1.json)
+reproduces this coverage gap; T108 must not infer host-share validation from the 209-case count.
+
+**[Table-window limitation (#477)](https://github.com/diegoami/goal2-archaeology/issues/477):** the retained class window has 168 bytes but valid one-based indices
+reach 168; the profile window has 192 bytes but indices reach 204. Using those windows in the old
+analytical helper raises IndexError for ordinary argument domains such as club 13/element 12 or
+profile 16. The current port reads full guest memory and is not shown faulty by this helper error.
 This chapter uses the complete static DS extract, verifies its overlap with every retained window
 and preserves all old records unchanged. The wider examples are analytical predictions from
 that source, not newly measured original returns.
@@ -150,4 +157,5 @@ those decisions; higher local values do not prove a monotone result at one fixed
 ```bash
 python3 -B notes/engine-study/foundations/check.py --task T98a
 python3 -B notes/engine-study/T98/math.py --skill --check
+python3 -B notes/engine-study/T98/coverage_audit.py --check
 ```

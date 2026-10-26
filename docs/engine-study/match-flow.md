@@ -30,7 +30,7 @@ registered replacements. This is distinct from T78's independent runtime without
 The Python often looks like assembly because it preserves more than football equations:
 16-bit wrapping, packed/unaligned words, far-pointer conventions, low/high register bytes,
 nested procedures' parent-BP access, stack locals and return-pop sizes. Boolean language can
-refer to AL even when AX is not a clean host0/1. Numeric-return equality alone does not prove
+refer to AL even when AX is not a clean host 0/1. Numeric-return equality alone does not prove
 machine-state equality. The [named arithmetic chapters](attribute-formulas.md) are explanatory
 models, not a replacement backend or a full ABI proof.
 
@@ -43,7 +43,7 @@ Primary code: [Match](../../runtime/original_match/match.py),
 
 ## Fixture-to-result control flow
 
-The original outer router6CA7 distinguishes preparation without play, a silent result and a
+The original outer router 6CA7 distinguishes preparation without play, a silent result and a
 played match. The kit's Match adapter starts the played run_match path, rather than reproducing
 every campaign-router choice.
 
@@ -77,8 +77,8 @@ is later at a declared captain or computer-kickoff hook; budget overrides occur 
 entry after defaults. An input edit at those boundaries is not an edit before every setup effect.
 
 F098 calls first_half, half-end sweeps and the half-time/second-half sequence, writes the
-fixture score/result, then conditionally extra time and shootout. Watched settling can call9564
-directly outside97D0. The tail includes summary, table/history, reset/pool and player-restoration
+fixture score/result, then conditionally extra time and shootout. Watched settling can call 9564
+directly outside 97D0. The tail includes summary, table/history, reset/pool and player-restoration
 stages; detailed lifecycle belongs to T104.
 
 The original router calls F1F6 at 6F18. Its result-update branch (managed involvement and
@@ -95,16 +95,16 @@ transaction boundary from a screen.
 
 ## One ordinary watched iteration
 
-Normal half execution enters97D0 with its ordinary low-byte flag zero. In one iteration:
+Normal half execution enters 97D0 with its ordinary low-byte flag zero. In one iteration:
 
-1. If quick flag9A3E is nonzero, call D733 instead of the watched branch.
-2. Otherwise handle a pending original action replay0C65, or a snapshot15B9 when no replay
+1. If quick flag 9A3E is nonzero, call D733 instead of the watched branch.
+2. Otherwise handle a pending original action replay 0C65, or a snapshot 15B9 when no replay
    takes precedence; clear the associated request flags as the source specifies.
-3. Call9564. Its22-slot sweep interleaves eligible ball phases with player work: ball movement,
+3. Call 9564. Its 22-slot sweep interleaves eligible ball phases with player work: ball movement,
    nearest/holder selection, possible extra keeper update and play-at-ball checks, then each
    mapped slot's availability/state handler/run step, sound, ball drawing and key polling.
-4. If the sweep has not switched to quick mode, update the offside line8CF5 and referee9119.
-5. Call970C, then repeat until the half-end result or the alternate controlled-stop predicate.
+4. If the sweep has not switched to quick mode, update the offside line 8CF5 and referee 9119.
+5. Call 970C, then repeat until the half-end result or the alternate controlled-stop predicate.
 
 ```mermaid
 flowchart LR
@@ -147,16 +147,16 @@ match probability.
 
 ## Clock and half boundaries
 
-970C only enters its counter logic when live gate8325 is nonzero. If subtick831D is nonzero,
+970C only enters its counter logic when live gate 8325 is nonzero. If subtick 831D is nonzero,
 it decrements it and does not advance the minute on that call. When it is already zero:
 
-- Test regular remaining831B plus added time8321 for zero; set the end-time flag.
+- Test regular remaining 831B plus added time 8321 for zero; set the end-time flag.
 - If time remains, consume regular time first, otherwise added time.
-- On the time-remains branch, increment elapsed831F while below128. Reload subtick to36
+- On the time-remains branch, increment elapsed 831F while below 128. Reload subtick to 36
   after that branch, including the terminal check.
-- Check the half-length threshold (signed byte8319) or end-time flag and return the end result.
+- Check the half-length threshold (signed byte 8319) or end-time flag and return the end result.
 
-A projection with subtick36, remaining10 and elapsed81 illustrates the ordering:
+A projection with subtick 36, remaining 10 and elapsed 81 illustrates the ordering:
 
 | Eligible call | Subtick after | Remaining | Elapsed | Advanced? |
 | ---: | ---: | ---: | ---: | --- |
@@ -170,13 +170,13 @@ quick code resetting the subtick and the terminal check all affect the global re
 This is a source-derived counter projection, not a fresh timing measurement or a full
 machine-state clock model.
 
-The ordinary first half starts with remaining91 and threshold45; the second-half sequence
-continues the state after the half boundary. Extra-time setup9B0C explicitly sets remaining31,
-elapsed89 and threshold15 before its two halves. The raw counters are not a modern elapsed-time
+The ordinary first half starts with remaining 91 and threshold 45; the second-half sequence
+continues the state after the half boundary. Extra-time setup 9B0C explicitly sets remaining 31,
+elapsed 89 and threshold 15 before its two halves. The raw counters are not a modern elapsed-time
 API. The clock may run a terminal iteration without incrementing the display; quick trials
 occur before the clock test, so an ending minute number is not the number of D733 calls.
 
-The added-time field is a current accumulator: identified event writers add while it is below5.
+The added-time field is a current accumulator: identified event writers add while it is below 5.
 That is not automatically a universal five-minute cap on total extra play if new increments
 occur while time is being consumed. The full event/restart lifecycle remains part of T104.
 
@@ -225,7 +225,7 @@ flowchart LR
 ```
 
 One attempt takes 2, 4 or 6 draws because each strict signed loss/tie exits immediately.
-At entry seed 0, fix own keeper/defence/attack to 2/1/8 and opponent lines to [2,1,2,2].
+At entry seed 0, fix own keeper/defence/attack to 2/1/8 and opponent lines to [2, 1, 2, 2].
 Changing only own midfield from 1 to 8 gives this source-derived local projection:
 
 | Own midfield | Opponent/own results, in order | Draws | End seed | Next common `rand(100)` |
@@ -253,7 +253,7 @@ and cancellation differ from quick scratch clear/trial writes; D733 commits at m
 after its trial postprocessing. Inferring events from a final score would lose tentative,
 cancelled and intermediate actions.
 
-The adapter's optional tick site is970C entry, not one physical football second. Port writes
+The adapter's optional tick site is 970C entry, not one physical football second. Port writes
 use the memory/site machinery to preserve the original hook points even though host writes do
 not automatically trigger Unicorn's guest-write hooks. Queueing/stopping a port and later
 reconstructing its frames are implementation boundaries that a readable rewrite must address.

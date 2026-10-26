@@ -23,7 +23,7 @@ Thus x (+00) is the lateral coordinate contributing to the **screen row** and y 
 longitudinal coordinate contributing to the **screen column**. World-coordinate names must not
 be confused with screen-column/row labels. Position and target words pack the low/high bytes;
 equality can be an exact packed-word comparison. DS:0640 supplies an off-pitch sentinel;
-(0,0) is not an invented substitute for it.
+(0, 0) is not an invented substitute for it.
 
 ### Pitch record: 22 bytes
 
@@ -33,7 +33,7 @@ equality can be an exact packed-word comparison. DS:0640 supplies an off-pitch s
 | `+0x01` | 1 | y | Signed longitudinal coordinate; contributes to screen column. |
 | `+0x02` | 2 | old_position | Previous packed coordinate used to restore the old occupancy cell. |
 | `+0x04` | 2 | glyph | Character/attribute word drawn into the pitch occupancy picture. |
-| `+0x06` | 1 | pitch_slot | Pitch identity 1..22, not the played-position code. Below12 selects engine side1. |
+| `+0x06` | 1 | pitch_slot | Pitch identity 1..22, not the played-position code. Below 12 selects engine side 1. |
 | `+0x07` | 2 | destination | Packed target x/y bytes; used by target tests and movement. |
 | `+0x09` | 2 | post | Packed home/post x/y from played role. |
 | `+0x0B` | 1 | x_offset | Signed lateral target offset. |
@@ -88,9 +88,9 @@ other globals are unused. Exact original/source locations and hashes are in the 
 
 | Location | Meaning / boundary |
 | --- | --- |
-| `DS:8319` | byte half-length threshold; adjacent831A is kickoff side, not its high byte |
+| `DS:8319` | byte half-length threshold; adjacent 831A is kickoff side, not its high byte |
 | `DS:831B` | word regular remaining count |
-| `DS:831D` | word subtick countdown, reload36 |
+| `DS:831D` | word subtick countdown, reload 36 |
 | `DS:831F` | word displayed/elapsed count |
 | `DS:8321` | word accumulated added time |
 | `DS:8325` | byte live-clock/activity gate |
@@ -102,7 +102,7 @@ other globals are unused. Exact original/source locations and hashes are in the 
 | --- | --- |
 | `DS:9976` | fixture-group byte, copied from pre-play fixture +1 by A3DE; E929 reads it for the group-table display |
 | `DS:9976+10*side+2*role` | captain/set-piece taker slot words for roles 1..5; offset zero is not an entry |
-| `DS:9A3E` | quick flag byte; overlaps dummy marking row0, not an active marking word |
+| `DS:9A3E` | quick flag byte; overlaps dummy marking row 0, not an active marking word |
 | `DS:9A3E+40*t+2*s` | marking words for active squad slots; index/lifetime must be read in context |
 
 ### occupancy
@@ -111,7 +111,7 @@ other globals are unused. Exact original/source locations and hashes are in the 
 | --- | --- |
 | `DS:7C16` | far pointer to live pitch picture read by move tests |
 | `DS:7C1E` | background-picture pointer used for restoration |
-| `DS:80FC` | second-team-is-host byte inside nominal pitch row0 |
+| `DS:80FC` | second-team-is-host byte inside nominal pitch row 0 |
 | `DS:82E2,82E8` | two six-byte offside-marker prefixes |
 | `DS:82EE` | eight-byte referee sprite |
 | `DS:82F6` | ball core plus adjacent flags |
@@ -133,12 +133,12 @@ other globals are unused. Exact original/source locations and hashes are in the 
 
 | Location | Meaning / boundary |
 | --- | --- |
-| `DS:7B62` | main16-bit LCG state |
+| `DS:7B62` | main 16-bit LCG state |
 | `DS:8336..8337` | separate sound-seed word; high byte aliases unused foul-table entry zero |
 | `DS:8337+k`, k=1..255 | precomputed foul draw bytes; entry zero is unused by the foul reader |
-| `DS:8437` | foul-table index, wraps255to1 |
+| `DS:8437` | foul-table index, wraps 255 to 1 |
 | `DS:9974` | original replay snapshot of main RNG word |
-| `DS:A978` | far pointer to main RNG word, normally7B62 |
+| `DS:A978` | far pointer to main RNG word, normally 7B62 |
 
 ### save-decisions
 
@@ -184,7 +184,7 @@ byte at 9976 (A42D); E929 reads it at E935 for group-table display. Taker words 
 
 
 **Nominal pitch row zero overlaps match globals.** Its address arithmetic reaches counters at
-80F2/80F6 and the venue flag at 80FC (row0+14). Iterating it as another player would confuse
+80F2/80F6 and the venue flag at 80FC (row 0+14). Iterating it as another player would confuse
 match state with a player's activity field. The active sweeps use slots 1..22.
 
 **Pitch +06 is a slot identity.** `A260` writes it from the slot argument; `2974` selects

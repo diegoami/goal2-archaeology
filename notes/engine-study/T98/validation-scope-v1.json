@@ -1,0 +1,47 @@
+{
+  "analysis_sha256": {
+    "notes/engine-study/T98/coverage_audit.py": "1933d97507d5823dd24a16df68ac450d8594d59d5a9eac2d84fcc9f8571111ee",
+    "notes/engine-study/T98/skill.py": "969f475209d777a798dd2c634b188405cade97f24e260daafac6bc24d734f936",
+    "notes/engine-study/T98/strength.py": "86a7fdbec15723a063b957affad294670dc35ab381fa70f74a37ea4144eccf9f",
+    "notes/engine-study/T98/tables.py": "f5e0836d57f8816943f2b2648818cb3a6175060b834f827dff64f27d535215fb"
+  },
+  "interpretation": "Zero disagreements means the retained scalar returns do not distinguish that mutation. Source reading remains the basis; floor/trunc differences can be hidden by later clipping. No fresh original execution or ABI evidence.",
+  "locations": [
+    {
+      "address": "0791:278A",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "53ab03c3ffdb1889db40be192b3cb0a701e875093f3d860b9bf19332f68c5a2d",
+      "line": 671
+    },
+    {
+      "address": "1771:377E",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "be609e51b5b2a56ec30ad217e3c03269eca62b554142c7b632f65b57e552eb65",
+      "line": 316
+    }
+  ],
+  "mutation_disagreements": {
+    "drop_host_share": 0,
+    "floor_instead_of_trunc": 0,
+    "halve_before_clamp": 0,
+    "share_before_manager": 0
+  },
+  "retained_returns": {
+    "skill": 209,
+    "strength": 376
+  },
+  "schema": 1,
+  "source_commit": "08beac2e9d43faf766e445e924da096b8a99d748",
+  "source_sha256": {
+    "experiments/E020-q018-condition-performance/records/contest-001.json": "c55b0c3bc701dfa340d71bb07f0a42d3bf80f5b36ff9c86a6f65ffbfed1dc0e3",
+    "experiments/E020-q018-condition-performance/records/contest-002-events.json": "7dba50cc5b396e80fc8d24176998ad78ad08fb9ae1d75228d1166a03f75244b0",
+    "experiments/E020-q018-condition-performance/records/contest-003-fitness.json": "f4dda9643a7f3db1e3303b64f3309d6754efaa5c9f18d1289fa5c590df255777",
+    "experiments/E020-q018-condition-performance/records/strength-001.json": "638969a0dd7c452316d1a03e0979180636a63200bbf63af4b879a9cf890198ac",
+    "experiments/E020-q018-condition-performance/records/strength-002-fitness.json": "ec128468cca879b3a42c0d440a56241be7734854e03639e2bf4e4bf629861857",
+    "experiments/E020-q018-condition-performance/records/strength-003-structure.json": "34dd66e10272ffc628e9d5d28d28f9aa4bcda8ef53ef8f1a50be913129994061",
+    "static/goal-exe/named/index.tsv": "7688e639f8b35910e8c2ec8dc8734a2e40413a8d3b40d2b247400e29bdf79b19",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_1771_03.c": "b67f87b01f0d18c0f69f8a21e9f6c8983942778097f54778138c210a98262e21"
+  },
+  "task": "T98-validation-scope"
+}
