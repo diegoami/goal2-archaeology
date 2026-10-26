@@ -88,6 +88,18 @@ Dependencies express research needs, not permission to run several tasks in this
 T111 is optional and is not a dependency of T112 or T113. If its conclusions are included as
 established results, they require ES-R4P acceptance.
 
+## Foundation execution slices
+
+[designed: main session, 2026-10-26, owner-authorised execution through ES-R1] T95's census
+pins engine sources to `08beac2e9d43faf766e445e924da096b8a99d748`; the first study implementation
+baseline is `2c8f02a46601dd50977b72d227d11d1884eba310`. Execute the M packages as
+[T96a](tasks/T96a.md)/[T96b](tasks/T96b.md), [T97a](tasks/T97a.md)/[T97b](tasks/T97b.md),
+[T98a](tasks/T98a.md)/[T98b](tasks/T98b.md), [T99a](tasks/T99a.md)/[T99b](tasks/T99b.md),
+then T100, one independently mergeable PR per slice. Source/document integrity checks are
+structural; numerical comparisons and independent source reading support the actual claims.
+Stop after ES-R1's foundation deliverables merge and provide the candidate-pinned review prompt;
+do not launch the reviewer or begin ES-R2-gated pitch work in this execution run.
+
 ## Main-session implementation and targeted help
 
 [designed: owner correction, 2026-10-26] Do all implementation and analysis in the main session
