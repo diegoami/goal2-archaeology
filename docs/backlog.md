@@ -13,6 +13,20 @@ corroborating a static prediction needs. A task for a question whose Static cell
 starts by placing it in the decompiled code (searching strings, data references and callers) before
 any run.
 
+## Engine anatomy and exploration programme
+
+[designed: owner, 2026-10-26] The approved [engine study](engine-study-plan.md),
+tracked by [#433](https://github.com/diegoami/goal2-archaeology/issues/433), adds
+T95–T113 for code/field explanations, controlled experiments, defect investigation and a
+readable-rewrite assessment. The plan contains difficulty, size, complexity and impact ratings,
+dependencies, provisional active-effort estimates and acceptance outcomes for every package;
+the [task index](tasks/README.md) links each planning brief and issue.
+
+Read static evidence first. Experiments need a pinned question and budget; the optional prototype
+needs a design decision. M/L packages split into independently mergeable slices before dispatch.
+The programme does not replace T78–T80 or change migration/delivery priority. Issue labels hold
+status; these documents do not mark research as started or complete.
+
 ## How to read a row
 
 - **ID**: `Q001…`, stable. Rows are ordered by what G-M3 needs: first the questions every
