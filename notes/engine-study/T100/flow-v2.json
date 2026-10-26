@@ -1,0 +1,648 @@
+{
+  "analysis_sha256": "e9ab47db1730921fb900809b4a9947dc06f84c1800296df7d5ba90c5be349da6",
+  "branch_rng_projection": {
+    "consume_all_six_control": "rejected: loses early-exit draw counts and falsely aligns end seeds",
+    "examples": [
+      {
+        "draw_count": 2,
+        "end_seed": 15138,
+        "next_common_rand100": 97,
+        "next_common_seed": 63273,
+        "own_midfield": 1,
+        "trace": [
+          {
+            "bound": 2,
+            "seed_after": 6927,
+            "site": "0791:B1DA",
+            "value": 1
+          },
+          {
+            "bound": 1,
+            "seed_after": 15138,
+            "site": "0791:B1EC",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "draw_count": 4,
+        "end_seed": 7764,
+        "next_common_rand100": 53,
+        "next_common_seed": 34579,
+        "own_midfield": 8,
+        "trace": [
+          {
+            "bound": 2,
+            "seed_after": 6927,
+            "site": "0791:B1DA",
+            "value": 1
+          },
+          {
+            "bound": 8,
+            "seed_after": 15138,
+            "site": "0791:B1EC",
+            "value": 2
+          },
+          {
+            "bound": 2,
+            "seed_after": 63273,
+            "site": "0791:B20E",
+            "value": 2
+          },
+          {
+            "bound": 8,
+            "seed_after": 7764,
+            "site": "0791:B220",
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "scope": "Source-derived one-attempt projection at entry seed 0; own lines [2,1,mid,8], opponent [2,1,2,2]. No original execution or whole-match reachability claim."
+  },
+  "checks": {
+    "clock_projection_eligible_interval": 37,
+    "scope": "Static order and declared arithmetic projection, not dynamic coverage",
+    "tick_loop_lexical_guest_sites": 7,
+    "watched_lexical_guest_sites": 17
+  },
+  "clock_projection": {
+    "eligible_calls_between_advances": 37,
+    "initial": {
+      "elapsed": 81,
+      "live_gate": 1,
+      "remaining": 10,
+      "subtick": 36
+    },
+    "live_gate_zero": "counter projection unchanged",
+    "rows": [
+      {
+        "advanced": false,
+        "call": 1,
+        "elapsed": 81,
+        "remaining": 10,
+        "subtick": 35
+      },
+      {
+        "advanced": false,
+        "call": 36,
+        "elapsed": 81,
+        "remaining": 10,
+        "subtick": 0
+      },
+      {
+        "advanced": true,
+        "call": 37,
+        "elapsed": 82,
+        "remaining": 9,
+        "subtick": 36
+      }
+    ],
+    "scope": "Derived eligible-call counter projection of970C; not original execution or a full clock model"
+  },
+  "historical_rng": {
+    "ball_phases_per_sweep_range": [
+      0,
+      6
+    ],
+    "main_draws": 91985,
+    "mean_main_draws_per_tick": 44.2874337987482,
+    "scope": "Historical instrumented E011 second half only; not universal counts or new measurements",
+    "source": "experiments/E011-q010-watched-engine/rng-counts.txt",
+    "sprint_coins_per_sweep_range": [
+      1,
+      23
+    ],
+    "ticks": 2077
+  },
+  "kit_continuation": [
+    "0791:F1F6",
+    "0791:B7FA; omits outer-router B71C/B6CC/4E0E"
+  ],
+  "lexical_frame_calls": {
+    "match_tick_loop": [
+      {
+        "argument_words_popped": 0,
+        "far": false,
+        "python_line": 620,
+        "return": "0791:97DD",
+        "source_call_site": "0791:97DA",
+        "target": "0791:D733"
+      },
+      {
+        "argument_words_popped": 0,
+        "far": false,
+        "python_line": 623,
+        "return": "0791:97E9",
+        "source_call_site": "0791:97E6",
+        "target": "0791:0C65"
+      },
+      {
+        "argument_words_popped": 0,
+        "far": false,
+        "python_line": 625,
+        "return": "0791:97F5",
+        "source_call_site": "0791:97F2",
+        "target": "0791:15B9"
+      },
+      {
+        "argument_words_popped": 0,
+        "far": false,
+        "python_line": 630,
+        "return": "0791:980E",
+        "source_call_site": "0791:980B",
+        "target": "0791:9564"
+      },
+      {
+        "argument_words_popped": 0,
+        "far": false,
+        "python_line": 632,
+        "return": "0791:9818",
+        "source_call_site": "0791:9815",
+        "target": "0791:8CF5"
+      },
+      {
+        "argument_words_popped": 3,
+        "far": true,
+        "python_line": 635,
+        "return": "0791:9824",
+        "source_call_site": "0791:9821",
+        "target": "0791:9119"
+      },
+      {
+        "argument_words_popped": 1,
+        "far": false,
+        "python_line": 636,
+        "return": "0791:9828",
+        "source_call_site": "0791:9825",
+        "target": "0791:970C"
+      }
+    ],
+    "watched_match_engine": [
+      {
+        "argument_words_popped": 3,
+        "far": true,
+        "python_line": 481,
+        "return": "0791:9597",
+        "source_call_site": "0791:9592",
+        "target": "23E4:08DF"
+      },
+      {
+        "argument_words_popped": 2,
+        "far": true,
+        "python_line": 491,
+        "return": "0791:95C9",
+        "source_call_site": "0791:95C6",
+        "target": "0791:2BE5"
+      },
+      {
+        "argument_words_popped": 2,
+        "far": true,
+        "python_line": 501,
+        "return": "0791:95FB",
+        "source_call_site": "0791:95F8",
+        "target": "0791:83A2"
+      },
+      {
+        "argument_words_popped": 0,
+        "far": false,
+        "python_line": 502,
+        "return": "0791:95FE",
+        "source_call_site": "0791:95FB",
+        "target": "0791:2FB1"
+      },
+      {
+        "argument_words_popped": 0,
+        "far": false,
+        "python_line": 503,
+        "return": "0791:9601",
+        "source_call_site": "0791:95FE",
+        "target": "0791:2996"
+      },
+      {
+        "argument_words_popped": 3,
+        "far": true,
+        "python_line": 513,
+        "return": "0791:9634",
+        "source_call_site": "0791:962F",
+        "target": "23E4:08DF"
+      },
+      {
+        "argument_words_popped": 2,
+        "far": true,
+        "python_line": 515,
+        "return": "0791:963F",
+        "source_call_site": "0791:963C",
+        "target": "0791:2CEC"
+      },
+      {
+        "argument_words_popped": 3,
+        "far": true,
+        "python_line": 519,
+        "return": "0791:965C",
+        "source_call_site": "0791:9659",
+        "target": "0791:2E36"
+      },
+      {
+        "argument_words_popped": 2,
+        "far": true,
+        "python_line": 522,
+        "return": "0791:9669",
+        "source_call_site": "0791:9666",
+        "target": "0791:8AE9"
+      },
+      {
+        "argument_words_popped": 0,
+        "far": false,
+        "python_line": 523,
+        "return": "0791:966C",
+        "source_call_site": "0791:9669",
+        "target": "0791:59B3"
+      },
+      {
+        "argument_words_popped": 2,
+        "far": true,
+        "python_line": 530,
+        "return": "0791:9695",
+        "source_call_site": "0791:9692",
+        "target": "0791:6188"
+      },
+      {
+        "argument_words_popped": 2,
+        "far": true,
+        "python_line": 541,
+        "return": "0791:96BE",
+        "source_call_site": "0791:96BB",
+        "target": "0791:2956"
+      },
+      {
+        "argument_words_popped": 2,
+        "far": true,
+        "python_line": 543,
+        "return": "0791:96CB",
+        "source_call_site": "0791:96C8",
+        "target": "0791:8AE9"
+      },
+      {
+        "argument_words_popped": 0,
+        "far": false,
+        "python_line": 545,
+        "return": "0791:96DB",
+        "source_call_site": "0791:96D8",
+        "target": "0791:2FB1"
+      },
+      {
+        "argument_words_popped": 0,
+        "far": false,
+        "python_line": 546,
+        "return": "0791:96DE",
+        "source_call_site": "0791:96DB",
+        "target": "0791:94E8"
+      },
+      {
+        "argument_words_popped": 2,
+        "far": true,
+        "python_line": 548,
+        "return": "0791:96E7",
+        "source_call_site": "0791:96E4",
+        "target": "0791:8F10"
+      },
+      {
+        "argument_words_popped": 0,
+        "far": false,
+        "python_line": 549,
+        "return": "0791:96EA",
+        "source_call_site": "0791:96E7",
+        "target": "0791:9372"
+      }
+    ]
+  },
+  "locations": [
+    {
+      "address": "000E:4E0E",
+      "file": "static/goal-exe/named/seg_000E_04.c",
+      "heading_sha256": "12036f17e3b85b16a84bfcd221e92ad4384c190e48d115a7144706a40065052d",
+      "line": 388
+    },
+    {
+      "address": "000E:6CA7",
+      "file": "static/goal-exe/named/seg_000E_05.c",
+      "heading_sha256": "36c99772df260238ea0c0da483dd5d6b511713efd33b35406ffc7c58c3ca8958",
+      "line": 516
+    },
+    {
+      "address": "0791:0C65",
+      "file": "static/goal-exe/named/seg_0791_01.c",
+      "heading_sha256": "2b1e8264f4a2cc4945cc8e420954e5c8e5c082fc7e090ed36214196b81561491",
+      "line": 701
+    },
+    {
+      "address": "0791:15B9",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "2d043a378fc381b8f07e478da5548eb27de2a602d85523f9ace128964fd1b532",
+      "line": 4
+    },
+    {
+      "address": "0791:2648",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "f6eef1b2c9e597215049cb214abdad84f71b69e7939b708685bab79298db69de",
+      "line": 592
+    },
+    {
+      "address": "0791:8889",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "8c68c6444c9a319daa478bbae80010531f6d61ee00f3222d003fbc54de105bd0",
+      "line": 402
+    },
+    {
+      "address": "0791:8AE9",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "d198ef91981f2306bba5156f0205aca906ebee7a59fb4756eea87dd05689daff",
+      "line": 505
+    },
+    {
+      "address": "0791:9372",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "8984679a2fc46113fbeeb7bf5cf0a6e6763505586764b87279592edcef9082fb",
+      "line": 879
+    },
+    {
+      "address": "0791:9564",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "f099285487cf0c98feb7e082960df0666c43790e0c04441d397fd8d9d8ee59be",
+      "line": 30
+    },
+    {
+      "address": "0791:970C",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "dccff2e88fc3a28efc95a5ebda4d8ca0241de37d58b73c7ccfd702eedca7a1c0",
+      "line": 127
+    },
+    {
+      "address": "0791:97D0",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "54b3a034f1b2fe96422f7af0acb0582dfe6521fbd2ffd8d361a36a97797539ac",
+      "line": 174
+    },
+    {
+      "address": "0791:983F",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "be1792b17f1b343a84910318205cadf56837be67500439d49b95da94fb2cd103",
+      "line": 213
+    },
+    {
+      "address": "0791:98C4",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "4363f44a98bd4f9ec86198be9f5190bb9271e548ed68de3fdb8e7b870edea564",
+      "line": 254
+    },
+    {
+      "address": "0791:9955",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "cdd60978725feb791bcc1e6c9d1029a4fc2aa12c8825af40b411f5abe64292e6",
+      "line": 289
+    },
+    {
+      "address": "0791:998C",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "1b1bce8217e5214a4050f5dc6208d07dea8155bd3b96049e121c271343bd40ca",
+      "line": 313
+    },
+    {
+      "address": "0791:9A32",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "9449d4297458e4e9ab7b684616b3661d28595aa79fc63c7d73c808d326464d65",
+      "line": 339
+    },
+    {
+      "address": "0791:9B0C",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "2143bf583b3ba36bbe7124c3862098502140c6d6216ece62e2da49e127a44db8",
+      "line": 391
+    },
+    {
+      "address": "0791:9B5B",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "7f83fbebd8febfbdec9fbf467051f3c63fcd77e3055fabac0bce9af6b5a9b088",
+      "line": 415
+    },
+    {
+      "address": "0791:A10A",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "fdaa88545da96c82f16890cde8e2a424b4544f50528a53a4578aa4ffc601290e",
+      "line": 628
+    },
+    {
+      "address": "0791:A4A1",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "ef95a1fe479c75ffa821c44a3a3656814f92134bb93bbb8da7a41e7ee872fd34",
+      "line": 834
+    },
+    {
+      "address": "0791:B19D",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "747ec8c84f337abb48c41631180998ac767deb0c214471057e640999d071adfc",
+      "line": 458
+    },
+    {
+      "address": "0791:B6CC",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "126104a4a084a6982764e903ba723756e4d197f322a46b0903608630cd85636c",
+      "line": 674
+    },
+    {
+      "address": "0791:B71C",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "896f430d7b4079b3e01dd8669ac82d000f1f2db57c5ab3d49a5f11a00c9c7cf4",
+      "line": 696
+    },
+    {
+      "address": "0791:B7FA",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "585d243403576224041c5dfffe45b41c0bf9068d9bd56f6012cac6ca0d1a6ea1",
+      "line": 741
+    },
+    {
+      "address": "0791:D47E",
+      "file": "static/goal-exe/named/seg_0791_12.c",
+      "heading_sha256": "b835b359b0c6be445d7727404992bcc7961ebe7c255987f9b06ebdd92dd32f4a",
+      "line": 151
+    },
+    {
+      "address": "0791:D733",
+      "file": "static/goal-exe/named/seg_0791_12.c",
+      "heading_sha256": "b29c21d70040973b426c40903117cbe82d1c8697c14d88f78ea898a3a80d2f4f",
+      "line": 265
+    },
+    {
+      "address": "0791:F098",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "3a479475383937b39b481005207ae4318f2f73335c14cfa4c95ddb3b035f50c7",
+      "line": 550
+    },
+    {
+      "address": "0791:F1F6",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "309bb749731f2aa2e0c544242a947ad0d22d45c528553e98451fd8481e85f0bd",
+      "line": 603
+    },
+    {
+      "address": "214B:0688",
+      "file": "static/goal-exe/named/seg_214B_01.c",
+      "heading_sha256": "34ad314d6c5f1c221a39452ebc11149f1bf59052e4c6efc0d0b5b1d15db1718d",
+      "line": 590
+    },
+    {
+      "address": "214B:06B1",
+      "file": "static/goal-exe/named/seg_214B_01.c",
+      "heading_sha256": "c5afe1333f429079d5685b91a206eca50d7d6b66a18ea18b14d1fbbefe40964b",
+      "line": 604
+    },
+    {
+      "address": "214B:06FA",
+      "file": "static/goal-exe/named/seg_214B_01.c",
+      "heading_sha256": "5ef2b55d645e6a0e11a77b077878c9aca2a48262422329aaa0f237659cbd25bb",
+      "line": 630
+    }
+  ],
+  "ordinary_match_sequence": [
+    "0791:A4A1",
+    "0791:ED8A",
+    "0791:F098",
+    "summary/tail"
+  ],
+  "original_router_continuation": [
+    "conditional B71C then B6CC per side (managed involvement and non-friendly gate)",
+    "4E0E for each managed side",
+    "0791:B7FA"
+  ],
+  "play_match_sequence": [
+    "0791:998C",
+    "0791:9955",
+    "0791:9A32",
+    "write fixture score/result",
+    "optional9B0C/9B5B/A10A",
+    "watched settling98C4/9955"
+  ],
+  "rng_draw_sites": [
+    {
+      "condition": "setup: rand(16)-1, 255 table entries",
+      "file": "static/goal-exe/code/seg_0791_04.asm",
+      "instruction_sha256": "9b5a235ecc89f02dfe07d0f13562ecbd8b7aa96592be064649fc713958a7b56d",
+      "line": 740,
+      "source_call_site": "0791:2682",
+      "target": "214B:06B1"
+    },
+    {
+      "condition": "movement: off-target sprint-axis coin",
+      "file": "static/goal-exe/code/seg_0791_14.asm",
+      "instruction_sha256": "961d322cc7b385c55885c32138395352aeb4b77482f59d0761ff68a8a3ce9116",
+      "line": 801,
+      "source_call_site": "0791:8A2E",
+      "target": "214B:06FA"
+    },
+    {
+      "condition": "movement: rand(5) after a failed move",
+      "file": "static/goal-exe/code/seg_0791_14.asm",
+      "instruction_sha256": "978302161e2d1d196506bdaf259a8533237082edd66bef3831f0b1b2de5b3074",
+      "line": 882,
+      "source_call_site": "0791:8AD1",
+      "target": "214B:06B1"
+    },
+    {
+      "condition": "attempt: opponent midfield",
+      "file": "static/goal-exe/code/seg_0791_18.asm",
+      "instruction_sha256": "0c45ec2326eb95b5f89aa9510848935d57be265b49a7f493ef26d198decc345c",
+      "line": 450,
+      "source_call_site": "0791:B1DA",
+      "target": "214B:06B1"
+    },
+    {
+      "condition": "attempt: own midfield",
+      "file": "static/goal-exe/code/seg_0791_18.asm",
+      "instruction_sha256": "7f9cfd83a08569c4cac9959fbc6ea3944d9feb016a671847e01c0a30c84185d2",
+      "line": 457,
+      "source_call_site": "0791:B1EC",
+      "target": "214B:06B1"
+    },
+    {
+      "condition": "after midfield win: twice opponent defence",
+      "file": "static/goal-exe/code/seg_0791_18.asm",
+      "instruction_sha256": "a02acf2dbfcede36e55f9cb74c8d384f9a38a57971de70cb587363f0a63d7c4b",
+      "line": 474,
+      "source_call_site": "0791:B20E",
+      "target": "214B:06B1"
+    },
+    {
+      "condition": "after midfield win: own attack",
+      "file": "static/goal-exe/code/seg_0791_18.asm",
+      "instruction_sha256": "79138c582fa470ab60835be51275049f9538fc21f4113cfda3206a14253780d7",
+      "line": 481,
+      "source_call_site": "0791:B220",
+      "target": "214B:06B1"
+    },
+    {
+      "condition": "after defence win: opponent keeper",
+      "file": "static/goal-exe/code/seg_0791_18.asm",
+      "instruction_sha256": "9d8497576f39797030a5b87ac4081800f0c676be9e4fe67dfa4f32c41dde57bf",
+      "line": 496,
+      "source_call_site": "0791:B23F",
+      "target": "214B:06B1"
+    },
+    {
+      "condition": "after defence win: own attack",
+      "file": "static/goal-exe/code/seg_0791_18.asm",
+      "instruction_sha256": "7ec0ff0e1de12c2098955391bdb8df940ecc781f7a4246f9f491f71e1a5e207b",
+      "line": 503,
+      "source_call_site": "0791:B251",
+      "target": "214B:06B1"
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "Code layers and machine fidelity",
+    "Fixture-to-result control flow",
+    "One ordinary watched iteration",
+    "Clock and half boundaries",
+    "Randomness, events and saved continuations"
+  ],
+  "setup_reseed": {
+    "before_optional_kit_seed_override": true,
+    "bound": 16,
+    "foul_fill_draws": 255,
+    "stored_value": "draw-1",
+    "word": "U16(fixture_index*(elapsed_year+1))"
+  },
+  "source_commit": "08beac2e9d43faf766e445e924da096b8a99d748",
+  "source_sha256": {
+    "experiments/E011-q010-watched-engine/rng-counts.txt": "bb59e6bead0fc83c7e929ecdb949f5bbd28482d2010b39a92a5c76274a51b4f8",
+    "findings/F013-the-watched-engine-tick-map.md": "6ddb3ca3ce6114390f6419faec19a67f014b52626039436f2ddec15725c622c9",
+    "runtime/original_match/README.md": "f0ec391ae6f17974f68c978089694a19e830a3068e5e8facd21d5de572bde3cc",
+    "runtime/original_match/machine.py": "c01aa890626ac0235f6e1a40dec93475624a5f09d426bdb6f701b37ceb6c2db1",
+    "runtime/original_match/match.py": "f48af24c40e571be10c31b21e5551c47d26af3624c71bf97cd7348c9a64e9885",
+    "runtime/original_match/port/__init__.py": "f9e7be3d05d0f64ff1c940dc36a0d9c9c53e6ac3468b22e3f37a352680339dd9",
+    "runtime/original_match/port/frame.py": "d4c0cd4753038d6058f8359818164ce8cd0be775191fc8338f9a7ec9849b3a6a",
+    "runtime/original_match/port/guest.py": "1c2f1eba101c7ce08cb7d23d273d69411ec4dcbfd1512427042c304a2721c8d9",
+    "runtime/original_match/port/mem.py": "0105113f8102a3e8c3544942a445e156fecc0196f7911089e7f789a7775fe45c",
+    "runtime/original_match/port/postmatch.py": "32035e9d055055cc29ba6dedbb38ceda3ac18ea6cc5d2a40605450086f41f86e",
+    "runtime/original_match/port/quick.py": "28836a578a2937b72a4fff05ab315bb0a9f665f24cf79e5a14bd4da710432590",
+    "static/goal-exe/code/seg_000E_09.asm": "6a84b76616379d6307b1cd26a822b60b90cdeb05ec7f93ddf37e1df7151a74dd",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_0791_14.asm": "032e2d6f22d6db5981e2a11f43298924a53e15d080e1d73d1fb375ddbe400abd",
+    "static/goal-exe/code/seg_0791_16.asm": "970a6ea902b38abd5e437aed568fc1833caf6bac00e25194be1f3f39504ea4e1",
+    "static/goal-exe/code/seg_0791_18.asm": "e19061df86a89389539ddc48b0497b1f04742062851deca434838b600387d397",
+    "static/goal-exe/code/seg_0791_23.asm": "49e12bb8534566ad1e6b4b22e2f088ce483d4518f8d2b8cf28fefb3c7f9b9cde",
+    "static/goal-exe/named/index.tsv": "7688e639f8b35910e8c2ec8dc8734a2e40413a8d3b40d2b247400e29bdf79b19",
+    "static/goal-exe/named/seg_000E_04.c": "892247e30b3187035080436ea0e22a90f0561f6b65513a81d55e46aef06e2aa3",
+    "static/goal-exe/named/seg_000E_05.c": "1d8d433efe82c172f1223f9f139e140da465e2ee2b6adee53d0af91d7625aa4d",
+    "static/goal-exe/named/seg_0791_01.c": "d8a020bf4ff10098b2b5f0b9ea2a61085f46c500cd7f6b929bdf8f0bf8f3ce37",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_08.c": "130e91927a5bb2fed2adb998225fc88091816752051eee90ae004e30fcfecc96",
+    "static/goal-exe/named/seg_0791_09.c": "71a912e2c5564f75078a0db0220c5388a74ec168783371a63c74cdddae22275f",
+    "static/goal-exe/named/seg_0791_10.c": "307274e4e5007f1e809b5b54708a686d106a61d77848ddc6967c9fb0fd88e52f",
+    "static/goal-exe/named/seg_0791_12.c": "6484f6f6014e480e1cfecb34ff96b7032da39aa5b9338a133e9c596ab7964e8c",
+    "static/goal-exe/named/seg_0791_13.c": "4fe6fb41281082fba52ebdc61c6ba147de1dff5bf3ee94fe0bf1314e33878d21",
+    "static/goal-exe/named/seg_214B_01.c": "b49ca1bb9367f8bad97a41a4cbd2f5646d7653de9d9acb9d16a28c7ac1331c53"
+  },
+  "task": "T100"
+}

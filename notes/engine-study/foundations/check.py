@@ -20,7 +20,7 @@ FILES = {
     "T98b": ("T98/strength-v1.json", "strength-formulas.md"),
     "T99a": ("T99/gates-v1.json", "skill-gates.md"),
     "T99b": ("T99/contests-v1.json", "contest-formulas.md"),
-    "T100": ("T100/flow.json", "match-flow.md"),
+    "T100": ("T100/flow-v2.json", "match-flow.md"),
 }
 RECORDS = {"T96a": {"player": 20}, "T97a": {"country": 191, "fixture": 8, "manager-entry": 3},
            "T97b": {"pitch": 22, "ball": 12, "sprite": 8}}
@@ -118,6 +118,8 @@ def validate(task, data):
         raise ValueError("missing numerical-check results; run the package checker too")
     if task == "T100" and not {"0791:F1F6", "0791:A4A1", "0791:F098", "0791:9564", "0791:D733", "0791:D47E", "0791:97D0", "0791:970C", "0791:B7FA"} <= {r["address"] for r in data["locations"]}:
         raise ValueError("missing main execution route")
+    if task == "T100" and not data.get("rng_draw_sites"):
+        raise ValueError("missing branch-dependent draw-site frontier")
 
 
 def main():
@@ -132,6 +134,8 @@ def main():
     results = {"positive": "accepted"}
     if args.controls:
         cases = ["missing-provenance", "shifted-source"]
+        if args.task == "T100":
+            cases += ["missing-rng-sites"]
         if args.task in RECORDS:
             cases += ["missing-field", "overlapping-field"]
         for case in cases:
@@ -140,6 +144,8 @@ def main():
                 changed["source_sha256"] = {}
             elif case == "shifted-source":
                 changed["locations"][0]["line"] += 1
+            elif case == "missing-rng-sites":
+                changed.pop("rng_draw_sites")
             else:
                 fields = next(iter(changed["records"].values()))["fields"]
                 if case == "missing-field":
