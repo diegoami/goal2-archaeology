@@ -1,0 +1,95 @@
+{
+  "baseline_tests": 8,
+  "mutants": [
+    {
+      "mutation": "gate_c1e_only",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "gate_c1f_only",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "gate_either",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "own_country_always",
+      "failures": 0,
+      "errors": 1
+    },
+    {
+      "mutation": "side_by_first",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "no_offset",
+      "failures": 5,
+      "errors": 0
+    },
+    {
+      "mutation": "threshold_before_offset",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "threshold_inclusive",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "no_substitute_decode",
+      "failures": 4,
+      "errors": 0
+    },
+    {
+      "mutation": "no_plus_100",
+      "failures": 5,
+      "errors": 0
+    },
+    {
+      "mutation": "skip_blank",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "skip_zero_words",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "half_floor",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "hybrid_whole",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "skills_table",
+      "failures": 3,
+      "errors": 0
+    },
+    {
+      "mutation": "no_role_bound",
+      "failures": 0,
+      "errors": 1
+    },
+    {
+      "mutation": "row_15",
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "no_wrap",
+      "failures": 1,
+      "errors": 0
+    }
+  ]
+}
