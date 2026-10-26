@@ -5,7 +5,7 @@ tactics, fixture kind, venue context and competition state select different code
 different values. Persistent records also change after play, so a second fixture need not begin
 with the first fixture's inputs.
 
-The [source/layout ledger](../../notes/engine-study/T97/persistent.json) pins original routines
+The [source/layout ledger](../../notes/engine-study/T97/persistent-v2.json) pins original routines
 and accounts for country191, fixture8, manager3 and game270 byte spans. Unknown groups remain
 explicit; byte coverage is not a claim that every historical subfield has been decoded.
 
@@ -37,7 +37,8 @@ A readable API should distinguish country ID, player ID, squad slot, pitch slot 
 | Offset | Bytes | Field/group | Meaning |
 | --- | ---: | --- | --- |
 | `+0x00` | 40 | squad | Twenty little-endian player-index words; slots 1..11 are starters, 12..20 bench; order changes can persist. |
-| `+0x28` | 2 | unresolved_28_29 | Unexpanded country bytes +28..29; no invented skill or lifetime assignment. |
+| `+0x28` | 1 | best_continent_rank | Historical best continental rank; 97CC initialises it; 63A4 lowers it only when the world-rank branch did not improve. |
+| `+0x29` | 1 | best_world_rank | Historical best world rank; 97CC initialises it; 63A4 lowers it before the continental else-if branch. |
 | `+0x2A` | 1 | continent_rank | Ordinary continental rank 1..32; country-rating/development/result-expectation input. |
 | `+0x2B` | 1 | world_rank | Ordinary world rank 1..128; country-rating and result-expectation input. |
 | `+0x2C` | 1 | continent | Ordinary continent code 1..4; rating, venue-host lookup and competition/recovery routing. |
@@ -47,6 +48,11 @@ A readable API should distinguish country ID, player ID, squad slot, pitch slot 
 | `+0x31` | 70 | historical_totals_unexpanded | Persistent historical/season totals; D050 includes a season block at +3B. Exact subfield types/lifetimes are not all resolved in this foundation. |
 | `+0x77` | 48 | largest_result_records | D050 largest win/loss fixture-record area +77..A6; preserve as historical data, not player attributes. |
 | `+0xA7` | 24 | streaks_unexpanded | D050 home/away/all streak/current-maximum area +A7..BE; subfield enumeration remains reader-specific. |
+
+At squad creation `1771:97CC` copies current ranks into +28/+29. The recomputation
+`1771:63A4` keeps smaller rank numbers, testing world rank first and continental rank
+only in an `else if`. When both improve in one call, only the world byte changes on that
+call; the continental best is not an unconditional minimum of all observed ranks.
 
 Squad order is state. Substitution/sort swaps can persist, and formation labels/counts depend
 on current played-position bytes among the starters. A single stored formation number is not
@@ -81,7 +87,7 @@ signed quantity; `B6CC` clips its updates to -127..127.
 | Offset | Bytes | Field/group | Meaning |
 | --- | ---: | --- | --- |
 | `+0x00` | 1 | first_score_or_pending_mark | Side-0 score after play; pending marker such as FE/FF before play. Phase-dependent, not always a score. |
-| `+0x01` | 1 | second_score | Side-1 score after play; pending representation must be read with its phase. |
+| `+0x01` | 1 | second_score_or_group | Side-1 score after play; 5D94 writes the group number before play (0 for no group table); A3DE copies it to 9976. |
 | `+0x02` | 1 | kind | Competition/friendly kind; 1 is friendly; gates budgets, fouls, results/deciders and venue. |
 | `+0x03` | 1 | result_code | Played result: 0 side-0 winner, 1 side-1 winner, 2 draw; a silent decider coin may choose 0/1 despite equal score bytes. |
 | `+0x04` | 2 | first_country | Country for engine side 0; API first does not mean home. |
@@ -91,6 +97,11 @@ Result code describes the completed result, not a universal formula of the score
 `D47E` can resolve a still-level silent decider with a coin and record winner 0/1.
 Pending markers must be distinguished from completed score zero. Fixture kind controls whether
 play happens, discipline/budgets, post-match routing and whether a winner is required.
+
+The pre-play fixture layout is documented by [F023](../../findings/F023-the-stage-builders-write-the-competition-calendar-from-ranked-pots-and-a-points-sort-with-no-coin.md)
+and writer `1771:5D94`. The current ledger requires that finding path to exist; the v1
+generator silently omitted a misspelled path. The +1 group value must be captured before
+play overwrites it with the second score.
 
 ### Game record
 

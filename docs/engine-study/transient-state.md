@@ -3,7 +3,7 @@
 The match creates state on top of the [persistent records](match-fields.md): pitch identity,
 coordinates, action handlers, ball travel, clocks, pending events, random streams and cached
 values. Several addresses have misleading names if their owner or phase is omitted.
-The [source ledger](../../notes/engine-study/T97/transient.json) pins the layouts and primary
+The [source ledger](../../notes/engine-study/T97/transient-v2.json) pins the layouts and primary
 routines; it does not claim a complete typed schema for every byte in DS.
 
 ## Live records and coordinate conventions
@@ -100,7 +100,8 @@ other globals are unused. Exact original/source locations and hashes are in the 
 
 | Location | Meaning / boundary |
 | --- | --- |
-| `DS:9976` | captain/set-piece taker slot table |
+| `DS:9976` | fixture-group byte, copied from pre-play fixture +1 by A3DE; E929 reads it for the group-table display |
+| `DS:9976+10*side+2*role` | captain/set-piece taker slot words for roles 1..5; offset zero is not an entry |
 | `DS:9A3E` | quick flag byte; overlaps dummy marking row0, not an active marking word |
 | `DS:9A3E+40*t+2*s` | marking words for active squad slots; index/lifetime must be read in context |
 
@@ -124,7 +125,7 @@ other globals are unused. Exact original/source locations and hashes are in the 
 | `DS:830B,830C,830D` | holder/challenger/nearest pitch-slot selectors |
 | `DS:8324` | shootout-specific control flag |
 | `DS:8327` | ball-event/action code |
-| `DS:9B30` | current fixture far pointer |
+| `DS:7C2A` | live current-fixture far pointer, written by A3DE at A437/A43A |
 | `DS:9B34` | two current country words |
 | `DS:9B3A` | two substitution-budget bytes |
 
@@ -133,8 +134,8 @@ other globals are unused. Exact original/source locations and hashes are in the 
 | Location | Meaning / boundary |
 | --- | --- |
 | `DS:7B62` | main16-bit LCG state |
-| `DS:8336` | separate sound-seed byte |
-| `DS:8337` | precomputed foul draw bytes1..255 |
+| `DS:8336..8337` | separate sound-seed word; high byte aliases unused foul-table entry zero |
+| `DS:8337+k`, k=1..255 | precomputed foul draw bytes; entry zero is unused by the foul reader |
 | `DS:8437` | foul-table index, wraps255to1 |
 | `DS:9974` | original replay snapshot of main RNG word |
 | `DS:A978` | far pointer to main RNG word, normally7B62 |
@@ -143,6 +144,8 @@ other globals are unused. Exact original/source locations and hashes are in the 
 
 | Location | Meaning / boundary |
 | --- | --- |
+| `DS:9B30..9B33` | replay snapshot of the country words at 9B34..9B37; 15B9 writes, 0C65 restores |
+| `DS:9B38..9B39` | replay snapshot of substitution-budget bytes at 9B3A..9B3B |
 | `DS:9B07` | per-side/squad saved form snapshot; not the live player form byte |
 | `DS:9B55,7C37` | original snapshot/replay request flags |
 | `Match.save/load` | adapter save/replay reconstruction of live port frames; distinct from original action replay |
@@ -168,6 +171,17 @@ Do not infer its football meaning solely from a variable named possession; capti
 interpretation needs both sources.
 
 ## Aliases and cached values
+
+**Replay country and budget snapshots are separate from live fixture state.** `15B9`
+copies 9B34..9B37 to 9B30..9B33 at 17DE/17E1 and 9B3A..9B3B to 9B38..9B39 at 17E8.
+`0C65` copies the country words back at 0CDE/0CE1 and 11BD/11C0. The four-byte copy
+uses `les` as a transfer operation; that does not make the two country words a far pointer.
+The live fixture pointer is 7C2A..7C2D. These v2 meanings correct the retained v1 ledger.
+
+**The taker-table base has a separate use.** A3DE copies pre-play fixture +1 to the
+byte at 9976 (A42D); E929 reads it at E935 for group-table display. Taker words use
+9976 + 10*side + 2*role with role 1..5, so base offset zero is not a taker entry.
+
 
 **Nominal pitch row zero overlaps match globals.** Its address arithmetic reaches counters at
 80F2/80F6 and the venue flag at 80FC (row0+14). Iterating it as another player would confuse
@@ -206,7 +220,7 @@ index initialised from the second country. The kit's optional seed intervention 
 at the captain prompt. Restoring or varying only DS:7B62 does not reconstruct/resample the
 already-filled foul table and its index. DS:9974 is an original replay snapshot of the main
 word; it is not a second independently advancing match stream. DS:8336 is the identified
-sound-seed byte.
+sound-seed word (8336..8337). Its high byte aliases foul-table entry zero, which the foul reader does not use.
 
 The live-clock flag and original key/decision waits are state too. A stopped clock is not proof
 that no other code or RNG consumer runs. The kit adds its own phase/decision/event state in
@@ -215,7 +229,7 @@ action-replay buffers (`15B9`/`0C65`). A readable rewrite must preserve the sele
 continuation and event contract, not just the visible score and player records.
 
 These are static/retained-source interpretations for ES-R1 review. No new match, original binary
-execution or global alias proof was performed. The [access frontier](../../notes/engine-study/T96/access-frontier-v1.json)
+execution or global alias proof was performed. The [access frontier](../../notes/engine-study/T96/access-frontier-v2.json)
 retains unclassified pointer-context sites. Source ambiguities, including legacy naming and
 unexpanded global fields, remain explicit rather than being filled with assumed football rules.
 
