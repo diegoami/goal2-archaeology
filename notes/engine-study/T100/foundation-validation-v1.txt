@@ -1,0 +1,331 @@
+COMMAND 1: /home/diego/.local/bin/python3.12 -B notes/engine-study/T95/census.py --check
+PASS: {'modules': 21, 'entries': 423, 'declared_stubs': 17, 'family_cases': 75}; 179 source hashes; all named locations and chapter routes
+EXIT 0
+
+COMMAND 2: /home/diego/.local/bin/python3.12 -B notes/engine-study/T95/census.py --controls
+{
+  "source_commit": "08beac2e9d43faf766e445e924da096b8a99d748",
+  "generator_sha256": "d5d8d955f49f2ba80b4c6ecf9a41b6fe345e5c41f050db5cb20fa9e8136df5b1",
+  "report_sha256": "e0f0938e2a21bdb7920e51eb958b73fad152b11b668de91f5a4eb8e57508a95c",
+  "controls": {
+    "positive": "accepted",
+    "missing-routine": {
+      "rejected": "missing or duplicate registered routine"
+    },
+    "duplicate-address": {
+      "rejected": "missing or duplicate registered routine"
+    },
+    "stub-as-body": {
+      "rejected": "declared-stub classification changed"
+    }
+  }
+}
+EXIT 0
+
+COMMAND 3: /home/diego/.local/bin/python3.12 -B notes/engine-study/foundations/check.py --task T96a --controls
+{
+  "task": "T96a",
+  "manifest_sha256": "7d4973f73bd3f82c0b4e48cbe45662d7504c806a2b670d42e2a5597e4be5e068",
+  "checker_sha256": "fc4abaec3d4ee45bcc58ae259192d7b58404c90687cfd03598a99ce5fcba875c",
+  "results": {
+    "positive": "accepted",
+    "missing-provenance": "rejected",
+    "shifted-source": "rejected",
+    "missing-field": "rejected",
+    "overlapping-field": "rejected"
+  }
+}
+EXIT 0
+
+COMMAND 4: /home/diego/.local/bin/python3.12 -B notes/engine-study/foundations/check.py --task T96b --controls
+{
+  "task": "T96b",
+  "manifest_sha256": "bad8143e28532b944646328df01e65e9cea645b5c0bb6659ffd6514f07d86388",
+  "checker_sha256": "fc4abaec3d4ee45bcc58ae259192d7b58404c90687cfd03598a99ce5fcba875c",
+  "results": {
+    "positive": "accepted",
+    "missing-provenance": "rejected",
+    "shifted-source": "rejected"
+  }
+}
+EXIT 0
+
+COMMAND 5: /home/diego/.local/bin/python3.12 -B notes/engine-study/foundations/check.py --task T97a --controls
+{
+  "task": "T97a",
+  "manifest_sha256": "9a7e5f808674b5fd95cca3585a0f7fe6a44c6804e9743a19f4d7ea1df401f617",
+  "checker_sha256": "fc4abaec3d4ee45bcc58ae259192d7b58404c90687cfd03598a99ce5fcba875c",
+  "results": {
+    "positive": "accepted",
+    "missing-provenance": "rejected",
+    "shifted-source": "rejected",
+    "missing-field": "rejected",
+    "overlapping-field": "rejected"
+  }
+}
+EXIT 0
+
+COMMAND 6: /home/diego/.local/bin/python3.12 -B notes/engine-study/foundations/check.py --task T97b --controls
+{
+  "task": "T97b",
+  "manifest_sha256": "31c13f57005b73bd5198a09e84b317a08f847732a0f34c0610d97db701f2f7ae",
+  "checker_sha256": "fc4abaec3d4ee45bcc58ae259192d7b58404c90687cfd03598a99ce5fcba875c",
+  "results": {
+    "positive": "accepted",
+    "missing-provenance": "rejected",
+    "shifted-source": "rejected",
+    "missing-field": "rejected",
+    "overlapping-field": "rejected"
+  }
+}
+EXIT 0
+
+COMMAND 7: /home/diego/.local/bin/python3.12 -B notes/engine-study/foundations/check.py --task T98a --controls
+{
+  "task": "T98a",
+  "manifest_sha256": "b1956bd879fe347bffaef68453021ec98d644608f6847d9cdbff68a7d4cd52e5",
+  "checker_sha256": "fc4abaec3d4ee45bcc58ae259192d7b58404c90687cfd03598a99ce5fcba875c",
+  "results": {
+    "positive": "accepted",
+    "missing-provenance": "rejected",
+    "shifted-source": "rejected"
+  }
+}
+EXIT 0
+
+COMMAND 8: /home/diego/.local/bin/python3.12 -B notes/engine-study/foundations/check.py --task T98b --controls
+{
+  "task": "T98b",
+  "manifest_sha256": "3af8f59f7645409f9d91bdc2b48d17f9412fb99bc4c82b5c4d75807211d026d5",
+  "checker_sha256": "fc4abaec3d4ee45bcc58ae259192d7b58404c90687cfd03598a99ce5fcba875c",
+  "results": {
+    "positive": "accepted",
+    "missing-provenance": "rejected",
+    "shifted-source": "rejected"
+  }
+}
+EXIT 0
+
+COMMAND 9: /home/diego/.local/bin/python3.12 -B notes/engine-study/foundations/check.py --task T99a --controls
+{
+  "task": "T99a",
+  "manifest_sha256": "748be2d890da487962a1c223d0ca0a4ad34a0081bd8249b361158e8e80883724",
+  "checker_sha256": "fc4abaec3d4ee45bcc58ae259192d7b58404c90687cfd03598a99ce5fcba875c",
+  "results": {
+    "positive": "accepted",
+    "missing-provenance": "rejected",
+    "shifted-source": "rejected"
+  }
+}
+EXIT 0
+
+COMMAND 10: /home/diego/.local/bin/python3.12 -B notes/engine-study/foundations/check.py --task T99b --controls
+{
+  "task": "T99b",
+  "manifest_sha256": "37784d304ec27d6ce0416689a7f67bcc6a803da990bf8a4691b47596c636d75c",
+  "checker_sha256": "fc4abaec3d4ee45bcc58ae259192d7b58404c90687cfd03598a99ce5fcba875c",
+  "results": {
+    "positive": "accepted",
+    "missing-provenance": "rejected",
+    "shifted-source": "rejected"
+  }
+}
+EXIT 0
+
+COMMAND 11: /home/diego/.local/bin/python3.12 -B notes/engine-study/foundations/check.py --task T100 --controls
+{
+  "task": "T100",
+  "manifest_sha256": "6acee91999d79af9113004605a7dc55c18691bb3f32c07bf04885f6d52f3a61d",
+  "checker_sha256": "fc4abaec3d4ee45bcc58ae259192d7b58404c90687cfd03598a99ce5fcba875c",
+  "results": {
+    "positive": "accepted",
+    "missing-provenance": "rejected",
+    "shifted-source": "rejected"
+  }
+}
+EXIT 0
+
+COMMAND 12: /home/diego/.local/bin/python3.12 -B notes/engine-study/T96/make_derived.py --check
+PASS: 12 skill elements, 17 stored-field dispositions, 2352 retained foot calls / zero rule mismatches
+EXIT 0
+
+COMMAND 13: /home/diego/.local/bin/python3.12 -B notes/engine-study/T96/make_accesses.py --check
+PASS: 2278 explicit unresolved memory-API sites in 22 files; source hashes pinned
+EXIT 0
+
+COMMAND 14: /home/diego/.local/bin/python3.12 -B notes/engine-study/T97/make_persistent.py --check
+PASS: country191, fixture8, manager3 and game270 byte coverage; original source locations/hashes
+EXIT 0
+
+COMMAND 15: /home/diego/.local/bin/python3.12 -B notes/engine-study/T97/make_transient.py --check
+PASS: pitch22, ball12, sprite8 and marker6 byte covers; seven state families; source pins/aliases
+EXIT 0
+
+COMMAND 16: /home/diego/.local/bin/python3.12 -B notes/engine-study/T98/math.py --skill --check
+PASS: skill {"caught_original_return_controls": {"divisor31": 138, "form-cutoff33": 21, "omit-placement": 2}, "element11_source_control": "caught on worked trace", "mismatches": 0, "retained_original_literal_cases": 209}
+EXIT 0
+
+COMMAND 17: /home/diego/.local/bin/python3.12 -B notes/engine-study/T98/math.py --strength --check
+PASS: strength {"caught_original_return_controls": {"clamp255": 11, "form-cutoff33": 18, "ignore-unavailable": 46}, "mismatches": 0, "retained_original_literal_cases": 376}
+EXIT 0
+
+COMMAND 18: /home/diego/.local/bin/python3.12 -B notes/engine-study/T98/window_repro.py --check
+PASS: two valid-domain legacy IndexErrors reproduced; extended source windows match the formula
+EXIT 0
+
+COMMAND 19: /home/diego/.local/bin/python3.12 -B notes/engine-study/T99/odds.py --gates --check
+PASS: gates {"bound_marginals_enumerated": 12, "controls": {"drop_gate_plus_one": "caught at value32 (zero rather than32768 passes)", "invert_gate_result": "caught at value0 (65536 rather than0 passes)", "skip_degenerate_draw": "caught: seed0 must become6927 for bound0 and bound1"}, "lcg_period": 65536, "mismatches": 0, "skill_threshold_rows": 14}
+EXIT 0
+
+COMMAND 20: /home/diego/.local/bin/python3.12 -B notes/engine-study/T99/odds.py --contests --check
+PASS: contests {"attempt_examples": 3, "direct_skill_callers": 11, "entry_seeds_per_serial_example": 65536, "formula_mismatches": 0, "ideal_formula_grid_cases": 64, "order_and_tie_controls": "caught", "pair_examples": 9, "static_skill_call_sites": 24}
+EXIT 0
+
+COMMAND 21: /home/diego/.local/bin/python3.12 -B notes/engine-study/T100/make_flow.py --check
+PASS:7 tick-loop and 17 sweep lexical sites;37 eligible-clock interval; source routes/hashes
+EXIT 0
+
+COMMAND 22: /home/diego/.local/bin/python3.12 -B tools/check_links.py
+links and JSON ok (9749 files)
+EXIT 0
+
+COMMAND 23: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F001-goal2-runs-unattended-under-dosbox-x.md
+ok: citations in findings/F001-goal2-runs-unattended-under-dosbox-x.md resolve
+EXIT 0
+
+COMMAND 24: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F002-static-inventory.md
+ok: citations in findings/F002-static-inventory.md resolve
+EXIT 0
+
+COMMAND 25: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F003-g1-driver-repeats-the-restore-cycle.md
+ok: citations in findings/F003-g1-driver-repeats-the-restore-cycle.md resolve
+EXIT 0
+
+COMMAND 26: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F004-dos-time-seeds-the-game-and-key-timing-drives-the-live-match.md
+ok: citations in findings/F004-dos-time-seeds-the-game-and-key-timing-drives-the-live-match.md resolve
+EXIT 0
+
+COMMAND 27: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F005-the-quick-result-runs-another-engine-than-the-watched-match.md
+ok: citations in findings/F005-the-quick-result-runs-another-engine-than-the-watched-match.md resolve
+EXIT 0
+
+COMMAND 28: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F006-cycles-and-host-speed-do-not-change-a-match.md
+ok: citations in findings/F006-cycles-and-host-speed-do-not-change-a-match.md resolve
+EXIT 0
+
+COMMAND 29: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F007-player-values-are-made-at-a-new-game-from-a-seed-per-country-not-from-the-dos-time.md
+ok: citations in findings/F007-player-values-are-made-at-a-new-game-from-a-seed-per-country-not-from-the-dos-time.md resolve
+EXIT 0
+
+COMMAND 30: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F008-the-player-screen-draws-12-skills-as-bars-derived-from-three-record-bytes.md
+ok: citations in findings/F008-the-player-screen-draws-12-skills-as-bars-derived-from-three-record-bytes.md resolve
+EXIT 0
+
+COMMAND 31: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F009-ghidra-decompiled-view-agrees-with-nine-of-ten-hand-traced-claims.md
+ok: citations in findings/F009-ghidra-decompiled-view-agrees-with-nine-of-ten-hand-traced-claims.md resolve
+EXIT 0
+
+COMMAND 32: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F010-r008-is-a-countrys-default-team-tactics-and-both-match-engines-read-it.md
+ok: citations in findings/F010-r008-is-a-countrys-default-team-tactics-and-both-match-engines-read-it.md resolve
+EXIT 0
+
+COMMAND 33: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F011-the-pool-screen-lists-the-squad-and-80-extra-records-numbered-from-a927.md
+ok: citations in findings/F011-the-pool-screen-lists-the-squad-and-80-extra-records-numbered-from-a927.md resolve
+EXIT 0
+
+COMMAND 34: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F012-quick-engine-rule.md
+ok: citations in findings/F012-quick-engine-rule.md resolve
+EXIT 0
+
+COMMAND 35: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F013-the-watched-engine-tick-map.md
+ok: citations in findings/F013-the-watched-engine-tick-map.md resolve
+EXIT 0
+
+COMMAND 36: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F014-performance-ratings-and-man-of-the-match.md
+ok: citations in findings/F014-performance-ratings-and-man-of-the-match.md resolve
+EXIT 0
+
+COMMAND 37: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F015-keeping-and-penalties-read-through-the-derived-skills.md
+ok: citations in findings/F015-keeping-and-penalties-read-through-the-derived-skills.md resolve
+EXIT 0
+
+COMMAND 38: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F016-ageing-peak-band-and-yearly-writes.md
+ok: citations in findings/F016-ageing-peak-band-and-yearly-writes.md resolve
+EXIT 0
+
+COMMAND 39: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F017-retirement-creation-and-results-to-talent.md
+ok: citations in findings/F017-retirement-creation-and-results-to-talent.md resolve
+EXIT 0
+
+COMMAND 40: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md
+ok: citations in findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md resolve
+EXIT 0
+
+COMMAND 41: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F019-confidence-follows-result-relative-to-country-ranks.md
+ok: citations in findings/F019-confidence-follows-result-relative-to-country-ranks.md resolve
+EXIT 0
+
+COMMAND 42: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F020-events-change-confidence-and-team-morale-aggregates-it.md
+ok: citations in findings/F020-events-change-confidence-and-team-morale-aggregates-it.md resolve
+EXIT 0
+
+COMMAND 43: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F021-energy-and-form-set-a-players-strength-fitness-is-never-read-in-a-match.md
+ok: citations in findings/F021-energy-and-form-set-a-players-strength-fitness-is-never-read-in-a-match.md resolve
+EXIT 0
+
+COMMAND 44: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F022-contest-sites-287c-5474-5d69-and-the-branches-e011-takes.md
+ok: citations in findings/F022-contest-sites-287c-5474-5d69-and-the-branches-e011-takes.md resolve
+EXIT 0
+
+COMMAND 45: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F023-the-stage-builders-write-the-competition-calendar-from-ranked-pots-and-a-points-sort-with-no-coin.md
+ok: citations in findings/F023-the-stage-builders-write-the-competition-calendar-from-ranked-pots-and-a-points-sort-with-no-coin.md resolve
+EXIT 0
+
+COMMAND 46: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F024-computer-lineup-is-the-stored-eleven-corrected-by-bench-swaps-on-377e-and-silent-fixtures-are-one-b19d-call.md
+ok: citations in findings/F024-computer-lineup-is-the-stored-eleven-corrected-by-bench-swaps-on-377e-and-silent-fixtures-are-one-b19d-call.md resolve
+EXIT 0
+
+COMMAND 47: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F025-sacking-and-end-of-the-game.md
+ok: citations in findings/F025-sacking-and-end-of-the-game.md resolve
+EXIT 0
+
+COMMAND 48: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F026-what-each-team-tactic-changes-in-a-watched-match.md
+ok: citations in findings/F026-what-each-team-tactic-changes-in-a-watched-match.md resolve
+EXIT 0
+
+COMMAND 49: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F027-discipline-cap-bans-added-time-substitution-budget-and-foul-chain.md
+ok: citations in findings/F027-discipline-cap-bans-added-time-substitution-budget-and-foul-chain.md resolve
+EXIT 0
+
+COMMAND 50: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md
+ok: citations in findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md resolve
+EXIT 0
+
+COMMAND 51: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md
+ok: citations in findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md resolve
+EXIT 0
+
+COMMAND 52: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md
+ok: citations in findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md resolve
+EXIT 0
+
+COMMAND 53: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F031-the-squad-and-the-pool-exchange-except-from-a-countrys-first-finals-group-fixture-to-the-next-qualifying-build-and-between-two-away-cross-continent-friendlies.md
+ok: citations in findings/F031-the-squad-and-the-pool-exchange-except-from-a-countrys-first-finals-group-fixture-to-the-next-qualifying-build-and-between-two-away-cross-continent-friendlies.md resolve
+EXIT 0
+
+COMMAND 54: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F032-from-the-titles-key-read-to-the-first-manager-menu-a-new-game-opens-reads-and-closes-goal-dat-and-reads-the-dos-time-and-makes-no-other-interrupt.md
+ok: citations in findings/F032-from-the-titles-key-read-to-the-first-manager-menu-a-new-game-opens-reads-and-closes-goal-dat-and-reads-the-dos-time-and-makes-no-other-interrupt.md resolve
+EXIT 0
+
+COMMAND 55: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F033-the-start-year-is-the-dos-year-read-once-at-start-up-plus-one-made-even-a-state-at-that-date-call-replays-to-the-title-and-the-manager-menu-for-any-date-served.md
+ok: citations in findings/F033-the-start-year-is-the-dos-year-read-once-at-start-up-plus-one-made-even-a-state-at-that-date-call-replays-to-the-title-and-the-manager-menu-for-any-date-served.md resolve
+EXIT 0
+
+COMMAND 56: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F034-manager-names-preserve-pascal-nuls-and-screen-glyphs.md
+ok: citations in findings/F034-manager-names-preserve-pascal-nuls-and-screen-glyphs.md resolve
+EXIT 0
+
+COMMAND 57: /home/diego/.local/bin/python3.12 -B tools/check_citations.py findings/F035-team-status-is-country-rank-and-skill-is-manager-ability.md
+ok: citations in findings/F035-team-status-is-country-rank-and-skill-is-manager-ability.md resolve
+EXIT 0
+
