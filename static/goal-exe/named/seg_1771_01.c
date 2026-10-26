@@ -919,10 +919,10 @@ undefined4 __stdcall16far f_1771_114B(uint param_1)
 }
 
 
-// ---- 1771:11E1  draw_team_line_strength_bars  (f_1771_11E1; Ghidra 4000:11E1, __stdcall16near; found by routines.tsv)
-// Divides DS:9B4B/9B4F/9B53 signed words by4, clamps all four words beginning DS:9B47 at stride4 to1..256, then draws four attribute bars of value times25 divided by256  [likely; read code/seg_1771_02.asm:798]
+// ---- 1771:11E1  draw_team_line_bars  (f_1771_11E1; Ghidra 4000:11E1, __stdcall16near; found by routines.tsv)
+// (row) the TEAM line bars: divides the signed words DS:9B4B/9B4F/9B53 (lines 1..3) by 4 (idiv), leaves DS:9B47 (keeper) undivided, clamps all four words DS:9B47+4k to 1..256 in place, then 214B:13C5(row+k, 10, v*25 idiv 256) highlights that many cells (attribute 0x70) of rows row..row+3; 157D calls it at row 15 after 0BC4 (skills), 1289 at row 20 (performance)  [established; F036; read code/seg_1771_02.asm:799]
 
-void draw_team_line_strength_bars(int param_1)
+void draw_team_line_bars(int param_1)
 
 {
   int local_4;
@@ -995,7 +995,7 @@ void draw_live_team_line_performance(char param_1)
     if (local_4 == 0xb) break;
     local_4 = local_4 + 1;
   }
-  draw_team_line_strength_bars(0x14);
+  draw_team_line_bars(0x14);
   return;
 }
 
