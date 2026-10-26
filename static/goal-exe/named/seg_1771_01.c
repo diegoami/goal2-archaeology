@@ -1001,7 +1001,7 @@ void draw_team_performance_bars(char param_1)
 
 
 // ---- 1771:13D0  team_panel_aggregate  (f_1771_13D0; Ghidra 4000:13D0, __stdcall16near; found by routines.tsv)
-// per country: sets DS:9B5A..9B64 := 6 (six 16-bit words). Then for slot = 1..11: if 1771:3216(squad[slot-1]) == 0 (available): DS:9B5A += min(32, s8(players[squad[slot-1]].morale)) (no lower clamp; the 214B:0D1C helper returns min(32, s8(+0xC)) only — a -128 player byte contributes -128); DS:9B5C += s8(players.fitness) when s8(players.energy) > 0; DS:9B5E += (player_hardness(...) & 0xff); DS:9B60 += s8(players.energy); DS:9B62 += players.age; DS:9B64 += players.caps. The DS:9B5A accumulator is a 16-bit word wrapped mod 0x10000 on each add (line 1067). Then DS:9B5A..DS:9B64 /= 0x0B (unsigned 16-bit divide, line 1093), and DS:9B5A := max(1, quotient). DS:9B5A is therefore the team morale aggregate max(1, ((6 + sum_of_min(32, s8(morale)) for available starters) & 0xFFFF) // 11), recomputed every time 1771:157D draw_team_panel runs; the only consumer of DS:9B5A in the listing is the same routine's caller, which selects the morale string via DS:78A3[DS:9B5A]. No other writer of DS:9B5A exists in the listing. For [128, 0, ..., 0] the hand-traced original returns 5946 (= (6 + (-128)) & 0xFFFF = 65414, 65414 // 11); the reviewer's Unicorn run of the original listing bytes confirms 5946  [established; F020; F021]
+// (country) the TEAM characteristics: DS:9B5A..9B64 := 6, then for squad slots 1..11 whose player 1771:3216 reports available: morale += min(32, s8 +0xC) (214B:0D1C, no lower clamp); fitness += s8 +0xD when s8 +0xE > 0; hardness += 2FFB and 0xFF; energy += s8 +0xE; age += +1; caps += word +8; each word wraps at 16 bits, is divided unsigned by 11 (always 11), and morale alone is raised to at least 1. For [128, 0, ..., 0] morale gives 5946 (F020). 157D draws the results (F038); nothing else writes or reads DS:9B5A..9B64  [established; F020; F021; F038]
 
 void team_panel_aggregate(int param_1)
 
@@ -1018,12 +1018,12 @@ void team_panel_aggregate(int param_1)
   
   uVar7 = (undefined2)((ulong)countries >> 0x10);
   pcVar5 = (country *)countries;
-  DS:9B5A = 6;
-  DS:9B5C = 6;
-  DS:9B5E = 6;
-  DS:9B60 = 6;
-  DS:9B62 = 6;
-  DS:9B64 = 6;
+  team_characteristics[0] = 6;
+  team_characteristics[1] = 6;
+  team_characteristics[2] = 6;
+  team_characteristics[3] = 6;
+  team_characteristics[4] = 6;
+  team_characteristics[5] = 6;
   local_4 = 1;
   while( true ) {
     cVar2 = player_unavailable(pcVar5[param_1].squad[local_4 + -1]);
@@ -1033,27 +1033,43 @@ void team_panel_aggregate(int param_1)
       ppVar6 = (player *)players;
       iVar3 = u214b_min_longint(0x20,0,(int)(char)ppVar6[wVar1].morale,
                                 (int)(char)ppVar6[wVar1].morale >> 0xf);
-      DS:9B5A = DS:9B5A + iVar3;
+      team_characteristics[0] = team_characteristics[0] + iVar3;
       if ('\0' < (char)ppVar6[wVar1].energy) {
-        DS:9B5C = DS:9B5C + (int)(char)ppVar6[wVar1].fitness;
+        team_characteristics[1] = team_characteristics[1] + (int)(char)ppVar6[wVar1].fitness;
       }
       uVar4 = player_hardness(pcVar5[param_1].squad[local_4 + -1]);
-      DS:9B5E = DS:9B5E + (uVar4 & 0xff);
-      DS:9B60 = DS:9B60 + (int)(char)ppVar6[wVar1].energy;
-      DS:9B62 = DS:9B62 + ppVar6[wVar1].age;
-      DS:9B64 = DS:9B64 + ppVar6[wVar1].caps;
+      team_characteristics[2] = team_characteristics[2] + (uVar4 & 0xff);
+      team_characteristics[3] = team_characteristics[3] + (int)(char)ppVar6[wVar1].energy;
+      team_characteristics[4] = team_characteristics[4] + ppVar6[wVar1].age;
+      team_characteristics[5] = team_characteristics[5] + ppVar6[wVar1].caps;
     }
     if (local_4 == 0xb) break;
     local_4 = local_4 + 1;
   }
-  DS:9B5A = DS:9B5A / 0xb;
-  DS:9B5C = DS:9B5C / 0xb;
-  DS:9B5E = DS:9B5E / 0xb;
-  DS:9B60 = DS:9B60 / 0xb;
-  DS:9B62 = DS:9B62 / 0xb;
-  DS:9B64 = DS:9B64 / 0xb;
-  if (DS:9B5A == 0) {
-    DS:9B5A = 1;
+  team_characteristics[0] = team_characteristics[0] / 0xb;
+  team_characteristics[1] = team_characteristics[1] / 0xb;
+  team_characteristics[2] = team_characteristics[2] / 0xb;
+  team_characteristics[3] = team_characteristics[3] / 0xb;
+  team_characteristics[4] = team_characteristics[4] / 0xb;
+  team_characteristics[5] = team_characteristics[5] / 0xb;
+  if (team_characteristics[0] == 0) {
+    team_characteristics[0] = 1;
   }
+  return;
+}
+
+
+// ---- 1771:1527  draw_country_status_label  (f_1771_1527; Ghidra 4000:1527, __stdcall16near; found by routines.tsv)
+// TEAM row8 column25 Status: country_rating10E7 from rank bytes, signed (rating-1)/8 indexes DS:7884 then 16-byte label at DS:6EB4; normal rating1..128  [established; F035; read code/seg_1771_03.asm:6]
+
+void draw_country_status_label(undefined1 param_1,undefined1 param_2,undefined2 param_3)
+
+{
+  int iVar1;
+  
+  iVar1 = country_rating(param_3);
+  u214b_write_string_at_fwd
+            ((undefined4 *)&DS:A96E,0xb000,param_1,param_2,
+             (uint)*(byte *)((iVar1 + -1) / 8 + 0x7884) * 0x10 + 0x6eb4,0xb000);
   return;
 }

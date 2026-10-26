@@ -1,0 +1,39 @@
+# F038 TEAM characteristics are six 13D0 averages over eleven, shown as four descriptors with bars and two numbers
+
+- **Status**: proposed.
+- **Question**: #432 / T116: the six aggregates behind the TEAM "characteristics" block, their inputs, wrapping and signed behaviour, rounding, availability, descriptor lookup and bar rendering.
+- **Artifact**: goal2-a949da2f listings; genuine screens of goal2-67cf27d6 (same code and data, F035).
+- **Method**: static first. The reading answers the question:
+  - TEAM `1771:157D` 16BB-180C;
+  - `13D0` with `3216` (availability), `2FFB` (hardness) and `214B:0D1C` (longint minimum);
+  - the descriptor tables at `DS:78A3`, `78C4`, `78D5`, `78F6` and the labels at `DS:6EB4`;
+  - `214B:026D` (text), `214B:09DA` (number to string) and `214B:13C5` -> `00DB` (highlight).
+
+  Corroboration follows F036: genuine DOSBox-X screens of the owner's sitting E015-r0007, each paired by digest with its snapshot, and unmodified original routines under Unicorn on genuine states. Synthetic controls are labelled. F020 gave the morale term; this finding covers all six.
+- **Intervention**: none for the genuine screens. Original calls use synthetic frames and a scratch screen buffer cleared well past the screen's end, with no behaviour hooks, each bounded to 2 seconds and 500000 instructions. Synthetic controls edit a private copied machine.
+
+## Answer
+
+- **13D0(country) leaves six words** in `DS:9B5A..9B64`. Each starts at 6. For squad slots 1..11 whose player 3216 reports available (s8 energy +0xE at least 1, and none of +0x10 elements 8, 6, 3), it adds these terms: morale `9B5A` gets `min(32, s8 +0xC)`, with no lower clamp; fitness `9B5C` gets `s8 +0xD` when s8 energy is above 0, which availability already implies; hardness `9B5E` gets `(+5 - (+3 and 1)) and 0xFF` (2FFB); energy `9B60` gets `s8 +0xE`; age `9B62` gets `+1`; caps `9B64` gets the word `+8`. A zero squad word reads player 0; slot 12 and beyond are not read. Every add wraps at 16 bits. Each word is then divided unsigned by 11, whatever the number of available players, so an unavailable starter lowers every average. Morale alone is then raised to at least 1. Rounding is therefore `(6 + sum) div 11`: for a non-negative sum it rounds up when the sum leaves a remainder of 5 or more modulo 11, else down. A negative sum becomes `(65536 + 6 + sum) div 11`, e.g. 5946 for one player at morale -128 (F020). static:static/goal-exe/code/seg_1771_02.asm:1001 static:static/goal-exe/code/seg_1771_02.asm:1055 static:static/goal-exe/code/seg_1771_02.asm:1058 static:static/goal-exe/code/seg_1771_02.asm:1071 static:static/goal-exe/code/seg_1771_02.asm:1090 static:static/goal-exe/code/seg_1771_02.asm:1120 static:static/goal-exe/code/seg_1771_04.asm:1101 static:static/goal-exe/code/seg_214B_02.asm:532
+
+- **157D draws, in order**, after 13D0 (16BB): four descriptors at column 46 of rows 20..23 (hardness from table `DS:78C4`, fitness `78D5`, energy `78F6`, morale `78A3`). Each is the byte `table[v]` choosing the 16-byte Pascal label at `DS:6EB4+16*byte`. Then four bars from the same cell (column 46, under the label's own characters) of `((v shl 4) and 0xFFFF) div 16` cells for hardness and `div 32` for the other three, highlighted with attribute 0x70. Then caps and age as unsigned decimal text at row 19, columns 49 and 59, over the template's `─`. So hardness 0..16 fills 0..16 cells and the others 0..32 fill 0..16, which is exactly the template's 16 cells (columns 46..61). static:static/goal-exe/code/seg_1771_03.asm:193 static:static/goal-exe/code/seg_1771_03.asm:195 static:static/goal-exe/code/seg_1771_03.asm:263 static:static/goal-exe/code/seg_1771_03.asm:311 static:static/goal-exe/code/seg_1771_03.asm:327 static:static/goal-exe/code/seg_214B_02.asm:134
+
+- **Table domains**: the four tables are contiguous: morale 78A3..78C3 (index 0 unused because of the floor, 1..32 used), hardness 78C4..78D4 (0..16), fitness 78D5..78F5 (0..32), energy 78F6..7916 (0..32). The player panel reads 7917 as another table. A value outside its own range reads the next table's bytes, unchecked, exactly as the original does: hardness 17 shows fitness entry 0 `injured`, fitness 33 shows energy entry 0 `can't play`. A bar longer than 16 cells runs on in row-major order across the following rows, and past the 2000-cell screen for the largest values. static:static/goal-exe/data/ds_2581_04.hex:60 static:static/goal-exe/data/ds_2581_04.hex:61 static:static/goal-exe/data/ds_2581_04.hex:62 static:static/goal-exe/data/ds_2581_04.hex:63
+
+- **Genuine screens agree exactly**: labels, highlight and numbers on all 15 current E015-r0007 TEAM screens; the four stale ones (F036) agree with their re-renders. Denmark shows hardness 10 `tough`, fitness 25 `very fit`, energy 25 `energetic`, morale 17 `not bad`, bars 10/12/12/8, age 29 and caps 0. In-match Italy shows fitness 31 `total` but energy 27 `full of life`, after match play spent energy. static:notes/432/characteristics/original-r2.json:1 E015-r0007
+
+- **Original renders agree on every country of 18 genuine states**: E006-r0001, E010-r0001..r0010, E011-r0001 (watch start and half time), four E015-r0007 snapshots, and E014-r0006's year-one state. The last is the only one with nonzero caps: every country, averages up to 12. For each country, 13D0 called directly leaves the decoded words, and 157D leaves the decoded labels, cells, numbers and the bars' exact extent. Across these states the starters' bytes stay within morale 1..32, fitness 8..32, energy 7..32 and hardness 1..16, and every aggregate stays within its table. static:notes/432/characteristics/original-r2.json:1 E006-r0001 E010-r0001 E011-r0001 E014-r0006
+
+- **Synthetic controls**: 4000 seeded edits in four modes (natural-like, any byte, negative corners, table edges). 2659 compare in full, 544 of them out of table. 1341 read a label slot whose length byte exceeds 15; the decoder refuses those as a host error, and their bars and extent are still compared. Eleven players at fitness, then morale, -1..-128 give wrapped values 5830..5957, whose bars are compared cell for cell beyond the screen's end. That is where the shift's 16-bit mask shows: masked and unmasked lengths are identical on the visible screen. All equal the original. r1 lacked the wrap and extent controls, and a mask mutant passed it; r2 rejects it. The decoder's 11 tests fail before it exists, and 24 mutants are rejected. static:notes/432/characteristics/original-r1.json:1 static:notes/432/characteristics/mutations-r1.json:1 static:tests/test_team_characteristics_decoder.py:1
+
+## Alternatives and limits
+
+1. **Morale's clamp and floor apply to all six.** Only morale has the min-32 term and the floor of 1. Fitness can be 0, and the others can wrap.
+2. **The averages divide by the available players.** They always divide by 11.
+3. **The descriptors are thresholds or percentages.** They are direct table indexes by the averaged value, one entry per value.
+
+Not established: natural reachability of out-of-table values. No genuine state reaches one, and negative fitness or morale bytes, or hardness above 16, would be needed. Labels read from outside the tables with a Pascal length above 15 are refused by the decoder; the original would write that many characters. The original's writes past its 4000-byte back buffer for bars beyond the screen are not modelled.
+
+## Inferences
+
+- goal2 fills the characteristics block from the panel country's eleven squad words and those players' bytes +1, +3, +5, +8..+9, +0xC..+0xE and +0x10, plus the pinned tables, through `team_characteristics`. It draws each `text` at column 46 of its row, highlights `cells` cells from the same cell, and writes the caps and age `text` at row 19, columns 49 and 59. static:runtime/decoders/team_characteristics.py:1 static:docs/requests/432-team-panels.md:1
