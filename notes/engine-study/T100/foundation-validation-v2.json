@@ -1,0 +1,672 @@
+{
+  "all_pass": true,
+  "code_and_chapter_sha256": {
+    "docs/engine-study/attribute-formulas.md": "50e4604860f016039db1e648f928038e3ab2228b2390ff1cfbdcd38a271dcb57",
+    "docs/engine-study/contest-formulas.md": "67906f95dfc5a0c5beb5cf29223bffe17247aabdbbdbe039f24f94bb8ad89d32",
+    "docs/engine-study/inventory.md": "7becf6fb2978743e47216638267d6398ed487cda12a2b101f2f1467ac22e4dd5",
+    "docs/engine-study/match-fields.md": "da23704ba17c8776f0d1447b970028879b8c45797e91c3c2941d440f2b2d307b",
+    "docs/engine-study/match-flow.md": "e2c94f61adb794abcca803509134b13a4edc02039dbabb967047ea3f195baff7",
+    "docs/engine-study/player-derived.md": "54c1f7b84fead17d4a16829a0867098f319460f270dca0f84033793ee802aba9",
+    "docs/engine-study/player-fields.md": "1f97ef0b86ffe6c84f0ab2cd17bedecae469fa18109fef71340da7e8a7732dca",
+    "docs/engine-study/skill-gates.md": "0af08a52da10d84ecf3400390776d75a162e491546fadde65bfe9c893199be94",
+    "docs/engine-study/strength-formulas.md": "4f096eb18c523c9c9e160e0cfcc31e76f6ff89de97f2c89329768b07bc1949b0",
+    "docs/engine-study/transient-state.md": "7a73d8fecab9c154bba88008a75b361a1dd871bf186d3feffc6e97c88d41810b",
+    "notes/engine-study/T100/make_flow.py": "e9ab47db1730921fb900809b4a9947dc06f84c1800296df7d5ba90c5be349da6",
+    "notes/engine-study/T95/census.py": "d5d8d955f49f2ba80b4c6ecf9a41b6fe345e5c41f050db5cb20fa9e8136df5b1",
+    "notes/engine-study/T96/make_accesses.py": "38e9bb927c28d642fadae3674a71bf9ca89158cecc9a6e8ab1fe48d7acd60983",
+    "notes/engine-study/T96/make_derived.py": "26fbb0b8522ded5c6e1ef2db1ff6d10cf9944f93b23e542ba84e669a948c1ce6",
+    "notes/engine-study/T96/make_fields.py": "ee1e10165f254b62466ff6f78d35d04416cb6c6a21f8549439cf928366031d91",
+    "notes/engine-study/T97/make_persistent.py": "0e6e409a13465d4326f507aa31bb6be7f06ee1da53eb9b6ea32e6b795285acb8",
+    "notes/engine-study/T97/make_transient.py": "8f4ef5271f7110d036b099fd4c9046b7bcb216465374035a023355297506793d",
+    "notes/engine-study/T98/coverage_audit.py": "1933d97507d5823dd24a16df68ac450d8594d59d5a9eac2d84fcc9f8571111ee",
+    "notes/engine-study/T98/math.py": "8b0df678d03ab97dcc6cd7a7fa805929dae60cc4aa2afaeb7b5a136fbfd7a4f9",
+    "notes/engine-study/T98/skill.py": "969f475209d777a798dd2c634b188405cade97f24e260daafac6bc24d734f936",
+    "notes/engine-study/T98/strength.py": "86a7fdbec15723a063b957affad294670dc35ab381fa70f74a37ea4144eccf9f",
+    "notes/engine-study/T98/tables.py": "f5e0836d57f8816943f2b2648818cb3a6175060b834f827dff64f27d535215fb",
+    "notes/engine-study/T98/window_repro.py": "017da31e2bf141d9167224e591147c72e17080dffb8feaa296403e0c209abd9b",
+    "notes/engine-study/T99/contests.py": "27f5e117a1d4e2297de05225b45521cd5b6e9b7d4a94cde571c7dc08c9bcff40",
+    "notes/engine-study/T99/gates.py": "cfbcf0452dffdba48198ce810767e287409edc1d9a09aa22558459189e3d2172",
+    "notes/engine-study/T99/odds.py": "b3fb013df3107cd926c9aa35ac75925cdcde34a136a26605e457b5579c030049",
+    "notes/engine-study/T99/rng.py": "70501d788f68d7e690347c374ea3534708de8c485201044cfc8000a51ad14f77",
+    "notes/engine-study/foundations/check.py": "b8a842ee69292bc9fabf74c93637aa241e8345027100ab7c8d4cef9823fdaa4e"
+  },
+  "commands": [
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T95/census.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output_sha256": "e9ab7db6cfc881ef55a3015606faf6e817f218cc0177f4a51d23829e1d28a720"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T95/census.py",
+        "--controls"
+      ],
+      "exit_code": 0,
+      "output_sha256": "c61411b9467fe71877e1c658d333231cd93c2a7bc37643bc28909e431367678e"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/foundations/check.py",
+        "--task",
+        "T96a",
+        "--controls"
+      ],
+      "exit_code": 0,
+      "output_sha256": "9a9c538ee59b53943d57a1b89d54bb05aac08aa4ebf036e19652e55a4b8892cb"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/foundations/check.py",
+        "--task",
+        "T96b",
+        "--controls"
+      ],
+      "exit_code": 0,
+      "output_sha256": "7203c27fca55229b33c58902b0a192e2e31854c21e3970ff641846b3b5fe9618"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/foundations/check.py",
+        "--task",
+        "T97a",
+        "--controls"
+      ],
+      "exit_code": 0,
+      "output_sha256": "3de3774b8100f98cb2a3e88bacd0c9dda4d89ba943d54b7f8bdfe5ddbe64463d"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/foundations/check.py",
+        "--task",
+        "T97b",
+        "--controls"
+      ],
+      "exit_code": 0,
+      "output_sha256": "67a5a8d3ba4e78442345b5f2c25b3be697b441cc3db0452f20719f0690698713"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/foundations/check.py",
+        "--task",
+        "T98a",
+        "--controls"
+      ],
+      "exit_code": 0,
+      "output_sha256": "62bb12f01f59e4e36d3edcc2fded51f2a184b1375f75bc7793202fea2d2c735f"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/foundations/check.py",
+        "--task",
+        "T98b",
+        "--controls"
+      ],
+      "exit_code": 0,
+      "output_sha256": "af03e88d3d1ecffecbc7c3433200bfbc1c582a0227a82189965083e907ce40c5"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/foundations/check.py",
+        "--task",
+        "T99a",
+        "--controls"
+      ],
+      "exit_code": 0,
+      "output_sha256": "97793a6aa198fb834744c0735dab7c12dc7872afe8c9391bdb89edc0bef74f5b"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/foundations/check.py",
+        "--task",
+        "T99b",
+        "--controls"
+      ],
+      "exit_code": 0,
+      "output_sha256": "fbab2cc127cfe55cf621bae652587bf9d468903695a6b9e3686262f68324d8a2"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/foundations/check.py",
+        "--task",
+        "T100",
+        "--controls"
+      ],
+      "exit_code": 0,
+      "output_sha256": "9c4557875418a1a48c138e17d9e76c22fd5d50b78c2ee6fe94e0fcfe8f5a60c5"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T96/make_derived.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output_sha256": "c4b5ed0a5f04e71da8222cb80850944f7da1107140de193c36dab87a9576f09d"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T96/make_accesses.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output_sha256": "83bb18a19d68633d1977749136cfba0745705c697caa5c41dcd31039d847fd37"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T97/make_persistent.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output_sha256": "6fc57cb0c9e5b59342333fd493848a48c7006e9b876e829358b507413366cff4"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T97/make_transient.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output_sha256": "4d90615dfef4bfe0243c752a539ebe17ba40efe5ada5dea825da575432411b56"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T98/math.py",
+        "--skill",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output_sha256": "253d719cffcd3b0416ec3af284bb62d5675875723368121f80d489520724e5b8"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T98/math.py",
+        "--strength",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output_sha256": "faac89b95a1e189f604c90e868044432ff1a6b70f2bb65d84423063ae57357b7"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T98/window_repro.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output_sha256": "0b971e7885ae9440f48732f7cd87e50b7631554fc2521ac55d7ab0f26876188e"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T99/odds.py",
+        "--gates",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output_sha256": "d01fabcac19980ef2d8a98435e7372179065c10d4c9d72cf39bf868eea75cb9f"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T99/odds.py",
+        "--contests",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output_sha256": "6a171015ae812c509b56c2385abaf68be2c161aa7e11e0d72d8e4c56274bc8b0"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T100/make_flow.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output_sha256": "eccf2db929c6e0a4f1ef30ec4624500529abcaaa588e88734533cb52b326c02a"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_links.py"
+      ],
+      "exit_code": 0,
+      "output_sha256": "ce16d3f0adfa546f3f9e49994fc046eef0a68bf74dafb78668c038aad8d11cdf"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F001-goal2-runs-unattended-under-dosbox-x.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "80a2ac71801ac596aa5e3721749e81a8730394660c67a560f0e9f15a7f6c3a3c"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F002-static-inventory.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "5b80a3464d25fd6216a2fc3f7aa9283b29b14f98249771323d9a07dbbd8a805d"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F003-g1-driver-repeats-the-restore-cycle.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "eb8e971d65216d623e5e0890fc370e5a76feb5bfb6350ef1a8c39634b436dab5"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F004-dos-time-seeds-the-game-and-key-timing-drives-the-live-match.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "1e0a051c8b29c713cd5829625b4e47a281381a0bf0f83719232326ce8fc2a1ce"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F005-the-quick-result-runs-another-engine-than-the-watched-match.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "99017ad8552ce451111ac07da9945afde25df70a4ae4781c98f6c59b7f4ef99f"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F006-cycles-and-host-speed-do-not-change-a-match.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "b70afa14fa73b54e07c1005620a7e14cdc0b532ad3182d4c43efef328fd03cc9"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F007-player-values-are-made-at-a-new-game-from-a-seed-per-country-not-from-the-dos-time.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "a8c82ea0ca18095b23f05d52ed33bbbb9606029426afdd5ed6fbf5d44ee3fa66"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F008-the-player-screen-draws-12-skills-as-bars-derived-from-three-record-bytes.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "3dc97792849bfee87b8c1964d2d8d2d3b69e45dcf62095608ed38fc02899c85f"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F009-ghidra-decompiled-view-agrees-with-nine-of-ten-hand-traced-claims.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "4b507ce1cf0f69f3eac0cf8dd72b2f60a2b1606b950e84e05f175bf25420f68d"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F010-r008-is-a-countrys-default-team-tactics-and-both-match-engines-read-it.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "a621eaa5ab2780d0cc31d19b5e8c6a50f7644d5396f3c1892cda84bd1289659a"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F011-the-pool-screen-lists-the-squad-and-80-extra-records-numbered-from-a927.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "9af2e83d2f78896aca7b0732c5897bc13dfecc4ecd406e6c19ad304cdd0c95f5"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F012-quick-engine-rule.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "b42a532d66c2567a170c6195bd5021b22c4ddcc73459bf093270ad0be2efbb51"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F013-the-watched-engine-tick-map.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "829a33f519e82517dad064eee92f458cf1fb59f27585372c02530b32b33d4d7b"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F014-performance-ratings-and-man-of-the-match.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "1ecaa312669614eb3eb433bcb45392887c8838071530f4b86cfff3c5f0970051"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F015-keeping-and-penalties-read-through-the-derived-skills.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "5c27249a554226dacb00f69fe1b0cb0063869ccc33cbaf7f3b503fc428271a9b"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F016-ageing-peak-band-and-yearly-writes.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "fb62c0420cf3499031003dd69dccc03fdbb0b9548a65f5277d2b07e2376deb20"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F017-retirement-creation-and-results-to-talent.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "2c6230c67f2c47bb0ef7c084d9517c0a92ce8554b8d2c9fbaf911620146d6f28"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "b98fc83771f5cbe573878567fe4eedd8a035167ef2d62919244562a5cd874af3"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F019-confidence-follows-result-relative-to-country-ranks.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "6014b860cce5d6da069994d70b1b88dbc7618f79decf5b5b4068a07cb1504a7e"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F020-events-change-confidence-and-team-morale-aggregates-it.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "41fd3e92a0460b0fccc02d98a08ce855cd54183c3fe25a61d7fba2b35d553b42"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F021-energy-and-form-set-a-players-strength-fitness-is-never-read-in-a-match.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "5fead78dc50292adb9ca670c4d2562778e93ba058546a3489b0d47aa3212ccd1"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F022-contest-sites-287c-5474-5d69-and-the-branches-e011-takes.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "afbe56b422cd0cd3795f463e94f7dbd418f6e22fb9d319049ae9c360b10f32b5"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F023-the-stage-builders-write-the-competition-calendar-from-ranked-pots-and-a-points-sort-with-no-coin.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "a08aa53b04eeb2f2396eb753a5d850000f22dc73f3d8752436d3d8da4c1ff398"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F024-computer-lineup-is-the-stored-eleven-corrected-by-bench-swaps-on-377e-and-silent-fixtures-are-one-b19d-call.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "be1b02c2d844b41387cd68534b157b1285ac20b6ee9dd4f03a43101d9c0a7a1d"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F025-sacking-and-end-of-the-game.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "8ced6302f6e6d1d48609fa60a308a5d74f4b99ca91cff59a92f2a899cdac7a5f"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F026-what-each-team-tactic-changes-in-a-watched-match.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "ea6be6737cfd762d8e143cf423140b9e280bdf12361f2413b34258d3603f0654"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F027-discipline-cap-bans-added-time-substitution-budget-and-foul-chain.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "71e0a5e4211853ab229d6cb39e80ebc30dc6b16166dca9bf36769962c463294f"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "1432bc0af6e341bc1fb7e02b687bf66c918acfe70f7e028810daa8f6338ac304"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "dd2f0ec8befab36a5386a5db43a8b3b8f1e3435871aa433785bfee35dcaa2e90"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "0484f7137619cec60104690b2cbe05a2dd98921484b95123c71b7ffe1e35b6f4"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F031-the-squad-and-the-pool-exchange-except-from-a-countrys-first-finals-group-fixture-to-the-next-qualifying-build-and-between-two-away-cross-continent-friendlies.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "55ea382ac2a9e123227cdbffa872d045e0b2c61a54286c1c00c99c59d23800bd"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F032-from-the-titles-key-read-to-the-first-manager-menu-a-new-game-opens-reads-and-closes-goal-dat-and-reads-the-dos-time-and-makes-no-other-interrupt.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "fb67c302bb0dcf1bccd612dd2023d2aee51e9e3b8cfe114944c9170c32174186"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F033-the-start-year-is-the-dos-year-read-once-at-start-up-plus-one-made-even-a-state-at-that-date-call-replays-to-the-title-and-the-manager-menu-for-any-date-served.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "6aad2669603de2d4714d68236dcbd1f3f4fa11a243f411885ce1540aed259345"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F034-manager-names-preserve-pascal-nuls-and-screen-glyphs.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "f79c22f826dbeaec61e87161b88171b3d18698fb8c7e78ce3fff1a6fe304a63c"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "tools/check_citations.py",
+        "findings/F035-team-status-is-country-rank-and-skill-is-manager-ability.md"
+      ],
+      "exit_code": 0,
+      "output_sha256": "fd499e7750e5df904ea264ba7b64a175c080837b3cf68184c695456dd90879cc"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T96/make_fields.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output_sha256": "7f98c3c873db906cc8f5b32374697d90c788eea5934b44a43e27c90a0678f388"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T96/make_accesses.py",
+        "--controls"
+      ],
+      "exit_code": 0,
+      "output_sha256": "2cc4bfd0439b6d32792e035a19694e053f7d0ff310a06bb54467117528db4660"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T97/make_persistent.py",
+        "--controls"
+      ],
+      "exit_code": 0,
+      "output_sha256": "b40d035237a4925934f3ca6f788abde8f718cbde12c0c10e2c19a1dc06a64aea"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T98/coverage_audit.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output_sha256": "3563f4228552dd6a5e4ca48f3e33ae4920a0232bcf2ffcc087ed7afbf7a9fdd2"
+    }
+  ],
+  "finished_utc": "2026-10-26T20:17:42.148507+00:00",
+  "kind": "ES-R1 round-one rework foundation artifact/source/numerical validation",
+  "python": "Python 3.12.14",
+  "run_commit": "05bb098b93d26cf83e05cd58caa1ac5adf544251",
+  "started_utc": "2026-10-26T20:17:11.772861+00:00",
+  "transcript_sha256": "980019e00032e1959395a640014fd9165c6d54d6818437ada48639d011bdceb6"
+}
