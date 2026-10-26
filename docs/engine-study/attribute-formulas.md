@@ -135,7 +135,7 @@ and club position2; they do not validate every profile/role combination. Element
 gate is source-backed and linked to F015/T42's earlier correction; it is not another new E020
 original-call observation. No whole half or match was rerun here.
 
-**Table-window limitation:** the retained class window has168 bytes but valid one-based indices
+**[Table-window limitation (#477)](https://github.com/diegoami/goal2-archaeology/issues/477):** the retained class window has168 bytes but valid one-based indices
 reach168; the profile window has192 bytes but indices reach204. Using those windows in the old
 analytical helper raises IndexError for ordinary argument domains such as club13/element12 or
 profile16. The current port reads full guest memory and is not shown faulty by this helper error.
