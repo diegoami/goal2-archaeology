@@ -1,0 +1,22 @@
+{
+  "task": "T96b",
+  "helper": "/root/foot_rule_check",
+  "requested_model": "gpt-6.1-sol",
+  "requested_reasoning_effort": "xhigh",
+  "runtime_attestation": "not exposed",
+  "source_commit": "08beac2e9d43faf766e445e924da096b8a99d748",
+  "scope": "Read-only 3179 asymmetry and retained-probe input-range check",
+  "files_changed": 0,
+  "new_original_executions": 0,
+  "new_match_runs": 0,
+  "result": "Existing F028 asymmetry confirmed; retained true fixture uses peak_age=15/profile=15, outside natural peak ranges; range-valid static example is not demonstrated natural-play reachability.",
+  "primary_citations": [
+    "static/goal-exe/code/seg_1771_05.asm:139",
+    "runtime/original_match/port/attributes.py:531",
+    "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md:136",
+    "experiments/E028-formations-positions/foot_truth.py:82",
+    "experiments/E028-formations-positions/out/foot-truth-20261013T142802Z.tsv:512"
+  ],
+  "independent_review": false,
+  "main_recount": "notes/engine-study/T96/make_derived.py"
+}

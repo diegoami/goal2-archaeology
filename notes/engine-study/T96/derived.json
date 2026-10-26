@@ -1,0 +1,365 @@
+{
+  "access_boundaries": [
+    "Primary named readers versus transitive callers",
+    "Computed field selectors and raw memory helpers",
+    "Whole-record swaps/copies and replay snapshots",
+    "Player index, current pitch and country/fixture context outside the record"
+  ],
+  "analysis_sha256": "26fbb0b8522ded5c6e1ef2db1ff6d10cf9944f93b23e542ba84e669a948c1ce6",
+  "field_ledger_sha256": "7d4973f73bd3f82c0b4e48cbe45662d7504c806a2b670d42e2a5597e4be5e068",
+  "field_roles": {
+    "ability": "Persistent; directly scales derived skills and quick/silent strength; recomputed during ageing.",
+    "age": "Persistent; ability evolution, leadership and recovery/retirement routes; no standalone age multiplier in 278A.",
+    "caps": "Persistent history; participant update increments it, retirement can read it. No identified direct skill term.",
+    "club_position": "Persistent; moving played position does not rewrite the natural skill profile.",
+    "country": "Persistent identity; resolves country defaults/management, not an independent talent score.",
+    "energy": "Live and persistent; skill/strength/chance/availability effects. Ordinary match decay stops at 1 and does not decrement fitness.",
+    "fitness": "Indirect match influence through restored energy and recovery; no identified direct arithmetic term in 278A/377E.",
+    "goals": "Persistent history/statistic; update and attribution depend on the goal route, not a talent input.",
+    "morale": "Live and persistent; directly affects skill/strength. Match snapshots distinguish transient team swings from saved form.",
+    "own_tactic_set": "Persistent/managed controls with setup/reset rules; a clear override-enable bit means use the country's setting.",
+    "peak_age": "Persistent; indirect skill scale and recovery effects; the displayed card does not show a peak-age field.",
+    "performance": "Live match assessment; commentary deltas, man of the match and automatic substitution decisions. It is not an independent skill.",
+    "position": "Persistent squad role; formation/movement/line allocation and placement penalty; distinct from club position.",
+    "rating": "Persistent; ability curve and derived hardness/leadership. Raising it alone is not the same as raising current ability.",
+    "scorer_count": "Persistent within its season/year accounting; scorer-table maintenance and yearly clearing, not a shot-skill input.",
+    "skill_profile": "Persistent; skills, hardness, leadership and two-footedness. Profile numbers are not a simple quality ranking.",
+    "status": "Mixed lifetime: carried booking/ban, live booking/send-off, substituted-off and protect-zone flags; distinguish each flag."
+  },
+  "locations": [
+    {
+      "address": "0791:1F3C",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "735d4834139839b0fc609ea89098c0e65163d3b6bdc2887411cc791159280a6c",
+      "line": 294
+    },
+    {
+      "address": "0791:20E3",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "d62c11e613557259ccccc208b7e7349be38933c388d479a3a11282140c79a941",
+      "line": 376
+    },
+    {
+      "address": "0791:278A",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "53ab03c3ffdb1889db40be192b3cb0a701e875093f3d860b9bf19332f68c5a2d",
+      "line": 671
+    },
+    {
+      "address": "0791:8062",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "54e27532ea5c8efc460b5011355d465c085df66a0556dbfdb236f5f93d55cf99",
+      "line": 4
+    },
+    {
+      "address": "0791:A9B8",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "c9c651557885b77d5be8ad582ccd5e68f7d108b710473833a84df8a3bf514be2",
+      "line": 86
+    },
+    {
+      "address": "0791:AAE8",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "14380857879c16c5c2ba3804db16ca6a642825a6dd77c49192d06a7dc0921d69",
+      "line": 148
+    },
+    {
+      "address": "0791:BEC7",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "e120fcfb0c83be4b8a1816510173d4260c11ce56437a8b11d764e61977f52ae0",
+      "line": 76
+    },
+    {
+      "address": "1771:2FAD",
+      "file": "static/goal-exe/named/seg_1771_02.c",
+      "heading_sha256": "22e50acc9fc2ede6141e4e9f25c4ffa9fd49b738ff79b2e00e41dabdf85b9147",
+      "line": 1024
+    },
+    {
+      "address": "1771:2FFB",
+      "file": "static/goal-exe/named/seg_1771_02.c",
+      "heading_sha256": "029eaaa7e69325b1c13f203003c0021b59e1aa61ea1269db9513616ebef169d8",
+      "line": 1035
+    },
+    {
+      "address": "1771:3041",
+      "file": "static/goal-exe/named/seg_1771_02.c",
+      "heading_sha256": "45fedc624473dd460572a388c04c29df3dceef88db00d482da238493819bd40c",
+      "line": 1049
+    },
+    {
+      "address": "1771:3088",
+      "file": "static/goal-exe/named/seg_1771_02.c",
+      "heading_sha256": "9275a8ec0de581f9f1e1f8b3b2d0d8091846e133931d8dee24a508a82a9d0e85",
+      "line": 1065
+    },
+    {
+      "address": "1771:30D9",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "b676c12ea188f2ab7d8704c2d78445f9d190eb64c33a945c43fff200047658fb",
+      "line": 4
+    },
+    {
+      "address": "1771:3179",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "60325708baff4e710c5a05ea2a66e5b9c48352991d85e11ee4152aaf63909227",
+      "line": 24
+    },
+    {
+      "address": "1771:3216",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "cf2efc3f95929549dda5cd550fc761119ebf69ebd0cc42daa2823596d3838491",
+      "line": 75
+    },
+    {
+      "address": "1771:3827",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "65629c9a86a9c9c4393aec73790172fe072f20f32ac728f78dcb4d28c8920b84",
+      "line": 360
+    },
+    {
+      "address": "1771:3947",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "fb06e95b13cd54e822376386ebf13cde67e8311e0ead496732f9b36d5c6b2a1d",
+      "line": 427
+    },
+    {
+      "address": "1771:3A06",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "c243812d3bf7c7a7900c06a91e8653fbfbee029227fd99eed057d166eae4d048",
+      "line": 459
+    },
+    {
+      "address": "1771:3EF8",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "a1a41d73b22dd92b677e18f609c0c0ea39b2a677c580708c11d04706d8becbb0",
+      "line": 687
+    }
+  ],
+  "range_valid_static_example": {
+    "club_position": 2,
+    "foot_index": 0,
+    "out_of_place": 1,
+    "peak_age": 25,
+    "played_position": 4,
+    "player_index": 1,
+    "scope": "Static range-valid tuple; not newly executed or observed in play",
+    "skill_profile": 5,
+    "two_footed": true
+  },
+  "retained_original_foot_probe": {
+    "counts": {
+      "cases": 2352,
+      "gk_mismatch": 312,
+      "rule_mismatches": 0,
+      "same_position": 168,
+      "swapped_sets_mismatches": 660,
+      "two_left_on_right_flank": 102,
+      "two_left_on_right_flank_without_gk_mismatch": 96
+    },
+    "scope": "Synthetic routine calls; no new original execution or natural-play frequency",
+    "two_false_fixture": {
+      "peak_age": 0,
+      "skill_profile": 0
+    },
+    "two_true_fixture": {
+      "peak_age": 15,
+      "skill_profile": 15
+    }
+  },
+  "schema": 1,
+  "sections": [
+    "Derived skills",
+    "Characteristics and context",
+    "Flags, performance and availability",
+    "Field roles and access boundaries",
+    "Known asymmetry and evidence limits"
+  ],
+  "skills": [
+    {
+      "element": 1,
+      "label": "keeping",
+      "stored_inputs": [
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "element": 2,
+      "label": "kicking",
+      "stored_inputs": [
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "element": 3,
+      "label": "tackling",
+      "stored_inputs": [
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "element": 4,
+      "label": "heading",
+      "stored_inputs": [
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "element": 5,
+      "label": "marking",
+      "stored_inputs": [
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "element": 6,
+      "label": "passing",
+      "stored_inputs": [
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "element": 7,
+      "label": "crossing",
+      "stored_inputs": [
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "element": 8,
+      "label": "feinting",
+      "stored_inputs": [
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "element": 9,
+      "label": "control",
+      "stored_inputs": [
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "element": 10,
+      "label": "dribbling",
+      "stored_inputs": [
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "element": 11,
+      "label": "shooting",
+      "stored_inputs": [
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "element": 12,
+      "label": "penalties",
+      "stored_inputs": [
+        4,
+        5,
+        7
+      ]
+    }
+  ],
+  "source_commit": "08beac2e9d43faf766e445e924da096b8a99d748",
+  "source_sha256": {
+    "experiments/E028-formations-positions/foot_truth.py": "799722cb2b937d34d0a47ab23bd192e5f2ccf75c34d4403f570922bce0a9480b",
+    "experiments/E028-formations-positions/out/foot-truth-20261013T142802Z.tsv": "4af9b20db56b3c6bcb126600e7e1804a18d1e89dd67b557d4935b84f1c0210b7",
+    "findings/F008-the-player-screen-draws-12-skills-as-bars-derived-from-three-record-bytes.md": "6bb5b82a9f99893ddd29604187c63a0a4ea4d27d3a14c6f9fef60a0ccbdf75ff",
+    "findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md": "9014228ecff9db8b44718bb4faf9ca93eaf34e3fbf635ce15dbf898345562aee",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "static/goal-exe/calls.tsv": "8d76bfed99345b295745720e12f757daceb4e68abceeb0e4581da2fdbe6ba18c",
+    "static/goal-exe/code/seg_1771_05.asm": "4a856a9af9dee3d93fe6e6275ead612d2d3ba4c81363389c68fa5424ca8483d9",
+    "static/goal-exe/named/index.tsv": "7688e639f8b35910e8c2ec8dc8734a2e40413a8d3b40d2b247400e29bdf79b19",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_08.c": "130e91927a5bb2fed2adb998225fc88091816752051eee90ae004e30fcfecc96",
+    "static/goal-exe/named/seg_0791_10.c": "307274e4e5007f1e809b5b54708a686d106a61d77848ddc6967c9fb0fd88e52f",
+    "static/goal-exe/named/seg_0791_11.c": "6e51b68715ebeca24e6616c99258668b5df0bb927e5e133105e04af66fee650e",
+    "static/goal-exe/named/seg_1771_02.c": "10d72b6a4d43a82ff53c1fcdb6a658df25c066a29fcc91ffecf1d5a9ae0ee4f1",
+    "static/goal-exe/named/seg_1771_03.c": "b67f87b01f0d18c0f69f8a21e9f6c8983942778097f54778138c210a98262e21"
+  },
+  "task": "T96b",
+  "traits": {
+    "availability": {
+      "inputs": [
+        14,
+        16
+      ],
+      "reader": "1771:3216",
+      "use": "Signed energy below 1 or status element 8/6/3; not identical to the screen injury predicate."
+    },
+    "foot_index": {
+      "inputs": [
+        7,
+        "player index mod 3"
+      ],
+      "reader": "1771:3088",
+      "use": "Placement and substitution-role checks; displayed two-footedness is a separate predicate."
+    },
+    "hardness": {
+      "inputs": [
+        3,
+        5
+      ],
+      "reader": "1771:2FFB",
+      "use": "Profile minus ceiling low bit; foul and injury decisions and initial tactic choices."
+    },
+    "height": {
+      "inputs": [
+        7,
+        "player index mod 12"
+      ],
+      "reader": "1771:2FAD",
+      "use": "Card and computer tactical/role adjustment via 0791:BEC7; no direct aerial-contest read is established by this call census."
+    },
+    "leadership": {
+      "inputs": [
+        1,
+        3,
+        5
+      ],
+      "reader": "1771:30D9",
+      "use": "Signed division remainder, then age gate; captain/leader selection, with first-in-scan ties."
+    },
+    "performance_display": {
+      "inputs": [
+        18,
+        19
+      ],
+      "reader": "1771:3827",
+      "use": "Blank/encoded rating word mapped to text buckets; distinct from skills."
+    },
+    "two_footed": {
+      "inputs": [
+        2,
+        5
+      ],
+      "reader": "1771:3041",
+      "use": "Sum equals 30; the wrong-foot exemption is asymmetric."
+    }
+  }
+}
