@@ -37,8 +37,10 @@ Only the exact accepted SHA is tagged. Drafting a future chapter need not wait; 
 publication that relies on a gated claim waits for its checkpoint. Dependencies below express
 that constraint; they do not alter the repository's migration/delivery scheduling priority.
 
-Use a strong-model reviewer who did not author the deliverables under review. A different model
-family is recommended; the owner selects the tool/model at activation. The main session prepares
+Use a strong-model reviewer who did not author the deliverables under review. The owner-approved
+[model/spawn policy](engine-study-models.md) defaults to a spawned Claude Opus 5.5/xhigh reviewer
+when Codex implements, or a fresh Codex Astra/xhigh reviewer when Claude implements; Kimi remains
+an alternative. Owner-selected models override these defaults at activation. The main session prepares
 the packet, supplies evidence, handles fixes and relays findings in full; it does not substitute
 its own implementation checks for the independent verdict. No reviewer is launched by this plan.
 
