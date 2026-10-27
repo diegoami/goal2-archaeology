@@ -39,6 +39,22 @@ for seed in (0, 1, 0x1234, 0x8000, 0xFFFF):
         CASES.append(('214B:06B1', [n], [('ds', 0xA978, b'\x00\x01\x00\x90'), (0x90100, seed.to_bytes(2, 'little'))]))
     CASES.append(('214B:06FA', [], [('ds', 0xA978, b'\x00\x01\x00\x90'), (0x90100, seed.to_bytes(2, 'little'))]))
 
+# T78b2: wrapped calls omitted by the original direct-call audit.
+for position, destination in ((0, 0), (0xABCD, 0xABCD), (0xABCD, 0xABCE), (0xFF80, 0x0080)):
+    record = position.to_bytes(2, 'little') + bytes(5) + destination.to_bytes(2, 'little')
+    CASES.append(('0791:2CC5', [0x100, 0x9000], [(0x90100, record)]))
+for target in (0xABCD, 0xABCE):
+    CASES.append(('0791:2CC5', [0xFFFA, 0x9000], [
+        (0x9FFFA, b'\xcd\xab'), (0x90001, target.to_bytes(2, 'little')),
+        (0xA0001, b'\x00\x00')]))
+for seed in (0, 1, 0x8000, 0xFFFF):
+    for n in (0, 1, 2, 0xFFFF):
+        for off in (0x100, 0x200):
+            CASES.append(('214B:0688', [n, off, 0x9000], [
+                ('ds', 0xA978, b'\x00\x01\x00\x90'),
+                (0x90100, b'\x34\x12'), (0x90200, b'\x78\x56'),
+                (0x90000 + off, seed.to_bytes(2, 'little'))]))
+
 class Helpers(unittest.TestCase):
     def test_synthetic_helpers_against_original_including_dead_frames(self):
         image = Image.from_bytes(reference_image(ROOT / '.cache/dl'))
@@ -54,13 +70,17 @@ class Helpers(unittest.TestCase):
                         linear, data = (m.DS * 16 + write[1], write[2]) if write[0] == 'ds' else write
                         m.write(linear, data)
                     if address.startswith('214B'):
-                        m.watch(0x90100, 2, lambda old, new, m=m, log=log: log.append((new, m.pc())))
+                        m.watch((args[2] * 16 + args[1]) if address == '214B:0688' else 0x90100, 2, lambda old, new, m=m, log=log: log.append((new, m.pc())))
                     oracle.run_one(m, registry.entries[address].far, address, args,
                         dict(ax=0xABCD, bx=0xDEAD, cx=0x7654, dx=0x9876, si=0x4321,
                              di=0x2468, bp=0x6789, eflags=flags))
                 self.assertEqual(oracle.final(machines[1]), oracle.final(machines[0]))
                 self.assertEqual(machines[1].read(0, MEM_SIZE), machines[0].read(0, MEM_SIZE))
                 self.assertEqual(seen[1], seen[0])
+                if address == '214B:0688':
+                    other, expected = (0x90200, b'\x78\x56') if args[1] == 0x100 else (0x90100, b'\x34\x12')
+                    for m in machines:
+                        self.assertEqual(m.read(other, 2), expected, 'unrelated seed changed')
                 self.assertFalse(hasattr(machines[1], '_uc'))
 
     def test_plain_helpers_with_unicorn_import_denied(self):
@@ -89,7 +109,7 @@ for address,args,writes in CASES:
  oracle.run_one(m,registry.entries[address].far,address,args,{})
  assert not hasattr(m,'_uc')
  visited.add(address)
-assert len(visited)==7
+assert len(visited)==9
 '''
         import os
         env = dict(os.environ, PYTHONPATH=str(ROOT / 'runtime'))

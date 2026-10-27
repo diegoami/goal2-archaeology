@@ -389,3 +389,10 @@ writer at 214B:069F. Synthetic inputs are compared with the unmodified original
 routines, including both direction-flag states; a separate import-denial control
 executes all seven on the plain-memory dispatcher. This does not establish complete
 standalone Match coverage or replace T78's strict corpus gate.
+
+T78b2 additionally registers the destination predicate0791:2CC5 and
+explicit-seed214B:0688; secondary-seed draws do not modify the main seed.
+The wrapper-aware residual inventory and its dynamic-call limits are documented
+in E036 notes/T78b2.md. Missing optional routes and enabled-speaker real arithmetic
+remain unsupported until separately proved; this registry count is not complete
+standalone Match acceptance.
