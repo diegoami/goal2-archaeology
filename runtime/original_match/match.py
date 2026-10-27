@@ -7,9 +7,10 @@
             m.answer(substitutions=[(off, on)], tactics={4: True})
     result = m.result()
 
-The match is the original's code (0791:F1F6 run_match, then route_fixture's 0791:B7FA update_fixture_player_state)
-under Unicorn; the kit only answers the original's key reads, at the original's own decision points, with the
-keys a manager would press (screens.py). Every constant cites the listing or a finding."""
+By default the match is the original's code (0791:F1F6 run_match, then route_fixture's 0791:B7FA update_fixture_player_state)
+under Unicorn. Explicit engine="port" runs the registered Python translations on plain memory instead. The kit
+answers the original's key reads at its decision points, with the keys a manager would press (screens.py).
+Every constant cites the listing or a finding."""
 import hashlib
 import json
 import zlib
