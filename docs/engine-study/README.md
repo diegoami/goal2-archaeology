@@ -9,9 +9,10 @@ The [bounded probe report](micro-probes.md) records the six selected original/po
 controls and separate field/ABI/memory/register comparisons. It makes no match-effect claim.
 
 The [programme](../engine-study-plan.md), [live epic #433](https://github.com/diegoami/goal2-archaeology/issues/433)
-and [review #455](https://github.com/diegoami/goal2-archaeology/issues/455) hold scope and status.
-Foundations were independently accepted at `m5-engine-study-foundations`; later field/design
-interpretations remain proposed until their exact ES-R2 candidate is accepted. Source-derived
+and [review #456](https://github.com/diegoami/goal2-archaeology/issues/456) hold scope and status.
+Foundations were independently accepted at `m5-engine-study-foundations`; field/design work at
+`m6-engine-study-field-behaviour` (55d7a479). New probe/integration interpretations require ES-R3.
+Source-derived
 examples and hashes do not establish natural frequency, net tactical benefit or genuine key coverage.
 
 ## Follow a question
@@ -26,8 +27,9 @@ examples and hashes do not establish natural frequency, net tactical benefit or 
 | What do manager controls and the AI actually change? | [Tactics/control matrix](tactics.md), [lineup selection](lineup-policy.md), [computer policy](computer-policy.md) |
 | What happens at a restart, sanction, substitution or shootout? | [Restarts](restarts.md), [discipline](discipline.md), [substitutions](substitutions.md), [shootouts](shootouts.md) |
 | What persists into the next fixture? | [Lifecycle](lifecycle.md), including saved form,energy,recovery,bans and managed pool/squad overlap |
-| Which suspected defects remain? | [Arithmetic audit](audit-arithmetic.md), [record/evidence audit](audit-records.md), and linked live follow-up issues |
-| What should be measured next, and at what cost? | [Experiment design](experiment-design.md), [frozen sample and budget](experiment-budget.md) |
+| Which suspected defects remain? | [Arithmetic audit](audit-arithmetic.md), [record/evidence audit](audit-records.md), [caller boundaries](audit-boundaries.md), [integration register](audit-integration.md), and linked live issues |
+| What did the probes establish? | [Micro-probes](micro-probes.md): six geometry cases, controls and explicit state differences |
+| What should be measured next, and at what cost? | Historical [design](experiment-design.md)/[budget](experiment-budget.md), then the owner-deferred [T107 revision proposal](t107-revision-proposal.md) |
 | What is the full inventory and existing evidence scope? | [Inventory](inventory.md), then its source/evidence census |
 
 For a first reading, use match flow → attributes/strength → positioning/marking/movement →
@@ -60,9 +62,21 @@ and greedy lineup-map depletion. They are not automatically port bugs or proof t
 play reaches them. Existing annotation/test gaps and unresolved mutation coverage have explicit
 issues rather than invented explanations.
 
-## Reproduce the current source checks
+## Reproduce the source and probe checks
 
-From this checkout with Python3.12:
+For current probe/integration source, data and software checks with Python 3.12:
+
+```bash
+tools/heavy.sh ES-R3-source -- python3.12 -B notes/engine-study/ES-R3/verify.py
+```
+
+This audits six cases, 48 completed research calls, thirteen integration/boundary candidates,
+45 new literal instruction guards and unchanged historical outputs. It executes no new engine
+routine or match. The [ES-R3 receipt directory](../../notes/engine-study/ES-R3/) records checks;
+required full CI is separate. Do not rerun measured batches merely to regenerate a report.
+
+The accepted ES-R2 matrix must run in a clean checkout at its exact accepted commit,
+55d7a479a7288ea044ceaa315eaff87e2077fdb6, not on newer standalone runtime sources:
 
 ```bash
 tools/heavy.sh ES-R2-source -- python3.12 -B notes/engine-study/ES-R2/verify.py
@@ -82,7 +96,7 @@ when a source branch is omitted. Listing-bound checks are separately reported by
 [listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py).
 
 Original raw listings remain unchanged from the accepted foundation. Independently merged
-T78a/T78b1 runtime additions are separately pinned and reported; the study fixes change no
+T78 runtime additions are separately pinned and reported; the study fixes change no
 production engine semantics.
 Most field ledgers pin the later `a42c2cbe91300c8ee261b82fa993e665ed3f3325` snapshot, which includes
 intervening T114–T116 annotation changes; current T97v5 pins c5945810 to include the
@@ -93,11 +107,10 @@ versions. The verification tool refuses to overwrite a receipt path.
 
 ## Boundaries before further work
 
-No new study original/port probe or match campaign has been run for these field chapters.
-Required full CI may execute existing emulator regressions; that is separate from new research
-corroboration. The preregistration proposes six direct-case comparisons and a small four-arm
-sensitivity batch with strict caps and likely inconclusive small-effect intervals. It does not
-authorise execution until accepted ES-R2 and subsequent executable T106/T107 contracts.
+T106's bounded direct probes are reported separately from the source-only field chapters.
+Required full CI may execute existing emulator regressions; that is a separate verification
+workload. No new research full match was run. The owner deferred the old T107 scoring pilot;
+the revision proposal needs a concrete design and pre-execution gates before any spending.
 
 T79's broad700-match fidelity sheet is still pending at this design pass; existing T77 exact
 comparison receipts have a narrower scope. Standalone delivery proceeds independently in the

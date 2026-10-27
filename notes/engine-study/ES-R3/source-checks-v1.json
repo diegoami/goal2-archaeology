@@ -1,0 +1,1826 @@
+{
+  "actual_research_budget": {
+    "active_wall_s": 6.5725694360007765,
+    "cpu_s": 6.6320429999999995,
+    "failed_invocations": [],
+    "groups": {
+      "launch": 12,
+      "wall": 36
+    },
+    "invocations": 48,
+    "unclosed_batches": [],
+    "unclosed_invocations": []
+  },
+  "audit_candidates": 13,
+  "checks": [
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/launch/analyse.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: three launch predictions;native-backed controls/repeats;unmasked state comparisons;budget\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/wall/analyse.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS:15wall targets per backend;native-backed guards/repeats;unmasked comparisons;frozen budget\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/analysis.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS:6cases/36ordinary/48total;construction+source+raw+budget integrity;all disagreements retained;no engine calls\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R3-T106a",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/check.py",
+        "--task",
+        "T106a",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T106a\",\n  \"scope\": \"T106 record/completeness integrity; field, ABI and full-state results stay separate.\",\n  \"positive\": \"accepted\",\n  \"cases\": 3,\n  \"ledger_sha256\": \"6a3c74089f066868d8ca8cada71406dd6f1a464312ea63bf5570ab0daafa7b5a\",\n  \"controls\": {\n    \"missing-case\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"missing-input\": \"rejected\",\n    \"missing-completion\": \"rejected\",\n    \"missing-budget\": \"rejected\",\n    \"missing-record\": \"rejected\",\n    \"false-exact\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R3-T106b",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/check.py",
+        "--task",
+        "T106b",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T106b\",\n  \"scope\": \"T106 record/completeness integrity; field, ABI and full-state results stay separate.\",\n  \"positive\": \"accepted\",\n  \"cases\": 3,\n  \"ledger_sha256\": \"8cd7459634ee8babe56f3ceeba012947f52e3c86bee922c8b0d6a542581a796e\",\n  \"controls\": {\n    \"missing-case\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"missing-input\": \"rejected\",\n    \"missing-completion\": \"rejected\",\n    \"missing-budget\": \"rejected\",\n    \"missing-record\": \"rejected\",\n    \"false-exact\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R3-T106c",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/check.py",
+        "--task",
+        "T106c",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T106c\",\n  \"scope\": \"T106 record/completeness integrity; field, ABI and full-state results stay separate.\",\n  \"positive\": \"accepted\",\n  \"cases\": 6,\n  \"ledger_sha256\": \"a13aecae6cc63bc3df4bffc9c6fceb600345a23d33d8872675e9a25d8fbeb3f2\",\n  \"controls\": {\n    \"missing-case\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"missing-input\": \"rejected\",\n    \"missing-completion\": \"rejected\",\n    \"missing-budget\": \"rejected\",\n    \"missing-record\": \"rejected\",\n    \"false-exact\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/runner.py",
+        "--audit"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"scope\": \"Actual committed reservation/outcome integrity and resource accounting;not semantic proof\",\n  \"invocations\": 48,\n  \"cpu_s\": 6.6320429999999995,\n  \"active_wall_s\": 6.5725694360007765,\n  \"groups\": {\n    \"launch\": 12,\n    \"wall\": 36\n  },\n  \"unclosed_invocations\": [],\n  \"unclosed_batches\": [],\n  \"failed_invocations\": []\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "notes/engine-study/T106",
+        "-p",
+        "test_software.py",
+        "-v"
+      ],
+      "exit": 0,
+      "stderr": "test_known_callee_passes_and_missing_callee_cannot_fall_back (test_software.Guards.test_known_callee_passes_and_missing_callee_cannot_fall_back) ... ok\ntest_launch_suballocation_and_resource_reserves_are_binding (test_software.Guards.test_launch_suballocation_and_resource_reserves_are_binding) ... ok\ntest_missing_outcome_is_charged_and_cannot_be_retried (test_software.Guards.test_missing_outcome_is_charged_and_cannot_be_retried) ... ok\ntest_open_batch_blocks_budget_reset (test_software.Guards.test_open_batch_blocks_budget_reset) ... ok\ntest_sixty_first_attempt_is_refused (test_software.Guards.test_sixty_first_attempt_is_refused) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nOK\n",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T109/boundaries.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS:4candidates;10direct launch callers;24literal guards;3residue cases;no engine calls\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R3-T109a",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T109/check.py",
+        "--task",
+        "T109a",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T109a\",\n  \"candidates\": 4,\n  \"ledger_sha256\": \"dd90b9292afb9ba2854a514f2df6e807d0726496b8b9377c1e0dde2e38521357\",\n  \"scope\": \"Candidate/source integrity plus explicit literal-listing guards; not automatic attribution.\",\n  \"controls\": {\n    \"missing-candidate\": \"rejected\",\n    \"missing-evidence\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"missing-limit\": \"rejected\",\n    \"mock-as-evidence\": \"rejected\",\n    \"literal_listing_negatives\": [\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_06.asm\",\n        \"address\": \"34C4\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_06.asm\",\n        \"address\": \"3837\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_06.asm\",\n        \"address\": \"3849\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_214B_04.asm\",\n        \"address\": \"1EA8\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_214B_04.asm\",\n        \"address\": \"1EAF\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_214B_04.asm\",\n        \"address\": \"1EB3\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_214B_04.asm\",\n        \"address\": \"1E0C\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_14.asm\",\n        \"address\": \"8BB0\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_14.asm\",\n        \"address\": \"8BB3\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_14.asm\",\n        \"address\": \"8BB4\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_14.asm\",\n        \"address\": \"8889\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_14.asm\",\n        \"address\": \"888A\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_14.asm\",\n        \"address\": \"888C\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_14.asm\",\n        \"address\": \"888F\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_06.asm\",\n        \"address\": \"3932\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_06.asm\",\n        \"address\": \"3944\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_06.asm\",\n        \"address\": \"3B73\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_06.asm\",\n        \"address\": \"3BCE\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_06.asm\",\n        \"address\": \"3CC1\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_07.asm\",\n        \"address\": \"3E80\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_07.asm\",\n        \"address\": \"3F8B\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_07.asm\",\n        \"address\": \"406C\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_10.asm\",\n        \"address\": \"5EA2\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_11.asm\",\n        \"address\": \"6AE1\",\n        \"result\": \"altered listing rejected\"\n      }\n    ]\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T109/integration.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS:9integration groups;21literal guards;5prompt titles/3altered-title negatives;explicit gaps;no engine calls\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R3-T109b",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T109/check.py",
+        "--task",
+        "T109b",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T109b\",\n  \"candidates\": 9,\n  \"ledger_sha256\": \"00ba42ab5c3bf18674f492cac2aee195ea7bd38d1baa0321fa8021e66002d256\",\n  \"scope\": \"Candidate/source integrity plus explicit literal-listing guards; not automatic attribution.\",\n  \"controls\": {\n    \"missing-candidate\": \"rejected\",\n    \"missing-evidence\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"missing-limit\": \"rejected\",\n    \"mock-as-evidence\": \"rejected\",\n    \"literal_listing_negatives\": [\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_04.asm\",\n        \"address\": \"21FC\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_04.asm\",\n        \"address\": \"2201\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_04.asm\",\n        \"address\": \"273B\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_04.asm\",\n        \"address\": \"2752\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_05.asm\",\n        \"address\": \"2BCA\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_14.asm\",\n        \"address\": \"8805\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_14.asm\",\n        \"address\": \"880D\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_11.asm\",\n        \"address\": \"685C\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_11.asm\",\n        \"address\": \"6879\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_11.asm\",\n        \"address\": \"68B3\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_11.asm\",\n        \"address\": \"68B7\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_16.asm\",\n        \"address\": \"97DA\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_16.asm\",\n        \"address\": \"9813\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_12.asm\",\n        \"address\": \"6EE5\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_12.asm\",\n        \"address\": \"6F17\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_17.asm\",\n        \"address\": \"A36A\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_20.asm\",\n        \"address\": \"C712\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_20.asm\",\n        \"address\": \"C718\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_20.asm\",\n        \"address\": \"CCEC\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_20.asm\",\n        \"address\": \"CCEF\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_12.asm\",\n        \"address\": \"6F88\",\n        \"result\": \"altered listing rejected\"\n      }\n    ]\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/ES-R2/listing_guards.py"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: 25 literal source expectations; 25 altered-instruction controls rejected; no engine calls\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/ES-R2/whitespace.py",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: committed milestone range whitespace; generated TSV and immutable raw logs excluded; committed-defect control rejected\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "tools/check_links.py"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "links and JSON ok (10252 files)\n"
+    }
+  ],
+  "current_input_sha256": {
+    "docs/engine-study/README.md": "6445f97b1cafc4e292c08dd5dcd97f495e156d6b21acf4ce3fccdf990d0ff3a3",
+    "docs/engine-study/audit-boundaries.md": "dc4a3640588f283ad7088a31d76337e65b23c5bf8edc5a80e4a797738d8a37fe",
+    "docs/engine-study/audit-integration.md": "6762635dd3b668ecf3faf49bea6944378ce36fc958703074802716e7eb730ecc",
+    "docs/engine-study/micro-probes.md": "9d7923655543bfe22ee47eb1ecf80a81c68ad8fb4763d96c5f9d7291e5532ac7",
+    "docs/engine-study/t107-revision-proposal.md": "250d0c9e968ad64e160ac01b14cc5d61b33cecc28942f6d386c94d60e089b639",
+    "notes/engine-study/ES-R3/verify.py": "ed3ed522f556cfa1a2751d89fd3b0a118429ea7098efbd9bb770ff9d484091d0",
+    "notes/engine-study/T106/analysis.py": "0736f039a57fda249538f690c12d27b3542821f900d3b1b63474e3b9d688edb8",
+    "notes/engine-study/T106/check.py": "2e71c8b9d276a5b484d16b339c72daa7d87099aceed4b66cc6153555fbaa802a",
+    "notes/engine-study/T109/boundaries.py": "3ae5ac6352b19bfd95ba59d7ead0b9b7428ca79175b8f1502be9c3a509338cd5",
+    "notes/engine-study/T109/check.py": "404ec3f89cb6ed8377347d7bb3321eec475f1614087e12f0815695495544dd12",
+    "notes/engine-study/T109/integration.py": "de6ff0b3c17cc40fcbe21abe88375a18dfc6f06e873184592245522fb8bf7afe"
+  },
+  "declared_intervening_runtime_base": "f057b4b1d62794a544208ee25e12a2479473657b",
+  "execution_head": "fcc5df527dc79760cb847137c100d5fc1dc58fd1",
+  "immutable_previous_outputs": [
+    {
+      "first_commit": "4f83789ba19e37f09c48b054012a2e7423574845",
+      "path": "notes/engine-study/ES-R2/link-preflight-failure-v1.json",
+      "sha256": "dc75e3499045cbb76e2fa0c29c3728c0dbe5b0852d15042f719029b3962b1258"
+    },
+    {
+      "first_commit": "cd9947676b115a3103b7e84eacca536c722c129c",
+      "path": "notes/engine-study/ES-R2/listing-guards-v1.json",
+      "sha256": "df861ecae8ed60071a3acbecb69c5e337cc41fcc38673d326ff14502b6a94f27"
+    },
+    {
+      "first_commit": "cd9947676b115a3103b7e84eacca536c722c129c",
+      "path": "notes/engine-study/ES-R2/model-annotation-scope-v1.json",
+      "sha256": "058288c0f21008301bde77a57216faf3d6e4128139f257a77183666e31734820"
+    },
+    {
+      "first_commit": "cd9947676b115a3103b7e84eacca536c722c129c",
+      "path": "notes/engine-study/ES-R2/producer-provenance-573-v1.json",
+      "sha256": "8abdb656615b9a066275ff971c004c1d1a87125e31fdc3e33d28e8ec70506b5d"
+    },
+    {
+      "first_commit": "4f83789ba19e37f09c48b054012a2e7423574845",
+      "path": "notes/engine-study/ES-R2/receipt-refusal-v1.json",
+      "sha256": "f6e59f0ff3ce047802acdec3ab82eb78a49f7f5fc1550c3ae5466ee2314ddbaf"
+    },
+    {
+      "first_commit": "ae3166809a499f3692701aa0594b2e56904240ee",
+      "path": "notes/engine-study/ES-R2/rework-566-v1.json",
+      "sha256": "4df815ca35fc4fffb9cf902903f90479ca18ee4ae2b61f793ecd04acd8b55a31"
+    },
+    {
+      "first_commit": "724521a0ac8842d4b87d82d2b6c1087e648bcdc8",
+      "path": "notes/engine-study/ES-R2/rework-567-574-v1.json",
+      "sha256": "debb1c95af5f234e00e4fa102a6c36492d82d4b0e2ba54d7924bec27ef715a4e"
+    },
+    {
+      "first_commit": "c4eef13eb4e58fa929a94adea5947770bed530b6",
+      "path": "notes/engine-study/ES-R2/rework-569-570-571-v1.json",
+      "sha256": "3bbb60de2907fe71ab7325bb4ef85c29e9987f916f28fcec425d4b795b404ecc"
+    },
+    {
+      "first_commit": "4f83789ba19e37f09c48b054012a2e7423574845",
+      "path": "notes/engine-study/ES-R2/source-checks-v1.json",
+      "sha256": "ba41689ad843e5b20c2ff92b24d6cfe32726b9786531aa01b06b0398d396fcf7"
+    },
+    {
+      "first_commit": "5865c405fbfc97c4b751ea1197d8018e02a2f4f4",
+      "path": "notes/engine-study/ES-R2/source-checks-v2.json",
+      "sha256": "dec1f418f5e05ee28c7efaf324f82628ac572bb020980822de90a912ca29d7f9"
+    },
+    {
+      "first_commit": "5865c405fbfc97c4b751ea1197d8018e02a2f4f4",
+      "path": "notes/engine-study/ES-R2/whitespace-controls-v1.json",
+      "sha256": "8245cb3e9fca8620179ab5544e75c4e4502696c63259a469ac8761cb296b2940"
+    },
+    {
+      "first_commit": "5ae747e9b3de0f1926a3b9e379cab23280c43d41",
+      "path": "notes/engine-study/T100/flow-controls-v1.json",
+      "sha256": "d3afe7591f2197fc0ed89443fb38fe9d4415c4e4a40c1025e97d54dfafbbd721"
+    },
+    {
+      "first_commit": "a6dab1116cc9f7cf87219e4666e51e5fce5fd803",
+      "path": "notes/engine-study/T100/flow-controls-v2.json",
+      "sha256": "ae1d261230dadac3452ed703f5cf3a7b546caa18ed2195abea69f764f8fbc02d"
+    },
+    {
+      "first_commit": "a6dab1116cc9f7cf87219e4666e51e5fce5fd803",
+      "path": "notes/engine-study/T100/flow-v2.json",
+      "sha256": "ed82085cd5bca97015505acba8c1220f19f567392876df456c87c8e77c3689fc"
+    },
+    {
+      "first_commit": "5ae747e9b3de0f1926a3b9e379cab23280c43d41",
+      "path": "notes/engine-study/T100/flow.json",
+      "sha256": "6acee91999d79af9113004605a7dc55c18691bb3f32c07bf04885f6d52f3a61d"
+    },
+    {
+      "first_commit": "d36789f65c48b35939113936c9cae1b3828cedb0",
+      "path": "notes/engine-study/T100/foundation-validation-v1.json",
+      "sha256": "1bcd85bd5e57a6e0e85ac1bd63be0a0ab1da2e5fead7e384d5d1a95ebec63787"
+    },
+    {
+      "first_commit": "d36789f65c48b35939113936c9cae1b3828cedb0",
+      "path": "notes/engine-study/T100/foundation-validation-v1.txt",
+      "sha256": "a370189867add8be10a7590d693b1787481973f5bf48f7e443911a64c62673ea"
+    },
+    {
+      "first_commit": "f4eac6a288693620f37856f9b522ae3d3fb24816",
+      "path": "notes/engine-study/T100/foundation-validation-v2.json",
+      "sha256": "bb92cf970c4783b198c4adb5d8632e80bafe7cfa2efbfba500ed12efa6a9521b"
+    },
+    {
+      "first_commit": "f4eac6a288693620f37856f9b522ae3d3fb24816",
+      "path": "notes/engine-study/T100/foundation-validation-v2.txt",
+      "sha256": "980019e00032e1959395a640014fd9165c6d54d6818437ada48639d011bdceb6"
+    },
+    {
+      "first_commit": "5db5054b3f3b797246a42e67859f934bbe7d0bb6",
+      "path": "notes/engine-study/T101/T101a-controls-v1.json",
+      "sha256": "5245db3d7bd0047dff11af9ff52955843ae828cdcef5aae8ebc2c7c35eef22c0"
+    },
+    {
+      "first_commit": "5db5054b3f3b797246a42e67859f934bbe7d0bb6",
+      "path": "notes/engine-study/T101/T101a-v1.json",
+      "sha256": "91f552663a1c2ce11010d57fa2601b704e5c818eb6a6211a0288cf56a357db1e"
+    },
+    {
+      "first_commit": "5db5054b3f3b797246a42e67859f934bbe7d0bb6",
+      "path": "notes/engine-study/T101/T101a-validation-v1.json",
+      "sha256": "5fddd263789f99a3e4eac120c7494057c73e6a63709a897fe088a31c3069e8e9"
+    },
+    {
+      "first_commit": "59dde8ab9e41a4cf2839d3aad2c861f0be8f4ee7",
+      "path": "notes/engine-study/T101/T101b-controls-v1.json",
+      "sha256": "226506c79b4f4c7d4255d7d9dfedd7653e7bc9417f54d48dfb99f129e66fb861"
+    },
+    {
+      "first_commit": "59dde8ab9e41a4cf2839d3aad2c861f0be8f4ee7",
+      "path": "notes/engine-study/T101/T101b-v1.json",
+      "sha256": "a43c9885d783c71b9ad014cd575afcc0c8a274c71363c7f61959a86e6ccc9abe"
+    },
+    {
+      "first_commit": "59dde8ab9e41a4cf2839d3aad2c861f0be8f4ee7",
+      "path": "notes/engine-study/T101/T101b-validation-v1.json",
+      "sha256": "b4bce5df8334e38c903ab5a0abdaaf1c66a147649e2ef18502f3f76bc5898a2c"
+    },
+    {
+      "first_commit": "36e14c0446aa59866670b7987e2ad932f99d6d06",
+      "path": "notes/engine-study/T101/T101c-controls-v1.json",
+      "sha256": "895833c29cef6083b8faead514d641998f745667ab32b41e0a193d8f52e0ef83"
+    },
+    {
+      "first_commit": "36e14c0446aa59866670b7987e2ad932f99d6d06",
+      "path": "notes/engine-study/T101/T101c-v1.json",
+      "sha256": "9078c296a4a27fa3989609ce8d3bf5393b5ea861bba8a70c89eb6a978027f374"
+    },
+    {
+      "first_commit": "36e14c0446aa59866670b7987e2ad932f99d6d06",
+      "path": "notes/engine-study/T101/T101c-validation-v1.json",
+      "sha256": "7fdaf84cb58f09aa8a81d14a9e8c235e310195b9dd4ed94ab23910f4852f30a6"
+    },
+    {
+      "first_commit": "a65985dd831453ccd9f556eb80bcf4fab6050ee5",
+      "path": "notes/engine-study/T101/readiness-v1.json",
+      "sha256": "828069fa319901a910d94822b88f1eced94cc8d12bca7f3cb15a26909bc56898"
+    },
+    {
+      "first_commit": "039bb7d18908df998935b4b905e0a4c17efa11c4",
+      "path": "notes/engine-study/T102/T102a-controls-v1.json",
+      "sha256": "1d61c4861acf5c5607aab81b2b770204c8b8cafae13827b20999c65c9ff0c02e"
+    },
+    {
+      "first_commit": "f5d3161a2bdab82eb778c8b8889dbdd4d943c490",
+      "path": "notes/engine-study/T102/T102a-controls-v2.json",
+      "sha256": "070fda3659dd4773dcdc8350dcab3dc12d463a13b0f4db488160d17cd99ff00c"
+    },
+    {
+      "first_commit": "ae3166809a499f3692701aa0594b2e56904240ee",
+      "path": "notes/engine-study/T102/T102a-controls-v3.json",
+      "sha256": "929f1a659dc20d185a98b37f62f8f7b7867cbd779ff641c6b9be098edc4ebe00"
+    },
+    {
+      "first_commit": "039bb7d18908df998935b4b905e0a4c17efa11c4",
+      "path": "notes/engine-study/T102/T102a-v1.json",
+      "sha256": "7b82420ce22ec61235420874147b67e055f7d89e038d7e9d845b9618436e72db"
+    },
+    {
+      "first_commit": "f5d3161a2bdab82eb778c8b8889dbdd4d943c490",
+      "path": "notes/engine-study/T102/T102a-v2.json",
+      "sha256": "fff3cfc5699bcbf2e8dfaa52bcb077ce8f579eed6b5c76b8bf7acff9969ee1b4"
+    },
+    {
+      "first_commit": "ae3166809a499f3692701aa0594b2e56904240ee",
+      "path": "notes/engine-study/T102/T102a-v3.json",
+      "sha256": "0d865c7b9544b06049a74e364422b9c18d935a7a9331966b11671c41b7820ca6"
+    },
+    {
+      "first_commit": "f5d3161a2bdab82eb778c8b8889dbdd4d943c490",
+      "path": "notes/engine-study/T102/T102a-validation-v2.json",
+      "sha256": "d0d00a09c03851a605e6d77e941f5662aae6cf0c1552e3d1c2454cfc53a6a83d"
+    },
+    {
+      "first_commit": "9feeb7311fc196a0a31a6fe05a33f74f961a60ca",
+      "path": "notes/engine-study/T102/T102b-controls-v1.json",
+      "sha256": "f6b00fe1d1bde3e55977f89345dc72890c99dffeab8d4e3fbd8b7a1a5526adaa"
+    },
+    {
+      "first_commit": "9feeb7311fc196a0a31a6fe05a33f74f961a60ca",
+      "path": "notes/engine-study/T102/T102b-v1.json",
+      "sha256": "3126f97a4badc8a000e1f6fad8143dc996eff745775758d86dcdac6ca5d738bf"
+    },
+    {
+      "first_commit": "9feeb7311fc196a0a31a6fe05a33f74f961a60ca",
+      "path": "notes/engine-study/T102/T102b-validation-v1.json",
+      "sha256": "b0316a9dbbecd09eb91968b252c8e8784429f19469fd196713b876b8f4f4c02b"
+    },
+    {
+      "first_commit": "0f18c241cac96023873338891897d2241e430d0a",
+      "path": "notes/engine-study/T102/T102c-controls-v1.json",
+      "sha256": "f378bdb14f631eca252e6e820274cd4b361b970216234a8f0e2ba83b6ba88c27"
+    },
+    {
+      "first_commit": "0f18c241cac96023873338891897d2241e430d0a",
+      "path": "notes/engine-study/T102/T102c-v1.json",
+      "sha256": "4957409151df32892cd127141330cc432973b5b034dddb64678abdca71571ac3"
+    },
+    {
+      "first_commit": "0f18c241cac96023873338891897d2241e430d0a",
+      "path": "notes/engine-study/T102/T102c-validation-v1.json",
+      "sha256": "32b891245e9d9e090d452ddead88f156508e1a48e112e5d32dbbdfe733acdd0a"
+    },
+    {
+      "first_commit": "4306962e86b9e545a242f46d0756b99d52a207cc",
+      "path": "notes/engine-study/T102/readiness-v1.json",
+      "sha256": "da1f0ad564eeabedc80bf06d03c7e78f73819855f64cc9bbb606834a40b0efcf"
+    },
+    {
+      "first_commit": "3d0631a4903c752f9f38a315fac56b4fab3fe6ea",
+      "path": "notes/engine-study/T103/T103a-controls-v1.json",
+      "sha256": "c8fe21ed1b80a61bf0c8e4c740e30ca4becf875a7ba502a9b6da772f97d407b2"
+    },
+    {
+      "first_commit": "3d0631a4903c752f9f38a315fac56b4fab3fe6ea",
+      "path": "notes/engine-study/T103/T103a-v1.json",
+      "sha256": "cec36b54fd00e63da8f58328a27334588ec1f30d881a161ff31db6f5083812bd"
+    },
+    {
+      "first_commit": "724521a0ac8842d4b87d82d2b6c1087e648bcdc8",
+      "path": "notes/engine-study/T103/T103a-v2.json",
+      "sha256": "fa2209943713f02cd9d805fc9d213dd545c766286f77fecb600029e2bde39ca4"
+    },
+    {
+      "first_commit": "3d0631a4903c752f9f38a315fac56b4fab3fe6ea",
+      "path": "notes/engine-study/T103/T103a-validation-v1.json",
+      "sha256": "2beb40d699bd5201c4bc2e5f3a03c0901b454fc31969741f5b88c4891c933959"
+    },
+    {
+      "first_commit": "f06bec3b4dd80d2fa40349c01824d051b3cdc255",
+      "path": "notes/engine-study/T103/T103b-controls-v1.json",
+      "sha256": "e2cea4ecdc7937ee1abae7a40c94e88295698c0335007655e27cd6e666c0b8e2"
+    },
+    {
+      "first_commit": "f06bec3b4dd80d2fa40349c01824d051b3cdc255",
+      "path": "notes/engine-study/T103/T103b-v1.json",
+      "sha256": "611497d6396f8155d5db4c6b4f263827164976a1c64b5dad3ea8d88224b2a476"
+    },
+    {
+      "first_commit": "f06bec3b4dd80d2fa40349c01824d051b3cdc255",
+      "path": "notes/engine-study/T103/T103b-validation-v1.json",
+      "sha256": "be97d55c20bd0b381291d2b1d14a5592182914c39218bce9f0d8148a272a56f4"
+    },
+    {
+      "first_commit": "313a2bed83a5014e8c42e485b0912a85a2f68067",
+      "path": "notes/engine-study/T103/T103c-controls-v1.json",
+      "sha256": "4bcc5685479c49c68255096462282aaeddff6c54fb94d70cdd7b594175d39474"
+    },
+    {
+      "first_commit": "313a2bed83a5014e8c42e485b0912a85a2f68067",
+      "path": "notes/engine-study/T103/T103c-v1.json",
+      "sha256": "a25647f50867ef79dc34c77be442dd4f04e6fdca2dd8ab64590704f0c700b71c"
+    },
+    {
+      "first_commit": "724521a0ac8842d4b87d82d2b6c1087e648bcdc8",
+      "path": "notes/engine-study/T103/T103c-v2.json",
+      "sha256": "6269b4a20d6ab32c6052ba3ce90335853c9ce361158014388511ee9e2f1ab7c0"
+    },
+    {
+      "first_commit": "313a2bed83a5014e8c42e485b0912a85a2f68067",
+      "path": "notes/engine-study/T103/T103c-validation-v1.json",
+      "sha256": "2c994c5bf200d50c7c5f64ceabceb4b2035b49de51ed2957e39799b659b029cf"
+    },
+    {
+      "first_commit": "4d87a734313cf198cc636396d0f1b9802c4ac652",
+      "path": "notes/engine-study/T103/readiness-v1.json",
+      "sha256": "e3ec6be356b5a77397f05eb9a7f6d958dd6299bbedb63956857eb35bafe9c786"
+    },
+    {
+      "first_commit": "41ced72854f0586ab1ffe23bc0aa26d64e6b0ac1",
+      "path": "notes/engine-study/T104/T104a-controls-v1.json",
+      "sha256": "65f66a590f2e2d42c1cf451051b3c7b0bb64f74f1ee9999d1e5624e2b9214e5d"
+    },
+    {
+      "first_commit": "41ced72854f0586ab1ffe23bc0aa26d64e6b0ac1",
+      "path": "notes/engine-study/T104/T104a-v1.json",
+      "sha256": "26e3eee578c74b8c0c5c8bf7ca7b0349d2c60ecdf864244f9f4819e580305092"
+    },
+    {
+      "first_commit": "41ced72854f0586ab1ffe23bc0aa26d64e6b0ac1",
+      "path": "notes/engine-study/T104/T104a-validation-v1.json",
+      "sha256": "d7986f0e01262fdbd852d68f29dce4fd80832154b5bfb4988d57404e671d8588"
+    },
+    {
+      "first_commit": "ef4659dcc57c4c67db6bef5c313612e75e7d4283",
+      "path": "notes/engine-study/T104/T104b-controls-v1.json",
+      "sha256": "3ba4a015d22d082545fab999b11bd928e86d2633df3a2c688370d28b7e511a4a"
+    },
+    {
+      "first_commit": "ef4659dcc57c4c67db6bef5c313612e75e7d4283",
+      "path": "notes/engine-study/T104/T104b-v1.json",
+      "sha256": "fea0ca34d6f4d4556ba259bdd9bb43698e33ae7fbeb06edbb4f6387e57d0fed7"
+    },
+    {
+      "first_commit": "ef4659dcc57c4c67db6bef5c313612e75e7d4283",
+      "path": "notes/engine-study/T104/T104b-validation-v1.json",
+      "sha256": "420be9429f5c51070fc0b0b8bcdbe6017f3ebf5df1f40b3c49a904a62fd17905"
+    },
+    {
+      "first_commit": "75961d9f4de7f84f2ed2f8e1575d66831cc7df6a",
+      "path": "notes/engine-study/T104/T104c-controls-v2.json",
+      "sha256": "b46541deda28ea5297376c7bcbacf241f72a26b14a6bca91c19be42670e7bd2c"
+    },
+    {
+      "first_commit": "2f8d84a6641465beac8540aac4c6da11f4830a46",
+      "path": "notes/engine-study/T104/T104c-v1.json",
+      "sha256": "f57f9514c302c5a3b477132f5f283f2a2eccdae6add04d065556c432d9deb4af"
+    },
+    {
+      "first_commit": "75961d9f4de7f84f2ed2f8e1575d66831cc7df6a",
+      "path": "notes/engine-study/T104/T104c-v2.json",
+      "sha256": "e0f7ee30bb088b0830ddac1b12d306cad4b36b94282a3b59fdff705b125d6687"
+    },
+    {
+      "first_commit": "75961d9f4de7f84f2ed2f8e1575d66831cc7df6a",
+      "path": "notes/engine-study/T104/T104c-validation-v2.json",
+      "sha256": "4675faca8932331073b9f02b39d01cae2ae16c4690b90585d7a890b41fa38471"
+    },
+    {
+      "first_commit": "642d436235d41c6fb6d1b1fc7ecc4f53fd82a7d6",
+      "path": "notes/engine-study/T104/T104d-controls-v1.json",
+      "sha256": "8bd4b0c9a86ddd85825e88725c27ead475253e98a0d22df1ae9716d6816ec56b"
+    },
+    {
+      "first_commit": "642d436235d41c6fb6d1b1fc7ecc4f53fd82a7d6",
+      "path": "notes/engine-study/T104/T104d-v1.json",
+      "sha256": "1891aff2fd9ab5c5945cd22f13912ced14c378e67959a5b473f93efe9ad93119"
+    },
+    {
+      "first_commit": "724521a0ac8842d4b87d82d2b6c1087e648bcdc8",
+      "path": "notes/engine-study/T104/T104d-v2.json",
+      "sha256": "076cb97d4447166ced4e8db6ff767c2f0fa2f702f3e9c9be02b4203a5d05e6f6"
+    },
+    {
+      "first_commit": "642d436235d41c6fb6d1b1fc7ecc4f53fd82a7d6",
+      "path": "notes/engine-study/T104/T104d-validation-v1.json",
+      "sha256": "4908fd510262c635595b2ebf709ec85eafd7b3fafbbea73eaf211cecc089fd0a"
+    },
+    {
+      "first_commit": "6aefe043e67eaea7a124eb5d995c3674e608ffb4",
+      "path": "notes/engine-study/T104/T104e-controls-v1.json",
+      "sha256": "082948dca7189e983f5b53f0bd38f64bb8f4b5fb5d543d40322c269a456f111a"
+    },
+    {
+      "first_commit": "6aefe043e67eaea7a124eb5d995c3674e608ffb4",
+      "path": "notes/engine-study/T104/T104e-v1.json",
+      "sha256": "e597308602cfaf484e69167f185faca0a9bd4ea865fe27c9fa1caf12737e145d"
+    },
+    {
+      "first_commit": "6aefe043e67eaea7a124eb5d995c3674e608ffb4",
+      "path": "notes/engine-study/T104/T104e-validation-v1.json",
+      "sha256": "4303209f67ad8b05b871c2c4b90d5307861592846c51a196ac9fd44141beda38"
+    },
+    {
+      "first_commit": "a6d5b0e8bf36070f339a9915b7c9c650ed055b10",
+      "path": "notes/engine-study/T104/readiness-v1.json",
+      "sha256": "0f0ad18136d95a997ef3cb9f47c2f4896162147102a4db6f338856fbcc11de49"
+    },
+    {
+      "first_commit": "d4bf3276edd2fb4ed096395ef1506c96e90685c6",
+      "path": "notes/engine-study/T105/T105a-controls-v1.json",
+      "sha256": "15532ea4017719b9a3a086cf78809fb23736dcec50d48770bc610ba7b1d62b7f"
+    },
+    {
+      "first_commit": "d4bf3276edd2fb4ed096395ef1506c96e90685c6",
+      "path": "notes/engine-study/T105/T105a-qualifiers-validation-v1.json",
+      "sha256": "02fa5599dd16ca03178d9697be5c8629170963d73cd7b484605234522bf84dc2"
+    },
+    {
+      "first_commit": "d4bf3276edd2fb4ed096395ef1506c96e90685c6",
+      "path": "notes/engine-study/T105/T105a-v1.json",
+      "sha256": "38d34f7075d744e752b4779c886110584cb3565164a04334179f521adb0cd256"
+    },
+    {
+      "first_commit": "c4eef13eb4e58fa929a94adea5947770bed530b6",
+      "path": "notes/engine-study/T105/T105a-v2.json",
+      "sha256": "20f89ee6a7443834480eedd14c76670fabe1e251fa4d579e4a6f6f1b5b22dcae"
+    },
+    {
+      "first_commit": "d4bf3276edd2fb4ed096395ef1506c96e90685c6",
+      "path": "notes/engine-study/T105/T105a-validation-v1.json",
+      "sha256": "c2c20f6f129b73e808eb278fb4244c438a53ef9aa64ec9e608ddb7a9ff584791"
+    },
+    {
+      "first_commit": "fb1ac88d525ac83a84d3dd7f782a04eaa09d8043",
+      "path": "notes/engine-study/T105/T105b-controls-v1.json",
+      "sha256": "1798f89f48e11671c528e5e90b53c6a3aeac596bcf9a0c27676bc1b740a70da0"
+    },
+    {
+      "first_commit": "fb1ac88d525ac83a84d3dd7f782a04eaa09d8043",
+      "path": "notes/engine-study/T105/T105b-v1.json",
+      "sha256": "2e5f47f76ffb66236ad1b9f578fbdc2413471437a0aada4eb9070819f4fcf12c"
+    },
+    {
+      "first_commit": "c4eef13eb4e58fa929a94adea5947770bed530b6",
+      "path": "notes/engine-study/T105/T105b-v2.json",
+      "sha256": "843b297030a42443102ab4f734733b64951eaab64e7a1e2262e17ef7c149146d"
+    },
+    {
+      "first_commit": "fb1ac88d525ac83a84d3dd7f782a04eaa09d8043",
+      "path": "notes/engine-study/T105/T105b-validation-v1.json",
+      "sha256": "82990e52d757eb7b602290e89dc4ec1e593303c276bc7cc2e9e986ccc18f7154"
+    },
+    {
+      "first_commit": "673302af8af4330e70d2708b0ee96542762b313e",
+      "path": "notes/engine-study/T105/readiness-v1.json",
+      "sha256": "fa936ff2e990f61ac42e77a76815d601dbf729735b640fc7c6982d08760cf633"
+    },
+    {
+      "first_commit": "6ac731c3694ca62e795de96fdc0e57f7bcfdfe26",
+      "path": "notes/engine-study/T106/T106a-v1.json",
+      "sha256": "68bcdf2a6178b88c2ed62528db6c861cc84821bb3b409221620b1e6c4a42289f"
+    },
+    {
+      "first_commit": "8e856588738ea4702025db4835ef54c1338f9777",
+      "path": "notes/engine-study/T106/T106a-v2.json",
+      "sha256": "6a3c74089f066868d8ca8cada71406dd6f1a464312ea63bf5570ab0daafa7b5a"
+    },
+    {
+      "first_commit": "d0f6afedd4b1f2514b90bcc2fea430470c51c91c",
+      "path": "notes/engine-study/T106/T106b-v1.json",
+      "sha256": "8cd7459634ee8babe56f3ceeba012947f52e3c86bee922c8b0d6a542581a796e"
+    },
+    {
+      "first_commit": "cec223acd39897f3dd91662668f10aaec9f2262e",
+      "path": "notes/engine-study/T106/T106c-v1.json",
+      "sha256": "a13aecae6cc63bc3df4bffc9c6fceb600345a23d33d8872675e9a25d8fbeb3f2"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/batches/manifest-v1-260dc6a3659b.json",
+      "sha256": "e6d2e5b1784a6b0409bdd0da9b581ebfac742c6e410c733c865a4e4ac23025e5"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/batches/manifest-v1-79e714555a81.json",
+      "sha256": "201b8546a733cfbe57a861c2f2e7ce978b1edf39a827830b42a2019e66a37ad4"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/outcomes/0001.json",
+      "sha256": "9cb5c71f1497bc57327eeb2178fb908246015f6d2c6f506e98ab0620f7e290cf"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/outcomes/0002.json",
+      "sha256": "f4535eb2752f9570e3717f2fc9faf94aafb0f31f0481fd2489c6a9448f3781bb"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/outcomes/0003.json",
+      "sha256": "a5d7a38a4fb86cf4b78e64f7c2b0a9d625fcef0b9a67b437e3c9ff2a2a8dd4a0"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/outcomes/0004.json",
+      "sha256": "f01814812d5ca9aaa6ea5d33331a3f881a73b1f1fc8e9c7c08d79072f972c44d"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/outcomes/0005.json",
+      "sha256": "15b13afb8477bde818f949a91ae0ed5ace9b27add3946fcf711d3b24366bd57e"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/outcomes/0006.json",
+      "sha256": "97e183b45e70c72862b253b70d72ef6e01ea2769505df9fc8fe9e6f7b343272a"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/outcomes/0007.json",
+      "sha256": "a38a0e4ddc79a8161632a09b6a55a08a6bf55dbeeb16519e683559625ee004d3"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/outcomes/0008.json",
+      "sha256": "2ffd9e49660488ccad30448574b939079f077c1d8468f24bd3dd629214bf2eaa"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/outcomes/0009.json",
+      "sha256": "a48694f77a77a025a3da8aaea27fae26be231bab792ec38073cbf33703432fb4"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/outcomes/0010.json",
+      "sha256": "28b1fc8871040bfe465643dbbe43ab56c30e18ee2cc2302a0c9980ffec9af055"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/outcomes/0011.json",
+      "sha256": "1be38ed68044c86c1077d0c40cfc964319a6542a133c93f3aec635c64bf2ddc2"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/outcomes/0012.json",
+      "sha256": "435315528387650a37a007b1cb87c769f504be7ee8c0e75cb795757c32b8d755"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0013.json",
+      "sha256": "fe4b2068b907be9e4d43ca787ec59f7b312914821e2086eba11e85686cb8d3af"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0014.json",
+      "sha256": "5bd07d245c074912c9441700ef2dc5ebe275995b12592b854bae4d3522601bb4"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0015.json",
+      "sha256": "08cc4e40fd406452ecfe1904073f8f52b769d2d72a5e2d49964a96274b2367d3"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0016.json",
+      "sha256": "1f2f302fd5809f9b9582e8b55cc78d3fb7d504f6f82dece676e4ce309572347e"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0017.json",
+      "sha256": "d79bc4fd458d0addbd5d681bcb9771383b7ffb3d4733b801cefbb9dc6582c659"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0018.json",
+      "sha256": "652dfdf5e2432b83c5bfbf922abc3de6bc1a52fa19a83467acb8aeb4875a3ed1"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0019.json",
+      "sha256": "d18e044822956c12a2e6ac68bb5960979b7f324296b422b5723083369897246f"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0020.json",
+      "sha256": "273210394ceb1dcaaa3c2ff7a5ac514d87d3c07d310c585fab2b42a0357a239e"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0021.json",
+      "sha256": "a600360295f2619c729a71557589d62a1b1cc26ad50a8d3cc7889d9640741c2f"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0022.json",
+      "sha256": "318676c3d2915b2fec300a4c70878644693979f1cabc5fdc97a814c440fd2adc"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0023.json",
+      "sha256": "cba531cbb90a4dafd63f618e78e0a26ff340cafb961511a5df73f7d26227b0ef"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0024.json",
+      "sha256": "65d62ec4f9517a90f96637a1fcb54739190b40ec682e20c7bf116bfc56e66f7f"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0025.json",
+      "sha256": "e0e20be8a5479649e9871e93f3133e26b3160d401b4e681b46a566712f778bff"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0026.json",
+      "sha256": "9dfc7b65a55af22cededcef40eda6669543de80a1aa44aa0da1b3ff30a97b1ab"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0027.json",
+      "sha256": "b92499b3bd63a1ca1a2c9bf1de2e8cb1022c5434714cac4435d030a2b010103e"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0028.json",
+      "sha256": "17e62d2f6059feeafc4c5c3520b9ec0727d6df7f957c8a16b5595986ab4b15d7"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0029.json",
+      "sha256": "8a6d158a2147a7a284cf083706586beab117df12a51166c64df2868a8d0e4bc0"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0030.json",
+      "sha256": "64d08d1c0adf1f583384b0e794dfa44dd9de0322d03a9058a6fdec1f45a940c0"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0031.json",
+      "sha256": "f28d12996792098379130ac28761c09fc55b87114b39468e7077bbdeb5dcdd01"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0032.json",
+      "sha256": "a7784d5b94fd132901524c49c74f64b642dbe9a6d651184479a74ab2da70cb4b"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0033.json",
+      "sha256": "089264d05dfa3ca78fa6ff0f0992f26fe229ec12241c857e50ac9c39e363a3c3"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0034.json",
+      "sha256": "df1e0ed41679475399bf2c0cae7e5fbf14d62712f51583943472ee5fe290347c"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0035.json",
+      "sha256": "cf20d9cf945a486bd2b9ef78169fb76781804955b908c18f07086636b26973cd"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0036.json",
+      "sha256": "0d5bc44eb5368e8905a0f0265d977cb1554e2048b4b5421a88c6d6654b7d4362"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0037.json",
+      "sha256": "5258d9eb20c82ee12c5a12df1669d242974851b16768b3f6bbc71425b6380edf"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0038.json",
+      "sha256": "084fff5931d9cc097ba10f63f1977aa09b2e160e9dbe0edda871940222de3f06"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0039.json",
+      "sha256": "727ce169e8b33e449d7df1f6f2201fc8705fe348f0350634c8b39a05c6b8ff70"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0040.json",
+      "sha256": "ac75536cb3117f318f62f86eec09d36554fe3fc91a0ede5456b1985e7d96b80d"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0041.json",
+      "sha256": "bd900388bd4796e988f856bdd10153392d8c5124d0e537d477341c76dea13a0f"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0042.json",
+      "sha256": "856b493ec149a457a7326a9def882bf44accbf984120fa6e2bfc6a3353fec069"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0043.json",
+      "sha256": "2c7ca0bf9188bfe3b37903e9d3bb80bd150e6dcb6133bb81d159be87b32f37a3"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0044.json",
+      "sha256": "ba0f1074fceacbaff6eb81f94b665beb4046a28d689b320f1dfa06e18fbdc0d8"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0045.json",
+      "sha256": "9b7d6e499c93e9177a3a38f36415807f7286ca14ba33671003e60f4963b5cb9c"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0046.json",
+      "sha256": "5ce678029b942f0487edad7010eebeb500bdef3f6aa5cb2c86d5b9bafb055b41"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0047.json",
+      "sha256": "57cc679dae24c02be3594e6d64d3f1301a709d3118167fe380d61efaf56885e4"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/outcomes/0048.json",
+      "sha256": "113bb56f22c2d99b20d04282ae28b5ac42eb96ae7290447c93f3beed77640d9f"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/reservations/0001.json",
+      "sha256": "6b47fe1948e99cf5f90f389baa3f781daa3f7223f3dbdd58ce8db97e915dad13"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/reservations/0002.json",
+      "sha256": "4dd1d244e4daf8df159c8082bc9d89adafdb53c359e98ceb5c26e18b1e3e7465"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/reservations/0003.json",
+      "sha256": "eade9b2140ef97d7908424a7e2ba6c39bb3c94c2035cc560b03555d0dda7036d"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/reservations/0004.json",
+      "sha256": "e0da8a4619a309c969aa5aab947cefd56acf65c565981aa052d300856f92efc7"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/reservations/0005.json",
+      "sha256": "7f4c528cd54c8b5b605ece1c5c3ad34044a63b2364b910ce9b85ae43aaeeec6b"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/reservations/0006.json",
+      "sha256": "73e5df62d0adbecb61b19c6a95f5da365fc17fe853739f97497f45e8c755e086"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/reservations/0007.json",
+      "sha256": "72e7ac9984d0635baaf58f967cc2b0080ff591849e3e5463ba1a6d9c4027f273"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/reservations/0008.json",
+      "sha256": "ee79018a0ec8571b1c81c85fcee20ed27ebfa992cee81bcdcb632c9a54a1b7f8"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/reservations/0009.json",
+      "sha256": "b614f6504c0aeeccf0b45bc193e81138ea798fe738d4c0f2188ebb2ec4ea9444"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/reservations/0010.json",
+      "sha256": "2283c87d2705567ec75bc568e4a78826006ad33b042bf4be9f88077523053df8"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/reservations/0011.json",
+      "sha256": "ec5d683ba492314a17cecd98969dce6f47cd37a7df68aa232a8240f9bf5aefbe"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/reservations/0012.json",
+      "sha256": "46c31f3f06a86e8b0156704f8dc6b5e75d5bcd42268f7d52a4c3f90b39460c3b"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0013.json",
+      "sha256": "bbe134387e668a4c7579b7093d2efb1b763e354145c5569a4456a45c417ccb62"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0014.json",
+      "sha256": "73765cfe1515818d3a4e6f7293202ab4d18c640c8327aef8499b3ab832fb1426"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0015.json",
+      "sha256": "82fdf485c7131d9bd06b29bf3b3d67da4a188ae44bca0873e04837fd5c81c561"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0016.json",
+      "sha256": "53da94eb89d37c38546526815c0d3cdaf2d530ba46a6042cff7a6fc893a218bb"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0017.json",
+      "sha256": "617dddf741237fdf8541a560e607bc1a31492e611529677e4b2bd32bb994c1ac"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0018.json",
+      "sha256": "c7d250d33b24c8c53161545b306b494732c60b7c1ff36edb42b3838e0642e741"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0019.json",
+      "sha256": "e7a0c1632fe7bbef9131983354d6ef543faaa01b3ebd469f77ab78ce15fd8b1c"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0020.json",
+      "sha256": "ee8182c2103e9598c77717e65540d2a659ce771558bae07d3772d274fbf7aac9"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0021.json",
+      "sha256": "99cd3e3fc358ef80c6f22cc3a54a13102ddc9acac6e4156a5d1ebca067cc4f11"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0022.json",
+      "sha256": "4ecb301f975bac899a312e2e886caf0e2c2e9dc531169bc6dfd89a5c499bc05b"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0023.json",
+      "sha256": "3985203fb73281c6861a0f0063a119ef69320786a6c3f6d4db46187799ccfe14"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0024.json",
+      "sha256": "14b4e400ed985bcc1eedc69dfcbc2cf7fa608be84e4b80ee87811aeaa4f4706d"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0025.json",
+      "sha256": "77f28cd7500097c6cc302307c488d863664f6be7532af579017efb7a0ba855e1"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0026.json",
+      "sha256": "7d3467e86124a8a018673a1af96e5dcd9107d7dd8972b6dfbf03a226c0cb1702"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0027.json",
+      "sha256": "f5b720c851e9988f53f335ebfb7bc68260fab434edb27939e153e153ba8172f5"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0028.json",
+      "sha256": "795fb39487ff00ad0b68acec4f7c4eed3bdf8521999d8aebe200f243047f6339"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0029.json",
+      "sha256": "c05ffc27b878f950801ec2906630b3494c5518645737c9245246eb3ea5f2dc37"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0030.json",
+      "sha256": "b91621985eec7029a4ef8c8f78c025ca06731061db8a71cc3db1b33b7a864140"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0031.json",
+      "sha256": "b187004a0dbd060055fb7e925eaa8b9b2399815f2b09a4a5d5706c7102490ca0"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0032.json",
+      "sha256": "f9ff3281ef9515d189038573d6e2ced703db25f9f89cc4cb213cabac45032640"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0033.json",
+      "sha256": "d14f0e913e89b341904efd7f8ff7dfde53903cd97fd56f44f72e27c28dfefc19"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0034.json",
+      "sha256": "2bc84e3a49d7fe2748b932bb32260d598717432d46e570cc8bc674f702e421aa"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0035.json",
+      "sha256": "9676044c531bcb6b171d1406ff12e93bb5f231f7656311fb21ba64dc2b46d8fd"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0036.json",
+      "sha256": "128dac66d5e2090b3b887b9ab3099f4e6de6605414612d23a60b8e1026a3cc3c"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0037.json",
+      "sha256": "93466ecc7b792dbed026a312e21e6581334790c6c8ee85f1a9510d4a7b936858"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0038.json",
+      "sha256": "bdabe5cf727efd6bc54c0f8af87391b90e39dc19290b86459e9022074650f20e"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0039.json",
+      "sha256": "fe60ae9c2bd4709da8d5e592f31dc92d27e07c52c43d08c8d32da4c4a792d5ac"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0040.json",
+      "sha256": "7d84f935d07809e747923ceff1437750ebb823f39f5b162ffe4abda95d089b86"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0041.json",
+      "sha256": "e37671d6d511db69f097acd0224d743416112a80cdb1bd9bf8b0ec187e008e40"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0042.json",
+      "sha256": "b8fd394d020b8d7be31854f293285672535a96e9f7106c75cba3afb5b0f2bb68"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0043.json",
+      "sha256": "c56714e38518c70b98cbc7e46879894e962adabbd38882e930c719e9bdf3a339"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0044.json",
+      "sha256": "b292a5547c8a513c7cfe080122ffba2f612b1b266b83b92b2a4d3c83bc13a1d4"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0045.json",
+      "sha256": "9073e1e71709342c023b443ae4cd354c70784b2768400855db826ce9df348c75"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0046.json",
+      "sha256": "6a00e43ca5210d6a00dabe869e0c804971ba77a2beaa7ff68be2cf9cdd786e1a"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0047.json",
+      "sha256": "9482f2e6ff08b2d5c5c4d4cd4e50c80ede2d6165e98a9e614441b6d9164d373f"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/reservations/0048.json",
+      "sha256": "8f83c37ac1d4daa830b39513aaa5d13bf11f7520105b896f4d1920d51e2ccf51"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/budget/starts/manifest-v1-260dc6a3659b.json",
+      "sha256": "5ae7c3cf6a5ce784954c861b5586a1d88d0984908f073a4ccc952f797f77c2ec"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/budget/starts/manifest-v1-79e714555a81.json",
+      "sha256": "9b21ce704bd80a60f39ac3e1368b7d555992a210f0b8cc2cbdb669d9e7a94805"
+    },
+    {
+      "first_commit": "cec223acd39897f3dd91662668f10aaec9f2262e",
+      "path": "notes/engine-study/T106/integrity-v1.json",
+      "sha256": "ff6e07bf07147f7754adec655a7ef6bd544db27bed8253ba449080703ae0c826"
+    },
+    {
+      "first_commit": "6ac731c3694ca62e795de96fdc0e57f7bcfdfe26",
+      "path": "notes/engine-study/T106/launch/integrity-v1.json",
+      "sha256": "2016ba71fdae5aa61bf996f77be8ee00b13e24b5d223436305f2b69b0ced3d16"
+    },
+    {
+      "first_commit": "8e856588738ea4702025db4835ef54c1338f9777",
+      "path": "notes/engine-study/T106/launch/integrity-v2.json",
+      "sha256": "eb8a8630543ad7bfe39dfd177d2b90a4b2e747df080ac9f838bf4f42a88772ff"
+    },
+    {
+      "first_commit": "8d070c6b47ce4368cb83c6a275543b94377907de",
+      "path": "notes/engine-study/T106/launch/manifest-v1.json",
+      "sha256": "79e714555a81d473422bb30b18b572f83bb892f5db8b50741c291f5d17ae0e5f"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/launch/out/0001-launch-zero_baseline_original.json",
+      "sha256": "0311d12c2171453ed19b3eebc7280f170026a1f55115bd80245b2faaa0082a5a"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/launch/out/0002-launch-zero_baseline_port.json",
+      "sha256": "376edc178e33823c6458136cb89a2736c26a20fb0d2e0144f211eef3f254c1da"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/launch/out/0003-launch-small_baseline_original.json",
+      "sha256": "1175d39c49ba744fb8ac09c130a1607b1c6a2f6898ec35cb12a81d3d1552db34"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/launch/out/0004-launch-small_baseline_port.json",
+      "sha256": "27e5440e35dc2e00b7e9af372f25d7fe5b0cf955998d75cfddd5e130ab5220da"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/launch/out/0005-launch-diagonal_baseline_original.json",
+      "sha256": "ba1ba1ebca2861342565bbd1d2ab2a542df908f65ad2181426b79928132b1385"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/launch/out/0006-launch-diagonal_baseline_port.json",
+      "sha256": "ea33a299aa5a66cec76f02529326597be7ad3e372994518c0aaa54bfac798e40"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/launch/out/0007-launch-zero_energy16_original.json",
+      "sha256": "25cc8a2cd9351355624e3cf5ceeef5487e7de32d5dca17f0294390d86cd22a9f"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/launch/out/0008-launch-zero_energy16_port.json",
+      "sha256": "a41a3993ae5af5faa13d6c9b8ddde52196f8e7ec6fd51623d41dcf3d812c128c"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/launch/out/0009-launch-small_reverse-x_port.json",
+      "sha256": "60931353ab369b7931832b3ac5f95fd81b0de07a3b42d18d000d801e45e0bd58"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/launch/out/0010-launch-diagonal_reverse-x_port.json",
+      "sha256": "dbce4143c46a8593bac2437401f5a99e854e5d46a2663347c327712dfc5406a6"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/launch/out/0011-launch-zero_repeat_original.json",
+      "sha256": "adda2344c1d0ff2b19dd751ca2e0f940dd3d5480c75500f38816b8db8a07124b"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/launch/out/0012-launch-diagonal_repeat_port.json",
+      "sha256": "9189c01478c20e2bfe12b983a376639ad187633eb4f28b61d627cc2ef6ce3c14"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/launch/out/manifest-v1-79e714555a81-batch.json",
+      "sha256": "50a60fc1da89a9fcf0e2ae989391f6049e0a1a2e540df98e2882bc6d545b141f"
+    },
+    {
+      "first_commit": "f9b0f52ba4230d59a10052592e4438dc89bf04e4",
+      "path": "notes/engine-study/T106/launch/out/manifest-v1-79e714555a81-comparisons.json",
+      "sha256": "9b17323f7cdfd04d328479fdc595387845e453d36911f39259f38cecdeffef5f"
+    },
+    {
+      "first_commit": "8d070c6b47ce4368cb83c6a275543b94377907de",
+      "path": "notes/engine-study/T106/launch/software-checks-v1.json",
+      "sha256": "9f11cd6b08d92badde71a46cde474a5522bce8445c3c770aa8c019b9551b6641"
+    },
+    {
+      "first_commit": "8e856588738ea4702025db4835ef54c1338f9777",
+      "path": "notes/engine-study/T106/launch/validation-v1.json",
+      "sha256": "60c6bd195799b21ecde65ec434dd155ca26841f82693b8889e126fd9a2c60432"
+    },
+    {
+      "first_commit": "a7285b9c286de450566f967a132c359fa1ab57d8",
+      "path": "notes/engine-study/T106/preflight-v1.json",
+      "sha256": "b048f6be7b8a566e176706de92ff80af0f2e688bb5e40e519c8794d843f2f5bb"
+    },
+    {
+      "first_commit": "f7199e0b7ac1bcb5802ecca7999a0098fb4af27a",
+      "path": "notes/engine-study/T106/preflight-v2.json",
+      "sha256": "57e512fe25c4f7cf822dfe482a67ff4fcf386d57d2cb9975b04d3d42e8784164"
+    },
+    {
+      "first_commit": "bfc99252cdd734075b8b12e87ec978a9dd417bc3",
+      "path": "notes/engine-study/T106/readiness-v1.json",
+      "sha256": "e3c050748bfa50a8482dad3db0226e73a37431cd23919b1395acdd562ca4c2e4"
+    },
+    {
+      "first_commit": "a7285b9c286de450566f967a132c359fa1ab57d8",
+      "path": "notes/engine-study/T106/readiness-v2.json",
+      "sha256": "49ebcfd435b7149ec3a752037b2788203e6b5e4afa7331ef7995ac8034a024de"
+    },
+    {
+      "first_commit": "cec223acd39897f3dd91662668f10aaec9f2262e",
+      "path": "notes/engine-study/T106/report-v1.json",
+      "sha256": "9d5da614a5eef6a60a1ceaecafa5cba9fe25f46a54e3edc103e48a8dea29ef1a"
+    },
+    {
+      "first_commit": "f8e5b0a34b5cd2aa7aff0cb1d06f3def59ef2d66",
+      "path": "notes/engine-study/T106/validation-v1.json",
+      "sha256": "ea500629b27644dded1f8fdd9aec0f41881f4971792ea4bc6143e2303d6b04ce"
+    },
+    {
+      "first_commit": "d0f6afedd4b1f2514b90bcc2fea430470c51c91c",
+      "path": "notes/engine-study/T106/wall/integrity-v1.json",
+      "sha256": "f423e4f320865a1924eac3d369259d8374a5d1ddfdfb13a8cea220283eb97c89"
+    },
+    {
+      "first_commit": "f56ad5eb2ff90575f7b1ad7848d23583ba272617",
+      "path": "notes/engine-study/T106/wall/manifest-v1.json",
+      "sha256": "260dc6a3659bd802331d99c5bcd8967423a07df502916dae613093c27dba0b19"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0013-wall-near_slot18_original.json",
+      "sha256": "73f4517fe7a81816801b457f4fc52d4e896812372f6aed3af32a2d172c8c3aaa"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0014-wall-near_slot18_port.json",
+      "sha256": "992d365f497e87a6a6c8b031702cec2db9d3dffe7c2ac255e5a3f87d51e13797"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0015-wall-near_slot19_original.json",
+      "sha256": "86656ec65b5994da873685dcc3bb2c5386ad93981d305a4d95e26d0b71afc9f8"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0016-wall-near_slot19_port.json",
+      "sha256": "15b8475459e0b67aaac956d7b8453c200f526450789496870507ce3d92a5ec22"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0017-wall-near_slot20_original.json",
+      "sha256": "21e0608feb580d55f0835b61af88be30d16f5817c0d8b338a1a5606dadbb3e20"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0018-wall-near_slot20_port.json",
+      "sha256": "22df8cd288d8141993e22afbe888313578340d258de6b711bf734898afe110d3"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0019-wall-near_slot21_original.json",
+      "sha256": "6642f1e5909e30564a1249bc174ecbdc6bdf74020da1bde705a6d7c6fc2b18a9"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0020-wall-near_slot21_port.json",
+      "sha256": "37fdf82acaa64b5a5087f8185098f84cbbd8861403786deb5b5b4283048d8792"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0021-wall-near_slot22_original.json",
+      "sha256": "bffbc2092ce3520e6b42bd11d121f8d2cabfd0961a17dd83b0ac31b7ce803fbe"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0022-wall-near_slot22_port.json",
+      "sha256": "90080a7dd3b836a98f287515bc394487a6ed1e714c567767c6bde87c45c95b4f"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0023-wall-far-positive_slot18_original.json",
+      "sha256": "86dd80655a4537e59ce0674fc7fb00143c408f47b87bf118b6e3604729f63eb4"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0024-wall-far-positive_slot18_port.json",
+      "sha256": "3f89aae808fa1fefd8518705475e0bb932eee36f253823fc332d4706ed722a07"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0025-wall-far-positive_slot19_original.json",
+      "sha256": "8582d745c558225f975cc96abd6ccd18739b91f41df2def9b6d998800d7caafa"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0026-wall-far-positive_slot19_port.json",
+      "sha256": "82a557898233c87ce6abb5a97c34f904ef73de7586f2bb1fac2ff45bfd005fa7"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0027-wall-far-positive_slot20_original.json",
+      "sha256": "51327dce2712d5741da428b425a91622ee9a476e83673a6f726c0b4430e53cb7"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0028-wall-far-positive_slot20_port.json",
+      "sha256": "10673ea3bf6ea50f9b3052f4061a9eab7735584894ae5c800879a90b0324de2d"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0029-wall-far-positive_slot21_original.json",
+      "sha256": "04e47f1758eaf9ddc6efe888d6c3e558e70cec4c2b7b280967946cace0460b2f"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0030-wall-far-positive_slot21_port.json",
+      "sha256": "9af52b9f2535efdbcad28fbd7dbad830771b6abd080a4cb623c94c3f383372f7"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0031-wall-far-positive_slot22_original.json",
+      "sha256": "056c1cdece67a5289c9d8bac26ebc0228d7d0009a0e20d960288afda35397612"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0032-wall-far-positive_slot22_port.json",
+      "sha256": "9254160956c8bc053e92e5582eed3037011c75c269add3ba2dbb6ed1972f5ccc"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0033-wall-far-negative_slot7_original.json",
+      "sha256": "9e0b7249891aa58c5c263de7ba087a162f4af5cdc7538c07c8c7a9ff2b323bb2"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0034-wall-far-negative_slot7_port.json",
+      "sha256": "2817b3d5ecbe017595091a268b055e0a8ef64e4a3decf0a55be40b20ec3e4314"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0035-wall-far-negative_slot8_original.json",
+      "sha256": "030658c0334e898d90b8fea7f682e394eefcf2b509a76c0e485218fb17b00b32"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0036-wall-far-negative_slot8_port.json",
+      "sha256": "bfc32ea61cdb49cc820d423052e6b159a8d62ba86ddd22d9bdc834eeabaad37f"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0037-wall-far-negative_slot9_original.json",
+      "sha256": "14b471c5b04f4f6cffbd24917d99bef05346f8e22fccb0f5cb03b66cc2a96de2"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0038-wall-far-negative_slot9_port.json",
+      "sha256": "4baeb53f3acd5d1d411da852d236ddd27879fa1b2f7b3cf09c724f3c1b9bdc44"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0039-wall-far-negative_slot10_original.json",
+      "sha256": "37a9db55fe2a6119791be2ca42a56ad88552d922aefdfa829a81a184184bc90c"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0040-wall-far-negative_slot10_port.json",
+      "sha256": "b42e879cf922a06f3ef2a3adbe6de8bb34eb8fb298c3d0404180775e3b899047"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0041-wall-far-negative_slot11_original.json",
+      "sha256": "6902c1ffa3f7a8e4908ac209598695ada7e54a5ce4dcc9b0fb15137e9c41ac9f"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0042-wall-far-negative_slot11_port.json",
+      "sha256": "f5d1b8028f9ce910c38b00dc43e34c67c1c81a3c4eef2c09ff29bfc391f6103d"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0043-wall-near_outside-slot6_original.json",
+      "sha256": "ca3a2c1a0cf74a30946ac177ad3f9cc31957c77c03e26d183e099c8883496322"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0044-wall-near_forward-false_original.json",
+      "sha256": "61e7c82cb36e707aa470c99216a75c328fdf05d28ff25ad6db7ccb96a309a186"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0045-wall-near_outside-slot6_port.json",
+      "sha256": "016e760ea2135e096b4f3f667ab51695afffe5257ab4484f3610536f747ad4c7"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0046-wall-near_forward-false_port.json",
+      "sha256": "8a8042d1acb90fe42cd63ecf58173b92688f736652a53e4358cd938764b26aa0"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0047-wall-near_repeat-slot18_original.json",
+      "sha256": "b1f4b724d6a039424b606dce3379d36a05b86e1d0494b3817194dd9c69734871"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/0048-wall-far-negative_repeat-slot11_port.json",
+      "sha256": "21dd5cd105a41a3cbbe868df32c77f52c366951b2dc0bdeded635f3c2fd57cf4"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/manifest-v1-260dc6a3659b-batch.json",
+      "sha256": "676a4f25b1b39fd98044bc983a3aeee3c705c98a0a1ec9552d14ff74c8c66777"
+    },
+    {
+      "first_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+      "path": "notes/engine-study/T106/wall/out/manifest-v1-260dc6a3659b-comparisons.json",
+      "sha256": "207acdbd760ed9c2af4b2a63c0041f7cad1528e72dbc9eb08a8232547cb6ec9f"
+    },
+    {
+      "first_commit": "4ad0e81b48d3ea8ff55c3feafb9ef9a94f64a9e3",
+      "path": "notes/engine-study/T106/wall/validation-v1.json",
+      "sha256": "f4931e7cb449d80a18e6c3e05f2160fa8891fbab2625b0d68fa97e7b16038969"
+    },
+    {
+      "first_commit": "90b1af616fb97b967aa7c8f7ee37024dd5a1eb84",
+      "path": "notes/engine-study/T108/T108a-controls-v1.json",
+      "sha256": "1c31c0f3a358b6eef470fe64573832b4cad88962987fa8bdfb8e8cc3b46786de"
+    },
+    {
+      "first_commit": "90b1af616fb97b967aa7c8f7ee37024dd5a1eb84",
+      "path": "notes/engine-study/T108/T108a-v1.json",
+      "sha256": "41e3735af73c81667a1a0d6468326750a4a6cf8096f3777fd531c509ba64ea7e"
+    },
+    {
+      "first_commit": "90b1af616fb97b967aa7c8f7ee37024dd5a1eb84",
+      "path": "notes/engine-study/T108/T108a-validation-v1.json",
+      "sha256": "6eb2e7f1163732cf70e78506f3e293ee38066c46f87400ba46a1044f3b3c7405"
+    },
+    {
+      "first_commit": "467ebaf89fa496f9743364a08611aa297c534c4f",
+      "path": "notes/engine-study/T108/T108b-controls-v1.json",
+      "sha256": "34888c7509fcf1bcdee8907dcb436efe27294960cfd09bb8e16463d08646a4d9"
+    },
+    {
+      "first_commit": "467ebaf89fa496f9743364a08611aa297c534c4f",
+      "path": "notes/engine-study/T108/T108b-v1.json",
+      "sha256": "d8e9e861fd5894302d457e47fbbdda154b9f041d574d7073e35de3f2a4579561"
+    },
+    {
+      "first_commit": "724521a0ac8842d4b87d82d2b6c1087e648bcdc8",
+      "path": "notes/engine-study/T108/T108b-v2.json",
+      "sha256": "907481d93da8612900d4ae2a1e2134a308efac5add1384d79bc1eff97d55dfea"
+    },
+    {
+      "first_commit": "467ebaf89fa496f9743364a08611aa297c534c4f",
+      "path": "notes/engine-study/T108/T108b-validation-v1.json",
+      "sha256": "5c48e84505176681c3d027da12b50be9a6df9740f98ae45eaa715fad454f88c8"
+    },
+    {
+      "first_commit": "467ebaf89fa496f9743364a08611aa297c534c4f",
+      "path": "notes/engine-study/T108/historical-issues-v1.json",
+      "sha256": "efbb8761bbcb4a7d4efa55dd88409fac96fb02f3268b4111bcd1deb48e04e5e4"
+    },
+    {
+      "first_commit": "40d8b5d82ffa4ae5a1df970636a043e1c5d2ae4b",
+      "path": "notes/engine-study/T108/readiness-v1.json",
+      "sha256": "4e11ae5fb0fd0f0d83026cd4f9069effb3681afd870cb48bf2090e420ea36609"
+    },
+    {
+      "first_commit": "84b8cf6d7baf936dcff318bd96d68db1aa6b3527",
+      "path": "notes/engine-study/T109/T109a-controls-v1.json",
+      "sha256": "09fc0d7a9363466d60146de0b3a24f0bb46c31afe7111265f39d06a5255d173d"
+    },
+    {
+      "first_commit": "84b8cf6d7baf936dcff318bd96d68db1aa6b3527",
+      "path": "notes/engine-study/T109/T109a-v1.json",
+      "sha256": "dd90b9292afb9ba2854a514f2df6e807d0726496b8b9377c1e0dde2e38521357"
+    },
+    {
+      "first_commit": "c748cf38ef39e372c6acddb983d226ff4340bd10",
+      "path": "notes/engine-study/T109/T109a-validation-v1.json",
+      "sha256": "539f98f71b9069ff3ae7fc45958dfcb2a3b367137cb950965722ea07359bd51d"
+    },
+    {
+      "first_commit": "afac06c2bff3345ab737a0e9e9bbfb59f8ef0e50",
+      "path": "notes/engine-study/T109/T109b-controls-v2.json",
+      "sha256": "18c4cc5f29acaee8bb4f23091bf17ecf72f36202ef37307a90682c1eafa8bbf7"
+    },
+    {
+      "first_commit": "41cbdb9cee5fcc8dd728dcd44615afe02e6f7e19",
+      "path": "notes/engine-study/T109/T109b-reproduction-failure-v1.json",
+      "sha256": "9e7ab0d18746192282e429f58fc2ede9e4b144ab07fabaaafbe1859941984222"
+    },
+    {
+      "first_commit": "41cbdb9cee5fcc8dd728dcd44615afe02e6f7e19",
+      "path": "notes/engine-study/T109/T109b-v1.json",
+      "sha256": "647551d6148024f25157c4c35d103645b4b1ebeaaa39542aa77853409e4af99a"
+    },
+    {
+      "first_commit": "afac06c2bff3345ab737a0e9e9bbfb59f8ef0e50",
+      "path": "notes/engine-study/T109/T109b-v2.json",
+      "sha256": "00ba42ab5c3bf18674f492cac2aee195ea7bd38d1baa0321fa8021e66002d256"
+    },
+    {
+      "first_commit": "0c52ef78391e05e131ce93fd8e8bbf3bcdf6733a",
+      "path": "notes/engine-study/T109/T109b-validation-v2.json",
+      "sha256": "701af1cf7709363a2ea9aaf864fbc8fd4ba95291492453f90cbc3784f68dea98"
+    },
+    {
+      "first_commit": "5dcb4f8083ad7d3adcce7266a48d372731febdbc",
+      "path": "notes/engine-study/T109/issues-v1.json",
+      "sha256": "04d68df75cc5ee3f3f8c911ea79e86d0008fe1a22b5c98f40460822462d393ac"
+    },
+    {
+      "first_commit": "72e485e147102335d9adbbaaa47032adf15a35c0",
+      "path": "notes/engine-study/T109/readiness-v1.json",
+      "sha256": "11cbaf7b73f152a5cb3f7c1707dffba6c5b970a7c78206e3c4a58021c9e7f1de"
+    },
+    {
+      "first_commit": "545ab41dc713d69e8203b674d2d27bb0a003439f",
+      "path": "notes/engine-study/T95/census-08beac2e-v1.json",
+      "sha256": "e0f0938e2a21bdb7920e51eb958b73fad152b11b668de91f5a4eb8e57508a95c"
+    },
+    {
+      "first_commit": "545ab41dc713d69e8203b674d2d27bb0a003439f",
+      "path": "notes/engine-study/T95/controls-v1.json",
+      "sha256": "a276b121863b708dead51354a17b524ad964d4c163d1564ae053c58e8ec56791"
+    },
+    {
+      "first_commit": "bca98f378d28cd9b8b18261dbce01931e335e7a2",
+      "path": "notes/engine-study/T96/access-frontier-v1.json",
+      "sha256": "2908ed66f045deeb50c88661ee5d6461a525971df6e5b58ac80af9b850c943fe"
+    },
+    {
+      "first_commit": "72cc6db5e8e7cb60da2650b740ae50007f807e44",
+      "path": "notes/engine-study/T96/access-frontier-v2.json",
+      "sha256": "31764a847b521d949c565dd6f944aa628dce59899f35f06ace38996ec19e53c7"
+    },
+    {
+      "first_commit": "bca98f378d28cd9b8b18261dbce01931e335e7a2",
+      "path": "notes/engine-study/T96/derived-controls-v1.json",
+      "sha256": "2eda768a394747a5874c2780e32c74814eb8c2a16f07dd17cf6fdce92cdfa637"
+    },
+    {
+      "first_commit": "72cc6db5e8e7cb60da2650b740ae50007f807e44",
+      "path": "notes/engine-study/T96/derived-controls-v2.json",
+      "sha256": "35105c5fc23e46d41e3728c0bc013e3eec724ad9507a8f7ac021dbc3924c208f"
+    },
+    {
+      "first_commit": "bca98f378d28cd9b8b18261dbce01931e335e7a2",
+      "path": "notes/engine-study/T96/derived.json",
+      "sha256": "bad8143e28532b944646328df01e65e9cea645b5c0bb6659ffd6514f07d86388"
+    },
+    {
+      "first_commit": "7f878924a333741ebb99386a09e37068d73cf843",
+      "path": "notes/engine-study/T96/field-controls-v1.json",
+      "sha256": "7d04ea885ef28bbbc9cac86d9a1a4a9d88b92c704215a64e3d58f10748444599"
+    },
+    {
+      "first_commit": "a58a9ffbe407fb988e2d95c5aba1220db595196e",
+      "path": "notes/engine-study/T96/field-controls-v2.json",
+      "sha256": "443a53c6af8c87be1f1f8834081284bfd6b9c881c30d285a6944ca70088c0817"
+    },
+    {
+      "first_commit": "72cc6db5e8e7cb60da2650b740ae50007f807e44",
+      "path": "notes/engine-study/T96/field-controls-v3.json",
+      "sha256": "80c55de82d26cffab6b8b58024661c579b7d5d77c479bc25c6a11368ba06ec96"
+    },
+    {
+      "first_commit": "72cc6db5e8e7cb60da2650b740ae50007f807e44",
+      "path": "notes/engine-study/T96/fields-v2.json",
+      "sha256": "c7aec06ba32c5ae228802f69c1155ed1480fc4e8f80aed2a2fdb504bfea36191"
+    },
+    {
+      "first_commit": "7f878924a333741ebb99386a09e37068d73cf843",
+      "path": "notes/engine-study/T96/fields.json",
+      "sha256": "7d4973f73bd3f82c0b4e48cbe45662d7504c806a2b670d42e2a5597e4be5e068"
+    },
+    {
+      "first_commit": "bca98f378d28cd9b8b18261dbce01931e335e7a2",
+      "path": "notes/engine-study/T96/foot-helper-v1.json",
+      "sha256": "2b297fdb15a9535aa5ea1a2f3f23d17f93b5f70b91180e3a6307e28f4942636d"
+    },
+    {
+      "first_commit": "d453960ca7ce9848ba37c38f222dd46847014df3",
+      "path": "notes/engine-study/T97/persistent-controls-v1.json",
+      "sha256": "0e939a0a33e2afecd747d9ea74c3ae25d69eac936ecdc5750ed8a95f0dc85c2b"
+    },
+    {
+      "first_commit": "5b40465e4ff51b60e2cdfad8c26c6b8be7af5437",
+      "path": "notes/engine-study/T97/persistent-controls-v2.json",
+      "sha256": "9307fac12ea838932edef022e3578476584914d2c657d895428e84024a19c9cf"
+    },
+    {
+      "first_commit": "5b40465e4ff51b60e2cdfad8c26c6b8be7af5437",
+      "path": "notes/engine-study/T97/persistent-v2.json",
+      "sha256": "3baaf0bb9905798f13c4b0fd5af1ed79d85d8f699f98d23c94be5f4984447eae"
+    },
+    {
+      "first_commit": "d453960ca7ce9848ba37c38f222dd46847014df3",
+      "path": "notes/engine-study/T97/persistent.json",
+      "sha256": "9a7e5f808674b5fd95cca3585a0f7fe6a44c6804e9743a19f4d7ea1df401f617"
+    },
+    {
+      "first_commit": "028f21af920a17cf6acad08258e4de3ff0cc8800",
+      "path": "notes/engine-study/T97/snapshot-restore-validation-v1.json",
+      "sha256": "fa4fcaefebdd077864e7798bf914721c051a3a049469ef50ca692d1757f4d15c"
+    },
+    {
+      "first_commit": "3d03769dffce6c94374f68cdfbcb61417db5b53f",
+      "path": "notes/engine-study/T97/transient-controls-v1.json",
+      "sha256": "fdae4e658fb8372e290819105e8cee4120cdcee298adb696321aa3d66762bba8"
+    },
+    {
+      "first_commit": "5b40465e4ff51b60e2cdfad8c26c6b8be7af5437",
+      "path": "notes/engine-study/T97/transient-controls-v2.json",
+      "sha256": "710ba05081d2a3bd504188188a3cbfb25b3e5b8155e43b871c59f9a511346e76"
+    },
+    {
+      "first_commit": "028f21af920a17cf6acad08258e4de3ff0cc8800",
+      "path": "notes/engine-study/T97/transient-controls-v3.json",
+      "sha256": "3f825ce5dfee3451666ef52ceba1ab99b2b8866466e82393aca603874de351f8"
+    },
+    {
+      "first_commit": "467ebaf89fa496f9743364a08611aa297c534c4f",
+      "path": "notes/engine-study/T97/transient-controls-v4.json",
+      "sha256": "a7fb50543a1ff46c1b67cb1ae7eaf373fc31b30ad25fbc9ffc1bf3472a3a1250"
+    },
+    {
+      "first_commit": "5b40465e4ff51b60e2cdfad8c26c6b8be7af5437",
+      "path": "notes/engine-study/T97/transient-v2.json",
+      "sha256": "12cc620cff9acc2b82832aba2e03cfab3e4f9bfe87722c4f43bd8249b7774c3e"
+    },
+    {
+      "first_commit": "028f21af920a17cf6acad08258e4de3ff0cc8800",
+      "path": "notes/engine-study/T97/transient-v3.json",
+      "sha256": "240b345a10180888bf7c841bb69c56ca5948b34324ae0f2f8bc75deef6cf5c6b"
+    },
+    {
+      "first_commit": "467ebaf89fa496f9743364a08611aa297c534c4f",
+      "path": "notes/engine-study/T97/transient-v4.json",
+      "sha256": "66d91f0b6d1ddd1657dcf3e93d7504ef35de626cf7e89fdc658fec9b7d29233d"
+    },
+    {
+      "first_commit": "724521a0ac8842d4b87d82d2b6c1087e648bcdc8",
+      "path": "notes/engine-study/T97/transient-v5.json",
+      "sha256": "106d7b645db6e0f1f994c8ad730866d6c9205ce881a1da5d70d2c044062a038c"
+    },
+    {
+      "first_commit": "3d03769dffce6c94374f68cdfbcb61417db5b53f",
+      "path": "notes/engine-study/T97/transient.json",
+      "sha256": "31c13f57005b73bd5198a09e84b317a08f847732a0f34c0610d97db701f2f7ae"
+    },
+    {
+      "first_commit": "b1a4d63ade00e5830df1e269d5bba0d6d76775ce",
+      "path": "notes/engine-study/T98/skill-controls-v1.json",
+      "sha256": "cc87aab0fc6ee3f9c05694b48d7060b8c0fa4188f91b67f30057e0406b05ec6a"
+    },
+    {
+      "first_commit": "b1a4d63ade00e5830df1e269d5bba0d6d76775ce",
+      "path": "notes/engine-study/T98/skill-v1.json",
+      "sha256": "b1956bd879fe347bffaef68453021ec98d644608f6847d9cdbff68a7d4cd52e5"
+    },
+    {
+      "first_commit": "426787479bf5d5c6e6eff4e5f03d1bf8420d9638",
+      "path": "notes/engine-study/T98/strength-controls-v1.json",
+      "sha256": "c9fce4315088ecb874d638e4643b2b3ee0490a192ddf0d5cdb5edcd881b5dc53"
+    },
+    {
+      "first_commit": "426787479bf5d5c6e6eff4e5f03d1bf8420d9638",
+      "path": "notes/engine-study/T98/strength-v1.json",
+      "sha256": "3af8f59f7645409f9d91bdc2b48d17f9412fb99bc4c82b5c4d75807211d026d5"
+    },
+    {
+      "first_commit": "05bb098b93d26cf83e05cd58caa1ac5adf544251",
+      "path": "notes/engine-study/T98/validation-scope-v1.json",
+      "sha256": "874eaa766f8c1a89e317fe33a46a45ec7488b29dc041234b4ab23e8dfdf3d3b1"
+    },
+    {
+      "first_commit": "b1a4d63ade00e5830df1e269d5bba0d6d76775ce",
+      "path": "notes/engine-study/T98/window-repro-v1.json",
+      "sha256": "bfbfd8bd885bfbe3fdc5771c46122db49956a1a6a039a47b7a29e3c7e632357f"
+    },
+    {
+      "first_commit": "d4e0e71dcfe3dae99a30e272adb84993583cacd4",
+      "path": "notes/engine-study/T99/contest-controls-v1.json",
+      "sha256": "d84d726b54a4d11e4b9fbbf1d6b44ab02399bf33420cf9e2c69daeb08e8217d0"
+    },
+    {
+      "first_commit": "05bb098b93d26cf83e05cd58caa1ac5adf544251",
+      "path": "notes/engine-study/T99/contest-controls-v2.json",
+      "sha256": "d0558b7fac6b0fba9f80e344825d5e328f8a9d7290eacd8fa1d6ce937b193aaa"
+    },
+    {
+      "first_commit": "d4e0e71dcfe3dae99a30e272adb84993583cacd4",
+      "path": "notes/engine-study/T99/contests-v1.json",
+      "sha256": "37784d304ec27d6ce0416689a7f67bcc6a803da990bf8a4691b47596c636d75c"
+    },
+    {
+      "first_commit": "05bb098b93d26cf83e05cd58caa1ac5adf544251",
+      "path": "notes/engine-study/T99/contests-v2.json",
+      "sha256": "5e340dd6a70273a2d804c05f2ba85c32f5170fdca8df5d4f2635abe097580c94"
+    },
+    {
+      "first_commit": "162a6652cec8f948ddfbb3f8d59b5b033c7c7341",
+      "path": "notes/engine-study/T99/gate-controls-v1.json",
+      "sha256": "0e5d437cf8d2dc4bce6da0c54c3c4c00e804121b49dd2a5e7fea7a01ee6fc2dc"
+    },
+    {
+      "first_commit": "162a6652cec8f948ddfbb3f8d59b5b033c7c7341",
+      "path": "notes/engine-study/T99/gates-v1.json",
+      "sha256": "748be2d890da487962a1c223d0ca0a4ad34a0081bd8249b361158e8e80883724"
+    }
+  ],
+  "intervening_runtime_sha256": {
+    "runtime/original_match/README.md": "3a6fe5bda4a12e0ec482c19746fb7dc22a6fcf1bf7c3d12bb9a3ce4c85203cb3",
+    "runtime/original_match/port/entrypoints.py": "a55d378798ed5ec2c33404739b0961b8fec1e6167d1d301f5512cced4063b5b7",
+    "runtime/original_match/port/real.py": "dbd3e488d8959924ffedeb58f8afec62ffa4c71a35116d7dd72c307a30dcd1f9"
+  },
+  "limits": [
+    "15source/data/software commands,not15engine experiments. Existing ES-R2 listing guards are reused separately from45new audit guards.",
+    "Research cap counts48top-level calls;full-CIexisting regressions are a separate verification workload.",
+    "T107deferred;no scoring-effect interval or null result. No reviewer launched.",
+    "Full static/unit CI with all6slowmodules must pass separately on exact merged candidate."
+  ],
+  "new_literal_guards": 45,
+  "original_raw_source_changes": [],
+  "previous_milestone": "m6-engine-study-field-behaviour",
+  "probe_summary": {
+    "abi_equal_pairs": 18,
+    "all_registers_equal_pairs": 3,
+    "baseline_pairs": 18,
+    "cases": 6,
+    "complete_memory_and_registers_equal_pairs": 0,
+    "deviations": [
+      "Launch full-memory equality failed;15bytes differ in each of3pairs.",
+      "Wall complete-register equality failed;arithmetic EFLAGS differ in each of15pairs."
+    ],
+    "failures": [],
+    "field_equal_pairs": 18,
+    "memory_equal_pairs": 15,
+    "ordinary_invocations": 36,
+    "remaining_invocations": 12,
+    "roles": {
+      "baseline": 36,
+      "guard": 4,
+      "mutant": 2,
+      "no-effect": 2,
+      "repeat": 4
+    }
+  },
+  "python": "3.12.14 (main, Sep  1 2026, 14:16:52) [Clang 22.1.3 ]",
+  "scope": "Recompute current probe/integration evidence without new engine calls; full CI is separate."
+}
