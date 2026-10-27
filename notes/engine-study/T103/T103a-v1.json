@@ -1,0 +1,764 @@
+{
+  "analysis_sha256": {
+    "notes/engine-study/T103/common.py": "0152ed013ffcbf85e4f54e7821cb531403139a638d8a7d5e7a66b602ccc22717",
+    "notes/engine-study/T103/controls.py": "99175429e4358c78523e0c85a68cc23b9aecb2eee1532b8e140d46f528262b99"
+  },
+  "calculations": {
+    "controls": {
+      "BBFF-clears-overrides": "rejected:old17->51, fresh0->50",
+      "bit-index-k-instead-k-1": "rejected:team element5 is mask16",
+      "formation-counts-unavailable": "rejected:available-only label becomes3-4-2",
+      "own-controls5-through8": "rejected:own255/team0 gives e5 false",
+      "team-zonal-clears-manual": "rejected:protected205 survives",
+      "two-state-own-editor": "rejected:inherit/off/on/return sequence has three distinct modes"
+    },
+    "derive_without_clear": 51,
+    "derived_masks": [
+      17,
+      50,
+      34,
+      128,
+      178
+    ],
+    "effective_cycle": [
+      true,
+      false,
+      true,
+      true
+    ],
+    "formation_all": "4-4-2",
+    "formation_missing_cb": "3-4-2",
+    "fresh_derive": 50,
+    "menu_order": [
+      5,
+      6,
+      7,
+      1,
+      2,
+      3,
+      4,
+      8
+    ],
+    "own_cycle": [
+      0,
+      16,
+      17,
+      1
+    ],
+    "protected_mark_cases": [
+      205,
+      205,
+      0,
+      211
+    ]
+  },
+  "control_matrix": [
+    {
+      "effect": "Changes line class/depth predicates and selected holder choices; role/possession conditional.",
+      "id": "team-1",
+      "limits": "Team edit requires managed and not replay; own override shadows1..4. Quick aggregate reads1/5/6 and foul4, not every watched mechanism. No net-benefit claim.",
+      "name": "position: stay back/push forward; keeper stay/leave box",
+      "persistence": "Managed current country byte survives F1F6; BC5D/AI setup or other explicit reset restores R008, route dependent.",
+      "readers": [
+        "0791:42CB",
+        "0791:4532",
+        "0791:4A28",
+        "0791:4E28",
+        "1771:0BC4"
+      ],
+      "refresh": "Ordinary effective readers see bit at next call; e8 rebuilds marking; ED8A changed flag9B55 and exit230C refresh cached layout.",
+      "write": "1771:1981 XOR country+2D mask1"
+    },
+    {
+      "effect": "Adds coin opportunity to holder action gate; no fixed pass completion probability.",
+      "id": "team-2",
+      "limits": "Team edit requires managed and not replay; own override shadows1..4. Quick aggregate reads1/5/6 and foul4, not every watched mechanism. No net-benefit claim.",
+      "name": "possession: keep ball/quick pass",
+      "persistence": "Managed current country byte survives F1F6; BC5D/AI setup or other explicit reset restores R008, route dependent.",
+      "readers": [
+        "0791:5049"
+      ],
+      "refresh": "Ordinary effective readers see bit at next call; e8 rebuilds marking; ED8A changed flag9B55 and exit230C refresh cached layout.",
+      "write": "1771:1981 XOR country+2D mask2"
+    },
+    {
+      "effect": "Changes initial candidate cutoff/comparison; own-half nonkeeper forces long mode; fallback drops distance filter.",
+      "id": "team-3",
+      "limits": "Team edit requires managed and not replay; own override shadows1..4. Quick aggregate reads1/5/6 and foul4, not every watched mechanism. No net-benefit claim.",
+      "name": "passing: short/long; keeper throw/kick",
+      "persistence": "Managed current country byte survives F1F6; BC5D/AI setup or other explicit reset restores R008, route dependent.",
+      "readers": [
+        "0791:3111"
+      ],
+      "refresh": "Ordinary effective readers see bit at next call; e8 rebuilds marking; ED8A changed flag9B55 and exit230C refresh cached layout.",
+      "write": "1771:1981 XOR country+2D mask4"
+    },
+    {
+      "effect": "Bypasses one foul-opportunity gate; hardness contest/cards/injury remain conditional.",
+      "id": "team-4",
+      "limits": "Team edit requires managed and not replay; own override shadows1..4. Quick aggregate reads1/5/6 and foul4, not every watched mechanism. No net-benefit claim.",
+      "name": "tackling: avoid injury/go in hard",
+      "persistence": "Managed current country byte survives F1F6; BC5D/AI setup or other explicit reset restores R008, route dependent.",
+      "readers": [
+        "0791:4DA9",
+        "0791:D5C1"
+      ],
+      "refresh": "Ordinary effective readers see bit at next call; e8 rebuilds marking; ED8A changed flag9B55 and exit230C refresh cached layout.",
+      "write": "1771:1981 XOR country+2D mask8"
+    },
+    {
+      "effect": "Changes defensive depth; half-pitch follow guard is qualified by opposed directions and legal target bounds in marking chapter.",
+      "id": "team-5",
+      "limits": "Team edit requires managed and not replay; own override shadows1..4. Quick aggregate reads1/5/6 and foul4, not every watched mechanism. No net-benefit claim.",
+      "name": "pitch: half/full",
+      "persistence": "Managed current country byte survives F1F6; BC5D/AI setup or other explicit reset restores R008, route dependent.",
+      "readers": [
+        "0791:4649",
+        "0791:4A28",
+        "0791:4B64",
+        "1771:0BC4"
+      ],
+      "refresh": "Ordinary effective readers see bit at next call; e8 rebuilds marking; ED8A changed flag9B55 and exit230C refresh cached layout.",
+      "write": "1771:1981 XOR country+2D mask16"
+    },
+    {
+      "effect": "Changes depth and defending ball-approach predicate; context can trade pressure against shape.",
+      "id": "team-6",
+      "limits": "Team edit requires managed and not replay; own override shadows1..4. Quick aggregate reads1/5/6 and foul4, not every watched mechanism. No net-benefit claim.",
+      "name": "defence: sag/stand",
+      "persistence": "Managed current country byte survives F1F6; BC5D/AI setup or other explicit reset restores R008, route dependent.",
+      "readers": [
+        "0791:4649",
+        "0791:4B64",
+        "0791:5729",
+        "1771:0BC4"
+      ],
+      "refresh": "Ordinary effective readers see bit at next call; e8 rebuilds marking; ED8A changed flag9B55 and exit230C refresh cached layout.",
+      "write": "1771:1981 XOR country+2D mask32"
+    },
+    {
+      "effect": "Changes advancement while holding; offside8CF5 reads geometry, not this bit directly.",
+      "id": "team-7",
+      "limits": "Team edit requires managed and not replay; own override shadows1..4. Quick aggregate reads1/5/6 and foul4, not every watched mechanism. No net-benefit claim.",
+      "name": "line: safe/trap",
+      "persistence": "Managed current country byte survives F1F6; BC5D/AI setup or other explicit reset restores R008, route dependent.",
+      "readers": [
+        "0791:4532",
+        "0791:4B64"
+      ],
+      "refresh": "Ordinary effective readers see bit at next call; e8 rebuilds marking; ED8A changed flag9B55 and exit230C refresh cached layout.",
+      "write": "1771:1981 XOR country+2D mask64"
+    },
+    {
+      "effect": "Refresh automatic opponent identities by role preferences; protected manual words survive, zero-word fallback can still follow an opponent.",
+      "id": "team-8",
+      "limits": "Team edit requires managed and not replay; own override shadows1..4. Quick aggregate reads1/5/6 and foul4, not every watched mechanism. No net-benefit claim.",
+      "name": "mark: zonal/man",
+      "persistence": "Managed current country byte survives F1F6; BC5D/AI setup or other explicit reset restores R008, route dependent.",
+      "readers": [
+        "1771:3EF8",
+        "0791:47C5"
+      ],
+      "refresh": "Ordinary effective readers see bit at next call; e8 rebuilds marking; ED8A changed flag9B55 and exit230C refresh cached layout.",
+      "write": "1771:1981 XOR country+2D mask128"
+    },
+    {
+      "effect": "Inherit/off/on for team element1; role-specific labels do not create another stored tactic.",
+      "id": "own-1",
+      "limits": "Only1..4 overridden; manual editor is not a raw XOR of team byte.",
+      "persistence": "Persistent player+F until reset/derive; BBFF derives without clearing, BC5D/34E7 clear first.",
+      "readers": [
+        "0791:26D7",
+        "1771:0BC4",
+        "1771:3BD3"
+      ],
+      "refresh": "Value readers next call; in-match9B55/layout refresh; derived3431 can set bits again.",
+      "write": "1771:4B61 cycles own+F elements1 and5"
+    },
+    {
+      "effect": "Inherit/off/on for team element2; role-specific labels do not create another stored tactic.",
+      "id": "own-2",
+      "limits": "Only1..4 overridden; manual editor is not a raw XOR of team byte.",
+      "persistence": "Persistent player+F until reset/derive; BBFF derives without clearing, BC5D/34E7 clear first.",
+      "readers": [
+        "0791:26D7",
+        "1771:0BC4",
+        "1771:3BD3"
+      ],
+      "refresh": "Value readers next call; in-match9B55/layout refresh; derived3431 can set bits again.",
+      "write": "1771:4B61 cycles own+F elements2 and6"
+    },
+    {
+      "effect": "Inherit/off/on for team element3; role-specific labels do not create another stored tactic.",
+      "id": "own-3",
+      "limits": "Only1..4 overridden; manual editor is not a raw XOR of team byte.",
+      "persistence": "Persistent player+F until reset/derive; BBFF derives without clearing, BC5D/34E7 clear first.",
+      "readers": [
+        "0791:26D7",
+        "1771:0BC4",
+        "1771:3BD3"
+      ],
+      "refresh": "Value readers next call; in-match9B55/layout refresh; derived3431 can set bits again.",
+      "write": "1771:4B61 cycles own+F elements3 and7"
+    },
+    {
+      "effect": "Inherit/off/on for team element4; role-specific labels do not create another stored tactic.",
+      "id": "own-4",
+      "limits": "Only1..4 overridden; manual editor is not a raw XOR of team byte.",
+      "persistence": "Persistent player+F until reset/derive; BBFF derives without clearing, BC5D/34E7 clear first.",
+      "readers": [
+        "0791:26D7",
+        "1771:0BC4",
+        "1771:3BD3"
+      ],
+      "refresh": "Value readers next call; in-match9B55/layout refresh; derived3431 can set bits again.",
+      "write": "1771:4B61 cycles own+F elements4 and8"
+    },
+    {
+      "effect": "Posts/depth, foot/keeper placement flag, automatic pairing and display label change.",
+      "id": "played-role",
+      "limits": "Mechanism and admitted menu context only; raw edits do not prove natural reach or average advantage.",
+      "persistence": "See named source and linked lifecycle/identity chapter; role/mark/taker state persists or is rebuilt by explicit reset/rebind, mode is transient.",
+      "readers": [
+        "0791:419C",
+        "0791:42CB",
+        "1771:3179",
+        "1771:3EF8",
+        "1771:0E6C"
+      ],
+      "refresh": "Marks immediately if setup;9B55 and230C rebind full layout; no stored formation ID.",
+      "write": "1771:4952 writes player+6; C restores+7, otherwise cycle0..13"
+    },
+    {
+      "effect": "Cycle inherit/protected-zone/available opposite2..11; role<2 clears protection.",
+      "id": "manual-mark",
+      "limits": "Mechanism and admitted menu context only; raw edits do not prove natural reach or average advantage.",
+      "persistence": "See named source and linked lifecycle/identity chapter; role/mark/taker state persists or is rebuilt by explicit reset/rebind, mode is transient.",
+      "readers": [
+        "1771:3EF8",
+        "0791:47C5"
+      ],
+      "refresh": "Only setup/available player role>=2 and enabled editor row; refresh3EF8 preserves protected word.",
+      "write": "1771:49B8 status element7 plus9A3E opponent identity"
+    },
+    {
+      "effect": "Leadership adds2L to rebound cached extra; not a universal all-skill team bonus.",
+      "id": "captain",
+      "limits": "Mechanism and admitted menu context only; raw edits do not prove natural reach or average advantage.",
+      "persistence": "See named source and linked lifecycle/identity chapter; role/mark/taker state persists or is rebuilt by explicit reset/rebind, mode is transient.",
+      "readers": [
+        "0791:20E3",
+        "0791:278A"
+      ],
+      "refresh": "230C resets initial cache before20E3; normal menu exit matters.",
+      "write": "CC7B returns identity to9978 side leader"
+    },
+    {
+      "effect": "Different event/restart rules, location and availability can override designated identities.",
+      "id": "set-piece-takers",
+      "limits": "Mechanism and admitted menu context only; raw edits do not prove natural reach or average advantage.",
+      "persistence": "See named source and linked lifecycle/identity chapter; role/mark/taker state persists or is rebuilt by explicit reset/rebind, mode is transient.",
+      "readers": [
+        "0791:6B65",
+        "0791:6FEE",
+        "0791:74C2",
+        "0791:7621"
+      ],
+      "refresh": "Resolve identities to live squad; invalid/absent pick fallback, separate full PK order9B93.",
+      "write": "CC7B roles2..5 return identities in9976 side table"
+    },
+    {
+      "effect": "Availability, budget, keeper count and role caps constrain accepted choices.",
+      "id": "selection",
+      "limits": "Mechanism and admitted menu context only; raw edits do not prove natural reach or average advantage.",
+      "persistence": "See named source and linked lifecycle/identity chapter; role/mark/taker state persists or is rebuilt by explicit reset/rebind, mode is transient.",
+      "readers": [
+        "0791:EA09",
+        "0791:C5DC"
+      ],
+      "refresh": "Rebind/sort/form/mark swaps; prematch pool exchange differs from in-match substitution.",
+      "write": "E44F/E022 managed roster/pool edits and swap request"
+    },
+    {
+      "effect": "Presentation delay setting; shootout saves/changes/restores; no stored player pace skill.",
+      "id": "pace",
+      "limits": "Mechanism and admitted menu context only; raw edits do not prove natural reach or average advantage.",
+      "persistence": "See named source and linked lifecycle/identity chapter; role/mark/taker state persists or is rebuilt by explicit reset/rebind, mode is transient.",
+      "readers": [
+        "0791:9564",
+        "0791:0C0B"
+      ],
+      "refresh": "Byte UI bounds and raw primitive semantics differ; do not infer more simulated minutes from wall time.",
+      "write": "9372 edits game+3F delay"
+    },
+    {
+      "effect": "Select watched ticks versus minute aggregate result; shootout forces watched.",
+      "id": "quick",
+      "limits": "Mechanism and admitted menu context only; raw edits do not prove natural reach or average advantage.",
+      "persistence": "See named source and linked lifecycle/identity chapter; role/mark/taker state persists or is rebuilt by explicit reset/rebind, mode is transient.",
+      "readers": [
+        "0791:97D0",
+        "0791:D733",
+        "0791:A10A"
+      ],
+      "refresh": "Mode/cached restore; outer silentD47E is another route, not this toggle.",
+      "write": "9372 quick-mode choice;9A3E/9A3F"
+    },
+    {
+      "effect": "Managed sides preserve decisions and skip computer policy; no-managed fixtures have different input seed hook.",
+      "id": "controller",
+      "limits": "Mechanism and admitted menu context only; raw edits do not prove natural reach or average advantage.",
+      "persistence": "See named source and linked lifecycle/identity chapter; role/mark/taker state persists or is rebuilt by explicit reset/rebind, mode is transient.",
+      "readers": [
+        "1771:0B77",
+        "0791:A3DE",
+        "0791:C173",
+        "0791:ED8A"
+      ],
+      "refresh": "Controller is fixture/config context, not a mid-match tactic; synthetic reassignment must keep mapping coherent.",
+      "write": "country+2E manager mapping and context"
+    }
+  ],
+  "examples": [
+    {
+      "id": "override-cycle",
+      "inputs": {
+        "element": 1,
+        "own": 0,
+        "team": 1
+      },
+      "limits": "Source state transitions,not genuine UI key evidence.",
+      "prediction": {
+        "effective": [
+          true,
+          false,
+          true,
+          true
+        ],
+        "own_bytes": [
+          0,
+          16,
+          17,
+          1
+        ]
+      },
+      "steps": [
+        "inherit on",
+        "firstEnter forcedoff",
+        "secondEnter forcedon",
+        "thirdEnter inherit withcopiedvalue"
+      ]
+    },
+    {
+      "id": "derive-is-not-reset",
+      "inputs": {
+        "ability": 100,
+        "old_own": 17,
+        "profile": 10,
+        "role": 2
+      },
+      "limits": "Supplied representable fields;does notassertnormalfrequency ofrolechanges.",
+      "prediction": {
+        "fresh": 50,
+        "without_clear": 51
+      },
+      "steps": [
+        "3431adds16/32/2",
+        "oldbit1survives",
+        "clearfirstinsteadgives50"
+      ]
+    },
+    {
+      "id": "manual-mark-vs-team",
+      "inputs": {
+        "old_opponent_identity": 205,
+        "protected": true,
+        "team_man": false
+      },
+      "limits": "Assumes validopponentidentity;invalid identityresolver/fallback separate.",
+      "prediction": {
+        "mark_word": 205
+      },
+      "steps": [
+        "3EF8excludesprotectedmarkerfromauto",
+        "retainsword despite team8off"
+      ]
+    },
+    {
+      "id": "formation-is-derived",
+      "inputs": {
+        "played_roles": [
+          0,
+          2,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          12,
+          13
+        ],
+        "unavailable_slot": 2
+      },
+      "limits": "Display-count projection;no completepitch/formation rendering.",
+      "prediction": {
+        "all": "4-4-2",
+        "with_unavailable": "3-4-2"
+      },
+      "steps": [
+        "allavailablegroupcounts1/4/4/2",
+        "3216excludescentrebackslot2"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:20E3",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "d62c11e613557259ccccc208b7e7349be38933c388d479a3a11282140c79a941",
+      "line": 376
+    },
+    {
+      "address": "0791:230C",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "eba876dad7dec2d5cfa5b1b44e68eec91ececf92ed693b336e9bfdfe6f54e4be",
+      "line": 450
+    },
+    {
+      "address": "0791:26D7",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "8e56e851b7331109287ac4244698c1ee94e6fdb643e804d203ae904ee1b89bf0",
+      "line": 645
+    },
+    {
+      "address": "0791:2974",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "646c97b2c9e16aac28baffbfe592c4f19e6e536a0bd1b5bd0cf226f014d9cd34",
+      "line": 792
+    },
+    {
+      "address": "0791:3111",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "a44a966de1ab875aa05fd59f355dc155886d5587b057ac2998f2b8bc8cca047f",
+      "line": 427
+    },
+    {
+      "address": "0791:4532",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "f1a96d6461ad9caec6cd085fe0baeb1f3004744a71685259ece506c054b6849b",
+      "line": 397
+    },
+    {
+      "address": "0791:4649",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "9ce7bad63f28b6c23872f04ef17d1eb98c583e82657beed8fe2282c454c3f333",
+      "line": 465
+    },
+    {
+      "address": "0791:47C5",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "f29f16774cf062e05a5be68beac7af09eb52fd602a5884539972f0abafc94db9",
+      "line": 552
+    },
+    {
+      "address": "0791:4A28",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "a5cd93ccf6a3b7cf4dacfdc4aac7064184f6850e0664c4a26d7a888c26f6261c",
+      "line": 634
+    },
+    {
+      "address": "0791:4B64",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "a8eb9dff64bbad704de73ec1891facace05957438a0300c8e156f6a48906537e",
+      "line": 693
+    },
+    {
+      "address": "0791:4DA9",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "dafd755a9614da1b7bfd1329b86781ed784d0c2cefec1e65b6dcb9317c5b905e",
+      "line": 812
+    },
+    {
+      "address": "0791:4E28",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "e7003821207a69380eaf19da1c4e5edb38e8ad9e351dd0c8ae94efda61db0684",
+      "line": 843
+    },
+    {
+      "address": "0791:5049",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "6d0e728141a3f946c482a96b01f70692c0ab77f00fa51df22cc035919d02858c",
+      "line": 4
+    },
+    {
+      "address": "0791:5729",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "07823e7e21673e0bb54f75a8a9c0ed0144c144319d3e4cc4a513d37fd51b4963",
+      "line": 406
+    },
+    {
+      "address": "0791:9372",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "8984679a2fc46113fbeeb7bf5cf0a6e6763505586764b87279592edcef9082fb",
+      "line": 879
+    },
+    {
+      "address": "0791:97D0",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "54b3a034f1b2fe96422f7af0acb0582dfe6521fbd2ffd8d361a36a97797539ac",
+      "line": 174
+    },
+    {
+      "address": "0791:ED8A",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "494d35252f3088bf39d7cef7ff1b6335ff21619fe2c526cf6787d2c6855e837a",
+      "line": 408
+    },
+    {
+      "address": "1771:0BC4",
+      "file": "static/goal-exe/named/seg_1771_01.c",
+      "heading_sha256": "1d2765207d4c60f71f31472e29534bda23e273a4d98dcfc98978f520c3c1cf91",
+      "line": 591
+    },
+    {
+      "address": "1771:0E6C",
+      "file": "static/goal-exe/named/seg_1771_01.c",
+      "heading_sha256": "7b58653a2945333c90eb8f9ab318c2ee7fa861ee748162b8f681ac1328dd7d0c",
+      "line": 715
+    },
+    {
+      "address": "1771:1981",
+      "file": "static/goal-exe/named/seg_1771_02.c",
+      "heading_sha256": "855b48f842324e48138fa0795e9772529b88d3a8b0228915a09661e4ceee709b",
+      "line": 154
+    },
+    {
+      "address": "1771:33CD",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "217358cf3c002c784cb74e81c2904d77443c4647f7000051cb50eaa9fa46f155",
+      "line": 150
+    },
+    {
+      "address": "1771:3431",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "1c0ff8d75b7724e28c16ad3e05404508529fa8dff6aa0a347a2bce7c3596fe1b",
+      "line": 167
+    },
+    {
+      "address": "1771:34E7",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "edde4a6e4d534b624a2774d74960f32410b200a4a643f1e8564cbd8539092c57",
+      "line": 203
+    },
+    {
+      "address": "1771:3E2F",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "5e300adc83816fc67ca1ac70d5bc0550700b4626ec6ee9524147ddb5f390dff2",
+      "line": 642
+    },
+    {
+      "address": "1771:3EF8",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "a1a41d73b22dd92b677e18f609c0c0ea39b2a677c580708c11d04706d8becbb0",
+      "line": 687
+    },
+    {
+      "address": "1771:4925",
+      "file": "static/goal-exe/named/seg_1771_04.c",
+      "heading_sha256": "62d09f2cbeca5f863a2efef7a8e46476ed2fd58d41414b133f254315924965b8",
+      "line": 4
+    },
+    {
+      "address": "1771:4952",
+      "file": "static/goal-exe/named/seg_1771_04.c",
+      "heading_sha256": "0f063d9fc6f9f693ce12aa9011b55648b1ac3a22fb71393a12f94a4ecdcb41b7",
+      "line": 19
+    },
+    {
+      "address": "1771:49B8",
+      "file": "static/goal-exe/named/seg_1771_04.c",
+      "heading_sha256": "538465dd3460d10d3dde07fe02f8d185e70bd3ed9473aaef08f0385da57538e9",
+      "line": 50
+    },
+    {
+      "address": "1771:4B61",
+      "file": "static/goal-exe/named/seg_1771_04.c",
+      "heading_sha256": "8914c96222bc30e013ac56630b82a1c67cf7408e8d98d946089762c24c216096",
+      "line": 121
+    }
+  ],
+  "method": "Original named/listing reading and source-derived projections; no original/port engine execution.",
+  "routines": [
+    {
+      "address": "0791:26D7",
+      "fields": [
+        "player+F",
+        "pitch+D",
+        "9B34/36"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Own override1..4 else side-country current byte;2974 determines side,not player country0.",
+      "visible_effect": "Team changes can be shadowed by personal override."
+    },
+    {
+      "address": "1771:1981",
+      "fields": [
+        "country+2D",
+        "0C20",
+        "6BBF"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Managed/nonreplay team editor toggles row mapping5,6,7,1,2,3,4,8.",
+      "visible_effect": "Eight visible choices map to nonsequential bits."
+    },
+    {
+      "address": "1771:4925",
+      "fields": [
+        "player+6",
+        "A976"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Shift code0..13 through bytewrap1..14 and clear syntheticDown key.",
+      "visible_effect": "Role13 wraps to0,not14."
+    },
+    {
+      "address": "1771:4952",
+      "fields": [
+        "player+6/+7",
+        "0C1F/0C1E"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Nonzero player C restoresnatural+7 elseadvance;flag9B55andmarkrefresh ifsetup.",
+      "visible_effect": "Changes played role rather than immutable natural role."
+    },
+    {
+      "address": "1771:49B8",
+      "fields": [
+        "player+10 e7",
+        "9A3E"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Cycle default/protectedzero/opponentidentity2..11 skippingunavailable;role<2 clearsprotection.",
+      "visible_effect": "Protected zone is a specific override,not merely team zonal."
+    },
+    {
+      "address": "1771:4B61",
+      "fields": [
+        "player+F",
+        "0F38",
+        "0C1F"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Ownrow1..4 inherit/off/on;fifthmarkrow requiressetup,role>=2,availabilityandcallerflag.",
+      "visible_effect": "Three states and conditional row availability must survive a readable rewrite."
+    },
+    {
+      "address": "1771:33CD",
+      "fields": [
+        "player+F"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Set own element8 and clear4.",
+      "visible_effect": "Overrides hard tackling off."
+    },
+    {
+      "address": "1771:3431",
+      "fields": [
+        "player+5/+3/+6/+F"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Hardness<4 softoverride;roles0/1/3/4push;role2profile<14positionenable thenquickoverride.",
+      "visible_effect": "Derives from own fields;does not clear existing overrides."
+    },
+    {
+      "address": "1771:34E7",
+      "fields": [
+        "country.squad",
+        "player+F"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Clear+F then3431 fornonzero20 squadwords.",
+      "visible_effect": "Fresh derivation differs fromBBFF rederivewithoutclear."
+    },
+    {
+      "address": "1771:3E2F",
+      "fields": [
+        "0EF4",
+        "parent role arrays"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Opposingranges13/12,9..11,5..8,1,2..4;prefrows1..4;opponentsdescending,ownfirstmatching.",
+      "visible_effect": "Pairings depend on role and slot order,not marking skill maximisation."
+    },
+    {
+      "address": "1771:3EF8",
+      "fields": [
+        "9A3E",
+        "player+10 e7",
+        "country+2D e8"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Buildrolesexcludingown sweeper/unavailable/protected;removeexplicit targets;pair,thenretainprotectedorinstallautomaticifteam8.",
+      "visible_effect": "Manual identities can persist with teammanoff;keeperoutsideassignment."
+    },
+    {
+      "address": "1771:0E6C",
+      "fields": [
+        "player+6",
+        "3216",
+        "0D5C"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "CountavailableXI byDS0D5C and print defence-midfield-attack.",
+      "visible_effect": "Same label can hide different roles/feet/posts;unavailable changes label withoutroleedit."
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "The control-to-code matrix",
+    "Overrides, edits and refresh",
+    "Formation and marking choices",
+    "Predictions and limits"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "notes/engine-study/T98/tables.py": "f5e0836d57f8816943f2b2648818cb3a6175060b834f827dff64f27d535215fb",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "runtime/original_match/port/menus.py": "ea87406a9f0300d0d54c3f71d664a8ed2925505fb133b59a481e8fc5f098f053",
+    "runtime/original_match/port/positioning.py": "6a8feb436f745149a010db472a1aed04569d897875cd966eb434a6170b7f839e",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_0791_05.asm": "0635bc395cd69ffe2c77ead9aaaf786f36eedeee5496daae8f43127ce4aed474",
+    "static/goal-exe/code/seg_0791_07.asm": "1cee0aa8db2d9e0be1e885f1f535eca11f450cbee9421366182528e540d94804",
+    "static/goal-exe/code/seg_0791_08.asm": "6932ef5507b1fa923e7fcec51e4abb0c091d413571c80d0d3798cb1382119acd",
+    "static/goal-exe/code/seg_0791_09.asm": "1236aa3fcb2d30080e22d9a4bee4398c52d09fc3010e133bc124e318f7e89ac0",
+    "static/goal-exe/code/seg_0791_15.asm": "39083ebcc1fba0fc0c377bd9656189ceb0e0a328d0940583c774e910967e1abf",
+    "static/goal-exe/code/seg_0791_16.asm": "970a6ea902b38abd5e437aed568fc1833caf6bac00e25194be1f3f39504ea4e1",
+    "static/goal-exe/code/seg_0791_23.asm": "49e12bb8534566ad1e6b4b22e2f088ce483d4518f8d2b8cf28fefb3c7f9b9cde",
+    "static/goal-exe/code/seg_1771_02.asm": "22d7089c0f0bc9b7dcb78d51531e127ec9e13db7c8c5d5627aca26b0103a21ec",
+    "static/goal-exe/code/seg_1771_03.asm": "3061f1a54d1ab95422f7c76708f2a1951e5a41eb4eee8a5e074b579caf94ac27",
+    "static/goal-exe/code/seg_1771_05.asm": "4a856a9af9dee3d93fe6e6275ead612d2d3ba4c81363389c68fa5424ca8483d9",
+    "static/goal-exe/code/seg_1771_06.asm": "2daf9c18c61eec2d0ef54c5d5480619274020f18124f26b685b7a41a0e19e820",
+    "static/goal-exe/code/seg_1771_07.asm": "e943fc49b22bc84c0fc8713195182361a989da17106912ef01312611af04ecf5",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_03.c": "c49d73137a03e70e2f02b8b54dfe04d8805239f55fc80a99d23a6943354e5800",
+    "static/goal-exe/named/seg_0791_04.c": "0118b26c212562f1eaecefe22850166c2e2b7755952a09abad00a5b42fbf8325",
+    "static/goal-exe/named/seg_0791_05.c": "b0871f197621d5abfd3b4db00ec3eca42c9eea6cb45626651842147b4d8ce228",
+    "static/goal-exe/named/seg_0791_08.c": "130e91927a5bb2fed2adb998225fc88091816752051eee90ae004e30fcfecc96",
+    "static/goal-exe/named/seg_0791_09.c": "71a912e2c5564f75078a0db0220c5388a74ec168783371a63c74cdddae22275f",
+    "static/goal-exe/named/seg_0791_13.c": "4fe6fb41281082fba52ebdc61c6ba147de1dff5bf3ee94fe0bf1314e33878d21",
+    "static/goal-exe/named/seg_1771_01.c": "1a5b353b534973427d6dcaf639cd454641a3f3e17b3cf88aac2d493439789517",
+    "static/goal-exe/named/seg_1771_02.c": "c7e60651ef10c35c018cf97ac3062bf7d8fa66fd155da9f65160e4d16fc85455",
+    "static/goal-exe/named/seg_1771_03.c": "9c51e37d30f7d69e51b2d776c0b704d7f87852cd10d47fa4d679880d13f4d2f4",
+    "static/goal-exe/named/seg_1771_04.c": "6a067b79adaf6f9d2239d247c68a5fd3389b8c6afdc1d20b991bd3bb91a24965"
+  },
+  "status": "proposed; source-derived explanation",
+  "supporting_artifacts": {},
+  "task": "T103a"
+}
