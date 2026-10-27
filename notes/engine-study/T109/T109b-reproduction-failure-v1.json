@@ -1,0 +1,9 @@
+{
+  "scope": "Software reproduction failure;zero engine calls",
+  "producer_commit": "5a64ca2d4c6587886a37e896db6ee61bdac5f9c9",
+  "command": "tools/heavy.sh T109b-reproduce -- /home/diego/.local/bin/python3.12 -B notes/engine-study/T109/integration.py --check",
+  "exit": 1,
+  "error": "AssertionError at assert old==data",
+  "diagnosis": "JSON writes integer role keys as strings;build retained integer prompt-title keys. Canonicalised complete data equals stored v1. No candidate/source/observed result differs.",
+  "resolution": "Preserve v1;commit corrected producer and new v2 before rechecking;no engine retry."
+}
