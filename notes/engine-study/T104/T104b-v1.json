@@ -1,0 +1,426 @@
+{
+  "analysis_sha256": {
+    "notes/engine-study/T104/common.py": "7b268370b2f3d1503e4a773558e2f6747f8f51008891c8dea2bc791ccdabe01e",
+    "notes/engine-study/T104/discipline.py": "2e1e082b1e03a29251f7f0c5141a6e14c73a918c69c1d50b5e29b131c1b30a73"
+  },
+  "calculations": {
+    "added_time_edges": [
+      5,
+      5,
+      6
+    ],
+    "ai_booking_own_tactics": 128,
+    "card_value_classes": {
+      "0..3": [
+        "yellow",
+        "red-attempt-if-already-booked"
+      ],
+      "4..15": "one-in32 main attempt"
+    },
+    "controls": {
+      "always-add11-opponent-slot": "rejected:16 maps5,not27",
+      "ignore-injury-count": "rejected:shared cap already3",
+      "omit-ai-depth-guard": "rejected:11 available does not pass unmanaged guard",
+      "persist-team-swing": "rejected:saved16 must stay16",
+      "unsigned-saved-form-cap": "rejected:128 differs from32 on edited signed edge"
+    },
+    "injury_tie_target": "victim",
+    "live_saved_form_cases": [
+      [
+        14,
+        14
+      ],
+      [
+        18,
+        16
+      ],
+      [
+        33,
+        32
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        128,
+        128
+      ]
+    ],
+    "loss_cap_examples": [
+      true,
+      false,
+      true,
+      false
+    ],
+    "offside_opposite_slots": [
+      12,
+      16,
+      22,
+      1,
+      5,
+      11
+    ],
+    "referee_main_draw_component": {
+      "0": 10,
+      "1": 0
+    },
+    "yellow_red_status_from_protect_zone": [
+      80,
+      96
+    ]
+  },
+  "examples": [
+    {
+      "id": "booked-foul-and-injury",
+      "inputs": {
+        "already_booked": true,
+        "first_table_byte": 2,
+        "offender_hardness": 6,
+        "second_table_byte": 1,
+        "victim_hardness": 6
+      },
+      "limits": "Supplied table/identity context,not a complete foul run. Re-sorting/substitution and guard changes can suppress later effects.",
+      "prediction": {
+        "card_attempt": "red",
+        "injury_target": "victim"
+      },
+      "steps": [
+        "red attempt under7A43",
+        "second explicit table read still controls injury attempt",
+        "equal hardness choosesvictim;injure again checks availability/loss cap"
+      ]
+    },
+    {
+      "id": "red-form-lifetimes",
+      "inputs": {
+        "loss_cap_passes": true,
+        "opponent_form": 16,
+        "saved_form": 16,
+        "sent_off_form": 16
+      },
+      "limits": "Only7CC5 projections;full walkoff/referee/substitution RNG not counted. Numeric form increases are not uniformly beneficial at32.",
+      "prediction": {
+        "opponent": [
+          18,
+          16
+        ],
+        "sent_off": [
+          14,
+          14
+        ]
+      },
+      "steps": [
+        "sentoff status6 clearsbook5 andwalksoff",
+        "own liveform14,saved14",
+        "each available opposite-side liveform18,saved16"
+      ]
+    },
+    {
+      "id": "unmanaged-loss-guard",
+      "inputs": {
+        "available_squad": [
+          11,
+          12
+        ],
+        "injuries": 1,
+        "reds": 1
+      },
+      "limits": "20-player availability count,not only on-pitch player count;initial valid-team/lifecycle invariants not proved here.",
+      "prediction": [
+        false,
+        true
+      ],
+      "steps": [
+        "sharedloss2<3",
+        "unmanagedrequiresavailable>11"
+      ]
+    },
+    {
+      "id": "offside-whistle-and-index",
+      "inputs": {
+        "offside_slot": 16,
+        "saved_ball_point": "8317",
+        "whistle_mode": 0
+      },
+      "limits": "Component count only,not total82EB draw count. Later restart can repick taker;no original-key evidence added.",
+      "prediction": {
+        "initial_awarded_holder": 5,
+        "referee_component_main_draws": 10
+      },
+      "steps": [
+        "offender16,nearest0",
+        "ten mode0 referee updates",
+        "restore8317;opposite relative slot5;nearest recompute andFK"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:261A",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "57ee7d992c2fccfb0b2ea69d72d3bfc14ec8f884ea65d85add23c5fc1f758559",
+      "line": 573
+    },
+    {
+      "address": "0791:2974",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "646c97b2c9e16aac28baffbfe592c4f19e6e536a0bd1b5bd0cf226f014d9cd34",
+      "line": 792
+    },
+    {
+      "address": "0791:7881",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "c785e29da7ed6e2277d7499fccd388bfcbf0b54fc0c26477ede272766d098d44",
+      "line": 530
+    },
+    {
+      "address": "0791:798D",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "8a98c7284e79537d78b9b872269625b8a9bbfb80e8ce66d3a8ae1ecf7258fac6",
+      "line": 598
+    },
+    {
+      "address": "0791:7A43",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "7e13c9498d76ed2088cb7155643157451b5ee4be2057f5049bfc135d33fb5193",
+      "line": 633
+    },
+    {
+      "address": "0791:7B24",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "a60916d44d11194bf5d72f66f0a2bbebaf75c32669d1bbe1588bec079ca2daf1",
+      "line": 685
+    },
+    {
+      "address": "0791:7B77",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "ae3eb593439cb94cf112cf031f9999b1a99a9371ff9788c87a6bc69146b7d7b8",
+      "line": 703
+    },
+    {
+      "address": "0791:7CC5",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "3abacdff67ba47ea28ab867a4950c52d9baea9c079913e4508267622726407a6",
+      "line": 762
+    },
+    {
+      "address": "0791:7D56",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "3b5711e17a376bdc8ae66361f1bbe05959a3873d6734a5af2b97b1c30767b4ca",
+      "line": 798
+    },
+    {
+      "address": "0791:7E60",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "5198ff2420630e975c4d760f3f117c904d4e89cdab2835fd3e97e39da7917757",
+      "line": 852
+    },
+    {
+      "address": "0791:7EEF",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "4ea882e04d59110dc202b11b87e5fcd275fb8baa05b5ee2ad118712456312720",
+      "line": 879
+    },
+    {
+      "address": "0791:8206",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "ec915d8a862a969b0beacee2408f62413c96dfa326f6285296ea15c61ba334f7",
+      "line": 75
+    },
+    {
+      "address": "0791:82EB",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "8d9480f286b605023380ac1806e3093233afbd0beab76b81b38407a02905207d",
+      "line": 119
+    },
+    {
+      "address": "0791:9119",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "10c230abfc978cb25c377342a0827ddc45efb72731f82e7cf86906953e7e326b",
+      "line": 784
+    },
+    {
+      "address": "1771:3216",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "cf2efc3f95929549dda5cd550fc761119ebf69ebd0cc42daa2823596d3838491",
+      "line": 75
+    },
+    {
+      "address": "1771:33CD",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "217358cf3c002c784cb74e81c2904d77443c4647f7000051cb50eaa9fa46f155",
+      "line": 150
+    }
+  ],
+  "method": "Original named/listing reading and source-derived projections; no original/port engine execution.",
+  "routines": [
+    {
+      "address": "0791:7881",
+      "fields": [
+        "8325/9B41/8302",
+        "0640/0642",
+        "pitch+12",
+        "8AE9/8537"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Save/clear activity and interaction flags,state12,targetexit;direct update/draw loop,then offpitch sentinel andstate0,restore flags.",
+      "visible_effect": "Unavailable player can still be animated off;no970C inside wrapper."
+    },
+    {
+      "address": "0791:798D",
+      "fields": [
+        "player+10/+F",
+        "7B85",
+        "8321",
+        "33CD"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Set status element5,booking stat+7,added-time increment below5;unmanaged personal override forces e4 off.",
+      "visible_effect": "Yellow has no direct form write;future risk/control changes separately."
+    },
+    {
+      "address": "0791:7A43",
+      "fields": [
+        "7B86/7B87",
+        "country.squad",
+        "3216",
+        "0B77"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Require reds+injuries<3;unmanaged side additionally needs>11 available among20 squad words.",
+      "visible_effect": "Both card and injury attempts can be suppressed by context."
+    },
+    {
+      "address": "0791:7B24",
+      "fields": [
+        "player+10",
+        "7B86"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Set sent-off element6,clear booked element5,increment reds stat+8.",
+      "visible_effect": "Other status bits remain;red is distinct from a live pitch state."
+    },
+    {
+      "address": "0791:7B77",
+      "fields": [
+        "7A43",
+        "7CC5",
+        "9B07",
+        "2974",
+        "C48D/9B40"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "After cap allow:line/marker,red status,walkoff,time increment,own form-2 saved,opposite availableXI live+2,management/removal follow-up.",
+      "visible_effect": "Opponent selection uses opposite pitch side2974,not a possession-side boolean."
+    },
+    {
+      "address": "0791:7CC5",
+      "fields": [
+        "player+C",
+        "9B07",
+        "2BB1/2974"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Signed live form plusword delta clamped1..255;persist flag writes min32 of signed newbyte to9B07.",
+      "visible_effect": "Live and saved form differ;byte signedness matters outside normal range."
+    },
+    {
+      "address": "0791:7D56",
+      "fields": [
+        "player+E/+C",
+        "7B87",
+        "9B3A/9B40",
+        "C88D"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "If available/cap allow:line,energy0,walkoff,form-2 saved,time/stat;AI replacement or managed injury notice when allowed.",
+      "visible_effect": "Immediate injury uses energy0;duration/recovery belongs to later processing."
+    },
+    {
+      "address": "0791:7E60",
+      "fields": [
+        "8325",
+        "830B/C",
+        "9119(mode)",
+        "830A"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Stop activity,whistle,ten holder/challenger sprite/referee passes,then marker handling and830Aclear.",
+      "visible_effect": "Mode0 referee component consumes10 main draws;mode1 component does not."
+    },
+    {
+      "address": "0791:7EEF",
+      "fields": [
+        "261A",
+        "8437",
+        "player+10",
+        "2FFB",
+        "830B/C"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "First table byte:yellow/second-yellow red orconditional1in32 red attempt;second table byte1:injure lower hardness,tie victim.",
+      "visible_effect": "Cards and injuries can both be attempted;guards/callee effects determine completion."
+    },
+    {
+      "address": "0791:8206",
+      "fields": [
+        "830C/D",
+        "7B84",
+        "7EEF",
+        "2EB8",
+        "6ECF/6FB6"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Install offender selectors,own-strip/coin bail;else lines,whistle1,foul counter,cache penalty geometry,dispatch card/injury,then penalty/free kick.",
+      "visible_effect": "A foul predicate alone does not guarantee a recorded foul or penalty."
+    },
+    {
+      "address": "0791:82EB",
+      "fields": [
+        "830E/C/D/B",
+        "8317",
+        "7920",
+        "2FB1/6FB6"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Pending offside ->offender selector,whistle0,saved ball point,opposite same-relative holder,recompute nearest and free-kick route.",
+      "visible_effect": "Offside restarts do not call the card/injury dispatch on this path."
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "Foul admission, consequences and guards",
+    "Status, form and injury lifetimes",
+    "Animation, offside and random sources",
+    "Worked paths and limits"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "findings/F002-static-inventory.md": "70b622fb538b5e1823032dfd3eae0ff898f9e08677989b71bca4f863d2e472d1",
+    "notes/engine-study/T98/tables.py": "f5e0836d57f8816943f2b2648818cb3a6175060b834f827dff64f27d535215fb",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "runtime/original_match/port/discipline.py": "a8ee74a7336ebd3d8c85ee71cbb6a089fca45fc0c05ee3efec866d798649fdcd",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "runtime/original_match/port/motion.py": "4e7bab13c1e196464ecb41fd2ddb3a41878c217885c238fd2e80cd8329746eb2",
+    "runtime/original_match/port/rare.py": "588b6fc3430a0e674664d9bf8f165bdf31779f240ac783f0490e5f4c5be1d66e",
+    "runtime/original_match/port/restarts.py": "c378834575a59d89f31fea8f9ee5ffca7daaf98754a36e848164bb819ad87977",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_0791_13.asm": "e5d4454db0deeb4b617cb1ff626b8ca505bb1b61b970b4c8e5952385481a8025",
+    "static/goal-exe/code/seg_0791_14.asm": "032e2d6f22d6db5981e2a11f43298924a53e15d080e1d73d1fb375ddbe400abd",
+    "static/goal-exe/code/seg_0791_15.asm": "39083ebcc1fba0fc0c377bd9656189ceb0e0a328d0940583c774e910967e1abf",
+    "static/goal-exe/code/seg_1771_05.asm": "4a856a9af9dee3d93fe6e6275ead612d2d3ba4c81363389c68fa5424ca8483d9",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_07.c": "f8be0e2879e8a4bc18eb228dcca17ae91cf318c8b6f8b4b4ac94baa67ac2ad85",
+    "static/goal-exe/named/seg_0791_08.c": "130e91927a5bb2fed2adb998225fc88091816752051eee90ae004e30fcfecc96",
+    "static/goal-exe/named/seg_1771_03.c": "9c51e37d30f7d69e51b2d776c0b704d7f87852cd10d47fa4d679880d13f4d2f4"
+  },
+  "status": "proposed; source-derived explanation",
+  "supporting_artifacts": {},
+  "task": "T104b"
+}
