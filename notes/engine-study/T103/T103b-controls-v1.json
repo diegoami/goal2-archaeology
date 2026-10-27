@@ -1,0 +1,14 @@
+{
+  "controls": {
+    "missing-examples": "rejected",
+    "missing-prediction": "rejected",
+    "missing-routine": "rejected",
+    "missing-source": "rejected",
+    "shifted-source": "rejected"
+  },
+  "manifest_sha256": "611497d6396f8155d5db4c6b4f263827164976a1c64b5dad3ea8d88224b2a476",
+  "positive": "accepted",
+  "routines": 9,
+  "scope": "T103 contract coverage and source integrity; not semantic or behavioural proof.",
+  "task": "T103b"
+}
