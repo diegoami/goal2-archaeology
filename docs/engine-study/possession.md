@@ -5,7 +5,7 @@ holder acts now, where the ball is aimed, whether the launch miscues, and who re
 A single passing rating or a single “pass success” roll cannot describe that pipeline.
 
 This proposed source explanation covers sixteen routines in the
-[ledger](../../notes/engine-study/T102/T102a-v1.json). The
+[ledger](../../notes/engine-study/T102/T102a-v2.json). The
 [worked calculations](../../notes/engine-study/T102/receivers.py) use supplied branch inputs
 and draws; they execute no engine routine or complete fixture. Original named sources were
 read alongside instruction listings and the port. Existing F022/F026 observations retain
@@ -115,6 +115,8 @@ After launching, `384C` handles its self-dribble perturbation, projected endpoin
 travel-dependent flight flag and commentary branches. A self-dribble perturbation is
 conditional on longitudinal velocity and random-is-one(3), and can read dribbling skill 10.
 The final receiver/flight/commentary state can differ from the initially intended pass.
+The ordinary pass routine does not itself call the chase initializer; the alternate wrappers
+below do. The v2 ledger corrects that attribution in its preliminary v1 description.
 The [launch slice](../tasks/T102b.md) explains those velocities, timers and accuracy branches.
 
 `3B9E` is another wrapper: it selects a launch event from the passer's half, submits template

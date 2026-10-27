@@ -1,0 +1,534 @@
+{
+  "analysis_sha256": "c96916371d08e5b3fe40f7d5b4a028ee450290f97fdaf822e730447d16980b40",
+  "calculations": {
+    "controls": {
+      "always-replace": "rejected:winner9 instead of11 on two failed replacement coins",
+      "coin-for-first": "rejected:3 selection coins instead of2",
+      "first-fallback": "rejected:winner9 instead of11",
+      "inclusive-cross": "rejected:cross/1 table read instead of pass/2 at equality",
+      "inclusive-long-distance": "rejected:winner11 instead of10 at equality edge"
+    },
+    "cross_strict_edge": {
+      "at27": [
+        "pass",
+        2
+      ],
+      "at28": [
+        "cross",
+        1
+      ]
+    },
+    "cross_target_roles": [
+      2,
+      12
+    ],
+    "ds_sources": [
+      "static/goal-exe/data/ds_2581_01.hex",
+      "static/goal-exe/data/ds_2581_02.hex",
+      "static/goal-exe/data/ds_2581_03.hex",
+      "static/goal-exe/data/ds_2581_04.hex"
+    ],
+    "forward_pass_bounds_role13_role12": [
+      4,
+      3
+    ],
+    "holder_role3_push_off_on": [
+      "pass",
+      "dribble"
+    ],
+    "long_fallback": {
+      "coins": 0,
+      "fallback": true,
+      "final_cutoff": 27,
+      "selected": 11,
+      "trace": [
+        {
+          "accepted": false,
+          "distance": 4,
+          "reason": "distance",
+          "slot": 11
+        },
+        {
+          "accepted": false,
+          "distance": 3,
+          "reason": "distance",
+          "slot": 10
+        },
+        {
+          "accepted": false,
+          "distance": 2,
+          "reason": "distance",
+          "slot": 9
+        }
+      ]
+    },
+    "short_long_cutoff_bases": [
+      2,
+      24
+    ],
+    "short_selection": {
+      "coins": 2,
+      "fallback": false,
+      "final_cutoff": 2,
+      "selected": 9,
+      "trace": [
+        {
+          "accepted": true,
+          "distance": 4,
+          "reason": "eligible first or replacement coin",
+          "slot": 11
+        },
+        {
+          "accepted": false,
+          "distance": 3,
+          "reason": "eligible first or replacement coin",
+          "slot": 10
+        },
+        {
+          "accepted": true,
+          "distance": 2,
+          "reason": "eligible first or replacement coin",
+          "slot": 9
+        }
+      ]
+    }
+  },
+  "examples": [
+    {
+      "id": "selected-short-pass",
+      "inputs": {
+        "cutoff_table_byte": 3,
+        "effective_e1": 0,
+        "effective_e2": 1,
+        "effective_e3": 0,
+        "eligible_receivers_desc": [
+          [
+            11,
+            4
+          ],
+          [
+            10,
+            3
+          ],
+          [
+            9,
+            2
+          ]
+        ],
+        "holder_point": [
+          0,
+          0
+        ],
+        "holder_slot": 6,
+        "replacement_coins": [
+          0,
+          1
+        ],
+        "role": 7
+      },
+      "limits": "Partial source-conditioned sequence with supplied draws; no complete legal fixture, seeded run or exact velocity/state differential. Commentary can be deduplicated; flight/resolution are separate slices.",
+      "prediction": {
+        "receiver": 9,
+        "score_change_at_selection": 0,
+        "selection_main_coins": 2,
+        "selection_table_reads": 1
+      },
+      "steps": [
+        "Assume57AC holder branch and outside shot/clearance contexts; e2 coin admits4E28",
+        "4E28 advanced/deep/forced-pass checks fail; role7/e1off selects3323",
+        "3111 short cutoff5; first11 accepted, coin0 keeps11 over10, coin1 selects9",
+        "384C writes receiver state5,830C=9 and event6 through34C1 when80FA=0",
+        "Assume launch gate passes, travel<11, no offside; ground ordinary tail submits commentary template8"
+      ]
+    },
+    {
+      "id": "long-fallback",
+      "inputs": {
+        "distances_desc": [
+          [
+            11,
+            4
+          ],
+          [
+            10,
+            3
+          ],
+          [
+            9,
+            2
+          ]
+        ],
+        "long_mode": true,
+        "table_byte": 3
+      },
+      "limits": "Other candidates unavailable in this supplied list; fallback drops first-pass distance/state/ahead filters. Demonstrates no absolute long-distance guarantee.",
+      "prediction": {
+        "distance": 4,
+        "receiver": 11,
+        "selection_coins": 0
+      },
+      "steps": [
+        "cutoff27; no distance qualifies",
+        "ascending fallback retains last available nonholder"
+      ]
+    },
+    {
+      "id": "holder-cross-boundary",
+      "inputs": {
+        "directed_y": [
+          27,
+          28
+        ],
+        "effective_push": 0,
+        "first_table_byte": 3,
+        "role": 3,
+        "second_table_byte": 3,
+        "x": 4
+      },
+      "limits": "Only4E28 local branch; table reads are not fresh main-seed draws.",
+      "prediction": [
+        [
+          "pass",
+          2
+        ],
+        [
+          "cross",
+          1
+        ]
+      ],
+      "steps": [
+        "threshold27; equality failscross then passes throughrole selection",
+        "28>27 selects cross before second table read"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:261A",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "57ee7d992c2fccfb0b2ea69d72d3bfc14ec8f884ea65d85add23c5fc1f758559",
+      "line": 573
+    },
+    {
+      "address": "0791:2C54",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "b142ccf5ca88c2335b316502921e4e2fdb369fe1038c5b98f50214a92609ef9d",
+      "line": 45
+    },
+    {
+      "address": "0791:2EF0",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "a0c1632043a30ca96af6a51d19788e78a60270e19b3d0dc4a93ee055627ef1ef",
+      "line": 292
+    },
+    {
+      "address": "0791:2F28",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "81e2dd7d256c8a7011348add4523a433bf84eba5e57f5daf7c5ca253c917d9de",
+      "line": 311
+    },
+    {
+      "address": "0791:2FB1",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "3d7e05dab6f73a1a11dd959b6d15f649b1b2be745e62137d11e08adf537bbb3a",
+      "line": 348
+    },
+    {
+      "address": "0791:30EA",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "a3099ecac737e47f1e9203488f05a109d744b9223088fae4bd596c7f3b111751",
+      "line": 414
+    },
+    {
+      "address": "0791:3111",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "a44a966de1ab875aa05fd59f355dc155886d5587b057ac2998f2b8bc8cca047f",
+      "line": 427
+    },
+    {
+      "address": "0791:3323",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "c500e480fc9a0d41d303f3cba8e158bf13c966d5f3b65891314bc1a833dc1c28",
+      "line": 504
+    },
+    {
+      "address": "0791:333F",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "4f231402c3539454b88ac7db3c57f62fa66268e559b32103a27ce0678795fff5",
+      "line": 520
+    },
+    {
+      "address": "0791:384C",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "9f57cb1230940b4d7a4fe8e28a2363b2e3470873540d77658686cfa45cce9f10",
+      "line": 772
+    },
+    {
+      "address": "0791:3B9E",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "fb6e39b0745451dfa4f26fbd60225d0cb3a940bef0a2885a6bff497591df0af2",
+      "line": 948
+    },
+    {
+      "address": "0791:3BEE",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "78eafb4ff06b459349b97b81068e49ae278dc4898461d4e4cf3318e301cbd2e0",
+      "line": 974
+    },
+    {
+      "address": "0791:3D38",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "891e3d2b8878483a90f02acedd933ecde54926f3f29e3adc8480ae93b1ddcbe4",
+      "line": 1061
+    },
+    {
+      "address": "0791:3DF6",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "71be282c7e8778351970b3bdf9ff604d7cff8bc0d605a0e975bcb72f68956e96",
+      "line": 1117
+    },
+    {
+      "address": "0791:4E28",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "e7003821207a69380eaf19da1c4e5edb38e8ad9e351dd0c8ae94efda61db0684",
+      "line": 843
+    },
+    {
+      "address": "0791:500C",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "65a23db4ea273f8394eb37a8f5e744b799f91d1e0cc78b3b944c6e682d02bac6",
+      "line": 946
+    },
+    {
+      "address": "0791:5049",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "6d0e728141a3f946c482a96b01f70692c0ab77f00fa51df22cc035919d02858c",
+      "line": 4
+    },
+    {
+      "address": "0791:533B",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "f4d25bf1440139d2e4983e54a89ce2e043b6fc17e76d0f37ae82024c43ed7b6b",
+      "line": 151
+    },
+    {
+      "address": "0791:57AC",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "f0158cd006b27dc7bf493884903728430e47a07191386ba076f5cbc07a065f7c",
+      "line": 462
+    },
+    {
+      "address": "0791:58E1",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "056b45a337019f703a7c74b5a91ea97278282391669e5048ad68970bb69efb75",
+      "line": 513
+    }
+  ],
+  "method": "Source-derived receiver/holder decisions; no Match or original/port engine execution.",
+  "routines": [
+    {
+      "address": "0791:2FB1",
+      "fields": [
+        "DS:8311/830F",
+        "DS:82F6",
+        "pitch+0/+1/+6/+12"
+      ],
+      "limits": "Conditional source mechanism; no fresh original/port execution or natural frequency claim.",
+      "mechanism": "Strict nearest Manhattan scans over available nonholder/nonchasing outfielders, with separate goal-side nearest.",
+      "visible_effect": "Selects chase/reaction candidates; first equal-distance slot wins."
+    },
+    {
+      "address": "0791:30EA",
+      "fields": [
+        "DS:0668",
+        "pitch+6",
+        "2974"
+      ],
+      "limits": "Conditional source mechanism; no fresh original/port execution or natural frequency claim.",
+      "mechanism": "Map relative squad slot through the pitch record side base.",
+      "visible_effect": "Receiver loops visit the correct global pitch slots."
+    },
+    {
+      "address": "0791:3111",
+      "fields": [
+        "DS:0778",
+        "261A",
+        "player tactic",
+        "pitch coordinates/state"
+      ],
+      "limits": "Conditional source mechanism; no fresh original/port execution or natural frequency claim.",
+      "mechanism": "Long mode from effective e3 or own-half nonkeeper; descending distance-qualified scan with conditional replacement coins, then ascending fallback.",
+      "visible_effect": "Receiver preference, not guaranteed range or passing accuracy."
+    },
+    {
+      "address": "0791:3323",
+      "fields": [
+        "receiver slot argument",
+        "guest returnAX"
+      ],
+      "limits": "Conditional source mechanism; no fresh original/port execution or natural frequency claim.",
+      "mechanism": "Call3111 then forward its full returnedAX to384C.",
+      "visible_effect": "Select and launch toward receiver; preserve ABI beyond decompiled char type."
+    },
+    {
+      "address": "0791:333F",
+      "fields": [
+        "DS:8325/830E/830A/8317/8329",
+        "DS:82E3",
+        "pitch+10"
+      ],
+      "limits": "Conditional source mechanism; no fresh original/port execution or natural frequency claim.",
+      "mechanism": "If activity off enable it; otherwise mark first eligible teammate beyond opposite line with timer0, saving point and flag.",
+      "visible_effect": "Prepares delayed offside candidate rather than immediately awarding a foul."
+    },
+    {
+      "address": "0791:384C",
+      "fields": [
+        "DS:830E/830C/8303/80FA/8313",
+        "pitch+12",
+        "34C1"
+      ],
+      "limits": "Conditional source mechanism; no fresh original/port execution or natural frequency claim.",
+      "mechanism": "If no pending offside, prepare self/receiver target, receiver state5 and830C; launch6 or11, then flight/commentary tail. Chase initialisation belongs to other wrappers.",
+      "visible_effect": "Pass or self-directed dribble shares mechanics; attempted launch is not a goal."
+    },
+    {
+      "address": "0791:3B9E",
+      "fields": [
+        "DS:078C/830C/8303",
+        "target point"
+      ],
+      "limits": "Conditional source mechanism; no fresh original/port execution or natural frequency claim.",
+      "mechanism": "Target a slot, choose event by passer half, submit commentary3, coin flight flag and begin chase.",
+      "visible_effect": "Half-dependent launch wrapper with its own draw/state order."
+    },
+    {
+      "address": "0791:3BEE",
+      "fields": [
+        "DS:830E",
+        "main RNG"
+      ],
+      "limits": "Conditional source mechanism; no fresh original/port execution or natural frequency claim.",
+      "mechanism": "Pending offside routes to82EB; otherwise coin chooses selected pass or long ball.",
+      "visible_effect": "Offside short-circuits the pass/long coin."
+    },
+    {
+      "address": "0791:3D38",
+      "fields": [
+        "CS:3D18",
+        "player+6",
+        "2EF0",
+        "2996"
+      ],
+      "limits": "Conditional source mechanism; no fresh original/port execution or natural frequency claim.",
+      "mechanism": "First available nonself outfielder in role set{2,12} and opposing goal strip supplies cross point.",
+      "visible_effect": "Cross target depends on played role and geometry, not an explicit height term here."
+    },
+    {
+      "address": "0791:3DF6",
+      "fields": [
+        "DS:830C/8303",
+        "261A",
+        "34C1"
+      ],
+      "limits": "Conditional source mechanism; no fresh original/port execution or natural frequency claim.",
+      "mechanism": "Use selected cross point or random fallback, sentinel830C=FF, launch5, submit line, clear830C, choose flight flag and begin chase.",
+      "visible_effect": "Crossing branch has no persistent selected-receiver slot after its tail."
+    },
+    {
+      "address": "0791:4E28",
+      "fields": [
+        "player+6",
+        "261A",
+        "26D7(1)",
+        "DS:07E4"
+      ],
+      "limits": "Conditional source mechanism; no fresh original/port execution or natural frequency claim.",
+      "mechanism": "Strict advanced-wide cross, forced deep/table pass, then role/e1-specific pass or self-directed dribble.",
+      "visible_effect": "Action choice changes tactics-to-football effect and random consumption."
+    },
+    {
+      "address": "0791:500C",
+      "fields": [
+        "DS:0668",
+        "DS:830B",
+        "pitch+12"
+      ],
+      "limits": "Conditional source mechanism; no fresh original/port execution or natural frequency claim.",
+      "mechanism": "Read opposite side keeper state13.",
+      "visible_effect": "Keeper delay can alter holder shot choice."
+    },
+    {
+      "address": "0791:5049",
+      "fields": [
+        "2C29",
+        "player+E",
+        "26D7(2)",
+        "DS:07E5",
+        "DS:8303"
+      ],
+      "limits": "Conditional source mechanism; no fresh original/port execution or natural frequency claim.",
+      "mechanism": "Holder-at-feet branch updates depth/target; keeper throw area or outfield shot/clearance/pass/dribble gates.",
+      "visible_effect": "Energy controls an action opportunity bound, not movement distance."
+    },
+    {
+      "address": "0791:533B",
+      "fields": [
+        "DS:830C/8300/82F6/8313",
+        "pitch+7"
+      ],
+      "limits": "Conditional source mechanism; no fresh original/port execution or natural frequency claim.",
+      "mechanism": "For selected receiver, target current ball for keeper/timer<10, otherwise projected endpoint8313.",
+      "visible_effect": "Receiver can run to projected arrival rather than chase current ball."
+    },
+    {
+      "address": "0791:57AC",
+      "fields": [
+        "pitch+12",
+        "DS:830B/830C/830D/8327",
+        "474D"
+      ],
+      "limits": "Conditional source mechanism; no fresh original/port execution or natural frequency claim.",
+      "mechanism": "State5 priority: offside, holder opportunity, receive target, challenge, then ball/marking target and depth; special keeper-holder branch.",
+      "visible_effect": "First accepting branch changes which later decisions and draws run."
+    },
+    {
+      "address": "0791:58E1",
+      "fields": [
+        "pitch+7/+10/+12",
+        "DS:8302/8300"
+      ],
+      "limits": "Conditional source mechanism; no fresh original/port execution or natural frequency claim.",
+      "mechanism": "Keep target at own point, decrement positive timer, switch state at zero entry or keeper special case.",
+      "visible_effect": "Chase delay affects future eligibility; detailed countdown is inT101."
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "Who is considered",
+    "Holder choices and two random sources",
+    "From selection to a pass",
+    "Worked decisions and rewrite boundaries"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "runtime/original_match/port/ball.py": "6b5f17ee9af3bf7dbb2bae4bd5ae00e1a012f6d6cf6e6e3c2cdd8464a7e2c72a",
+    "runtime/original_match/port/contests.py": "b4db099959a09a1dcb78f031e9a44dc64624a5ffd8ea7b0be3441298bb0ec40e",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "static/goal-exe/code/seg_0791_05.asm": "0635bc395cd69ffe2c77ead9aaaf786f36eedeee5496daae8f43127ce4aed474",
+    "static/goal-exe/code/seg_0791_06.asm": "b7debdb96455259d2dca1e10096d42fb6ae843b79105eda4c5e7b7cf7b34ceb6",
+    "static/goal-exe/code/seg_0791_07.asm": "1cee0aa8db2d9e0be1e885f1f535eca11f450cbee9421366182528e540d94804",
+    "static/goal-exe/code/seg_0791_09.asm": "1236aa3fcb2d30080e22d9a4bee4398c52d09fc3010e133bc124e318f7e89ac0",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_03.c": "c49d73137a03e70e2f02b8b54dfe04d8805239f55fc80a99d23a6943354e5800",
+    "static/goal-exe/named/seg_0791_04.c": "0118b26c212562f1eaecefe22850166c2e2b7755952a09abad00a5b42fbf8325",
+    "static/goal-exe/named/seg_0791_05.c": "b0871f197621d5abfd3b4db00ec3eca42c9eea6cb45626651842147b4d8ce228"
+  },
+  "status": "proposed; source-derived explanation",
+  "task": "T102a"
+}

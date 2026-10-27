@@ -96,7 +96,7 @@ def build():
          ['receiver slot argument','guest returnAX'],'Select and launch toward receiver; preserve ABI beyond decompiled char type.'),
         ('333F','If activity off enable it; otherwise mark first eligible teammate beyond opposite line with timer0, saving point and flag.',
          ['DS:8325/830E/830A/8317/8329','DS:82E3','pitch+10'],'Prepares delayed offside candidate rather than immediately awarding a foul.'),
-        ('384C','If no pending offside, prepare self/receiver target, receiver state5 and830C; launch6 or11, then flight/commentary/chase tail.',
+        ('384C','If no pending offside, prepare self/receiver target, receiver state5 and830C; launch6 or11, then flight/commentary tail. Chase initialisation belongs to other wrappers.',
          ['DS:830E/830C/8303/80FA/8313','pitch+12','34C1'],'Pass or self-directed dribble shares mechanics; attempted launch is not a goal.'),
         ('3B9E','Target a slot, choose event by passer half, submit commentary3, coin flight flag and begin chase.',
          ['DS:078C/830C/8303','target point'],'Half-dependent launch wrapper with its own draw/state order.'),
@@ -150,7 +150,7 @@ def build():
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--check',action='store_true')
-    args=ap.parse_args();data=build();path=ROOT/'notes/engine-study/T102/T102a-v1.json'
+    args=ap.parse_args();data=build();path=ROOT/'notes/engine-study/T102/T102a-v2.json'
     if args.check:
         assert json.loads(path.read_text())==data
         print('PASS: receiver scan/fallback/coin order,role and cross thresholds,CS cross roles,5 altered-rule controls')

@@ -1,0 +1,63 @@
+{
+  "baseline": "ff1dd57714f20e44f4c419b82caca5e6f71a5ce8",
+  "preliminary_source_commit": "039bb7d18908df998935b4b905e0a4c17efa11c4",
+  "prior_outputs_unchanged": [
+    "notes/engine-study/T102/T102a-v1.json",
+    "notes/engine-study/T102/T102a-controls-v1.json"
+  ],
+  "method": "source-derived decisions; no engine execution",
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T102/receivers.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: receiver scan/fallback/coin order,role and cross thresholds,CS cross roles,5 altered-rule controls\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "T102a-v2-final",
+        "--",
+        "python3",
+        "-B",
+        "notes/engine-study/T102/check.py",
+        "--task",
+        "T102a",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T102a\",\n  \"scope\": \"T102 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 16,\n  \"manifest_sha256\": \"fff3cfc5699bcbf2e8dfaa52bcb077ce8f579eed6b5c76b8bf7acff9969ee1b4\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/check_links.py"
+      ],
+      "exit": 0,
+      "stdout": "links and JSON ok (9850 files)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "sha256": {
+    "notes/engine-study/T102/receivers.py": "c96916371d08e5b3fe40f7d5b4a028ee450290f97fdaf822e730447d16980b40",
+    "notes/engine-study/T102/check.py": "7a36167f730e42083977f2d1d6956c68d4acd648cc23befc005546b8dbfb679f",
+    "notes/engine-study/T102/T102a-v2.json": "fff3cfc5699bcbf2e8dfaa52bcb077ce8f579eed6b5c76b8bf7acff9969ee1b4",
+    "docs/engine-study/possession.md": "58729aa85bc89d22d0e9f0449819c55e1e69b202c7d55dff808c6027968cfafe"
+  }
+}
