@@ -1,0 +1,111 @@
+test_deferred_site_event_resumes_the_parent_without_replaying_site (tests.test_port_machine.PortableMachine.test_deferred_site_event_resumes_the_parent_without_replaying_site) ... ERROR
+test_entry_decision_resumes_before_running_the_callee_once (tests.test_port_machine.PortableMachine.test_entry_decision_resumes_before_running_the_callee_once) ... ERROR
+test_hooks_writer_identity_and_prewrite_order_are_preserved (tests.test_port_machine.PortableMachine.test_hooks_writer_identity_and_prewrite_order_are_preserved) ... ERROR
+test_nested_near_and_far_returns_use_existing_port_frames (tests.test_port_machine.PortableMachine.test_nested_near_and_far_returns_use_existing_port_frames) ... ERROR
+test_partial_registers_memory_bounds_and_snapshots (tests.test_port_machine.PortableMachine.test_partial_registers_memory_bounds_and_snapshots) ... ERROR
+test_positive_import_denial_control_and_plain_execution (tests.test_port_machine.PortableMachine.test_positive_import_denial_control_and_plain_execution) ... FAIL
+test_unregistered_addresses_never_execute_poison_instruction_bytes (tests.test_port_machine.PortableMachine.test_unregistered_addresses_never_execute_poison_instruction_bytes) ... ERROR
+test_write_listener_failure_does_not_land_the_refused_write (tests.test_port_machine.PortableMachine.test_write_listener_failure_does_not_land_the_refused_write) ... ERROR
+
+======================================================================
+ERROR: test_deferred_site_event_resumes_the_parent_without_replaying_site (tests.test_port_machine.PortableMachine.test_deferred_site_event_resumes_the_parent_without_replaying_site)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 89, in test_deferred_site_event_resumes_the_parent_without_replaying_site
+    m,end,ports=nested(('0791:0205',callback))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 21, in nested
+    m=machine();r=Registry('synthetic','Synthetic argument/return controls')
+      ^^^^^^^^^
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 15, in machine
+    from original_match.port.engine import PortMachine
+ModuleNotFoundError: No module named 'original_match.port.engine'
+
+======================================================================
+ERROR: test_entry_decision_resumes_before_running_the_callee_once (tests.test_port_machine.PortableMachine.test_entry_decision_resumes_before_running_the_callee_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 78, in test_entry_decision_resumes_before_running_the_callee_once
+    m,end,ports=nested(('0791:0200',callback))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 21, in nested
+    m=machine();r=Registry('synthetic','Synthetic argument/return controls')
+      ^^^^^^^^^
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 15, in machine
+    from original_match.port.engine import PortMachine
+ModuleNotFoundError: No module named 'original_match.port.engine'
+
+======================================================================
+ERROR: test_hooks_writer_identity_and_prewrite_order_are_preserved (tests.test_port_machine.PortableMachine.test_hooks_writer_identity_and_prewrite_order_are_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 58, in test_hooks_writer_identity_and_prewrite_order_are_preserved
+    m=machine();r=Registry('synthetic','Writer controls');seen=[]
+      ^^^^^^^^^
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 15, in machine
+    from original_match.port.engine import PortMachine
+ModuleNotFoundError: No module named 'original_match.port.engine'
+
+======================================================================
+ERROR: test_nested_near_and_far_returns_use_existing_port_frames (tests.test_port_machine.PortableMachine.test_nested_near_and_far_returns_use_existing_port_frames)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 52, in test_nested_near_and_far_returns_use_existing_port_frames
+    m,end,ports=nested();self.assertIsNone(m.run(end,fresh=True))
+                ^^^^^^^^
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 21, in nested
+    m=machine();r=Registry('synthetic','Synthetic argument/return controls')
+      ^^^^^^^^^
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 15, in machine
+    from original_match.port.engine import PortMachine
+ModuleNotFoundError: No module named 'original_match.port.engine'
+
+======================================================================
+ERROR: test_partial_registers_memory_bounds_and_snapshots (tests.test_port_machine.PortableMachine.test_partial_registers_memory_bounds_and_snapshots)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 38, in test_partial_registers_memory_bounds_and_snapshots
+    m=machine();m.set_reg('eax',0x12345678)
+      ^^^^^^^^^
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 15, in machine
+    from original_match.port.engine import PortMachine
+ModuleNotFoundError: No module named 'original_match.port.engine'
+
+======================================================================
+ERROR: test_unregistered_addresses_never_execute_poison_instruction_bytes (tests.test_port_machine.PortableMachine.test_unregistered_addresses_never_execute_poison_instruction_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 96, in test_unregistered_addresses_never_execute_poison_instruction_bytes
+    m=machine();m.write(m.lin('0791:0400'),b'\xcd\x20\xcc')
+      ^^^^^^^^^
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 15, in machine
+    from original_match.port.engine import PortMachine
+ModuleNotFoundError: No module named 'original_match.port.engine'
+
+======================================================================
+ERROR: test_write_listener_failure_does_not_land_the_refused_write (tests.test_port_machine.PortableMachine.test_write_listener_failure_does_not_land_the_refused_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 102, in test_write_listener_failure_does_not_land_the_refused_write
+    m=machine();r=Registry('synthetic','Failure control')
+      ^^^^^^^^^
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 15, in machine
+    from original_match.port.engine import PortMachine
+ModuleNotFoundError: No module named 'original_match.port.engine'
+
+======================================================================
+FAIL: test_positive_import_denial_control_and_plain_execution (tests.test_port_machine.PortableMachine.test_positive_import_denial_control_and_plain_execution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-archaeology-engine-20261027/tests/test_port_machine.py", line 139, in test_positive_import_denial_control_and_plain_execution
+    self.assertEqual(run.returncode,0,run.stdout+run.stderr)
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "<string>", line 10, in <module>
+  File "<string>", line 5, in no_unicorn
+ModuleNotFoundError: No module named 'original_match.port.engine'
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.044s
+
+FAILED (failures=1, errors=7)

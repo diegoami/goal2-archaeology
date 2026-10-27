@@ -1,0 +1,103 @@
+test_deferred_site_event_resumes_the_parent_without_replaying_site (tests.test_port_machine.PortableMachine.test_deferred_site_event_resumes_the_parent_without_replaying_site) ... ERROR
+test_entry_decision_resumes_before_running_the_callee_once (tests.test_port_machine.PortableMachine.test_entry_decision_resumes_before_running_the_callee_once) ... ERROR
+test_hooks_writer_identity_and_prewrite_order_are_preserved (tests.test_port_machine.PortableMachine.test_hooks_writer_identity_and_prewrite_order_are_preserved) ... ok
+test_nested_near_and_far_returns_use_existing_port_frames (tests.test_port_machine.PortableMachine.test_nested_near_and_far_returns_use_existing_port_frames) ... ERROR
+test_partial_registers_memory_bounds_and_snapshots (tests.test_port_machine.PortableMachine.test_partial_registers_memory_bounds_and_snapshots) ... ok
+test_positive_import_denial_control_and_plain_execution (tests.test_port_machine.PortableMachine.test_positive_import_denial_control_and_plain_execution) ... ok
+test_unregistered_addresses_never_execute_poison_instruction_bytes (tests.test_port_machine.PortableMachine.test_unregistered_addresses_never_execute_poison_instruction_bytes) ... ok
+test_write_listener_failure_does_not_land_the_refused_write (tests.test_port_machine.PortableMachine.test_write_listener_failure_does_not_land_the_refused_write) ... ok
+
+======================================================================
+ERROR: test_deferred_site_event_resumes_the_parent_without_replaying_site (tests.test_port_machine.PortableMachine.test_deferred_site_event_resumes_the_parent_without_replaying_site)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_machine.py", line 90, in test_deferred_site_event_resumes_the_parent_without_replaying_site
+    self.assertEqual(m.run(end,fresh=True),'events')
+                     ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/engine.py", line 160, in run
+    self._dispatch(self.pc())
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/engine.py", line 140, in _dispatch
+    if runner is not None:runner(self)
+                          ^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/__init__.py", line 139, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/guest.py", line 71, in start
+    self._step(None)
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/guest.py", line 77, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/guest.py", line 63, in _in_frame
+    return fn()
+           ^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/guest.py", line 77, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_machine.py", line 24, in parent
+    result=yield mem.call('0791:0200',mem.arg(0)+1,ret_to='0791:0110',far=False)
+                 ^^^^^^^^
+AttributeError: '_PortMemory' object has no attribute 'call'
+
+======================================================================
+ERROR: test_entry_decision_resumes_before_running_the_callee_once (tests.test_port_machine.PortableMachine.test_entry_decision_resumes_before_running_the_callee_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_machine.py", line 79, in test_entry_decision_resumes_before_running_the_callee_once
+    self.assertEqual(m.run(end,fresh=True),'decision')
+                     ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/engine.py", line 160, in run
+    self._dispatch(self.pc())
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/engine.py", line 140, in _dispatch
+    if runner is not None:runner(self)
+                          ^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/__init__.py", line 139, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/guest.py", line 71, in start
+    self._step(None)
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/guest.py", line 77, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/guest.py", line 63, in _in_frame
+    return fn()
+           ^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/guest.py", line 77, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_machine.py", line 24, in parent
+    result=yield mem.call('0791:0200',mem.arg(0)+1,ret_to='0791:0110',far=False)
+                 ^^^^^^^^
+AttributeError: '_PortMemory' object has no attribute 'call'
+
+======================================================================
+ERROR: test_nested_near_and_far_returns_use_existing_port_frames (tests.test_port_machine.PortableMachine.test_nested_near_and_far_returns_use_existing_port_frames)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_machine.py", line 52, in test_nested_near_and_far_returns_use_existing_port_frames
+    m,end,ports=nested();self.assertIsNone(m.run(end,fresh=True))
+                                           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/engine.py", line 160, in run
+    self._dispatch(self.pc())
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/engine.py", line 140, in _dispatch
+    if runner is not None:runner(self)
+                          ^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/__init__.py", line 139, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/guest.py", line 71, in start
+    self._step(None)
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/guest.py", line 77, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/guest.py", line 63, in _in_frame
+    return fn()
+           ^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/guest.py", line 77, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_machine.py", line 24, in parent
+    result=yield mem.call('0791:0200',mem.arg(0)+1,ret_to='0791:0110',far=False)
+                 ^^^^^^^^
+AttributeError: '_PortMemory' object has no attribute 'call'
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.055s
+
+FAILED (errors=3)
