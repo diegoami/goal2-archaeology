@@ -246,7 +246,7 @@ def parser():
     ap.add_argument("--cache", default=".cache")
     ap.add_argument("--family", action="store_true")
     ap.add_argument("--engine", choices=("original", "port"), default="original")
-    ap.add_argument("--no-unicorn", action="store_true", help="run in a fresh child with Unicorn imports positively denied; requires --engine port")
+    ap.add_argument("--no-unicorn", action="store_true", help="run in a fresh interpreter with Unicorn imports positively denied; requires --engine port")
     ap.add_argument("--json")
     ap.add_argument("--ports", help="the port mode: port modules (port/) to run in place of the original's routines, "
                                     "comma-separated, or all")
@@ -323,9 +323,9 @@ def main(argv=None):
     except Refused as e:
         ap.error(str(e))
     if a.no_unicorn and not getattr(sys, '_goal2_unicorn_denied', False):
-        import subprocess
+        import os
         bootstrap = "import builtins,sys,runpy\noriginal_import=builtins.__import__\ndef guarded(name,*a,**kw):\n if name=='unicorn' or name.startswith('unicorn.'):raise ImportError('positive Unicorn denial')\n return original_import(name,*a,**kw)\nbuiltins.__import__=guarded\nsys._goal2_unicorn_denied=True\ntry:__import__('unicorn')\nexcept ImportError:pass\nelse:raise AssertionError('denial did not take effect')\nsys.argv=['original_match.check']+sys.argv[1:]\nrunpy.run_module('original_match.check',run_name='__main__')\n"
-        sys.exit(subprocess.call([sys.executable, '-B', '-c', bootstrap, *(argv if argv is not None else sys.argv[1:])]))
+        os.execv(sys.executable, [sys.executable, '-B', '-c', bootstrap, *(argv if argv is not None else sys.argv[1:])])
     MATCH = example.Match = ported(specs, a.engine)
     if specs:
         print(f"ports: {', '.join(specs)}", flush=True)

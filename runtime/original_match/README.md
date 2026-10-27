@@ -17,7 +17,7 @@ denial before kit loading, including pool workers. Optional record `engine`
 metadata identifies the backend without changing evidence fields; an existing
 output from another backend is refused. Port raw `--count`, `--find-ranges` and
 `--checkpoint` are refused explicitly. The runtime checker also accepts engine
-selection/import denial; its checkpoint-dependent steps remain unsupported until
+selection/import denial via same-process interpreter replacement; its checkpoint-dependent steps remain unsupported until
 T78c, so a partial assembly is never reported as a complete passing checker.
 
 ## Get it (once)

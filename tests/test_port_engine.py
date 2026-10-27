@@ -160,6 +160,23 @@ class CLI(unittest.TestCase):
                     self.assertEqual(rows[0]['engine'],'port')
                     self.assertIsNone(rows[0]['error'])
 
+    @unittest.skipUnless(os.name=='posix','POSIX process replacement retains its PID')
+    def test_checker_import_guard_replaces_the_process_without_a_child(self):
+        with tempfile.TemporaryDirectory() as directory:
+            folder=Path(directory);trace=folder/'pids';bad=folder/'authored-invalid-image'
+            bad.write_bytes(b'authored invalid image control')
+            (folder/'sitecustomize.py').write_text(
+                "import os\n"
+                "with open(os.environ['GOAL2_TEST_PID_TRACE'],'a') as output: output.write(str(os.getpid())+'\\n')\n")
+            command=[sys.executable,'-B','-m','original_match.check','--engine','port','--no-unicorn','--image',str(bad)]
+            env=dict(os.environ,PYTHONPATH=os.pathsep.join((str(folder),str(ROOT/'runtime'))),GOAL2_TEST_PID_TRACE=str(trace))
+            run=subprocess.run(command,cwd=ROOT,env=env,capture_output=True,text=True,timeout=30)
+            # The authored image is refused after guard startup; identity across that startup is the control.
+            self.assertNotEqual(run.returncode,0)
+            pids=trace.read_text().splitlines()
+            self.assertEqual(len(pids),2,run.stdout+run.stderr)
+            self.assertEqual(pids[0],pids[1],'checker guard created a child instead of replacing its process')
+
     def test_family_cli_guarded_quick_result_records_backend_identity(self):
         for workers in (1,2):
             with tempfile.TemporaryDirectory() as directory:
