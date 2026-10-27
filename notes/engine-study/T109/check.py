@@ -83,7 +83,8 @@ def controls(task,data,text,*,allow_mock=False):
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--task',choices=CANDIDATES,required=True);ap.add_argument('--controls',action='store_true');ap.add_argument('--ledger',type=Path);ap.add_argument('--receipt',type=Path);a=ap.parse_args()
-    path=a.ledger or ROOT/f'notes/engine-study/T109/{a.task}-v1.json';data=json.loads(path.read_text())
+    version=2 if a.task=='T109b' else 1
+    path=a.ledger or ROOT/f'notes/engine-study/T109/{a.task}-v{version}.json';data=json.loads(path.read_text())
     assert not data.get('mock'),'structural mock is not research evidence'
     text=(ROOT/f'docs/engine-study/{CHAPTERS[a.task]}.md').read_text();validate(a.task,data,text)
     result=dict(task=a.task,candidates=len(data['candidates']),ledger_sha256=sha(path.read_bytes()),scope=__doc__)

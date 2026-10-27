@@ -3,7 +3,7 @@
 The integration audit establishes no new production gameplay defect. It identifies one
 concrete guide contradiction, preserves several original quirks and path differences, and
 keeps continuation/coverage questions open. Source-based conclusions remain proposed until
-ES-R3 review. The [nine-group register](../../notes/engine-study/T109/T109b-v1.json),
+ES-R3 review. The [nine-group register](../../notes/engine-study/T109/T109b-v2.json),
 [reproducer](../../notes/engine-study/T109/integration.py) and
 [boundary audit](audit-boundaries.md) state exact evidence and limits.
 

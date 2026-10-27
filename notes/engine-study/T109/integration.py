@@ -120,14 +120,14 @@ def build(producer_commit=None):
     path=str(Path(__file__).resolve().relative_to(ROOT));commit=producer_commit or subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     return pin(dict(task='T109b',method=__doc__,sections=['Candidate register','Source contradictions and bounded examples','Remaining gaps and review scope'],limits=['Nine source/evidence groups;no fresh engine call or exhaustive fidelity claim.','T107owner-deferred;no match-effect estimate,null-result claim or new spending.'],candidates=rows,
                     summary=dict(groups=len(rows),dispositions=dict(Counter(r['disposition'] for r in rows)),new_reproduced_production_defects=0),
-                    prompt_titles=titles(memory),title_negative_controls=title_negatives,
+                    prompt_titles={str(k):v for k,v in titles(memory).items()},title_negative_controls=title_negatives,
                     correction=dict(issue=599,path=restart_path,historical_commit=BASE,historical_sha256=sha(old.encode()),current_sha256=sha(new.encode()),meaning='Role4isfree-kick-selected,notpenalties-selected;role5isgoal-kick-selected.'),
                     issue_snapshot=dict(path='notes/engine-study/T109/issues-v1.json',captured_utc=issues['captured_utc'],note='Historical snapshot;live labels remain authoritative.'),
                     producer=dict(commit=commit,path=path,sha256=sha(Path(__file__).read_bytes()))),source_paths,guards,support)
 
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--check',action='store_true');a=ap.parse_args();path=Path(__file__).with_name('T109b-v1.json')
+    ap=argparse.ArgumentParser();ap.add_argument('--check',action='store_true');a=ap.parse_args();path=Path(__file__).with_name('T109b-v2.json')
     old=json.loads(path.read_text()) if a.check else None;data=build(old['producer']['commit'] if old else None)
     if a.check:
         assert old==data;validate('T109b',data,(ROOT/'docs/engine-study/audit-integration.md').read_text());print('PASS:9integration groups;21literal guards;5prompt titles/3altered-title negatives;explicit gaps;no engine calls')
