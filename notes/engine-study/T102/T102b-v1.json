@@ -1,0 +1,713 @@
+{
+  "analysis_sha256": "f87c5a4b98184a9661306cb26417e7811b161e171c8e5a5fd7349c4b29849e67",
+  "assistance": {
+    "agent": "/root/launch_arithmetic",
+    "effective_settings": "not exposed",
+    "requested_effort": "xhigh",
+    "requested_model": "gpt-6.1-sol",
+    "role": "bounded read-only implementation assistance, not independent review"
+  },
+  "calculations": {
+    "air_threshold_step": {
+      "air": false,
+      "candidate": [
+        0,
+        1
+      ],
+      "outside_play": false,
+      "point": [
+        0,
+        1
+      ],
+      "timer": 2,
+      "travel": 2,
+      "wide_accepted": true
+    },
+    "boundary_step": {
+      "air": false,
+      "candidate": [
+        0,
+        38
+      ],
+      "outside_play": true,
+      "point": [
+        0,
+        38
+      ],
+      "timer": 0,
+      "travel": 0,
+      "wide_accepted": true
+    },
+    "controls": {
+      "air-test-before-countdown": "rejected:remaining travel2 must clear air",
+      "extra-on-penalty-event3": "rejected:timer11 instead of10",
+      "remove-unused-shot-coin": "rejected:next rand10024 instead of97",
+      "universal-halving": "rejected:projection[10,20] instead of[7,14]",
+      "zero-vector-idle": "rejected:original velocity[0,-1]"
+    },
+    "ds_sources": [
+      "static/goal-exe/data/ds_2581_01.hex",
+      "static/goal-exe/data/ds_2581_02.hex",
+      "static/goal-exe/data/ds_2581_03.hex",
+      "static/goal-exe/data/ds_2581_04.hex"
+    ],
+    "event_elements": {
+      "1": 11,
+      "10": 2,
+      "11": 4,
+      "2": 4,
+      "3": 12,
+      "4": 12,
+      "5": 7,
+      "6": 6,
+      "7": 6,
+      "8": 1,
+      "9": 2
+    },
+    "first_shot_step": {
+      "air": false,
+      "candidate": [
+        0,
+        21
+      ],
+      "outside_play": false,
+      "point": [
+        0,
+        21
+      ],
+      "timer": 50,
+      "travel": 50,
+      "wide_accepted": true
+    },
+    "launch_examples": [
+      {
+        "adjusted_timer": 34,
+        "base_timer": 8,
+        "delta": [
+          8,
+          3
+        ],
+        "divisor": 1,
+        "event": 1,
+        "projected": [
+          34,
+          0
+        ],
+        "timer": 34,
+        "velocity": [
+          1,
+          0
+        ],
+        "velocity_words": [
+          1,
+          0
+        ]
+      },
+      {
+        "adjusted_timer": 30,
+        "base_timer": 12,
+        "delta": [
+          4,
+          8
+        ],
+        "divisor": 3,
+        "event": 3,
+        "projected": [
+          10,
+          20
+        ],
+        "timer": 10,
+        "velocity": [
+          1,
+          2
+        ],
+        "velocity_words": [
+          1,
+          2
+        ]
+      },
+      {
+        "adjusted_timer": 21,
+        "base_timer": 21,
+        "delta": [
+          7,
+          14
+        ],
+        "divisor": 3,
+        "event": 7,
+        "projected": [
+          7,
+          14
+        ],
+        "timer": 7,
+        "velocity": [
+          1,
+          2
+        ],
+        "velocity_words": [
+          1,
+          2
+        ]
+      },
+      {
+        "adjusted_timer": 1,
+        "base_timer": 1,
+        "delta": [
+          1,
+          0
+        ],
+        "divisor": 2,
+        "event": 6,
+        "projected": [
+          2,
+          -2
+        ],
+        "timer": 2,
+        "velocity": [
+          1,
+          -1
+        ],
+        "velocity_words": [
+          1,
+          65535
+        ]
+      },
+      {
+        "adjusted_timer": 0,
+        "base_timer": 0,
+        "delta": [
+          0,
+          0
+        ],
+        "divisor": 1,
+        "event": 6,
+        "projected": [
+          0,
+          -2
+        ],
+        "timer": 2,
+        "velocity": [
+          0,
+          -1
+        ],
+        "velocity_words": [
+          0,
+          65535
+        ]
+      },
+      {
+        "adjusted_timer": 51,
+        "base_timer": 18,
+        "delta": [
+          0,
+          18
+        ],
+        "divisor": 1,
+        "event": 1,
+        "projected": [
+          0,
+          71
+        ],
+        "timer": 51,
+        "velocity": [
+          0,
+          1
+        ],
+        "velocity_words": [
+          0,
+          1
+        ]
+      }
+    ],
+    "mode_not9_and_mode9": [
+      [
+        4,
+        6,
+        11,
+        20
+      ],
+      [
+        2,
+        4,
+        10,
+        30
+      ]
+    ],
+    "next_common_rand100": [
+      97,
+      24
+    ],
+    "ordinary_shot_tail": {
+      "air": true,
+      "draws": 2,
+      "seed": 15138
+    },
+    "skip_unused_coin_control": {
+      "air": true,
+      "draws": 1,
+      "seed": 6927
+    }
+  },
+  "examples": [
+    {
+      "id": "launch-divisor",
+      "inputs": {
+        "ball": [
+          0,
+          0
+        ],
+        "event": 6,
+        "same_receiver": true,
+        "target": [
+          7,
+          14
+        ]
+      },
+      "limits": "Miscue bypassed by equal slot selectors; supplied arithmetic state, not a natural observed fixture.",
+      "prediction": {
+        "event": 7,
+        "projected": [
+          7,
+          14
+        ],
+        "timer": 7
+      },
+      "steps": [
+        "byte deltas7,14 -> vector(1,2),base timer21",
+        "event6 ->7",
+        "divide21 by3;minimum2"
+      ]
+    },
+    {
+      "id": "shot-range-and-step",
+      "inputs": {
+        "ball": [
+          0,
+          20
+        ],
+        "cached_extra": 56,
+        "effective_shooting": 98,
+        "event": 1,
+        "target": [
+          0,
+          38
+        ]
+      },
+      "limits": "Supplied effective value/cache, jitter netzero and no intervening boundary/contest; projected endpoint is not actual final location or a goal guarantee.",
+      "prediction": {
+        "air": false,
+        "candidate": [
+          0,
+          21
+        ],
+        "outside_play": false,
+        "point": [
+          0,
+          21
+        ],
+        "timer": 50,
+        "travel": 50,
+        "wide_accepted": true
+      },
+      "steps": [
+        "vector(0,1),base18",
+        "max(18+5,(98+56)//3)=51",
+        "divisor1 ->timer51,projected(0,71)",
+        "one supplied step ->(0,21),timer50,travel50"
+      ]
+    },
+    {
+      "id": "unused-shot-coin",
+      "inputs": {
+        "event": 1,
+        "tail_entry_seed": 0
+      },
+      "limits": "Tail-only arithmetic start, not the full shot entry seed or an observed seeded match.",
+      "prediction": {
+        "next_rand100": [
+          97,
+          24
+        ],
+        "normal_draws": 2,
+        "optimised_draws": 1
+      },
+      "steps": [
+        "source consumes coin even though event1 discards its result",
+        "rand3 follows;both original andskip-coin control setair",
+        "next commonrand100 differs"
+      ]
+    },
+    {
+      "id": "boundary",
+      "inputs": {
+        "air": true,
+        "pending_offside": false,
+        "point": [
+          0,
+          37
+        ],
+        "timer": 1,
+        "velocity": [
+          0,
+          1
+        ]
+      },
+      "limits": "690C finish/restart outcome is not simulated here; no automatic goal or penalty-award inference.",
+      "prediction": {
+        "air": false,
+        "candidate": [
+          0,
+          38
+        ],
+        "outside_play": true,
+        "point": [
+          0,
+          38
+        ],
+        "timer": 0,
+        "travel": 0,
+        "wide_accepted": true
+      },
+      "steps": [
+        "timer0 thenair clears",
+        "wide bounds accept(0,38)",
+        "strict bounds reject;centre/forward side dispatches690C"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:278A",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "53ab03c3ffdb1889db40be192b3cb0a701e875093f3d860b9bf19332f68c5a2d",
+      "line": 671
+    },
+    {
+      "address": "0791:287C",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "8438c5b68e91adb37534a752e83aa84dd526ef9c739a72a03b109d5f9b7686f3",
+      "line": 723
+    },
+    {
+      "address": "0791:29B3",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "8ed7d378aa1f8e17fcfa6d0bb1d3d263e6d5d87b6f59c999c5d1d41eb2682a14",
+      "line": 812
+    },
+    {
+      "address": "0791:2DCA",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "6c2a4c17db582d9efe242ce935f0bb3214cee22c1212f18ef3f8baf74feacf1f",
+      "line": 166
+    },
+    {
+      "address": "0791:2E00",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "8b780ca1fb940853bf686c27469da7cf98b03dd532d9169b328191a1ce178150",
+      "line": 190
+    },
+    {
+      "address": "0791:34C1",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "3052249b4ee925eb9e6e9566db23469245aadb67ba1d0545532812ac1f63e730",
+      "line": 577
+    },
+    {
+      "address": "0791:3B15",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "9b5415c4e4ab2864403e92af7f7222973144894174adb3362d75142a3ebe133a",
+      "line": 911
+    },
+    {
+      "address": "0791:3C20",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "d8d3ae8ff75c70b79ff1909ff25879c1ef6bb9d328dfbdfcc984922c6e8dc78e",
+      "line": 1000
+    },
+    {
+      "address": "0791:3C3F",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "d5c151622827c9851dd329c5541235f30f5c2d4bcb903e774d2da5424034d70b",
+      "line": 1013
+    },
+    {
+      "address": "0791:3EC5",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "7167855b735a7ac7cde6b8c55593ae688368e0b69f2f9260c71d008548136eb1",
+      "line": 1153
+    },
+    {
+      "address": "0791:3EDF",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "63acd62fc7d4fc3d6f29a2035e879515fead3d5f13bdf51ff353ca17ba5725bd",
+      "line": 1164
+    },
+    {
+      "address": "0791:3EF8",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "84fb66e4bc6f55bbb2eb730dc9484a31230e3770d3413b20210b12a770adb11d",
+      "line": 4
+    },
+    {
+      "address": "0791:3FAD",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "7d7f2a74ff6ea0d2add74c1ed3b87e6ec657f7c8502c71f40d6fb6fd74d24472",
+      "line": 50
+    },
+    {
+      "address": "0791:408E",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "f48a50d1da426b2307700ef2076c3c77f9f777ad15e1eed72f80a8dd76e28e34",
+      "line": 88
+    },
+    {
+      "address": "0791:40BC",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "7e1dac07fdf2909a009371dfdfa2abfb901dc0ba1671e7c7b6883d1beeba7aff",
+      "line": 109
+    },
+    {
+      "address": "0791:4151",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "0ee568880daf2f88db53cc5f6b6cc6d298836932c0501f4bbb12298fab8ee2ee",
+      "line": 154
+    },
+    {
+      "address": "0791:593B",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "cf1cdc235eb08e230a2ad00386ca1d48d6018ff72b77643b74e24bd416e865d5",
+      "line": 542
+    },
+    {
+      "address": "0791:59B3",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "02a900816b30045ff3d0d7200e89c8dc9cfa54303ff5b56a53e950dc12371297",
+      "line": 565
+    },
+    {
+      "address": "0791:835F",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "1efae9482a7c236f729f128296a368cb28573521a4358096b98a687371acd9b1",
+      "line": 143
+    },
+    {
+      "address": "0791:83A2",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "05675ebc689827f17942764ec507233f17bdf910215c79067c48a7bcac241e46",
+      "line": 156
+    },
+    {
+      "address": "0791:869F",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "7497baf07d95b4ac3963ee1f149d48b84ce5f9936b45748ce7ef135d32765fb4",
+      "line": 316
+    }
+  ],
+  "method": "Source-derived launch/flight arithmetic with supplied branches; no engine execution.",
+  "routines": [
+    {
+      "address": "0791:34C1",
+      "fields": [
+        "ball+6/+8/+A",
+        "DS:8327/8302/830B/830C/8323/8313",
+        "pitch+F/+11",
+        "DS:0779"
+      ],
+      "limits": "Source-conditioned mechanism; no new engine execution or natural-frequency proof.",
+      "mechanism": "Byte-difference vector/base timer; event6 rewrite; two skill-duration branches or conditional miscue; divide by absolute-velocity sum, min2, project endpoint.",
+      "visible_effect": "Coarse launch trajectory and future receiver/difficulty state, not exact target arrival."
+    },
+    {
+      "address": "0791:3B15",
+      "fields": [
+        "278A(2)",
+        "DS:830C/8303",
+        "2BE5"
+      ],
+      "limits": "Source-conditioned mechanism; no new engine execution or natural-frequency proof.",
+      "mechanism": "Use kicking2/4 draw with minimum30, add directed longitudinal reach, launch10 and set flight.",
+      "visible_effect": "A skill floor can hide range changes while still consuming the draw."
+    },
+    {
+      "address": "0791:3C20",
+      "fields": [
+        "DS:7B7E+10*side+4",
+        "DS:8326"
+      ],
+      "limits": "Source-conditioned mechanism; no new engine execution or natural-frequency proof.",
+      "mechanism": "Increment side statistic+4 only while8326 is clear.",
+      "visible_effect": "A separate counted outcome; not every attempted shot increments this helper."
+    },
+    {
+      "address": "0791:3C3F",
+      "fields": [
+        "DS:80FB/8324/8326/830C/8303",
+        "DS:0646",
+        "DS:078E",
+        "287C"
+      ],
+      "limits": "Source-conditioned mechanism; no new engine execution or natural-frequency proof.",
+      "mechanism": "Nonheader two-coin ball-x jitter, conditional80FB quality flag, mirrored goal target, launch, commentary,stat+3 and event-specific flight tail.",
+      "visible_effect": "Attempt count and submitted commentary differ from later scoring/on-target resolution."
+    },
+    {
+      "address": "0791:3EC5",
+      "fields": [
+        "event1",
+        "template argument"
+      ],
+      "limits": "Source-conditioned mechanism; no new engine execution or natural-frequency proof.",
+      "mechanism": "Wrap3C3F with event1 and supplied low-byte commentary template.",
+      "visible_effect": "Ordinary shot entry shares common launch/shot mechanics."
+    },
+    {
+      "address": "0791:3EDF",
+      "fields": [
+        "event2",
+        "template20"
+      ],
+      "limits": "Source-conditioned mechanism; no new engine execution or natural-frequency proof.",
+      "mechanism": "Wrap3C3F with event2 and template14h.",
+      "visible_effect": "Heading branch skips shot-x jitter and has deterministic flight tail."
+    },
+    {
+      "address": "0791:3EF8",
+      "fields": [
+        "DS:0796/0798/079A/079C",
+        "278A",
+        "DS:830C/8303"
+      ],
+      "limits": "Source-conditioned mechanism; no new engine execution or natural-frequency proof.",
+      "mechanism": "Input mode9 selects kicking2/div4/floor30/emitted10; other modes select heading4/div6/floor20/emitted11.",
+      "visible_effect": "Input mode is not the emitted launch event; heading can determine clearance reach."
+    },
+    {
+      "address": "0791:3FAD",
+      "fields": [
+        "player point",
+        "rand8/rand40",
+        "34C1",
+        "DS:8303"
+      ],
+      "limits": "Source-conditioned mechanism; no new engine execution or natural-frequency proof.",
+      "mechanism": "Coin/keeper branch chooses wide random sign-based target or narrow long target, launches supplied event, sets flight and submits21/22.",
+      "visible_effect": "Clearance can deliberately aim beyond playable width/length."
+    },
+    {
+      "address": "0791:408E",
+      "fields": [
+        "main coin",
+        "3FAD/3EF8"
+      ],
+      "limits": "Source-conditioned mechanism; no new engine execution or natural-frequency proof.",
+      "mechanism": "Coin chooses random target or table/skill long target, with input mode11.",
+      "visible_effect": "Same broad action has different target and draw pathways."
+    },
+    {
+      "address": "0791:40BC",
+      "fields": [
+        "DS:830B/82E3",
+        "2C54"
+      ],
+      "limits": "Source-conditioned mechanism; no new engine execution or natural-frequency proof.",
+      "mechanism": "Holder outside own half, beyond opposite marker,abs(y)<35,abs(x)<4.",
+      "visible_effect": "Geometry opens the advanced central holder branch; no explicit skill read here."
+    },
+    {
+      "address": "0791:4151",
+      "fields": [
+        "DS:830B",
+        "2EB8",
+        "3FAD"
+      ],
+      "limits": "Source-conditioned mechanism; no new engine execution or natural-frequency proof.",
+      "mechanism": "Test current holder point with own-strip predicate; on success clear via3FAD input9.",
+      "visible_effect": "Despite historical keeper name, this body does not itself test keeper slot."
+    },
+    {
+      "address": "0791:835F",
+      "fields": [
+        "ball+6/+8/+A"
+      ],
+      "limits": "Source-conditioned mechanism; no new engine execution or natural-frequency proof.",
+      "mechanism": "Low word of (absolute word vx+absolute word vy)*remaining timer.",
+      "visible_effect": "Remaining travel feeds flight flags and contests; it is not a standalone speed/height byte."
+    },
+    {
+      "address": "0791:83A2",
+      "fields": [
+        "ball+0/+1/+6/+8/+A/+D",
+        "DS:830E/830C/830A/830D/8325/8327"
+      ],
+      "limits": "Source-conditioned mechanism; no new engine execution or natural-frequency proof.",
+      "mechanism": "Compute candidate from low velocity bytes; decrement timer before air test, wide-bound placement/drawing, then strict-bound offside/restart dispatch.",
+      "visible_effect": "Ball boundary crossing is a transition into resolution, not an unconditional goal."
+    },
+    {
+      "address": "0791:869F",
+      "fields": [
+        "DS:830B/830C/830D/8302/8303/8327",
+        "ball+A"
+      ],
+      "limits": "Source-conditioned mechanism; no new engine execution or natural-frequency proof.",
+      "mechanism": "Install holder slot; clear timer,receiver/challenger selectors,play/flight flags and event.",
+      "visible_effect": "Possession is several state writes; a caller can subsequently restore a flag."
+    },
+    {
+      "address": "0791:593B",
+      "fields": [
+        "DS:07FC/8324/8327",
+        "ball+6/+8/+A"
+      ],
+      "limits": "Source-conditioned mechanism; no new engine execution or natural-frequency proof.",
+      "mechanism": "Conditional woodwork chance, event/template guards; negate both velocities, quarter timer with floor1,submit line and clear8324.",
+      "visible_effect": "Bounce changes direction and remaining duration; quartering timer is not quartering velocity."
+    },
+    {
+      "address": "0791:59B3",
+      "fields": [
+        "DS:8325/8324/830B",
+        "DS:07FA",
+        "ball point/timer"
+      ],
+      "limits": "Source-conditioned mechanism; no new engine execution or natural-frequency proof.",
+      "mechanism": "Active-mode nonkeeper moving ball at abs(y)=37,abs(x)<2 may call593B with table template; inactive path leaves return local unwritten.",
+      "visible_effect": "Woodwork eligibility and stack-residue boundary must not be silently normalised."
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "Aiming, event and skill are separate",
+    "Launch vector and duration",
+    "Shot and flight bookkeeping",
+    "Worked boundaries and limitations"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "runtime/original_match/port/ball.py": "6b5f17ee9af3bf7dbb2bae4bd5ae00e1a012f6d6cf6e6e3c2cdd8464a7e2c72a",
+    "runtime/original_match/port/contests.py": "b4db099959a09a1dcb78f031e9a44dc64624a5ffd8ea7b0be3441298bb0ec40e",
+    "runtime/original_match/port/motion.py": "4e7bab13c1e196464ecb41fd2ddb3a41878c217885c238fd2e80cd8329746eb2",
+    "static/goal-exe/code/seg_0791_05.asm": "0635bc395cd69ffe2c77ead9aaaf786f36eedeee5496daae8f43127ce4aed474",
+    "static/goal-exe/code/seg_0791_06.asm": "b7debdb96455259d2dca1e10096d42fb6ae843b79105eda4c5e7b7cf7b34ceb6",
+    "static/goal-exe/code/seg_0791_07.asm": "1cee0aa8db2d9e0be1e885f1f535eca11f450cbee9421366182528e540d94804",
+    "static/goal-exe/code/seg_0791_09.asm": "1236aa3fcb2d30080e22d9a4bee4398c52d09fc3010e133bc124e318f7e89ac0",
+    "static/goal-exe/code/seg_0791_14.asm": "032e2d6f22d6db5981e2a11f43298924a53e15d080e1d73d1fb375ddbe400abd",
+    "static/goal-exe/code/seg_23E4_01.asm": "20ea1cbc0edfab300b506228d0b05a9627e95586604692235b655bc2b9d9fb07",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_03.c": "c49d73137a03e70e2f02b8b54dfe04d8805239f55fc80a99d23a6943354e5800",
+    "static/goal-exe/named/seg_0791_04.c": "0118b26c212562f1eaecefe22850166c2e2b7755952a09abad00a5b42fbf8325",
+    "static/goal-exe/named/seg_0791_05.c": "b0871f197621d5abfd3b4db00ec3eca42c9eea6cb45626651842147b4d8ce228",
+    "static/goal-exe/named/seg_0791_08.c": "130e91927a5bb2fed2adb998225fc88091816752051eee90ae004e30fcfecc96"
+  },
+  "status": "proposed; source-derived explanation",
+  "supporting_artifacts": {
+    "notes/engine-study/T102/launch-helper-v1.md": "d91de092b7280e3a5f1c8fbb6d617ec8bc7e940d8d257913b9672407ec993035",
+    "notes/engine-study/T99/contests-v2.json": "5e340dd6a70273a2d804c05f2ba85c32f5170fdca8df5d4f2635abe097580c94"
+  },
+  "task": "T102b"
+}
