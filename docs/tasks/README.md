@@ -132,3 +132,7 @@ exists.
 | T91 | goal2 G13: static and retained-source reassessment of four remaining inputs | #400 | T90 |
 
 | [T92](T92.md) | Controlled synthetic fixtures for #400 |
+
+- [T103a](T103a.md): Tactics and manager-control matrix.
+- [T103b](T103b.md): Computer lineup selection and sorting.
+- [T103c](T103c.md): Computer tactics and emergency role policy.
