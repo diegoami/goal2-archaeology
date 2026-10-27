@@ -4,7 +4,7 @@ The engine does not implement one universal success formula. A skill can alter a
 random-draw bound, a deterministic selection, an action gate or a composite contest. This chapter
 maps the direct effective-skill readers and derives local probabilities with their assumptions.
 
-The [source/numerical ledger](../../notes/engine-study/T99/contests-v1.json) records all examples,
+The [source/numerical ledger](../../notes/engine-study/T99/contests-v2.json) records all examples,
 exact fractions, draw counts, controls and source hashes. It enumerates arithmetic states,
 not matches. Neither the percentages nor the caller map establishes visit frequency in play.
 
