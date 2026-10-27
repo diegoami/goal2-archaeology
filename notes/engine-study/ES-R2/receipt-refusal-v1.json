@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/home/diego/.local/bin/python3.12",
+    "-B",
+    "notes/engine-study/ES-R2/verify.py",
+    "--receipt",
+    "notes/engine-study/ES-R2/source-checks-v1.json"
+  ],
+  "exit": 1,
+  "stdout": "",
+  "stderr": "refuse to overwrite existing receipt\n",
+  "before_sha256": "ba41689ad843e5b20c2ff92b24d6cfe32726b9786531aa01b06b0398d396fcf7",
+  "after_sha256": "ba41689ad843e5b20c2ff92b24d6cfe32726b9786531aa01b06b0398d396fcf7",
+  "expected": "existing measured receipt preserved"
+}
