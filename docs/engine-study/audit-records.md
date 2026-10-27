@@ -120,4 +120,4 @@ Across both audit chapters there are nine named candidate groups, explicit negat
 known documentation/tooling defects and remaining path questions. The audit is not exhaustive
 over all record tuples, live continuations or private inputs. Future experiments should select
 questions with unresolved consequences, rather than spending a new campaign to rediscover
-already understood source arithmetic or repeat accepted T79 fidelity work.
+already understood source arithmetic or duplicate T79's planned fidelity work. T79/#290 is still blocked and has no accepted700-match sheet; existing T77 comparison receipts have their own narrower scope.
