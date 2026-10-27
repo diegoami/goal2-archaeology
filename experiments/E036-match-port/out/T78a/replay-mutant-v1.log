@@ -1,0 +1,23 @@
+test_deferred_site_event_resumes_the_parent_without_replaying_site (tests.test_port_machine.PortableMachine.test_deferred_site_event_resumes_the_parent_without_replaying_site) ... FAIL
+
+======================================================================
+FAIL: test_deferred_site_event_resumes_the_parent_without_replaying_site (tests.test_port_machine.PortableMachine.test_deferred_site_event_resumes_the_parent_without_replaying_site)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/.cache/T78a-replay-mutant-v1/tests/test_port_machine.py", line 104, in test_deferred_site_event_resumes_the_parent_without_replaying_site
+    self.assertEqual(returned,[False])
+AssertionError: Lists differ: [True] != [False]
+
+First differing element 0:
+True
+False
+
+- [True]
++ [False]
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)
+
+PASS: stronger destination-callback control rejects missing no_replay_at; production source untouched

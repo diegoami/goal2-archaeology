@@ -49,6 +49,15 @@ class PortableMachine(unittest.TestCase):
             with self.assertRaises(PortError):m.read(address,size)
         with self.assertRaises(PortError):m.set_reg('unknown',1)
 
+    def test_ip_and_flags_setters_clear_upper_bits_like_the_reference(self):
+        # Independently reproduced by review563 on the existing Machine API.
+        for full,low,initial,value,expected in (
+            ('eip','ip',0x12345678,0x9ABC,0x9ABC),
+            ('eflags','flags',0x200002,0x202,0x202)):
+            with self.subTest(register=low):
+                m=machine();m.set_reg(full,initial);m.set_reg(low,value)
+                self.assertEqual(m.reg(full),expected)
+
     def test_nested_near_and_far_returns_use_existing_port_frames(self):
         m,end,ports=nested();self.assertIsNone(m.run(end,fresh=True))
         self.assertEqual(m.reg('ax'),17);self.assertEqual(m.reg('sp'),0x806)
@@ -88,9 +97,11 @@ class PortableMachine(unittest.TestCase):
             def call(replay):seen.append(replay);m.stop('events')
             return call
         m,end,ports=nested(('0791:0205',callback))
+        returned=[];m.at('0791:0110',returned.append)
         self.assertEqual(m.run(end,fresh=True),'events')
         self.assertEqual(len(m.frames),1)
         self.assertIsNone(m.run(end));self.assertEqual(seen,[False])
+        self.assertEqual(returned,[False])
         self.assertEqual(list(ports.calls.values()),[1,1]);self.assertEqual(m.reg('ax'),17)
 
     def test_unregistered_addresses_never_execute_poison_instruction_bytes(self):

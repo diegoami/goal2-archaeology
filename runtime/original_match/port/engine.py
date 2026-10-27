@@ -82,6 +82,9 @@ class PortMachine(Machine):
 
     def set_reg(self, name, value):
         base, shift, bits = self._alias(name)
+        # Reference register API: IP/FLAGS writes clear their upper half;
+        # general-purpose low-word aliases retain it (review563 R1 controls).
+        if name.lower() in ('ip','flags'):self._registers[base] = 0
         mask = ((1 << bits)-1) << shift
         self._registers[base] = ((self._registers[base] & ~mask) | ((value << shift) & mask)) & 0xFFFFFFFF
         if base=='eflags':self._registers[base] |= 2
