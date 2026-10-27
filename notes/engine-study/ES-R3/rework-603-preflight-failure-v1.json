@@ -1,0 +1,12 @@
+{
+  "scope": "Software guard-construction failure;zero engine calls;no T109b-v3 output was written",
+  "source_commit": "5cdc69c88b45cc9df1071e14c46aec27541f5048",
+  "argv": [
+    "/home/diego/.local/bin/python3.12",
+    "-B",
+    "notes/engine-study/T109/integration.py"
+  ],
+  "exit": 1,
+  "error": "selection_controls assertion old in clean failed for capitalised Role3 clause",
+  "diagnosis": "Positive role/skill prose check normalised case;negative-setup lookup did not. Normalise case for negative setup as well;leave all role/skill assertions intact."
+}

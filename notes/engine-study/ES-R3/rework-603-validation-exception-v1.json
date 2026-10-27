@@ -1,0 +1,27 @@
+{
+  "scope": "Owner-authorised source/data-only exception to CLAUDE.md rule12;no added engine matches or full local unit suite",
+  "owner_instruction": "you can add validation script to the ones running",
+  "date": "2026-10-27",
+  "source_commit": "4a5f13186e17710be8e6f9b698cee2c77fc47cef",
+  "removed_duplicate": {
+    "pid": 3331403,
+    "verified_command": "bash tools/heavy.sh ES-R3-603-validation -- /home/diego/.local/bin/python3.12 -B notes/engine-study/ES-R3/verify.py --receipt notes/engine-study/ES-R3/source-checks-v2.json",
+    "termination": "SIGTERM;exit143 while still queued"
+  },
+  "argv": [
+    "/home/diego/.local/bin/python3.12",
+    "-B",
+    "notes/engine-study/ES-R3/verify.py",
+    "--receipt",
+    "notes/engine-study/ES-R3/source-checks-v2.json"
+  ],
+  "environment_exception": {
+    "HARNESS_HEAVY_HELD": "1"
+  },
+  "exit": 0,
+  "checks": 15,
+  "unchanged_prior_outputs": 315,
+  "receipt_sha256": "826a773b26d614d8b1abfeb33700bedc5fce3893c1a30ac7c94ad9498ff1553c",
+  "other_jobs": "All four T78c jobs and two unrelated queue entries left unchanged.",
+  "research_invocations": 48
+}

@@ -1,9 +1,10 @@
 # Cross-module consistency: what is a rule, a contradiction or still unknown?
 
-The integration audit establishes no new production gameplay defect. It identifies one
-concrete guide contradiction, preserves several original quirks and path differences, and
+The integration audit establishes no new production gameplay defect. The proposed role-label
+contradiction was a false positive: role titles and automatic selection skills describe different
+things. The audit preserves several original quirks and path differences, and
 keeps continuation/coverage questions open. Source-based conclusions remain proposed until
-ES-R3 review. The [nine-group register](../../notes/engine-study/T109/T109b-v2.json),
+ES-R3 review. The [nine-group register](../../notes/engine-study/T109/T109b-v3.json),
 [reproducer](../../notes/engine-study/T109/integration.py) and
 [boundary audit](audit-boundaries.md) state exact evidence and limits.
 
@@ -17,20 +18,30 @@ ES-R3 review. The [nine-group register](../../notes/engine-study/T109/T109b-v2.j
 | Score, events and statistics | A provisional goal can be rolled back before scorer recording; goal history, career goals and shootout result have separate lifetimes. | Intentional path distinctions; final score cannot reconstruct every event. |
 | Watched, quick and silent modes | They execute different routines, random draws and commit paths. | Intentional path distinctions; same seed does not make mode switching an equivalent run. |
 | Save/load boundary | Live Python frames need recorded reconstruction; menus and proved matches have explicit restrictions. | Source contract known; universal natural continuation coverage unproved. |
-| Manager/taker continuation | A paragraph incorrectly called role 4 the penalty selector; actual role 4 is free kick. | Documentation defect corrected under [#599](https://github.com/diegoami/goal2-archaeology/issues/599); real checkpoint gaps remain [#400](https://github.com/diegoami/goal2-archaeology/issues/400). |
+| Manager/taker continuation | Role 4 is the free-kick taker, automatically selected by penalties skill; role 5 is the goal-kick taker, selected by kicking. | The old skill wording was correct; [#603](https://github.com/diegoami/goal2-archaeology/issues/603) retracts the false positive #599. Real checkpoint gaps remain [#400](https://github.com/diegoami/goal2-archaeology/issues/400). |
 | Old offside reports | Line tracking, pending player, notification and adjudication are separate operations. | [#227](https://github.com/diegoami/goal2-archaeology/issues/227) needs the exact old continuation for incident attribution. |
 | Surviving proof/coverage gaps | An uncaught mutant, omitted unit edges, displaced DOS return and unvisited display bodies have distinct limitations. | Existing issues stay open; no blanket dead-store or state-free classification. |
 
 ## Source contradictions and bounded examples
 
-**Role labels are a documentation error.** The committed original Pascal strings at
+**Role names and selection skills are different quantities.** The original Pascal strings at
 `DS:0A29+11*role` read CAPTAIN, CORNER, PENALTY, FREE KICK and GOAL KICK for roles 1..5.
 The award callers agree: `6ECF` passes role 3, near-goal `6F3E` role 4, and `6F01` role 5.
-The restart table was correct, but its explanatory paragraph said “penalties-selected role-4”.
-The paragraph now says free-kick-selected role 4 and goal-kick-selected role 5. Own-area free
-kicks can still use role 5; that is a source-defined route, not a reason to relabel the selector.
-The checker reads original title bytes and caller operands; three altered-title negatives fail.
-No player selection, input checkpoint or historical numerical output is changed.
+The automatic selectors also read `DS:0764+role`: roles 2..5 map to skill elements 7,12,12,2.
+Thus role 4 (free kick) is selected using penalties, element 12; role 5 (goal kick) uses kicking,
+element 2. Role 3 (penalty) also uses element 12. `20E3` and the automatic `6D4E` branch pass
+the mapped element to `1FDD`, which compares effective skill and retains the first equal best
+available candidate. Its start-slot rule includes the keeper for role 5, excluding him for 2..4.
+These criteria describe automatic selection, not a restriction on the managed manual choice.
+
+The old paragraph's “penalties-selected role-4” and “kicking-selected role-5” were accurate.
+I mistakenly treated those skill descriptions as role names under #599. The revised paragraph
+now gives both the role and skill explicitly. [Review #603](https://github.com/diegoami/goal2-archaeology/issues/603)
+withdraws that false positive; it does not identify an original or port selection bug.
+The checker now reads both tables and guards their actual consumers. Four altered skill-byte
+negatives and prose negatives reject omitted skill descriptions and the prior title-only edit.
+The three title negatives still test titles alone; none is an executed engine mutant.
+Historical v1/v2 ledgers remain unchanged and superseded; no player selection or input checkpoint changes.
 
 **A cached field is not a continuously evaluated formula.** `20E3` adds twice captain leadership
 to each side's eleven pitch `+11` bytes. Later readers include gated `278A` skill and direct
@@ -73,10 +84,13 @@ that later draws refer to the same events. No cross-mode score experiment was pe
 
 ## Remaining gaps and review scope
 
-The source supports a concrete save/load protocol: `Match.save` rejects an active menu,
+For the original backend, the source supports a concrete save/load protocol: `Match.save` rejects an active menu,
 a proved match, or live port frames without replay origin; version 4 can retain recorded
 reconstruction data and `load` checks the recovered state. Guest memory and one RNG word
-are insufficient on their own. Original action replay is another mechanism. Existing
+are insufficient on their own. Separately merged T78b at 2ec0fff4 adds explicit engine selection
+and refuses port-backend checkpoints in that assembly slice. The original backend remains the
+default. The two changed primary runtime sources are explicitly pinned to that commit; this is
+not acceptance of standalone checkpoint delivery. Original action replay is another mechanism. Existing
 tests/evidence retain their declared scope; this study adds no genuine manager checkpoint or
 standalone sealed-delivery result. The independent delivery session owns that latter work.
 
