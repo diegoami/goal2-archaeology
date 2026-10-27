@@ -28,8 +28,10 @@ For a played fixture, `0791:F1F6` performs this sequence:
 
 The caller `000E:6CA7` then handles applicable manager confidence/news/sacking, **then calls
 `B7FA`** for both squads, advances the fixture index and refreshes competition tables. The
-engine kit's `F1F6` entry ends before that outer tail. A client that stops there has not applied
-all caps, result form, recovery or ban transitions. The parent [match-flow](match-flow.md)
+`F1F6` routine itself ends before that outer tail. The kit's `Match._advance` explicitly calls
+`B7FA` after `F1F6` and before `_finish`, so an ordinary **completed Match includes those
+player updates**. It does not reproduce all of the outer router's news/sacking logic. A raw
+caller that stops at `F1F6` alone has not applied all caps, result form, recovery or ban transitions. The parent [match-flow](match-flow.md)
 chapter describes the entry-point distinction.
 
 The silent `000E:6970` route calls `D47E` result generation, `B7FA`, `B602` scorer credit,

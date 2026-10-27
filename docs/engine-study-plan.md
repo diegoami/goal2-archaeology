@@ -141,7 +141,7 @@ No review or experiment is launched by defining them.
    independent strong-model review before spec promotion.
 3. **Validation:** T105 fixes questions, controls and budgets; T106 corroborates cheap isolated
    predictions; T107 publishes only the first bounded match batch. Additional batches require
-   their own scoped follow-ups. Reuse accepted T79 results rather than duplicating fidelity runs.
+   their own scoped follow-ups. Reuse T79 results when delivered rather than duplicating its fidelity campaign; T79/#290 is still blocked at this design pass, so existing T77 receipts retain their narrower scope.
 4. **Audit and design:** T108/T109 classify suspected defects; T110 recommends rewrite options.
    The owner then decides whether T111's isolated prototype is useful.
 5. **Guide:** T112 assembles the guide; T113 independently challenges its evidence, completeness,

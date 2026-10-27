@@ -1,0 +1,548 @@
+{
+  "analysis_sha256": {
+    "notes/engine-study/T105/common.py": "e9933d1c703a637b9249a08a0860bbd24e366d706de53a3e90cb7bcc510ecd66",
+    "notes/engine-study/T105/design.py": "037284e20c8fd62b532d94fe0bbdb3b7b6e38003dd25d4abc0253ea272dd1d7c"
+  },
+  "calculations": {
+    "arms": [
+      {
+        "energy": 16,
+        "id": "E16-Q0",
+        "tactic2": false
+      },
+      {
+        "energy": 16,
+        "id": "E16-Q1",
+        "tactic2": true
+      },
+      {
+        "energy": 32,
+        "id": "E32-Q0",
+        "tactic2": false
+      },
+      {
+        "energy": 32,
+        "id": "E32-Q1",
+        "tactic2": true
+      }
+    ],
+    "contexts": [
+      {
+        "fixture": [
+          7,
+          19,
+          21,
+          1
+        ],
+        "id": "A",
+        "managed": 7
+      },
+      {
+        "fixture": [
+          19,
+          7,
+          21,
+          1
+        ],
+        "id": "B",
+        "managed": 7
+      }
+    ],
+    "controls": {
+      "all-six-probes-one-call-each": "rejected:wall case needs five records,36 reference/port calls",
+      "completed-Match-omits-B7FA": "rejected:Match._advance calls PLAYER_UPDATE before _finish",
+      "energy-before-setup-is-isolated": "rejected:opponent BD03/BD83 can react before kickoff",
+      "independent-coin-formula-exact": "rejected:finiteLCG on counts36866/34815 differ from36864/34816",
+      "live-score-always-fixture-goals": "rejected:PK tally and quick scratch/rollback phases differ",
+      "pre_match-public-answer": "rejected:no public pre_match decision in DECIDED_AT_MENU",
+      "seed-rebuilds-table": "rejected:late seed override does not rerun2648"
+    },
+    "finite_seed_denominator": 65536,
+    "intervention_boundary": {
+      "country_team2": "before Match construction through countries record list",
+      "energy": "one declared F098 entry write after common setup and captain seed, signed-positive managed squad records only",
+      "other_fields": "preserve natural/played roles,ability,profile,form,fitness,status,all other tactics and caches",
+      "own_enable2": "clear mask32 on each nonzero managed squad identity before construction"
+    },
+    "local_gate_finite_seed_counts": {
+      "16": [
+        8192,
+        36866
+      ],
+      "32": [
+        4096,
+        34815
+      ]
+    },
+    "local_quick_increment_counts": {
+      "16": 28674,
+      "32": 30719
+    },
+    "probe_cases": [
+      {
+        "alternative": "zero displacement stays idle",
+        "control": "One altered-rule candidate is a falsifier, never an oracle expectation.",
+        "expected": {
+          "event": 6,
+          "projected": [
+            0,
+            -2
+          ],
+          "timer": 2,
+          "velocity": [
+            0,
+            -1
+          ]
+        },
+        "id": "launch-zero",
+        "intervention": {
+          "ball": [
+            0,
+            0
+          ],
+          "event_argument": 6,
+          "holder_slot": 2,
+          "keeper": false,
+          "receiver_slot": 2,
+          "skill_duration_branch": false
+        },
+        "reachability": "Deliberately edited live geometry; zero/small target natural incidence unresolved #529.",
+        "routine": "0791:34C1",
+        "target": [
+          0,
+          0
+        ],
+        "unit": "one complete target call per backend"
+      },
+      {
+        "alternative": "zero secondary delta always means zero secondary velocity",
+        "control": "One altered-rule candidate is a falsifier, never an oracle expectation.",
+        "expected": {
+          "event": 6,
+          "projected": [
+            2,
+            -2
+          ],
+          "timer": 2,
+          "velocity": [
+            1,
+            -1
+          ]
+        },
+        "id": "launch-small",
+        "intervention": {
+          "ball": [
+            0,
+            0
+          ],
+          "event_argument": 6,
+          "holder_slot": 2,
+          "keeper": false,
+          "receiver_slot": 2,
+          "skill_duration_branch": false
+        },
+        "reachability": "Deliberately edited live geometry; zero/small target natural incidence unresolved #529.",
+        "routine": "0791:34C1",
+        "target": [
+          1,
+          0
+        ],
+        "unit": "one complete target call per backend"
+      },
+      {
+        "alternative": "divide every timer by two, giving10 and projection10/20",
+        "control": "One altered-rule candidate is a falsifier, never an oracle expectation.",
+        "expected": {
+          "event": 7,
+          "projected": [
+            7,
+            14
+          ],
+          "timer": 7,
+          "velocity": [
+            1,
+            2
+          ]
+        },
+        "id": "launch-diagonal",
+        "intervention": {
+          "ball": [
+            0,
+            0
+          ],
+          "event_argument": 6,
+          "holder_slot": 2,
+          "keeper": false,
+          "receiver_slot": 2,
+          "skill_duration_branch": false
+        },
+        "reachability": "Deliberately edited live geometry; zero/small target natural incidence unresolved #529.",
+        "routine": "0791:34C1",
+        "target": [
+          7,
+          14
+        ],
+        "unit": "one complete target call per backend"
+      },
+      {
+        "alternative": "far-wall formula applies already below26",
+        "control": "Reject changed boundary/sign/axis alternative; check guards with a separate non-wall record.",
+        "expected": {
+          "targets": [
+            [
+              2,
+              30
+            ],
+            [
+              1,
+              30
+            ],
+            [
+              0,
+              30
+            ],
+            [
+              -1,
+              30
+            ],
+            [
+              -2,
+              30
+            ]
+          ]
+        },
+        "holder_direction": 1,
+        "id": "wall-near",
+        "intervention": {
+          "abs_y_minus_abs_x_gt10": true,
+          "defending": true,
+          "defending_relative_slots": [
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "normal_direction": true
+        },
+        "reachability": "Edited restart geometry with valid side/direction/slot bindings; natural far-wall incidence unresolved #540.",
+        "routine": "0791:7621",
+        "spot": [
+          0,
+          25
+        ],
+        "unit": "five complete target calls per backend, one for each defending relative slot"
+      },
+      {
+        "alternative": "normalise far-wall y to the positive spot side",
+        "control": "Reject changed boundary/sign/axis alternative; check guards with a separate non-wall record.",
+        "expected": {
+          "targets": [
+            [
+              -3,
+              -28
+            ],
+            [
+              -3,
+              -27
+            ],
+            [
+              -3,
+              -26
+            ],
+            [
+              -3,
+              -25
+            ],
+            [
+              -3,
+              -24
+            ]
+          ]
+        },
+        "holder_direction": 1,
+        "id": "wall-far-positive",
+        "intervention": {
+          "abs_y_minus_abs_x_gt10": true,
+          "defending": true,
+          "defending_relative_slots": [
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "normal_direction": true
+        },
+        "reachability": "Edited restart geometry with valid side/direction/slot bindings; natural far-wall incidence unresolved #540.",
+        "routine": "0791:7621",
+        "spot": [
+          0,
+          26
+        ],
+        "unit": "five complete target calls per backend, one for each defending relative slot"
+      },
+      {
+        "alternative": "mirror both axes of positive-side wall, including x",
+        "control": "Reject changed boundary/sign/axis alternative; check guards with a separate non-wall record.",
+        "expected": {
+          "targets": [
+            [
+              -3,
+              28
+            ],
+            [
+              -3,
+              29
+            ],
+            [
+              -3,
+              30
+            ],
+            [
+              -3,
+              31
+            ],
+            [
+              -3,
+              32
+            ]
+          ]
+        },
+        "holder_direction": -1,
+        "id": "wall-far-negative",
+        "intervention": {
+          "abs_y_minus_abs_x_gt10": true,
+          "defending": true,
+          "defending_relative_slots": [
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "normal_direction": true
+        },
+        "reachability": "Edited restart geometry with valid side/direction/slot bindings; natural far-wall incidence unresolved #540.",
+        "routine": "0791:7621",
+        "spot": [
+          0,
+          -26
+        ],
+        "unit": "five complete target calls per backend, one for each defending relative slot"
+      }
+    ],
+    "reference_and_port_target_calls": 36
+  },
+  "decisions": [
+    {
+      "decision": "Use hash-verified published E006 image and original registered build. Friendly7/19,index21 and its side reversal,managed7; common input snapshot per block.",
+      "limits": "Both fixtures are constructed; reversal changes host/cursor and is not evidence of a naturally played calendar fixture.",
+      "topic": "provenance",
+      "why": "Existing kit/family source gives reproducible legal API inputs without collecting new private/genuine keys."
+    },
+    {
+      "decision": "Four arms E16/32 x team2off/on. Clear own2enable on all managed squad identities in common constructor records; set team2 per arm; declare energy edits at F098 after common setup.",
+      "limits": "Synthetic research write at actual boundary; read back every arm before first sweep, forbid silent rebind/reseed/fitness refill.",
+      "topic": "interventions",
+      "why": "Freeze AI lineup/tactic setup across energy arms; avoid pretending a pre-setup energy edit is a pure live-energy intervention."
+    },
+    {
+      "decision": "Match seed enters at managed captain prompt after2648; freeze index/year,table bytes/cursor,setup snapshot and actual seed; same seed only pairs initial state.",
+      "limits": "Treatment paths consume conditional draws; trace divergence rather than claim later synchronized draws.",
+      "topic": "seed-boundary",
+      "why": "Setup uses index*(year+1),generates255 table bytes and sets cursorsecond country; optional main override does not undo AI or table setup."
+    },
+    {
+      "decision": "Passive native52DD opportunity,5326 action,532C completion by managed pending frame; phase-aware Match/fixture/board outcomes and before/after player state.",
+      "limits": "Existing runner needs a declared F098 edit/passive observer extension; validate noninterference and hook reach before measurements; port-only raw hooks unsupported.",
+      "topic": "instrumentation",
+      "why": "Connect observed gate opportunities to the exact5049 branch and avoid scorer-commentary/statistic conflation."
+    },
+    {
+      "decision": "Six fixed direct34C1/7621 cases in calculations; original code and full registered port,real nested callees,no stubbing. Independent literal outputs,ABI return/SP/completion and source fingerprints.",
+      "limits": "Synthetic fields and guards need complete immutable construction manifest before first call; does not establish natural incidence.",
+      "topic": "probes",
+      "why": "Corroborate small/zero launch and wall boundary/sign mechanisms with few calls,without rerunning broad fidelity."
+    },
+    {
+      "decision": "Original-backed watched-friendly four-arm sensitivity,PlayOn policy,default substitutions/captain,delay0; two fixed contexts. Final seeds,counts,caps and inference in T105b.",
+      "limits": "No standalone/default change and no T79 substitution. No port-only sensitivity matches in first batch; later use requires accepted standalone fidelity and separate cost decision.",
+      "topic": "batch",
+      "why": "Existing original path is inexpensive relative to all-port full matches; current strict T77 evidence and selected T106 comparisons remain distinct."
+    },
+    {
+      "decision": "Preflight exact inputs/cohort/readbacks,baseline XI eligibility,no-op edit and passive observer witnesses,repeated fixed cases; expected literal/altered-rule separation.",
+      "limits": "Failures/refusals/zero opportunities require explicit disposition,no replacement seeds or hidden task weakening.",
+      "topic": "controls",
+      "why": "Completion alone cannot show the intended bit/energy intervention reached the gate or that instrumentation did not alter execution."
+    },
+    {
+      "decision": "Defer broad formation rankings,many attributes,natural rare-path frequency,unavailable PK cursor,shot-tail probe and full port sensitivity. Fix #561 documentation qualifiers now.",
+      "limits": "Deferred questions remain open with issues; no original-bug fix or spec promotion.",
+      "topic": "deferrals",
+      "why": "Local source answers already exist; choose a small useful corroboration and bounded exploratory net effect before more spending."
+    }
+  ],
+  "examples": [
+    {
+      "expected": {
+        "difference": 28674,
+        "off": 8192,
+        "on": 36866
+      },
+      "inputs": {
+        "branch": "5049 local gate only",
+        "energy": 16,
+        "starting_seed_words": "all65536"
+      },
+      "limits": "Source enumeration at a fixed gate,not normal opportunity distribution or full-match effect;LCG correlation retained."
+    },
+    {
+      "expected": {
+        "reference_and_port_target_calls": 36
+      },
+      "inputs": {
+        "backends": 2,
+        "probe_cases": 6,
+        "wall_records_per_case": 5
+      },
+      "limits": "Setup,negative/repeat invocations also consume the later cap;not just sixcalls."
+    },
+    {
+      "expected": {
+        "regulation_plus_ET_goals": [
+          2,
+          2
+        ],
+        "winner_side": 0
+      },
+      "inputs": {
+        "fixture_goals": [
+          2,
+          2
+        ],
+        "fixture_result": 0,
+        "working_PK_tally": [
+          3,
+          2
+        ]
+      },
+      "limits": "Representation rule only;first batch uses friendlykind1 and cannot run PK."
+    },
+    {
+      "expected": {
+        "fitness_unchanged": true,
+        "own2_enable": false,
+        "setup_AI_frozen_across_energy_arms": true
+      },
+      "inputs": {
+        "energy_edit_time": "F098 after common setup",
+        "team2": true
+      },
+      "limits": "Readback assertions required in future implementation;this design does not execute a hook."
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:2648",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "f6eef1b2c9e597215049cb214abdad84f71b69e7939b708685bab79298db69de",
+      "line": 592
+    },
+    {
+      "address": "0791:34C1",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "3052249b4ee925eb9e6e9566db23469245aadb67ba1d0545532812ac1f63e730",
+      "line": 577
+    },
+    {
+      "address": "0791:5049",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "6d0e728141a3f946c482a96b01f70692c0ab77f00fa51df22cc035919d02858c",
+      "line": 4
+    },
+    {
+      "address": "0791:7621",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "e9af8c93b77cfbfe2a6340a69dd76d10714a551566c563df233d46e25f6cf61c",
+      "line": 413
+    },
+    {
+      "address": "0791:B7FA",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "585d243403576224041c5dfffe45b41c0bf9068d9bd56f6012cac6ca0d1a6ea1",
+      "line": 741
+    },
+    {
+      "address": "0791:F098",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "3a479475383937b39b481005207ae4318f2f73335c14cfa4c95ddb3b035f50c7",
+      "line": 550
+    },
+    {
+      "address": "0791:F1F6",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "309bb749731f2aa2e0c544242a947ad0d22d45c528553e98451fd8481e85f0bd",
+      "line": 603
+    },
+    {
+      "address": "214B:0688",
+      "file": "static/goal-exe/named/seg_214B_01.c",
+      "heading_sha256": "34ad314d6c5f1c221a39452ebc11149f1bf59052e4c6efc0d0b5b1d15db1718d",
+      "line": 590
+    },
+    {
+      "address": "214B:06FA",
+      "file": "static/goal-exe/named/seg_214B_01.c",
+      "heading_sha256": "5ef2b55d645e6a0e11a77b077878c9aca2a48262422329aaa0f237659cbd25bb",
+      "line": 630
+    }
+  ],
+  "method": "Source/API reading and retained-record arithmetic only; no engine or match execution",
+  "schema": 1,
+  "sections": [
+    "Questions, provenance and interventions",
+    "Selected direct probes",
+    "The four-arm match design",
+    "Instrumentation, controls and deferrals"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "experiments/E036-match-port/families.py": "687f40b817c3c70759fbcae24c0cd246e9acbde447c413c58669d8f1cc5c1a22",
+    "experiments/E036-match-port/families/F40.json": "2d7a29e38b671b0e503092ba0a7522babe9556c8e95288c228c152b67356bbc9",
+    "experiments/E036-match-port/image_sources.py": "c0630a76971ead26b80631bce26e2843a9b9bd07ed55ab0852255a1d4986c5b6",
+    "experiments/E036-match-port/records.py": "41ca64aeb4e052c6daa07546b847d346fab5e903a13d93ad435b5b3660429ef4",
+    "runtime/original_match/assets.py": "fb5da2f045c06e3a54d5fe162a89947969d547b3d0dca4d8ed716ea380250685",
+    "runtime/original_match/image.py": "0b6c8a98c0d4fabdfe63be52561dd2afc56a4f0a8238e8ccc06dfd33e78e35a9",
+    "runtime/original_match/match.py": "f48af24c40e571be10c31b21e5551c47d26af3624c71bf97cd7348c9a64e9885",
+    "runtime/original_match/port/ball.py": "6b5f17ee9af3bf7dbb2bae4bd5ae00e1a012f6d6cf6e6e3c2cdd8464a7e2c72a",
+    "runtime/original_match/port/restarts.py": "c378834575a59d89f31fea8f9ee5ffca7daaf98754a36e848164bb819ad87977",
+    "runtime/original_match/port/setup.py": "0f703063621cd8a96d9ac0acde56da89754aa885a3d94d9333991a115e8185e2",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_0791_06.asm": "b7debdb96455259d2dca1e10096d42fb6ae843b79105eda4c5e7b7cf7b34ceb6",
+    "static/goal-exe/code/seg_0791_09.asm": "1236aa3fcb2d30080e22d9a4bee4398c52d09fc3010e133bc124e318f7e89ac0",
+    "static/goal-exe/code/seg_0791_12.asm": "51e9bb66b774cb145dea8d8986ee4dbcb3c6b74b1a79e47808fe28909916b108",
+    "static/goal-exe/code/seg_0791_19.asm": "9a67e02197e7b3796be1cf653ed6ffff35a9939cbe0044dee57f639971063ed8",
+    "static/goal-exe/code/seg_0791_23.asm": "49e12bb8534566ad1e6b4b22e2f088ce483d4518f8d2b8cf28fefb3c7f9b9cde",
+    "static/goal-exe/code/seg_214B_01.asm": "ed15ac0ba645c502a0c113cf3cfef4e9c7636c1bef800fcd3432993586d14bad",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_03.c": "c49d73137a03e70e2f02b8b54dfe04d8805239f55fc80a99d23a6943354e5800",
+    "static/goal-exe/named/seg_0791_05.c": "b0871f197621d5abfd3b4db00ec3eca42c9eea6cb45626651842147b4d8ce228",
+    "static/goal-exe/named/seg_0791_07.c": "f8be0e2879e8a4bc18eb228dcca17ae91cf318c8b6f8b4b4ac94baa67ac2ad85",
+    "static/goal-exe/named/seg_0791_10.c": "307274e4e5007f1e809b5b54708a686d106a61d77848ddc6967c9fb0fd88e52f",
+    "static/goal-exe/named/seg_0791_13.c": "4fe6fb41281082fba52ebdc61c6ba147de1dff5bf3ee94fe0bf1314e33878d21",
+    "static/goal-exe/named/seg_214B_01.c": "b49ca1bb9367f8bad97a41a4cbd2f5646d7653de9d9acb9d16a28c7ac1331c53",
+    "tests/test_port_ball.py": "57b95a5d021e036ec4b9f256f248e9e7ab5a5e9f06734fc06e663be82c6e3278",
+    "tests/test_port_restarts.py": "39a5188c3c53ed73afb5e63411fc837fcd71281235f55910e82981d842f5f2bb"
+  },
+  "status": "proposed preregistration; no measurements authorised before accepted ES-R2",
+  "supporting_artifacts": {
+    "notes/engine-study/T102/T102b-v1.json": "3126f97a4badc8a000e1f6fad8143dc996eff745775758d86dcdac6ca5d738bf",
+    "notes/engine-study/T103/T103a-v1.json": "cec36b54fd00e63da8f58328a27334588ec1f30d881a161ff31db6f5083812bd",
+    "notes/engine-study/T104/T104a-v1.json": "26e3eee578c74b8c0c5c8bf7ca7b0349d2c60ecdf864244f9f4819e580305092",
+    "notes/engine-study/T104/T104e-v1.json": "e597308602cfaf484e69167f185faca0a9bd4ea865fe27c9fa1caf12737e145d"
+  },
+  "task": "T105a"
+}

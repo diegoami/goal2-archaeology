@@ -1,0 +1,59 @@
+{
+  "baseline": "b6633b46e854927aebf18a7e6e8400e51d5f3127",
+  "method": "source projections; no engine execution",
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T105/design.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T105a, eight design topics,4 literal examples,7 altered-design controls; source pins match; no engine execution\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "T105a-final",
+        "--",
+        "python3",
+        "-B",
+        "notes/engine-study/T105/check.py",
+        "--task",
+        "T105a",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T105a\",\n  \"scope\": \"Experiment preregistration completeness/provenance; not causal validity or executed readiness.\",\n  \"positive\": \"accepted\",\n  \"topics\": 8,\n  \"manifest_sha256\": \"38d34f7075d744e752b4779c886110584cb3565164a04334179f521adb0cd256\",\n  \"controls\": {\n    \"missing-topic\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-expectation\": \"rejected\",\n    \"missing-controls\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/check_links.py"
+      ],
+      "exit": 0,
+      "stdout": "links and JSON ok (9933 files)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "sha256": {
+    "notes/engine-study/T105/design.py": "037284e20c8fd62b532d94fe0bbdb3b7b6e38003dd25d4abc0253ea272dd1d7c",
+    "notes/engine-study/T105/common.py": "e9933d1c703a637b9249a08a0860bbd24e366d706de53a3e90cb7bcc510ecd66",
+    "notes/engine-study/T105/check.py": "6435213866a7c234ec071e826b32bfb5e2aac7e0f5bbfc57d2bfeab318beb7d4",
+    "notes/engine-study/T105/T105a-v1.json": "38d34f7075d744e752b4779c886110584cb3565164a04334179f521adb0cd256",
+    "docs/engine-study/experiment-design.md": "39e3686e391082c4eab200f19c84dbde10f19adfcccb04ed7d2b3ce7f6f54c6e"
+  }
+}
