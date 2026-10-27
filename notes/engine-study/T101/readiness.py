@@ -27,7 +27,8 @@ def main():
                         'controls': controls(task, mock, text)})
     write_new(ROOT / 'notes/engine-study/T101/readiness-v1.json',
               {'scope': __doc__, 'source_commit': BASE, 'results': results})
-    print('PASS: three absent deliverables rejected, three structural mocks accepted, 12 controls rejected')
+    count = sum(len(result['controls']) for result in results)
+    print(f'PASS: three absent deliverables rejected, three structural mocks accepted, {count} controls rejected')
 
 
 if __name__ == '__main__':
