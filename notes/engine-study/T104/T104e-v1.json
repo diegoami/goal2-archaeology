@@ -1,0 +1,664 @@
+{
+  "analysis_sha256": {
+    "notes/engine-study/T104/common.py": "7b268370b2f3d1503e4a773558e2f6747f8f51008891c8dea2bc791ccdabe01e",
+    "notes/engine-study/T104/postmatch.py": "9ffea2d8994206f20747167f7ed701d6728dfcb4ff4ca8354b892fb603ddbfaf"
+  },
+  "calculations": {
+    "aggregate_equal_parities": [
+      1,
+      1
+    ],
+    "clipped_sequence": [
+      32,
+      31
+    ],
+    "controls": {
+      "aggregate-parity-tiebreak": "rejected:equality jumps jae before parity branch",
+      "ban-needs-participation": "rejected:status transition applies every nonzero squad word",
+      "combine-confidence-clips": "rejected:31+3 clipped32 then-1 yields31, not32",
+      "copy-energy-after-lower-clamp": "rejected:managed extreme fitness1/energy0",
+      "drop-substitute-offset-test": "rejected:10095 is decoded95, strict tie keeps101",
+      "restore-injury-from-fitness": "rejected:zero energy remains zero at CB7D"
+    },
+    "fitness_bases_caps": [
+      16,
+      13,
+      32,
+      25
+    ],
+    "group_key_order": [
+      "C",
+      "D",
+      "A",
+      "B"
+    ],
+    "man_of_match": {
+      "all_low_retains_previous": 777,
+      "bench_participant_alone": 102,
+      "first_tie": 101
+    },
+    "penalty_fixture": {
+      "absolute_margin": 0,
+      "goals": [
+        2,
+        2
+      ],
+      "result": 0,
+      "season_winner_increment": 1
+    },
+    "recovery_cases": [
+      [
+        13,
+        0
+      ],
+      [
+        13,
+        13
+      ],
+      [
+        27,
+        27
+      ],
+      [
+        14,
+        14
+      ],
+      [
+        25,
+        25
+      ]
+    ],
+    "restore_cases": [
+      [
+        14,
+        20
+      ],
+      [
+        14,
+        0
+      ],
+      [
+        14,
+        255
+      ]
+    ],
+    "roll_low_high": [
+      [
+        1,
+        0
+      ],
+      [
+        32,
+        32
+      ]
+    ],
+    "status_cases": [
+      0,
+      128,
+      8,
+      128,
+      136,
+      4
+    ]
+  },
+  "examples": [
+    {
+      "id": "managed-watched-tail",
+      "inputs": {
+        "caps": 3,
+        "draw2": 1,
+        "draw8": 8,
+        "energy": 4,
+        "fitness": 20,
+        "gradual": true,
+        "live_form": 18,
+        "result_delta": 3,
+        "saved_form": 14,
+        "status": 16
+      },
+      "limits": "Conditional annotated subsequence; pool nonmembership assumed. Not an executed natural fixture or a prediction for every selected pool player.",
+      "prediction": {
+        "caps": 4,
+        "energy": 27,
+        "fitness": 27,
+        "form": 17,
+        "status": 8
+      },
+      "steps": [
+        "F1F6 MOM before restore",
+        "CB7D restores14,20",
+        "managed pool may update shared identities first; this example excludes that membership",
+        "outer B7FA caps4,recovery27/27,form17",
+        "B27F current booking16 becomes carried8"
+      ]
+    },
+    {
+      "id": "injury-persistence",
+      "inputs": {
+        "draw2": 1,
+        "draw8": 8,
+        "energy": 0,
+        "fitness": 20,
+        "heal_coin": false
+      },
+      "limits": "Supplied legal draw outcomes; no probability or independent draw-stream claim.",
+      "prediction": {
+        "energy": 0,
+        "fitness": 13
+      },
+      "steps": [
+        "CB7D leaves zero",
+        "3651 fitness13",
+        "failed heal leaves energy0"
+      ]
+    },
+    {
+      "id": "roll-write-order",
+      "inputs": {
+        "base": 16,
+        "first_rand17": 17,
+        "managed": true,
+        "second_rand48": 1
+      },
+      "limits": "Source-admitted RNG extreme, not established natural frequency; original and port agree on write order.",
+      "prediction": {
+        "energy": 0,
+        "fitness": 1
+      },
+      "steps": [
+        "raw fitness0",
+        "upper clamp no change",
+        "copy energy0",
+        "lower fitness clamp1"
+      ]
+    },
+    {
+      "id": "penalty-result-reader",
+      "inputs": {
+        "fixture_goals": [
+          2,
+          2
+        ],
+        "fixture_result": 0,
+        "rating_difference": 0
+      },
+      "limits": "Phase-aware fixture result; no PK kicks executed, goal-based group readers are distinct.",
+      "prediction": {
+        "result_form_delta": 0,
+        "winner_season_wins_delta": 1
+      },
+      "steps": [
+        "D050 counts side0 win,goals2each",
+        "5C60 margin0",
+        "B71C rank0+margin0 remains0"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "address": "000E:6970",
+      "file": "static/goal-exe/named/seg_000E_05.c",
+      "heading_sha256": "d969f4480a58e6c768bd88db3d905cd0c777961c6fd86018560fad21efd903fa",
+      "line": 375
+    },
+    {
+      "address": "000E:6CA7",
+      "file": "static/goal-exe/named/seg_000E_05.c",
+      "heading_sha256": "36c99772df260238ea0c0da483dd5d6b511713efd33b35406ffc7c58c3ca8958",
+      "line": 516
+    },
+    {
+      "address": "0791:B27F",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "be84abb6420e6603ae855df35f4b70f4eab879a2698e2646010072f7c41c6eba",
+      "line": 500
+    },
+    {
+      "address": "0791:B364",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "dc0d76c39237fb1b43273683ea35810784b798c85bb29ef7faf10eaf77943bec",
+      "line": 534
+    },
+    {
+      "address": "0791:B3B7",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "0d691c01ab511fa080025b94cca27642d890f76868c1e5d7e9719a19c5b4e52a",
+      "line": 556
+    },
+    {
+      "address": "0791:B602",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "671f0aa985c7dfd75595e064f0f5c8441fbe4fe1289e544a9472ab50e440b00f",
+      "line": 631
+    },
+    {
+      "address": "0791:B6CC",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "126104a4a084a6982764e903ba723756e4d197f322a46b0903608630cd85636c",
+      "line": 674
+    },
+    {
+      "address": "0791:B71C",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "896f430d7b4079b3e01dd8669ac82d000f1f2db57c5ab3d49a5f11a00c9c7cf4",
+      "line": 696
+    },
+    {
+      "address": "0791:B7FA",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "585d243403576224041c5dfffe45b41c0bf9068d9bd56f6012cac6ca0d1a6ea1",
+      "line": 741
+    },
+    {
+      "address": "0791:BA4E",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "0ff55deb7cd50d5b4c92193c65a94b8551a1290b1941d6d4a5391e9e252bddd1",
+      "line": 838
+    },
+    {
+      "address": "0791:BB2F",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "5fbc12ac1fb7fa65eafd0b8d42d16e7fed32f50507436a9812c825dab0675fe5",
+      "line": 879
+    },
+    {
+      "address": "0791:CAB0",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "3be15769cecff95b082aeb11bfc92d85f22f8df8807d1ad3d6132332edf468e3",
+      "line": 630
+    },
+    {
+      "address": "0791:CB7D",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "b3b5e4d8b46fc2c4224e9feeac1e644c57337347f729c33422f10120ccc54784",
+      "line": 687
+    },
+    {
+      "address": "0791:D016",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "416cc6f45a10b652b39b3cbc76a7e43722706b5e1df0ffe1507a4d1af9c5427b",
+      "line": 871
+    },
+    {
+      "address": "0791:D032",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "279a1235c5a985c754db7e7c32ca341bb66f87c916f2035e0b7d23f6613b7b9d",
+      "line": 889
+    },
+    {
+      "address": "0791:D050",
+      "file": "static/goal-exe/named/seg_0791_12.c",
+      "heading_sha256": "b3c75c2b5c8ffcad69ed348af6492d90b1d786ea6cc768619e2a1e393908f318",
+      "line": 4
+    },
+    {
+      "address": "0791:E929",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "46a878b13e095614024a32b7d43db7197c4ade419bc9d03dc09724642e1c6542",
+      "line": 224
+    },
+    {
+      "address": "0791:F1F6",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "309bb749731f2aa2e0c544242a947ad0d22d45c528553e98451fd8481e85f0bd",
+      "line": 603
+    },
+    {
+      "address": "1771:10E7",
+      "file": "static/goal-exe/named/seg_1771_01.c",
+      "heading_sha256": "8b7994dc64734f83a6b27cae3ad5bddcfb226d938809a66bb6497d2924ac866e",
+      "line": 874
+    },
+    {
+      "address": "1771:3558",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "cbba01db57004da98a49ecc375ecbeaaa33bfafc1afdfc1ac0bd7b08f6ac0cb4",
+      "line": 228
+    },
+    {
+      "address": "1771:3651",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "5113eacb9f14a224a9cc820875ebc0ec4b9881534c4e164b639d139ff1ee654f",
+      "line": 266
+    },
+    {
+      "address": "1771:59D8",
+      "file": "static/goal-exe/named/seg_1771_04.c",
+      "heading_sha256": "d8f90f0e3d9492d1fd66eb933065d62091a79089686b9c82352eed73ce2bc137",
+      "line": 760
+    },
+    {
+      "address": "1771:5A03",
+      "file": "static/goal-exe/named/seg_1771_04.c",
+      "heading_sha256": "423980f88c657543891979e1bfa84107d1f5186ba61829125e07107422cb4e0e",
+      "line": 774
+    },
+    {
+      "address": "1771:5A38",
+      "file": "static/goal-exe/named/seg_1771_04.c",
+      "heading_sha256": "9b2791a84aa13862b47f714274f172f65d5f4daad25818372ba844e44f986a91",
+      "line": 788
+    },
+    {
+      "address": "1771:5A8F",
+      "file": "static/goal-exe/named/seg_1771_04.c",
+      "heading_sha256": "d7fb2073f7a5c6bbeefbb43917a06ba7686014fb6710483b29833bf45f478d0f",
+      "line": 816
+    },
+    {
+      "address": "1771:5C60",
+      "file": "static/goal-exe/named/seg_1771_04.c",
+      "heading_sha256": "6529ee39a2c0c59e6e809549f2ed3cb6f32270ad16add92d42b262ff081f2db4",
+      "line": 913
+    },
+    {
+      "address": "1771:82BD",
+      "file": "static/goal-exe/named/seg_1771_06.c",
+      "heading_sha256": "8de5f8f935a70f3abc3575d648ab2437013a6df435d68b8665a902c04c3c4bc3",
+      "line": 494
+    },
+    {
+      "address": "1771:85F7",
+      "file": "static/goal-exe/named/seg_1771_06.c",
+      "heading_sha256": "520df3dc9e6242a5416c8e2708389fa69e7c155072da95284b25fd82df74f082",
+      "line": 586
+    },
+    {
+      "address": "1771:8757",
+      "file": "static/goal-exe/named/seg_1771_06.c",
+      "heading_sha256": "56fdd5ba76dcbecdd71ec7321072a1e2967407110a88334cb19b5399ebc3b02d",
+      "line": 635
+    }
+  ],
+  "method": "Original named/listing reading and source-derived projections; no original/port engine execution.",
+  "routines": [
+    {
+      "address": "0791:CAB0",
+      "fields": [
+        "player+10/+12",
+        "7C3A"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Scan both squads 1..20; bench needs status element3; skip7FFF, signed perf>5000 subtract10000; strict max starts1.",
+      "visible_effect": "First equal rating wins; below-threshold scan retains previous winner word."
+    },
+    {
+      "address": "0791:CB7D",
+      "fields": [
+        "9B07",
+        "player+C/+D/+E"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Restore saved form for nonzero squad words; only signed-positive energy is replaced by current fitness.",
+      "visible_effect": "Live fatigue disappears here but energy-zero injury remains before later recovery."
+    },
+    {
+      "address": "0791:D016",
+      "fields": [
+        "country streak record+3+venue/+5"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Increment current venue and overall streak bytes.",
+      "visible_effect": "Byte wrapping is preserved."
+    },
+    {
+      "address": "0791:D032",
+      "fields": [
+        "country streak record+3+venue/+5"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Clear current venue and overall streak bytes.",
+      "visible_effect": "A draw clears win/loss streaks but extends nonwin/nonloss."
+    },
+    {
+      "address": "0791:D050",
+      "fields": [
+        "fixture+0/+1/+3",
+        "country+3B/+77/+A7..BE"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Update season W/D/L/goals, current/max streaks and largest decisive result records with >= margin replacement.",
+      "visible_effect": "Result byte can name a shootout winner despite tied stored goals; largest equal margins can replace."
+    },
+    {
+      "address": "0791:E929",
+      "fields": [
+        "8757",
+        "9976",
+        "1771:958D"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Recompute group tables then render selected country table.",
+      "visible_effect": "Repeated call recomputes from fixture records, not incremental double points."
+    },
+    {
+      "address": "0791:F1F6",
+      "fields": [
+        "9B07",
+        "9A3E",
+        "0C1E/1F/20",
+        "A923+1"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Setup/menu; save form20, initial XI perf55; play; MOM; summary/groups; restore state; AI reset; country records; managed pool tail.",
+      "visible_effect": "Does not itself call B7FA; outer router owns subsequent fixture-player updates."
+    },
+    {
+      "address": "1771:59D8",
+      "fields": [
+        "game+3C",
+        "CS59B8={3,4,7,8}"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Stage membership CS59B8 selects second table bank.",
+      "visible_effect": "Table address depends on stage and snapshot."
+    },
+    {
+      "address": "1771:82BD",
+      "fields": [
+        "fixture+0/+1/+2",
+        "table entry8bytes"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Rebuild four-country table from matching played fixture slots25..36, points2/1/0, descending points/GD/GF exchange sort.",
+      "visible_effect": "No fresh tie coin and no direct result-byte win bonus."
+    },
+    {
+      "address": "1771:85F7",
+      "fields": [
+        "fixture goals",
+        "aggregate+3",
+        "870A jae"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Stage6 rebuilds aggregate records2401..2408 once both legs played; total tie uses second first-side goals >= first.",
+      "visible_effect": "Parity-looking tie branch is unreachable on equality; inherited F023 original quirk."
+    },
+    {
+      "address": "1771:8757",
+      "fields": [
+        "CS8737",
+        "1110/1112",
+        "game+3C/+40"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Rebuild stage2/3/5/7 groups, stage6 aggregates; stage7 one continent, stage3 two groups.",
+      "visible_effect": "Competition refresh has stage-specific scope."
+    },
+    {
+      "address": "0791:B27F",
+      "fields": [
+        "player+10 elements8/6/5/4"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Clear old suspension, red becomes next suspension; current booking toggles carried booking or next suspension; clear red/current yellow.",
+      "visible_effect": "Called for nonparticipants too; no calendar duration byte."
+    },
+    {
+      "address": "0791:B364",
+      "fields": [
+        "player+C"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Signed old form plus word delta then clamp1..32 on every call.",
+      "visible_effect": "Multiple clipped calls cannot be merged algebraically."
+    },
+    {
+      "address": "0791:B6CC",
+      "fields": [
+        "A91F+3*manager+2"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Signed manager delta accumulator plus amount, clamp -127..127.",
+      "visible_effect": "Accumulator differs from manager ability+1; later season folding is separate."
+    },
+    {
+      "address": "0791:B71C",
+      "fields": [
+        "1771:10E7",
+        "1771:5C60",
+        "1771:5A03",
+        "fixture+3"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Opponent-minus-own country rating /32 truncation; decisive signed margin with side/fixture-set-dependent doubling.",
+      "visible_effect": "Penalty winner at tied stored goals may have zero margin contribution."
+    },
+    {
+      "address": "0791:B7FA",
+      "fields": [
+        "player+8/+C/+D/+E/+10",
+        "managed-any",
+        "5A8F"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Both nonzero squads: XI/status3 caps++, recovery/result form, extra participating-bench jitter; unused bench jitter/recovery; bans all.",
+      "visible_effect": "Managed pool updates may precede this; unplayed kind0 uses another route."
+    },
+    {
+      "address": "0791:BA4E",
+      "fields": [
+        "6D18",
+        "pool_indices",
+        "7C2A"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Update managed pool80 identities: recovery flag0 or reroll, form rand4 second-first, status unless fixturekind0.",
+      "visible_effect": "A selected pool player can receive another later B7FA update; order and RNG consumption matter."
+    },
+    {
+      "address": "1771:10E7",
+      "fields": [
+        "country+2A/+2B/+2C"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Rating=((33-rank)*(5-continent)+129-order)/2 with signed arithmetic.",
+      "visible_effect": "Country ranking contributes to result-form delta, not a direct new ability write."
+    },
+    {
+      "address": "1771:3558",
+      "fields": [
+        "player+1/+2/+D/+E",
+        "0E82"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Age>peak+4 selects B16/13; managed B+rand3B-rand(B+1), latter first; unmanaged B+rand2B; upper clamp32, energy copy, lower fitness1.",
+      "visible_effect": "Ordered writes can produce fitness1 with energy0 at legal RNG extreme."
+    },
+    {
+      "address": "1771:3651",
+      "fields": [
+        "player+1/+2/+D/+E",
+        "0E84",
+        "rand-is-one3"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Age>peak+3 cap32/25; injury draw2-draw8; participant reverse delta; unused draw2-draw3 plus1 below16; conditional healing.",
+      "visible_effect": "Signed-positive energy heals automatically; other energy needs coin, including injury zero."
+    },
+    {
+      "address": "1771:5A38",
+      "fields": [
+        "fixture+2/+6",
+        "country+2C"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Friendlykind1 compares supplied country continent with fixture second country.",
+      "visible_effect": "Cross-continent sideA only; sideB compares itself and is false."
+    },
+    {
+      "address": "1771:5A8F",
+      "fields": [
+        "5A38",
+        "5A03",
+        "0F3E"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Gradual when 5A38 or fixturekind belongs to DS0F3E.",
+      "visible_effect": "Otherwise reroll3558 replaces fitness/energy immediately."
+    },
+    {
+      "address": "1771:5C60",
+      "fields": [
+        "fixture+0/+1"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Absolute difference after signed extension of both goal bytes.",
+      "visible_effect": "Normal low scores equal ordinary margin; raw >=128 is a width edge."
+    },
+    {
+      "address": "0791:B3B7",
+      "fields": [
+        "player+11",
+        "A93F",
+        "game+40"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Increment scorer_count byte then update/insert top3 competition rows with strict count comparison; snapshot bank5.",
+      "visible_effect": "Annual top-scorer byte differs from career goals word; ties do not displace solely on equality."
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "Post-match order and path boundaries",
+    "What persists and what is restored",
+    "Recovery and availability",
+    "Country and competition consumers"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "findings/F023-the-stage-builders-write-the-competition-calendar-from-ranked-pots-and-a-points-sort-with-no-coin.md": "97b2ad4a34e5d71e3ec3a0358661465b2604ed558b3a2a80485cd0b2a26c1146",
+    "notes/engine-study/T98/tables.py": "f5e0836d57f8816943f2b2648818cb3a6175060b834f827dff64f27d535215fb",
+    "runtime/original_match/port/postmatch.py": "32035e9d055055cc29ba6dedbb38ceda3ac18ea6cc5d2a40605450086f41f86e",
+    "runtime/original_match/port/rare.py": "588b6fc3430a0e674664d9bf8f165bdf31779f240ac783f0490e5f4c5be1d66e",
+    "runtime/original_match/port/update.py": "0a4b3f58a48aec4fc69a229410e566af2144cc9e7153cbfd604da1557deb36b2",
+    "static/goal-exe/code/seg_000E_08.asm": "575756052161e6080bb84da707cf47cd2cb1b6d3e7f16840fea57b50689df066",
+    "static/goal-exe/code/seg_000E_09.asm": "6a84b76616379d6307b1cd26a822b60b90cdeb05ec7f93ddf37e1df7151a74dd",
+    "static/goal-exe/code/seg_0791_18.asm": "e19061df86a89389539ddc48b0497b1f04742062851deca434838b600387d397",
+    "static/goal-exe/code/seg_0791_19.asm": "9a67e02197e7b3796be1cf653ed6ffff35a9939cbe0044dee57f639971063ed8",
+    "static/goal-exe/code/seg_0791_20.asm": "9ed1e3aa1aca8370004fc286911f2cf55003c084f03f95f8e39b56bf438361f9",
+    "static/goal-exe/code/seg_0791_21.asm": "c0a1f37f3b6b13092012d3007a333b27c1a2194eeccd2eba5637b291be3b3358",
+    "static/goal-exe/code/seg_0791_23.asm": "49e12bb8534566ad1e6b4b22e2f088ce483d4518f8d2b8cf28fefb3c7f9b9cde",
+    "static/goal-exe/code/seg_1771_02.asm": "22d7089c0f0bc9b7dcb78d51531e127ec9e13db7c8c5d5627aca26b0103a21ec",
+    "static/goal-exe/code/seg_1771_05.asm": "4a856a9af9dee3d93fe6e6275ead612d2d3ba4c81363389c68fa5424ca8483d9",
+    "static/goal-exe/code/seg_1771_08.asm": "095098013452e8206c929eb558f8e96fab7483d63e2911924601ac1eaefa8bb4",
+    "static/goal-exe/code/seg_1771_12.asm": "94e9f817c8415a94d81e51695c8afe66fb6533268488e160fed1c363268ac892",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_000E_05.c": "1d8d433efe82c172f1223f9f139e140da465e2ee2b6adee53d0af91d7625aa4d",
+    "static/goal-exe/named/seg_0791_10.c": "307274e4e5007f1e809b5b54708a686d106a61d77848ddc6967c9fb0fd88e52f",
+    "static/goal-exe/named/seg_0791_11.c": "6e51b68715ebeca24e6616c99258668b5df0bb927e5e133105e04af66fee650e",
+    "static/goal-exe/named/seg_0791_12.c": "6484f6f6014e480e1cfecb34ff96b7032da39aa5b9338a133e9c596ab7964e8c",
+    "static/goal-exe/named/seg_0791_13.c": "4fe6fb41281082fba52ebdc61c6ba147de1dff5bf3ee94fe0bf1314e33878d21",
+    "static/goal-exe/named/seg_1771_01.c": "1a5b353b534973427d6dcaf639cd454641a3f3e17b3cf88aac2d493439789517",
+    "static/goal-exe/named/seg_1771_03.c": "9c51e37d30f7d69e51b2d776c0b704d7f87852cd10d47fa4d679880d13f4d2f4",
+    "static/goal-exe/named/seg_1771_04.c": "6a067b79adaf6f9d2239d247c68a5fd3389b8c6afdc1d20b991bd3bb91a24965",
+    "static/goal-exe/named/seg_1771_06.c": "2724ab4bb08efd659e44a4f583e1f5b23235e8b58599650e7c1e157038756f28"
+  },
+  "status": "proposed; source-derived explanation",
+  "supporting_artifacts": {},
+  "task": "T104e"
+}
