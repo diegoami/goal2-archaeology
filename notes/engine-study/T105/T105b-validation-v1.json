@@ -1,0 +1,71 @@
+{
+  "baseline": "943c42556423438e8a81dcac96beca61801db888",
+  "method": "source projections; no engine execution",
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T105/design.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T105a, eight design topics,4 literal examples,7 altered-design controls; source pins match; no engine execution\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T105/budget.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T105b, eight design topics,4 literal examples,8 altered-design controls; source pins match; no engine execution\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "T105b-final",
+        "--",
+        "python3",
+        "-B",
+        "notes/engine-study/T105/check.py",
+        "--task",
+        "T105b",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T105b\",\n  \"scope\": \"Experiment preregistration completeness/provenance; not causal validity or executed readiness.\",\n  \"positive\": \"accepted\",\n  \"topics\": 8,\n  \"manifest_sha256\": \"2e5f47f76ffb66236ad1b9f578fbdc2413471437a0aada4eb9070819f4fcf12c\",\n  \"controls\": {\n    \"missing-topic\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-expectation\": \"rejected\",\n    \"missing-controls\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/check_links.py"
+      ],
+      "exit": 0,
+      "stdout": "links and JSON ok (9939 files)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "sha256": {
+    "notes/engine-study/T105/design.py": "037284e20c8fd62b532d94fe0bbdb3b7b6e38003dd25d4abc0253ea272dd1d7c",
+    "notes/engine-study/T105/budget.py": "b078ed124c3490457c9485ff36d4cd82837b157779138bb7a3a161b4c7bf4e62",
+    "notes/engine-study/T105/common.py": "e9933d1c703a637b9249a08a0860bbd24e366d706de53a3e90cb7bcc510ecd66",
+    "notes/engine-study/T105/check.py": "6435213866a7c234ec071e826b32bfb5e2aac7e0f5bbfc57d2bfeab318beb7d4",
+    "notes/engine-study/T105/T105b-v1.json": "2e5f47f76ffb66236ad1b9f578fbdc2413471437a0aada4eb9070819f4fcf12c",
+    "docs/engine-study/experiment-budget.md": "cdb2849832fa1ff600923f545a86759a0eca48ae4a8b78a0437560d7abda1e68"
+  }
+}
