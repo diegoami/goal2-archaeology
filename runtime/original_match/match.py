@@ -203,7 +203,7 @@ def fresh_state(players_before):
 class Match:
     def __init__(self, image, fixture, *, managed=None, captain=None, seed=None, players=None, countries=None,
                  substitutions=None, ticks=False, record_draws=False, delay_byte=None, timeout_s=60, ports=None,
-                 prove=None, set_piece=False):
+                 prove=None, set_piece=False, engine="original"):
         """image: an Image of the original (goal2's savestate bytes through Image.from_savestate, e.g. of
         to_savestate(state, template); or GameState.mem through Image.from_memory_component). On the fixture
         tried, the match depended on the image only through its two teams' records (E033 notes, section 2).
@@ -226,6 +226,11 @@ class Match:
         N-th draw on (0: from the start; N > 0 needs record_draws) is run side by side with the original's, and the
         first difference raises ProofError; `prover.summary()` counts the proved calls. A proved match cannot be
         saved."""
+        if engine not in ("original", "port"):
+            raise ValueError("engine: original or port")
+        if engine == "port" and prove is not None:
+            raise ValueError("engine=port cannot run an inline original proof; compare backends externally")
+        self.engine = engine
         if fixture.kind not in KINDS:
             raise ValueError(f"fixture kind {fixture.kind} is none of the kinds the original's builders write {KINDS}")
         if fixture.first == fixture.second:
@@ -238,7 +243,12 @@ class Match:
             raise ValueError("the image does not hold the GOAL.EXE this kit was made on (the registered version, set "
                              "goal2-a949da2f); it differs in: " + "; ".join(problems))
         self.timeout_s = timeout_s
-        self.m = Machine(image.memory, image.load)
+        if engine == "port":
+            from .port.engine import PortMachine
+            self.m = PortMachine(image.memory, image.load)
+            ports = ["all"] + list(ports or ())
+        else:
+            self.m = Machine(image.memory, image.load)
         self.image_header = image.header
         self.image_tail = bytes(image.memory[MEM_SIZE:])    # guest memory above 1 MiB + HMA: the match never
         self.image_sha256 = image.sha256()                  # touches it; kept for memory_component()
@@ -261,6 +271,7 @@ class Match:
         self.opts = {"first": fixture.first, "second": fixture.second, "index": index, "managed": managed,
                      "captain": captain, "seed": seed, "ticks": ticks, "record_draws": record_draws,
                      "delay_byte": delay_byte, "kind": fixture.kind, "substitutions": substitutions}
+        if engine == "port":self.opts["engine"] = "port"
         if not isinstance(set_piece, bool):
             raise ValueError("set_piece: a boolean opt-in")
         if set_piece:
@@ -1312,6 +1323,8 @@ class Match:
     def save(self):
         """The whole match now (guest memory, registers, the kit's state) as bytes; Match.load() resumes it.
         Call it between events."""
+        if getattr(self, "engine", "original") == "port":
+            raise MatchError("port checkpoints are not enabled in this assembly slice")
         if self._menu is not None and not self.st["over"]:
             raise MatchError("save between events, not while the kit drives a screen")
         if self.m.frames and getattr(self, "_replay_origin", None) is None:
@@ -1350,10 +1363,14 @@ class Match:
         state = json.loads(data[8:8 + n])
         if state["version"] not in LOADS:
             raise ValueError(f"saved by kit version {state['version']}, this is {VERSION} (it loads {', '.join(LOADS)})")
+        engine = state["opts"].get("engine", "original")
+        if engine != "original":
+            raise ValueError("port/unknown engine checkpoint is not supported in this assembly slice")
         memory = zlib.decompress(data[8 + n:])
         if "replay" in state:
             return cls._load_replay(state, memory)
         self = cls.__new__(cls)
+        self.engine = "original"
         self.m = Machine(memory, state["load"])
         self.m.restore({"memory": memory[:MEM_SIZE], "regs": state["regs"]})
         self.image_header = bytes.fromhex(state["header"])

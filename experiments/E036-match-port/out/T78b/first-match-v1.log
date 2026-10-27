@@ -1,0 +1,27 @@
+test_port_constructor_uses_the_plain_backend_and_preserves_original_default (tests.test_port_engine.Engine.test_port_constructor_uses_the_plain_backend_and_preserves_original_default) ... ok
+test_no_unicorn_positive_denial_runs_a_complete_match (tests.test_port_engine.Engine.test_no_unicorn_positive_denial_runs_a_complete_match) ... FAIL
+
+======================================================================
+FAIL: test_no_unicorn_positive_denial_runs_a_complete_match (tests.test_port_engine.Engine.test_no_unicorn_positive_denial_runs_a_complete_match)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 99, in test_no_unicorn_positive_denial_runs_a_complete_match
+    self.assertEqual(run.returncode,0,run.stdout+run.stderr)
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "<string>", line 13, in <module>
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 436, in events
+    self._advance()
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 566, in _advance
+    stopped = self.m.run(self.end_lin, self.timeout_s, fresh=fresh)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/engine.py", line 163, in run
+    self._dispatch(self.pc())
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/engine.py", line 149, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:08DF
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.702s
+
+FAILED (failures=1)
