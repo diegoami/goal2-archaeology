@@ -43,6 +43,10 @@ for seed in (0, 1, 0x1234, 0x8000, 0xFFFF):
 for position, destination in ((0, 0), (0xABCD, 0xABCD), (0xABCD, 0xABCE), (0xFF80, 0x0080)):
     record = position.to_bytes(2, 'little') + bytes(5) + destination.to_bytes(2, 'little')
     CASES.append(('0791:2CC5', [0x100, 0x9000], [(0x90100, record)]))
+for target in (0xABCD, 0xABCE):
+    CASES.append(('0791:2CC5', [0xFFFA, 0x9000], [
+        (0x9FFFA, b'\xcd\xab'), (0x90001, target.to_bytes(2, 'little')),
+        (0xA0001, b'\x00\x00')]))
 for seed in (0, 1, 0x8000, 0xFFFF):
     for n in (0, 1, 2, 0xFFFF):
         for off in (0x100, 0x200):

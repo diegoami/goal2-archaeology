@@ -4,7 +4,7 @@ The original listings define the frame writes, partial registers and final flags
 """
 from . import Registry
 from .mem import s8
-from .pilot import is_keeper_slot, on_pitch, pitch_slot_side, on_target
+from .pilot import is_keeper_slot, on_pitch, pitch_slot_side
 from .runtime import Regs, args, invoke, sub_flags, add_flags, CF, PF, ZF, SF
 
 PORTS = Registry('entrypoints', 'Residual pilot helper calling conventions (T78b1)')
@@ -147,7 +147,7 @@ def destination(mem, variant):
     R.ax = mem.u16(seg * 16 + off)
     target = mem.u16(seg * 16 + ((off + 7) & 0xFFFF))
     R.arith(sub_flags(R.ax, target, 16))
-    finish_bool(R, on_target(mem, seg * 16 + off))
+    finish_bool(R, R.ax == target)
 
 
 @PORTS.port('214B:0688', ret='retf 6')
