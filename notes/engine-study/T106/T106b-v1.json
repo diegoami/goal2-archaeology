@@ -1,0 +1,728 @@
+{
+  "analysis_commit": "35e330cc61e8280d8358b1783374b55712728ce9",
+  "budget": {
+    "active_wall_s": 6.5725694360007765,
+    "cpu_s": 6.6320429999999995,
+    "failed_invocations": [],
+    "groups": {
+      "launch": 12,
+      "wall": 36
+    },
+    "invocations": 48,
+    "unclosed_batches": [],
+    "unclosed_invocations": []
+  },
+  "cases": [
+    {
+      "abi_equal": true,
+      "completed": true,
+      "controls": [
+        "real original/port guard fallback witnesses;two fixed repeats;wrong boundary/sign/axis hypotheses rejected by native data"
+      ],
+      "disposition": "exact",
+      "field_match": true,
+      "id": "wall-near",
+      "limits": [
+        "Five synthetic defending slots;not natural occurrence or whole-match fidelity.",
+        "Every memory byte compared;no normalisation/masks;full-register differences separate from declared ABI."
+      ],
+      "manifest_sha256": "260dc6a3659bd802331d99c5bcd8967423a07df502916dae613093c27dba0b19",
+      "prediction": {
+        "slots": [
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "targets": [
+          [
+            2,
+            30
+          ],
+          [
+            1,
+            30
+          ],
+          [
+            0,
+            30
+          ],
+          [
+            -1,
+            30
+          ],
+          [
+            -2,
+            30
+          ]
+        ]
+      },
+      "records": [
+        {
+          "path": "notes/engine-study/T106/wall/out/0013-wall-near_slot18_original.json",
+          "sha256": "73f4517fe7a81816801b457f4fc52d4e896812372f6aed3af32a2d172c8c3aaa"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0014-wall-near_slot18_port.json",
+          "sha256": "992d365f497e87a6a6c8b031702cec2db9d3dffe7c2ac255e5a3f87d51e13797"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0015-wall-near_slot19_original.json",
+          "sha256": "86656ec65b5994da873685dcc3bb2c5386ad93981d305a4d95e26d0b71afc9f8"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0016-wall-near_slot19_port.json",
+          "sha256": "15b8475459e0b67aaac956d7b8453c200f526450789496870507ce3d92a5ec22"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0017-wall-near_slot20_original.json",
+          "sha256": "21e0608feb580d55f0835b61af88be30d16f5817c0d8b338a1a5606dadbb3e20"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0018-wall-near_slot20_port.json",
+          "sha256": "22df8cd288d8141993e22afbe888313578340d258de6b711bf734898afe110d3"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0019-wall-near_slot21_original.json",
+          "sha256": "6642f1e5909e30564a1249bc174ecbdc6bdf74020da1bde705a6d7c6fc2b18a9"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0020-wall-near_slot21_port.json",
+          "sha256": "37fdf82acaa64b5a5087f8185098f84cbbd8861403786deb5b5b4283048d8792"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0021-wall-near_slot22_original.json",
+          "sha256": "bffbc2092ce3520e6b42bd11d121f8d2cabfd0961a17dd83b0ac31b7ce803fbe"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0022-wall-near_slot22_port.json",
+          "sha256": "90080a7dd3b836a98f287515bc394487a6ed1e714c567767c6bde87c45c95b4f"
+        }
+      ],
+      "strict_comparisons": [
+        {
+          "abi_equal": true,
+          "case": "wall-near",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0013-wall-near_slot18_original.json",
+            "sha256": "73f4517fe7a81816801b457f4fc52d4e896812372f6aed3af32a2d172c8c3aaa"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0014-wall-near_slot18_port.json",
+            "sha256": "992d365f497e87a6a6c8b031702cec2db9d3dffe7c2ac255e5a3f87d51e13797"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 18
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-near",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0015-wall-near_slot19_original.json",
+            "sha256": "86656ec65b5994da873685dcc3bb2c5386ad93981d305a4d95e26d0b71afc9f8"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0016-wall-near_slot19_port.json",
+            "sha256": "15b8475459e0b67aaac956d7b8453c200f526450789496870507ce3d92a5ec22"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 19
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-near",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0017-wall-near_slot20_original.json",
+            "sha256": "21e0608feb580d55f0835b61af88be30d16f5817c0d8b338a1a5606dadbb3e20"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0018-wall-near_slot20_port.json",
+            "sha256": "22df8cd288d8141993e22afbe888313578340d258de6b711bf734898afe110d3"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 20
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-near",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0019-wall-near_slot21_original.json",
+            "sha256": "6642f1e5909e30564a1249bc174ecbdc6bdf74020da1bde705a6d7c6fc2b18a9"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0020-wall-near_slot21_port.json",
+            "sha256": "37fdf82acaa64b5a5087f8185098f84cbbd8861403786deb5b5b4283048d8792"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 21
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-near",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0021-wall-near_slot22_original.json",
+            "sha256": "bffbc2092ce3520e6b42bd11d121f8d2cabfd0961a17dd83b0ac31b7ce803fbe"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0022-wall-near_slot22_port.json",
+            "sha256": "90080a7dd3b836a98f287515bc394487a6ed1e714c567767c6bde87c45c95b4f"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 22
+        }
+      ],
+      "strict_memory_equal": true
+    },
+    {
+      "abi_equal": true,
+      "completed": true,
+      "controls": [
+        "real original/port guard fallback witnesses;two fixed repeats;wrong boundary/sign/axis hypotheses rejected by native data"
+      ],
+      "disposition": "exact",
+      "field_match": true,
+      "id": "wall-far-positive",
+      "limits": [
+        "Five synthetic defending slots;not natural occurrence or whole-match fidelity.",
+        "Every memory byte compared;no normalisation/masks;full-register differences separate from declared ABI."
+      ],
+      "manifest_sha256": "260dc6a3659bd802331d99c5bcd8967423a07df502916dae613093c27dba0b19",
+      "prediction": {
+        "slots": [
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "targets": [
+          [
+            -3,
+            -28
+          ],
+          [
+            -3,
+            -27
+          ],
+          [
+            -3,
+            -26
+          ],
+          [
+            -3,
+            -25
+          ],
+          [
+            -3,
+            -24
+          ]
+        ]
+      },
+      "records": [
+        {
+          "path": "notes/engine-study/T106/wall/out/0023-wall-far-positive_slot18_original.json",
+          "sha256": "86dd80655a4537e59ce0674fc7fb00143c408f47b87bf118b6e3604729f63eb4"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0024-wall-far-positive_slot18_port.json",
+          "sha256": "3f89aae808fa1fefd8518705475e0bb932eee36f253823fc332d4706ed722a07"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0025-wall-far-positive_slot19_original.json",
+          "sha256": "8582d745c558225f975cc96abd6ccd18739b91f41df2def9b6d998800d7caafa"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0026-wall-far-positive_slot19_port.json",
+          "sha256": "82a557898233c87ce6abb5a97c34f904ef73de7586f2bb1fac2ff45bfd005fa7"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0027-wall-far-positive_slot20_original.json",
+          "sha256": "51327dce2712d5741da428b425a91622ee9a476e83673a6f726c0b4430e53cb7"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0028-wall-far-positive_slot20_port.json",
+          "sha256": "10673ea3bf6ea50f9b3052f4061a9eab7735584894ae5c800879a90b0324de2d"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0029-wall-far-positive_slot21_original.json",
+          "sha256": "04e47f1758eaf9ddc6efe888d6c3e558e70cec4c2b7b280967946cace0460b2f"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0030-wall-far-positive_slot21_port.json",
+          "sha256": "9af52b9f2535efdbcad28fbd7dbad830771b6abd080a4cb623c94c3f383372f7"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0031-wall-far-positive_slot22_original.json",
+          "sha256": "056c1cdece67a5289c9d8bac26ebc0228d7d0009a0e20d960288afda35397612"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0032-wall-far-positive_slot22_port.json",
+          "sha256": "9254160956c8bc053e92e5582eed3037011c75c269add3ba2dbb6ed1972f5ccc"
+        }
+      ],
+      "strict_comparisons": [
+        {
+          "abi_equal": true,
+          "case": "wall-far-positive",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0023-wall-far-positive_slot18_original.json",
+            "sha256": "86dd80655a4537e59ce0674fc7fb00143c408f47b87bf118b6e3604729f63eb4"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0024-wall-far-positive_slot18_port.json",
+            "sha256": "3f89aae808fa1fefd8518705475e0bb932eee36f253823fc332d4706ed722a07"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 18
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-far-positive",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0025-wall-far-positive_slot19_original.json",
+            "sha256": "8582d745c558225f975cc96abd6ccd18739b91f41df2def9b6d998800d7caafa"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0026-wall-far-positive_slot19_port.json",
+            "sha256": "82a557898233c87ce6abb5a97c34f904ef73de7586f2bb1fac2ff45bfd005fa7"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 19
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-far-positive",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0027-wall-far-positive_slot20_original.json",
+            "sha256": "51327dce2712d5741da428b425a91622ee9a476e83673a6f726c0b4430e53cb7"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0028-wall-far-positive_slot20_port.json",
+            "sha256": "10673ea3bf6ea50f9b3052f4061a9eab7735584894ae5c800879a90b0324de2d"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 20
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-far-positive",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0029-wall-far-positive_slot21_original.json",
+            "sha256": "04e47f1758eaf9ddc6efe888d6c3e558e70cec4c2b7b280967946cace0460b2f"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0030-wall-far-positive_slot21_port.json",
+            "sha256": "9af52b9f2535efdbcad28fbd7dbad830771b6abd080a4cb623c94c3f383372f7"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 21
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-far-positive",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0031-wall-far-positive_slot22_original.json",
+            "sha256": "056c1cdece67a5289c9d8bac26ebc0228d7d0009a0e20d960288afda35397612"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0032-wall-far-positive_slot22_port.json",
+            "sha256": "9254160956c8bc053e92e5582eed3037011c75c269add3ba2dbb6ed1972f5ccc"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 22
+        }
+      ],
+      "strict_memory_equal": true
+    },
+    {
+      "abi_equal": true,
+      "completed": true,
+      "controls": [
+        "real original/port guard fallback witnesses;two fixed repeats;wrong boundary/sign/axis hypotheses rejected by native data"
+      ],
+      "disposition": "exact",
+      "field_match": true,
+      "id": "wall-far-negative",
+      "limits": [
+        "Five synthetic defending slots;not natural occurrence or whole-match fidelity.",
+        "Every memory byte compared;no normalisation/masks;full-register differences separate from declared ABI."
+      ],
+      "manifest_sha256": "260dc6a3659bd802331d99c5bcd8967423a07df502916dae613093c27dba0b19",
+      "prediction": {
+        "slots": [
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "targets": [
+          [
+            -3,
+            28
+          ],
+          [
+            -3,
+            29
+          ],
+          [
+            -3,
+            30
+          ],
+          [
+            -3,
+            31
+          ],
+          [
+            -3,
+            32
+          ]
+        ]
+      },
+      "records": [
+        {
+          "path": "notes/engine-study/T106/wall/out/0033-wall-far-negative_slot7_original.json",
+          "sha256": "9e0b7249891aa58c5c263de7ba087a162f4af5cdc7538c07c8c7a9ff2b323bb2"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0034-wall-far-negative_slot7_port.json",
+          "sha256": "2817b3d5ecbe017595091a268b055e0a8ef64e4a3decf0a55be40b20ec3e4314"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0035-wall-far-negative_slot8_original.json",
+          "sha256": "030658c0334e898d90b8fea7f682e394eefcf2b509a76c0e485218fb17b00b32"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0036-wall-far-negative_slot8_port.json",
+          "sha256": "bfc32ea61cdb49cc820d423052e6b159a8d62ba86ddd22d9bdc834eeabaad37f"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0037-wall-far-negative_slot9_original.json",
+          "sha256": "14b471c5b04f4f6cffbd24917d99bef05346f8e22fccb0f5cb03b66cc2a96de2"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0038-wall-far-negative_slot9_port.json",
+          "sha256": "4baeb53f3acd5d1d411da852d236ddd27879fa1b2f7b3cf09c724f3c1b9bdc44"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0039-wall-far-negative_slot10_original.json",
+          "sha256": "37a9db55fe2a6119791be2ca42a56ad88552d922aefdfa829a81a184184bc90c"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0040-wall-far-negative_slot10_port.json",
+          "sha256": "b42e879cf922a06f3ef2a3adbe6de8bb34eb8fb298c3d0404180775e3b899047"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0041-wall-far-negative_slot11_original.json",
+          "sha256": "6902c1ffa3f7a8e4908ac209598695ada7e54a5ce4dcc9b0fb15137e9c41ac9f"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0042-wall-far-negative_slot11_port.json",
+          "sha256": "f5d1b8028f9ce910c38b00dc43e34c67c1c81a3c4eef2c09ff29bfc391f6103d"
+        }
+      ],
+      "strict_comparisons": [
+        {
+          "abi_equal": true,
+          "case": "wall-far-negative",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0033-wall-far-negative_slot7_original.json",
+            "sha256": "9e0b7249891aa58c5c263de7ba087a162f4af5cdc7538c07c8c7a9ff2b323bb2"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0034-wall-far-negative_slot7_port.json",
+            "sha256": "2817b3d5ecbe017595091a268b055e0a8ef64e4a3decf0a55be40b20ec3e4314"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 7
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-far-negative",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0035-wall-far-negative_slot8_original.json",
+            "sha256": "030658c0334e898d90b8fea7f682e394eefcf2b509a76c0e485218fb17b00b32"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0036-wall-far-negative_slot8_port.json",
+            "sha256": "bfc32ea61cdb49cc820d423052e6b159a8d62ba86ddd22d9bdc834eeabaad37f"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 8
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-far-negative",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0037-wall-far-negative_slot9_original.json",
+            "sha256": "14b471c5b04f4f6cffbd24917d99bef05346f8e22fccb0f5cb03b66cc2a96de2"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0038-wall-far-negative_slot9_port.json",
+            "sha256": "4baeb53f3acd5d1d411da852d236ddd27879fa1b2f7b3cf09c724f3c1b9bdc44"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 9
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-far-negative",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0039-wall-far-negative_slot10_original.json",
+            "sha256": "37a9db55fe2a6119791be2ca42a56ad88552d922aefdfa829a81a184184bc90c"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0040-wall-far-negative_slot10_port.json",
+            "sha256": "b42e879cf922a06f3ef2a3adbe6de8bb34eb8fb298c3d0404180775e3b899047"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 10
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-far-negative",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0041-wall-far-negative_slot11_original.json",
+            "sha256": "6902c1ffa3f7a8e4908ac209598695ada7e54a5ce4dcc9b0fb15137e9c41ac9f"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0042-wall-far-negative_slot11_port.json",
+            "sha256": "f5d1b8028f9ce910c38b00dc43e34c67c1c81a3c4eef2c09ff29bfc391f6103d"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 11
+        }
+      ],
+      "strict_memory_equal": true
+    }
+  ],
+  "control_outcomes": {
+    "fixed_repeats": "exact full-memory/register repetition",
+    "guards": {
+      "forward-false": {
+        "abi_equal": true,
+        "field_equal": true,
+        "full_memory_equal": true,
+        "observed": {
+          "state": 11,
+          "target": [
+            -1,
+            -31
+          ]
+        },
+        "original_native_fallback_entry": true,
+        "production_port_fallback_entry": true
+      },
+      "outside-slot6": {
+        "abi_equal": true,
+        "field_equal": true,
+        "full_memory_equal": true,
+        "observed": {
+          "state": 11,
+          "target": [
+            -3,
+            33
+          ]
+        },
+        "original_native_fallback_entry": true,
+        "production_port_fallback_entry": true
+      }
+    },
+    "wrong_geometry_hypotheses": "rejected by original observations;not executed engine mutants"
+  },
+  "limits": [
+    "Direct single-call geometry;not natural incidence.",
+    "Production callees only;native fallback refused in port arm;no sound/display stub reached."
+  ],
+  "method": "Native original and actual registered production ports on identical hash-frozen synthetic inputs",
+  "source_commits": {
+    "notes/engine-study/T105/T105a-v2.json": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "notes/engine-study/T105/T105b-v2.json": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "notes/engine-study/T106/check.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "notes/engine-study/T106/construction.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "notes/engine-study/T106/runner.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "notes/engine-study/T106/wall/analyse.py": "35e330cc61e8280d8358b1783374b55712728ce9",
+    "notes/engine-study/T106/wall/build_manifest.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/__init__.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/assets.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/build.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/check.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/example.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/image.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/machine.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/match.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/__init__.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/_display_finals.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/attributes.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/ball.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/contests.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/discipline.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/display.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/duels.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/engine.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/entrypoints.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/frame.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/geometry.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/guest.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/mem.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/menus.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/motion.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/pilot.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/positioning.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/postmatch.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/prove.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/quick.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/rare.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/real.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/restarts.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/runtime.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/selection.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/setup.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/takers.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/port/update.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "runtime/original_match/screens.py": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "static/goal-exe/code/seg_0791_06.asm": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2",
+    "static/goal-exe/code/seg_0791_12.asm": "84cfb48b3315a825bed95de84d0c8cb03a3b3bb2"
+  },
+  "source_sha256": {
+    "notes/engine-study/T105/T105a-v2.json": "20f89ee6a7443834480eedd14c76670fabe1e251fa4d579e4a6f6f1b5b22dcae",
+    "notes/engine-study/T105/T105b-v2.json": "843b297030a42443102ab4f734733b64951eaab64e7a1e2262e17ef7c149146d",
+    "notes/engine-study/T106/check.py": "2e71c8b9d276a5b484d16b339c72daa7d87099aceed4b66cc6153555fbaa802a",
+    "notes/engine-study/T106/construction.py": "8e6c854c14ec6234075003e824410ab6199d49c5cdaa23ceb5e6dd0013017917",
+    "notes/engine-study/T106/runner.py": "8ec130ca9194fcc5503d5c7ff5577e17d1fe2a47f0cf1faf72f4343e1b376320",
+    "notes/engine-study/T106/wall/analyse.py": "8e14cdb6630e2791e2b6839eb50783f61695025dc3881b5e177feb801cebfc7f",
+    "notes/engine-study/T106/wall/build_manifest.py": "487a21921d7a5c497b86ba7cbff077de99aff123cda604adeb2aa16ca19d9aa1",
+    "runtime/original_match/__init__.py": "b1286fdd13e3862f5e21c91c9879a1de078199c6180328e78bcde28f5ac12d5c",
+    "runtime/original_match/assets.py": "fb5da2f045c06e3a54d5fe162a89947969d547b3d0dca4d8ed716ea380250685",
+    "runtime/original_match/build.py": "e3b7c45b7442115361a6bfbded6f954749eea4e31e4f45714684bc2b071a6b41",
+    "runtime/original_match/check.py": "644cfebea433324fee196a23d535ea558293b5999e34f5385cfe9b9f879f4dbb",
+    "runtime/original_match/example.py": "d17a104f8c08635fb8a3ff61f6113aa56a902b88aef5fcceaf32ab27790bbacf",
+    "runtime/original_match/image.py": "0b6c8a98c0d4fabdfe63be52561dd2afc56a4f0a8238e8ccc06dfd33e78e35a9",
+    "runtime/original_match/machine.py": "c01aa890626ac0235f6e1a40dec93475624a5f09d426bdb6f701b37ceb6c2db1",
+    "runtime/original_match/match.py": "f48af24c40e571be10c31b21e5551c47d26af3624c71bf97cd7348c9a64e9885",
+    "runtime/original_match/port/__init__.py": "755c1d44d453854d04733ea1678ad588b23c45152d84336168c8342f9bc760e6",
+    "runtime/original_match/port/_display_finals.py": "32ad22c55be46cd6ce22ac105070f5938f94d013f3ea41d26df967d8bcf02325",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "runtime/original_match/port/ball.py": "6b5f17ee9af3bf7dbb2bae4bd5ae00e1a012f6d6cf6e6e3c2cdd8464a7e2c72a",
+    "runtime/original_match/port/contests.py": "b4db099959a09a1dcb78f031e9a44dc64624a5ffd8ea7b0be3441298bb0ec40e",
+    "runtime/original_match/port/discipline.py": "a8ee74a7336ebd3d8c85ee71cbb6a089fca45fc0c05ee3efec866d798649fdcd",
+    "runtime/original_match/port/display.py": "33b298ead7c58815b9463a39f14e0ba862c81a3af02d53cd5f6184b0f4d8da5e",
+    "runtime/original_match/port/duels.py": "37fe8ea7dec6c3aff8c80d26367d3225460af037a839912e98b4e6217dd739b6",
+    "runtime/original_match/port/engine.py": "5b82528f92309934a7b2010f404bd5787cb13ea08a32463c8fd3b6679e9c48a3",
+    "runtime/original_match/port/entrypoints.py": "a55d378798ed5ec2c33404739b0961b8fec1e6167d1d301f5512cced4063b5b7",
+    "runtime/original_match/port/frame.py": "d4c0cd4753038d6058f8359818164ce8cd0be775191fc8338f9a7ec9849b3a6a",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "runtime/original_match/port/guest.py": "1c2f1eba101c7ce08cb7d23d273d69411ec4dcbfd1512427042c304a2721c8d9",
+    "runtime/original_match/port/mem.py": "0105113f8102a3e8c3544942a445e156fecc0196f7911089e7f789a7775fe45c",
+    "runtime/original_match/port/menus.py": "ea87406a9f0300d0d54c3f71d664a8ed2925505fb133b59a481e8fc5f098f053",
+    "runtime/original_match/port/motion.py": "4e7bab13c1e196464ecb41fd2ddb3a41878c217885c238fd2e80cd8329746eb2",
+    "runtime/original_match/port/pilot.py": "700a8bf56db7adcccd6d011b0e26d0a06599c24fbc451e44fee033b8e56e0863",
+    "runtime/original_match/port/positioning.py": "6a8feb436f745149a010db472a1aed04569d897875cd966eb434a6170b7f839e",
+    "runtime/original_match/port/postmatch.py": "32035e9d055055cc29ba6dedbb38ceda3ac18ea6cc5d2a40605450086f41f86e",
+    "runtime/original_match/port/prove.py": "74e7724eaf93206e4070b9bc41d2f04cf546e177b6a9718451da6476a313e8d7",
+    "runtime/original_match/port/quick.py": "28836a578a2937b72a4fff05ab315bb0a9f665f24cf79e5a14bd4da710432590",
+    "runtime/original_match/port/rare.py": "588b6fc3430a0e674664d9bf8f165bdf31779f240ac783f0490e5f4c5be1d66e",
+    "runtime/original_match/port/real.py": "dbd3e488d8959924ffedeb58f8afec62ffa4c71a35116d7dd72c307a30dcd1f9",
+    "runtime/original_match/port/restarts.py": "c378834575a59d89f31fea8f9ee5ffca7daaf98754a36e848164bb819ad87977",
+    "runtime/original_match/port/runtime.py": "0a03827635ec11e2edf31fe9344ac56363bd6aadbe15e09f8ccfee4c384e6b1d",
+    "runtime/original_match/port/selection.py": "4a2ac1e0868d44f0e58dfcf31b1df1c3f1171edf4a511d4695e73fb7ee9ef382",
+    "runtime/original_match/port/setup.py": "0f703063621cd8a96d9ac0acde56da89754aa885a3d94d9333991a115e8185e2",
+    "runtime/original_match/port/takers.py": "fcd182d4543af18a0def9e16773cd317939fd0ca37559f941b499bf9ab40d7b8",
+    "runtime/original_match/port/update.py": "0a4b3f58a48aec4fc69a229410e566af2144cc9e7153cbfd604da1557deb36b2",
+    "runtime/original_match/screens.py": "45c220305d3e9bbbb4680edbb29fee6d6526d6521fbeea67a969d7b8daf7b304",
+    "static/goal-exe/code/seg_0791_06.asm": "b7debdb96455259d2dca1e10096d42fb6ae843b79105eda4c5e7b7cf7b34ceb6",
+    "static/goal-exe/code/seg_0791_12.asm": "51e9bb66b774cb145dea8d8986ee4dbcb3c6b74b1a79e47808fe28909916b108"
+  },
+  "task": "T106b"
+}
