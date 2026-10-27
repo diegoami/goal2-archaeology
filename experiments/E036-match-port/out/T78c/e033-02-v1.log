@@ -1,0 +1,21 @@
+heavy: T78c-e033-02: waiting for a slot (4 ahead)
+heavy: T78c-e033-02: waiting for a slot (3 ahead)
+heavy: T78c-e033-02: waiting for a slot (2 ahead)
+heavy: T78c-e033-02: waiting for a slot (1 ahead)
+heavy: T78c-e033-02: waiting for a slot (0 ahead)
+heavy: T78c-e033-02: got slot 3 after 1066 s
+test_e033_02 (tests.test_port_engine.Checkpoints.test_e033_02) ... checkpoint PASS Denmark v 19 at 40, seed 0xE719 boundary=0 phase=event
+checkpoint PASS Denmark v 19 at 40, seed 0xE719 boundary=2 phase=event
+checkpoint PASS Denmark v 19 at 40, seed 0xE719 boundary=66 phase=event
+checkpoint PASS Denmark v 19 at 40, seed 0xE719 boundary=558 phase=event
+checkpoint PASS Denmark v 19 at 40, seed 0xE719 boundary=559 phase=event
+checkpoint PASS Denmark v 19 at 40, seed 0xE719 boundary=559 phase=answered
+checkpoint PASS Denmark v 19 at 40, seed 0xE719 boundary=753 phase=event
+checkpoint PASS Denmark v 19 at 40, seed 0xE719 boundary=1146 phase=event
+checkpoint PASS Denmark v 19 at 40, seed 0xE719 boundary=1147 phase=event
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 2826.541s
+
+OK

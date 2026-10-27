@@ -1,0 +1,28 @@
+{
+  "authorization": "Owner explicitly requested starting the other three scenarios in parallel, overriding the four-slot default for this batch only.",
+  "normal_slots": 4,
+  "expanded_total_slots": 7,
+  "shared_slot_locks": "/home/diego/.cache/goal2-heavy/slots",
+  "expansion_queue": "/home/diego/projects/goal2-archaeology-engine/.cache/T78c-owner-seven-slots-v1/queue",
+  "source_unchanged": true,
+  "jobs": [
+    {
+      "name": "e034-03",
+      "pid": 3328883,
+      "log": "experiments/E036-match-port/out/T78c/e034-03-v2.log",
+      "receipt": "experiments/E036-match-port/out/T78c/e034-03-v2-exit.json"
+    },
+    {
+      "name": "e033-05",
+      "pid": 3328884,
+      "log": "experiments/E036-match-port/out/T78c/e033-05-v2.log",
+      "receipt": "experiments/E036-match-port/out/T78c/e033-05-v2-exit.json"
+    },
+    {
+      "name": "e033-03",
+      "pid": 3328885,
+      "log": "experiments/E036-match-port/out/T78c/e033-03-v2.log",
+      "receipt": "experiments/E036-match-port/out/T78c/e033-03-v2-exit.json"
+    }
+  ]
+}
