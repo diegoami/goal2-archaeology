@@ -1,0 +1,70 @@
+test_a_caller_pops_call_drops_its_arguments (tests.test_port_guest.GuestCallTests.test_a_caller_pops_call_drops_its_arguments) ... ok
+test_a_decision_under_a_port_stops_and_resumes_exactly (tests.test_port_guest.GuestCallTests.test_a_decision_under_a_port_stops_and_resumes_exactly) ... ok
+test_a_far_call_pushes_the_segment_and_the_callee_pops_its_argument (tests.test_port_guest.GuestCallTests.test_a_far_call_pushes_the_segment_and_the_callee_pops_its_argument) ... ok
+test_a_frame_resumes_only_at_its_return_address (tests.test_port_guest.GuestCallTests.test_a_frame_resumes_only_at_its_return_address) ... ok
+test_a_guest_call_returns_the_originals_registers_and_writes (tests.test_port_guest.GuestCallTests.test_a_guest_call_returns_the_originals_registers_and_writes) ... ok
+test_a_return_address_in_code_already_translated_is_reached (tests.test_port_guest.GuestCallTests.test_a_return_address_in_code_already_translated_is_reached) ... ok
+test_save_refuses_while_a_ports_frame_is_live (tests.test_port_guest.GuestCallTests.test_save_refuses_while_a_ports_frame_is_live) ... ok
+test_the_return_address_with_another_sp_is_not_the_calls_return (tests.test_port_guest.GuestCallTests.test_the_return_address_with_another_sp_is_not_the_calls_return) ... ok
+test_a_log_of_other_ports_is_refused (tests.test_port_guest.LocatorTests.test_a_log_of_other_ports_is_refused) ... ok
+test_a_one_byte_divergence_is_located_to_its_call (tests.test_port_guest.LocatorTests.test_a_one_byte_divergence_is_located_to_its_call)
+The locator's second step on a synthetic divergence: the run proved from the start names the call. ... ok
+test_a_ported_reference_is_refused (tests.test_port_guest.LocatorTests.test_a_ported_reference_is_refused) ... ok
+test_the_first_differing_row (tests.test_port_guest.LocatorTests.test_the_first_differing_row) ... ok
+test_the_grammar_of_a_ported_record (tests.test_port_guest.LocatorTests.test_the_grammar_of_a_ported_record) ... ok
+test_the_ports_options (tests.test_port_guest.LocatorTests.test_the_ports_options) ... ok
+test_a_call_crossing_a_decision_is_proved (tests.test_port_guest.ProofTests.test_a_call_crossing_a_decision_is_proved) ... ok
+test_a_call_crossing_a_kit_site_is_proved (tests.test_port_guest.ProofTests.test_a_call_crossing_a_kit_site_is_proved) ... ok
+test_a_dead_result_is_exempted_only_where_declared (tests.test_port_guest.ProofTests.test_a_dead_result_is_exempted_only_where_declared) ... ok
+test_a_divergence_after_the_kits_answer_is_named (tests.test_port_guest.ProofTests.test_a_divergence_after_the_kits_answer_is_named) ... ok
+test_a_divergence_crossing_a_decision_is_named (tests.test_port_guest.ProofTests.test_a_divergence_crossing_a_decision_is_named) ... ok
+test_a_divergence_crossing_a_kit_site_is_named (tests.test_port_guest.ProofTests.test_a_divergence_crossing_a_kit_site_is_named) ... ok
+test_a_divergence_in_a_flag_input_is_named (tests.test_port_guest.ProofTests.test_a_divergence_in_a_flag_input_is_named) ... ok
+test_a_divergence_in_a_segment_input_is_named (tests.test_port_guest.ProofTests.test_a_divergence_in_a_segment_input_is_named) ... ok
+test_a_divergence_in_a_stack_argument_is_named (tests.test_port_guest.ProofTests.test_a_divergence_in_a_stack_argument_is_named) ... ok
+test_a_divergence_in_the_kits_input_register_is_named (tests.test_port_guest.ProofTests.test_a_divergence_in_the_kits_input_register_is_named) ... ok
+test_a_divergence_read_while_the_match_stands_at_a_decision_is_named (tests.test_port_guest.ProofTests.test_a_divergence_read_while_the_match_stands_at_a_decision_is_named) ... ok
+test_a_faithful_port_is_proved (tests.test_port_guest.ProofTests.test_a_faithful_port_is_proved) ... ok
+test_a_fired_site_that_stops_is_refused (tests.test_port_guest.ProofTests.test_a_fired_site_that_stops_is_refused) ... ok
+test_a_functions_other_result_is_named (tests.test_port_guest.ProofTests.test_a_functions_other_result_is_named) ... ok
+test_a_kit_hook_at_the_entry_is_not_a_site_of_the_call (tests.test_port_guest.ProofTests.test_a_kit_hook_at_the_entry_is_not_a_site_of_the_call) ... ok
+test_a_kit_write_in_a_write_listener_is_replayed (tests.test_port_guest.ProofTests.test_a_kit_write_in_a_write_listener_is_replayed) ... ok
+test_a_kit_write_outside_its_sites_is_refused (tests.test_port_guest.ProofTests.test_a_kit_write_outside_its_sites_is_refused) ... ok
+test_a_listener_call_moved_across_a_nested_return_is_named (tests.test_port_guest.ProofTests.test_a_listener_call_moved_across_a_nested_return_is_named) ... ok
+test_a_listener_call_moved_across_a_site_is_named (tests.test_port_guest.ProofTests.test_a_listener_call_moved_across_a_site_is_named) ... ok
+test_a_listener_call_the_original_does_not_make_is_named (tests.test_port_guest.ProofTests.test_a_listener_call_the_original_does_not_make_is_named) ... ok
+test_a_nested_call_in_one_run_only_is_named (tests.test_port_guest.ProofTests.test_a_nested_call_in_one_run_only_is_named) ... ok
+test_a_nested_call_of_another_routine_is_named (tests.test_port_guest.ProofTests.test_a_nested_call_of_another_routine_is_named) ... ok
+test_a_nested_port_is_compared_as_part_of_its_caller (tests.test_port_guest.ProofTests.test_a_nested_port_is_compared_as_part_of_its_caller) ... ok
+test_a_nested_ports_dead_result_is_exempted_where_declared (tests.test_port_guest.ProofTests.test_a_nested_ports_dead_result_is_exempted_where_declared) ... ok
+test_a_nested_ports_result_is_compared_at_its_own_return (tests.test_port_guest.ProofTests.test_a_nested_ports_result_is_compared_at_its_own_return) ... ok
+test_a_one_byte_divergence_is_named (tests.test_port_guest.ProofTests.test_a_one_byte_divergence_is_named) ... ok
+test_a_ports_own_key_read_is_refused_under_a_proof (tests.test_port_guest.ProofTests.test_a_ports_own_key_read_is_refused_under_a_proof) ... ok
+test_a_proof_not_armed_runs_the_port (tests.test_port_guest.ProofTests.test_a_proof_not_armed_runs_the_port) ... ok
+test_a_raw_hook_is_refused_under_a_proof (tests.test_port_guest.ProofTests.test_a_raw_hook_is_refused_under_a_proof) ... ok
+test_a_raw_read_by_the_kit_is_refused_and_the_tapped_one_compared (tests.test_port_guest.ProofTests.test_a_raw_read_by_the_kit_is_refused_and_the_tapped_one_compared) ... ok
+test_a_returned_register_is_compared_whatever_the_port_returns (tests.test_port_guest.ProofTests.test_a_returned_register_is_compared_whatever_the_port_returns) ... ok
+test_a_site_between_other_writes_is_named (tests.test_port_guest.ProofTests.test_a_site_between_other_writes_is_named) ... ok
+test_a_site_reached_with_another_stack_is_named (tests.test_port_guest.ProofTests.test_a_site_reached_with_another_stack_is_named) ... ok
+test_a_site_the_original_did_not_reach_is_named (tests.test_port_guest.ProofTests.test_a_site_the_original_did_not_reach_is_named) ... ok
+test_a_site_the_port_did_not_reach_is_named (tests.test_port_guest.ProofTests.test_a_site_the_port_did_not_reach_is_named) ... ok
+test_a_write_listener_that_stops_is_refused (tests.test_port_guest.ProofTests.test_a_write_listener_that_stops_is_refused) ... ok
+test_a_write_listeners_input_is_compared (tests.test_port_guest.ProofTests.test_a_write_listeners_input_is_compared) ... ok
+test_a_write_listeners_pc_is_compared (tests.test_port_guest.ProofTests.test_a_write_listeners_pc_is_compared) ... ok
+test_a_write_split_otherwise_is_named (tests.test_port_guest.ProofTests.test_a_write_split_otherwise_is_named) ... ok
+test_an_mmio_callback_is_refused (tests.test_port_guest.ProofTests.test_an_mmio_callback_is_refused) ... ok
+test_every_engine_attribute_is_whitelisted_or_refused_under_a_proof (tests.test_port_guest.ProofTests.test_every_engine_attribute_is_whitelisted_or_refused_under_a_proof) ... ok
+test_no_listener_of_the_kits_runs_in_the_muted_original (tests.test_port_guest.ProofTests.test_no_listener_of_the_kits_runs_in_the_muted_original) ... ok
+test_only_the_machine_and_the_proof_touch_the_engine (tests.test_port_guest.ProofTests.test_only_the_machine_and_the_proof_touch_the_engine)
+The kit reaches the guest only through Machine's methods (the taps the proof records): the raw engine's ... ok
+test_sites_in_another_order_are_named (tests.test_port_guest.ProofTests.test_sites_in_another_order_are_named) ... ok
+test_the_kits_answer_is_replayed_to_the_original (tests.test_port_guest.ProofTests.test_the_kits_answer_is_replayed_to_the_original) ... ok
+test_the_kits_inputs_faithful_are_proved (tests.test_port_guest.ProofTests.test_the_kits_inputs_faithful_are_proved) ... ok
+test_the_original_runs_on_the_entrys_memory (tests.test_port_guest.ProofTests.test_the_original_runs_on_the_entrys_memory) ... ok
+test_the_pilots_exemption_is_declared_for_its_one_return_address (tests.test_port_guest.ProofTests.test_the_pilots_exemption_is_declared_for_its_one_return_address) ... ok
+test_the_taps_are_the_proofs_alone (tests.test_port_guest.ProofTests.test_the_taps_are_the_proofs_alone) ... ok
+
+----------------------------------------------------------------------
+Ran 63 tests in 0.226s
+
+OK
