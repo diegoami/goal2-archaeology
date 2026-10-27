@@ -1,7 +1,7 @@
 """Provenance and exclusive output for design-only ledgers; no engine execution."""
 import argparse,json,re
 from pathlib import Path
-from check import ROOT,BASE,pin,sha,write_new
+from check import ROOT,BASE,VERSIONS,pin,sha,write_new
 
 
 def ledger(task,script,sections,decisions,examples,calculations,addresses,sources,artifacts=()):
@@ -14,8 +14,8 @@ def ledger(task,script,sections,decisions,examples,calculations,addresses,source
 
 
 def run(task,builder):
-    ap=argparse.ArgumentParser();ap.add_argument('--check',action='store_true');a=ap.parse_args();data=builder();path=ROOT/f'notes/engine-study/T105/{task}-v1.json'
+    ap=argparse.ArgumentParser();ap.add_argument('--check',action='store_true');a=ap.parse_args();data=builder();path=ROOT/f'notes/engine-study/T105/{task}-v{VERSIONS[task]}.json'
     if a.check:
         assert json.loads(path.read_text())==data
-        print(f'PASS: {task}, eight design topics,{len(data["examples"])} literal examples,{len(data["calculations"]["controls"])} altered-design controls; source pins match; no engine execution')
+        print(f'PASS: {task}, eight design topics,{len(data["examples"])} literal examples,{len(data["calculations"]["controls"])} model comparison annotations; source pins match; no engine execution')
     else:write_new(path,data);print('wrote immutable design ledger; no engine execution')

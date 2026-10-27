@@ -2,7 +2,7 @@
 
 This completes the proposed design in [experiment-design](experiment-design.md). It starts no
 measurements: accepted ES-R2 and executable T106/T107 contracts are still required. The
-[ledger](../../notes/engine-study/T105/T105b-v1.json) freezes every seed, arm order, witness and
+[ledger](../../notes/engine-study/T105/T105b-v2.json) freezes every seed, arm order, witness and
 cap. The [calculator](../../notes/engine-study/T105/budget.py) reads retained records and computes
 sample/cost arithmetic only; it cannot construct or execute an engine.
 
@@ -56,7 +56,19 @@ coverage of at least95% for both context means under that sampling model. Clip e
 to[-2,2], then average the lower and upper endpoints for the aggregate estimand. This does not
 require treating the two contexts as new independent football fixtures.
 
-The halfwidth is **1.4802071873** before clipping: deliberately wide. A0.1 halfwidth with the
+The halfwidth is **1.4802071873** before clipping: deliberately wide. Excluding zero in a
+context needs an observed mean greater than1.4802: an integer block sum at least24 of its
+maximum32 (or at most−24). For the equal-weight aggregate, the total over32blocks must be
+at least48 of maximum64 (or at most−48). These are minimum observed exclusion thresholds,
+not a power-guaranteed minimum true effect. Ordinary modest interactions will not be resolved.
+
+A direct stratified aggregate Hoeffding bound could use all32 weighted block terms, giving
+halfwidth `sqrt(log(40)/4)=0.9603227913`, and1476blocks/context for±0.1. That alternative is
+recorded but **not adopted** here. The primary bound/caps/seeds remain unchanged. Before any
+T107 execution, the owner must decide under#571 whether this very weak detection power is
+worth the spending, whether to revise the design/bound, or to defer the batch. ES-R2 source
+review acceptance alone is not that spending decision.
+ A0.1 halfwidth with the
 same conservative simultaneous construction needs **3506 blocks per context**, or **28048
 four-arm match cells**. That calculation is a precision requirement, not a power guarantee
 or permission to run them. The first bounded batch will probably be inconclusive about small
@@ -106,11 +118,18 @@ Retained data justifies this scale, while qualifying the extrapolation:
 
 | Retained source | N | Median CPU/match | Maximum CPU/match | Median wall/match |
 | --- | --- | --- | --- | --- |
-| T57/reference.jsonl,unhooked kit | 62 | 14.4s | 21.072s | 13.51s |
+| T57/reference.jsonl,unhooked kit2 | 62 | 14.4s | 21.072s | 13.51s |
+| T57/trial-all-20261017.jsonl,unhooked kit2 | 62 | 15.4025s | 28.708s | See ledger |
+| T57/rerun.jsonl,unhooked kit2 | 62 | 11.888s | 17.619s | See ledger |
 | T77/all-actions-1-40090586451/all-actions-1.jsonl,all ports | 74 | 1549.8785s | 2851.377s | 1385.6715s |
 
-132 matches at the historical original median cost1900.8CPU s (31.68min); charging its historical
-maximum to every match gives2781.504CPU s (46.36min). Those are projections from retained data,
+For reference.jsonl alone,132 matches at its median cost1900.8CPU s (31.68min), or
+2781.504CPU s (46.36min) at its maximum. Across **all three** retained unhooked runs the maxima
+range17.619..28.708s; the largest gives3789.456s (63.16min), exceeding the3600s cap. F40-only
+maxima are19.360/19.363/15.558s, but the side-reversed context is not an observed F40 case.
+All three original timing runs used kit2; the current design reads kit4, and there is no
+retained matched unhooked kit4 timing baseline. **The outcome-blind calibration stop is
+the binding feasibility gate**, not the favourable reference run. These are projections from retained data,
 **not fresh benchmarks**. Hosts, profiles, scenarios and contention differ. The much larger
 all-port timings justify avoiding a duplicate full-port sensitivity campaign; they do not prove
 an intrinsic universal speed ratio. T77's strict74-match evidence is reused within its actual

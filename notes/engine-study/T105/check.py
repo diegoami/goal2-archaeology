@@ -8,6 +8,7 @@ from foundations.check import pin,sha,write_new
 BASE='a42c2cbe91300c8ee261b82fa993e665ed3f3325'
 TOPICS={'T105a':'provenance interventions seed-boundary instrumentation probes batch controls deferrals'.split(),
         'T105b':'seed-blocks estimands uncertainty multiplicity stopping compute reproducibility completion'.split()}
+VERSIONS={'T105a':2,'T105b':2}
 CHAPTERS={'T105a':'experiment-design','T105b':'experiment-budget'}
 
 
@@ -44,7 +45,7 @@ def controls(task,data,text):
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--task',choices=TOPICS,required=True);ap.add_argument('--controls',action='store_true');ap.add_argument('--receipt',type=Path);a=ap.parse_args()
-    path=ROOT/f'notes/engine-study/T105/{a.task}-v1.json';data=json.loads(path.read_text());text=(ROOT/f'docs/engine-study/{CHAPTERS[a.task]}.md').read_text();validate(a.task,data,text)
+    path=ROOT/f'notes/engine-study/T105/{a.task}-v{VERSIONS[a.task]}.json';data=json.loads(path.read_text());text=(ROOT/f'docs/engine-study/{CHAPTERS[a.task]}.md').read_text();validate(a.task,data,text)
     result=dict(task=a.task,scope=__doc__,positive='accepted',topics=len(data['decisions']),manifest_sha256=sha(path.read_bytes()))
     if a.controls:result['controls']=controls(a.task,data,text)
     if a.receipt:write_new(a.receipt,result)

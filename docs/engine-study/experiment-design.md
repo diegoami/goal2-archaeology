@@ -5,7 +5,7 @@ corroborate a few consequential mechanisms and estimate a small, explicitly cond
 They should not repeat the entire fidelity programme or rank every tactic/attribute.
 
 This is a **proposed preregistration**, requiring accepted ES-R2 before execution and executable
-T106/T107 task contracts afterward. The [design ledger](../../notes/engine-study/T105/T105a-v1.json)
+T106/T107 task contracts afterward. The [design ledger](../../notes/engine-study/T105/T105a-v2.json)
 and [calculator](../../notes/engine-study/T105/design.py) execute only source arithmetic. No
 engine, direct original/port routine, UI key sequence or match ran in preparing it. Final seed
 lists, inference and stopping/CPU limits belong to T105b and are required before launch.
@@ -145,7 +145,12 @@ and any new standalone measurements wait for that path's accepted fidelity evide
 ## Instrumentation, controls and deferrals
 
 A passive native observer can count52DD (entry to the tactic2 opportunity),5326 (action taken)
-and532C (completion). Associate only normal-phase managed pending frames, resolving the actual
+and532C (shared exit). A completion is counted **only when52DD was observed earlier in
+that same5049 activation**, not on every532C hit. Assign an activation identifier at5049
+entry together with SS/BP; a reused frame starts a new activation. Clear pending state on
+completion and every return/abort. The keeper50FB,51AB,shot/header528F and deep-field52DB
+routes also reach532C but do not open an opportunity; ignore all four. Associate only
+normal-phase managed pending activations, resolving the actual
 pitch pointer/identity and signed energy. Ignore deep-field actions entering other branches.
 A denominator is an opportunity after prior gates, not every tick or every holder update.
 It changes under treatment, so an action fraction is a descriptive conditional outcome and

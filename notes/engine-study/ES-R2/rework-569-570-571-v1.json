@@ -1,0 +1,89 @@
+{
+  "issue": "569-570-571",
+  "baseline": "7c8eed14de15fe203d841b9df9d3ab14c00c3b03",
+  "checks": [
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T105/design.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T105a, eight design topics,4 literal examples,7 model comparison annotations; source pins match; no engine execution\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T105/budget.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T105b, eight design topics,4 literal examples,8 model comparison annotations; source pins match; no engine execution\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "r569-final",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T105/check.py",
+        "--task",
+        "T105a",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T105a\",\n  \"scope\": \"Experiment preregistration completeness/provenance; not causal validity or executed readiness.\",\n  \"positive\": \"accepted\",\n  \"topics\": 8,\n  \"manifest_sha256\": \"20f89ee6a7443834480eedd14c76670fabe1e251fa4d579e4a6f6f1b5b22dcae\",\n  \"controls\": {\n    \"missing-topic\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-expectation\": \"rejected\",\n    \"missing-controls\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "r570-final",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T105/check.py",
+        "--task",
+        "T105b",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T105b\",\n  \"scope\": \"Experiment preregistration completeness/provenance; not causal validity or executed readiness.\",\n  \"positive\": \"accepted\",\n  \"topics\": 8,\n  \"manifest_sha256\": \"843b297030a42443102ab4f734733b64951eaab64e7a1e2262e17ef7c149146d\",\n  \"controls\": {\n    \"missing-topic\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-expectation\": \"rejected\",\n    \"missing-controls\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/check_links.py"
+      ],
+      "exit": 0,
+      "stdout": "links and JSON ok (9988 files)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "sha256": {
+    "docs/engine-study/experiment-budget.md": "18404aab5c0649ba22e2cf8072da440d523091e0fd7c759538f2512134cdca04",
+    "docs/engine-study/experiment-design.md": "2bc69cb86e5a686fb978552d6f1c88abe28d476e54fbc23d747696e6820c1423",
+    "notes/engine-study/T105/T105a-v2.json": "20f89ee6a7443834480eedd14c76670fabe1e251fa4d579e4a6f6f1b5b22dcae",
+    "notes/engine-study/T105/T105b-v2.json": "843b297030a42443102ab4f734733b64951eaab64e7a1e2262e17ef7c149146d",
+    "notes/engine-study/T105/budget.py": "b0747c4b04f8d16acdbe14a8998d2fa4fe41ac0be7ac33f92007f248830d4b58",
+    "notes/engine-study/T105/check.py": "045320b90e51c27725d0974f08d5f953232d90770b8c73b519dc52d6bbdb9c39",
+    "notes/engine-study/T105/common.py": "aac23aab5bc42c9b20653f63f14aa298744d2d12afeb808f0effa914bb1592b1",
+    "notes/engine-study/T105/design.py": "09713dc7ae74f46f497414038541a79e7c7be314cedb94f3e3dbe91c23c6a678"
+  }
+}
