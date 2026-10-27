@@ -1,0 +1,58 @@
+{
+  "baseline": "827f5404d843198202cd4cfdc1265607f6ccabf0",
+  "method": "source-derived audit; no engine execution",
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T108/arithmetic.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: four candidates, form/leadership literals,3876 bounded arithmetic pairs, four altered-rule controls\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "T108a-coverage-receipt",
+        "--",
+        "python3",
+        "-B",
+        "notes/engine-study/T108/check.py",
+        "--task",
+        "T108a",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T108a\",\n  \"candidates\": 4,\n  \"manifest_sha256\": \"41e3735af73c81667a1a0d6468326750a4a6cf8096f3777fd531c509ba64ea7e\",\n  \"checker_sha256\": \"5d7dbd375112da08e0d875fdbc6f4aa4c5a3dc4eb3677132c31634b2c3ae6f81\",\n  \"positive\": \"accepted\",\n  \"scope\": \"Audit candidate completeness and source integrity, not automatic defect attribution.\",\n  \"controls\": {\n    \"missing-candidate\": \"rejected\",\n    \"missing-evidence\": \"rejected\",\n    \"missing-disposition\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/check_links.py"
+      ],
+      "exit": 0,
+      "stdout": "links and JSON ok (9829 files)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "sha256": {
+    "notes/engine-study/T108/arithmetic.py": "164c3fa81d0ef6a067eea3fe0e5e3ea6f4e657d5124cb15d152a8d8a2e13a3a9",
+    "notes/engine-study/T108/check.py": "5d7dbd375112da08e0d875fdbc6f4aa4c5a3dc4eb3677132c31634b2c3ae6f81",
+    "notes/engine-study/T108/T108a-v1.json": "41e3735af73c81667a1a0d6468326750a4a6cf8096f3777fd531c509ba64ea7e",
+    "docs/engine-study/audit-arithmetic.md": "7308ff1ff0eee50b2d92a357b403cd70563ffcaf4f0cb3dc4b356c01a7fad4ec"
+  }
+}
