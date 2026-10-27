@@ -73,7 +73,7 @@ def selection_controls(memory,text,old_title_only):
         try:check_selection_skills(altered)
         except AssertionError:result[f'changed-skill-byte-role{role}']='rejected'
         else:raise AssertionError('skill-byte negative escaped')
-    clean=' '.join(text.split())
+    clean=' '.join(text.lower().split())
     for role,label,skill,element in [(3,'penalty','penalties',12),(4,'free-kick','penalties',12),(5,'goal-kick','kicking',2)]:
         old=f'role {role} (the {label} taker, automatically selected by {skill}, element {element})'
         assert old in clean
