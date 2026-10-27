@@ -52,7 +52,7 @@ fields would need an explicit compatibility decision.
 | Foot index | `1771:3088`: DS:0E60[14*DS:0E7C[player_index mod 3]+club_position] | Placement and substitution-role checks; normal table values 0 left / 1 right. |
 | Two-footed display predicate | `1771:3041`: peak_age + profile equals 30 | Card and foot/role predicates; separate from foot index. |
 | Hardness | `1771:2FFB`: profile minus the low bit of the creation ceiling | Foul/injury decisions and initial tactic choice; not another stored tackling skill. |
-| Leadership | `1771:30D9`: signed remainder of (ceiling-profile)/8, halved for age below 21 | Captain/leader selection and card; 20E3 adds twice captain leadership to the side's eleven cached skill-extra bytes, used only where 278A gates it. Natural inputs give the familiar 0..7 range; negative edited differences need signed-remainder/unsigned-halving semantics ([audit](audit-arithmetic.md)). |
+| Leadership | `1771:30D9`: signed remainder of (ceiling-profile)/8, halved for age below 21 | Captain/leader selection and card; 20E3 adds twice captain leadership to the side's eleven cached skill-extra bytes, used by 278A under its skill/event gate and read directly again by 34C1 for event1/2 duration U16(V+K)//3. Natural inputs give the familiar 0..7 range; negative edited differences need signed-remainder/unsigned-halving semantics ([audit](audit-arithmetic.md)). |
 | Performance | Commentary-updated word, decoded and bucketed by `1771:3827` | Rating text, man of the match, automatic substitution decisions. |
 
 Height and foot can differ for identical record bytes at different player indices. Keep a stable

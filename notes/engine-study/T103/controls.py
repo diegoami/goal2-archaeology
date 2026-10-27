@@ -40,8 +40,11 @@ def calculations():
     assert values==[17,50,34,128,178]
     assert derive(17,2,10,100)==51 and derive(0,2,10,100)==50
     assert effective(0,51,1) and not effective(0,50,1)
-    def mark(old,protected,team_man,automatic):return old if protected else automatic if team_man else 0
+    def mark(old,protected,team_man,automatic,role=2,slot=3):
+        if slot==2 and role==1:old=0
+        return old if protected else automatic if team_man else 0
     assert [mark(205,p,t,211) for p,t in [(True,False),(True,True),(False,False),(False,True)]]==[205,205,0,211]
+    assert mark(205,True,False,211,role=1,slot=2)==0
     roles=[0,2,2,3,4,5,6,7,8,12,13]
     group=[read(0xd5c+r) for r in roles]
     assert [group.count(i) for i in range(4)]==[1,4,4,2]
@@ -49,7 +52,7 @@ def calculations():
     assert [sum(ok and g==i for ok,g in zip(available,group)) for i in range(1,4)]==[3,4,2]
     assert ((13+1)%14)==0
     return dict(menu_order=order,own_cycle=states,effective_cycle=[True,False,True,True],derived_masks=values,
-                derive_without_clear=51,fresh_derive=50,protected_mark_cases=[205,205,0,211],formation_all='4-4-2',formation_missing_cb='3-4-2',
+                derive_without_clear=51,fresh_derive=50,protected_mark_cases=[205,205,0,211],protected_slot2_sweeper=0,formation_all='4-4-2',formation_missing_cb='3-4-2',
                 controls={'bit-index-k-instead-k-1':'rejected:team element5 is mask16',
                           'own-controls5-through8':'rejected:own255/team0 gives e5 false',
                           'two-state-own-editor':'rejected:inherit/off/on/return sequence has three distinct modes',
@@ -67,7 +70,7 @@ def matrix():
       ('pitch: half/full',['0791:4649','0791:4A28','0791:4B64','1771:0BC4'],'Changes defensive depth; half-pitch follow guard is qualified by opposed directions and legal target bounds in marking chapter.'),
       ('defence: sag/stand',['0791:4649','0791:4B64','0791:5729','1771:0BC4'],'Changes depth and defending ball-approach predicate; context can trade pressure against shape.'),
       ('line: safe/trap',['0791:4532','0791:4B64'],'Changes advancement while holding; offside8CF5 reads geometry, not this bit directly.'),
-      ('mark: zonal/man',['1771:3EF8','0791:47C5'],'Refresh automatic opponent identities by role preferences; protected manual words survive, zero-word fallback can still follow an opponent.'),
+      ('mark: zonal/man',['1771:3EF8','0791:47C5'],'Refresh automatic opponent identities by role preferences; protected manual words survive except slot2 sweeper clearing, zero-word fallback can still follow an opponent.'),
     ]
     rows=[]
     for k,(name,readers,effect) in enumerate(effects,1):
@@ -79,7 +82,7 @@ def matrix():
         rows.append(dict(id=f'own-{k}',write=f'1771:4B61 cycles own+F elements{k} and{k+4}',readers=['0791:26D7','1771:0BC4','1771:3BD3'],effect=f'Inherit/off/on for team element{k}; role-specific labels do not create another stored tactic.',refresh='Value readers next call; in-match9B55/layout refresh; derived3431 can set bits again.',persistence='Persistent player+F until reset/derive; BBFF derives without clearing, BC5D/34E7 clear first.',limits='Only1..4 overridden; manual editor is not a raw XOR of team byte.'))
     extra=[
       ('played-role','1771:4952 writes player+6; C restores+7, otherwise cycle0..13',['0791:419C','0791:42CB','1771:3179','1771:3EF8','1771:0E6C'],'Posts/depth, foot/keeper placement flag, automatic pairing and display label change.','Marks immediately if setup;9B55 and230C rebind full layout; no stored formation ID.'),
-      ('manual-mark','1771:49B8 status element7 plus9A3E opponent identity',['1771:3EF8','0791:47C5'],'Cycle inherit/protected-zone/available opposite2..11; role<2 clears protection.','Only setup/available player role>=2 and enabled editor row; refresh3EF8 preserves protected word.'),
+      ('manual-mark','1771:49B8 status element7 plus9A3E opponent identity',['1771:3EF8','0791:47C5'],'Cycle inherit/protected-zone/available opposite2..11; role<2 clears protection.','Only setup/available player role>=2 and enabled editor row; refresh3EF8 preserves protected word except slot2 role1 is zeroed first.'),
       ('captain','CC7B returns identity to9978 side leader',['0791:20E3','0791:278A'],'Leadership adds2L to rebound cached extra; not a universal all-skill team bonus.','230C resets initial cache before20E3; normal menu exit matters.'),
       ('set-piece-takers','CC7B roles2..5 return identities in9976 side table',['0791:6B65','0791:6FEE','0791:74C2','0791:7621'],'Different event/restart rules, location and availability can override designated identities.','Resolve identities to live squad; invalid/absent pick fallback, separate full PK order9B93.'),
       ('selection','E44F/E022 managed roster/pool edits and swap request',['0791:EA09','0791:C5DC'],'Availability, budget, keeper count and role caps constrain accepted choices.','Rebind/sort/form/mark swaps; prematch pool exchange differs from in-match substitution.'),
@@ -105,13 +108,13 @@ def build():
       ('1771:3431','Hardness<4 softoverride;roles0/1/3/4push;role2profile<14positionenable thenquickoverride.', ['player+5/+3/+6/+F'],'Derives from own fields;does not clear existing overrides.'),
       ('1771:34E7','Clear+F then3431 fornonzero20 squadwords.', ['country.squad','player+F'],'Fresh derivation differs fromBBFF rederivewithoutclear.'),
       ('1771:3E2F','Opposingranges13/12,9..11,5..8,1,2..4;prefrows1..4;opponentsdescending,ownfirstmatching.', ['0EF4','parent role arrays'],'Pairings depend on role and slot order,not marking skill maximisation.'),
-      ('1771:3EF8','Buildrolesexcludingown sweeper/unavailable/protected;removeexplicit targets;pair,thenretainprotectedorinstallautomaticifteam8.', ['9A3E','player+10 e7','country+2D e8'],'Manual identities can persist with teammanoff;keeperoutsideassignment.'),
+      ('1771:3EF8','Buildrolesexcludingown sweeper/unavailable/protected;removeexplicit targets;pair,thenretainprotectedorinstallautomaticifteam8;slot2role1 is cleared before all pairing/protection.', ['9A3E','player+10 e7','country+2D e8'],'Manual identities can persist with teammanoff;keeperoutsideassignment.'),
       ('1771:0E6C','CountavailableXI byDS0D5C and print defence-midfield-attack.', ['player+6','3216','0D5C'],'Same label can hide different roles/feet/posts;unavailable changes label withoutroleedit.'),
     ]
     examples=[
       dict(id='override-cycle',inputs={'team':1,'own':0,'element':1},steps=['inherit on','firstEnter forcedoff','secondEnter forcedon','thirdEnter inherit withcopiedvalue'],prediction={'own_bytes':calc['own_cycle'],'effective':[True,False,True,True]},limits='Source state transitions,not genuine UI key evidence.'),
       dict(id='derive-is-not-reset',inputs={'old_own':17,'role':2,'profile':10,'ability':100},steps=['3431adds16/32/2','oldbit1survives','clearfirstinsteadgives50'],prediction={'without_clear':51,'fresh':50},limits='Supplied representable fields;does notassertnormalfrequency ofrolechanges.'),
-      dict(id='manual-mark-vs-team',inputs={'protected':True,'old_opponent_identity':205,'team_man':False},steps=['3EF8excludesprotectedmarkerfromauto','retainsword despite team8off'],prediction={'mark_word':205},limits='Assumes validopponentidentity;invalid identityresolver/fallback separate.'),
+      dict(id='manual-mark-vs-team',inputs={'protected':True,'old_opponent_identity':205,'team_man':False,'played_role':2,'slot':3},steps=['3EF8excludesprotectedmarkerfromauto','retainsword despite team8off'],prediction={'mark_word':205},limits='Assumes nonsweeper slot3 and valid opponent identity;slot2/role1 clears the word even if protected.'),
       dict(id='formation-is-derived',inputs={'played_roles':[0,2,2,3,4,5,6,7,8,12,13],'unavailable_slot':2},steps=['allavailablegroupcounts1/4/4/2','3216excludescentrebackslot2'],prediction={'all':'4-4-2','with_unavailable':'3-4-2'},limits='Display-count projection;no completepitch/formation rendering.'),
     ]
     ledger=make_ledger('T103a',Path(__file__).resolve(),['The control-to-code matrix','Overrides, edits and refresh','Formation and marking choices','Predictions and limits'],meanings,examples,calc,['menus','attributes','positioning'],addresses=['0791:2974','0791:230C','0791:20E3','0791:ED8A','0791:3111','0791:5049','0791:4DA9','0791:4532','0791:4649','0791:4B64','0791:4A28','0791:4E28','0791:5729','0791:47C5','0791:9372','0791:97D0','1771:0BC4'])

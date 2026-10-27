@@ -92,13 +92,13 @@ def build():
     calc=calculations()
     rows=[
         ('0B7C','Y/N prompt waits600 polls,returnsYes onlyforwaitingY;otherkey/no-keyNo.', ['CC2E','A976','prompttext'],'Replay/save/summary question isdistinctfromtakerprompt1000polls.'),
-        ('0C0B','Unsigned speed/delaybyte incrementsbelow5 thenminimum2;largervaluespreserved.', ['game+3F'],'Shootout temporarilychangespace andrestoresoldbyte later.'),
+        ('0C0B','Unsigned speed/delaybyte incrementsbelow5 thenminimum2;largervaluespreserved.', ['game+3F'],'Shootout raises delaybyte to at least2 (slows play) and restores it later.'),
         ('9B0C','FirstETwrapper setsremaining31,elapsed89,half15,subtick/endflag0,permission1,managedmenu if80FD,startingselector,983F.', ['831B/831F/8319/831D/8326','9B41','80FD/831A'],'ETclockentry valuesarepartofclock/directionprotocol,notliteral31minutes.'),
         ('9B5B','SecondETwrapper grantspermission,optionalmanagedmenu,oppositekickoffselector,983F.', ['9B41','80FD/831A','830B'],'UsesremainingETclock ratherthanindependentnewmatchinitialisation.'),
         ('9B93','Managedshootoutorder selectsallavailableplayers,avoidsduplicates;Enterappend,Escundo,finishatavailablecount.', ['parent12-byteper-sideorder','3216','playercards'],'Order canhavefewerthan11entries;genuineinputs andzero-entrycursor behaviorneedtheir ownlimits.'),
         ('9ED3','Fillall11pitchslotsincludingkeeper;descendingpairwise effectivepenalties12sort,noavailabilityfilterhere.', ['278A(12)','parentorderarrays'],'Unavailableentryinrankarraydoesnotmeanthatplayernecessarilytakescurrentkick.'),
         ('A006','Set8319=-side,setupcurrentorderedtaker,thenadvanceordercursor1..11pastavailability;mode8324andwatchedsweepsuntilkick/flightsettles.', ['8319/8324/8325','6BF1/2A15','parentcursor','9564'],'Currentfallbackandnext-orderadvancement areseparate;clockbytesrepurposedfordirection.'),
-        ('A10A','Savedpace,forcewatched,selectorders,remainingkicks/rounds,andearly/suddendeathloopusingworkingtally;restorepaceandquickflag.', ['9A3E/9A3F','831D','9B3C','parentstackcounters'],'Fiveinitialkicks thenequalisation logic;normalstatistics/scorer handlingisphase-dependent.'),
+        ('A10A','Save/raise delaybyte(slower),forcewatched,selectorders,remainingkicks/rounds,andearly/suddendeathloopusingworkingtally;restoredelayandquickflag.', ['9A3E/9A3F','831D','9B3C','parentstackcounters'],'Fiveinitialkicks thenequalisation logic;normalstatistics/scorer handlingisphase-dependent.'),
         ('CC2E','Speakeroff;up ton keypolls eachfollowedbycalibrateddelay10 whennokey;zero n no loop.', ['0723','1E09(10)'],'Nominalwaitunitsnotmatchclockticks ormeasuredhostduration.'),
         ('CC7B','Validatecurrentpickavailability/slot<=11,automaticfallback,C/Enter/Esc/timeoutchoices,boardSpaceextra readforroles2..5,returnplayerID.', ['9976','6B65','1F3C/1FDD','1000polls','CF3A'],'Spaceboarddismissaldoesnotcommittaker;selection identitynotasquadslot.'),
     ]

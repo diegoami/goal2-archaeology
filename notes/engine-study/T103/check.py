@@ -15,7 +15,7 @@ CONTROLS = [f'team-{k}' for k in range(1,9)] + [f'own-{k}' for k in range(1,5)] 
 BASE = 'a42c2cbe91300c8ee261b82fa993e665ed3f3325'
 ROUTINES = {'T103a': ['0791:26D7', '1771:1981', '1771:4925', '1771:4952', '1771:49B8', '1771:4B61', '1771:33CD', '1771:3431', '1771:34E7', '1771:3E2F', '1771:3EF8', '1771:0E6C'], 'T103b': ['0791:A3DE', '0791:AC67', '0791:AD8F', '0791:AFA3', '0791:B11F', '1771:517A', '1771:52CC', '1771:53E8', '1771:5532'], 'T103c': ['0791:BBFF', '0791:BC5D', '0791:BD03', '0791:BD83', '0791:BF6B', '0791:C173', '0791:BEC7', '0791:C01A', '0791:C0DF', '0791:C24D', '0791:C2A8', '0791:C406', '0791:C48D']}
 CHAPTERS = {'T103a': 'tactics', 'T103b': 'lineup-policy', 'T103c': 'computer-policy'}
-VERSIONS = {task:1 for task in ROUTINES}
+VERSIONS = {task:(2 if task in ['T103a','T103c'] else 1) for task in ROUTINES}
 
 def frontier():
     deferred = ['0791:BBFF', '0791:BD03', '0791:BD83', '0791:BF6B', '0791:C173', '0791:BEC7', '0791:C01A', '0791:C0DF', '0791:C24D', '0791:C2A8', '0791:C406', '0791:C48D', '1771:53E8', '1771:5532', '0791:BC5D']

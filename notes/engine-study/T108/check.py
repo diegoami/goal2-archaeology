@@ -60,7 +60,7 @@ def controls(task,data,text):
 def main():
     ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--task',choices=CANDIDATES,required=True)
     ap.add_argument('--controls',action='store_true');ap.add_argument('--receipt',type=Path)
-    args=ap.parse_args();path=ROOT/f'notes/engine-study/T108/{args.task}-v1.json'
+    args=ap.parse_args();version=2 if args.task=='T108b' else 1;path=ROOT/f'notes/engine-study/T108/{args.task}-v{version}.json'
     data=json.loads(path.read_text());text=(ROOT/f'docs/engine-study/{CHAPTERS[args.task]}.md').read_text()
     validate(args.task,data,text)
     result=dict(task=args.task,candidates=len(data['candidates']),manifest_sha256=sha(path.read_bytes()),

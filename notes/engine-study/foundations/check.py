@@ -13,12 +13,12 @@ ROOT = Path(__file__).resolve().parents[3]
 BASE = "08beac2e9d43faf766e445e924da096b8a99d748"
 # A new ledger may explicitly pin a later reviewed source snapshot. Older ledgers
 # and their receipts remain reproducible at their original milestone checkout.
-TASK_BASES = {"T97b": "a42c2cbe91300c8ee261b82fa993e665ed3f3325"}
+TASK_BASES = {"T97b": "c594581047dec624aa86eeaede8244b4dd565afe"}
 FILES = {
     "T96a": ("T96/fields-v2.json", "player-fields.md"),
     "T96b": ("T96/derived.json", "player-derived.md"),
     "T97a": ("T97/persistent-v2.json", "match-fields.md"),
-    "T97b": ("T97/transient-v4.json", "transient-state.md"),
+    "T97b": ("T97/transient-v5.json", "transient-state.md"),
     "T98a": ("T98/skill-v1.json", "attribute-formulas.md"),
     "T98b": ("T98/strength-v1.json", "strength-formulas.md"),
     "T99a": ("T99/gates-v1.json", "skill-gates.md"),
