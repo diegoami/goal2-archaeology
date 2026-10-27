@@ -136,3 +136,6 @@ exists.
 - [T103a](T103a.md): Tactics and manager-control matrix.
 - [T103b](T103b.md): Computer lineup selection and sorting.
 - [T103c](T103c.md): Computer tactics and emergency role policy.
+
+- [T105a](T105a.md): Preregister isolated probes and match intervention boundaries.
+- [T105b](T105b.md): Preregister seed blocks, precision, stopping and compute caps.
