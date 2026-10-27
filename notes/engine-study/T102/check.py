@@ -18,7 +18,7 @@ ROUTINES = {
     'T102c': '4DA9 539F 5474 5513 5565 56D9 5729 5A33 5A8E 5B36 5E41 5EAB 5F06 5F8A 6188 61EC 6240 6337 6443 65A4 65FE 6755 67B6'.split(),
 }
 CHAPTERS = {'T102a': 'possession', 'T102b': 'ball-play', 'T102c': 'scoring'}
-VERSIONS = {'T102a': 2, 'T102b': 1, 'T102c': 1}
+VERSIONS = {'T102a': 3, 'T102b': 1, 'T102c': 1}
 
 
 def frontier():
