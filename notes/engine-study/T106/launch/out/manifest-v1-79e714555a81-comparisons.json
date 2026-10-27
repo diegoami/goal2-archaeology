@@ -1,0 +1,123 @@
+{
+  "comparisons": [
+    {
+      "abi_equal": true,
+      "case": "launch-diagonal",
+      "memory_diff_count": 15,
+      "memory_diff_first_offsets": [
+        247342,
+        247344,
+        247345,
+        247346,
+        247348,
+        247350,
+        247351,
+        247352,
+        247353,
+        247354,
+        247355,
+        247356,
+        247357,
+        247358,
+        247359
+      ],
+      "memory_equal": false,
+      "original_record": {
+        "path": "notes/engine-study/T106/launch/out/0005-launch-diagonal_baseline_original.json",
+        "sha256": "ba1ba1ebca2861342565bbd1d2ab2a542df908f65ad2181426b79928132b1385"
+      },
+      "port_record": {
+        "path": "notes/engine-study/T106/launch/out/0006-launch-diagonal_baseline_port.json",
+        "sha256": "ea33a299aa5a66cec76f02529326597be7ad3e372994518c0aaa54bfac798e40"
+      },
+      "production_stub_entries": [
+        {
+          "address": "214B:1EA1",
+          "why": "display/sound/wait body omitted; listing return cleanup and incoming result registers preserved"
+        }
+      ],
+      "register_differences": [],
+      "slot": 2
+    },
+    {
+      "abi_equal": true,
+      "case": "launch-small",
+      "memory_diff_count": 15,
+      "memory_diff_first_offsets": [
+        247342,
+        247344,
+        247345,
+        247346,
+        247348,
+        247350,
+        247351,
+        247352,
+        247353,
+        247354,
+        247355,
+        247356,
+        247357,
+        247358,
+        247359
+      ],
+      "memory_equal": false,
+      "original_record": {
+        "path": "notes/engine-study/T106/launch/out/0003-launch-small_baseline_original.json",
+        "sha256": "1175d39c49ba744fb8ac09c130a1607b1c6a2f6898ec35cb12a81d3d1552db34"
+      },
+      "port_record": {
+        "path": "notes/engine-study/T106/launch/out/0004-launch-small_baseline_port.json",
+        "sha256": "27e5440e35dc2e00b7e9af372f25d7fe5b0cf955998d75cfddd5e130ab5220da"
+      },
+      "production_stub_entries": [
+        {
+          "address": "214B:1EA1",
+          "why": "display/sound/wait body omitted; listing return cleanup and incoming result registers preserved"
+        }
+      ],
+      "register_differences": [],
+      "slot": 2
+    },
+    {
+      "abi_equal": true,
+      "case": "launch-zero",
+      "memory_diff_count": 15,
+      "memory_diff_first_offsets": [
+        247342,
+        247344,
+        247345,
+        247346,
+        247348,
+        247350,
+        247351,
+        247352,
+        247353,
+        247354,
+        247355,
+        247356,
+        247357,
+        247358,
+        247359
+      ],
+      "memory_equal": false,
+      "original_record": {
+        "path": "notes/engine-study/T106/launch/out/0001-launch-zero_baseline_original.json",
+        "sha256": "0311d12c2171453ed19b3eebc7280f170026a1f55115bd80245b2faaa0082a5a"
+      },
+      "port_record": {
+        "path": "notes/engine-study/T106/launch/out/0002-launch-zero_baseline_port.json",
+        "sha256": "376edc178e33823c6458136cb89a2736c26a20fb0d2e0144f211eef3f254c1da"
+      },
+      "production_stub_entries": [
+        {
+          "address": "214B:1EA1",
+          "why": "display/sound/wait body omitted; listing return cleanup and incoming result registers preserved"
+        }
+      ],
+      "register_differences": [],
+      "slot": 2
+    }
+  ],
+  "limits": "Every byte compared,including dead stack;no masks. Production sound stub is disclosed,not claimed as native-body execution. Scratch register/flag differences listed separately from declared ABI.",
+  "manifest_sha256": "79e714555a81d473422bb30b18b572f83bb892f5db8b50741c291f5d17ae0e5f"
+}

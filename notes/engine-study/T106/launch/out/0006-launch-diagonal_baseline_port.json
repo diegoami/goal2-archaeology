@@ -1,0 +1,191 @@
+{
+  "abi_registers": {
+    "ax": 2,
+    "bp": 16256,
+    "cs": 4020,
+    "ds": 11684,
+    "dx": 0,
+    "ip": 0,
+    "sp": 16140,
+    "ss": 14453
+  },
+  "active_wall_s": 0.11151352700107964,
+  "batch": "manifest-v1-79e714555a81",
+  "completed": true,
+  "cpu_s": 0.11155099999999996,
+  "execution_commit": "8d070c6b47ce4368cb83c6a275543b94377907de",
+  "frames_remaining": 0,
+  "full_memory_sha256": "ebf3789c5f22c9ccc7359bcb66d8433ab20654c935db186ead1d32865e669dca",
+  "input_memory_sha256": "4d222b75b26043ac62958193381ecc951ea81211c286773705ea4a73a30ee2ac",
+  "instruction_events": 17,
+  "known_entry_events": [
+    "0791:34C1",
+    "23E4:08DF",
+    "23E4:08DF",
+    "23E4:0294",
+    "214B:0D56",
+    "23E4:0279",
+    "23E4:0279",
+    "214B:1EA1",
+    "0791:333F"
+  ],
+  "logical": "launch-diagonal/baseline/port",
+  "main_rng_writes": [],
+  "manifest_sha256": "79e714555a81d473422bb30b18b572f83bb892f5db8b50741c291f5d17ae0e5f",
+  "native_instruction_attempts": [],
+  "observed": {
+    "event": 7,
+    "projected": [
+      7,
+      14
+    ],
+    "timer": 7,
+    "velocity": [
+      1,
+      2
+    ]
+  },
+  "port_entries": [
+    "0791:34C1",
+    "23E4:08DF",
+    "23E4:08DF",
+    "23E4:0294",
+    "214B:0D56",
+    "23E4:0279",
+    "23E4:0279",
+    "214B:1EA1",
+    "0791:333F"
+  ],
+  "process_exit": 0,
+  "production_stub_entries": [
+    {
+      "address": "214B:1EA1",
+      "why": "display/sound/wait body omitted; listing return cleanup and incoming result registers preserved"
+    }
+  ],
+  "registers": {
+    "cs": 4020,
+    "ds": 11684,
+    "eax": 2,
+    "ebp": 16256,
+    "ebx": 0,
+    "ecx": 0,
+    "edi": 0,
+    "edx": 0,
+    "eflags": 582,
+    "eip": 0,
+    "es": 0,
+    "esi": 1,
+    "esp": 16140,
+    "fs": 0,
+    "gs": 0,
+    "ss": 14453
+  },
+  "seed_after": 60994,
+  "seed_before": 60994,
+  "seq": 6,
+  "spec": {
+    "backend": "port",
+    "case": "launch-diagonal",
+    "holder": 2,
+    "kind": "launch",
+    "logical": "launch-diagonal/baseline/port",
+    "required_prediction": {
+      "event": 7,
+      "projected": [
+        7,
+        14
+      ],
+      "timer": 7,
+      "velocity": [
+        1,
+        2
+      ]
+    },
+    "role": "baseline",
+    "routine": "0791:34C1",
+    "state": 5,
+    "target": [
+      7,
+      14
+    ]
+  },
+  "stderr": "",
+  "trace_limits": "Entry/return hook events are not native executed instructions in the port arm;inlined production helpers are not separately counted.",
+  "yielded_calls": [
+    {
+      "args": [
+        7,
+        4020,
+        13441
+      ],
+      "caller": "0791:34C1",
+      "far": true,
+      "return_to": "0791:366E",
+      "target": "23E4:08DF"
+    },
+    {
+      "args": [
+        7,
+        4020,
+        13473
+      ],
+      "caller": "0791:34C1",
+      "far": true,
+      "return_to": "0791:36BE",
+      "target": "23E4:08DF"
+    },
+    {
+      "args": [],
+      "caller": "0791:34C1",
+      "far": true,
+      "return_to": "0791:37F3",
+      "target": "23E4:0294"
+    },
+    {
+      "args": [
+        0,
+        2,
+        0,
+        7
+      ],
+      "caller": "0791:34C1",
+      "far": true,
+      "return_to": "0791:37FA",
+      "target": "214B:0D56"
+    },
+    {
+      "args": [],
+      "caller": "0791:34C1",
+      "far": true,
+      "return_to": "0791:3815",
+      "target": "23E4:0279"
+    },
+    {
+      "args": [],
+      "caller": "0791:34C1",
+      "far": true,
+      "return_to": "0791:382B",
+      "target": "23E4:0279"
+    },
+    {
+      "args": [
+        10,
+        1
+      ],
+      "caller": "0791:34C1",
+      "far": true,
+      "return_to": "0791:383C",
+      "target": "214B:1EA1"
+    },
+    {
+      "args": [
+        16126
+      ],
+      "caller": "0791:34C1",
+      "far": false,
+      "return_to": "0791:3840",
+      "target": "0791:333F"
+    }
+  ]
+}

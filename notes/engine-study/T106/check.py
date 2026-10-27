@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """T106 record/completeness integrity; field, ABI and full-state results stay separate."""
-import argparse,copy,hashlib,json
+import argparse,copy,hashlib,json,subprocess
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[3]
 GROUPS={'T106a':['launch-zero','launch-small','launch-diagonal'],
@@ -29,7 +29,10 @@ def validate(task,data,*,allow_mock=False):
         assert r['controls'] and r['limits']
     budget=data['budget'];assert 0<budget['invocations']<=60 and 0<=budget['cpu_s']<=600 and 0<=budget['active_wall_s']<=900
     if not allow_mock:
-        for name,digest in data['source_sha256'].items():assert sha((ROOT/name).read_bytes())==digest,name
+        for name,digest in data['source_sha256'].items():
+            commit=data.get('source_commits',{}).get(name)
+            raw=subprocess.check_output(['git','show',commit+':'+name],cwd=ROOT) if commit else (ROOT/name).read_bytes()
+            assert sha(raw)==digest,name
         for row in rows:
             for rec in row['records']:
                 assert sha((ROOT/rec['path']).read_bytes())==rec['sha256'],rec['path']
@@ -54,7 +57,8 @@ def controls(task,data,*,allow_mock=False):
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--task',choices=GROUPS,required=True);ap.add_argument('--controls',action='store_true');ap.add_argument('--ledger',type=Path);ap.add_argument('--receipt',type=Path);a=ap.parse_args()
-    path=a.ledger or ROOT/f'notes/engine-study/T106/{a.task}-v1.json';data=json.loads(path.read_text());validate(a.task,data)
+    version=2 if a.task=='T106a' else 1
+    path=a.ledger or ROOT/f'notes/engine-study/T106/{a.task}-v{version}.json';data=json.loads(path.read_text());validate(a.task,data)
     result=dict(task=a.task,scope=__doc__,positive='accepted',cases=len(data['cases']),ledger_sha256=sha(path.read_bytes()))
     if a.controls:result['controls']=controls(a.task,data)
     if a.receipt:write_new(a.receipt,result)

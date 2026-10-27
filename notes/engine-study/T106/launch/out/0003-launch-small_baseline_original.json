@@ -1,0 +1,105 @@
+{
+  "abi_registers": {
+    "ax": 2,
+    "bp": 16256,
+    "cs": 4020,
+    "ds": 11684,
+    "dx": 0,
+    "ip": 0,
+    "sp": 16140,
+    "ss": 14453
+  },
+  "active_wall_s": 0.10269136699935189,
+  "batch": "manifest-v1-79e714555a81",
+  "completed": true,
+  "cpu_s": 0.10282899999999995,
+  "execution_commit": "8d070c6b47ce4368cb83c6a275543b94377907de",
+  "frames_remaining": 0,
+  "full_memory_sha256": "5fd46479f3def2a962df673dc81fba200cd9c554953e294c83dadc5f16e9d702",
+  "input_memory_sha256": "8bc214c271df8ed3b6c0650df1be5c734a400486df3f2754e9a717dc899b003b",
+  "instruction_events": 885,
+  "known_entry_events": [
+    "0791:34C1",
+    "0791:045D",
+    "23E4:08DF",
+    "23E4:08DF",
+    "23E4:0294",
+    "214B:0D56",
+    "23E4:0279",
+    "23E4:0279",
+    "214B:1EA1",
+    "214B:1EBC",
+    "214B:1E09",
+    "214B:1E8D",
+    "0791:333F"
+  ],
+  "logical": "launch-small/baseline/original",
+  "main_rng_writes": [],
+  "manifest_sha256": "79e714555a81d473422bb30b18b572f83bb892f5db8b50741c291f5d17ae0e5f",
+  "native_instruction_attempts": [],
+  "observed": {
+    "event": 6,
+    "projected": [
+      2,
+      -2
+    ],
+    "timer": 2,
+    "velocity": [
+      1,
+      -1
+    ]
+  },
+  "port_entries": [],
+  "process_exit": 0,
+  "production_stub_entries": [],
+  "registers": {
+    "cs": 4020,
+    "ds": 11684,
+    "eax": 2,
+    "ebp": 16256,
+    "ebx": 0,
+    "ecx": 0,
+    "edi": 0,
+    "edx": 0,
+    "eflags": 582,
+    "eip": 0,
+    "es": 0,
+    "esi": 1,
+    "esp": 16140,
+    "fs": 0,
+    "gs": 0,
+    "ss": 14453
+  },
+  "seed_after": 60994,
+  "seed_before": 60994,
+  "seq": 3,
+  "spec": {
+    "backend": "original",
+    "case": "launch-small",
+    "holder": 2,
+    "kind": "launch",
+    "logical": "launch-small/baseline/original",
+    "required_prediction": {
+      "event": 6,
+      "projected": [
+        2,
+        -2
+      ],
+      "timer": 2,
+      "velocity": [
+        1,
+        -1
+      ]
+    },
+    "role": "baseline",
+    "routine": "0791:34C1",
+    "state": 5,
+    "target": [
+      1,
+      0
+    ]
+  },
+  "stderr": "",
+  "trace_limits": "Entry/return hook events are not native executed instructions in the port arm;inlined production helpers are not separately counted.",
+  "yielded_calls": []
+}

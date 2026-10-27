@@ -1,0 +1,88 @@
+{
+  "scope": "Final-source software/data checks;no new engine invocation",
+  "source_commit": "32ab20750c83069fa579d8d4712709559750231c",
+  "checks": [
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "notes/engine-study/T106",
+        "-p",
+        "test_software.py",
+        "-v"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "test_known_callee_passes_and_missing_callee_cannot_fall_back (test_software.Guards.test_known_callee_passes_and_missing_callee_cannot_fall_back) ... ok\ntest_launch_suballocation_and_resource_reserves_are_binding (test_software.Guards.test_launch_suballocation_and_resource_reserves_are_binding) ... ok\ntest_missing_outcome_is_charged_and_cannot_be_retried (test_software.Guards.test_missing_outcome_is_charged_and_cannot_be_retried) ... ok\ntest_open_batch_blocks_budget_reset (test_software.Guards.test_open_batch_blocks_budget_reset) ... ok\ntest_sixty_first_attempt_is_refused (test_software.Guards.test_sixty_first_attempt_is_refused) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.010s\n\nOK\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/launch/analyse.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: three launch predictions;native-backed controls/repeats;unmasked state comparisons;budget\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "T106a-final",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/check.py",
+        "--task",
+        "T106a",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T106a\",\n  \"scope\": \"T106 record/completeness integrity; field, ABI and full-state results stay separate.\",\n  \"positive\": \"accepted\",\n  \"cases\": 3,\n  \"ledger_sha256\": \"6a3c74089f066868d8ca8cada71406dd6f1a464312ea63bf5570ab0daafa7b5a\",\n  \"controls\": {\n    \"missing-case\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"missing-input\": \"rejected\",\n    \"missing-completion\": \"rejected\",\n    \"missing-budget\": \"rejected\",\n    \"missing-record\": \"rejected\",\n    \"false-exact\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/runner.py",
+        "--audit"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"scope\": \"Actual committed reservation/outcome integrity and resource accounting;not semantic proof\",\n  \"invocations\": 12,\n  \"cpu_s\": 1.562987,\n  \"active_wall_s\": 1.540719785996771,\n  \"groups\": {\n    \"launch\": 12,\n    \"wall\": 0\n  },\n  \"unclosed_invocations\": [],\n  \"unclosed_batches\": [],\n  \"failed_invocations\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/check_links.py"
+      ],
+      "exit": 0,
+      "stdout": "links and JSON ok (10107 files)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/ES-R2/whitespace.py"
+      ],
+      "exit": 0,
+      "stdout": "PASS: committed milestone range whitespace; generated TSV and immutable raw logs excluded\n",
+      "stderr": ""
+    }
+  ],
+  "sha256": {
+    "notes/engine-study/T106/construction.py": "8e6c854c14ec6234075003e824410ab6199d49c5cdaa23ceb5e6dd0013017917",
+    "notes/engine-study/T106/runner.py": "8ec130ca9194fcc5503d5c7ff5577e17d1fe2a47f0cf1faf72f4343e1b376320",
+    "notes/engine-study/T106/check.py": "2e71c8b9d276a5b484d16b339c72daa7d87099aceed4b66cc6153555fbaa802a",
+    "notes/engine-study/T106/launch/build_manifest.py": "062a34e6ed79a940f6bd42ee277c27ee556e2c880b44896e925f9c20a635393c",
+    "notes/engine-study/T106/launch/analyse.py": "dec6c1b8e8d6459b3ee19a32e1720623e67ba1219e158def99a3e2771429ca8c",
+    "notes/engine-study/T106/T106a-v2.json": "6a3c74089f066868d8ca8cada71406dd6f1a464312ea63bf5570ab0daafa7b5a"
+  }
+}

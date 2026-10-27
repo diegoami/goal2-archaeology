@@ -1,0 +1,19 @@
+{
+  "scope": "Software budget/fallback checks only;zero engine invocations",
+  "producer_commit": "a151546975f776631ca33924d7fb03a34490812f",
+  "argv": [
+    "/home/diego/.local/bin/python3.12",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "notes/engine-study/T106",
+    "-p",
+    "test_software.py",
+    "-v"
+  ],
+  "exit": 0,
+  "stdout": "",
+  "stderr": "test_known_callee_passes_and_missing_callee_cannot_fall_back (test_software.Guards.test_known_callee_passes_and_missing_callee_cannot_fall_back) ... ok\ntest_launch_suballocation_and_resource_reserves_are_binding (test_software.Guards.test_launch_suballocation_and_resource_reserves_are_binding) ... ok\ntest_missing_outcome_is_charged_and_cannot_be_retried (test_software.Guards.test_missing_outcome_is_charged_and_cannot_be_retried) ... ok\ntest_open_batch_blocks_budget_reset (test_software.Guards.test_open_batch_blocks_budget_reset) ... ok\ntest_sixty_first_attempt_is_refused (test_software.Guards.test_sixty_first_attempt_is_refused) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.009s\n\nOK\n"
+}
