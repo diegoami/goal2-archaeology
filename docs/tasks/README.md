@@ -143,3 +143,4 @@ exists.
 | [T78b](T78b.md) | Wire Match to the plain-memory engine | #289 | T78a |
 | [T78c](T78c.md) | Checkpoint the plain-memory engine at event boundaries | #289 | T78b |
 | [T78d](T78d.md) | Close T78 with strict family and measured runtime | #289 | T78b and T78c |
+| [T78b1](T78b1.md) | Residual helper ABI entrypoints | #289 | T78a |
