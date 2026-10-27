@@ -58,6 +58,8 @@ State-5 updater `57AC` tries its branches in order: offside action, holder-at-fe
 (`5049`), selected receiver destination (`533B`), challenge/duel, then other ball/marking target
 decisions and depth stepping. An earlier accepted branch suppresses the later decisions.
 The special keeper-holder route can replace ordinary target updates with `4B64`.
+The pending-offside notification `56D9` itself always returns low-byte zero; it does not end
+that chain. [Resolution](scoring.md) distinguishes notification from adjudication.
 
 Two sources of variation need separate accounting:
 
@@ -117,7 +119,7 @@ conditional on longitudinal velocity and random-is-one(3), and can read dribblin
 The final receiver/flight/commentary state can differ from the initially intended pass.
 The ordinary pass routine does not itself call the chase initializer; the alternate wrappers
 below do. The v2 ledger corrects that attribution in its preliminary v1 description.
-The [launch slice](../tasks/T102b.md) explains those velocities, timers and accuracy branches.
+The [launch chapter](ball-play.md) explains those velocities, timers and accuracy branches.
 
 `3B9E` is another wrapper: it selects a launch event from the passer's half, submits template
 3, sets flight from a coin and starts a chase delay. `3BEE` chooses a selected pass or long
@@ -132,7 +134,7 @@ scans the first eleven, excluding the kicker and `830A`, for a teammate beyond t
 line with the proper sign and timer zero; the first qualifying candidate is recorded in
 `830E`, with point `8317` and `8329` cleared. This scan does not use the pass selection's
 availability test. Adjudication and restart effects belong to the
-[resolution slice](../tasks/T102c.md), not to a distance preference alone.
+[resolution chapter](scoring.md), not to a distance preference alone.
 
 `533B` also explains why a receiver need not chase the current ball: for a selected nonkeeper
 with ball timer at least ten it targets projected endpoint `8313`; a keeper or shorter timer
