@@ -127,8 +127,14 @@ it preserves an already larger raw byte. For inputs 0,1,2,4,5,9,255 the results 
 2,2,3,5,5,9,255. The last two are edited-width cases, not claims that the normal UI chooses
 those settings. A generic clamp-to-five changes the primitive.
 
-Eight altered-rule controls cover extra-time entry, keeper inclusion, initial availability
+Eight model consistency examples cover extra-time entry, keeper inclusion, initial availability
 fallback, sudden-death equalisation, board dismissal, raw delay, normal player-goal counting
 and fixture/working-score separation. None is a new original or port kick comparison. The
 partial-order/dummy context and actual availability histories remain explicit audit questions;
 new probes or match batches require the T105 design and accepted ES-R2 gate.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

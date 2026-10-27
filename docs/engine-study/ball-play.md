@@ -158,7 +158,7 @@ would need a compatibility argument, not a guess.
 
 For target `(7,14)` from `(0,0)`, the base vector is `(1,2)` and timer 21. Event 6 becomes 7.
 With the accuracy branch bypassed by equal selectors, divisor three gives timer seven and
-projected `(7,14)`. Universal halving gives timer ten and `(10,20)`, which the control rejects.
+projected `(7,14)`. Universal halving gives timer ten and `(10,20)`, which differs within the authored model.
 For event 3 at target `(4,8)` with supplied effective value 90, the base timer 12 becomes
 `max(17,90//3)=30`, then divides by three to ten; adding the cache again would give a different
 result. These supplied values/selectors are arithmetic cases, not observed full fixtures.
@@ -178,10 +178,16 @@ its minimum timer, demonstrating why a semantic idle shortcut is not equivalent.
 For an ordinary shot's final tail entered at main seed zero, the source consumes coin then
 rand(3). Removing the apparently unused coin can leave the same air flag, but the next common
 rand(100) becomes **24 instead of 97**. This is a tail-only source calculation, not a seeded
-match experiment. The script also rejects the universal-halving, extra-on-penalty, zero-vector
+match experiment. The authored model also compares the universal-halving, extra-on-penalty, zero-vector
 idle and pre-countdown-air interpretations.
 
 The calculations do not model a complete original call frame, every miscue outcome, natural
 reachability or match frequencies. Word velocities versus byte stepping, byte projections,
 event rewrites, multiple cache uses, pending flags and exact draw order are explicit rewrite
 boundaries. Independent review and later selected probes must preserve those distinctions.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

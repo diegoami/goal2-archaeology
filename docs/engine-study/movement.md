@@ -163,3 +163,9 @@ Internal `86D0` and geometry helpers are cited explicitly rather than treated as
 entries. This is source coverage, not dynamic coverage or a claim that every state combination
 has been observed. Separate structures for target choice, attempted step, accepted position
 and simulation-visible cells would improve readability while retaining those boundaries.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

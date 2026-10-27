@@ -134,6 +134,12 @@ not observations of team sizes after every possible lifecycle path.
 For offside slot sixteen, the initial opposite-side selector is five, not twenty-seven.
 The component above consumes ten referee main draws, then the saved point/nearest/restart
 steps follow. This illustrates why preserving only a final free-kick label is insufficient.
-The five altered-rule controls cover loss counting, AI depth, saved-form persistence/signedness
+The five model consistency examples cover loss counting, AI depth, saved-form persistence/signedness
 and opposite-slot mapping. Existing original-key and T77 coverage limits remain visible;
 no new engine, key-collection or match run was performed.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

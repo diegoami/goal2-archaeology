@@ -34,4 +34,3 @@ def line_bars(words, row):
         bars.append(dict(line=LINES[k], row=row+k, column=BAR_COLUMN,
                          value=value, cells=value*25//256))
     return bars
-

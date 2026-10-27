@@ -6,7 +6,7 @@ player can remain on the bench while a weaker natural-role replacement enters.
 
 The [nine-routine ledger](../../notes/engine-study/T103/T103b-v1.json) and
 [calculator](../../notes/engine-study/T103/lineups.py) retain four source-conditioned cases and
-six altered-rule controls. These are proposed source interpretations, not newly executed
+six model consistency examples. These are proposed source interpretations, not newly executed
 lineup routines or matches. F024/F028 and T70/T75 retain their actual historical coverage.
 
 ## The greedy selection sequence
@@ -104,3 +104,9 @@ No new lineup or match execution was needed to read these branches. Existing F02
 cases and T70's full machine-state comparison retain their original sample limits. T105 can
 select a cheap original-backed probe for a materially uncertain boundary after ES-R2, while
 broader claims about winning formations require a different design and budget.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

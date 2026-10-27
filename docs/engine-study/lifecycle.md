@@ -149,6 +149,12 @@ parity-looking branch; that branch is unreachable. F023 already explains this he
 inconsistency. This is not labelled a conventional away-goals rule without resolving venue.
 Recomputation is safe to repeat because it rebuilds totals; it does not award points again.
 
-Six altered-rule controls and four worked sequences cover restoration, write order, substitute
+Six model consistency examples and four worked sequences cover restoration, write order, substitute
 rating decoding, all-squad bans, separate clips and the unreachable parity branch. Integrity
 controls test coverage/source linkage, not natural incidence or causal average benefit.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

@@ -142,7 +142,13 @@ post-derived target remains. Other target selection and earlier play-state gates
 declared prerequisites, not observations from a full fixture.
 
 The calculation script checks strict zone/energy edges, skill-difference thresholds, tied
-selection and captain cache arithmetic, rejecting four altered interpretations. A rewrite can
+selection and captain cache arithmetic, comparing four altered interpretations within the authored model. A rewrite can
 use distinct types/names for opponent identity, taker identity, resolved pitch slot and target
 coordinate. Keep assignment order, fallback scan order, byte writes and conditional draws;
 cleaner names alone must not change those decisions.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

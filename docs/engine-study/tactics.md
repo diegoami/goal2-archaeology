@@ -118,3 +118,9 @@ possession and occupancy. T105 must define which boundary is changed, which bran
 it, independent randomness and meaningful outcomes before a new sensitivity batch. Historical
 F026 measurements retain their original fixture/intervention limits, including its now-qualified
 half-pitch interpretation. Source integrity/coverage checks are not match-effect measurements.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.
