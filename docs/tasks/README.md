@@ -136,6 +136,9 @@ exists.
 - [T103a](T103a.md): Tactics and manager-control matrix.
 - [T103b](T103b.md): Computer lineup selection and sorting.
 - [T103c](T103c.md): Computer tactics and emergency role policy.
+
+- [T105a](T105a.md): Preregister isolated probes and match intervention boundaries.
+- [T105b](T105b.md): Preregister seed blocks, precision, stopping and compute caps.
 | [T78a](T78a.md) | Plain-memory port dispatcher | #289 | T77 |
 | [T78b](T78b.md) | Wire Match to the plain-memory engine | #289 | T78a |
 | [T78c](T78c.md) | Checkpoint the plain-memory engine at event boundaries | #289 | T78b |

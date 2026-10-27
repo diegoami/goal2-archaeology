@@ -83,6 +83,9 @@ kept on the branch `local`.
     for safe tournament continuation. Fresh careers suffice; old-career migration is not required.
     This supersedes the earlier long-term/planning-only deferral. Preserve active engine-study
     work and strict fidelity/review/delivery gates; do not ship an unvalidated default.
+    [designed: owner, 2026-10-27] The goal session handles that delivery independently in a
+    cloned repository. This engine-study session continues the analysis through ES-R2 and
+    prepares its independent-review prompt; it does not start standalone/backend work here.
     [designed: owner, 2026-10-22] **goal2's first version runs the original's whole game under Unicorn**
     (goal2 #308, stage 3): requests from goal2 for it (where the state lives in memory, key waits and
     timed prompts, screens; process.md §15) come before new port tasks. The independent executable
