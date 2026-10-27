@@ -1,0 +1,55 @@
+test_e034_01 (tests.test_port_engine.Checkpoints.test_e034_01) ... checkpoint PASS E034 index 39 boundary=0 phase=event
+checkpoint PASS E034 index 39 boundary=2 phase=event
+checkpoint PASS E034 index 39 boundary=624 phase=event
+checkpoint PASS E034 index 39 boundary=625 phase=event
+checkpoint PASS E034 index 39 boundary=625 phase=answered
+checkpoint PASS E034 index 39 boundary=799 phase=event
+checkpoint PASS E034 index 39 boundary=1244 phase=event
+checkpoint PASS E034 index 39 boundary=1246 phase=event
+checkpoint PASS E034 index 39 boundary=1246 phase=answered
+checkpoint PASS E034 index 39 boundary=1250 phase=event
+checkpoint PASS E034 index 39 boundary=1444 phase=event
+checkpoint PASS E034 index 39 boundary=1446 phase=event
+checkpoint PASS E034 index 39 boundary=1454 phase=event
+checkpoint PASS E034 index 39 boundary=1454 phase=answered
+checkpoint PASS E034 index 39 boundary=1640 phase=event
+checkpoint PASS E034 index 39 boundary=1642 phase=event
+checkpoint PASS E034 index 39 boundary=1690 phase=event
+checkpoint PASS E034 index 39 boundary=1691 phase=event
+checkpoint PASS E034 index 39 boundary=1691 phase=answered
+
+  test_e034_01 (tests.test_port_engine.Checkpoints.test_e034_01) (scenario='E034 index 39', index=1696, phase='event') ... FAIL
+  test_e034_01 (tests.test_port_engine.Checkpoints.test_e034_01) (scenario='E034 index 39', index=1729, phase='event') ... FAIL
+  test_e034_01 (tests.test_port_engine.Checkpoints.test_e034_01) (scenario='E034 index 39', index=1730, phase='event') ... FAIL
+
+======================================================================
+FAIL: test_e034_01 (tests.test_port_engine.Checkpoints.test_e034_01) (scenario='E034 index 39', index=1696, phase='event')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 232, in boundary_case
+    self.assertEqual(r.result(),wanted)
+AssertionError: {'fir[152592 chars]s': [[6, True]], 'positions': [], 'marking': [[16164 chars] 1}}} != {'fir[152592 chars]s': [(6, True)], 'positions': [], 'marking': [[16164 chars] 1}}}
+Diff is 338234 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_e034_01 (tests.test_port_engine.Checkpoints.test_e034_01) (scenario='E034 index 39', index=1729, phase='event')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 232, in boundary_case
+    self.assertEqual(r.result(),wanted)
+AssertionError: {'fir[152592 chars]s': [[6, True]], 'positions': [], 'marking': [[16164 chars] 1}}} != {'fir[152592 chars]s': [(6, True)], 'positions': [], 'marking': [[16164 chars] 1}}}
+Diff is 338234 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_e034_01 (tests.test_port_engine.Checkpoints.test_e034_01) (scenario='E034 index 39', index=1730, phase='event')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 232, in boundary_case
+    self.assertEqual(r.result(),wanted)
+AssertionError: {'fir[152592 chars]s': [[6, True]], 'positions': [], 'marking': [[16164 chars] 1}}} != {'fir[152592 chars]s': [(6, True)], 'positions': [], 'marking': [[16164 chars] 1}}}
+Diff is 338234 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 1 test in 10862.920s
+
+FAILED (failures=3)
