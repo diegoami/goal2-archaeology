@@ -1,0 +1,539 @@
+{
+  "analysis_sha256": "b5df8a240c3d7b4bb8feacb3fa4e9e4c62c14ff0221c3cac323772f25b081f28",
+  "ball_logical_extent": 14,
+  "country_restore_sites": [
+    {
+      "routine": "0791:0C65",
+      "sites": [
+        "0CDE",
+        "0CE1"
+      ]
+    },
+    {
+      "routine": "0791:112C",
+      "sites": [
+        "11BD",
+        "11C0"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:0C65",
+      "file": "static/goal-exe/named/seg_0791_01.c",
+      "heading_sha256": "2b1e8264f4a2cc4945cc8e420954e5c8e5c082fc7e090ed36214196b81561491",
+      "line": 701
+    },
+    {
+      "address": "0791:112C",
+      "file": "static/goal-exe/named/seg_0791_01.c",
+      "heading_sha256": "f6659e4c2e940d95536048e0940120978afad70264a6c056ad5c3b24df7a1019",
+      "line": 856
+    },
+    {
+      "address": "0791:15B9",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "2d043a378fc381b8f07e478da5548eb27de2a602d85523f9ace128964fd1b532",
+      "line": 4
+    },
+    {
+      "address": "0791:1FDD",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "036bf6b788d54c1fd8c47955db23778224a9be62dcf37040a4f79d6a99cf7648",
+      "line": 330
+    },
+    {
+      "address": "0791:20E3",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "d62c11e613557259ccccc208b7e7349be38933c388d479a3a11282140c79a941",
+      "line": 376
+    },
+    {
+      "address": "0791:261A",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "57ee7d992c2fccfb0b2ea69d72d3bfc14ec8f884ea65d85add23c5fc1f758559",
+      "line": 573
+    },
+    {
+      "address": "0791:2648",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "f6eef1b2c9e597215049cb214abdad84f71b69e7939b708685bab79298db69de",
+      "line": 592
+    },
+    {
+      "address": "0791:278A",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "53ab03c3ffdb1889db40be192b3cb0a701e875093f3d860b9bf19332f68c5a2d",
+      "line": 671
+    },
+    {
+      "address": "0791:2974",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "646c97b2c9e16aac28baffbfe592c4f19e6e536a0bd1b5bd0cf226f014d9cd34",
+      "line": 792
+    },
+    {
+      "address": "0791:2BB1",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "3bd692f191d177a4d3f81f2579c6bd582fa7fdb78ea93ff317e734b6779a2fd4",
+      "line": 977
+    },
+    {
+      "address": "0791:6B65",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "4930e752234f68e61b377bef57645f4d316cad795422840772a009178894f359",
+      "line": 701
+    },
+    {
+      "address": "0791:835F",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "1efae9482a7c236f729f128296a368cb28573521a4358096b98a687371acd9b1",
+      "line": 143
+    },
+    {
+      "address": "0791:83A2",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "05675ebc689827f17942764ec507233f17bdf910215c79067c48a7bcac241e46",
+      "line": 156
+    },
+    {
+      "address": "0791:8537",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "ceb9952f9bc62173216d7b491931ce70772d64bace8c4b761c43c5b45596c14f",
+      "line": 257
+    },
+    {
+      "address": "0791:86D0",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "b40a4a32443aa1d891d0fc25c5d571ea5e72620d5c50579af72c19de78848314",
+      "line": 333
+    },
+    {
+      "address": "0791:8AE9",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "d198ef91981f2306bba5156f0205aca906ebee7a59fb4756eea87dd05689daff",
+      "line": 505
+    },
+    {
+      "address": "0791:8E24",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "fe7a71a11c3ba2197a63acbc572736d3db5248c054a389e038f8bbb5a693cf08",
+      "line": 667
+    },
+    {
+      "address": "0791:8F10",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "9d42ef17edf9df74e22f0ba31bc8f0172be32a671a6d02dcb18002cb983ef498",
+      "line": 695
+    },
+    {
+      "address": "0791:9119",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "10c230abfc978cb25c377342a0827ddc45efb72731f82e7cf86906953e7e326b",
+      "line": 784
+    },
+    {
+      "address": "0791:9372",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "8984679a2fc46113fbeeb7bf5cf0a6e6763505586764b87279592edcef9082fb",
+      "line": 879
+    },
+    {
+      "address": "0791:94C9",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "cddf4281d049e34d798f879af48d0ab9ac8cf985cea59db79c1680bf84b36582",
+      "line": 963
+    },
+    {
+      "address": "0791:970C",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "dccff2e88fc3a28efc95a5ebda4d8ca0241de37d58b73c7ccfd702eedca7a1c0",
+      "line": 127
+    },
+    {
+      "address": "0791:97D0",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "54b3a034f1b2fe96422f7af0acb0582dfe6521fbd2ffd8d361a36a97797539ac",
+      "line": 174
+    },
+    {
+      "address": "0791:A260",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "0bff3a304491431a72141f468b52345724055563f4f845adffb1bbbcaf058fa9",
+      "line": 690
+    },
+    {
+      "address": "0791:A2E6",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "aa3a66cfbc5f51987b35168762ba49313dbf1165acfc89eb0318cfaf4ee3b0a8",
+      "line": 720
+    },
+    {
+      "address": "0791:A375",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "2307e2e3b39fdfc0f2b0e58d9be65b545b34cf290ad6a50ef682ea4b24091d7a",
+      "line": 752
+    },
+    {
+      "address": "0791:A3DE",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "93da7d0fcebe61b26058c65a37a46aa3d1f9ceffb5c8883a3ed60c20956905f3",
+      "line": 789
+    },
+    {
+      "address": "0791:A920",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "6c346a42794124957e7390d0490a70b99a4fac9d5aa421e81fa52d3c464bfc3a",
+      "line": 54
+    },
+    {
+      "address": "0791:E929",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "46a878b13e095614024a32b7d43db7197c4ade419bc9d03dc09724642e1c6542",
+      "line": 224
+    },
+    {
+      "address": "0791:F3F2",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "f168c8fae3b72f91d0ef51644c1b719941f48055a99901d2b04fa5f4e2887608",
+      "line": 708
+    },
+    {
+      "address": "1771:30D9",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "b676c12ea188f2ab7d8704c2d78445f9d190eb64c33a945c43fff200047658fb",
+      "line": 4
+    },
+    {
+      "address": "214B:0688",
+      "file": "static/goal-exe/named/seg_214B_01.c",
+      "heading_sha256": "34ad314d6c5f1c221a39452ebc11149f1bf59052e4c6efc0d0b5b1d15db1718d",
+      "line": 590
+    }
+  ],
+  "pitch_slot_map": {
+    "keepers": [
+      1,
+      12
+    ],
+    "side0": "12..22",
+    "side1": "1..11"
+  },
+  "records": {
+    "ball": {
+      "fields": [
+        {
+          "meaning": "Signed lateral coordinate; contributes to screen row in drawing.",
+          "name": "x",
+          "offset": 0,
+          "width": 1
+        },
+        {
+          "meaning": "Signed longitudinal coordinate; contributes to screen column.",
+          "name": "y",
+          "offset": 1,
+          "width": 1
+        },
+        {
+          "meaning": "Previous packed coordinate used to restore the old occupancy cell.",
+          "name": "old_position",
+          "offset": 2,
+          "width": 2
+        },
+        {
+          "meaning": "Character/attribute word drawn into the pitch occupancy picture.",
+          "name": "glyph",
+          "offset": 4,
+          "width": 2
+        },
+        {
+          "meaning": "Signed word used by travel computation; step code reads its low byte.",
+          "name": "velocity_x",
+          "offset": 6,
+          "width": 2
+        },
+        {
+          "meaning": "Signed word used by travel computation; step code reads its low byte.",
+          "name": "velocity_y",
+          "offset": 8,
+          "width": 2
+        },
+        {
+          "meaning": "Remaining ball-step timer.",
+          "name": "timer",
+          "offset": 10,
+          "width": 2
+        }
+      ],
+      "size": 12
+    },
+    "marker-prefix": {
+      "fields": [
+        {
+          "meaning": "Signed lateral coordinate; contributes to screen row in drawing.",
+          "name": "x",
+          "offset": 0,
+          "width": 1
+        },
+        {
+          "meaning": "Signed longitudinal coordinate; contributes to screen column.",
+          "name": "y",
+          "offset": 1,
+          "width": 1
+        },
+        {
+          "meaning": "Previous packed coordinate used to restore the old occupancy cell.",
+          "name": "old_position",
+          "offset": 2,
+          "width": 2
+        },
+        {
+          "meaning": "Character/attribute word drawn into the pitch occupancy picture.",
+          "name": "glyph",
+          "offset": 4,
+          "width": 2
+        }
+      ],
+      "size": 6
+    },
+    "pitch": {
+      "fields": [
+        {
+          "meaning": "Signed lateral coordinate; contributes to screen row in drawing.",
+          "name": "x",
+          "offset": 0,
+          "width": 1
+        },
+        {
+          "meaning": "Signed longitudinal coordinate; contributes to screen column.",
+          "name": "y",
+          "offset": 1,
+          "width": 1
+        },
+        {
+          "meaning": "Previous packed coordinate used to restore the old occupancy cell.",
+          "name": "old_position",
+          "offset": 2,
+          "width": 2
+        },
+        {
+          "meaning": "Character/attribute word drawn into the pitch occupancy picture.",
+          "name": "glyph",
+          "offset": 4,
+          "width": 2
+        },
+        {
+          "meaning": "Pitch identity 1..22, not the played-position code. Below12 selects engine side1.",
+          "name": "pitch_slot",
+          "offset": 6,
+          "width": 1
+        },
+        {
+          "meaning": "Packed target x/y bytes; used by target tests and movement.",
+          "name": "destination",
+          "offset": 7,
+          "width": 2
+        },
+        {
+          "meaning": "Packed home/post x/y from played role.",
+          "name": "post",
+          "offset": 9,
+          "width": 2
+        },
+        {
+          "meaning": "Signed lateral target offset.",
+          "name": "x_offset",
+          "offset": 11,
+          "width": 1
+        },
+        {
+          "meaning": "Signed longitudinal depth/target offset.",
+          "name": "depth_offset",
+          "offset": 12,
+          "width": 1
+        },
+        {
+          "meaning": "Persistent player-record index, re-bound from the squad slot.",
+          "name": "player_index",
+          "offset": 13,
+          "width": 2
+        },
+        {
+          "meaning": "Direction/state-of-motion byte; activity accounting tests unsigned <5.",
+          "name": "run_direction",
+          "offset": 15,
+          "width": 1
+        },
+        {
+          "meaning": "State-dependent countdown (including chase/walk-off routes); not a global game minute.",
+          "name": "state_timer",
+          "offset": 16,
+          "width": 1
+        },
+        {
+          "meaning": "A260 stores manager_bonus(player.country)+32; 20E3 adds twice captain leadership to all eleven bytes; 278A gates the resulting byte by skill/event.",
+          "name": "cached_skill_extra",
+          "offset": 17,
+          "width": 1
+        },
+        {
+          "meaning": "Action-handler dispatch code, distinct from player status flags.",
+          "name": "state",
+          "offset": 18,
+          "width": 1
+        },
+        {
+          "meaning": "Cached 3179 result; 278A halves derived skill when nonzero.",
+          "name": "placement_flag",
+          "offset": 19,
+          "width": 1
+        },
+        {
+          "meaning": "Update counter; 8AE9 can spend energy after >180 while live play is enabled; reset separately from energy.",
+          "name": "activity",
+          "offset": 20,
+          "width": 2
+        }
+      ],
+      "size": 22
+    },
+    "sprite": {
+      "fields": [
+        {
+          "meaning": "Signed lateral coordinate; contributes to screen row in drawing.",
+          "name": "x",
+          "offset": 0,
+          "width": 1
+        },
+        {
+          "meaning": "Signed longitudinal coordinate; contributes to screen column.",
+          "name": "y",
+          "offset": 1,
+          "width": 1
+        },
+        {
+          "meaning": "Previous packed coordinate used to restore the old occupancy cell.",
+          "name": "old_position",
+          "offset": 2,
+          "width": 2
+        },
+        {
+          "meaning": "Character/attribute word drawn into the pitch occupancy picture.",
+          "name": "glyph",
+          "offset": 4,
+          "width": 2
+        },
+        {
+          "meaning": "Referee target lateral/screen-row coordinate.",
+          "name": "target_x",
+          "offset": 6,
+          "width": 1
+        },
+        {
+          "meaning": "Referee target longitudinal/screen-column coordinate.",
+          "name": "target_y",
+          "offset": 7,
+          "width": 1
+        }
+      ],
+      "size": 8
+    }
+  },
+  "schema": 1,
+  "screen_cell": "buffer + 0x90E + s8(x)*160 + s8(y)*2",
+  "sections": [
+    "Live records and coordinate conventions",
+    "State families and lifetimes",
+    "Aliases and cached values",
+    "Occupancy, randomness and continuation boundaries"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "runtime/original_match/README.md": "f0ec391ae6f17974f68c978089694a19e830a3068e5e8facd21d5de572bde3cc",
+    "runtime/original_match/match.py": "f48af24c40e571be10c31b21e5551c47d26af3624c71bf97cd7348c9a64e9885",
+    "runtime/original_match/port/discipline.py": "a8ee74a7336ebd3d8c85ee71cbb6a089fca45fc0c05ee3efec866d798649fdcd",
+    "runtime/original_match/port/frame.py": "d4c0cd4753038d6058f8359818164ce8cd0be775191fc8338f9a7ec9849b3a6a",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "runtime/original_match/port/motion.py": "4e7bab13c1e196464ecb41fd2ddb3a41878c217885c238fd2e80cd8329746eb2",
+    "runtime/original_match/port/setup.py": "0f703063621cd8a96d9ac0acde56da89754aa885a3d94d9333991a115e8185e2",
+    "static/goal-exe/annotations/fields.tsv": "dc2b5cc8fbd3ad9ff326bb052b281ae035c0f1ff6b5271a7534ee0e86fd08986",
+    "static/goal-exe/annotations/globals.tsv": "254c29ae9d92637bf40b8a23dd47b25cfe85dfb80849d9b7c73e1042ddb84af7",
+    "static/goal-exe/code/seg_0791_02.asm": "57849ee0856cb014c748370434588b99cd5151ce14d785a125c3a4350e04eb8b",
+    "static/goal-exe/code/seg_0791_03.asm": "960a08fdcaa6f4115a4702c48a454b097fe0194db91c76ea5a4a9818bbfca0a3",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_0791_11.asm": "a5aebf13faf14469141d8edb9a0878b0a56b7267451694622801732f522603ec",
+    "static/goal-exe/code/seg_0791_15.asm": "39083ebcc1fba0fc0c377bd9656189ceb0e0a328d0940583c774e910967e1abf",
+    "static/goal-exe/code/seg_0791_17.asm": "e8ca718382b8b72b2a9d1ede8d24bf6bf0bf2e899b3cc70d91a5435d076f6c44",
+    "static/goal-exe/code/seg_0791_23.asm": "49e12bb8534566ad1e6b4b22e2f088ce483d4518f8d2b8cf28fefb3c7f9b9cde",
+    "static/goal-exe/code/seg_0791_24.asm": "f081cd651518cc3f56bea9e53bdf0545f766da0334f18e990c08be0f5c128bc2",
+    "static/goal-exe/code/seg_1771_05.asm": "4a856a9af9dee3d93fe6e6275ead612d2d3ba4c81363389c68fa5424ca8483d9",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_01.c": "d8a020bf4ff10098b2b5f0b9ea2a61085f46c500cd7f6b929bdf8f0bf8f3ce37",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_06.c": "1c03cc01069ce4f4eedb386688654af7c3a3900eeb3470971111b2caa3bbe945",
+    "static/goal-exe/named/seg_0791_08.c": "130e91927a5bb2fed2adb998225fc88091816752051eee90ae004e30fcfecc96",
+    "static/goal-exe/named/seg_0791_09.c": "71a912e2c5564f75078a0db0220c5388a74ec168783371a63c74cdddae22275f",
+    "static/goal-exe/named/seg_0791_10.c": "307274e4e5007f1e809b5b54708a686d106a61d77848ddc6967c9fb0fd88e52f",
+    "static/goal-exe/named/seg_0791_13.c": "4fe6fb41281082fba52ebdc61c6ba147de1dff5bf3ee94fe0bf1314e33878d21",
+    "static/goal-exe/named/seg_1771_03.c": "9c51e37d30f7d69e51b2d776c0b704d7f87852cd10d47fa4d679880d13f4d2f4",
+    "static/goal-exe/named/seg_214B_01.c": "b49ca1bb9367f8bad97a41a4cbd2f5646d7653de9d9acb9d16a28c7ac1331c53"
+  },
+  "state_groups": {
+    "clock": {
+      "DS:8319": "byte half-length threshold; adjacent831A is kickoff side, not its high byte",
+      "DS:831B": "word regular remaining count",
+      "DS:831D": "word subtick countdown, reload36",
+      "DS:831F": "word displayed/elapsed count",
+      "DS:8321": "word accumulated added time",
+      "DS:8325": "byte live-clock/activity gate",
+      "DS:8326": "byte end-time flag"
+    },
+    "marking": {
+      "DS:9976": "fixture-group byte copied from pre-play fixture +1 by A3DE and read by E929 for the group table",
+      "DS:9976+10*side+2*role, role=1..5": "captain/set-piece taker player-identity words; 6B65 resolves them to squad slots; base offset zero is not a taker entry",
+      "DS:9A3E": "quick flag byte; overlaps dummy marking row0, not an active marking word",
+      "DS:9A3E+40*t+2*s": "marking words for active squad slots; index/lifetime must be read in context"
+    },
+    "occupancy": {
+      "DS:7C16": "far pointer to live pitch picture read by move tests",
+      "DS:7C1E": "background-picture pointer used for restoration",
+      "DS:80FC": "second-team-is-host byte inside nominal pitch row0",
+      "DS:82E2,82E8": "two six-byte offside-marker prefixes",
+      "DS:82EE": "eight-byte referee sprite",
+      "DS:82F6": "ball core plus adjacent flags"
+    },
+    "restart": {
+      "DS:7C2A": "live current-fixture far pointer; A3DE writes it at A437/A43A",
+      "DS:8302": "ball/play gate; nominal ball+0C",
+      "DS:8303": "in-flight/ball-phase flag; nominal ball+0D",
+      "DS:830B,830C,830D": "holder/challenger/nearest pitch-slot selectors",
+      "DS:8324": "shootout-specific control flag",
+      "DS:8327": "ball-event/action code",
+      "DS:9B34": "two current country words",
+      "DS:9B3A": "two substitution-budget bytes"
+    },
+    "rng": {
+      "DS:7B62": "main16-bit LCG state",
+      "DS:8336..8337": "separate sound-seed word; high byte aliases unused foul-table entry zero",
+      "DS:8337+k, k=1..255": "precomputed foul draw bytes; entry zero at 8337 is unused by the foul reader",
+      "DS:8437": "foul-table index, wraps255to1",
+      "DS:9974": "original replay snapshot of main RNG word",
+      "DS:A978": "far pointer to main RNG word, normally7B62"
+    },
+    "save-decisions": {
+      "DS:9B07": "per-side/squad saved form snapshot; not the live player form byte",
+      "DS:9B30..9B33": "replay snapshot of country words 9B34..9B37; 15B9 writes at 17DE/17E1; 0C65 action replay restores at 0CDE/0CE1; 112C view saved goal restores at 11BD/11C0",
+      "DS:9B38..9B39": "replay snapshot of substitution-budget bytes 9B3A..9B3B; 15B9 writes at 17E8",
+      "DS:9B55,7C37": "original snapshot/replay request flags",
+      "Match.save/load": "adapter save/replay reconstruction of live port frames; distinct from original action replay",
+      "Match.st": "host-side phase/decision/event bookkeeping, separate from original DS"
+    },
+    "score-statistics": {
+      "DS:7B7E": "20 statistic bytes, ten per side, including injuries not one of the nine displayed rows",
+      "DS:7C3A": "man-of-the-match player word",
+      "DS:80F2,80F6": "two pairs of raw bar counters; legacy variable names do not establish caption/meaning",
+      "DS:9B3C": "two committed score bytes, also scratch during quick trials; write-site semantics matter"
+    }
+  },
+  "task": "T97b"
+}

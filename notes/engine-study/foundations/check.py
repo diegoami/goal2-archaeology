@@ -18,7 +18,7 @@ FILES = {
     "T96a": ("T96/fields-v2.json", "player-fields.md"),
     "T96b": ("T96/derived.json", "player-derived.md"),
     "T97a": ("T97/persistent-v2.json", "match-fields.md"),
-    "T97b": ("T97/transient-v3.json", "transient-state.md"),
+    "T97b": ("T97/transient-v4.json", "transient-state.md"),
     "T98a": ("T98/skill-v1.json", "attribute-formulas.md"),
     "T98b": ("T98/strength-v1.json", "strength-formulas.md"),
     "T99a": ("T99/gates-v1.json", "skill-gates.md"),

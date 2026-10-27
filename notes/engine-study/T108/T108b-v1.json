@@ -1,0 +1,420 @@
+{
+  "analysis_sha256": "bd09da2acf9d229a2a28b89ad103e42ae8bbbd2837079302a4b7671bb411cdc0",
+  "calculations": {
+    "cache56_leader4": 64,
+    "controls": {
+      "identity-as-slot": "rejected:314 differs from11",
+      "omit-cache-wrap": "rejected:264 differs from8",
+      "omit-element11": "rejected:incomplete gate set",
+      "zero-pad-window": "rejected:0 differs from107"
+    },
+    "ds_sources": [
+      "static/goal-exe/data/ds_2581_01.hex",
+      "static/goal-exe/data/ds_2581_02.hex",
+      "static/goal-exe/data/ds_2581_03.hex",
+      "static/goal-exe/data/ds_2581_04.hex"
+    ],
+    "extra_gate_elements": [
+      2,
+      4,
+      11,
+      12
+    ],
+    "historical_report": "experiments/E036-match-port/out/T68/compare-falsifier-run-direction-4-39891997938.txt",
+    "historical_uncaught_count": 8,
+    "legacy_window_source": "experiments/E020-q018-condition-performance/records/contest-001.json",
+    "maximum_profile_index": 204,
+    "role_identity314_resolves_slot": 11,
+    "source_sites": {
+      "0BD0": {
+        "file": "static/goal-exe/code/seg_0791_02.asm",
+        "instruction": "0BD0  B8 58 02        mov ax, 0x258",
+        "line": 284
+      },
+      "8A26": {
+        "file": "static/goal-exe/code/seg_0791_14.asm",
+        "instruction": "8A26  26 C6 45 0F 05  mov byte ptr es:[di + 0xf], 5",
+        "line": 798
+      },
+      "8A5B": {
+        "file": "static/goal-exe/code/seg_0791_14.asm",
+        "instruction": "8A5B  26 88 45 0F     mov byte ptr es:[di + 0xf], al",
+        "line": 823
+      },
+      "8A79": {
+        "file": "static/goal-exe/code/seg_0791_14.asm",
+        "instruction": "8A79  26 88 45 0F     mov byte ptr es:[di + 0xf], al",
+        "line": 837
+      },
+      "8AA5": {
+        "file": "static/goal-exe/code/seg_0791_14.asm",
+        "instruction": "8AA5  26 88 45 0F     mov byte ptr es:[di + 0xf], al",
+        "line": 860
+      },
+      "8AC1": {
+        "file": "static/goal-exe/code/seg_0791_14.asm",
+        "instruction": "8AC1  26 88 45 0F     mov byte ptr es:[di + 0xf], al",
+        "line": 874
+      },
+      "A36A": {
+        "file": "static/goal-exe/code/seg_0791_17.asm",
+        "instruction": "A36A  26 C6 45 0F 05  mov byte ptr es:[di + 0xf], 5",
+        "line": 117
+      },
+      "C712": {
+        "file": "static/goal-exe/code/seg_0791_20.asm",
+        "instruction": "C712  C4 3E 1B A9     les di, ptr [0xa91b]",
+        "line": 509
+      },
+      "C718": {
+        "file": "static/goal-exe/code/seg_0791_20.asm",
+        "instruction": "C718  26 C6 45 0F 00  mov byte ptr es:[di + 0xf], 0",
+        "line": 511
+      },
+      "CCEC": {
+        "file": "static/goal-exe/code/seg_0791_20.asm",
+        "instruction": "CCEC  3D 0B 00        cmp ax, 0xb",
+        "line": 1131
+      },
+      "CCEF": {
+        "file": "static/goal-exe/code/seg_0791_20.asm",
+        "instruction": "CCEF  76 18           jbe 0xcd09",
+        "line": 1132
+      },
+      "EC89": {
+        "file": "static/goal-exe/code/seg_0791_23.asm",
+        "instruction": "EC89  83 7E EE 0D     cmp word ptr [bp - 0x12], 0xd",
+        "line": 477
+      }
+    },
+    "window_cases": [
+      {
+        "class_index": 168,
+        "club": 13,
+        "element": 12,
+        "extended_result": 107,
+        "literal_expected": 107,
+        "old_result": "IndexError",
+        "profile": 8,
+        "profile_index": 101
+      },
+      {
+        "class_index": 27,
+        "club": 2,
+        "element": 3,
+        "extended_result": 135,
+        "literal_expected": 135,
+        "old_result": "IndexError",
+        "profile": 16,
+        "profile_index": 193
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "actual": [
+        {
+          "class_index": 168,
+          "club": 13,
+          "element": 12,
+          "extended_result": 107,
+          "literal_expected": 107,
+          "old_result": "IndexError",
+          "profile": 8,
+          "profile_index": 101
+        },
+        {
+          "class_index": 27,
+          "club": 2,
+          "element": 3,
+          "extended_result": 135,
+          "literal_expected": 135,
+          "old_result": "IndexError",
+          "profile": 16,
+          "profile_index": 193
+        }
+      ],
+      "disposition": "documentation/test defect",
+      "evidence": [
+        "1771:3A06",
+        "runtime/model/keeping.py"
+      ],
+      "expected": "One-based class index168 requires169 bytes; profile index204 requires205 bytes at retained DS bases.",
+      "follow_up": "#477 remains open for versioned complete/rebased windows and helper-domain coverage; never zero-pad retained evidence.",
+      "id": "table-windows",
+      "minimal_input": {
+        "ability": 180,
+        "cases": [
+          [
+            8,
+            13,
+            12
+          ],
+          [
+            16,
+            2,
+            3
+          ]
+        ],
+        "window_lengths": [
+          168,
+          192
+        ]
+      },
+      "reachability": "Ordinary declared helper domains; reproduced here in the legacy analytical helper. Memory-faithful port reads full memory and does not use those short windows."
+    },
+    {
+      "actual": {
+        "complete_extra": 64,
+        "current_ledger": "transient-v4.json",
+        "resolved_slot": 11,
+        "wrapped_extra_at250_lead7": 8
+      },
+      "disposition": "documentation/test defect",
+      "evidence": [
+        "0791:A260",
+        "0791:20E3",
+        "0791:6B65",
+        "0791:A920",
+        "0791:1F3C"
+      ],
+      "expected": "20E3 adds2*leadership to cached byte;6B65 maps stored player identity to first matching squad slot.",
+      "follow_up": "Corrected foundation prose and additive v4 ledger in this slice; #514 retains attribution/reachability context; no formula-input or runtime change.",
+      "id": "cache-and-identities",
+      "minimal_input": {
+        "captain_leadership": 4,
+        "initial_extra": 56,
+        "squad_slot": 11,
+        "stored_taker_identity": 314
+      },
+      "reachability": "Ordinary identity/cache mechanism; wrap example is representable only. All-unavailable1F3C retains an uninitialised winner local, with natural reachability unresolved."
+    },
+    {
+      "actual": {
+        "C718": "persistent player+F tactics cleared, not pitch direction",
+        "before_move": "8889 assigns direction on both on-target and coin paths",
+        "historical_identical": 8
+      },
+      "disposition": "unresolved",
+      "evidence": [
+        "0791:A2E6",
+        "0791:C5DC",
+        "0791:8889",
+        "0791:8AE9"
+      ],
+      "expected": "An observable writer mutation would change at least one compared record; source direction remains5.",
+      "follow_up": "#375 stays open: distinguish dead store on reached paths from observation blind spot before changing proof or dropping the write.",
+      "id": "uncaught-initial-direction",
+      "minimal_input": {
+        "historical_family": "O8,8 retained cases",
+        "intervention": "A36A pitch+F assignment5->4"
+      },
+      "reachability": "Writer reached historically; no complete read-before-overwrite/alias proof through every earlier state handler. No fresh mutation run. Minimal change identified, full-state minimisation remains unavailable."
+    },
+    {
+      "actual": {
+        "historical_review": "#412 reports all three mutants pass25 units; captain edge also survives seven S comparisons",
+        "source_matches_port": true
+      },
+      "disposition": "documentation/test defect",
+      "evidence": [
+        "0791:EA09",
+        "0791:CC7B",
+        "0791:0B7C"
+      ],
+      "expected": "Literal listing edges are inclusive role13, valid captain slot11 and600-poll Y/N wait.",
+      "follow_up": "#412 stays open for the three missing focused tests; do not claim current family/unit coverage proves these edges.",
+      "id": "existing-edge-coverage",
+      "minimal_input": {
+        "mutations": [
+          "position-loop13->12",
+          "captain-invalid>11->>=11",
+          "Y/N-wait600->601"
+        ]
+      },
+      "reachability": "Role13 and slot11 are admitted values; this slice checks instructions and reuses historical review, not a new test/mutant execution. Y/N600 differs from captain-prompt1000."
+    },
+    {
+      "actual": {
+        "clamp_in_2C86": false,
+        "gate_elements": [
+          2,
+          4,
+          11,
+          12
+        ],
+        "mirrored_point": [
+          3,
+          27
+        ]
+      },
+      "disposition": "documentation/test defect",
+      "evidence": [
+        "0791:278A",
+        "0791:2C86",
+        "0791:4354"
+      ],
+      "expected": "Gate table adds extra for11;2C86 multiplies both signed coordinate bytes by direction.",
+      "follow_up": "#494/#512 remain open for scoped annotation regeneration; raw/named history and existing source pins preserved.",
+      "id": "annotation-claims",
+      "minimal_input": {
+        "direction": -1,
+        "element": 11,
+        "mirror_point": [
+          -3,
+          -27
+        ]
+      },
+      "reachability": "Source/table contradictions in old annotation text, not new engine bugs. Current guide uses instruction-backed meanings."
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:0B7C",
+      "file": "static/goal-exe/named/seg_0791_01.c",
+      "heading_sha256": "70522ea0c61f856c1b7c4b6d1f7577c0d6fcc86ed915db93e2b11a8da43b9080",
+      "line": 641
+    },
+    {
+      "address": "0791:1F3C",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "735d4834139839b0fc609ea89098c0e65163d3b6bdc2887411cc791159280a6c",
+      "line": 294
+    },
+    {
+      "address": "0791:20E3",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "d62c11e613557259ccccc208b7e7349be38933c388d479a3a11282140c79a941",
+      "line": 376
+    },
+    {
+      "address": "0791:278A",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "53ab03c3ffdb1889db40be192b3cb0a701e875093f3d860b9bf19332f68c5a2d",
+      "line": 671
+    },
+    {
+      "address": "0791:2C86",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "349fab516a83a6c72f5030ab9c931ccb333f8e4be75fbf49984e34ad1320d9c5",
+      "line": 62
+    },
+    {
+      "address": "0791:4354",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "ea12754977e2d9bb11106df4c708aeab453f06726b16c4f108cdcd706c607e7f",
+      "line": 278
+    },
+    {
+      "address": "0791:6B65",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "4930e752234f68e61b377bef57645f4d316cad795422840772a009178894f359",
+      "line": 701
+    },
+    {
+      "address": "0791:8889",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "8c68c6444c9a319daa478bbae80010531f6d61ee00f3222d003fbc54de105bd0",
+      "line": 402
+    },
+    {
+      "address": "0791:8AE9",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "d198ef91981f2306bba5156f0205aca906ebee7a59fb4756eea87dd05689daff",
+      "line": 505
+    },
+    {
+      "address": "0791:A260",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "0bff3a304491431a72141f468b52345724055563f4f845adffb1bbbcaf058fa9",
+      "line": 690
+    },
+    {
+      "address": "0791:A2E6",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "aa3a66cfbc5f51987b35168762ba49313dbf1165acfc89eb0318cfaf4ee3b0a8",
+      "line": 720
+    },
+    {
+      "address": "0791:A920",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "6c346a42794124957e7390d0490a70b99a4fac9d5aa421e81fa52d3c464bfc3a",
+      "line": 54
+    },
+    {
+      "address": "0791:C5DC",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "5f4a815b51f7175daff81dcdb48b2ba6b5602ca3798c8a2ac79f16c9f3a4c2f4",
+      "line": 464
+    },
+    {
+      "address": "0791:CC7B",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "4daa24a9464b34413fcb7b7359ee51b095353f7c118b2631a1df6ca8d300624d",
+      "line": 744
+    },
+    {
+      "address": "0791:EA09",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "f0612b64f36e555d908de259c05dac2e980f9c58101f84e2624c23f07d207dc7",
+      "line": 260
+    },
+    {
+      "address": "1771:3A06",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "c243812d3bf7c7a7900c06a91e8653fbfbee029227fd99eed057d166eae4d048",
+      "line": 459
+    }
+  ],
+  "method": "Record/index audit with legacy analytical-helper checks; no guest/port engine execution.",
+  "schema": 1,
+  "sections": [
+    "Windows and identity",
+    "A surviving mutation is not a dead-store proof",
+    "Test and annotation limits"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "experiments/E020-q018-condition-performance/records/contest-001.json": "c55b0c3bc701dfa340d71bb07f0a42d3bf80f5b36ff9c86a6f65ffbfed1dc0e3",
+    "experiments/E036-match-port/out/T68/compare-falsifier-run-direction-4-39891997938.txt": "cfaec86effe966d857abd4d4cbad92e6d835698c8e1a369a52dac5917d83481d",
+    "runtime/model/keeping.py": "e485fec0f6faedeadda37f92791992bf10848500370dc324b089fe9b57e04a90",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "runtime/original_match/port/discipline.py": "a8ee74a7336ebd3d8c85ee71cbb6a089fca45fc0c05ee3efec866d798649fdcd",
+    "runtime/original_match/port/pilot.py": "700a8bf56db7adcccd6d011b0e26d0a06599c24fbc451e44fee033b8e56e0863",
+    "runtime/original_match/port/positioning.py": "6a8feb436f745149a010db472a1aed04569d897875cd966eb434a6170b7f839e",
+    "runtime/original_match/port/selection.py": "4a2ac1e0868d44f0e58dfcf31b1df1c3f1171edf4a511d4695e73fb7ee9ef382",
+    "runtime/original_match/port/takers.py": "fcd182d4543af18a0def9e16773cd317939fd0ca37559f941b499bf9ab40d7b8",
+    "static/goal-exe/code/seg_0791_02.asm": "57849ee0856cb014c748370434588b99cd5151ce14d785a125c3a4350e04eb8b",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_0791_05.asm": "0635bc395cd69ffe2c77ead9aaaf786f36eedeee5496daae8f43127ce4aed474",
+    "static/goal-exe/code/seg_0791_14.asm": "032e2d6f22d6db5981e2a11f43298924a53e15d080e1d73d1fb375ddbe400abd",
+    "static/goal-exe/code/seg_0791_17.asm": "e8ca718382b8b72b2a9d1ede8d24bf6bf0bf2e899b3cc70d91a5435d076f6c44",
+    "static/goal-exe/code/seg_0791_20.asm": "9ed1e3aa1aca8370004fc286911f2cf55003c084f03f95f8e39b56bf438361f9",
+    "static/goal-exe/code/seg_0791_23.asm": "49e12bb8534566ad1e6b4b22e2f088ce483d4518f8d2b8cf28fefb3c7f9b9cde",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_01.c": "d8a020bf4ff10098b2b5f0b9ea2a61085f46c500cd7f6b929bdf8f0bf8f3ce37",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_03.c": "c49d73137a03e70e2f02b8b54dfe04d8805239f55fc80a99d23a6943354e5800",
+    "static/goal-exe/named/seg_0791_04.c": "0118b26c212562f1eaecefe22850166c2e2b7755952a09abad00a5b42fbf8325",
+    "static/goal-exe/named/seg_0791_06.c": "1c03cc01069ce4f4eedb386688654af7c3a3900eeb3470971111b2caa3bbe945",
+    "static/goal-exe/named/seg_0791_08.c": "130e91927a5bb2fed2adb998225fc88091816752051eee90ae004e30fcfecc96",
+    "static/goal-exe/named/seg_0791_09.c": "71a912e2c5564f75078a0db0220c5388a74ec168783371a63c74cdddae22275f",
+    "static/goal-exe/named/seg_0791_10.c": "307274e4e5007f1e809b5b54708a686d106a61d77848ddc6967c9fb0fd88e52f",
+    "static/goal-exe/named/seg_0791_11.c": "6e51b68715ebeca24e6616c99258668b5df0bb927e5e133105e04af66fee650e",
+    "static/goal-exe/named/seg_0791_13.c": "4fe6fb41281082fba52ebdc61c6ba147de1dff5bf3ee94fe0bf1314e33878d21",
+    "static/goal-exe/named/seg_1771_03.c": "9c51e37d30f7d69e51b2d776c0b704d7f87852cd10d47fa4d679880d13f4d2f4"
+  },
+  "status": "proposed; candidate attribution pending independent review",
+  "supporting_artifacts": {
+    "notes/engine-study/T108/T108a-v1.json": "41e3735af73c81667a1a0d6468326750a4a6cf8096f3777fd531c509ba64ea7e",
+    "notes/engine-study/T108/historical-issues-v1.json": "efbb8761bbcb4a7d4efa55dd88409fac96fb02f3268b4111bcd1deb48e04e5e4",
+    "notes/engine-study/T97/transient-v4.json": "66d91f0b6d1ddd1657dcf3e93d7504ef35de626cf7e89fdc658fec9b7d29233d",
+    "notes/engine-study/T98/validation-scope-v1.json": "874eaa766f8c1a89e317fe33a46a45ec7488b29dc041234b4ab23e8dfdf3d3b1",
+    "notes/engine-study/T98/window-repro-v1.json": "bfbfd8bd885bfbe3fdc5771c46122db49956a1a6a039a47b7a29e3c7e632357f"
+  },
+  "task": "T108b"
+}

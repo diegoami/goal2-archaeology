@@ -3,7 +3,7 @@
 The match creates state on top of the [persistent records](match-fields.md): pitch identity,
 coordinates, action handlers, ball travel, clocks, pending events, random streams and cached
 values. Several addresses have misleading names if their owner or phase is omitted.
-The [source ledger](../../notes/engine-study/T97/transient-v3.json) pins the layouts and primary
+The [source ledger](../../notes/engine-study/T97/transient-v4.json) pins the layouts and primary
 routines; it does not claim a complete typed schema for every byte in DS.
 
 ## Live records and coordinate conventions
@@ -41,7 +41,7 @@ equality can be an exact packed-word comparison. DS:0640 supplies an off-pitch s
 | `+0x0D` | 2 | player_index | Persistent player-record index, re-bound from the squad slot. |
 | `+0x0F` | 1 | run_direction | Direction/state-of-motion byte; activity accounting tests unsigned <5. |
 | `+0x10` | 1 | state_timer | State-dependent countdown (including chase/walk-off routes); not a global game minute. |
-| `+0x11` | 1 | manager_extra | A260 stores manager_bonus(player.country)+32; assigned to all bound players, later gated by skill/event. |
+| `+0x11` | 1 | cached_skill_extra | A260 binds manager_bonus(player.country)+32; 20E3 adds twice captain leadership to every player's byte; 278A later gates it by skill/event. |
 | `+0x12` | 1 | state | Action-handler dispatch code, distinct from player status flags. |
 | `+0x13` | 1 | placement_flag | Cached 3179 result; 278A halves derived skill when nonzero. |
 | `+0x14` | 2 | activity | Update counter; 8AE9 can spend energy after >180 while live play is enabled; reset separately from energy. |
@@ -101,7 +101,7 @@ other globals are unused. Exact original/source locations and hashes are in the 
 | Location | Meaning / boundary |
 | --- | --- |
 | `DS:9976` | fixture-group byte, copied from pre-play fixture +1 by A3DE; E929 reads it for the group-table display |
-| `DS:9976+10*side+2*role` | captain/set-piece taker slot words for roles 1..5; offset zero is not an entry |
+| `DS:9976+10*side+2*role` | captain/set-piece taker **player identities** for roles 1..5; 6B65 resolves a pick to a squad slot; offset zero is not an entry |
 | `DS:9A3E` | quick flag byte; overlaps dummy marking row 0, not an active marking word |
 | `DS:9A3E+40*t+2*s` | marking words for active squad slots; index/lifetime must be read in context |
 
@@ -178,9 +178,9 @@ copies 9B34..9B37 to 9B30..9B33 at 17DE/17E1 and 9B3A..9B3B to 9B38..9B39 at 17E
 `112C` (view saved goal), restores them at 11BD/11C0 before backing up the current
 career records and playing the saved goal. The four-byte copy
 uses `les` as a transfer operation; that does not make the two country words a far pointer.
-The live fixture pointer is 7C2A..7C2D. The v3 ledger corrects the second restore's routine attribution; v1 and v2 remain historical records.
+The live fixture pointer is 7C2A..7C2D. The v3 ledger corrected the second restore's routine attribution; v4 also clarifies captain-cache contributions and taker identities. All earlier ledgers remain historical records.
 
-The v3 source pin includes the reviewed T114–T116 annotation updates at `a42c2cbe`.
+The v4 source pin includes the reviewed T114–T116 annotation updates at `a42c2cbe`.
 Older foundation receipts describe their recorded milestone checkouts; source-strict generators
 can reject later annotation changes even when the underlying original instructions are unchanged.
 The [restore-site check](../../notes/engine-study/T97/check_snapshot_restores.py) independently
@@ -200,8 +200,11 @@ side 1 when it is below 12. Keepers are slots 1 and 12. Therefore `278A`'s +06<1
 share selects side 1 and includes its keeper; shorthand calling this an outfield-only test
 would be misleading. T98 uses the condition itself in its formula.
 
-**The manager extra is stored for all bound players.** `A260` writes manager_bonus+32 at
-pitch+11 without a goalkeeper-role test. `278A` decides when to add it by element/event.
+**The cached skill extra includes manager and captain contributions.** `A260` initially writes
+manager_bonus(player.country)+32 at pitch+11 without a goalkeeper-role test. `20E3` then adds
+twice captain leadership to all eleven bytes of each side, with byte wrapping. `278A` decides
+when to use the resulting byte by element/event. See [marking and leaders](marking.md) for
+selection and rebinding order; the initial manager-derived value is not the complete later cache.
 The historical name keeping_extra must not be turned into a restriction that only a goalkeeper
 can receive it.
 

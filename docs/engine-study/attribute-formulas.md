@@ -1,8 +1,8 @@
 # Effective skill: exact arithmetic and worked traces
 
 The skill used in an action is a pipeline, not the bar on the player card. Ability/profile/natural
-role produce a base skill; current condition, a cached placement flag, a manager-derived extra
-and side/venue context then change the value. This chapter expresses the original readers in
+role produce a base skill; current condition, a cached placement flag, a cached skill extra
+(manager-derived at binding, then modified by captain leadership) and side/venue context then change the value. This chapter expresses the original readers in
 named arithmetic and checks them against retained original-call results.
 
 The [numerical ledger](../../notes/engine-study/T98/skill-v1.json) pins source/data hashes and
@@ -14,9 +14,9 @@ analytical checks, not fresh matches or a new original-code execution.
 From the [player dictionary](player-fields.md), A is unsigned ability (+04), P profile (+05),
 C natural/club position (+07), F form (+0C) and E energy (+0E). e is the skill element (ordinary
 displayed domain 1..12). From the [live state](transient-state.md), H is the cached placement flag,
-K the pitch manager-extra byte, s the pitch-slot identity, h the DS:80FC flag and q the event code.
+K the cached pitch skill-extra byte, s the pitch-slot identity, h the DS:80FC flag and q the event code.
 
-Use `U16(x)=x mod 65536`, `I8(b)=b` below 128 and `b-256` otherwise, and floor division on
+Use `U16(x)=x mod 65536`, `U8(x)=x mod 256`, `I8(b)=b` below 128 and `b-256` otherwise, and floor division on
 the nonnegative quantities below. Do not replace the low-word multiplication with unlimited
 integer multiplication followed by division. The skill reader itself does not reject an
 unavailable player; caller/selection predicates are separate.
@@ -53,7 +53,7 @@ flowchart LR
   B --> C[Derived skill D0]
   C --> D[Cached placement halving]
   D --> E[Condition term plus quarter skill]
-  E --> F[Element/event-gated manager extra]
+  E --> F[Element/event-gated cached extra]
   F --> G[Side1 host-context share]
   G --> H[Effective value for a gate or duel]
   B --> I[Displayed bar, with divisor 256]
@@ -62,7 +62,11 @@ flowchart LR
 For ordinary elements 1..12, the table adds K unconditionally for **2, 4, 11 and 12**.
 Keeping (1) adds it for event codes 3 and 4. The byte 0x18 encoding that set is not event 24.
 The gate is not a test of whether the player is a goalkeeper. A260 assigns K to all bound players
-as `floor(u8(manager_ability)/8)+16+32`, using the persistent player's country.
+initially as `floor(u8(manager_ability)/8)+16+32`, using the persistent player's country.
+`20E3` subsequently adds twice the selected captain's leadership to every bound player's
+byte. After one such application, `K=U8(initial_K+2*leadership)`; rebinding and additive-update
+order matter. The [leader chapter](marking.md) traces these writers. Worked traces below
+supply K directly, so their numbers remain valid; they do not reconstruct captain selection.
 
 Likewise s<12 is a side test: active slots 1..11 are side 1, including keeper slot 1.
 It is not an outfield-only predicate. The final share is one sixteenth of the value **after**
