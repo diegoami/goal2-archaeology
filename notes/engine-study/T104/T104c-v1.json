@@ -1,0 +1,541 @@
+{
+  "analysis_sha256": {
+    "notes/engine-study/T104/common.py": "7b268370b2f3d1503e4a773558e2f6747f8f51008891c8dea2bc791ccdabe01e",
+    "notes/engine-study/T104/substitutions.py": "904f01ce0cc52346411dd69837d826af499e395616641f2947fb73f77b003b0c"
+  },
+  "calculations": {
+    "ai_managed_incoming_roles": [
+      2,
+      7
+    ],
+    "bench_natural_map": {
+      "2": 18,
+      "7": 15
+    },
+    "bind_effects": {
+      "activity": 0,
+      "after_leadership4": 64,
+      "budget2_after": 1,
+      "incoming_energy": 12,
+      "incoming_performance": 10055,
+      "initial_cached_extra": 56,
+      "run_direction": 5,
+      "snapshot_request": 1,
+      "state_timer": 0
+    },
+    "captain_cache_intermediate_final": [
+      60,
+      70
+    ],
+    "centre_back_preference": [
+      2
+    ],
+    "controls": {
+      "add-captain-without-rebind": "rejected:74 instead of70",
+      "copy-role-on-managed-swap": "rejected:incoming7 retained,not2",
+      "first-bench-role-wins": "rejected:12 instead of18",
+      "inclusive-performance-cutoff": "rejected:performance88 atremaining2 does not qualify",
+      "stable-sort-replacement": "rejected:unavailableA/B order differs",
+      "unify-foot-predicates": "rejected:eligible two-footed left player still hasplacement1"
+    },
+    "foot_case": {
+      "bench_eligible": true,
+      "foot": 0,
+      "placement_flag": 1,
+      "two_footed": true
+    },
+    "managed_admission": [
+      true,
+      false,
+      false,
+      false
+    ],
+    "managed_ai_mark_pairs": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        205
+      ]
+    ],
+    "pairwise_order": [
+      "C",
+      "B",
+      "A"
+    ],
+    "performance_window_cases": [
+      true,
+      false,
+      false,
+      true,
+      false
+    ],
+    "selected_bench": 18,
+    "stable_sort_control": [
+      "C",
+      "A",
+      "B"
+    ]
+  },
+  "examples": [
+    {
+      "id": "managed-substitution",
+      "inputs": {
+        "bench_slot": 18,
+        "budget": 2,
+        "incoming_energy": 12,
+        "incoming_played_role": 7,
+        "outgoing_played_role": 2,
+        "outgoing_slot": 3,
+        "permission": 1
+      },
+      "limits": "Partial source transaction;full roster-dependent sort,drawing andmenu inputs not executed. Actual incoming pitch index canchange on resort.",
+      "prediction": {
+        "budget": 1,
+        "energy": 12,
+        "incoming_role": 7,
+        "performance": 10055,
+        "snapshot_request": 1
+      },
+      "steps": [
+        "inmatchnonreplayE44F admission",
+        "E022 block/availability/red checks",
+        "swapcountry/form/marking fields",
+        "C5DC oldstatus3,rebind,performance10055,activity0,no energyrefill",
+        "230C sort/cache/postrefresh,budget1,snapshotrequest"
+      ]
+    },
+    {
+      "id": "ai-centre-back-map",
+      "inputs": {
+        "available_bench_roles": [
+          [
+            12,
+            2
+          ],
+          [
+            18,
+            2
+          ]
+        ],
+        "outgoing_role": 2,
+        "preference_table": [
+          2
+        ]
+      },
+      "limits": "No quality comparison inthismap route;available/unique binding assumptions. Fallbacks andfull AI decision policy separate.",
+      "prediction": {
+        "bench_slot": 18,
+        "incoming_played_role": 2
+      },
+      "steps": [
+        "C7EB role2 overwrittenbyslot18",
+        "AAE8 useslastmap result",
+        "C88D copiesplayed2 before refresh"
+      ]
+    },
+    {
+      "id": "foot-rule-difference",
+      "inputs": {
+        "natural_role": 2,
+        "new_played_role": 4,
+        "peak_age": 25,
+        "player_index": 1,
+        "profile": 5
+      },
+      "limits": "Range-valid source case,not observed naturalfrequency. Do not unify two different compatibility predicates.",
+      "prediction": {
+        "bench_eligible": true,
+        "foot": 0,
+        "placement_flag": 1,
+        "two_footed": true
+      },
+      "steps": [
+        "foot tablegivesleft0;two-foot predicate true",
+        "bench filter accepts two-footed",
+        "3179 left/right-flank branchstillreturns1 on binding"
+      ]
+    },
+    {
+      "id": "captain-menu-refresh",
+      "inputs": {
+        "initial_extra": 56,
+        "new_selected_leadership": 7,
+        "temporary_placeholder_leadership": 2
+      },
+      "limits": "Source call-order projection,not allraw direct-entry/reentrantcontexts. Negative audit ofan immediate cache-bug suspicion,not a newmatch proof.",
+      "prediction": {
+        "after_normal_exit": 70,
+        "intermediate": 60
+      },
+      "steps": [
+        "C5DC placeholder during230C canyieldintermediate60",
+        "normal ED8A exitcalls230C again",
+        "A260 resets56 before20E3 adds14"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:0691",
+      "file": "static/goal-exe/named/seg_0791_01.c",
+      "heading_sha256": "2103162d9439cb4867f3e6a2084aaa0e7562334034552c831aaea8664a9752ed",
+      "line": 360
+    },
+    {
+      "address": "0791:20E3",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "d62c11e613557259ccccc208b7e7349be38933c388d479a3a11282140c79a941",
+      "line": 376
+    },
+    {
+      "address": "0791:230C",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "eba876dad7dec2d5cfa5b1b44e68eec91ececf92ed693b336e9bfdfe6f54e4be",
+      "line": 450
+    },
+    {
+      "address": "0791:8062",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "54e27532ea5c8efc460b5011355d465c085df66a0556dbfdb236f5f93d55cf99",
+      "line": 4
+    },
+    {
+      "address": "0791:A260",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "0bff3a304491431a72141f468b52345724055563f4f845adffb1bbbcaf058fa9",
+      "line": 690
+    },
+    {
+      "address": "0791:A2E6",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "aa3a66cfbc5f51987b35168762ba49313dbf1165acfc89eb0318cfaf4ee3b0a8",
+      "line": 720
+    },
+    {
+      "address": "0791:A920",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "6c346a42794124957e7390d0490a70b99a4fac9d5aa421e81fa52d3c464bfc3a",
+      "line": 54
+    },
+    {
+      "address": "0791:A9B8",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "c9c651557885b77d5be8ad582ccd5e68f7d108b710473833a84df8a3bf514be2",
+      "line": 86
+    },
+    {
+      "address": "0791:AAE8",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "14380857879c16c5c2ba3804db16ca6a642825a6dd77c49192d06a7dc0921d69",
+      "line": 148
+    },
+    {
+      "address": "0791:C48D",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "961c736feabd0049ce50802137c730464fed5208a7892a2968d8fb47b0def141",
+      "line": 398
+    },
+    {
+      "address": "0791:C5DC",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "5f4a815b51f7175daff81dcdb48b2ba6b5602ca3798c8a2ac79f16c9f3a4c2f4",
+      "line": 464
+    },
+    {
+      "address": "0791:C7EB",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "7fe61d963bf72136eb37844a648856475e5f81ed69ecec27dc4fc312d22dd7d8",
+      "line": 538
+    },
+    {
+      "address": "0791:C88D",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "e6d8c2de7e881dda4647f2f288b9550d204390f17c60a814196aab8004ea7b37",
+      "line": 568
+    },
+    {
+      "address": "0791:DE27",
+      "file": "static/goal-exe/named/seg_0791_12.c",
+      "heading_sha256": "ff91ebfdf8b2a55309185341365677d864430b0b4abe17d07bcd595e9ef42629",
+      "line": 613
+    },
+    {
+      "address": "0791:DE51",
+      "file": "static/goal-exe/named/seg_0791_12.c",
+      "heading_sha256": "a2a776cb5f0da046029b15dd0c6aa0a0b7687643b94cfee1f072015c56cf796f",
+      "line": 632
+    },
+    {
+      "address": "0791:E022",
+      "file": "static/goal-exe/named/seg_0791_12.c",
+      "heading_sha256": "6ca9afcf10600971bfeefaa36f9bfbd370594f7ca3f446687f41092b9db43eaf",
+      "line": 715
+    },
+    {
+      "address": "0791:E2A0",
+      "file": "static/goal-exe/named/seg_0791_12.c",
+      "heading_sha256": "d1d5b4f2880e8310ba744140a96511e9cab2495dc2dd0c8f7ffb07ef93802f8a",
+      "line": 787
+    },
+    {
+      "address": "0791:E44F",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "e27f0faf0ed55f594df1ec73588787cce19894acf9aefd6b5bd61b00481402d5",
+      "line": 4
+    },
+    {
+      "address": "0791:E949",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "9198bcfd8c89df11577f3a83c3244b2731ba1be6a5e4f3bddac63414dc68247a",
+      "line": 238
+    },
+    {
+      "address": "0791:EA09",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "f0612b64f36e555d908de259c05dac2e980f9c58101f84e2624c23f07d207dc7",
+      "line": 260
+    },
+    {
+      "address": "0791:ED8A",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "494d35252f3088bf39d7cef7ff1b6335ff21619fe2c526cf6787d2c6855e837a",
+      "line": 408
+    },
+    {
+      "address": "1771:3179",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "60325708baff4e710c5a05ea2a66e5b9c48352991d85e11ee4152aaf63909227",
+      "line": 24
+    }
+  ],
+  "method": "Original named/listing reading and source-derived projections; no original/port engine execution.",
+  "routines": [
+    {
+      "address": "0791:8062",
+      "fields": [
+        "831B",
+        "player+12/+E/+10",
+        "9B3A/9B40/9B41"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "At stoppage/minute:AI performance/window scan withbudget;managed notice/menu under request,keeper/time/budget gates.",
+      "visible_effect": "A request,permission to select,and completed swap are separate states."
+    },
+    {
+      "address": "0791:A260",
+      "fields": [
+        "pitch+6/+D/+11/+13",
+        "9B34",
+        "0AA7",
+        "3179"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Bind slot to country squad identity;initial manager+32 cache and placement flag,no energy write.",
+      "visible_effect": "Cached values refresh at binding rather than every persistent-record edit."
+    },
+    {
+      "address": "0791:A2E6",
+      "fields": [
+        "0644",
+        "pitch+0/+2/+5/+B/+10/+14/+F"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Bind,initialise point/old point,colours/offsets,timer0,activity0 and direction5.",
+      "visible_effect": "Initialises live record without refilling incoming player energy/fitness."
+    },
+    {
+      "address": "0791:A920",
+      "fields": [
+        "player+0",
+        "country.squad",
+        "0668/9B36"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Resolve player through own country to lastmatching first-eleven slot plus sidebase;0 ifabsent.",
+      "visible_effect": "Player identity and pitch address stay distinct."
+    },
+    {
+      "address": "0791:A9B8",
+      "fields": [
+        "08D5",
+        "player+7",
+        "3041/3088"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Available bench maxcompatibility grade by outgoing position andnatural role,halved for non-two-footed flank mismatch;strict greater.",
+      "visible_effect": "Compatibility fallback is not a universal highest-ability/keeping selection."
+    },
+    {
+      "address": "0791:AAE8",
+      "fields": [
+        "099A",
+        "99A2",
+        "player+6/+7",
+        "3041/3088"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Walk outgoing-role preference table,read last available natural-role map;flank gate,two-foot exemption;last passing preference wins.",
+      "visible_effect": "Role/foot order can dominate quality ratings in automatic replacement."
+    },
+    {
+      "address": "0791:C5DC",
+      "fields": [
+        "player+10/+12/+F",
+        "9B07/9978",
+        "9B3A/9B55",
+        "230C"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Mark outgoing substituted off,rebind incoming/reset performance,AI own tactics rederive,preserve old point,captain placeholder around230C,budget-- andsnapshot.",
+      "visible_effect": "One substitution crosses persistent,live,cache,identity and continuation state."
+    },
+    {
+      "address": "0791:C7EB",
+      "fields": [
+        "99A2",
+        "country.squad",
+        "player+7",
+        "3216"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Scan available bench12..20 into natural-role map,later slots overwrite earlier.",
+      "visible_effect": "Map keeps one slot perrole,not a scored list."
+    },
+    {
+      "address": "0791:C88D",
+      "fields": [
+        "9B3A",
+        "player+E/+6",
+        "AAE8/A9B8",
+        "C48D"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Zero-budget energy-zero outgoing routes to removal;otherwise choosebench/fallback,copy outgoing playedrole,swapassociated fields andC5DC.",
+      "visible_effect": "Normal callers supply the allowance protocol;primitive budget decrement has no self-guard."
+    },
+    {
+      "address": "0791:DE27",
+      "fields": [
+        "0C1B",
+        "parent pane",
+        "DDCB"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Pane-aware cursor:one-based squad index orraw pool index.",
+      "visible_effect": "UI coordinate is not a persistent player ID."
+    },
+    {
+      "address": "0791:DE51",
+      "fields": [
+        "country.squad",
+        "pool_indices",
+        "pane"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Return pointer to country squad word orpool_indices raw-index word.",
+      "visible_effect": "Pointer/base/index conventions differ between panes."
+    },
+    {
+      "address": "0791:E022",
+      "fields": [
+        "0C1B",
+        "9A3E/9B07",
+        "C5DC",
+        "9B40"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Two-mark managed swap rejects same block,incomingunavailable,outgoingred;clear outgoing marking,swapwords/form,refresh thenclearrequest.",
+      "visible_effect": "Managed swap retains incoming played role rather than AI copy."
+    },
+    {
+      "address": "0791:E2A0",
+      "fields": [
+        "0C1B",
+        "4840/4720/4740"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Choose slot hint screen by squadcursor<=11 orbench.",
+      "visible_effect": "Presentation describes current mode;it does not itselfauthorise a swap."
+    },
+    {
+      "address": "0791:E44F",
+      "fields": [
+        "0C1F/0C20",
+        "9B41/9B3A/9B40",
+        "E022"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Inmatch Enter commits onlyoutside replay withpermission andbudget;otherwise requesttoggle. Position/tactic edits differ;pool exchange isout-of-match.",
+      "visible_effect": "UI gate supplies preconditions absent fromlower-level primitives."
+    },
+    {
+      "address": "0791:E949",
+      "fields": [
+        "country+2E",
+        "game+1",
+        "E44F/1771:50F1"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Managed side sets manager context andopensE44F;unmanaged routeopens1771:50F1 team view.",
+      "visible_effect": "Controller context matters for which selection operations canrun."
+    },
+    {
+      "address": "0791:EA09",
+      "fields": [
+        "country.squad",
+        "3216",
+        "player+6",
+        "0C1F"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Validate managed elevens:empty/ineligible prematch,available keeper count andmax3 forroles1..13;restoreparent context.",
+      "visible_effect": "Play gate includesrole13;unavailable inmatchrecords handled differently fromprematch."
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "Admission and identity layers",
+    "Automatic versus managed replacement",
+    "The rebind, cache and sort transaction",
+    "Worked checks and remaining boundaries"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "notes/engine-study/T98/tables.py": "f5e0836d57f8816943f2b2648818cb3a6175060b834f827dff64f27d535215fb",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "runtime/original_match/port/discipline.py": "a8ee74a7336ebd3d8c85ee71cbb6a089fca45fc0c05ee3efec866d798649fdcd",
+    "runtime/original_match/port/frame.py": "d4c0cd4753038d6058f8359818164ce8cd0be775191fc8338f9a7ec9849b3a6a",
+    "runtime/original_match/port/menus.py": "ea87406a9f0300d0d54c3f71d664a8ed2925505fb133b59a481e8fc5f098f053",
+    "runtime/original_match/port/positioning.py": "6a8feb436f745149a010db472a1aed04569d897875cd966eb434a6170b7f839e",
+    "runtime/original_match/port/selection.py": "4a2ac1e0868d44f0e58dfcf31b1df1c3f1171edf4a511d4695e73fb7ee9ef382",
+    "static/goal-exe/calls.tsv": "8d76bfed99345b295745720e12f757daceb4e68abceeb0e4581da2fdbe6ba18c",
+    "static/goal-exe/code/seg_0791_01.asm": "a785c7efdfb54bab19ca5b3eea73a19548a61a46512f79c653559e1cba080688",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_0791_13.asm": "e5d4454db0deeb4b617cb1ff626b8ca505bb1b61b970b4c8e5952385481a8025",
+    "static/goal-exe/code/seg_0791_17.asm": "e8ca718382b8b72b2a9d1ede8d24bf6bf0bf2e899b3cc70d91a5435d076f6c44",
+    "static/goal-exe/code/seg_0791_20.asm": "9ed1e3aa1aca8370004fc286911f2cf55003c084f03f95f8e39b56bf438361f9",
+    "static/goal-exe/code/seg_0791_22.asm": "a914346b919764a8232d3a9f7979d5193a20bce6a8829e48d9b74fb9b806464b",
+    "static/goal-exe/code/seg_0791_23.asm": "49e12bb8534566ad1e6b4b22e2f088ce483d4518f8d2b8cf28fefb3c7f9b9cde",
+    "static/goal-exe/code/seg_1771_05.asm": "4a856a9af9dee3d93fe6e6275ead612d2d3ba4c81363389c68fa5424ca8483d9",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_01.c": "d8a020bf4ff10098b2b5f0b9ea2a61085f46c500cd7f6b929bdf8f0bf8f3ce37",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_08.c": "130e91927a5bb2fed2adb998225fc88091816752051eee90ae004e30fcfecc96",
+    "static/goal-exe/named/seg_0791_09.c": "71a912e2c5564f75078a0db0220c5388a74ec168783371a63c74cdddae22275f",
+    "static/goal-exe/named/seg_0791_10.c": "307274e4e5007f1e809b5b54708a686d106a61d77848ddc6967c9fb0fd88e52f",
+    "static/goal-exe/named/seg_0791_11.c": "6e51b68715ebeca24e6616c99258668b5df0bb927e5e133105e04af66fee650e",
+    "static/goal-exe/named/seg_0791_12.c": "6484f6f6014e480e1cfecb34ff96b7032da39aa5b9338a133e9c596ab7964e8c",
+    "static/goal-exe/named/seg_0791_13.c": "4fe6fb41281082fba52ebdc61c6ba147de1dff5bf3ee94fe0bf1314e33878d21",
+    "static/goal-exe/named/seg_1771_03.c": "9c51e37d30f7d69e51b2d776c0b704d7f87852cd10d47fa4d679880d13f4d2f4"
+  },
+  "status": "proposed; source-derived explanation",
+  "supporting_artifacts": {},
+  "task": "T104c"
+}
