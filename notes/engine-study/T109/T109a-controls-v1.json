@@ -1,0 +1,135 @@
+{
+  "candidates": 4,
+  "controls": {
+    "literal_listing_negatives": [
+      {
+        "address": "34C4",
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "3837",
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "3849",
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "1EA8",
+        "path": "static/goal-exe/code/seg_214B_04.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "1EAF",
+        "path": "static/goal-exe/code/seg_214B_04.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "1EB3",
+        "path": "static/goal-exe/code/seg_214B_04.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "1E0C",
+        "path": "static/goal-exe/code/seg_214B_04.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "8BB0",
+        "path": "static/goal-exe/code/seg_0791_14.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "8BB3",
+        "path": "static/goal-exe/code/seg_0791_14.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "8BB4",
+        "path": "static/goal-exe/code/seg_0791_14.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "8889",
+        "path": "static/goal-exe/code/seg_0791_14.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "888A",
+        "path": "static/goal-exe/code/seg_0791_14.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "888C",
+        "path": "static/goal-exe/code/seg_0791_14.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "888F",
+        "path": "static/goal-exe/code/seg_0791_14.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "3932",
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "3944",
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "3B73",
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "3BCE",
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "3CC1",
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "3E80",
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "3F8B",
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "406C",
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "5EA2",
+        "path": "static/goal-exe/code/seg_0791_10.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "6AE1",
+        "path": "static/goal-exe/code/seg_0791_11.asm",
+        "result": "altered listing rejected"
+      }
+    ],
+    "missing-candidate": "rejected",
+    "missing-evidence": "rejected",
+    "missing-limit": "rejected",
+    "missing-source": "rejected",
+    "mock-as-evidence": "rejected"
+  },
+  "ledger_sha256": "dd90b9292afb9ba2854a514f2df6e807d0726496b8b9377c1e0dde2e38521357",
+  "scope": "Candidate/source integrity plus explicit literal-listing guards; not automatic attribution.",
+  "task": "T109a"
+}
