@@ -1,0 +1,13 @@
+{
+  "scope": "Review-index bootstrap preflight, not a scientific/engine discrepancy",
+  "baseline": "0fd699cdb3f675c38a26910cf0f79aa6eba707f8",
+  "passed_before_failure": 39,
+  "failed_argv": [
+    "/home/diego/.local/bin/python3.12",
+    "tools/check_links.py"
+  ],
+  "exit": 1,
+  "stdout": "docs/engine-study/README.md:68: broken link ../../notes/engine-study/ES-R2/source-checks-v1.json\n",
+  "readme_sha256": "43f7882b52044330fc5a59dd4f6f7b7c22b6bbca0ceeec5340abd5218d788cb0",
+  "cause": "New index linked the not-yet-written receipt; changed link to its existing evidence directory before generation."
+}
