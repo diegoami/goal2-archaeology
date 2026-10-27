@@ -1,0 +1,83 @@
+{
+  "baseline": "8019bcdf7d291e8cdfb52a49ede293f7081625a5",
+  "method": "source projections; no engine execution",
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T103/controls.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T103a, 12 routines, 4 worked examples, 6 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T103/lineups.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T103b, 9 routines, 4 worked examples, 6 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T103/computer.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T103c, 13 routines, 4 worked examples, 7 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "T103c-final",
+        "--",
+        "python3",
+        "-B",
+        "notes/engine-study/T103/check.py",
+        "--task",
+        "T103c",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T103c\",\n  \"scope\": \"T103 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 13,\n  \"manifest_sha256\": \"a25647f50867ef79dc34c77be442dd4f04e6fdca2dd8ab64590704f0c700b71c\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/check_links.py"
+      ],
+      "exit": 0,
+      "stdout": "links and JSON ok (9918 files)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "sha256": {
+    "notes/engine-study/T103/controls.py": "99175429e4358c78523e0c85a68cc23b9aecb2eee1532b8e140d46f528262b99",
+    "notes/engine-study/T103/lineups.py": "0a1b4c5171acaf9b0ccaa05b1f0d79a0175703ad220bb1684e06d7294a930d2a",
+    "notes/engine-study/T103/computer.py": "3e074d7bde34a8d987bc1fa8b04f1eaeb8aef65fa1e8c0600c0971dcb07c513b",
+    "notes/engine-study/T103/common.py": "0152ed013ffcbf85e4f54e7821cb531403139a638d8a7d5e7a66b602ccc22717",
+    "notes/engine-study/T103/check.py": "12d3aa101fe48eca90b5b274f63bf07a7d258943a7413515c9e27ffed8d2dea1",
+    "notes/engine-study/T103/T103c-v1.json": "a25647f50867ef79dc34c77be442dd4f04e6fdca2dd8ab64590704f0c700b71c",
+    "docs/engine-study/computer-policy.md": "85644cdcfb43b86d4ee78fa05ec55c02110dfe747d82d9ef1079f770c5a8a620"
+  }
+}
