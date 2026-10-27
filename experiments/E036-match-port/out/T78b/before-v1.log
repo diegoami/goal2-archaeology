@@ -1,0 +1,97 @@
+test_competitive_match_result_and_events_equal (tests.test_port_engine.Engine.test_competitive_match_result_and_events_equal) ... ERROR
+test_complete_reference_fixture_events_results_and_memory_equal (tests.test_port_engine.Engine.test_complete_reference_fixture_events_results_and_memory_equal) ... ERROR
+test_interactive_pause_tactics_and_halftime_equal (tests.test_port_engine.Engine.test_interactive_pause_tactics_and_halftime_equal) ... ERROR
+test_no_unicorn_positive_denial_runs_a_complete_match (tests.test_port_engine.Engine.test_no_unicorn_positive_denial_runs_a_complete_match) ... FAIL
+test_port_constructor_uses_the_plain_backend_and_preserves_original_default (tests.test_port_engine.Engine.test_port_constructor_uses_the_plain_backend_and_preserves_original_default) ... ERROR
+test_unimplemented_port_checkpoints_refuse_instead_of_loading_original (tests.test_port_engine.Engine.test_unimplemented_port_checkpoints_refuse_instead_of_loading_original) ... ERROR
+test_unknown_engine_and_inline_original_proof_are_refused (tests.test_port_engine.Engine.test_unknown_engine_and_inline_original_proof_are_refused) ... 
+  test_unknown_engine_and_inline_original_proof_are_refused (tests.test_port_engine.Engine.test_unknown_engine_and_inline_original_proof_are_refused) (kwargs={'engine': 'unknown'}) ... ERROR
+  test_unknown_engine_and_inline_original_proof_are_refused (tests.test_port_engine.Engine.test_unknown_engine_and_inline_original_proof_are_refused) (kwargs={'engine': 'port', 'prove': 0}) ... ERROR
+
+======================================================================
+ERROR: test_competitive_match_result_and_events_equal (tests.test_port_engine.Engine.test_competitive_match_result_and_events_equal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 70, in test_competitive_match_result_and_events_equal
+    original,events=play(self.image,'original',kind=5,seed=42)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 23, in play
+    m=Match(image,Fixture(7,19,index=21,kind=kind),managed=7,seed=seed,
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.__init__() got an unexpected keyword argument 'engine'
+
+======================================================================
+ERROR: test_complete_reference_fixture_events_results_and_memory_equal (tests.test_port_engine.Engine.test_complete_reference_fixture_events_results_and_memory_equal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 56, in test_complete_reference_fixture_events_results_and_memory_equal
+    original,events=play(self.image,'original')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 23, in play
+    m=Match(image,Fixture(7,19,index=21,kind=kind),managed=7,seed=seed,
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.__init__() got an unexpected keyword argument 'engine'
+
+======================================================================
+ERROR: test_interactive_pause_tactics_and_halftime_equal (tests.test_port_engine.Engine.test_interactive_pause_tactics_and_halftime_equal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 63, in test_interactive_pause_tactics_and_halftime_equal
+    original,events=play(self.image,'original',interactive=True)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 23, in play
+    m=Match(image,Fixture(7,19,index=21,kind=kind),managed=7,seed=seed,
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.__init__() got an unexpected keyword argument 'engine'
+
+======================================================================
+ERROR: test_port_constructor_uses_the_plain_backend_and_preserves_original_default (tests.test_port_engine.Engine.test_port_constructor_uses_the_plain_backend_and_preserves_original_default)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 43, in test_port_constructor_uses_the_plain_backend_and_preserves_original_default
+    m=Match(self.image,Fixture(7,19,index=21),managed=7,engine='port')
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.__init__() got an unexpected keyword argument 'engine'
+
+======================================================================
+ERROR: test_unimplemented_port_checkpoints_refuse_instead_of_loading_original (tests.test_port_engine.Engine.test_unimplemented_port_checkpoints_refuse_instead_of_loading_original)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 104, in test_unimplemented_port_checkpoints_refuse_instead_of_loading_original
+    m=Match(self.image,Fixture(7,19,index=21),managed=7,engine='port')
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.__init__() got an unexpected keyword argument 'engine'
+
+======================================================================
+ERROR: test_unknown_engine_and_inline_original_proof_are_refused (tests.test_port_engine.Engine.test_unknown_engine_and_inline_original_proof_are_refused) (kwargs={'engine': 'unknown'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 53, in test_unknown_engine_and_inline_original_proof_are_refused
+    with self.assertRaises(ValueError):Match(self.image,Fixture(7,19,index=21),managed=7,**kwargs)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.__init__() got an unexpected keyword argument 'engine'
+
+======================================================================
+ERROR: test_unknown_engine_and_inline_original_proof_are_refused (tests.test_port_engine.Engine.test_unknown_engine_and_inline_original_proof_are_refused) (kwargs={'engine': 'port', 'prove': 0})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 53, in test_unknown_engine_and_inline_original_proof_are_refused
+    with self.assertRaises(ValueError):Match(self.image,Fixture(7,19,index=21),managed=7,**kwargs)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.__init__() got an unexpected keyword argument 'engine'
+
+======================================================================
+FAIL: test_no_unicorn_positive_denial_runs_a_complete_match (tests.test_port_engine.Engine.test_no_unicorn_positive_denial_runs_a_complete_match)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 99, in test_no_unicorn_positive_denial_runs_a_complete_match
+    self.assertEqual(run.returncode,0,run.stdout+run.stderr)
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "<string>", line 12, in <module>
+TypeError: Match.__init__() got an unexpected keyword argument 'engine'
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.117s
+
+FAILED (failures=1, errors=7)

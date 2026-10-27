@@ -1,9 +1,24 @@
 # original_match: the original's watched match, played interactively on goal2's state
 
 For a goal2 session. You need nothing of goal2-archaeology but this folder and one image goal2 already fetches.
-The match is the original game's own code (`run_match` 0791:F1F6, then its post-match player update 0791:B7FA)
+By default the match is the original game's own code (`run_match` 0791:F1F6, then its post-match player update 0791:B7FA)
 run under Unicorn; this kit answers the original's key reads, at the original's own decision points, with the
 keys a manager would press. Nothing of the original is in this folder: its code and data come from the image.
+
+The explicit assembly mode `Match(image, fixture, engine="port")` instead runs all
+registered Python translations on plain memory, without a Unicorn object or
+original-instruction execution. The original backend remains the default and
+reference. This mode still needs the data image; sealing and goal2 adoption are
+separate delivery gates. In this slice port `save()`/`load()` are explicitly
+unsupported until T78c; historical unmarked checkpoints keep the original engine.
+
+The family CLI accepts `--engine port --no-unicorn` to install positive import
+denial before kit loading, including pool workers. Optional record `engine`
+metadata identifies the backend without changing evidence fields; an existing
+output from another backend is refused. Port raw `--count`, `--find-ranges` and
+`--checkpoint` are refused explicitly. The runtime checker also accepts engine
+selection/import denial via same-process interpreter replacement; its checkpoint-dependent steps remain unsupported until
+T78c, so a partial assembly is never reported as a complete passing checker.
 
 ## Get it (once)
 
@@ -11,7 +26,7 @@ keys a manager would press. Nothing of the original is in this folder: its code 
    (source `diegoami/goal2-archaeology`, the commit you copied, findings F004 F010 F013 F014 F018 F020 F023 F026
    F027 F028 F029 F030, issues 250 and 252). Never edit it there; changes come upstream.
 2. **unicorn** (approved, goal2 #97): `pip install unicorn` (2.1.x; Debian/Ubuntu: `python3-unicorn`). The package
-   imports without it; only creating a `Match` needs it (a clear error otherwise), so goal2's quick path keeps
+   imports without it; only creating a default `Match(engine="original")` needs it (a clear error otherwise), so goal2's quick path keeps
    working without it.
 3. **The image** is goal2's own E006-r0001 (release E006, SHA-256 `e0afff67…657d`, the file
    `tools/measure_p1.py` fetches): `assets.reference_image(".cache")` fetches it with `gh` and checks its hash.

@@ -665,5 +665,26 @@ class StrictLoads(unittest.TestCase):
             records.dumps({"a": float("nan")})
 
 
+class EngineIdentity(unittest.TestCase):
+    """Optional metadata identifies the backend without changing comparison evidence."""
+    def test_valid_backend_metadata_and_closed_invalid_values(self):
+        legacy = record(F40[0])
+        records.validate(legacy)
+        original = dict(legacy, engine='original')
+        records.validate(original)
+        candidate = dict(legacy, engine='port', ports=['pilot'], variant=None,
+                         port_calls={'0791:8889': 1})
+        records.validate(candidate)
+        self.assertEqual(compare_module.differences(original, candidate), [])
+        for value in (None, True, 1, '', 'other', ['port']):
+            with self.subTest(engine=value):
+                with self.assertRaises(records.SchemaError):
+                    records.validate(dict(candidate, engine=value))
+        with self.assertRaises(records.SchemaError):
+            records.validate(dict(legacy, engine='port'))
+        with self.assertRaises(records.SchemaError):
+            records.validate(dict(candidate, unexpected_metadata='ignored'))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,23 @@
+{
+  "run": 40550187634,
+  "job": 122352015940,
+  "head": "e042ff71dfee77415f6811fa6d086b837f81083e",
+  "tests": 1943,
+  "failures": [
+    "test_heavy_slot.FamilyWorkersTest.test_check_py_runs_in_one_process_in_every_mode",
+    "test_heavy_slot.PathOptionsTest.test_every_path_option_is_in_a_table"
+  ],
+  "skipped": 52,
+  "engine_methods_passed": [
+    "test_port_engine.Engine.test_complete_reference_fixture_events_results_and_memory_equal",
+    "test_port_engine.Engine.test_interactive_pause_tactics_and_halftime_equal",
+    "test_port_engine.Engine.test_knockout_match_result_and_events_equal",
+    "test_port_engine.Engine.test_no_unicorn_positive_denial_runs_a_complete_match",
+    "test_port_engine.Engine.test_port_constructor_uses_the_plain_backend_and_preserves_original_default",
+    "test_port_engine.Engine.test_unimplemented_port_checkpoints_refuse_instead_of_loading_original",
+    "test_port_engine.Engine.test_unknown_engine_and_inline_original_proof_are_refused"
+  ],
+  "raw_log_sha256": "bdcaf25922f1b5808a5aa99702aee7dc850f44a34b004d924898840cfc62185c",
+  "raw_log_local": ".cache/T78b-ci-e042-failure-v1.log",
+  "scope": "Full CI failure is retained; all seven Engine methods passed, but the overall gate failed on two CLI integration audits."
+}

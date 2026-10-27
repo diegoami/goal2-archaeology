@@ -1,0 +1,24 @@
+test_abbreviated_engine_and_guard_options_do_not_relaunch_recursively (tests.test_port_engine.CLI.test_abbreviated_engine_and_guard_options_do_not_relaunch_recursively) ... 
+  test_abbreviated_engine_and_guard_options_do_not_relaunch_recursively (tests.test_port_engine.CLI.test_abbreviated_engine_and_guard_options_do_not_relaunch_recursively) (flags=('--engine', 'port', '--no-un')) ... FAIL
+  test_abbreviated_engine_and_guard_options_do_not_relaunch_recursively (tests.test_port_engine.CLI.test_abbreviated_engine_and_guard_options_do_not_relaunch_recursively) (flags=('--eng', 'port', '--no-unicorn')) ... FAIL
+
+======================================================================
+FAIL: test_abbreviated_engine_and_guard_options_do_not_relaunch_recursively (tests.test_port_engine.CLI.test_abbreviated_engine_and_guard_options_do_not_relaunch_recursively) (flags=('--engine', 'port', '--no-un'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 158, in test_abbreviated_engine_and_guard_options_do_not_relaunch_recursively
+    self.assertEqual(run.returncode,0,run.stdout+run.stderr)
+AssertionError: 97 != 0 : 
+
+======================================================================
+FAIL: test_abbreviated_engine_and_guard_options_do_not_relaunch_recursively (tests.test_port_engine.CLI.test_abbreviated_engine_and_guard_options_do_not_relaunch_recursively) (flags=('--eng', 'port', '--no-unicorn'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 158, in test_abbreviated_engine_and_guard_options_do_not_relaunch_recursively
+    self.assertEqual(run.returncode,0,run.stdout+run.stderr)
+AssertionError: 97 != 0 : 
+
+----------------------------------------------------------------------
+Ran 1 test in 0.711s
+
+FAILED (failures=2)

@@ -1,0 +1,21 @@
+test_valid_backend_metadata_and_closed_invalid_values (tests.test_e036_compare.EngineIdentity.test_valid_backend_metadata_and_closed_invalid_values) ... ok
+test_family_cli_guarded_quick_result_records_backend_identity (tests.test_port_engine.CLI.test_family_cli_guarded_quick_result_records_backend_identity) ... FAIL
+test_no_unicorn_requires_explicit_port_backend (tests.test_port_engine.CLI.test_no_unicorn_requires_explicit_port_backend) ... ok
+
+======================================================================
+FAIL: test_family_cli_guarded_quick_result_records_backend_identity (tests.test_port_engine.CLI.test_family_cli_guarded_quick_result_records_backend_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 130, in test_family_cli_guarded_quick_result_records_backend_identity
+    self.assertEqual(run.returncode, 0, run.stdout+run.stderr)
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/home/diego/projects/goal2-archaeology-engine/experiments/E036-match-port/family.py", line 72, in deny_unicorn
+    raise Refused('no-Unicorn control requires a fresh process')
+family.Refused: no-Unicorn control requires a fresh process
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.339s
+
+FAILED (failures=1)

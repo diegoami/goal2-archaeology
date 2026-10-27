@@ -1,0 +1,53 @@
+test_a_blank_line_is_skipped_but_a_broken_one_is_not (tests.test_e036_compare.CommandLine.test_a_blank_line_is_skipped_but_a_broken_one_is_not) ... ok
+test_all_asks_for_every_family (tests.test_e036_compare.CommandLine.test_all_asks_for_every_family) ... ok
+test_each_family_uses_its_own_reference_by_default (tests.test_e036_compare.CommandLine.test_each_family_uses_its_own_reference_by_default)
+Without --reference the reference is the family's declared one: the committed log (T57's) compared with ... ok
+test_strict_json_and_encoding (tests.test_e036_compare.CommandLine.test_strict_json_and_encoding) ... ok
+test_unknown_family_and_missing_files_are_malformed (tests.test_e036_compare.CommandLine.test_unknown_family_and_missing_files_are_malformed) ... ok
+test_a_candidate_over_the_same_mask_as_its_reference_passes (tests.test_e036_compare.CompareFailsClosed.test_a_candidate_over_the_same_mask_as_its_reference_passes) ... ok
+test_a_container_is_checked_down_to_its_contents (tests.test_e036_compare.CompareFailsClosed.test_a_container_is_checked_down_to_its_contents)
+E032's class 'a container checked but not its contents': right length, wrong contents. ... ok
+test_a_duplicate_match_is_malformed (tests.test_e036_compare.CompareFailsClosed.test_a_duplicate_match_is_malformed) ... ok
+test_a_duplicate_reference_match_is_malformed (tests.test_e036_compare.CompareFailsClosed.test_a_duplicate_reference_match_is_malformed) ... ok
+test_a_malformed_leaf_in_the_candidate_is_malformed_not_a_difference (tests.test_e036_compare.CompareFailsClosed.test_a_malformed_leaf_in_the_candidate_is_malformed_not_a_difference) ... ok
+test_a_missing_match_is_malformed (tests.test_e036_compare.CompareFailsClosed.test_a_missing_match_is_malformed) ... ok
+test_a_missing_reference_match_is_malformed (tests.test_e036_compare.CompareFailsClosed.test_a_missing_reference_match_is_malformed) ... ok
+test_an_errored_candidate_with_equal_fields_fails (tests.test_e036_compare.CompareFailsClosed.test_an_errored_candidate_with_equal_fields_fails) ... ok
+test_an_incomplete_candidate_without_evidence_fails (tests.test_e036_compare.CompareFailsClosed.test_an_incomplete_candidate_without_evidence_fails) ... ok
+test_an_incomplete_reference_is_malformed (tests.test_e036_compare.CompareFailsClosed.test_an_incomplete_reference_is_malformed) ... ok
+test_an_unexpected_match_is_malformed (tests.test_e036_compare.CompareFailsClosed.test_an_unexpected_match_is_malformed) ... ok
+test_an_unknown_key_is_refused (tests.test_e036_compare.CompareFailsClosed.test_an_unknown_key_is_refused)
+No hooked reference passes as the unhooked one (T59's ports and variant are keys of a later grammar). ... ok
+test_another_declaration_image_or_mask_is_refused (tests.test_e036_compare.CompareFailsClosed.test_another_declaration_image_or_mask_is_refused) ... ok
+test_completion_keys_missing_are_malformed (tests.test_e036_compare.CompareFailsClosed.test_completion_keys_missing_are_malformed) ... ok
+test_each_compared_field_fails_when_it_differs (tests.test_e036_compare.CompareFailsClosed.test_each_compared_field_fails_when_it_differs) ... ok
+test_empty_candidate_is_malformed (tests.test_e036_compare.CompareFailsClosed.test_empty_candidate_is_malformed) ... ok
+test_every_range_and_the_first_differing_block_is_named (tests.test_e036_compare.CompareFailsClosed.test_every_range_and_the_first_differing_block_is_named) ... ok
+test_evidence_beside_an_error_or_partial_evidence_is_refused (tests.test_e036_compare.CompareFailsClosed.test_evidence_beside_an_error_or_partial_evidence_is_refused) ... ok
+test_falsifier_caught_by_difference_or_failure (tests.test_e036_compare.CompareFailsClosed.test_falsifier_caught_by_difference_or_failure) ... ok
+test_falsifier_not_caught_on_an_identical_candidate (tests.test_e036_compare.CompareFailsClosed.test_falsifier_not_caught_on_an_identical_candidate) ... ok
+test_identical_family_passes (tests.test_e036_compare.CompareFailsClosed.test_identical_family_passes) ... ok
+test_missing_evidence_is_neither_identical_nor_caught (tests.test_e036_compare.CompareFailsClosed.test_missing_evidence_is_neither_identical_nor_caught) ... ok
+test_no_screen_leaves_out_only_the_screen (tests.test_e036_compare.CompareFailsClosed.test_no_screen_leaves_out_only_the_screen) ... ok
+test_one_uncaught_match_fails_the_falsifier (tests.test_e036_compare.CompareFailsClosed.test_one_uncaught_match_fails_the_falsifier) ... ok
+test_the_draws_per_minute_must_add_up (tests.test_e036_compare.CompareFailsClosed.test_the_draws_per_minute_must_add_up) ... ok
+test_the_first_differing_minute_is_named (tests.test_e036_compare.CompareFailsClosed.test_the_first_differing_minute_is_named) ... ok
+test_the_range_digests_must_have_the_exact_count (tests.test_e036_compare.CompareFailsClosed.test_the_range_digests_must_have_the_exact_count) ... ok
+test_the_reference_may_hold_more_matches (tests.test_e036_compare.CompareFailsClosed.test_the_reference_may_hold_more_matches) ... ok
+test_unsorted_or_overlapping_masks_are_refused (tests.test_e036_compare.CompareFailsClosed.test_unsorted_or_overlapping_masks_are_refused) ... ok
+test_a_missing_incomplete_or_other_match_is_malformed (tests.test_e036_compare.E032Seeds.test_a_missing_incomplete_or_other_match_is_malformed) ... ok
+test_each_field_that_differs_fails_that_seed (tests.test_e036_compare.E032Seeds.test_each_field_that_differs_fails_that_seed) ... ok
+test_the_ten_seeds_are_printed_and_equal (tests.test_e036_compare.E032Seeds.test_the_ten_seeds_are_printed_and_equal) ... ok
+test_an_error_text_is_one_clean_ascii_line (tests.test_e036_compare.LeafFuzz.test_an_error_text_is_one_clean_ascii_line) ... ok
+test_every_key_removed_and_every_unknown_key_added_is_invalid (tests.test_e036_compare.LeafFuzz.test_every_key_removed_and_every_unknown_key_added_is_invalid) ... ok
+test_every_leaf_changed_is_invalid (tests.test_e036_compare.LeafFuzz.test_every_leaf_changed_is_invalid) ... ok
+test_every_list_one_element_longer_or_shorter_is_invalid_where_the_length_is_fixed (tests.test_e036_compare.LeafFuzz.test_every_list_one_element_longer_or_shorter_is_invalid_where_the_length_is_fixed) ... ok
+test_numbers_are_ints_not_floats_and_floats_are_finite (tests.test_e036_compare.LeafFuzz.test_numbers_are_ints_not_floats_and_floats_are_finite) ... ok
+test_the_valid_synthetic_record_is_valid (tests.test_e036_compare.LeafFuzz.test_the_valid_synthetic_record_is_valid) ... ok
+test_dumps_refuses_non_finite (tests.test_e036_compare.StrictLoads.test_dumps_refuses_non_finite) ... ok
+test_loads_refuses_what_json_loads_accepts (tests.test_e036_compare.StrictLoads.test_loads_refuses_what_json_loads_accepts) ... ok
+
+----------------------------------------------------------------------
+Ran 45 tests in 18.466s
+
+OK
