@@ -380,3 +380,12 @@ The separate [T74 follow-up #394](https://github.com/diegoami/goal2-archaeology/
 requires the actual MSDOS side-by-side proof, including original 0000-to-000B
 fallthrough sequencing versus the Python common helper; propagating the delta
 in both return predictions alone is not assumed sufficient.
+
+T78b1's `entrypoints` module also exposes the seven helpers previously available
+only as inline pilot logic: keeper slot, pitch side, attack direction, pitch bounds,
+Pascal set membership, bounded random draw and coin flip. Their callable adapters
+preserve partial registers, final arithmetic flags, dead stack frames and the RNG
+writer at 214B:069F. Synthetic inputs are compared with the unmodified original
+routines, including both direction-flag states; a separate import-denial control
+executes all seven on the plain-memory dispatcher. This does not establish complete
+standalone Match coverage or replace T78's strict corpus gate.
