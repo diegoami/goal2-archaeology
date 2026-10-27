@@ -1,0 +1,16 @@
+{
+  "cases": 6,
+  "controls": {
+    "false-exact": "rejected",
+    "missing-budget": "rejected",
+    "missing-case": "rejected",
+    "missing-completion": "rejected",
+    "missing-input": "rejected",
+    "missing-record": "rejected",
+    "missing-source": "rejected"
+  },
+  "ledger_sha256": "a13aecae6cc63bc3df4bffc9c6fceb600345a23d33d8872675e9a25d8fbeb3f2",
+  "positive": "accepted",
+  "scope": "T106 record/completeness integrity; field, ABI and full-state results stay separate.",
+  "task": "T106c"
+}
