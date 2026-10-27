@@ -65,8 +65,10 @@ absent pick falls back to the side's nearest selector before `6BF1` starts place
 | Goal kick / own-area free kick `6F01` | Role 5, state 8 | Its flag changes text/free-kick count; the mechanics remain goal-kick style. |
 
 `6FB6` chooses the own-area versus ordinary free-kick route. Thus an own-area free kick can
-use the goal-kick-selected role-5 player, while a near-goal free kick can use the free-kick-selected
-role-4 player. Role 3 is the penalty selector; the original prompt titles and award callers agree.
+use role 5 (the goal-kick taker, automatically selected by kicking, element 2), while a near-goal
+free kick can use role 4 (the free-kick taker, automatically selected by penalties, element 12).
+Role 3 (the penalty taker, automatically selected by penalties, element 12) uses the same skill.
+These are automatic selection criteria; a managed choice can override the pick.
 The [leader/taker chapter](marking.md) gives the automatic skill selections.
 `6DEA` submits text and separately increments the specified side/statistic byte; counting
 visible lines alone does not replace those writes.

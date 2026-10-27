@@ -29,9 +29,10 @@ def instruction(text,address):
 def check_guard(guard,text):assert instruction(text,guard['address'])==guard['instruction'],guard
 
 
-def pin(data,sources,guards,support=()):
+def pin(data,sources,guards,support=(),*,source_commits=None):
     data.update(source_commit=BASE,source_sha256={p:sha((ROOT/p).read_bytes()) for p in sorted(set(sources))},
                 guards=guards,supporting_artifacts={p:sha((ROOT/p).read_bytes()) for p in sorted(set(support))})
+    if source_commits is not None:data['source_commits']=source_commits
     return data
 
 
@@ -43,7 +44,8 @@ def validate(task,data,text,*,allow_mock=False):
     assert len(text.split())>=250 and len(data['sections'])>=3
     assert all('## '+s in text for s in data['sections'])
     for path,digest in data['source_sha256'].items():
-        live=(ROOT/path).read_bytes();historical=subprocess.check_output(['git','show',BASE+':'+path],cwd=ROOT)
+        commit=data.get('source_commits',{}).get(path,BASE)
+        live=(ROOT/path).read_bytes();historical=subprocess.check_output(['git','show',commit+':'+path],cwd=ROOT)
         assert sha(live)==digest and live==historical,path
     for path,digest in data['supporting_artifacts'].items():assert sha((ROOT/path).read_bytes())==digest,path
     for guard in data['guards']:
@@ -83,7 +85,7 @@ def controls(task,data,text,*,allow_mock=False):
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--task',choices=CANDIDATES,required=True);ap.add_argument('--controls',action='store_true');ap.add_argument('--ledger',type=Path);ap.add_argument('--receipt',type=Path);a=ap.parse_args()
-    version=2 if a.task=='T109b' else 1
+    version=3 if a.task=='T109b' else 1
     path=a.ledger or ROOT/f'notes/engine-study/T109/{a.task}-v{version}.json';data=json.loads(path.read_text())
     assert not data.get('mock'),'structural mock is not research evidence'
     text=(ROOT/f'docs/engine-study/{CHAPTERS[a.task]}.md').read_text();validate(a.task,data,text)
