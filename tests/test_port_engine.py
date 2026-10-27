@@ -140,7 +140,7 @@ class Checkpoints(unittest.TestCase):
     def test_plain_checkpoint_keeps_backend_and_legacy_saves_keep_original(self):
         m=self.new();blob=m.save();r=Match.load(blob)
         self.assertIsInstance(r.m,PortMachine);self.assertFalse(hasattr(r.m,'_uc'))
-        self.assertEqual(r.engine,'port');self.assertEqual(r.save(),blob)
+        self.assertEqual(r.engine,'port');self.assertEqual(hashlib.sha256(r.save()).digest(),hashlib.sha256(blob).digest())
         legacy=self.new('original');state,memory=self.unpack(legacy.save())
         for version in ('2','3','4'):
             with self.subTest(version=version):
@@ -223,7 +223,10 @@ print('positive denial checkpoint PASS')
                 r=Match.load(blob)
                 self.assertIsInstance(r.m,PortMachine)
                 self.assertEqual(r.engine,'port')
-                self.assertEqual(self.unpack(r.save()),self.unpack(blob))
+                actual_state,actual_memory=self.unpack(r.save());saved_state,saved_memory=self.unpack(blob)
+                for actual,saved in ((json.dumps(actual_state,sort_keys=True).encode(),json.dumps(saved_state,sort_keys=True).encode()),
+                                     (actual_memory,saved_memory)):
+                    self.assertEqual(hashlib.sha256(actual).hexdigest(),hashlib.sha256(saved).hexdigest())
                 rest=harness.drive(r,policy,pause_at,start=index+1)
                 self.assertEqual(rest,straight[index+1:])
                 self.assertEqual(r.result(),wanted)
