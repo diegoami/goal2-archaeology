@@ -1,0 +1,859 @@
+{
+  "analysis_sha256": {
+    "notes/engine-study/T104/common.py": "7b268370b2f3d1503e4a773558e2f6747f8f51008891c8dea2bc791ccdabe01e",
+    "notes/engine-study/T104/set_pieces.py": "a85a7d5585ae2308e8c352dfa3a6bae96e78b11bb541b46ab276e5f3adbda2b2"
+  },
+  "calculations": {
+    "controls": {
+      "mirror-corner-by-team": "rejected:ball-sign corner[-8,36] differs",
+      "normalise-far-wall-sign": "rejected:source far-wall y is negative for positive spot26",
+      "ready-on-decrement-to-zero": "rejected:ready one call too early",
+      "role1-is-keeper0": "rejected:attacking-zone threshold differs at12",
+      "timer-from-restart-spot": "rejected:13 instead of23"
+    },
+    "corner_current_point_timer": 23,
+    "corner_sequence": [
+      [
+        1,
+        0,
+        "countdown"
+      ],
+      [
+        0,
+        0,
+        "countdown"
+      ],
+      [
+        0,
+        1,
+        "ready-line-and-playflag0"
+      ],
+      [
+        0,
+        1,
+        "cross-and-state5"
+      ]
+    ],
+    "fixed_points": {
+      "0x640": [
+        11,
+        0
+      ],
+      "0x642": [
+        -8,
+        0
+      ],
+      "0x644": [
+        -9,
+        0
+      ],
+      "0x820": [
+        0,
+        -1
+      ],
+      "0x822": [
+        -2,
+        -1
+      ],
+      "0x824": [
+        -2,
+        0
+      ]
+    },
+    "free_kick_temporary_role": {
+      "keeper0_at12": true,
+      "original13_at20": false,
+      "role1_at12": false,
+      "temporary1_at20": true
+    },
+    "incorrect_spot_point_timer": 13,
+    "kickoff_depths": [
+      0,
+      5,
+      7,
+      10,
+      10,
+      14,
+      16,
+      15,
+      15,
+      17,
+      18,
+      18,
+      19,
+      14
+    ],
+    "near_free_kick_taker_edges": [
+      false,
+      true,
+      false
+    ],
+    "snapshot_kinds": [
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "spots": [
+      [
+        8,
+        12
+      ],
+      [
+        -2,
+        -33
+      ],
+      [
+        -8,
+        36
+      ],
+      [
+        0,
+        -28
+      ],
+      [
+        -3,
+        17
+      ]
+    ],
+    "throw_receiver_point": [
+      -5,
+      18
+    ],
+    "wall_at25": [
+      [
+        2,
+        30
+      ],
+      [
+        1,
+        30
+      ],
+      [
+        0,
+        30
+      ],
+      [
+        -1,
+        30
+      ],
+      [
+        -2,
+        30
+      ]
+    ],
+    "wall_at26": [
+      [
+        -3,
+        -28
+      ],
+      [
+        -3,
+        -27
+      ],
+      [
+        -3,
+        -26
+      ],
+      [
+        -3,
+        -25
+      ],
+      [
+        -3,
+        -24
+      ]
+    ],
+    "wall_relative_slots": [
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  "examples": [
+    {
+      "id": "corner-setup-to-kick",
+      "inputs": {
+        "ball": [
+          8,
+          39
+        ],
+        "chosen_taker_current": [
+          0,
+          25
+        ],
+        "direction": 1,
+        "initial_phase": 0,
+        "played_role": 5,
+        "table_byte": 3
+      },
+      "limits": "Source-conditioned setup/handler sequence,not a full legal fixture or observed duration. Managed choice/natural key input not exercised.",
+      "prediction": {
+        "countdown": 23,
+        "ready_and_launch_separate": true,
+        "spot": [
+          8,
+          36
+        ]
+      },
+      "steps": [
+        "spot(8,36);install holder,clearC/D,playflag1,timer0,allstate9,snapshot request",
+        "taker countdown23 from current attacking-zone predicate;walking updates do not spend it",
+        "at-target positive countdown decrements;zero-entry readies andstopsplayflag;nextreadycall cross/state5"
+      ]
+    },
+    {
+      "id": "free-kick-context",
+      "inputs": {
+        "coin": true,
+        "opposing_keeper_abs_y": 37,
+        "original_role": 13,
+        "spot": [
+          0,
+          20
+        ],
+        "temporary_role": 1
+      },
+      "limits": "Other74C2 readiness gates assumed;keeping role0 is not substituted. No measured free-kick success probability.",
+      "prediction": {
+        "initial_quality_skill": 11,
+        "launch_event": 4,
+        "launch_skill": 12,
+        "normal_role13_zone": false,
+        "temporary_role1_zone": true
+      },
+      "steps": [
+        "near-central award can pickrole4",
+        "at-target countdownready",
+        "role1 across2F28 opensattackingzone",
+        "restore13 before shot event4"
+      ]
+    },
+    {
+      "id": "countdown-edge",
+      "inputs": {
+        "at_target": true,
+        "phase": 0,
+        "timer": 2
+      },
+      "limits": "Eligible taker updates,not game minutes/host time. Entire player placement not simulated.",
+      "prediction": [
+        "countdown",
+        "countdown",
+        "ready",
+        "cross"
+      ],
+      "steps": [
+        [
+          1,
+          0,
+          "countdown"
+        ],
+        [
+          0,
+          0,
+          "countdown"
+        ],
+        [
+          0,
+          1,
+          "ready-line-and-playflag0"
+        ],
+        [
+          0,
+          1,
+          "cross-and-state5"
+        ]
+      ]
+    },
+    {
+      "id": "far-wall-candidate",
+      "inputs": {
+        "defending_relative_slots": [
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "kicker_direction": 1,
+        "spots": [
+          [
+            0,
+            25
+          ],
+          [
+            0,
+            26
+          ]
+        ]
+      },
+      "limits": "Instruction-derived candidate quirk;port matches. Natural free-kick reachability/frequency and whole-match consequence not established;no sign fix authorised.",
+      "prediction": {
+        "at25": [
+          [
+            2,
+            30
+          ],
+          [
+            1,
+            30
+          ],
+          [
+            0,
+            30
+          ],
+          [
+            -1,
+            30
+          ],
+          [
+            -2,
+            30
+          ]
+        ],
+        "at26": [
+          [
+            -3,
+            -28
+          ],
+          [
+            -3,
+            -27
+          ],
+          [
+            -3,
+            -26
+          ],
+          [
+            -3,
+            -25
+          ],
+          [
+            -3,
+            -24
+          ]
+        ]
+      },
+      "steps": [
+        "defending,forward-facing kick andabsY-absX>10 guards assumed",
+        "nearbranch y25 gives wall row30",
+        "farbranch y26 usesopposite-sign7920 selector;direct stores have no later mirror"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:28B2",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "73fad748d16bce98b19dfb73dfec2f3b57155e0e9e8a1734b1e7f64be4d42e33",
+      "line": 738
+    },
+    {
+      "address": "0791:2A15",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "260d3e2b26d36cb546efd3ddd42e2cc3f8a36d7d40f4fe038a8340ace09711ab",
+      "line": 837
+    },
+    {
+      "address": "0791:2F28",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "81e2dd7d256c8a7011348add4523a433bf84eba5e57f5daf7c5ca253c917d9de",
+      "line": 311
+    },
+    {
+      "address": "0791:690C",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "7ff6c3e7ece08b4b8067972df73dcc55f230d97df049fdedc854fcf0aa2d909d",
+      "line": 541
+    },
+    {
+      "address": "0791:698E",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "c52cf5f6cf9fca88a1ad68d10f7608b5aa9acbfa8c91aa487014e7c4c6fa58e6",
+      "line": 580
+    },
+    {
+      "address": "0791:69BD",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "cad059d6c411e1deb2fe8065ec174e1287013ba2f7ca9e58170d5fa9c5992c08",
+      "line": 600
+    },
+    {
+      "address": "0791:6AAD",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "3f7ebc298e55f11418d6cf1ad58c98d3d98496bf6695233f76acf75e15ed7c72",
+      "line": 645
+    },
+    {
+      "address": "0791:6AF7",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "2c2b4367f4bcf36d21c978fdbdda8cfef422b93932eb8304871c8b07289f25fb",
+      "line": 672
+    },
+    {
+      "address": "0791:6B65",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "4930e752234f68e61b377bef57645f4d316cad795422840772a009178894f359",
+      "line": 701
+    },
+    {
+      "address": "0791:6BF1",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "5193aa3e9f5b0d96697fd023e49a0106efd8da1e7938953de95c3ff550b2d041",
+      "line": 723
+    },
+    {
+      "address": "0791:6D4E",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "4e03602884bc33b8907ae342cc3120d09797dfbddc9c0bc177c9372173e9fc04",
+      "line": 791
+    },
+    {
+      "address": "0791:6DEA",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "fac7fb426955c071cbb07c4cf4c13d1a4237253876d8a798f3c9da01c4dbcc74",
+      "line": 821
+    },
+    {
+      "address": "0791:6E11",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "3169770ce72e3375ffa814899429927ef5a14d64d0302c4b3ebd4a13a680d940",
+      "line": 838
+    },
+    {
+      "address": "0791:6E6E",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "2fbf18333395d2c93cc6825e9609fbd6fdc8eea92a648a8bb1cb04395d12a660",
+      "line": 860
+    },
+    {
+      "address": "0791:6ECF",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "1bff9c285064edfee824f196097e4692729b1b20360cf323a1180d7bfb983502",
+      "line": 883
+    },
+    {
+      "address": "0791:6F01",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "35740a51a303ef81005753f5517b6729a0c710011d5f7d63fb5ebbc2a43b7854",
+      "line": 903
+    },
+    {
+      "address": "0791:6F3E",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "0348e52e4facaa2d6d8c72c7d399adb8e1d7064d1349871573b6022bac07edc8",
+      "line": 927
+    },
+    {
+      "address": "0791:6FB6",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "262f4c08a233132d1c9b66c895e215550e6797f18d682cf4be8dd91b3ee8efcc",
+      "line": 961
+    },
+    {
+      "address": "0791:6FEE",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "452d5925abd32e0288193bf29b3c0f312c5d576b40878118cb89e6d54e46c04c",
+      "line": 4
+    },
+    {
+      "address": "0791:7069",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "f797f4e70fec01e5451b4218108941748c8203e04ab0ff96c64868260c118f33",
+      "line": 44
+    },
+    {
+      "address": "0791:70F6",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "f04f1379cb5a2b97f31343bd9e0f01ad9c37f413e90619a230da81a7614ded4e",
+      "line": 78
+    },
+    {
+      "address": "0791:715A",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "f63322dd9d0d8054718b322deb1cd6e41483127ad15ff32ab7d8f791f82b18a1",
+      "line": 115
+    },
+    {
+      "address": "0791:717F",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "9c55919a91d672f950ccdd8a0f62370b31021c59d199617afec228de545b2e64",
+      "line": 134
+    },
+    {
+      "address": "0791:71E8",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "e4ff6fabcde0679877ae362418ce8673b6d007d0fb8e5a693e049e548bca8e2b",
+      "line": 164
+    },
+    {
+      "address": "0791:7287",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "bf08b4187710627fcc44854cdd9b0b6ac28d83381f50c8ff109f5173b196af96",
+      "line": 206
+    },
+    {
+      "address": "0791:72F2",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "1933efff20b7200cb8c1c82fab856ed74aea495ced218f8305604711edf2cc55",
+      "line": 240
+    },
+    {
+      "address": "0791:73BA",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "8648f871c3a5c83063066fddb3de882cdb8d0baed1e041c5b22410641ee2d27f",
+      "line": 292
+    },
+    {
+      "address": "0791:74C2",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "eb0a95844820ac29379b66384c7b04d97507fc956896e4dc6c43ef0cc5dd71b7",
+      "line": 345
+    },
+    {
+      "address": "0791:7621",
+      "file": "static/goal-exe/named/seg_0791_07.c",
+      "heading_sha256": "e9af8c93b77cfbfe2a6340a69dd76d10714a551566c563df233d46e25f6cf61c",
+      "line": 413
+    }
+  ],
+  "method": "Original named/listing reading and source-derived projections; no original/port engine execution.",
+  "routines": [
+    {
+      "address": "0791:690C",
+      "fields": [
+        "8327",
+        "7C39",
+        "80FB",
+        "8324"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Boundary finish chooses miss/goal/conditional event3/4 roll and clears mode/quality flags.",
+      "visible_effect": "Shared finish fromT102; restart name does not mean penalty award."
+    },
+    {
+      "address": "0791:698E",
+      "fields": [
+        "830B",
+        "8327",
+        "7C39"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Own-goal-line branch:keeper or coin ->corner,else event0+own-goal flag ->690C.",
+      "visible_effect": "Own-goal routing depends on last holder and branch,not just crossing geometry."
+    },
+    {
+      "address": "0791:69BD",
+      "fields": [
+        "0812",
+        "0820/0822",
+        "pitch+7/+C/+12",
+        "8326"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "State1 targets post+role-depth,with holding-side last-slot and holder overrides;arrived holder state2,others0.",
+      "visible_effect": "Starting shape and kickoff readiness depend on played roles and slot identities."
+    },
+    {
+      "address": "0791:6AAD",
+      "fields": [
+        "9B55",
+        "830C/8323",
+        "0824"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "State2 waits all other required records ready;request snapshot,clear selectors/phase,launch6 toward mirrored0824,all state5.",
+      "visible_effect": "Kickoff is gated by multi-player readiness,not only the taker."
+    },
+    {
+      "address": "0791:6AF7",
+      "fields": [
+        "0640/0642/0644",
+        "pitch+0/+7/+12"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "State3 targets exit unless already sentinel;arrived becomesstate4 and point/destination0644,then redraw.",
+      "visible_effect": "Half-end/walk-off coordinate states are not origin0,0."
+    },
+    {
+      "address": "0791:6B65",
+      "fields": [
+        "9976+10*side+2*role",
+        "country squad"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Resolve stored own-player identity to first squad slot1..11,or12 absent.",
+      "visible_effect": "Stored taker ID is distinct from global pitch slot."
+    },
+    {
+      "address": "0791:6BF1",
+      "fields": [
+        "830B/C/D/8302/8300",
+        "8315",
+        "9B55",
+        "8323",
+        "261A"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Install holder and advance availability,clear selectors,set playflag1 with timer0,all statekind;choose spot and taker countdown.",
+      "visible_effect": "Taker walks to a spot;playflag1 does not always mean a travelling ball."
+    },
+    {
+      "address": "0791:6D4E",
+      "fields": [
+        "9976",
+        "6B65",
+        "8311",
+        "CC7B",
+        "1FDD"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Managed prompt or automatic skill pick;resolve ID,fall back nearest when absent,then6BF1.",
+      "visible_effect": "Role-based selection is conditional on award and management context."
+    },
+    {
+      "address": "0791:6DEA",
+      "fields": [
+        "7B7E+10*side+n",
+        "2996"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Submit restart line,then increment specified statistic on current awarded/holder side.",
+      "visible_effect": "Corners/free-kicks counters are explicit writes,separate from display text."
+    },
+    {
+      "address": "0791:6E11",
+      "fields": [
+        "8326",
+        "830E",
+        "8311",
+        "8062"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Normal-mode throw stoppage clears pending offside,checks subs,uses opposite nearest,starts7,submits line/message.",
+      "visible_effect": "Throw taker uses nearest selector rather than one of named role2..5 picks."
+    },
+    {
+      "address": "0791:6E6E",
+      "fields": [
+        "8326",
+        "9976",
+        "830A",
+        "7B7E",
+        "26A0"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Normal-mode corner uses opposite side role2/state9,marks830A,counts corner,sets marker direction.",
+      "visible_effect": "Corner award crosses substitution,taker and state-placement boundaries."
+    },
+    {
+      "address": "0791:6F01",
+      "fields": [
+        "8326",
+        "6D4E(5,8)",
+        "6DEA"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Normal-mode goal-kick or own-area free kick uses role5/state8;flag changes text/statistic.",
+      "visible_effect": "A displayed free kick can use goal-kick-style mechanics and kicking-selected taker."
+    },
+    {
+      "address": "0791:6F3E",
+      "fields": [
+        "8311",
+        "6D4E(4,11)",
+        "6DEA"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Clear offside/check subs;central directedy>=18 andabsx<=4 usesrole4,state11;else nearest,state11;countFK.",
+      "visible_effect": "Named free-kick selection has a narrower trigger than all free-kick awards."
+    },
+    {
+      "address": "0791:6FB6",
+      "fields": [
+        "2EB8",
+        "2996",
+        "6F01/6F3E"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Choose own-area goal-kick-style free kick or ordinary free-kick route.",
+      "visible_effect": "Restart identity depends on the foul location/context."
+    },
+    {
+      "address": "0791:6FEE",
+      "fields": [
+        "pitch+10",
+        "8323",
+        "8302",
+        "3B9E"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "At-target thrower counts down,thenmarksready,then next ready update launches to nearest andallstate5.",
+      "visible_effect": "Arrival,countdown,ready line and launch are separate updates."
+    },
+    {
+      "address": "0791:7069",
+      "fields": [
+        "8311",
+        "82F6/82F7",
+        "pitch+7/+8"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "State7 routes taker to6FEE,near selector to coin/roll target,others4B64.",
+      "visible_effect": "Other players keep making target/draw decisions during the restart."
+    },
+    {
+      "address": "0791:70F6",
+      "fields": [
+        "8323",
+        "pitch+10",
+        "8302"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "At-target corner taker countdown->ready->cross3DF6,allstate5.",
+      "visible_effect": "No single elapsed-time constant substitutes for this state machine."
+    },
+    {
+      "address": "0791:715A",
+      "fields": [
+        "830B",
+        "pitch+12"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "State9 dispatches taker70F6 andothers4B64.",
+      "visible_effect": "Corner formation/targets remain coupled to ordinary destination logic."
+    },
+    {
+      "address": "0791:717F",
+      "fields": [
+        "2EB8",
+        "045D",
+        "pitch point"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Area-clear scan over22 records excludes keeper slots/holder;any outfielder in holder area blocks.",
+      "visible_effect": "Goal-kick readiness depends on other players leaving the area."
+    },
+    {
+      "address": "0791:71E8",
+      "fields": [
+        "8315",
+        "8323",
+        "830C/D",
+        "3B15"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "At restart spot wait area clear,step target back togoal line/markready,then long-ball;offspot redirect via8315.",
+      "visible_effect": "Goal-kick has an extra positioning phase instead of ordinary countdown alone."
+    },
+    {
+      "address": "0791:7287",
+      "fields": [
+        "2EB8",
+        "045D",
+        "pitch+7/+8"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "State8 taker71E8;keeper slots usepost,players in holder area targety0,others4B64.",
+      "visible_effect": "Clearing the area is part of the restart transition."
+    },
+    {
+      "address": "0791:74C2",
+      "fields": [
+        "player+6",
+        "8323",
+        "2F28",
+        "3C3F/3323"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Ready free-kick taker waits opposite keeper atabs y37,temporarilysetsplayedrole1 acrosscoin/attack-zone test,restores,then shot4 or pass.",
+      "visible_effect": "Temporary role1 changes shot eligibility;it is sweeper code,not keeper0."
+    },
+    {
+      "address": "0791:7621",
+      "fields": [
+        "CS:7601",
+        "2BB1",
+        "8315",
+        "pitch+7/+8/+12"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "State11 taker74C2;defending relative slots7..11 formwall under spot guards;others4B64 with defender spacing.",
+      "visible_effect": "Wall selection uses relative squad slots,not role/skill number."
+    },
+    {
+      "address": "0791:6ECF",
+      "fields": [
+        "830E",
+        "8062",
+        "6D4E",
+        "7B7E+2",
+        "8324"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Penalty stoppage clears offside,whistle/checksubs,role3/state10,counts penalty andsets8324.",
+      "visible_effect": "Penalty setup differs from ordinary guarded throw/corner paths."
+    },
+    {
+      "address": "0791:72F2",
+      "fields": [
+        "8315",
+        "8323",
+        "8326",
+        "830C/D",
+        "3C3F"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "State10 taker moves through spot,waitsallstate0,sets run-up target,different normal/shootout line,then shot3/state5.",
+      "visible_effect": "Penalty timing/readiness is a distinct machine from free kicks."
+    },
+    {
+      "address": "0791:73BA",
+      "fields": [
+        "8326",
+        "0822/084E",
+        "pitch+7/+8/+12"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "State10 active taker72F2;others mode/keeper/side-specific waiting points andstate0 whenarrived.",
+      "visible_effect": "Waiting-player placement affects penalty readiness."
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "A restart is a phase transition",
+    "Spot, taker and placement rules",
+    "Ready, wait and execute",
+    "Worked paths and evidence limits"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "notes/engine-study/T98/tables.py": "f5e0836d57f8816943f2b2648818cb3a6175060b834f827dff64f27d535215fb",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "runtime/original_match/port/rare.py": "588b6fc3430a0e674664d9bf8f165bdf31779f240ac783f0490e5f4c5be1d66e",
+    "runtime/original_match/port/restarts.py": "c378834575a59d89f31fea8f9ee5ffca7daaf98754a36e848164bb819ad87977",
+    "runtime/original_match/port/takers.py": "fcd182d4543af18a0def9e16773cd317939fd0ca37559f941b499bf9ab40d7b8",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_0791_05.asm": "0635bc395cd69ffe2c77ead9aaaf786f36eedeee5496daae8f43127ce4aed474",
+    "static/goal-exe/code/seg_0791_11.asm": "a5aebf13faf14469141d8edb9a0878b0a56b7267451694622801732f522603ec",
+    "static/goal-exe/code/seg_0791_12.asm": "51e9bb66b774cb145dea8d8986ee4dbcb3c6b74b1a79e47808fe28909916b108",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_03.c": "c49d73137a03e70e2f02b8b54dfe04d8805239f55fc80a99d23a6943354e5800",
+    "static/goal-exe/named/seg_0791_06.c": "1c03cc01069ce4f4eedb386688654af7c3a3900eeb3470971111b2caa3bbe945",
+    "static/goal-exe/named/seg_0791_07.c": "f8be0e2879e8a4bc18eb228dcca17ae91cf318c8b6f8b4b4ac94baa67ac2ad85"
+  },
+  "status": "proposed; source-derived explanation",
+  "supporting_artifacts": {
+    "notes/engine-study/T102/T102c-v1.json": "4957409151df32892cd127141330cc432973b5b034dddb64678abdca71571ac3"
+  },
+  "task": "T104a"
+}
