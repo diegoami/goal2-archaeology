@@ -6,6 +6,7 @@ the unhooked strict family acceptance remains T78d/T79.
 """
 import dataclasses
 import json
+import hashlib
 import tempfile
 import os
 from pathlib import Path
@@ -36,6 +37,22 @@ def play(image,engine,kind=1,seed=0x1234,interactive=False):
     return m,events
 
 
+def memory_digest(match):
+    # Preserve a complete-memory comparison without printing original image bytes on failure.
+    return hashlib.sha256(match.m.read(0,0x110000)).hexdigest()
+
+
+def play_knockout(image,engine):
+    from original_match import example
+    m=Match(image,Fixture(7,19,index=example.KNOCKOUT_INDEX,kind=example.KNOCKOUT),
+            managed=7,substitutions=example.BUDGET,record_draws=True,ports=['all'],engine=engine)
+    events=[]
+    for event in m.events():
+        events.append(dataclasses.asdict(event))
+        if event.kind=='decision':example.knockout_answer(m,event.data,lambda *args:None)
+    return m,events
+
+
 class Engine(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -59,20 +76,22 @@ class Engine(unittest.TestCase):
         candidate,actual=play(self.image,'port')
         self.assertEqual(actual,events)
         self.assertEqual(candidate.result(),original.result())
-        self.assertEqual(candidate.m.read(0,0x110000),original.m.read(0,0x110000))
+        self.assertEqual(memory_digest(candidate),memory_digest(original))
 
     def test_interactive_pause_tactics_and_halftime_equal(self):
         original,events=play(self.image,'original',interactive=True)
         candidate,actual=play(self.image,'port',interactive=True)
         self.assertTrue(any(e['kind']=='decision' and e['data']['context']=='pause' for e in actual))
         self.assertEqual(actual,events);self.assertEqual(candidate.result(),original.result())
-        self.assertEqual(candidate.m.read(0,0x110000),original.m.read(0,0x110000))
+        self.assertEqual(memory_digest(candidate),memory_digest(original))
 
-    def test_competitive_match_result_and_events_equal(self):
-        original,events=play(self.image,'original',kind=5,seed=42)
-        candidate,actual=play(self.image,'port',kind=5,seed=42)
+    def test_knockout_match_result_and_events_equal(self):
+        original,events=play_knockout(self.image,'original')
+        candidate,actual=play_knockout(self.image,'port')
+        self.assertTrue(candidate.result()['extra_time'])
+        self.assertIsNotNone(candidate.result()['shootout'])
         self.assertEqual(actual,events);self.assertEqual(candidate.result(),original.result())
-        self.assertEqual(candidate.m.read(0,0x110000),original.m.read(0,0x110000))
+        self.assertEqual(memory_digest(candidate),memory_digest(original))
 
     def test_no_unicorn_positive_denial_runs_a_complete_match(self):
         script=r'''import builtins,sys,json
@@ -120,19 +139,20 @@ class CLI(unittest.TestCase):
                 self.assertIn('--no-unicorn requires --engine port', run.stdout+run.stderr)
 
     def test_family_cli_guarded_quick_result_records_backend_identity(self):
-        with tempfile.TemporaryDirectory() as directory:
-            path = Path(directory)/'quick.jsonl'
-            command = [sys.executable, '-B', str(ROOT/'experiments/E036-match-port/family.py'),
-                       '--family', 'S', '--only', 'S/quick-1', '--engine', 'port', '--no-unicorn',
-                       '--cache', str(ROOT/'.cache/dl'), '--out', str(path)]
-            run = subprocess.run(command, cwd=ROOT, env=dict(os.environ, PYTHONPATH=str(ROOT/'runtime')),
-                                 capture_output=True, text=True, timeout=600)
-            self.assertEqual(run.returncode, 0, run.stdout+run.stderr)
-            rows = [json.loads(line) for line in path.read_text().splitlines()]
-            self.assertEqual(len(rows), 1)
-            self.assertEqual(rows[0]['engine'], 'port')
-            self.assertIsNone(rows[0]['error'])
-            self.assertTrue(rows[0]['stopped_at_board'])
-            self.assertIn('entrypoints', rows[0]['ports'])
+        for workers in (1,2):
+            with tempfile.TemporaryDirectory() as directory:
+                path = Path(directory)/f'quick-{workers}.jsonl'
+                command = [sys.executable, '-B', str(ROOT/'experiments/E036-match-port/family.py'),
+                           '--family', 'S', '--only', 'S/quick-1', '--engine', 'port', '--no-unicorn',
+                           '--cache', str(ROOT/'.cache/dl'), '--out', str(path), '--workers',str(workers)]
+                run = subprocess.run(command, cwd=ROOT, env=dict(os.environ, PYTHONPATH=str(ROOT/'runtime')),
+                                     capture_output=True, text=True, timeout=600)
+                self.assertEqual(run.returncode, 0, run.stdout+run.stderr)
+                rows = [json.loads(line) for line in path.read_text().splitlines()]
+                self.assertEqual(len(rows), 1)
+                self.assertEqual(rows[0]['engine'], 'port')
+                self.assertIsNone(rows[0]['error'])
+                self.assertTrue(rows[0]['stopped_at_board'])
+                self.assertIn('entrypoints', rows[0]['ports'])
 
 if __name__=='__main__':unittest.main()
