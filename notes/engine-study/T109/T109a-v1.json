@@ -1,0 +1,504 @@
+{
+  "call_census": [
+    {
+      "address": "3932",
+      "following_instructions": [
+        "3935  EB 10           jmp 0x3947",
+        "3937  FF 76 FE        push word ptr [bp - 2]",
+        "393A  B8 06 00        mov ax, 6",
+        "393D  50              push ax",
+        "393E  C4 7E 06        les di, ptr [bp + 6]",
+        "3941  06              push es",
+        "3942  57              push di",
+        "3943  0E              push cs"
+      ],
+      "limit": "Eight lexical successor instructions,not a transitive alias/control-flow proof.",
+      "line": 706,
+      "path": "static/goal-exe/code/seg_0791_06.asm"
+    },
+    {
+      "address": "3944",
+      "following_instructions": [
+        "3947  A1 13 83        mov ax, word ptr [0x8313]",
+        "394A  89 46 FE        mov word ptr [bp - 2], ax",
+        "394D  C4 7E 06        les di, ptr [bp + 6]",
+        "3950  26 8A 45 06     mov al, byte ptr es:[di + 6]",
+        "3954  30 E4           xor ah, ah",
+        "3956  3B 46 0A        cmp ax, word ptr [bp + 0xa]",
+        "3959  74 03           je 0x395e",
+        "395B  E9 01 01        jmp 0x3a5f"
+      ],
+      "limit": "Eight lexical successor instructions,not a transitive alias/control-flow proof.",
+      "line": 716,
+      "path": "static/goal-exe/code/seg_0791_06.asm"
+    },
+    {
+      "address": "3B73",
+      "following_instructions": [
+        "3B76  C6 06 03 83 01  mov byte ptr [0x8303], 1",
+        "3B7B  80 3E 0C 83 00  cmp byte ptr [0x830c], 0",
+        "3B80  74 04           je 0x3b86",
+        "3B82  B0 00           mov al, 0",
+        "3B84  EB 02           jmp 0x3b88",
+        "3B86  B0 01           mov al, 1",
+        "3B88  98              cwde",
+        "3B89  8B F8           mov di, ax"
+      ],
+      "limit": "Eight lexical successor instructions,not a transitive alias/control-flow proof.",
+      "line": 969,
+      "path": "static/goal-exe/code/seg_0791_06.asm"
+    },
+    {
+      "address": "3BCE",
+      "following_instructions": [
+        "3BD1  B0 03           mov al, 3",
+        "3BD3  50              push ax",
+        "3BD4  E8 CC EE        call 0x2aa3",
+        "3BD7  9A FA 06 4B 21  call far 214B:06FA",
+        "3BDC  A2 03 83        mov byte ptr [0x8303], al",
+        "3BDF  C4 7E 06        les di, ptr [bp + 6]",
+        "3BE2  06              push es",
+        "3BE3  57              push di"
+      ],
+      "limit": "Eight lexical successor instructions,not a transitive alias/control-flow proof.",
+      "line": 1013,
+      "path": "static/goal-exe/code/seg_0791_06.asm"
+    },
+    {
+      "address": "3CC1",
+      "following_instructions": [
+        "3CC4  8A 46 0C        mov al, byte ptr [bp + 0xc]",
+        "3CC7  50              push ax",
+        "3CC8  E8 D8 ED        call 0x2aa3",
+        "3CCB  80 3E 26 83 00  cmp byte ptr [0x8326], 0",
+        "3CD0  75 15           jne 0x3ce7",
+        "3CD2  C4 7E 06        les di, ptr [bp + 6]",
+        "3CD5  06              push es",
+        "3CD6  57              push di"
+      ],
+      "limit": "Eight lexical successor instructions,not a transitive alias/control-flow proof.",
+      "line": 1138,
+      "path": "static/goal-exe/code/seg_0791_06.asm"
+    },
+    {
+      "address": "3E80",
+      "following_instructions": [
+        "3E83  80 3E 0C 83 00  cmp byte ptr [0x830c], 0",
+        "3E88  74 04           je 0x3e8e",
+        "3E8A  B0 00           mov al, 0",
+        "3E8C  EB 02           jmp 0x3e90",
+        "3E8E  B0 01           mov al, 1",
+        "3E90  98              cwde",
+        "3E91  8B F8           mov di, ax",
+        "3E93  8A 85 94 07     mov al, byte ptr [di + 0x794]"
+      ],
+      "limit": "Eight lexical successor instructions,not a transitive alias/control-flow proof.",
+      "line": 152,
+      "path": "static/goal-exe/code/seg_0791_07.asm"
+    },
+    {
+      "address": "3F8B",
+      "following_instructions": [
+        "3F8E  C6 06 03 83 01  mov byte ptr [0x8303], 1",
+        "3F93  80 7E FD 00     cmp byte ptr [bp - 3], 0",
+        "3F97  74 08           je 0x3fa1",
+        "3F99  B0 17           mov al, 0x17",
+        "3F9B  50              push ax",
+        "3F9C  E8 04 EB        call 0x2aa3",
+        "3F9F  EB 06           jmp 0x3fa7",
+        "3FA1  B0 18           mov al, 0x18"
+      ],
+      "limit": "Eight lexical successor instructions,not a transitive alias/control-flow proof.",
+      "line": 294,
+      "path": "static/goal-exe/code/seg_0791_07.asm"
+    },
+    {
+      "address": "406C",
+      "following_instructions": [
+        "406F  C6 06 03 83 01  mov byte ptr [0x8303], 1",
+        "4074  83 7E 0A 0B     cmp word ptr [bp + 0xa], 0xb",
+        "4078  75 08           jne 0x4082",
+        "407A  B0 16           mov al, 0x16",
+        "407C  50              push ax",
+        "407D  E8 23 EA        call 0x2aa3",
+        "4080  EB 06           jmp 0x4088",
+        "4082  B0 15           mov al, 0x15"
+      ],
+      "limit": "Eight lexical successor instructions,not a transitive alias/control-flow proof.",
+      "line": 403,
+      "path": "static/goal-exe/code/seg_0791_07.asm"
+    },
+    {
+      "address": "5EA2",
+      "following_instructions": [
+        "5EA5  89 EC           mov sp, bp",
+        "5EA7  5D              pop bp",
+        "5EA8  CA 04 00        retf 4",
+        "5EAB  55              push bp",
+        "5EAC  89 E5           mov bp, sp",
+        "5EAE  C4 7E 06        les di, ptr [bp + 6]",
+        "5EB1  06              push es",
+        "5EB2  57              push di"
+      ],
+      "limit": "Eight lexical successor instructions,not a transitive alias/control-flow proof.",
+      "line": 595,
+      "path": "static/goal-exe/code/seg_0791_10.asm"
+    },
+    {
+      "address": "6AE1",
+      "following_instructions": [
+        "6AE4  B0 05           mov al, 5",
+        "6AE6  50              push ax",
+        "6AE7  E8 3F BE        call 0x2929",
+        "6AEA  B8 02 00        mov ax, 2",
+        "6AED  50              push ax",
+        "6AEE  E8 50 99        call 0x441",
+        "6AF1  89 EC           mov sp, bp",
+        "6AF3  5D              pop bp"
+      ],
+      "limit": "Eight lexical successor instructions,not a transitive alias/control-flow proof.",
+      "line": 895,
+      "path": "static/goal-exe/code/seg_0791_11.asm"
+    }
+  ],
+  "candidates": [
+    {
+      "actual": "All3pairs:15differing bytes,SS3EDE..3EEF subset;returnedSP3F0C;allcapturedregisters/field/ABI equal.",
+      "disposition": "unresolved",
+      "evidence": [
+        "notes/engine-study/T106/report-v1.json",
+        "static/goal-exe/code/seg_214B_04.asm",
+        "static/goal-exe/code/seg_0791_06.asm"
+      ],
+      "expected": "Field/ABI comparison may agree while omitted nested frames leave physical stack residue.",
+      "follow_up": "#591:retain mismatch and explicit liveness/causal gap;no mask or repair.",
+      "id": "launch-stack",
+      "limits": [
+        "Source frame depth and reached1EA1 omission explain a plausible residue region;no isolated native ablation/byte-writer trace.",
+        "No complete transitive read-before-overwrite or stack-alias proof;not whole-program dead-state classification."
+      ],
+      "minimal_input": "T106 launch baseline cases:entry SP3F00;muted native sound still executes;port sound entry is declared void stub.",
+      "reachability": "Observed synthetic direct calls only."
+    },
+    {
+      "actual": "Only direct7621caller is8BB0;8BB3pushBP/call8889;888C SUB SP,2 and888F CMP replace arithmetic flags before8894conditional. DF unchanged and compared.",
+      "disposition": "unsupported suspicion",
+      "evidence": [
+        "static/goal-exe/code/seg_0791_14.asm",
+        "runtime/original_match/port/runtime.py",
+        "notes/engine-study/T106/T106b-v1.json"
+      ],
+      "expected": "A gameplay effect from flags needs a caller reading them before replacement.",
+      "follow_up": "#591 records the discrepancy;standard continuation consumes no inherited arithmetic flags;no production bug established.",
+      "id": "wall-flags",
+      "limits": [
+        "Static local continuation proof;does not extend to arbitrary external/indirect callers.",
+        "Arithmetic flags remain physically different in T106;no complete-machine-state equality."
+      ],
+      "minimal_input": "T106 near/far wall calls;ordinary8AE9continues at8BB3.",
+      "reachability": "Normal source tick continuation;bare synthetic wall calls did not execute8889."
+    },
+    {
+      "actual": "Tenliteral calls at3932,3944,3B73,3BCE,3CC1,3E80,3F8B,406C,5EA2,6AE1. Immediate successors use caller locals/DS,another call or epilogue;5EA2returns directly afterepilogue.",
+      "disposition": "unresolved",
+      "evidence": [
+        "static/goal-exe/code/seg_0791_06.asm",
+        "static/goal-exe/code/seg_0791_07.asm",
+        "static/goal-exe/code/seg_0791_10.asm",
+        "static/goal-exe/code/seg_0791_11.asm"
+      ],
+      "expected": "Caller context is required before claiming all below-SP residue dead.",
+      "follow_up": "#591 remains open for complete liveness or a sensitive original-backed continuation if required by a future contract.",
+      "id": "launch-callers",
+      "limits": [
+        "Lexical windows do not follow every jump/callee/alias;tail return can propagate scratch state.",
+        "No proof of absence of indirect callers or later uninitialised-local reads."
+      ],
+      "minimal_input": "All direct call0x34c1instructions in seg0791raw listings.",
+      "reachability": "Static direct-call census,not dynamic reach counts."
+    },
+    {
+      "actual": "T73declares1EA1void removal;native body allocates nested frames. Standalone1E09port separately preserves its completed busy-wait frame,but1EA1stub does not invoke it.",
+      "disposition": "intentional path difference",
+      "evidence": [
+        "runtime/original_match/port/display.py",
+        "runtime/original_match/port/runtime.py",
+        "experiments/E036-match-port/notes/T73.md",
+        "static/goal-exe/code/seg_214B_04.asm"
+      ],
+      "expected": "Historical ALL equality only covers its compared paths/observation boundaries.",
+      "follow_up": "Keep#416forremainingboundarycoverage;#591forbare-launchresidue;reuseT73evidence,notnewALLruns.",
+      "id": "production-stubs",
+      "limits": [
+        "Declared omission is not proof every native body is state-free or all bare calls exact.",
+        "Historical#416zero-entry census is not current universal removability evidence;no claim of natural manager-path coverage."
+      ],
+      "minimal_input": "DeclaredT73sound entry1EA1 versus native muted call chain1EBC/1E09/1E8D.",
+      "reachability": "1EA1 reached in T106launch;unvisited stateful display boundaries remain separately unresolved."
+    }
+  ],
+  "frame_arithmetic": {
+    "delay_bp": "3EE6",
+    "delay_entry": "3EE8",
+    "delay_local_bottom": "3EDE",
+    "sound_bp": "3EEE",
+    "sound_entry": "3EF0"
+  },
+  "guards": [
+    {
+      "address": "34C4",
+      "instruction": "sub sp, 6",
+      "path": "static/goal-exe/code/seg_0791_06.asm"
+    },
+    {
+      "address": "3837",
+      "instruction": "call far 214B:1EA1",
+      "path": "static/goal-exe/code/seg_0791_06.asm"
+    },
+    {
+      "address": "3849",
+      "instruction": "retf 8",
+      "path": "static/goal-exe/code/seg_0791_06.asm"
+    },
+    {
+      "address": "1EA8",
+      "instruction": "call 0x1ebc",
+      "path": "static/goal-exe/code/seg_214B_04.asm"
+    },
+    {
+      "address": "1EAF",
+      "instruction": "call 0x1e09",
+      "path": "static/goal-exe/code/seg_214B_04.asm"
+    },
+    {
+      "address": "1EB3",
+      "instruction": "call 0x1e8d",
+      "path": "static/goal-exe/code/seg_214B_04.asm"
+    },
+    {
+      "address": "1E0C",
+      "instruction": "sub sp, 8",
+      "path": "static/goal-exe/code/seg_214B_04.asm"
+    },
+    {
+      "address": "8BB0",
+      "instruction": "call 0x7621",
+      "path": "static/goal-exe/code/seg_0791_14.asm"
+    },
+    {
+      "address": "8BB3",
+      "instruction": "push bp",
+      "path": "static/goal-exe/code/seg_0791_14.asm"
+    },
+    {
+      "address": "8BB4",
+      "instruction": "call 0x8889",
+      "path": "static/goal-exe/code/seg_0791_14.asm"
+    },
+    {
+      "address": "8889",
+      "instruction": "push bp",
+      "path": "static/goal-exe/code/seg_0791_14.asm"
+    },
+    {
+      "address": "888A",
+      "instruction": "mov bp, sp",
+      "path": "static/goal-exe/code/seg_0791_14.asm"
+    },
+    {
+      "address": "888C",
+      "instruction": "sub sp, 2",
+      "path": "static/goal-exe/code/seg_0791_14.asm"
+    },
+    {
+      "address": "888F",
+      "instruction": "cmp byte ptr [0x8302], 0",
+      "path": "static/goal-exe/code/seg_0791_14.asm"
+    },
+    {
+      "address": "3932",
+      "instruction": "call 0x34c1",
+      "path": "static/goal-exe/code/seg_0791_06.asm"
+    },
+    {
+      "address": "3944",
+      "instruction": "call 0x34c1",
+      "path": "static/goal-exe/code/seg_0791_06.asm"
+    },
+    {
+      "address": "3B73",
+      "instruction": "call 0x34c1",
+      "path": "static/goal-exe/code/seg_0791_06.asm"
+    },
+    {
+      "address": "3BCE",
+      "instruction": "call 0x34c1",
+      "path": "static/goal-exe/code/seg_0791_06.asm"
+    },
+    {
+      "address": "3CC1",
+      "instruction": "call 0x34c1",
+      "path": "static/goal-exe/code/seg_0791_06.asm"
+    },
+    {
+      "address": "3E80",
+      "instruction": "call 0x34c1",
+      "path": "static/goal-exe/code/seg_0791_07.asm"
+    },
+    {
+      "address": "3F8B",
+      "instruction": "call 0x34c1",
+      "path": "static/goal-exe/code/seg_0791_07.asm"
+    },
+    {
+      "address": "406C",
+      "instruction": "call 0x34c1",
+      "path": "static/goal-exe/code/seg_0791_07.asm"
+    },
+    {
+      "address": "5EA2",
+      "instruction": "call 0x34c1",
+      "path": "static/goal-exe/code/seg_0791_10.asm"
+    },
+    {
+      "address": "6AE1",
+      "instruction": "call 0x34c1",
+      "path": "static/goal-exe/code/seg_0791_11.asm"
+    }
+  ],
+  "limits": [
+    "Source-based proposed attribution pending ES-R3;zero new engine calls.",
+    "Literal listing guards protect named instructions;candidate integrity is not behavioural proof."
+  ],
+  "method": "Source-only caller census and bounded attribution of immutable T106 discrepancies.",
+  "producer": {
+    "commit": "1eb54d123faa006a8d9cfc7eaa4252110f16b000",
+    "path": "notes/engine-study/T109/boundaries.py",
+    "sha256": "3ae5ac6352b19bfd95ba59d7ead0b9b7428ca79175b8f1502be9c3a509338cd5"
+  },
+  "residue": [
+    {
+      "below_entry_sp": true,
+      "below_return_sp": true,
+      "case": "launch-diagonal",
+      "returned_sp": "3F0C",
+      "ss_offsets": [
+        "3EDE",
+        "3EE0",
+        "3EE1",
+        "3EE2",
+        "3EE4",
+        "3EE6",
+        "3EE7",
+        "3EE8",
+        "3EE9",
+        "3EEA",
+        "3EEB",
+        "3EEC",
+        "3EED",
+        "3EEE",
+        "3EEF"
+      ]
+    },
+    {
+      "below_entry_sp": true,
+      "below_return_sp": true,
+      "case": "launch-small",
+      "returned_sp": "3F0C",
+      "ss_offsets": [
+        "3EDE",
+        "3EE0",
+        "3EE1",
+        "3EE2",
+        "3EE4",
+        "3EE6",
+        "3EE7",
+        "3EE8",
+        "3EE9",
+        "3EEA",
+        "3EEB",
+        "3EEC",
+        "3EED",
+        "3EEE",
+        "3EEF"
+      ]
+    },
+    {
+      "below_entry_sp": true,
+      "below_return_sp": true,
+      "case": "launch-zero",
+      "returned_sp": "3F0C",
+      "ss_offsets": [
+        "3EDE",
+        "3EE0",
+        "3EE1",
+        "3EE2",
+        "3EE4",
+        "3EE6",
+        "3EE7",
+        "3EE8",
+        "3EE9",
+        "3EEA",
+        "3EEB",
+        "3EEC",
+        "3EED",
+        "3EEE",
+        "3EEF"
+      ]
+    }
+  ],
+  "sections": [
+    "Observed residue and frame arithmetic",
+    "Wall flags at the ordinary continuation",
+    "Direct callers and unresolved boundaries"
+  ],
+  "source_commit": "f1d1767219569ab9b2c67a034012ee645f0d5e83",
+  "source_sha256": {
+    "experiments/E036-match-port/notes/T73.md": "732ef6cdeb9f01bc5ac8e467783d3fc2b7d0b7be297986c1a1f0bb8633baf238",
+    "runtime/original_match/port/display.py": "33b298ead7c58815b9463a39f14e0ba862c81a3af02d53cd5f6184b0f4d8da5e",
+    "runtime/original_match/port/motion.py": "4e7bab13c1e196464ecb41fd2ddb3a41878c217885c238fd2e80cd8329746eb2",
+    "runtime/original_match/port/runtime.py": "0a03827635ec11e2edf31fe9344ac56363bd6aadbe15e09f8ccfee4c384e6b1d",
+    "static/goal-exe/code/seg_0791_01.asm": "a785c7efdfb54bab19ca5b3eea73a19548a61a46512f79c653559e1cba080688",
+    "static/goal-exe/code/seg_0791_02.asm": "57849ee0856cb014c748370434588b99cd5151ce14d785a125c3a4350e04eb8b",
+    "static/goal-exe/code/seg_0791_03.asm": "960a08fdcaa6f4115a4702c48a454b097fe0194db91c76ea5a4a9818bbfca0a3",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_0791_05.asm": "0635bc395cd69ffe2c77ead9aaaf786f36eedeee5496daae8f43127ce4aed474",
+    "static/goal-exe/code/seg_0791_06.asm": "b7debdb96455259d2dca1e10096d42fb6ae843b79105eda4c5e7b7cf7b34ceb6",
+    "static/goal-exe/code/seg_0791_07.asm": "1cee0aa8db2d9e0be1e885f1f535eca11f450cbee9421366182528e540d94804",
+    "static/goal-exe/code/seg_0791_08.asm": "6932ef5507b1fa923e7fcec51e4abb0c091d413571c80d0d3798cb1382119acd",
+    "static/goal-exe/code/seg_0791_09.asm": "1236aa3fcb2d30080e22d9a4bee4398c52d09fc3010e133bc124e318f7e89ac0",
+    "static/goal-exe/code/seg_0791_10.asm": "dabf426d52c0c137574a07b97044e43868ebe0e0e49b4b7367be05e98842c88c",
+    "static/goal-exe/code/seg_0791_11.asm": "a5aebf13faf14469141d8edb9a0878b0a56b7267451694622801732f522603ec",
+    "static/goal-exe/code/seg_0791_12.asm": "51e9bb66b774cb145dea8d8986ee4dbcb3c6b74b1a79e47808fe28909916b108",
+    "static/goal-exe/code/seg_0791_13.asm": "e5d4454db0deeb4b617cb1ff626b8ca505bb1b61b970b4c8e5952385481a8025",
+    "static/goal-exe/code/seg_0791_14.asm": "032e2d6f22d6db5981e2a11f43298924a53e15d080e1d73d1fb375ddbe400abd",
+    "static/goal-exe/code/seg_0791_15.asm": "39083ebcc1fba0fc0c377bd9656189ceb0e0a328d0940583c774e910967e1abf",
+    "static/goal-exe/code/seg_0791_16.asm": "970a6ea902b38abd5e437aed568fc1833caf6bac00e25194be1f3f39504ea4e1",
+    "static/goal-exe/code/seg_0791_17.asm": "e8ca718382b8b72b2a9d1ede8d24bf6bf0bf2e899b3cc70d91a5435d076f6c44",
+    "static/goal-exe/code/seg_0791_18.asm": "e19061df86a89389539ddc48b0497b1f04742062851deca434838b600387d397",
+    "static/goal-exe/code/seg_0791_19.asm": "9a67e02197e7b3796be1cf653ed6ffff35a9939cbe0044dee57f639971063ed8",
+    "static/goal-exe/code/seg_0791_20.asm": "9ed1e3aa1aca8370004fc286911f2cf55003c084f03f95f8e39b56bf438361f9",
+    "static/goal-exe/code/seg_0791_21.asm": "c0a1f37f3b6b13092012d3007a333b27c1a2194eeccd2eba5637b291be3b3358",
+    "static/goal-exe/code/seg_0791_22.asm": "a914346b919764a8232d3a9f7979d5193a20bce6a8829e48d9b74fb9b806464b",
+    "static/goal-exe/code/seg_0791_23.asm": "49e12bb8534566ad1e6b4b22e2f088ce483d4518f8d2b8cf28fefb3c7f9b9cde",
+    "static/goal-exe/code/seg_0791_24.asm": "f081cd651518cc3f56bea9e53bdf0545f766da0334f18e990c08be0f5c128bc2",
+    "static/goal-exe/code/seg_214B_04.asm": "72371b7e8793207f1e000ec28e5b89f2d0e7cf26f9b1f700e4b49ae1a680b086",
+    "static/goal-exe/named/seg_0791_03.c": "c49d73137a03e70e2f02b8b54dfe04d8805239f55fc80a99d23a6943354e5800",
+    "static/goal-exe/named/seg_0791_07.c": "f8be0e2879e8a4bc18eb228dcca17ae91cf318c8b6f8b4b4ac94baa67ac2ad85",
+    "static/goal-exe/named/seg_0791_08.c": "130e91927a5bb2fed2adb998225fc88091816752051eee90ae004e30fcfecc96",
+    "static/goal-exe/named/seg_214B_02.c": "b91d01953ac9e6ac3c869476af7e2438b9447f59f2f041c2fd5f8e2386815101"
+  },
+  "supporting_artifacts": {
+    "notes/engine-study/T106/T106b-v1.json": "8cd7459634ee8babe56f3ceeba012947f52e3c86bee922c8b0d6a542581a796e",
+    "notes/engine-study/T106/launch/manifest-v1.json": "79e714555a81d473422bb30b18b572f83bb892f5db8b50741c291f5d17ae0e5f",
+    "notes/engine-study/T106/launch/out/manifest-v1-79e714555a81-comparisons.json": "9b17323f7cdfd04d328479fdc595387845e453d36911f39259f38cecdeffef5f",
+    "notes/engine-study/T106/report-v1.json": "9d5da614a5eef6a60a1ceaecafa5cba9fe25f46a54e3edc103e48a8dea29ef1a"
+  },
+  "task": "T109a",
+  "wall_call_census": [
+    {
+      "address": "8BB0",
+      "path": "static/goal-exe/code/seg_0791_14.asm"
+    }
+  ]
+}

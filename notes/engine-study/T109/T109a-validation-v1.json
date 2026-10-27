@@ -1,0 +1,55 @@
+{
+  "source_commit": "84b8cf6d7baf936dcff318bd96d68db1aa6b3527",
+  "scope": "Source/data audit only;no engine calls",
+  "checks": [
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "T109a-final",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T109/boundaries.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS:4candidates;10direct launch callers;24literal guards;3residue cases;no engine calls\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "T109a-final-controls",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T109/check.py",
+        "--task",
+        "T109a",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T109a\",\n  \"candidates\": 4,\n  \"ledger_sha256\": \"dd90b9292afb9ba2854a514f2df6e807d0726496b8b9377c1e0dde2e38521357\",\n  \"scope\": \"Candidate/source integrity plus explicit literal-listing guards; not automatic attribution.\",\n  \"controls\": {\n    \"missing-candidate\": \"rejected\",\n    \"missing-evidence\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"missing-limit\": \"rejected\",\n    \"mock-as-evidence\": \"rejected\",\n    \"literal_listing_negatives\": [\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_06.asm\",\n        \"address\": \"34C4\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_06.asm\",\n        \"address\": \"3837\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_06.asm\",\n        \"address\": \"3849\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_214B_04.asm\",\n        \"address\": \"1EA8\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_214B_04.asm\",\n        \"address\": \"1EAF\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_214B_04.asm\",\n        \"address\": \"1EB3\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_214B_04.asm\",\n        \"address\": \"1E0C\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_14.asm\",\n        \"address\": \"8BB0\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_14.asm\",\n        \"address\": \"8BB3\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_14.asm\",\n        \"address\": \"8BB4\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_14.asm\",\n        \"address\": \"8889\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_14.asm\",\n        \"address\": \"888A\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_14.asm\",\n        \"address\": \"888C\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_14.asm\",\n        \"address\": \"888F\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_06.asm\",\n        \"address\": \"3932\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_06.asm\",\n        \"address\": \"3944\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_06.asm\",\n        \"address\": \"3B73\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_06.asm\",\n        \"address\": \"3BCE\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_06.asm\",\n        \"address\": \"3CC1\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_07.asm\",\n        \"address\": \"3E80\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_07.asm\",\n        \"address\": \"3F8B\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_07.asm\",\n        \"address\": \"406C\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_10.asm\",\n        \"address\": \"5EA2\",\n        \"result\": \"altered listing rejected\"\n      },\n      {\n        \"path\": \"static/goal-exe/code/seg_0791_11.asm\",\n        \"address\": \"6AE1\",\n        \"result\": \"altered listing rejected\"\n      }\n    ]\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/check_links.py"
+      ],
+      "exit": 0,
+      "stdout": "links and JSON ok (10241 files)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/ES-R2/whitespace.py"
+      ],
+      "exit": 0,
+      "stdout": "PASS: committed milestone range whitespace; generated TSV and immutable raw logs excluded\n",
+      "stderr": ""
+    }
+  ]
+}
