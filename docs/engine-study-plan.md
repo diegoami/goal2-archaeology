@@ -43,8 +43,8 @@ before any new batch; an expensive or low-value question can remain an assumptio
 The nineteen work packages originally totalled 33–66 mandatory active hours (including the final
 T113 review), plus 2–4 for an optional prototype. The [independent review schedule](engine-study-reviews.md)
 adds four earlier mandatory reviews (8–16 hours) and one conditional prototype review (2–4 hours).
-The revised programme is **41–82 mandatory active hours**, plus **4–8 hours for the optional
-prototype and its review**, or **45–90 hours including that option**. These provisional first-pass
+The revised programme is **43–86 mandatory active hours**, plus **4–8 hours for the optional
+prototype and its review**, or **47–94 hours including that option**. These provisional first-pass
 ranges exclude findings/fixes, repeat review rounds and compute; re-estimate those before execution.
 Reuse of findings may lower the work; gaps found by T95 may raise it. No match count or runner budget
 is authorised by this estimate.
@@ -73,7 +73,7 @@ is authorised by this estimate.
 | [T101](tasks/T101.md) | [#440](https://github.com/diegoami/goal2-archaeology/issues/440) | Pitch positioning, marking and movement anatomy | hard | M; 2–4 h | high | high | T97, T100; [ES-R1](engine-study-reviews.md#es-r1) accepted |
 | [T102](tasks/T102.md) | [#441](https://github.com/diegoami/goal2-archaeology/issues/441) | Possession, ball actions and scoring anatomy | hard | M; 2–4 h | high | high | T99, T100, T101 |
 | [T103](tasks/T103.md) | [#442](https://github.com/diegoami/goal2-archaeology/issues/442) | Tactics, formation choices and computer-manager behaviour | hard | M; 2–4 h | high | medium | T96, T97, T101, T102 |
-| [T104](tasks/T104.md) | [#443](https://github.com/diegoami/goal2-archaeology/issues/443) | Restarts, discipline, substitutions and post-match effects | hard | M; 2–4 h | high | high | T96, T97, T100, T102 |
+| [T104](tasks/T104.md) | [#443](https://github.com/diegoami/goal2-archaeology/issues/443) | Restarts, discipline, substitutions and post-match effects | hard | L; 4–8 h | high | high | T96, T97, T100, T102 |
 | [T105](tasks/T105.md) | [#444](https://github.com/diegoami/goal2-archaeology/issues/444) | Preregister bounded experiments and synthetic scenarios | hard | M; 2–4 h | high | high | T98, T99, T101, T102, T103, T104 |
 | [T106](tasks/T106.md) | [#445](https://github.com/diegoami/goal2-archaeology/issues/445) | Validate isolated mechanisms with synthetic probes | hard | M; 2–4 h | medium | high | T105; [ES-R2](engine-study-reviews.md#es-r2) accepted |
 | [T107](tasks/T107.md) | [#446](https://github.com/diegoami/goal2-archaeology/issues/446) | Run the first bounded match sensitivity batch | hard | M; 2–4 h + capped compute | high | medium | T105, T106; [ES-R2](engine-study-reviews.md#es-r2) accepted |
@@ -197,3 +197,5 @@ proof. The final guide and review can finish without this optional experiment.
 T108 follows T101 as [T108a](tasks/T108a.md)/[T108b](tasks/T108b.md), before the remaining ball/tactics work: T101 exposed captain-cache and marking interpretations that need qualification before experimental predictions use them. This is a bounded audit of nine named candidates, not permission to repair the original or run new probes. [Readiness](../notes/engine-study/T108/readiness-v1.json) pins the structural checks.
 
 T102 runs as [T102a](tasks/T102a.md), [T102b](tasks/T102b.md) and [T102c](tasks/T102c.md), covering55 ball/contest/duel and deferred motion entries. [Readiness](../notes/engine-study/T102/readiness-v1.json) binds the exact census disposition and structural controls. These chapters explain selection through visible/persistent consequences while leaving restart management to T104 and new engine executions to the accepted ES-R2/T105 gate.
+
+T104 readiness identifies102 related entries (87 owned,15 T103 policy), so the parent is re-estimated L (4–8 active hours) and split into [T104a](tasks/T104a.md)/[b](tasks/T104b.md)/[c](tasks/T104c.md)/[d](tasks/T104d.md)/[e](tasks/T104e.md). This adds2–4 provisional active hours to the original programme range, without authorising extra compute. [Readiness](../notes/engine-study/T104/readiness-v1.json) checks all five structural contracts and the complete disposition. Original-key gaps remain explicit; new runs still wait for accepted ES-R2/T105 budgets.
