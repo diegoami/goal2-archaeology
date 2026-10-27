@@ -24,6 +24,22 @@
 
 - **Synthetic controls**: every 0C1E/0C1F pair of {0, 1, 255}, with 9B36 set to, away from and to zero against the panel country (Germany, 12). 3000 seeded squads with boundary and random words over the whole 16-bit range and positions 0..13. 608 hybrid controls put odd negative halves exactly on a 25/256 cell boundary, where truncation is visible. All equal the decoder. r1 lacked the hybrid controls, and a floor-for-truncation mutant passed it; r2 adds them and rejects it. The decoder's 8 tests fail before it exists, and 18 mutants are rejected. static:notes/432/performance/original-r1.json:1 static:notes/432/performance/mutations-r1.json:1 static:tests/test_team_performance_decoder.py:1
 
+## Producer provenance qualification
+
+The producer named by `notes/432/performance/original-r1.json`, SHA256
+`6aaf590227c1cb8bbc2885f99291f811f63cafe1b2bf8f6364829742d59d558b`, was not committed
+in the tracked history. It has not been recovered. r1 is retained unchanged as historical
+output; its source cannot be reproduced/audited from this repository. The statement above
+that its floor-for-truncation mutant passed is a historical report, not independently
+reproducible evidence from a tracked r1 producer.
+
+The operative superseding original comparison is **original-r2.json**. Its producer SHA256
+`24270dfd33ef065b1fee4635d2a464ec744de7045cb32ce5d13426f67034a0e4` matches
+`notes/432/performance/probe.py` at commit `b3e6fe7fd20fa797ded568c025229f306ca0180a`.
+It includes the hybrid-half controls absent from r1. No r1 producer was reconstructed by
+editing r2, and no old receipt was changed. This qualifies the evidence trail without
+changing the supported decoder rule. Review follow-up #573.
+
 ## Alternatives and limits
 
 1. **"Performance" is the panel country's own team at all times, or a mean over the eleven.** It is a sum by role, scaled by 11E1, and it belongs to the match side chosen as above.

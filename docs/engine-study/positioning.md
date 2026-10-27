@@ -148,10 +148,16 @@ require the later experiment design and accepted probes.
 Signed division also matters. At post `(-5,-27)`, depth zero and draw 3, centring subtracts
 `trunc(-5/2)=-2`, giving offset +2 and own-frame target `(-3,-27)`. Direction -1 mirrors it
 to `(3,27)`. Python floor division would give `(2,27)`, an observable one-cell error in a rewrite.
-The script rejects that control, an inclusive-limit control, step-before-target order, and
+The source-derived model compares that alternative, an inclusive-limit example, step-before-target order, and
 symmetric separation of wide duplicate posts.
 
 For a readable rewrite, home post, target offsets and world destination deserve separate
 names. Preserve when each is recomputed, byte stores, signed truncation, random draw branches
 and both-axis mirroring. Those seams make local functions easier to explain; they do not yet
 justify replacing the match architecture or changing tactical behaviour.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

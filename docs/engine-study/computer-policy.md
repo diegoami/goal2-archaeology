@@ -6,7 +6,7 @@ reshaping uses ordered role rules, often selecting the first eligible player.
 
 The [13-routine ledger](../../notes/engine-study/T103/T103c-v2.json) and
 [calculator](../../notes/engine-study/T103/computer.py) contain four worked source projections
-and seven altered-rule controls. No original/port routines, match events or UI keys were
+and seven model consistency examples. No original/port routines, match events or UI keys were
 executed for this study. These interpretations remain proposed pending ES-R2; historical
 F010/F024/F028 and T68/T77 coverage keeps its actual scope.
 
@@ -116,3 +116,9 @@ identity sorting and explicit refresh; a more capable computer manager would be 
 
 With8326 set,65FE jumps past both the normal goal update and C173 at6649→66DF.
 Consequently that mode does not consume the computer-policy draws described above.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

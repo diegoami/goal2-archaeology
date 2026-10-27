@@ -1,0 +1,1559 @@
+{
+  "checks": [
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T101/posts.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: 14 posts, duplicate rules, 6 attack/12 defence limits, 3 worked examples and 4 arithmetic/order controls\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T101a",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T101/check.py",
+        "--task",
+        "T101a",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T101a\",\n  \"scope\": \"T101 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 7,\n  \"manifest_sha256\": \"91f552663a1c2ce11010d57fa2601b704e5c818eb6a6211a0288cf56a357db1e\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T101/marking.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: taker roles, leader/cache arithmetic, strict zone/energy edges, marking sequence and 4 controls\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T101b",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T101/check.py",
+        "--task",
+        "T101b",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T101b\",\n  \"scope\": \"T101 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 8,\n  \"manifest_sha256\": \"a43c9885d783c71b9ad014cd575afcc0c8a274c71363c7f61959a86e6ccc9abe\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T101/movement.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: blocked-step/attribute/exemption/boundary cases, energy/offside/referee edges, 28 census dispositions, 4 controls\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T101c",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T101/check.py",
+        "--task",
+        "T101c",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T101c\",\n  \"scope\": \"T101 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 10,\n  \"manifest_sha256\": \"9078c296a4a27fa3989609ce8d3bf5393b5ea861bba8a70c89eb6a978027f374\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T102/receivers.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: receiver scan/fallback/coin order,role and cross thresholds,CS cross roles,5 altered-rule controls\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T102a",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T102/check.py",
+        "--task",
+        "T102a",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T102a\",\n  \"scope\": \"T102 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 16,\n  \"manifest_sha256\": \"0d865c7b9544b06049a74e364422b9c18d935a7a9331966b11671c41b7820ca6\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T102/flight.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: six launch literals,event/mode tables,shot-tail seed divergence,ball-step boundaries,5 altered-rule controls\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T102b",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T102/check.py",
+        "--task",
+        "T102b",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T102b\",\n  \"scope\": \"T102 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 16,\n  \"manifest_sha256\": \"3126f97a4badc8a000e1f6fad8143dc996eff745775758d86dcdac6ca5d738bf\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T102/resolution.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: contest/finish literals,score rollback/own-goal/receipt,scorer cap,celebration draws,55 dispositions,6 controls\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T102c",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T102/check.py",
+        "--task",
+        "T102c",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T102c\",\n  \"scope\": \"T102 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 23,\n  \"manifest_sha256\": \"4957409151df32892cd127141330cc432973b5b034dddb64678abdca71571ac3\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T103/controls.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: T103a, 12 routines, 4 worked examples, 6 altered-rule controls; source pins match\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T103a",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T103/check.py",
+        "--task",
+        "T103a",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T103a\",\n  \"scope\": \"T103 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 12,\n  \"manifest_sha256\": \"fa2209943713f02cd9d805fc9d213dd545c766286f77fecb600029e2bde39ca4\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T103/lineups.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: T103b, 9 routines, 4 worked examples, 6 altered-rule controls; source pins match\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T103b",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T103/check.py",
+        "--task",
+        "T103b",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T103b\",\n  \"scope\": \"T103 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 9,\n  \"manifest_sha256\": \"611497d6396f8155d5db4c6b4f263827164976a1c64b5dad3ea8d88224b2a476\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T103/computer.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: T103c, 13 routines, 4 worked examples, 7 altered-rule controls; source pins match\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T103c",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T103/check.py",
+        "--task",
+        "T103c",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T103c\",\n  \"scope\": \"T103 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 13,\n  \"manifest_sha256\": \"6269b4a20d6ab32c6052ba3ce90335853c9ce361158014388511ee9e2f1ab7c0\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T104/set_pieces.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: T104a, 26 routines, 4 worked examples, 5 altered-rule controls; source pins match\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T104a",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T104/check.py",
+        "--task",
+        "T104a",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T104a\",\n  \"scope\": \"T104 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 26,\n  \"manifest_sha256\": \"26e3eee578c74b8c0c5c8bf7ca7b0349d2c60ecdf864244f9f4819e580305092\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T104/discipline.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: T104b, 11 routines, 4 worked examples, 5 altered-rule controls; source pins match\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T104b",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T104/check.py",
+        "--task",
+        "T104b",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T104b\",\n  \"scope\": \"T104 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 11,\n  \"manifest_sha256\": \"fea0ca34d6f4d4556ba259bdd9bb43698e33ae7fbeb06edbb4f6387e57d0fed7\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T104/substitutions.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: T104c, 16 routines, 4 worked examples, 6 altered-rule controls; source pins match\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T104c",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T104/check.py",
+        "--task",
+        "T104c",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T104c\",\n  \"scope\": \"T104 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 16,\n  \"manifest_sha256\": \"e0f7ee30bb088b0830ddac1b12d306cad4b36b94282a3b59fdff705b125d6687\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T104/shootouts.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: T104d, 10 routines, 4 worked examples, 8 altered-rule controls; source pins match\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T104d",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T104/check.py",
+        "--task",
+        "T104d",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T104d\",\n  \"scope\": \"T104 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 10,\n  \"manifest_sha256\": \"076cb97d4447166ced4e8db6ff767c2f0fa2f702f3e9c9be02b4203a5d05e6f6\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T104/postmatch.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: T104e, 24 routines, 4 worked examples, 6 altered-rule controls; source pins match\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T104e",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T104/check.py",
+        "--task",
+        "T104e",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T104e\",\n  \"scope\": \"T104 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 24,\n  \"manifest_sha256\": \"e597308602cfaf484e69167f185faca0a9bd4ea865fe27c9fa1caf12737e145d\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T105/design.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: T105a, eight design topics,4 literal examples,7 model comparison annotations; source pins match; no engine execution\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T105a",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T105/check.py",
+        "--task",
+        "T105a",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T105a\",\n  \"scope\": \"Experiment preregistration completeness/provenance; not causal validity or executed readiness.\",\n  \"positive\": \"accepted\",\n  \"topics\": 8,\n  \"manifest_sha256\": \"20f89ee6a7443834480eedd14c76670fabe1e251fa4d579e4a6f6f1b5b22dcae\",\n  \"controls\": {\n    \"missing-topic\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-expectation\": \"rejected\",\n    \"missing-controls\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T105/budget.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: T105b, eight design topics,4 literal examples,8 model comparison annotations; source pins match; no engine execution\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T105b",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T105/check.py",
+        "--task",
+        "T105b",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T105b\",\n  \"scope\": \"Experiment preregistration completeness/provenance; not causal validity or executed readiness.\",\n  \"positive\": \"accepted\",\n  \"topics\": 8,\n  \"manifest_sha256\": \"843b297030a42443102ab4f734733b64951eaab64e7a1e2262e17ef7c149146d\",\n  \"controls\": {\n    \"missing-topic\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-expectation\": \"rejected\",\n    \"missing-controls\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T108/arithmetic.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: four candidates, form/leadership literals,3876 bounded arithmetic pairs, four altered-rule controls\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T108a",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T108/check.py",
+        "--task",
+        "T108a",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T108a\",\n  \"candidates\": 4,\n  \"manifest_sha256\": \"41e3735af73c81667a1a0d6468326750a4a6cf8096f3777fd531c509ba64ea7e\",\n  \"checker_sha256\": \"564910061b72024db715d970b5387e15f93ddcecc59f3faa9d69bc523862f195\",\n  \"positive\": \"accepted\",\n  \"scope\": \"Audit candidate completeness and source integrity, not automatic defect attribution.\",\n  \"controls\": {\n    \"missing-candidate\": \"rejected\",\n    \"missing-evidence\": \"rejected\",\n    \"missing-disposition\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T108/records.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: five candidates,2 legacy IndexErrors,identity/cache checks,source edges/historical8 uncaught,4 controls\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T108b",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T108/check.py",
+        "--task",
+        "T108b",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T108b\",\n  \"candidates\": 5,\n  \"manifest_sha256\": \"907481d93da8612900d4ae2a1e2134a308efac5add1384d79bc1eff97d55dfea\",\n  \"checker_sha256\": \"564910061b72024db715d970b5387e15f93ddcecc59f3faa9d69bc523862f195\",\n  \"positive\": \"accepted\",\n  \"scope\": \"Audit candidate completeness and source integrity, not automatic defect attribution.\",\n  \"controls\": {\n    \"missing-candidate\": \"rejected\",\n    \"missing-evidence\": \"rejected\",\n    \"missing-disposition\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T97/make_transient.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: pitch22, ball12, sprite8 and marker6 byte covers; seven state families; source pins/aliases\n"
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "ES-R2-T97b",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/foundations/check.py",
+        "--task",
+        "T97b",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"task\": \"T97b\",\n  \"manifest_sha256\": \"106d7b645db6e0f1f994c8ad730866d6c9205ce881a1da5d70d2c044062a038c\",\n  \"checker_sha256\": \"22f3bde451f993be947adfb4a06c338b8050f2c02c246bd49ad4f508fcb439fc\",\n  \"results\": {\n    \"positive\": \"accepted\",\n    \"missing-provenance\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-field\": \"rejected\",\n    \"overlapping-field\": \"rejected\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T97/check_snapshot_restores.py",
+        "--ledger",
+        "notes/engine-study/T97/transient-v5.json",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"0CDE\": \"0791:0C65\", \"0CE1\": \"0791:0C65\", \"11BD\": \"0791:112C\", \"11C0\": \"0791:112C\"}\nPASS: inherited wrong-owner control rejected: 11BD: declared 0791:0C65, listing 0791:112C\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/ES-R2/listing_guards.py"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: 25 literal source expectations; 25 altered-instruction controls rejected; no engine calls\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/ES-R2/control_scope.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: 100 legacy model annotations; zero independent source falsifiers inferred from their labels\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/ES-R2/whitespace.py",
+        "--controls"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "PASS: committed milestone range whitespace; generated TSV and immutable raw logs excluded; committed-defect control rejected\n"
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "tools/check_links.py"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "links and JSON ok (9996 files)\n"
+    }
+  ],
+  "coverage": [
+    {
+      "audit_candidates": 0,
+      "examples": 3,
+      "ledger": "notes/engine-study/T101/T101a-v1.json",
+      "legacy_model_annotations": 4,
+      "routines": 7,
+      "task": "T101a"
+    },
+    {
+      "audit_candidates": 0,
+      "examples": 3,
+      "ledger": "notes/engine-study/T101/T101b-v1.json",
+      "legacy_model_annotations": 4,
+      "routines": 8,
+      "task": "T101b"
+    },
+    {
+      "audit_candidates": 0,
+      "examples": 3,
+      "ledger": "notes/engine-study/T101/T101c-v1.json",
+      "legacy_model_annotations": 4,
+      "routines": 10,
+      "task": "T101c"
+    },
+    {
+      "audit_candidates": 0,
+      "examples": 4,
+      "ledger": "notes/engine-study/T102/T102a-v3.json",
+      "legacy_model_annotations": 5,
+      "routines": 16,
+      "task": "T102a"
+    },
+    {
+      "audit_candidates": 0,
+      "examples": 4,
+      "ledger": "notes/engine-study/T102/T102b-v1.json",
+      "legacy_model_annotations": 5,
+      "routines": 16,
+      "task": "T102b"
+    },
+    {
+      "audit_candidates": 0,
+      "examples": 4,
+      "ledger": "notes/engine-study/T102/T102c-v1.json",
+      "legacy_model_annotations": 6,
+      "routines": 23,
+      "task": "T102c"
+    },
+    {
+      "audit_candidates": 0,
+      "examples": 4,
+      "ledger": "notes/engine-study/T103/T103a-v2.json",
+      "legacy_model_annotations": 6,
+      "routines": 12,
+      "task": "T103a"
+    },
+    {
+      "audit_candidates": 0,
+      "examples": 4,
+      "ledger": "notes/engine-study/T103/T103b-v1.json",
+      "legacy_model_annotations": 6,
+      "routines": 9,
+      "task": "T103b"
+    },
+    {
+      "audit_candidates": 0,
+      "examples": 4,
+      "ledger": "notes/engine-study/T103/T103c-v2.json",
+      "legacy_model_annotations": 7,
+      "routines": 13,
+      "task": "T103c"
+    },
+    {
+      "audit_candidates": 0,
+      "examples": 4,
+      "ledger": "notes/engine-study/T104/T104a-v1.json",
+      "legacy_model_annotations": 5,
+      "routines": 26,
+      "task": "T104a"
+    },
+    {
+      "audit_candidates": 0,
+      "examples": 4,
+      "ledger": "notes/engine-study/T104/T104b-v1.json",
+      "legacy_model_annotations": 5,
+      "routines": 11,
+      "task": "T104b"
+    },
+    {
+      "audit_candidates": 0,
+      "examples": 4,
+      "ledger": "notes/engine-study/T104/T104c-v2.json",
+      "legacy_model_annotations": 6,
+      "routines": 16,
+      "task": "T104c"
+    },
+    {
+      "audit_candidates": 0,
+      "examples": 4,
+      "ledger": "notes/engine-study/T104/T104d-v2.json",
+      "legacy_model_annotations": 8,
+      "routines": 10,
+      "task": "T104d"
+    },
+    {
+      "audit_candidates": 0,
+      "examples": 4,
+      "ledger": "notes/engine-study/T104/T104e-v1.json",
+      "legacy_model_annotations": 6,
+      "routines": 24,
+      "task": "T104e"
+    },
+    {
+      "audit_candidates": 0,
+      "examples": 4,
+      "ledger": "notes/engine-study/T105/T105a-v2.json",
+      "legacy_model_annotations": 7,
+      "routines": 0,
+      "task": "T105a"
+    },
+    {
+      "audit_candidates": 0,
+      "examples": 4,
+      "ledger": "notes/engine-study/T105/T105b-v2.json",
+      "legacy_model_annotations": 8,
+      "routines": 0,
+      "task": "T105b"
+    },
+    {
+      "audit_candidates": 4,
+      "examples": 0,
+      "ledger": "notes/engine-study/T108/T108a-v1.json",
+      "legacy_model_annotations": 4,
+      "routines": 0,
+      "task": "T108a"
+    },
+    {
+      "audit_candidates": 5,
+      "examples": 0,
+      "ledger": "notes/engine-study/T108/T108b-v2.json",
+      "legacy_model_annotations": 4,
+      "routines": 0,
+      "task": "T108b"
+    }
+  ],
+  "current_input_sha256": {
+    "docs/engine-study/README.md": "89a512164c542bb766639b7e4c2951c8ea3ac82bb94564efec366cef8c62d6d1",
+    "docs/engine-study/audit-arithmetic.md": "c763335bf3ec33fea9a487d6209696bd7c71a9b211e823beb5976244cffda438",
+    "docs/engine-study/audit-records.md": "9afb5bb35ef049aa52c47503165015be3859ebccd5f7d53fd07315f67ba9a3f1",
+    "docs/engine-study/ball-play.md": "133f8820a61338b008e1a73ade51fac561484e248475ffdf3f1bbd55b5233c90",
+    "docs/engine-study/computer-policy.md": "67f725acc915ad7c813259315b1bfdda4504d947d1ac80b533d0e9d973972548",
+    "docs/engine-study/discipline.md": "73e90f8baeb8453940e7273559a3387983020e23716e05f6bd48617afd3cd3cd",
+    "docs/engine-study/experiment-budget.md": "18404aab5c0649ba22e2cf8072da440d523091e0fd7c759538f2512134cdca04",
+    "docs/engine-study/experiment-design.md": "2bc69cb86e5a686fb978552d6f1c88abe28d476e54fbc23d747696e6820c1423",
+    "docs/engine-study/lifecycle.md": "16d61835c01204085111ac53985937ecb9c92dc396c4e1191fb4025d2fdc0fb1",
+    "docs/engine-study/lineup-policy.md": "e93b0259fa20df85d3440a92d8a8d1b781234d051b01912ec4983848e4482725",
+    "docs/engine-study/marking.md": "ed64e9ecac14aacb46a7a97fbd02e47903242f7efb27e68f60329946ac2bc93a",
+    "docs/engine-study/movement.md": "64888e54bf62eef05cb0c135590924f4acbe1b76648f806317b1b5ed0ef7f0d4",
+    "docs/engine-study/positioning.md": "7888506c8e8ecb98693be390600d2f20b54c9b5a440aff6444cc6f76084f1ceb",
+    "docs/engine-study/possession.md": "1463fc028c179c1574be834b6881efe0b30846f0f6c06f4f2f0eef79744b9f1b",
+    "docs/engine-study/restarts.md": "befa1b67841d7dc779fb99a2ab9a15a836ba5d8bd4b210cc23efce81f41dcbc4",
+    "docs/engine-study/scoring.md": "faaf8d4779b0e2239afa35562bb786362aad9abda57c60361b799055a815f933",
+    "docs/engine-study/shootouts.md": "98661b70f153817a736874c62e922746aa225ce6980aaf95520616a62f5aa2d8",
+    "docs/engine-study/substitutions.md": "0c04cdc025552eb07b1ca16066a150663d23b5b4316d5bc2f61c12a3e48b6bbc",
+    "docs/engine-study/tactics.md": "b6f9d3aa4c05c391358fe83cb4656c87994a9ab057020d5a24c9e4122afd5e89",
+    "experiments/E020-q018-condition-performance/records/contest-001.json": "c55b0c3bc701dfa340d71bb07f0a42d3bf80f5b36ff9c86a6f65ffbfed1dc0e3",
+    "experiments/E036-match-port/families.py": "687f40b817c3c70759fbcae24c0cd246e9acbde447c413c58669d8f1cc5c1a22",
+    "experiments/E036-match-port/families/F40.json": "2d7a29e38b671b0e503092ba0a7522babe9556c8e95288c228c152b67356bbc9",
+    "experiments/E036-match-port/family.py": "8ef109330be7bc59b88f3aad40202de47eef87021b6db9b8f9b4eeebbcdc396e",
+    "experiments/E036-match-port/image_sources.py": "c0630a76971ead26b80631bce26e2843a9b9bd07ed55ab0852255a1d4986c5b6",
+    "experiments/E036-match-port/out/T57/reference.jsonl": "0ed325db5d45718e9d947fe2a1c507f24873c6513f00a4850a40c1c40146db4b",
+    "experiments/E036-match-port/out/T57/rerun.jsonl": "d9e20ccf04b54a24c98491e6a1d258e6089bb6e491887bc788245b538ba30f2f",
+    "experiments/E036-match-port/out/T57/trial-all-20261017.jsonl": "34490f1d744e334d1106fad986737ae68adee483cb2fd14449f8338bb72198d7",
+    "experiments/E036-match-port/out/T68/compare-falsifier-run-direction-4-39891997938.txt": "cfaec86effe966d857abd4d4cbad92e6d835698c8e1a369a52dac5917d83481d",
+    "experiments/E036-match-port/out/T77/all-actions-1-40090586451/all-actions-1.jsonl": "6ce5d83a0c04ef0123bdc84eaa3c7a25578333ca2014194b11de9e90bdeedc3a",
+    "experiments/E036-match-port/out/T77/main-integrated-final-audit-1.json": "de99ffc7d27ed1456e8ea3f6c199565f3a1386fff78c98ee8e45f5e99ea0388e",
+    "experiments/E036-match-port/records.py": "41ca64aeb4e052c6daa07546b847d346fab5e903a13d93ad435b5b3660429ef4",
+    "findings/F002-static-inventory.md": "70b622fb538b5e1823032dfd3eae0ff898f9e08677989b71bca4f863d2e472d1",
+    "findings/F023-the-stage-builders-write-the-competition-calendar-from-ranked-pots-and-a-points-sort-with-no-coin.md": "97b2ad4a34e5d71e3ec3a0358661465b2604ed558b3a2a80485cd0b2a26c1146",
+    "notes/engine-study/ES-R2/control_scope.py": "4eb896fcae820f7738501be0659de8e2695b8ca4718e1d06f9c1d690ccbab42d",
+    "notes/engine-study/ES-R2/listing_guards.py": "eb6d5d8627adfa0b1c8d9c51ff0d5a460355851427aa0a74a3a6ad6997fd4795",
+    "notes/engine-study/ES-R2/verify.py": "eebfcbc0f0b82c5d3701d159306b16f7e53261cdc59ea0e1744027bbd19ff37b",
+    "notes/engine-study/ES-R2/whitespace.py": "477eafcf25fc0b94a46c36de8bc490205ada8843545a99e2d66e2af79a6ec363",
+    "notes/engine-study/T101/T101a-v1.json": "91f552663a1c2ce11010d57fa2601b704e5c818eb6a6211a0288cf56a357db1e",
+    "notes/engine-study/T101/T101b-v1.json": "a43c9885d783c71b9ad014cd575afcc0c8a274c71363c7f61959a86e6ccc9abe",
+    "notes/engine-study/T101/T101c-v1.json": "9078c296a4a27fa3989609ce8d3bf5393b5ea861bba8a70c89eb6a978027f374",
+    "notes/engine-study/T101/check.py": "fea75987cdb55e295c2374e28bc71d2bcccc2ee24c0e73b702c4b19b8c2e70c9",
+    "notes/engine-study/T101/marking.py": "1eb4daf5f47c8c30a44eaae225f5a5c29eafbe3d158c34fbf8bb78cccb1f792c",
+    "notes/engine-study/T101/movement.py": "2660a0183acb337f9269994d656c3555f8891c2442393d9e87ed330ea064eb20",
+    "notes/engine-study/T101/posts.py": "10e3198058df121ff1d651ce0a31dc81f006e98bab2892c640ce91d316a9893c",
+    "notes/engine-study/T102/T102a-v3.json": "0d865c7b9544b06049a74e364422b9c18d935a7a9331966b11671c41b7820ca6",
+    "notes/engine-study/T102/T102b-v1.json": "3126f97a4badc8a000e1f6fad8143dc996eff745775758d86dcdac6ca5d738bf",
+    "notes/engine-study/T102/T102c-v1.json": "4957409151df32892cd127141330cc432973b5b034dddb64678abdca71571ac3",
+    "notes/engine-study/T102/check.py": "9ad6ec0734a28a13f0e829b3d70222f5b9f816b579f2c6b74654f993f6c45a8e",
+    "notes/engine-study/T102/flight.py": "f87c5a4b98184a9661306cb26417e7811b161e171c8e5a5fd7349c4b29849e67",
+    "notes/engine-study/T102/launch-helper-v1.md": "d91de092b7280e3a5f1c8fbb6d617ec8bc7e940d8d257913b9672407ec993035",
+    "notes/engine-study/T102/receivers.py": "15a9f1ecf3a9d0cf9ad732d5ce25a700741e83aa046256f6e84b74643fcd406e",
+    "notes/engine-study/T102/resolution.py": "a644f2bee8dc4d198c59d7abc956d8c5c490e74d2caa1cd4aac26556c1ae2947",
+    "notes/engine-study/T103/T103a-v2.json": "fa2209943713f02cd9d805fc9d213dd545c766286f77fecb600029e2bde39ca4",
+    "notes/engine-study/T103/T103b-v1.json": "611497d6396f8155d5db4c6b4f263827164976a1c64b5dad3ea8d88224b2a476",
+    "notes/engine-study/T103/T103c-v2.json": "6269b4a20d6ab32c6052ba3ce90335853c9ce361158014388511ee9e2f1ab7c0",
+    "notes/engine-study/T103/check.py": "800ef5306a8ca39d9779221050bb463af90ab96234725cb09baecf698e2ee9ff",
+    "notes/engine-study/T103/common.py": "0152ed013ffcbf85e4f54e7821cb531403139a638d8a7d5e7a66b602ccc22717",
+    "notes/engine-study/T103/computer.py": "d23296ec1fa8e042e3cdcf1de61ed5fb62523b2bac4b29926e188d8184050eba",
+    "notes/engine-study/T103/controls.py": "9f3f352475c5c55c09602ff9076b30a5530c049484d25a3674239921575c7520",
+    "notes/engine-study/T103/lineups.py": "0a1b4c5171acaf9b0ccaa05b1f0d79a0175703ad220bb1684e06d7294a930d2a",
+    "notes/engine-study/T104/T104a-v1.json": "26e3eee578c74b8c0c5c8bf7ca7b0349d2c60ecdf864244f9f4819e580305092",
+    "notes/engine-study/T104/T104b-v1.json": "fea0ca34d6f4d4556ba259bdd9bb43698e33ae7fbeb06edbb4f6387e57d0fed7",
+    "notes/engine-study/T104/T104c-v2.json": "e0f7ee30bb088b0830ddac1b12d306cad4b36b94282a3b59fdff705b125d6687",
+    "notes/engine-study/T104/T104d-v2.json": "076cb97d4447166ced4e8db6ff767c2f0fa2f702f3e9c9be02b4203a5d05e6f6",
+    "notes/engine-study/T104/T104e-v1.json": "e597308602cfaf484e69167f185faca0a9bd4ea865fe27c9fa1caf12737e145d",
+    "notes/engine-study/T104/check.py": "150a195181dd78f6ad2c150531e3e0f83dddeea5933faa59a40722cf38a87218",
+    "notes/engine-study/T104/common.py": "7b268370b2f3d1503e4a773558e2f6747f8f51008891c8dea2bc791ccdabe01e",
+    "notes/engine-study/T104/discipline.py": "2e1e082b1e03a29251f7f0c5141a6e14c73a918c69c1d50b5e29b131c1b30a73",
+    "notes/engine-study/T104/postmatch.py": "9ffea2d8994206f20747167f7ed701d6728dfcb4ff4ca8354b892fb603ddbfaf",
+    "notes/engine-study/T104/set_pieces.py": "a85a7d5585ae2308e8c352dfa3a6bae96e78b11bb541b46ab276e5f3adbda2b2",
+    "notes/engine-study/T104/shootouts.py": "e60d9b4123d746e26a0410328bb71f25b02a868c0ee1a3922a9455a9bad9af1a",
+    "notes/engine-study/T104/substitutions.py": "d74adb565e651b5a2441cbefbed98b6c558606b79218e24b457868fe7f3f7700",
+    "notes/engine-study/T105/T105a-v2.json": "20f89ee6a7443834480eedd14c76670fabe1e251fa4d579e4a6f6f1b5b22dcae",
+    "notes/engine-study/T105/T105b-v2.json": "843b297030a42443102ab4f734733b64951eaab64e7a1e2262e17ef7c149146d",
+    "notes/engine-study/T105/budget.py": "b0747c4b04f8d16acdbe14a8998d2fa4fe41ac0be7ac33f92007f248830d4b58",
+    "notes/engine-study/T105/check.py": "045320b90e51c27725d0974f08d5f953232d90770b8c73b519dc52d6bbdb9c39",
+    "notes/engine-study/T105/common.py": "aac23aab5bc42c9b20653f63f14aa298744d2d12afeb808f0effa914bb1592b1",
+    "notes/engine-study/T105/design.py": "09713dc7ae74f46f497414038541a79e7c7be314cedb94f3e3dbe91c23c6a678",
+    "notes/engine-study/T108/T108a-v1.json": "41e3735af73c81667a1a0d6468326750a4a6cf8096f3777fd531c509ba64ea7e",
+    "notes/engine-study/T108/T108b-v2.json": "907481d93da8612900d4ae2a1e2134a308efac5add1384d79bc1eff97d55dfea",
+    "notes/engine-study/T108/arithmetic.py": "164c3fa81d0ef6a067eea3fe0e5e3ea6f4e657d5124cb15d152a8d8a2e13a3a9",
+    "notes/engine-study/T108/check.py": "564910061b72024db715d970b5387e15f93ddcecc59f3faa9d69bc523862f195",
+    "notes/engine-study/T108/historical-issues-v1.json": "efbb8761bbcb4a7d4efa55dd88409fac96fb02f3268b4111bcd1deb48e04e5e4",
+    "notes/engine-study/T108/records.py": "a1a93c854e1e8ea73db8d5da26abaafe2cc196636055f1de5c23ae5e4b966c4b",
+    "notes/engine-study/T95/census-08beac2e-v1.json": "e0f0938e2a21bdb7920e51eb958b73fad152b11b668de91f5a4eb8e57508a95c",
+    "notes/engine-study/T97/transient-v5.json": "106d7b645db6e0f1f994c8ad730866d6c9205ce881a1da5d70d2c044062a038c",
+    "notes/engine-study/T98/skill-v1.json": "b1956bd879fe347bffaef68453021ec98d644608f6847d9cdbff68a7d4cd52e5",
+    "notes/engine-study/T98/skill.py": "969f475209d777a798dd2c634b188405cade97f24e260daafac6bc24d734f936",
+    "notes/engine-study/T98/strength-v1.json": "3af8f59f7645409f9d91bdc2b48d17f9412fb99bc4c82b5c4d75807211d026d5",
+    "notes/engine-study/T98/strength.py": "86a7fdbec15723a063b957affad294670dc35ab381fa70f74a37ea4144eccf9f",
+    "notes/engine-study/T98/tables.py": "f5e0836d57f8816943f2b2648818cb3a6175060b834f827dff64f27d535215fb",
+    "notes/engine-study/T98/validation-scope-v1.json": "874eaa766f8c1a89e317fe33a46a45ec7488b29dc041234b4ab23e8dfdf3d3b1",
+    "notes/engine-study/T98/window-repro-v1.json": "bfbfd8bd885bfbe3fdc5771c46122db49956a1a6a039a47b7a29e3c7e632357f",
+    "notes/engine-study/T99/contests-v2.json": "5e340dd6a70273a2d804c05f2ba85c32f5170fdca8df5d4f2635abe097580c94",
+    "runtime/model/keeping.py": "e485fec0f6faedeadda37f92791992bf10848500370dc324b089fe9b57e04a90",
+    "runtime/original_match/assets.py": "fb5da2f045c06e3a54d5fe162a89947969d547b3d0dca4d8ed716ea380250685",
+    "runtime/original_match/image.py": "0b6c8a98c0d4fabdfe63be52561dd2afc56a4f0a8238e8ccc06dfd33e78e35a9",
+    "runtime/original_match/match.py": "f48af24c40e571be10c31b21e5551c47d26af3624c71bf97cd7348c9a64e9885",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "runtime/original_match/port/ball.py": "6b5f17ee9af3bf7dbb2bae4bd5ae00e1a012f6d6cf6e6e3c2cdd8464a7e2c72a",
+    "runtime/original_match/port/contests.py": "b4db099959a09a1dcb78f031e9a44dc64624a5ffd8ea7b0be3441298bb0ec40e",
+    "runtime/original_match/port/discipline.py": "a8ee74a7336ebd3d8c85ee71cbb6a089fca45fc0c05ee3efec866d798649fdcd",
+    "runtime/original_match/port/display.py": "33b298ead7c58815b9463a39f14e0ba862c81a3af02d53cd5f6184b0f4d8da5e",
+    "runtime/original_match/port/duels.py": "37fe8ea7dec6c3aff8c80d26367d3225460af037a839912e98b4e6217dd739b6",
+    "runtime/original_match/port/frame.py": "d4c0cd4753038d6058f8359818164ce8cd0be775191fc8338f9a7ec9849b3a6a",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "runtime/original_match/port/menus.py": "ea87406a9f0300d0d54c3f71d664a8ed2925505fb133b59a481e8fc5f098f053",
+    "runtime/original_match/port/motion.py": "4e7bab13c1e196464ecb41fd2ddb3a41878c217885c238fd2e80cd8329746eb2",
+    "runtime/original_match/port/pilot.py": "700a8bf56db7adcccd6d011b0e26d0a06599c24fbc451e44fee033b8e56e0863",
+    "runtime/original_match/port/positioning.py": "6a8feb436f745149a010db472a1aed04569d897875cd966eb434a6170b7f839e",
+    "runtime/original_match/port/postmatch.py": "32035e9d055055cc29ba6dedbb38ceda3ac18ea6cc5d2a40605450086f41f86e",
+    "runtime/original_match/port/rare.py": "588b6fc3430a0e674664d9bf8f165bdf31779f240ac783f0490e5f4c5be1d66e",
+    "runtime/original_match/port/restarts.py": "c378834575a59d89f31fea8f9ee5ffca7daaf98754a36e848164bb819ad87977",
+    "runtime/original_match/port/selection.py": "4a2ac1e0868d44f0e58dfcf31b1df1c3f1171edf4a511d4695e73fb7ee9ef382",
+    "runtime/original_match/port/setup.py": "0f703063621cd8a96d9ac0acde56da89754aa885a3d94d9333991a115e8185e2",
+    "runtime/original_match/port/takers.py": "fcd182d4543af18a0def9e16773cd317939fd0ca37559f941b499bf9ab40d7b8",
+    "runtime/original_match/port/update.py": "0a4b3f58a48aec4fc69a229410e566af2144cc9e7153cbfd604da1557deb36b2",
+    "static/goal-exe/calls.tsv": "8d76bfed99345b295745720e12f757daceb4e68abceeb0e4581da2fdbe6ba18c",
+    "static/goal-exe/code/seg_000E_08.asm": "575756052161e6080bb84da707cf47cd2cb1b6d3e7f16840fea57b50689df066",
+    "static/goal-exe/code/seg_000E_09.asm": "6a84b76616379d6307b1cd26a822b60b90cdeb05ec7f93ddf37e1df7151a74dd",
+    "static/goal-exe/code/seg_0791_01.asm": "a785c7efdfb54bab19ca5b3eea73a19548a61a46512f79c653559e1cba080688",
+    "static/goal-exe/code/seg_0791_02.asm": "57849ee0856cb014c748370434588b99cd5151ce14d785a125c3a4350e04eb8b",
+    "static/goal-exe/code/seg_0791_03.asm": "960a08fdcaa6f4115a4702c48a454b097fe0194db91c76ea5a4a9818bbfca0a3",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_0791_05.asm": "0635bc395cd69ffe2c77ead9aaaf786f36eedeee5496daae8f43127ce4aed474",
+    "static/goal-exe/code/seg_0791_06.asm": "b7debdb96455259d2dca1e10096d42fb6ae843b79105eda4c5e7b7cf7b34ceb6",
+    "static/goal-exe/code/seg_0791_07.asm": "1cee0aa8db2d9e0be1e885f1f535eca11f450cbee9421366182528e540d94804",
+    "static/goal-exe/code/seg_0791_08.asm": "6932ef5507b1fa923e7fcec51e4abb0c091d413571c80d0d3798cb1382119acd",
+    "static/goal-exe/code/seg_0791_09.asm": "1236aa3fcb2d30080e22d9a4bee4398c52d09fc3010e133bc124e318f7e89ac0",
+    "static/goal-exe/code/seg_0791_10.asm": "dabf426d52c0c137574a07b97044e43868ebe0e0e49b4b7367be05e98842c88c",
+    "static/goal-exe/code/seg_0791_11.asm": "a5aebf13faf14469141d8edb9a0878b0a56b7267451694622801732f522603ec",
+    "static/goal-exe/code/seg_0791_12.asm": "51e9bb66b774cb145dea8d8986ee4dbcb3c6b74b1a79e47808fe28909916b108",
+    "static/goal-exe/code/seg_0791_13.asm": "e5d4454db0deeb4b617cb1ff626b8ca505bb1b61b970b4c8e5952385481a8025",
+    "static/goal-exe/code/seg_0791_14.asm": "032e2d6f22d6db5981e2a11f43298924a53e15d080e1d73d1fb375ddbe400abd",
+    "static/goal-exe/code/seg_0791_15.asm": "39083ebcc1fba0fc0c377bd9656189ceb0e0a328d0940583c774e910967e1abf",
+    "static/goal-exe/code/seg_0791_16.asm": "970a6ea902b38abd5e437aed568fc1833caf6bac00e25194be1f3f39504ea4e1",
+    "static/goal-exe/code/seg_0791_17.asm": "e8ca718382b8b72b2a9d1ede8d24bf6bf0bf2e899b3cc70d91a5435d076f6c44",
+    "static/goal-exe/code/seg_0791_18.asm": "e19061df86a89389539ddc48b0497b1f04742062851deca434838b600387d397",
+    "static/goal-exe/code/seg_0791_19.asm": "9a67e02197e7b3796be1cf653ed6ffff35a9939cbe0044dee57f639971063ed8",
+    "static/goal-exe/code/seg_0791_20.asm": "9ed1e3aa1aca8370004fc286911f2cf55003c084f03f95f8e39b56bf438361f9",
+    "static/goal-exe/code/seg_0791_21.asm": "c0a1f37f3b6b13092012d3007a333b27c1a2194eeccd2eba5637b291be3b3358",
+    "static/goal-exe/code/seg_0791_22.asm": "a914346b919764a8232d3a9f7979d5193a20bce6a8829e48d9b74fb9b806464b",
+    "static/goal-exe/code/seg_0791_23.asm": "49e12bb8534566ad1e6b4b22e2f088ce483d4518f8d2b8cf28fefb3c7f9b9cde",
+    "static/goal-exe/code/seg_1771_02.asm": "22d7089c0f0bc9b7dcb78d51531e127ec9e13db7c8c5d5627aca26b0103a21ec",
+    "static/goal-exe/code/seg_1771_03.asm": "3061f1a54d1ab95422f7c76708f2a1951e5a41eb4eee8a5e074b579caf94ac27",
+    "static/goal-exe/code/seg_1771_04.asm": "ef700ca62bccac8a0f61e53f34325483c850f1ba16202ad42a7bb64c29721643",
+    "static/goal-exe/code/seg_1771_05.asm": "4a856a9af9dee3d93fe6e6275ead612d2d3ba4c81363389c68fa5424ca8483d9",
+    "static/goal-exe/code/seg_1771_06.asm": "2daf9c18c61eec2d0ef54c5d5480619274020f18124f26b685b7a41a0e19e820",
+    "static/goal-exe/code/seg_1771_07.asm": "e943fc49b22bc84c0fc8713195182361a989da17106912ef01312611af04ecf5",
+    "static/goal-exe/code/seg_1771_08.asm": "095098013452e8206c929eb558f8e96fab7483d63e2911924601ac1eaefa8bb4",
+    "static/goal-exe/code/seg_1771_12.asm": "94e9f817c8415a94d81e51695c8afe66fb6533268488e160fed1c363268ac892",
+    "static/goal-exe/code/seg_214B_01.asm": "ed15ac0ba645c502a0c113cf3cfef4e9c7636c1bef800fcd3432993586d14bad",
+    "static/goal-exe/code/seg_23E4_01.asm": "20ea1cbc0edfab300b506228d0b05a9627e95586604692235b655bc2b9d9fb07",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_000E_05.c": "1d8d433efe82c172f1223f9f139e140da465e2ee2b6adee53d0af91d7625aa4d",
+    "static/goal-exe/named/seg_0791_01.c": "d8a020bf4ff10098b2b5f0b9ea2a61085f46c500cd7f6b929bdf8f0bf8f3ce37",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_03.c": "c49d73137a03e70e2f02b8b54dfe04d8805239f55fc80a99d23a6943354e5800",
+    "static/goal-exe/named/seg_0791_04.c": "0118b26c212562f1eaecefe22850166c2e2b7755952a09abad00a5b42fbf8325",
+    "static/goal-exe/named/seg_0791_05.c": "b0871f197621d5abfd3b4db00ec3eca42c9eea6cb45626651842147b4d8ce228",
+    "static/goal-exe/named/seg_0791_06.c": "1c03cc01069ce4f4eedb386688654af7c3a3900eeb3470971111b2caa3bbe945",
+    "static/goal-exe/named/seg_0791_07.c": "f8be0e2879e8a4bc18eb228dcca17ae91cf318c8b6f8b4b4ac94baa67ac2ad85",
+    "static/goal-exe/named/seg_0791_08.c": "130e91927a5bb2fed2adb998225fc88091816752051eee90ae004e30fcfecc96",
+    "static/goal-exe/named/seg_0791_09.c": "71a912e2c5564f75078a0db0220c5388a74ec168783371a63c74cdddae22275f",
+    "static/goal-exe/named/seg_0791_10.c": "307274e4e5007f1e809b5b54708a686d106a61d77848ddc6967c9fb0fd88e52f",
+    "static/goal-exe/named/seg_0791_11.c": "6e51b68715ebeca24e6616c99258668b5df0bb927e5e133105e04af66fee650e",
+    "static/goal-exe/named/seg_0791_12.c": "6484f6f6014e480e1cfecb34ff96b7032da39aa5b9338a133e9c596ab7964e8c",
+    "static/goal-exe/named/seg_0791_13.c": "4fe6fb41281082fba52ebdc61c6ba147de1dff5bf3ee94fe0bf1314e33878d21",
+    "static/goal-exe/named/seg_1771_01.c": "1a5b353b534973427d6dcaf639cd454641a3f3e17b3cf88aac2d493439789517",
+    "static/goal-exe/named/seg_1771_02.c": "c7e60651ef10c35c018cf97ac3062bf7d8fa66fd155da9f65160e4d16fc85455",
+    "static/goal-exe/named/seg_1771_03.c": "9c51e37d30f7d69e51b2d776c0b704d7f87852cd10d47fa4d679880d13f4d2f4",
+    "static/goal-exe/named/seg_1771_04.c": "6a067b79adaf6f9d2239d247c68a5fd3389b8c6afdc1d20b991bd3bb91a24965",
+    "static/goal-exe/named/seg_1771_06.c": "2724ab4bb08efd659e44a4f583e1f5b23235e8b58599650e7c1e157038756f28",
+    "static/goal-exe/named/seg_214B_01.c": "b49ca1bb9367f8bad97a41a4cbd2f5646d7653de9d9acb9d16a28c7ac1331c53",
+    "tests/test_port_ball.py": "57b95a5d021e036ec4b9f256f248e9e7ab5a5e9f06734fc06e663be82c6e3278",
+    "tests/test_port_restarts.py": "39a5188c3c53ed73afb5e63411fc837fcd71281235f55910e82981d842f5f2bb"
+  },
+  "declared_intervening_runtime_base": "23acf29387b16b649651c25570bf8a7f32a1d8be",
+  "declared_intervening_runtime_sha256": {
+    "runtime/original_match/README.md": "f359c0525ddb8b11812f1fa1d663b2c87acca4da9d14b8941f86d57dfca462ec",
+    "runtime/original_match/port/__init__.py": "755c1d44d453854d04733ea1678ad588b23c45152d84336168c8342f9bc760e6",
+    "runtime/original_match/port/engine.py": "5b82528f92309934a7b2010f404bd5787cb13ea08a32463c8fd3b6679e9c48a3",
+    "runtime/original_match/port/entrypoints.py": "4f566e13bc648642056cf169db616f3bee57d2d2801945f39ee6b93f1af08c09"
+  },
+  "execution_head": "cd9947676b115a3103b7e84eacca536c722c129c",
+  "immutable_previous_outputs": [
+    {
+      "first_commit": "4f83789ba19e37f09c48b054012a2e7423574845",
+      "path": "notes/engine-study/ES-R2/link-preflight-failure-v1.json",
+      "sha256": "dc75e3499045cbb76e2fa0c29c3728c0dbe5b0852d15042f719029b3962b1258"
+    },
+    {
+      "first_commit": "4f83789ba19e37f09c48b054012a2e7423574845",
+      "path": "notes/engine-study/ES-R2/receipt-refusal-v1.json",
+      "sha256": "f6e59f0ff3ce047802acdec3ab82eb78a49f7f5fc1550c3ae5466ee2314ddbaf"
+    },
+    {
+      "first_commit": "ae3166809a499f3692701aa0594b2e56904240ee",
+      "path": "notes/engine-study/ES-R2/rework-566-v1.json",
+      "sha256": "4df815ca35fc4fffb9cf902903f90479ca18ee4ae2b61f793ecd04acd8b55a31"
+    },
+    {
+      "first_commit": "724521a0ac8842d4b87d82d2b6c1087e648bcdc8",
+      "path": "notes/engine-study/ES-R2/rework-567-574-v1.json",
+      "sha256": "debb1c95af5f234e00e4fa102a6c36492d82d4b0e2ba54d7924bec27ef715a4e"
+    },
+    {
+      "first_commit": "c4eef13eb4e58fa929a94adea5947770bed530b6",
+      "path": "notes/engine-study/ES-R2/rework-569-570-571-v1.json",
+      "sha256": "3bbb60de2907fe71ab7325bb4ef85c29e9987f916f28fcec425d4b795b404ecc"
+    },
+    {
+      "first_commit": "4f83789ba19e37f09c48b054012a2e7423574845",
+      "path": "notes/engine-study/ES-R2/source-checks-v1.json",
+      "sha256": "ba41689ad843e5b20c2ff92b24d6cfe32726b9786531aa01b06b0398d396fcf7"
+    },
+    {
+      "first_commit": "5ae747e9b3de0f1926a3b9e379cab23280c43d41",
+      "path": "notes/engine-study/T100/flow-controls-v1.json",
+      "sha256": "d3afe7591f2197fc0ed89443fb38fe9d4415c4e4a40c1025e97d54dfafbbd721"
+    },
+    {
+      "first_commit": "a6dab1116cc9f7cf87219e4666e51e5fce5fd803",
+      "path": "notes/engine-study/T100/flow-controls-v2.json",
+      "sha256": "ae1d261230dadac3452ed703f5cf3a7b546caa18ed2195abea69f764f8fbc02d"
+    },
+    {
+      "first_commit": "a6dab1116cc9f7cf87219e4666e51e5fce5fd803",
+      "path": "notes/engine-study/T100/flow-v2.json",
+      "sha256": "ed82085cd5bca97015505acba8c1220f19f567392876df456c87c8e77c3689fc"
+    },
+    {
+      "first_commit": "5ae747e9b3de0f1926a3b9e379cab23280c43d41",
+      "path": "notes/engine-study/T100/flow.json",
+      "sha256": "6acee91999d79af9113004605a7dc55c18691bb3f32c07bf04885f6d52f3a61d"
+    },
+    {
+      "first_commit": "d36789f65c48b35939113936c9cae1b3828cedb0",
+      "path": "notes/engine-study/T100/foundation-validation-v1.json",
+      "sha256": "1bcd85bd5e57a6e0e85ac1bd63be0a0ab1da2e5fead7e384d5d1a95ebec63787"
+    },
+    {
+      "first_commit": "d36789f65c48b35939113936c9cae1b3828cedb0",
+      "path": "notes/engine-study/T100/foundation-validation-v1.txt",
+      "sha256": "a370189867add8be10a7590d693b1787481973f5bf48f7e443911a64c62673ea"
+    },
+    {
+      "first_commit": "f4eac6a288693620f37856f9b522ae3d3fb24816",
+      "path": "notes/engine-study/T100/foundation-validation-v2.json",
+      "sha256": "bb92cf970c4783b198c4adb5d8632e80bafe7cfa2efbfba500ed12efa6a9521b"
+    },
+    {
+      "first_commit": "f4eac6a288693620f37856f9b522ae3d3fb24816",
+      "path": "notes/engine-study/T100/foundation-validation-v2.txt",
+      "sha256": "980019e00032e1959395a640014fd9165c6d54d6818437ada48639d011bdceb6"
+    },
+    {
+      "first_commit": "5db5054b3f3b797246a42e67859f934bbe7d0bb6",
+      "path": "notes/engine-study/T101/T101a-controls-v1.json",
+      "sha256": "5245db3d7bd0047dff11af9ff52955843ae828cdcef5aae8ebc2c7c35eef22c0"
+    },
+    {
+      "first_commit": "5db5054b3f3b797246a42e67859f934bbe7d0bb6",
+      "path": "notes/engine-study/T101/T101a-v1.json",
+      "sha256": "91f552663a1c2ce11010d57fa2601b704e5c818eb6a6211a0288cf56a357db1e"
+    },
+    {
+      "first_commit": "5db5054b3f3b797246a42e67859f934bbe7d0bb6",
+      "path": "notes/engine-study/T101/T101a-validation-v1.json",
+      "sha256": "5fddd263789f99a3e4eac120c7494057c73e6a63709a897fe088a31c3069e8e9"
+    },
+    {
+      "first_commit": "59dde8ab9e41a4cf2839d3aad2c861f0be8f4ee7",
+      "path": "notes/engine-study/T101/T101b-controls-v1.json",
+      "sha256": "226506c79b4f4c7d4255d7d9dfedd7653e7bc9417f54d48dfb99f129e66fb861"
+    },
+    {
+      "first_commit": "59dde8ab9e41a4cf2839d3aad2c861f0be8f4ee7",
+      "path": "notes/engine-study/T101/T101b-v1.json",
+      "sha256": "a43c9885d783c71b9ad014cd575afcc0c8a274c71363c7f61959a86e6ccc9abe"
+    },
+    {
+      "first_commit": "59dde8ab9e41a4cf2839d3aad2c861f0be8f4ee7",
+      "path": "notes/engine-study/T101/T101b-validation-v1.json",
+      "sha256": "b4bce5df8334e38c903ab5a0abdaaf1c66a147649e2ef18502f3f76bc5898a2c"
+    },
+    {
+      "first_commit": "36e14c0446aa59866670b7987e2ad932f99d6d06",
+      "path": "notes/engine-study/T101/T101c-controls-v1.json",
+      "sha256": "895833c29cef6083b8faead514d641998f745667ab32b41e0a193d8f52e0ef83"
+    },
+    {
+      "first_commit": "36e14c0446aa59866670b7987e2ad932f99d6d06",
+      "path": "notes/engine-study/T101/T101c-v1.json",
+      "sha256": "9078c296a4a27fa3989609ce8d3bf5393b5ea861bba8a70c89eb6a978027f374"
+    },
+    {
+      "first_commit": "36e14c0446aa59866670b7987e2ad932f99d6d06",
+      "path": "notes/engine-study/T101/T101c-validation-v1.json",
+      "sha256": "7fdaf84cb58f09aa8a81d14a9e8c235e310195b9dd4ed94ab23910f4852f30a6"
+    },
+    {
+      "first_commit": "a65985dd831453ccd9f556eb80bcf4fab6050ee5",
+      "path": "notes/engine-study/T101/readiness-v1.json",
+      "sha256": "828069fa319901a910d94822b88f1eced94cc8d12bca7f3cb15a26909bc56898"
+    },
+    {
+      "first_commit": "039bb7d18908df998935b4b905e0a4c17efa11c4",
+      "path": "notes/engine-study/T102/T102a-controls-v1.json",
+      "sha256": "1d61c4861acf5c5607aab81b2b770204c8b8cafae13827b20999c65c9ff0c02e"
+    },
+    {
+      "first_commit": "f5d3161a2bdab82eb778c8b8889dbdd4d943c490",
+      "path": "notes/engine-study/T102/T102a-controls-v2.json",
+      "sha256": "070fda3659dd4773dcdc8350dcab3dc12d463a13b0f4db488160d17cd99ff00c"
+    },
+    {
+      "first_commit": "ae3166809a499f3692701aa0594b2e56904240ee",
+      "path": "notes/engine-study/T102/T102a-controls-v3.json",
+      "sha256": "929f1a659dc20d185a98b37f62f8f7b7867cbd779ff641c6b9be098edc4ebe00"
+    },
+    {
+      "first_commit": "039bb7d18908df998935b4b905e0a4c17efa11c4",
+      "path": "notes/engine-study/T102/T102a-v1.json",
+      "sha256": "7b82420ce22ec61235420874147b67e055f7d89e038d7e9d845b9618436e72db"
+    },
+    {
+      "first_commit": "f5d3161a2bdab82eb778c8b8889dbdd4d943c490",
+      "path": "notes/engine-study/T102/T102a-v2.json",
+      "sha256": "fff3cfc5699bcbf2e8dfaa52bcb077ce8f579eed6b5c76b8bf7acff9969ee1b4"
+    },
+    {
+      "first_commit": "ae3166809a499f3692701aa0594b2e56904240ee",
+      "path": "notes/engine-study/T102/T102a-v3.json",
+      "sha256": "0d865c7b9544b06049a74e364422b9c18d935a7a9331966b11671c41b7820ca6"
+    },
+    {
+      "first_commit": "f5d3161a2bdab82eb778c8b8889dbdd4d943c490",
+      "path": "notes/engine-study/T102/T102a-validation-v2.json",
+      "sha256": "d0d00a09c03851a605e6d77e941f5662aae6cf0c1552e3d1c2454cfc53a6a83d"
+    },
+    {
+      "first_commit": "9feeb7311fc196a0a31a6fe05a33f74f961a60ca",
+      "path": "notes/engine-study/T102/T102b-controls-v1.json",
+      "sha256": "f6b00fe1d1bde3e55977f89345dc72890c99dffeab8d4e3fbd8b7a1a5526adaa"
+    },
+    {
+      "first_commit": "9feeb7311fc196a0a31a6fe05a33f74f961a60ca",
+      "path": "notes/engine-study/T102/T102b-v1.json",
+      "sha256": "3126f97a4badc8a000e1f6fad8143dc996eff745775758d86dcdac6ca5d738bf"
+    },
+    {
+      "first_commit": "9feeb7311fc196a0a31a6fe05a33f74f961a60ca",
+      "path": "notes/engine-study/T102/T102b-validation-v1.json",
+      "sha256": "b0316a9dbbecd09eb91968b252c8e8784429f19469fd196713b876b8f4f4c02b"
+    },
+    {
+      "first_commit": "0f18c241cac96023873338891897d2241e430d0a",
+      "path": "notes/engine-study/T102/T102c-controls-v1.json",
+      "sha256": "f378bdb14f631eca252e6e820274cd4b361b970216234a8f0e2ba83b6ba88c27"
+    },
+    {
+      "first_commit": "0f18c241cac96023873338891897d2241e430d0a",
+      "path": "notes/engine-study/T102/T102c-v1.json",
+      "sha256": "4957409151df32892cd127141330cc432973b5b034dddb64678abdca71571ac3"
+    },
+    {
+      "first_commit": "0f18c241cac96023873338891897d2241e430d0a",
+      "path": "notes/engine-study/T102/T102c-validation-v1.json",
+      "sha256": "32b891245e9d9e090d452ddead88f156508e1a48e112e5d32dbbdfe733acdd0a"
+    },
+    {
+      "first_commit": "4306962e86b9e545a242f46d0756b99d52a207cc",
+      "path": "notes/engine-study/T102/readiness-v1.json",
+      "sha256": "da1f0ad564eeabedc80bf06d03c7e78f73819855f64cc9bbb606834a40b0efcf"
+    },
+    {
+      "first_commit": "3d0631a4903c752f9f38a315fac56b4fab3fe6ea",
+      "path": "notes/engine-study/T103/T103a-controls-v1.json",
+      "sha256": "c8fe21ed1b80a61bf0c8e4c740e30ca4becf875a7ba502a9b6da772f97d407b2"
+    },
+    {
+      "first_commit": "3d0631a4903c752f9f38a315fac56b4fab3fe6ea",
+      "path": "notes/engine-study/T103/T103a-v1.json",
+      "sha256": "cec36b54fd00e63da8f58328a27334588ec1f30d881a161ff31db6f5083812bd"
+    },
+    {
+      "first_commit": "724521a0ac8842d4b87d82d2b6c1087e648bcdc8",
+      "path": "notes/engine-study/T103/T103a-v2.json",
+      "sha256": "fa2209943713f02cd9d805fc9d213dd545c766286f77fecb600029e2bde39ca4"
+    },
+    {
+      "first_commit": "3d0631a4903c752f9f38a315fac56b4fab3fe6ea",
+      "path": "notes/engine-study/T103/T103a-validation-v1.json",
+      "sha256": "2beb40d699bd5201c4bc2e5f3a03c0901b454fc31969741f5b88c4891c933959"
+    },
+    {
+      "first_commit": "f06bec3b4dd80d2fa40349c01824d051b3cdc255",
+      "path": "notes/engine-study/T103/T103b-controls-v1.json",
+      "sha256": "e2cea4ecdc7937ee1abae7a40c94e88295698c0335007655e27cd6e666c0b8e2"
+    },
+    {
+      "first_commit": "f06bec3b4dd80d2fa40349c01824d051b3cdc255",
+      "path": "notes/engine-study/T103/T103b-v1.json",
+      "sha256": "611497d6396f8155d5db4c6b4f263827164976a1c64b5dad3ea8d88224b2a476"
+    },
+    {
+      "first_commit": "f06bec3b4dd80d2fa40349c01824d051b3cdc255",
+      "path": "notes/engine-study/T103/T103b-validation-v1.json",
+      "sha256": "be97d55c20bd0b381291d2b1d14a5592182914c39218bce9f0d8148a272a56f4"
+    },
+    {
+      "first_commit": "313a2bed83a5014e8c42e485b0912a85a2f68067",
+      "path": "notes/engine-study/T103/T103c-controls-v1.json",
+      "sha256": "4bcc5685479c49c68255096462282aaeddff6c54fb94d70cdd7b594175d39474"
+    },
+    {
+      "first_commit": "313a2bed83a5014e8c42e485b0912a85a2f68067",
+      "path": "notes/engine-study/T103/T103c-v1.json",
+      "sha256": "a25647f50867ef79dc34c77be442dd4f04e6fdca2dd8ab64590704f0c700b71c"
+    },
+    {
+      "first_commit": "724521a0ac8842d4b87d82d2b6c1087e648bcdc8",
+      "path": "notes/engine-study/T103/T103c-v2.json",
+      "sha256": "6269b4a20d6ab32c6052ba3ce90335853c9ce361158014388511ee9e2f1ab7c0"
+    },
+    {
+      "first_commit": "313a2bed83a5014e8c42e485b0912a85a2f68067",
+      "path": "notes/engine-study/T103/T103c-validation-v1.json",
+      "sha256": "2c994c5bf200d50c7c5f64ceabceb4b2035b49de51ed2957e39799b659b029cf"
+    },
+    {
+      "first_commit": "4d87a734313cf198cc636396d0f1b9802c4ac652",
+      "path": "notes/engine-study/T103/readiness-v1.json",
+      "sha256": "e3ec6be356b5a77397f05eb9a7f6d958dd6299bbedb63956857eb35bafe9c786"
+    },
+    {
+      "first_commit": "41ced72854f0586ab1ffe23bc0aa26d64e6b0ac1",
+      "path": "notes/engine-study/T104/T104a-controls-v1.json",
+      "sha256": "65f66a590f2e2d42c1cf451051b3c7b0bb64f74f1ee9999d1e5624e2b9214e5d"
+    },
+    {
+      "first_commit": "41ced72854f0586ab1ffe23bc0aa26d64e6b0ac1",
+      "path": "notes/engine-study/T104/T104a-v1.json",
+      "sha256": "26e3eee578c74b8c0c5c8bf7ca7b0349d2c60ecdf864244f9f4819e580305092"
+    },
+    {
+      "first_commit": "41ced72854f0586ab1ffe23bc0aa26d64e6b0ac1",
+      "path": "notes/engine-study/T104/T104a-validation-v1.json",
+      "sha256": "d7986f0e01262fdbd852d68f29dce4fd80832154b5bfb4988d57404e671d8588"
+    },
+    {
+      "first_commit": "ef4659dcc57c4c67db6bef5c313612e75e7d4283",
+      "path": "notes/engine-study/T104/T104b-controls-v1.json",
+      "sha256": "3ba4a015d22d082545fab999b11bd928e86d2633df3a2c688370d28b7e511a4a"
+    },
+    {
+      "first_commit": "ef4659dcc57c4c67db6bef5c313612e75e7d4283",
+      "path": "notes/engine-study/T104/T104b-v1.json",
+      "sha256": "fea0ca34d6f4d4556ba259bdd9bb43698e33ae7fbeb06edbb4f6387e57d0fed7"
+    },
+    {
+      "first_commit": "ef4659dcc57c4c67db6bef5c313612e75e7d4283",
+      "path": "notes/engine-study/T104/T104b-validation-v1.json",
+      "sha256": "420be9429f5c51070fc0b0b8bcdbe6017f3ebf5df1f40b3c49a904a62fd17905"
+    },
+    {
+      "first_commit": "75961d9f4de7f84f2ed2f8e1575d66831cc7df6a",
+      "path": "notes/engine-study/T104/T104c-controls-v2.json",
+      "sha256": "b46541deda28ea5297376c7bcbacf241f72a26b14a6bca91c19be42670e7bd2c"
+    },
+    {
+      "first_commit": "2f8d84a6641465beac8540aac4c6da11f4830a46",
+      "path": "notes/engine-study/T104/T104c-v1.json",
+      "sha256": "f57f9514c302c5a3b477132f5f283f2a2eccdae6add04d065556c432d9deb4af"
+    },
+    {
+      "first_commit": "75961d9f4de7f84f2ed2f8e1575d66831cc7df6a",
+      "path": "notes/engine-study/T104/T104c-v2.json",
+      "sha256": "e0f7ee30bb088b0830ddac1b12d306cad4b36b94282a3b59fdff705b125d6687"
+    },
+    {
+      "first_commit": "75961d9f4de7f84f2ed2f8e1575d66831cc7df6a",
+      "path": "notes/engine-study/T104/T104c-validation-v2.json",
+      "sha256": "4675faca8932331073b9f02b39d01cae2ae16c4690b90585d7a890b41fa38471"
+    },
+    {
+      "first_commit": "642d436235d41c6fb6d1b1fc7ecc4f53fd82a7d6",
+      "path": "notes/engine-study/T104/T104d-controls-v1.json",
+      "sha256": "8bd4b0c9a86ddd85825e88725c27ead475253e98a0d22df1ae9716d6816ec56b"
+    },
+    {
+      "first_commit": "642d436235d41c6fb6d1b1fc7ecc4f53fd82a7d6",
+      "path": "notes/engine-study/T104/T104d-v1.json",
+      "sha256": "1891aff2fd9ab5c5945cd22f13912ced14c378e67959a5b473f93efe9ad93119"
+    },
+    {
+      "first_commit": "724521a0ac8842d4b87d82d2b6c1087e648bcdc8",
+      "path": "notes/engine-study/T104/T104d-v2.json",
+      "sha256": "076cb97d4447166ced4e8db6ff767c2f0fa2f702f3e9c9be02b4203a5d05e6f6"
+    },
+    {
+      "first_commit": "642d436235d41c6fb6d1b1fc7ecc4f53fd82a7d6",
+      "path": "notes/engine-study/T104/T104d-validation-v1.json",
+      "sha256": "4908fd510262c635595b2ebf709ec85eafd7b3fafbbea73eaf211cecc089fd0a"
+    },
+    {
+      "first_commit": "6aefe043e67eaea7a124eb5d995c3674e608ffb4",
+      "path": "notes/engine-study/T104/T104e-controls-v1.json",
+      "sha256": "082948dca7189e983f5b53f0bd38f64bb8f4b5fb5d543d40322c269a456f111a"
+    },
+    {
+      "first_commit": "6aefe043e67eaea7a124eb5d995c3674e608ffb4",
+      "path": "notes/engine-study/T104/T104e-v1.json",
+      "sha256": "e597308602cfaf484e69167f185faca0a9bd4ea865fe27c9fa1caf12737e145d"
+    },
+    {
+      "first_commit": "6aefe043e67eaea7a124eb5d995c3674e608ffb4",
+      "path": "notes/engine-study/T104/T104e-validation-v1.json",
+      "sha256": "4303209f67ad8b05b871c2c4b90d5307861592846c51a196ac9fd44141beda38"
+    },
+    {
+      "first_commit": "a6d5b0e8bf36070f339a9915b7c9c650ed055b10",
+      "path": "notes/engine-study/T104/readiness-v1.json",
+      "sha256": "0f0ad18136d95a997ef3cb9f47c2f4896162147102a4db6f338856fbcc11de49"
+    },
+    {
+      "first_commit": "d4bf3276edd2fb4ed096395ef1506c96e90685c6",
+      "path": "notes/engine-study/T105/T105a-controls-v1.json",
+      "sha256": "15532ea4017719b9a3a086cf78809fb23736dcec50d48770bc610ba7b1d62b7f"
+    },
+    {
+      "first_commit": "d4bf3276edd2fb4ed096395ef1506c96e90685c6",
+      "path": "notes/engine-study/T105/T105a-qualifiers-validation-v1.json",
+      "sha256": "02fa5599dd16ca03178d9697be5c8629170963d73cd7b484605234522bf84dc2"
+    },
+    {
+      "first_commit": "d4bf3276edd2fb4ed096395ef1506c96e90685c6",
+      "path": "notes/engine-study/T105/T105a-v1.json",
+      "sha256": "38d34f7075d744e752b4779c886110584cb3565164a04334179f521adb0cd256"
+    },
+    {
+      "first_commit": "c4eef13eb4e58fa929a94adea5947770bed530b6",
+      "path": "notes/engine-study/T105/T105a-v2.json",
+      "sha256": "20f89ee6a7443834480eedd14c76670fabe1e251fa4d579e4a6f6f1b5b22dcae"
+    },
+    {
+      "first_commit": "d4bf3276edd2fb4ed096395ef1506c96e90685c6",
+      "path": "notes/engine-study/T105/T105a-validation-v1.json",
+      "sha256": "c2c20f6f129b73e808eb278fb4244c438a53ef9aa64ec9e608ddb7a9ff584791"
+    },
+    {
+      "first_commit": "fb1ac88d525ac83a84d3dd7f782a04eaa09d8043",
+      "path": "notes/engine-study/T105/T105b-controls-v1.json",
+      "sha256": "1798f89f48e11671c528e5e90b53c6a3aeac596bcf9a0c27676bc1b740a70da0"
+    },
+    {
+      "first_commit": "fb1ac88d525ac83a84d3dd7f782a04eaa09d8043",
+      "path": "notes/engine-study/T105/T105b-v1.json",
+      "sha256": "2e5f47f76ffb66236ad1b9f578fbdc2413471437a0aada4eb9070819f4fcf12c"
+    },
+    {
+      "first_commit": "c4eef13eb4e58fa929a94adea5947770bed530b6",
+      "path": "notes/engine-study/T105/T105b-v2.json",
+      "sha256": "843b297030a42443102ab4f734733b64951eaab64e7a1e2262e17ef7c149146d"
+    },
+    {
+      "first_commit": "fb1ac88d525ac83a84d3dd7f782a04eaa09d8043",
+      "path": "notes/engine-study/T105/T105b-validation-v1.json",
+      "sha256": "82990e52d757eb7b602290e89dc4ec1e593303c276bc7cc2e9e986ccc18f7154"
+    },
+    {
+      "first_commit": "673302af8af4330e70d2708b0ee96542762b313e",
+      "path": "notes/engine-study/T105/readiness-v1.json",
+      "sha256": "fa936ff2e990f61ac42e77a76815d601dbf729735b640fc7c6982d08760cf633"
+    },
+    {
+      "first_commit": "90b1af616fb97b967aa7c8f7ee37024dd5a1eb84",
+      "path": "notes/engine-study/T108/T108a-controls-v1.json",
+      "sha256": "1c31c0f3a358b6eef470fe64573832b4cad88962987fa8bdfb8e8cc3b46786de"
+    },
+    {
+      "first_commit": "90b1af616fb97b967aa7c8f7ee37024dd5a1eb84",
+      "path": "notes/engine-study/T108/T108a-v1.json",
+      "sha256": "41e3735af73c81667a1a0d6468326750a4a6cf8096f3777fd531c509ba64ea7e"
+    },
+    {
+      "first_commit": "90b1af616fb97b967aa7c8f7ee37024dd5a1eb84",
+      "path": "notes/engine-study/T108/T108a-validation-v1.json",
+      "sha256": "6eb2e7f1163732cf70e78506f3e293ee38066c46f87400ba46a1044f3b3c7405"
+    },
+    {
+      "first_commit": "467ebaf89fa496f9743364a08611aa297c534c4f",
+      "path": "notes/engine-study/T108/T108b-controls-v1.json",
+      "sha256": "34888c7509fcf1bcdee8907dcb436efe27294960cfd09bb8e16463d08646a4d9"
+    },
+    {
+      "first_commit": "467ebaf89fa496f9743364a08611aa297c534c4f",
+      "path": "notes/engine-study/T108/T108b-v1.json",
+      "sha256": "d8e9e861fd5894302d457e47fbbdda154b9f041d574d7073e35de3f2a4579561"
+    },
+    {
+      "first_commit": "724521a0ac8842d4b87d82d2b6c1087e648bcdc8",
+      "path": "notes/engine-study/T108/T108b-v2.json",
+      "sha256": "907481d93da8612900d4ae2a1e2134a308efac5add1384d79bc1eff97d55dfea"
+    },
+    {
+      "first_commit": "467ebaf89fa496f9743364a08611aa297c534c4f",
+      "path": "notes/engine-study/T108/T108b-validation-v1.json",
+      "sha256": "5c48e84505176681c3d027da12b50be9a6df9740f98ae45eaa715fad454f88c8"
+    },
+    {
+      "first_commit": "467ebaf89fa496f9743364a08611aa297c534c4f",
+      "path": "notes/engine-study/T108/historical-issues-v1.json",
+      "sha256": "efbb8761bbcb4a7d4efa55dd88409fac96fb02f3268b4111bcd1deb48e04e5e4"
+    },
+    {
+      "first_commit": "40d8b5d82ffa4ae5a1df970636a043e1c5d2ae4b",
+      "path": "notes/engine-study/T108/readiness-v1.json",
+      "sha256": "4e11ae5fb0fd0f0d83026cd4f9069effb3681afd870cb48bf2090e420ea36609"
+    },
+    {
+      "first_commit": "545ab41dc713d69e8203b674d2d27bb0a003439f",
+      "path": "notes/engine-study/T95/census-08beac2e-v1.json",
+      "sha256": "e0f0938e2a21bdb7920e51eb958b73fad152b11b668de91f5a4eb8e57508a95c"
+    },
+    {
+      "first_commit": "545ab41dc713d69e8203b674d2d27bb0a003439f",
+      "path": "notes/engine-study/T95/controls-v1.json",
+      "sha256": "a276b121863b708dead51354a17b524ad964d4c163d1564ae053c58e8ec56791"
+    },
+    {
+      "first_commit": "bca98f378d28cd9b8b18261dbce01931e335e7a2",
+      "path": "notes/engine-study/T96/access-frontier-v1.json",
+      "sha256": "2908ed66f045deeb50c88661ee5d6461a525971df6e5b58ac80af9b850c943fe"
+    },
+    {
+      "first_commit": "72cc6db5e8e7cb60da2650b740ae50007f807e44",
+      "path": "notes/engine-study/T96/access-frontier-v2.json",
+      "sha256": "31764a847b521d949c565dd6f944aa628dce59899f35f06ace38996ec19e53c7"
+    },
+    {
+      "first_commit": "bca98f378d28cd9b8b18261dbce01931e335e7a2",
+      "path": "notes/engine-study/T96/derived-controls-v1.json",
+      "sha256": "2eda768a394747a5874c2780e32c74814eb8c2a16f07dd17cf6fdce92cdfa637"
+    },
+    {
+      "first_commit": "72cc6db5e8e7cb60da2650b740ae50007f807e44",
+      "path": "notes/engine-study/T96/derived-controls-v2.json",
+      "sha256": "35105c5fc23e46d41e3728c0bc013e3eec724ad9507a8f7ac021dbc3924c208f"
+    },
+    {
+      "first_commit": "bca98f378d28cd9b8b18261dbce01931e335e7a2",
+      "path": "notes/engine-study/T96/derived.json",
+      "sha256": "bad8143e28532b944646328df01e65e9cea645b5c0bb6659ffd6514f07d86388"
+    },
+    {
+      "first_commit": "7f878924a333741ebb99386a09e37068d73cf843",
+      "path": "notes/engine-study/T96/field-controls-v1.json",
+      "sha256": "7d04ea885ef28bbbc9cac86d9a1a4a9d88b92c704215a64e3d58f10748444599"
+    },
+    {
+      "first_commit": "a58a9ffbe407fb988e2d95c5aba1220db595196e",
+      "path": "notes/engine-study/T96/field-controls-v2.json",
+      "sha256": "443a53c6af8c87be1f1f8834081284bfd6b9c881c30d285a6944ca70088c0817"
+    },
+    {
+      "first_commit": "72cc6db5e8e7cb60da2650b740ae50007f807e44",
+      "path": "notes/engine-study/T96/field-controls-v3.json",
+      "sha256": "80c55de82d26cffab6b8b58024661c579b7d5d77c479bc25c6a11368ba06ec96"
+    },
+    {
+      "first_commit": "72cc6db5e8e7cb60da2650b740ae50007f807e44",
+      "path": "notes/engine-study/T96/fields-v2.json",
+      "sha256": "c7aec06ba32c5ae228802f69c1155ed1480fc4e8f80aed2a2fdb504bfea36191"
+    },
+    {
+      "first_commit": "7f878924a333741ebb99386a09e37068d73cf843",
+      "path": "notes/engine-study/T96/fields.json",
+      "sha256": "7d4973f73bd3f82c0b4e48cbe45662d7504c806a2b670d42e2a5597e4be5e068"
+    },
+    {
+      "first_commit": "bca98f378d28cd9b8b18261dbce01931e335e7a2",
+      "path": "notes/engine-study/T96/foot-helper-v1.json",
+      "sha256": "2b297fdb15a9535aa5ea1a2f3f23d17f93b5f70b91180e3a6307e28f4942636d"
+    },
+    {
+      "first_commit": "d453960ca7ce9848ba37c38f222dd46847014df3",
+      "path": "notes/engine-study/T97/persistent-controls-v1.json",
+      "sha256": "0e939a0a33e2afecd747d9ea74c3ae25d69eac936ecdc5750ed8a95f0dc85c2b"
+    },
+    {
+      "first_commit": "5b40465e4ff51b60e2cdfad8c26c6b8be7af5437",
+      "path": "notes/engine-study/T97/persistent-controls-v2.json",
+      "sha256": "9307fac12ea838932edef022e3578476584914d2c657d895428e84024a19c9cf"
+    },
+    {
+      "first_commit": "5b40465e4ff51b60e2cdfad8c26c6b8be7af5437",
+      "path": "notes/engine-study/T97/persistent-v2.json",
+      "sha256": "3baaf0bb9905798f13c4b0fd5af1ed79d85d8f699f98d23c94be5f4984447eae"
+    },
+    {
+      "first_commit": "d453960ca7ce9848ba37c38f222dd46847014df3",
+      "path": "notes/engine-study/T97/persistent.json",
+      "sha256": "9a7e5f808674b5fd95cca3585a0f7fe6a44c6804e9743a19f4d7ea1df401f617"
+    },
+    {
+      "first_commit": "028f21af920a17cf6acad08258e4de3ff0cc8800",
+      "path": "notes/engine-study/T97/snapshot-restore-validation-v1.json",
+      "sha256": "fa4fcaefebdd077864e7798bf914721c051a3a049469ef50ca692d1757f4d15c"
+    },
+    {
+      "first_commit": "3d03769dffce6c94374f68cdfbcb61417db5b53f",
+      "path": "notes/engine-study/T97/transient-controls-v1.json",
+      "sha256": "fdae4e658fb8372e290819105e8cee4120cdcee298adb696321aa3d66762bba8"
+    },
+    {
+      "first_commit": "5b40465e4ff51b60e2cdfad8c26c6b8be7af5437",
+      "path": "notes/engine-study/T97/transient-controls-v2.json",
+      "sha256": "710ba05081d2a3bd504188188a3cbfb25b3e5b8155e43b871c59f9a511346e76"
+    },
+    {
+      "first_commit": "028f21af920a17cf6acad08258e4de3ff0cc8800",
+      "path": "notes/engine-study/T97/transient-controls-v3.json",
+      "sha256": "3f825ce5dfee3451666ef52ceba1ab99b2b8866466e82393aca603874de351f8"
+    },
+    {
+      "first_commit": "467ebaf89fa496f9743364a08611aa297c534c4f",
+      "path": "notes/engine-study/T97/transient-controls-v4.json",
+      "sha256": "a7fb50543a1ff46c1b67cb1ae7eaf373fc31b30ad25fbc9ffc1bf3472a3a1250"
+    },
+    {
+      "first_commit": "5b40465e4ff51b60e2cdfad8c26c6b8be7af5437",
+      "path": "notes/engine-study/T97/transient-v2.json",
+      "sha256": "12cc620cff9acc2b82832aba2e03cfab3e4f9bfe87722c4f43bd8249b7774c3e"
+    },
+    {
+      "first_commit": "028f21af920a17cf6acad08258e4de3ff0cc8800",
+      "path": "notes/engine-study/T97/transient-v3.json",
+      "sha256": "240b345a10180888bf7c841bb69c56ca5948b34324ae0f2f8bc75deef6cf5c6b"
+    },
+    {
+      "first_commit": "467ebaf89fa496f9743364a08611aa297c534c4f",
+      "path": "notes/engine-study/T97/transient-v4.json",
+      "sha256": "66d91f0b6d1ddd1657dcf3e93d7504ef35de626cf7e89fdc658fec9b7d29233d"
+    },
+    {
+      "first_commit": "724521a0ac8842d4b87d82d2b6c1087e648bcdc8",
+      "path": "notes/engine-study/T97/transient-v5.json",
+      "sha256": "106d7b645db6e0f1f994c8ad730866d6c9205ce881a1da5d70d2c044062a038c"
+    },
+    {
+      "first_commit": "3d03769dffce6c94374f68cdfbcb61417db5b53f",
+      "path": "notes/engine-study/T97/transient.json",
+      "sha256": "31c13f57005b73bd5198a09e84b317a08f847732a0f34c0610d97db701f2f7ae"
+    },
+    {
+      "first_commit": "b1a4d63ade00e5830df1e269d5bba0d6d76775ce",
+      "path": "notes/engine-study/T98/skill-controls-v1.json",
+      "sha256": "cc87aab0fc6ee3f9c05694b48d7060b8c0fa4188f91b67f30057e0406b05ec6a"
+    },
+    {
+      "first_commit": "b1a4d63ade00e5830df1e269d5bba0d6d76775ce",
+      "path": "notes/engine-study/T98/skill-v1.json",
+      "sha256": "b1956bd879fe347bffaef68453021ec98d644608f6847d9cdbff68a7d4cd52e5"
+    },
+    {
+      "first_commit": "426787479bf5d5c6e6eff4e5f03d1bf8420d9638",
+      "path": "notes/engine-study/T98/strength-controls-v1.json",
+      "sha256": "c9fce4315088ecb874d638e4643b2b3ee0490a192ddf0d5cdb5edcd881b5dc53"
+    },
+    {
+      "first_commit": "426787479bf5d5c6e6eff4e5f03d1bf8420d9638",
+      "path": "notes/engine-study/T98/strength-v1.json",
+      "sha256": "3af8f59f7645409f9d91bdc2b48d17f9412fb99bc4c82b5c4d75807211d026d5"
+    },
+    {
+      "first_commit": "05bb098b93d26cf83e05cd58caa1ac5adf544251",
+      "path": "notes/engine-study/T98/validation-scope-v1.json",
+      "sha256": "874eaa766f8c1a89e317fe33a46a45ec7488b29dc041234b4ab23e8dfdf3d3b1"
+    },
+    {
+      "first_commit": "b1a4d63ade00e5830df1e269d5bba0d6d76775ce",
+      "path": "notes/engine-study/T98/window-repro-v1.json",
+      "sha256": "bfbfd8bd885bfbe3fdc5771c46122db49956a1a6a039a47b7a29e3c7e632357f"
+    },
+    {
+      "first_commit": "d4e0e71dcfe3dae99a30e272adb84993583cacd4",
+      "path": "notes/engine-study/T99/contest-controls-v1.json",
+      "sha256": "d84d726b54a4d11e4b9fbbf1d6b44ab02399bf33420cf9e2c69daeb08e8217d0"
+    },
+    {
+      "first_commit": "05bb098b93d26cf83e05cd58caa1ac5adf544251",
+      "path": "notes/engine-study/T99/contest-controls-v2.json",
+      "sha256": "d0558b7fac6b0fba9f80e344825d5e328f8a9d7290eacd8fa1d6ce937b193aaa"
+    },
+    {
+      "first_commit": "d4e0e71dcfe3dae99a30e272adb84993583cacd4",
+      "path": "notes/engine-study/T99/contests-v1.json",
+      "sha256": "37784d304ec27d6ce0416689a7f67bcc6a803da990bf8a4691b47596c636d75c"
+    },
+    {
+      "first_commit": "05bb098b93d26cf83e05cd58caa1ac5adf544251",
+      "path": "notes/engine-study/T99/contests-v2.json",
+      "sha256": "5e340dd6a70273a2d804c05f2ba85c32f5170fdca8df5d4f2635abe097580c94"
+    },
+    {
+      "first_commit": "162a6652cec8f948ddfbb3f8d59b5b033c7c7341",
+      "path": "notes/engine-study/T99/gate-controls-v1.json",
+      "sha256": "0e5d437cf8d2dc4bce6da0c54c3c4c00e804121b49dd2a5e7fea7a01ee6fc2dc"
+    },
+    {
+      "first_commit": "162a6652cec8f948ddfbb3f8d59b5b033c7c7341",
+      "path": "notes/engine-study/T99/gates-v1.json",
+      "sha256": "748be2d890da487962a1c223d0ca0a4ad34a0081bd8249b361158e8e80883724"
+    }
+  ],
+  "limits": [
+    "Legacy control labels count model consistency annotations,not independently exercised source falsifiers. Explicit literal source guards and altered-listing negatives are separate; none are engine executions.",
+    "Historical m5 strict-source receipts remain at their accepted checkout; named annotations changed in T114-T116.",
+    "Field ledgers pin a42c2cbe; current T97v5 explicitly pins c5945810. Raw original unchanged; independently merged T78 runtime changes are separately fingerprinted.",
+    "Full static/unit CI including six slow modules is required separately on the exact merged candidate.",
+    "No T106/T107 research execution or independent reviewer is launched by this command."
+  ],
+  "original_raw_source_changes": [],
+  "previous_milestone": "m5-engine-study-foundations",
+  "previous_review_candidate": "c88461e9c2365de4c011a9df61f0523f1ec1a601",
+  "python": "3.12.14 (main, Sep  1 2026, 14:16:52) [Clang 22.1.3 ]",
+  "python_executable": "/home/diego/.local/bin/python3.12",
+  "scope": "Current source-study checks; no new engine/probe/match execution. Full CI is separate.",
+  "totals": {
+    "audit_candidates": 9,
+    "examples": 61,
+    "legacy_model_annotations": 100,
+    "routines": 201
+  },
+  "validation_baseline": "23acf29387b16b649651c25570bf8a7f32a1d8be"
+}

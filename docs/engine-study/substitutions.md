@@ -140,3 +140,9 @@ without rebind. It also checks allowance/refusal and managed validity predicates
 source-derived transactions, not full menu/ABI or genuine-key reproductions. F029/T75 and
 #400 keep their exact evidence limits. A readable high-level operation should expose admission,
 selection, identity exchange and complete rebind stages while preserving their observable order.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

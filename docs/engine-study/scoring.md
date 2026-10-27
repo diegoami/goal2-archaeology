@@ -191,7 +191,7 @@ flag, timer and event, then restores old air. Ground can submit 0x19; air can ac
 that line. This path illustrates why changing only a heading rating does not affect every
 reception in the same way.
 
-The script rejects inclusive tackle ties, reversed finish draws, recording before offside,
+The authored model compares inclusive tackle ties, reversed finish draws, recording before offside,
 unlimited scorer history, removal of celebration draws and unconditional air clearing after
 selected acquisition. It checks ordinary supplied values and partial state projections,
 not complete original call frames or natural encounter frequency.
@@ -201,3 +201,9 @@ from T101. Restart, card/injury and management paths are explicitly handed to T1
 effects await the preregistered experiments. A readable design can expose contest, possession,
 provisional score, accepted scorer record and feedback as separate stages while preserving
 their original ordering, random sources, cached context and externally visible events.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

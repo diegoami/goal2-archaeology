@@ -122,3 +122,9 @@ known documentation/tooling defects and remaining path questions. The audit is n
 over all record tuples, live continuations or private inputs. Future experiments should select
 questions with unresolved consequences, rather than spending a new campaign to rediscover
 already understood source arithmetic or duplicate T79's planned fidelity work. T79/#290 is still blocked and has no accepted700-match sheet; existing T77 comparison receipts have their own narrower scope.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

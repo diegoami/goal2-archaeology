@@ -166,7 +166,7 @@ Commentary can be deduplicated; later interception, flight and scoring remain se
 
 This is a source-conditioned sequence with stated draws, not an executed complete legal
 fixture. It does not claim exact velocities, total full-call draw counts, reachability or
-passing success frequency. The script rejects always replacing a receiver, drawing a coin
+passing success frequency. The authored model compares always replacing a receiver, drawing a coin
 for the first acceptance, an inclusive long-distance comparison, taking the first fallback,
 and treating the advanced-cross threshold as inclusive.
 
@@ -178,3 +178,9 @@ Changing those while keeping the same labels would change play.
 Review correction #566 ties this entry gate to literal listing3884/3889/388B and checks an
 altered388B jump as a source falsifier. The selected-pass worked example explicitly assumes
 a target outside its own strip. This remains source evidence, not a new engine execution.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

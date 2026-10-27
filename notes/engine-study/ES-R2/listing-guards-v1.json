@@ -1,0 +1,315 @@
+{
+  "scope": "Literal source expectations with altered-listing negative controls; not engine execution.",
+  "source_sha256": {
+    "static/goal-exe/code/seg_0791_06.asm": "b7debdb96455259d2dca1e10096d42fb6ae843b79105eda4c5e7b7cf7b34ceb6",
+    "static/goal-exe/code/seg_0791_14.asm": "032e2d6f22d6db5981e2a11f43298924a53e15d080e1d73d1fb375ddbe400abd",
+    "static/goal-exe/code/seg_1771_12.asm": "94e9f817c8415a94d81e51695c8afe66fb6533268488e160fed1c363268ac892",
+    "static/goal-exe/code/seg_1771_06.asm": "2daf9c18c61eec2d0ef54c5d5480619274020f18124f26b685b7a41a0e19e820",
+    "static/goal-exe/code/seg_0791_11.asm": "a5aebf13faf14469141d8edb9a0878b0a56b7267451694622801732f522603ec",
+    "static/goal-exe/code/seg_0791_09.asm": "1236aa3fcb2d30080e22d9a4bee4398c52d09fc3010e133bc124e318f7e89ac0"
+  },
+  "expectations": [
+    {
+      "file": "seg_0791_06.asm",
+      "pc": "3884",
+      "expected": "call 0x2eb8",
+      "actual": "3884  E8 31 F6        call 0x2eb8"
+    },
+    {
+      "file": "seg_0791_06.asm",
+      "pc": "3889",
+      "expected": "je 0x388e",
+      "actual": "3889  74 03           je 0x388e"
+    },
+    {
+      "file": "seg_0791_06.asm",
+      "pc": "388B",
+      "expected": "jmp 0x3b0f",
+      "actual": "388B  E9 81 02        jmp 0x3b0f"
+    },
+    {
+      "file": "seg_0791_06.asm",
+      "pc": "3692",
+      "expected": "mov al, byte ptr es:[di + 0x11]",
+      "actual": "3692  26 8A 45 11     mov al, byte ptr es:[di + 0x11]"
+    },
+    {
+      "file": "seg_0791_06.asm",
+      "pc": "3698",
+      "expected": "add ax, dx",
+      "actual": "3698  03 C2           add ax, dx"
+    },
+    {
+      "file": "seg_0791_06.asm",
+      "pc": "369F",
+      "expected": "div cx",
+      "actual": "369F  F7 F1           div cx"
+    },
+    {
+      "file": "seg_0791_14.asm",
+      "pc": "8972",
+      "expected": "jl 0x89e5",
+      "actual": "8972  7C 71           jl 0x89e5"
+    },
+    {
+      "file": "seg_0791_14.asm",
+      "pc": "8C45",
+      "expected": "jbe 0x8c61",
+      "actual": "8C45  76 1A           jbe 0x8c61"
+    },
+    {
+      "file": "seg_1771_12.asm",
+      "pc": "870A",
+      "expected": "jae 0x8723",
+      "actual": "870A  73 17           jae 0x8723"
+    },
+    {
+      "file": "seg_1771_06.asm",
+      "pc": "3F47",
+      "expected": "cmp byte ptr es:[di + 6], 1",
+      "actual": "3F47  26 80 7D 06 01  cmp byte ptr es:[di + 6], 1"
+    },
+    {
+      "file": "seg_1771_06.asm",
+      "pc": "3F4C",
+      "expected": "jne 0x3f5f",
+      "actual": "3F4C  75 11           jne 0x3f5f"
+    },
+    {
+      "file": "seg_1771_06.asm",
+      "pc": "3F59",
+      "expected": "xor ax, ax",
+      "actual": "3F59  31 C0           xor ax, ax"
+    },
+    {
+      "file": "seg_1771_06.asm",
+      "pc": "3F5B",
+      "expected": "mov word ptr [di - 0x65be], ax",
+      "actual": "3F5B  89 85 42 9A     mov word ptr [di - 0x65be], ax"
+    },
+    {
+      "file": "seg_0791_11.asm",
+      "pc": "6642",
+      "expected": "cmp byte ptr [0x8326], 0",
+      "actual": "6642  80 3E 26 83 00  cmp byte ptr [0x8326], 0"
+    },
+    {
+      "file": "seg_0791_11.asm",
+      "pc": "6647",
+      "expected": "je 0x664c",
+      "actual": "6647  74 03           je 0x664c"
+    },
+    {
+      "file": "seg_0791_11.asm",
+      "pc": "6649",
+      "expected": "jmp 0x66df",
+      "actual": "6649  E9 93 00        jmp 0x66df"
+    },
+    {
+      "file": "seg_0791_11.asm",
+      "pc": "665C",
+      "expected": "call 0xc173",
+      "actual": "665C  E8 14 5B        call 0xc173"
+    },
+    {
+      "file": "seg_0791_09.asm",
+      "pc": "50FB",
+      "expected": "jmp 0x532c",
+      "actual": "50FB  E9 2E 02        jmp 0x532c"
+    },
+    {
+      "file": "seg_0791_09.asm",
+      "pc": "51AB",
+      "expected": "jmp 0x532c",
+      "actual": "51AB  E9 7E 01        jmp 0x532c"
+    },
+    {
+      "file": "seg_0791_09.asm",
+      "pc": "528F",
+      "expected": "jmp 0x532c",
+      "actual": "528F  E9 9A 00        jmp 0x532c"
+    },
+    {
+      "file": "seg_0791_09.asm",
+      "pc": "52DB",
+      "expected": "jmp 0x532c",
+      "actual": "52DB  EB 4F           jmp 0x532c"
+    },
+    {
+      "file": "seg_0791_09.asm",
+      "pc": "52DD",
+      "expected": "mov ax, 2",
+      "actual": "52DD  B8 02 00        mov ax, 2"
+    },
+    {
+      "file": "seg_0791_09.asm",
+      "pc": "5324",
+      "expected": "je 0x532c",
+      "actual": "5324  74 06           je 0x532c"
+    },
+    {
+      "file": "seg_0791_09.asm",
+      "pc": "5329",
+      "expected": "call 0x4e28",
+      "actual": "5329  E8 FC FA        call 0x4e28"
+    },
+    {
+      "file": "seg_0791_09.asm",
+      "pc": "532C",
+      "expected": "jmp 0x5332",
+      "actual": "532C  EB 04           jmp 0x5332"
+    }
+  ],
+  "negative_controls": [
+    {
+      "file": "seg_0791_06.asm",
+      "pc": "3884",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_06.asm",
+      "pc": "3889",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_06.asm",
+      "pc": "388B",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_06.asm",
+      "pc": "3692",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_06.asm",
+      "pc": "3698",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_06.asm",
+      "pc": "369F",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_14.asm",
+      "pc": "8972",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_14.asm",
+      "pc": "8C45",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_1771_12.asm",
+      "pc": "870A",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_1771_06.asm",
+      "pc": "3F47",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_1771_06.asm",
+      "pc": "3F4C",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_1771_06.asm",
+      "pc": "3F59",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_1771_06.asm",
+      "pc": "3F5B",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_11.asm",
+      "pc": "6642",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_11.asm",
+      "pc": "6647",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_11.asm",
+      "pc": "6649",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_11.asm",
+      "pc": "665C",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_09.asm",
+      "pc": "50FB",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_09.asm",
+      "pc": "51AB",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_09.asm",
+      "pc": "528F",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_09.asm",
+      "pc": "52DB",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_09.asm",
+      "pc": "52DD",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_09.asm",
+      "pc": "5324",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_09.asm",
+      "pc": "5329",
+      "alteration": "nop",
+      "result": "rejected"
+    },
+    {
+      "file": "seg_0791_09.asm",
+      "pc": "532C",
+      "alteration": "nop",
+      "result": "rejected"
+    }
+  ]
+}
