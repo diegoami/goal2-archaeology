@@ -1,0 +1,20 @@
+heavy: T78c-e033-03: waiting for a slot (2 ahead)
+heavy: T78c-e033-03: waiting for a slot (1 ahead)
+heavy: T78c-e033-03: got slot 6 after 2 s
+test_e033_03 (tests.test_port_engine.Checkpoints.test_e033_03) ... checkpoint PASS goal2 manages 19, at 21 boundary=0 phase=event
+checkpoint PASS goal2 manages 19, at 21 boundary=2 phase=event
+checkpoint PASS goal2 manages 19, at 21 boundary=53 phase=event
+checkpoint PASS goal2 manages 19, at 21 boundary=275 phase=event
+checkpoint PASS goal2 manages 19, at 21 boundary=513 phase=event
+checkpoint PASS goal2 manages 19, at 21 boundary=514 phase=event
+checkpoint PASS goal2 manages 19, at 21 boundary=514 phase=answered
+checkpoint PASS goal2 manages 19, at 21 boundary=580 phase=event
+checkpoint PASS goal2 manages 19, at 21 boundary=582 phase=event
+checkpoint PASS goal2 manages 19, at 21 boundary=1071 phase=event
+checkpoint PASS goal2 manages 19, at 21 boundary=1072 phase=event
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 4024.566s
+
+OK
