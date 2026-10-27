@@ -1,0 +1,21 @@
+{
+  "far_differentials": 352,
+  "near_polynomial_differentials": 32,
+  "seed": 7832,
+  "incoming_flags": [
+    514,
+    3799
+  ],
+  "polynomial_counts": [
+    1,
+    2,
+    6,
+    8
+  ],
+  "sha256": {
+    "runtime/original_match/port/real.py": "dbd3e488d8959924ffedeb58f8afec62ffa4c71a35116d7dd72c307a30dcd1f9",
+    "tests/test_port_real.py": "13b51019048ee1e25eca05ef0dab02af2a79881c16f3950c35d98b6a2c4d032b",
+    "static/goal-exe/code/seg_23E4_02.asm": "bb7aaeafe8bc3abd69cb821de9f9ab3f0917c2453a1277f653bfa783dd3dd3b9",
+    "static/goal-exe/named/seg_23E4_02.c": "38d1d2d2c12f15b8a52deb7b94a10ffacb6f0817bcf37d274a700e75e2eb5309"
+  }
+}

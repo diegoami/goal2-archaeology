@@ -1,0 +1,6 @@
+111F push cx
+1120 push di
+1121 mov cx, word ptr cs:[di]
+1124 mov si, word ptr cs:[di + 2]
+1128 mov di, word ptr cs:[di + 4]
+112C call 0x98f

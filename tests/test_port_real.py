@@ -98,3 +98,108 @@ assert not hasattr(m,'_uc')
 '''
         result=subprocess.run([sys.executable,'-B','-c',script],cwd=ROOT,env=dict(os.environ,PYTHONPATH=str(ROOT/'runtime')),capture_output=True,text=True)
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+
+class Transcendentals(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.image=Image.from_bytes(reference_image(ROOT/'.cache/dl'))
+        cls.baseline=bytes(cls.image.memory[:MEM_SIZE]).ljust(MEM_SIZE,b'\0')
+
+    def pair(self,address,registers,polynomial=None,coefficients=()):
+        original=Machine(bytearray(self.baseline),self.image.load)
+        candidate=PortMachine(self.baseline,self.image.load)
+        port.install(candidate,['real'])
+        if polynomial:
+            from original_match.port import real as translated
+            registry=port.Registry('synthetic_polynomial','Synthetic polynomial ABI controls')
+            @registry.port(address,ret='ret')
+            def body(mem,variant):
+                R=translated.RealRegs(mem)
+                getattr(translated,polynomial)(R)
+                R.store()
+            port.install(candidate,[(registry,None)])
+        for machine in (original,candidate):
+            if coefficients:
+                data=b''.join(w.to_bytes(2,'little') for row in coefficients for w in row)
+                machine.write(machine.seg(0x23E4)*16+0x2000,data)
+        regs=dict(ax=0xABCD,bx=0x1234,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=0x202)
+        regs.update(registers)
+        original.at('23E4:00D1',lambda replay:original.stop('expected-real-error'))
+        _,reason=oracle.run_one(original,not polynomial,address,[],regs)
+        if reason=='expected-real-error':
+            with self.assertRaisesRegex(PortError,f'real runtime error {original.reg("ax")}'):
+                oracle.run_one(candidate,not polynomial,address,[],regs)
+            expected=oracle.final(original);actual=oracle.final(candidate)
+            for key in ('cs','eip'):expected.pop(key);actual.pop(key)
+        else:
+            self.assertIsNone(reason)
+            oracle.run_one(candidate,not polynomial,address,[],regs)
+            expected=oracle.final(original);actual=oracle.final(candidate)
+        self.assertEqual(actual,expected)
+        import hashlib
+        self.assertEqual(hashlib.sha256(candidate.read(0,MEM_SIZE)).hexdigest(),hashlib.sha256(original.read(0,MEM_SIZE)).hexdigest())
+        return original.reg('ax') if reason else None
+
+    def test_original_ln_exp_register_flags_frames_and_errors(self):
+        values=[real(e,m,n) for e in (0,1,100,127,128,129,130,133,134,135,136,137,254,255)
+                for m in (0,(1<<39)-1) for n in (False,True)]
+        for magnitude in (87,88,89):
+            mantissa=(magnitude << (40-magnitude.bit_length()))-(1<<39)
+            values += [real(128+magnitude.bit_length(),mantissa,negative) for negative in (False,True)]
+        values += [real(129,m) for m in ((1<<13)-1,1<<13,(1<<13)+1)]
+        values += [real(128,(1<<39)-(1<<14)+delta) for delta in (-1,0,1)]
+        rnd=random.Random(7832)
+        values += [real(rnd.randrange(1,256),rnd.getrandbits(39),bool(rnd.getrandbits(1))) for _ in range(20)]
+        errors=set()
+        for address in ('23E4:0E67','23E4:0F10'):
+            for value in values:
+                for flags in (0x202,0xED7):
+                    with self.subTest(address=address,registers=value,flags=flags):
+                        error=self.pair(address,dict(zip(('ax','bx','dx','eflags'),value+(flags,))))
+                        if error is not None:errors.add(error)
+        self.assertEqual(errors,{0xCD,0xCF})
+
+    def test_original_shared_polynomials_on_authored_coefficients(self):
+        for name,address in (('polynomial','23E4:1101'),('odd_polynomial','23E4:10E8')):
+            for count in (1,2,6,8):
+                coefficients=[real(129+i%2,1 if i%2 else 0,bool(i%3==0)) for i in range(count)]
+                for value in (real(0),real(128),real(129),real(128,0,True)):
+                    with self.subTest(polynomial=name,count=count,value=value):
+                        self.pair(address,dict(zip(('ax','bx','dx'),value),cx=count,di=0x2000),name,coefficients)
+
+    def test_positive_denial_ln_one_exp_zero(self):
+        script='''import builtins
+real_import=builtins.__import__
+def deny(name,*a,**kw):
+ if name=='unicorn' or name.startswith('unicorn.'):raise ImportError('denied')
+ return real_import(name,*a,**kw)
+builtins.__import__=deny
+try:__import__('unicorn')
+except ImportError:pass
+else:raise AssertionError('guard failed')
+from original_match import Image
+from original_match.assets import reference_image
+from original_match.port.engine import PortMachine
+from original_match.port import install
+from tests.test_port_real import oracle
+image=Image.from_bytes(reference_image('.cache/dl'))
+m=PortMachine(image.memory,image.load)
+install(m,['real'])
+oracle.run_one(m,True,'23E4:0E67',[],dict(ax=0x81,bx=0,dx=0))
+assert (m.reg('ax'),m.reg('bx'),m.reg('dx'))==(0,0,0)
+oracle.run_one(m,True,'23E4:0F10',[],dict(ax=0,bx=0,dx=0))
+assert (m.reg('ax'),m.reg('bx'),m.reg('dx'))==(0x81,0,0)
+from original_match.port import Registry
+from original_match.port.real import RealRegs,polynomial
+r=Registry('synthetic_polynomial','hand-derived polynomial')
+@r.port('23E4:1101',ret='ret')
+def evaluate(mem,variant):
+ R=RealRegs(mem);polynomial(R);R.store()
+install(m,[(r,None)])
+m.write(m.seg(0x23E4)*16+0x2000,b'\\x81\\x00\\x00\\x00\\x00\\x00'*2)
+oracle.run_one(m,False,'23E4:1101',[],dict(ax=0x82,bx=0,dx=0,cx=2,di=0x2000))
+assert (m.reg('ax'),m.reg('bx'),m.reg('dx'))==(0x83,0,0x6000) # 1+2+2^2=7
+assert not hasattr(m,'_uc')
+'''
+        result=subprocess.run([sys.executable,'-B','-c',script],cwd=ROOT,env=dict(os.environ,PYTHONPATH=str(ROOT/'runtime')),capture_output=True,text=True)
+        self.assertEqual(result.returncode,0,result.stdout+result.stderr)
