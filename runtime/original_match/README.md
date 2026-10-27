@@ -9,16 +9,19 @@ The explicit assembly mode `Match(image, fixture, engine="port")` instead runs a
 registered Python translations on plain memory, without a Unicorn object or
 original-instruction execution. The original backend remains the default and
 reference. This mode still needs the data image; sealing and goal2 adoption are
-separate delivery gates. In this slice port `save()`/`load()` are explicitly
-unsupported until T78c; historical unmarked checkpoints keep the original engine.
+separate delivery gates. Port `save()`/`load()` preserve the explicit backend, including pending Python
+frames reconstructed by deterministic action replay (see Saving below). Historical
+unmarked checkpoints keep the original engine; unknown, stale port or inconsistent
+outer/origin backend identities are refused before either machine is constructed.
 
 The family CLI accepts `--engine port --no-unicorn` to install positive import
 denial before kit loading, including pool workers. Optional record `engine`
 metadata identifies the backend without changing evidence fields; an existing
 output from another backend is refused. Port raw `--count`, `--find-ranges` and
 `--checkpoint` are refused explicitly. The runtime checker also accepts engine
-selection/import denial via same-process interpreter replacement; its checkpoint-dependent steps remain unsupported until
-T78c, so a partial assembly is never reported as a complete passing checker.
+selection/import denial via same-process interpreter replacement; its checkpoint-dependent steps use the same backend-preserving save/load API.
+The family CLI checkpoint wrapper remains explicitly refused in port mode; its
+separate worker checkpoint envelope has not yet been admitted.
 
 ## Get it (once)
 

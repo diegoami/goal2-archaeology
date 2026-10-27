@@ -36,6 +36,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--log", required=True)
     ap.add_argument("--kit", default=str(ROOT / "runtime"))
+    ap.add_argument("--engine", choices=("original", "port"), default="original")
     a = ap.parse_args()
     log = Path(a.log)
     if log.exists():
@@ -56,7 +57,7 @@ def main():
             t = time.time()
 
             def make():
-                return kit.Match(img, kit.Fixture(7, 19, index=index, kind=200), managed=7, substitutions=budget)
+                return kit.Match(img, kit.Fixture(7, 19, index=index, kind=200), managed=7, substitutions=budget, engine=a.engine)
             m = make()
             saves, first_kind = [], set()
 

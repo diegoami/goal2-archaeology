@@ -1,0 +1,8 @@
+test_plain_checkpoint_keeps_backend_and_legacy_saves_keep_original (tests.test_port_engine.Checkpoints.test_plain_checkpoint_keeps_backend_and_legacy_saves_keep_original) ... ok
+test_unknown_corrupt_stale_backend_refuses_before_machine_construction (tests.test_port_engine.Checkpoints.test_unknown_corrupt_stale_backend_refuses_before_machine_construction) ... ok
+test_replay_origin_must_be_plain_and_have_the_same_backend_before_construction (tests.test_port_engine.Checkpoints.test_replay_origin_must_be_plain_and_have_the_same_backend_before_construction) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 1.082s
+
+OK
