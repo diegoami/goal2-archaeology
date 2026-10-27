@@ -10,3 +10,7 @@ merge commit on green CI, and use `tools/review_pr.sh` when a PR needs an indepe
 
 Read the [latest shutdown checkpoint on #386](https://github.com/diegoami/goal2-archaeology/issues/386#issuecomment-6375808145)
 before selecting the next task. It supersedes that issue's historical opening status; GitHub labels remain authoritative.
+
+## Resuming the engine anatomy study
+
+For the owner-authorised study through ES-R2, read the [current study checkpoint on #433](https://github.com/diegoami/goal2-archaeology/issues/433#issuecomment-6442284469) and the draft design notes on #444 before selecting a study task. Live labels, PR checks and newer checkpoint comments remain authoritative. The owner clarified on2026-10-27 that the goal session handles standalone delivery independently in a cloned repository; this session continues engine analysis. Keep T106/T107 gated by accepted ES-R2 and stop at its pinned independent-review prompt.
