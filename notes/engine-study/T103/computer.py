@@ -7,7 +7,8 @@ sys.path.insert(0,str(ROOT/'notes/engine-study/T98'))
 from tables import load_ds,s8
 
 
-def branch(score,side,managed=False):
+def branch(score,side,managed=False,mode8326=False):
+    if mode8326:return 'mode-skip'
     if managed:return 'skip'
     gap=abs(s8((s8(score[0])-s8(score[1]))&255))
     ahead=score[side]>score[1-side]
@@ -42,6 +43,7 @@ def calculations():
     read,_,_=load_ds()
     cases=[branch([1,0],0),branch([2,0],0),branch([2,0],1),branch([3,0],0),branch([3,0],1),branch([3,0],0,True),branch([255,0],0)]
     assert cases==['BD83','BF6B-exclude','BF6B-include','C0DF','C01A','skip','BD83']
+    assert branch([3,0],1,mode8326=True)=='mode-skip'
     assert draw_bits(0,[2,2])==2 and draw_bits(0,[2,2])!=3
     base=128
     stronger=draw_bits(base,[1,1]);after_gap2=draw_bits(stronger,[1,1,1],False)
@@ -65,7 +67,7 @@ def calculations():
     assert [read(0xa29+i) for i in range(1,6)]==[2,5,6,7,8]
     assert [read(0xa2e+i) for i in range(1,6)]==[1,0,0,0,0]
     assert emergency(roles,[False]*11,0,heights,read)['selected_slot'] is None
-    return dict(branch_cases=cases,duplicate_two_draw_mask=2,gap2_reset_and_exclude=[129,128],five_repeats_and6=33,latch_repeat=again,
+    return dict(mode8326_policy_call=False,branch_cases=cases,duplicate_two_draw_mask=2,gap2_reset_and_exclude=[129,128],five_repeats_and6=33,latch_repeat=again,
                 emergency_keeper=keeper,emergency_sweeper=sweeper,emergency_centre_back=centre,fullbacks=fullbacks,
                 forward_short_tall=[short,tall],donor_priority=[2,5,6,7,8],donor_threshold=[1,0,0,0,0],
                 controls={'update-managed-side':'rejected:managedbranchskip',
@@ -85,7 +87,7 @@ def build():
       ('0791:BD03','Sum377E forbothXI andcompareunsigned strictgreater.', ['country.squad','377E'],'Tieisnotstronger;differentfromrank/managerability orwatchedskill.'),
       ('0791:BD83','RestoreR008;side1host+stronger sets1;strongerincludesrand6twice;clearbothlatches.', ['80FC','8332/8334','BBFF'],'Drawscanrepeat;settings7/8remainbaseline.'),
       ('0791:BF6B','BD83 resetthen3rand6 includeswhenbehind orexcludeswhenahead.', ['BBFF','scorebranch'],'Not3distinctsettingsandnoteditofoldcurrentbytealone.'),
-      ('0791:C173','After-goal policy:managedskip,abs signed-bytegap<2 BD83,==2 BF6B,>2 extremeahead/behind.', ['9B3C','0B77','65FE'],'Notperiodicfirst-minuteAIchange;rawscorewrapcontextmustbequalified.'),
+      ('0791:C173','Normal-play8326clear caller only;after-goal policy:managedskip,abs signed-bytegap<2 BD83,==2 BF6B,>2 extremeahead/behind.', ['9B3C','0B77','65FE'],'Notperiodicfirst-minuteAIchange;rawscorewrapcontextmustbequalified.'),
       ('0791:BEC7','Firstavailableplayed9..11 convertedbyheight<72 to13,else12;returnafterfirst.', ['2FAD','0A28'],'Heightchangesrolepolicyhere,notdirectheadingconteststrength.'),
       ('0791:C01A','Ifincludelatchclear,5rand5includesandfixed6,BBFF,setlatch;slot9not12/13 permitsBEC7+230C.', ['8332','player+6'],'Onceperstretch;laterBD83 resetslatch. Existingstrikerselsewheredonotsufficeforslot9test.'),
       ('0791:C0DF','Ifexcludelatchclear,5rand5excludesandfixed6,BBFF,setlatch.', ['8334','country+2D'],'Noextraformationconversioninthisroutine.'),

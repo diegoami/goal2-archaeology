@@ -3,7 +3,7 @@
 The match creates state on top of the [persistent records](match-fields.md): pitch identity,
 coordinates, action handlers, ball travel, clocks, pending events, random streams and cached
 values. Several addresses have misleading names if their owner or phase is omitted.
-The [source ledger](../../notes/engine-study/T97/transient-v4.json) pins the layouts and primary
+The [source ledger](../../notes/engine-study/T97/transient-v5.json) pins the layouts and primary
 routines; it does not claim a complete typed schema for every byte in DS.
 
 ## Live records and coordinate conventions
@@ -41,7 +41,7 @@ equality can be an exact packed-word comparison. DS:0640 supplies an off-pitch s
 | `+0x0D` | 2 | player_index | Persistent player-record index, re-bound from the squad slot. |
 | `+0x0F` | 1 | run_direction | Direction/state-of-motion byte; activity accounting tests unsigned <5. |
 | `+0x10` | 1 | state_timer | State-dependent countdown (including chase/walk-off routes); not a global game minute. |
-| `+0x11` | 1 | cached_skill_extra | A260 binds manager_bonus(player.country)+32; 20E3 adds twice captain leadership to every player's byte; 278A later gates it by skill/event. |
+| `+0x11` | 1 | cached_skill_extra | A260 binds manager_bonus(player.country)+32; 20E3 adds twice captain leadership to every player's byte; 278A gates skill use; 34C1 events1/2 also add it directly to duration. |
 | `+0x12` | 1 | state | Action-handler dispatch code, distinct from player status flags. |
 | `+0x13` | 1 | placement_flag | Cached 3179 result; 278A halves derived skill when nonzero. |
 | `+0x14` | 2 | activity | Update counter; 8AE9 can spend energy after >180 while live play is enabled; reset separately from energy. |
@@ -203,7 +203,8 @@ would be misleading. T98 uses the condition itself in its formula.
 **The cached skill extra includes manager and captain contributions.** `A260` initially writes
 manager_bonus(player.country)+32 at pitch+11 without a goalkeeper-role test. `20E3` then adds
 twice captain leadership to all eleven bytes of each side, with byte wrapping. `278A` decides
-when to use the resulting byte by element/event. See [marking and leaders](marking.md) for
+when to add the byte to effective skill by element/event. Independently, `34C1` adds the
+raw byte directly on events1/2 when calculating `U16(V+K)//3` duration (listing3692–369F). See [marking and leaders](marking.md) for
 selection and rebinding order; the initial manager-derived value is not the complete later cache.
 The historical name keeping_extra must not be turned into a restriction that only a goalkeeper
 can receive it.

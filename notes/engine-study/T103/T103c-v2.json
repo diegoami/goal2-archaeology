@@ -1,0 +1,537 @@
+{
+  "analysis_sha256": {
+    "notes/engine-study/T103/common.py": "0152ed013ffcbf85e4f54e7821cb531403139a638d8a7d5e7a66b602ccc22717",
+    "notes/engine-study/T103/computer.py": "d23296ec1fa8e042e3cdcf1de61ed5fb62523b2bac4b29926e188d8184050eba"
+  },
+  "calculations": {
+    "branch_cases": [
+      "BD83",
+      "BF6B-exclude",
+      "BF6B-include",
+      "C0DF",
+      "C01A",
+      "skip",
+      "BD83"
+    ],
+    "controls": {
+      "best-keeper-emergency": "rejected:firstavailable3 is selectedwithoutkeepingcomparison",
+      "convert-only-one-fullback": "rejected:bothavailable3/4become2",
+      "gap2-does-not-reset": "rejected:BD83 baseline/stronger step precedes3changes",
+      "height-threshold-strict-greater72": "rejected:height72 selects12",
+      "ignore-latch": "rejected:secondextremegapcallmakesnonewdraws",
+      "random-distinct-settings": "rejected:five identicalrand1 plusfixed6 sets33,not63",
+      "update-managed-side": "rejected:managedbranchskip"
+    },
+    "donor_priority": [
+      2,
+      5,
+      6,
+      7,
+      8
+    ],
+    "donor_threshold": [
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "duplicate_two_draw_mask": 2,
+    "emergency_centre_back": {
+      "roles": [
+        0,
+        2,
+        2,
+        3,
+        4,
+        2,
+        6,
+        7,
+        8,
+        9,
+        13
+      ],
+      "selected_slot": 6
+    },
+    "emergency_keeper": {
+      "roles": [
+        0,
+        2,
+        0,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        13
+      ],
+      "selected_slot": 3
+    },
+    "emergency_sweeper": {
+      "roles": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        13
+      ],
+      "selected_slot": 2
+    },
+    "five_repeats_and6": 33,
+    "forward_short_tall": [
+      {
+        "roles": [
+          0,
+          2,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          13,
+          13
+        ],
+        "selected_slot": 10
+      },
+      {
+        "roles": [
+          0,
+          2,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          12,
+          13
+        ],
+        "selected_slot": 10
+      }
+    ],
+    "fullbacks": {
+      "roles": [
+        0,
+        2,
+        2,
+        2,
+        2,
+        5,
+        6,
+        7,
+        8,
+        9,
+        13
+      ],
+      "selected_slot": null
+    },
+    "gap2_reset_and_exclude": [
+      129,
+      128
+    ],
+    "latch_repeat": 33,
+    "mode8326_policy_call": false
+  },
+  "examples": [
+    {
+      "id": "gap-and-managed",
+      "inputs": {
+        "scores": [
+          3,
+          0
+        ],
+        "side0_managed": true,
+        "side1_managed": false
+      },
+      "limits": "Sourcepolicyprojection;noactualgoalornewAIexecution.",
+      "prediction": {
+        "side0": "skip",
+        "side1": "C01A"
+      },
+      "steps": [
+        "managedside0skip",
+        "signedgap3",
+        "side1unsignedbehind invokesC01A"
+      ]
+    },
+    {
+      "id": "duplicate-settings",
+      "inputs": {
+        "include_latch": 0,
+        "old_mask": 0,
+        "rand5": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "limits": "Suppliedlegaldraws;doesnotgenerateRNGorassumeindependence.",
+      "prediction": {
+        "fresh_draws_first": 5,
+        "fresh_draws_repeat": 0,
+        "mask": 33
+      },
+      "steps": [
+        "fivetimesinclude1",
+        "includefixed6",
+        "setlatch",
+        "repeatcallreturns"
+      ]
+    },
+    {
+      "id": "emergency-centreback",
+      "inputs": {
+        "available_roles": [
+          0,
+          2,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          13
+        ],
+        "requested_role": 2
+      },
+      "limits": "Conditionalinnerrepair;notafullnaturalremovalfixture.",
+      "prediction": {
+        "new_role": 2,
+        "slot": 6
+      },
+      "steps": [
+        "skippriorityindex1role2",
+        "firstsurplusrole5count1>0",
+        "firstrole5slot6 becomes2"
+      ]
+    },
+    {
+      "id": "height-role-switch",
+      "inputs": {
+        "first_available_forward_slot": 10,
+        "heights": [
+          71,
+          72
+        ],
+        "played_role": 9
+      },
+      "limits": "Representableconditionalheightvalues;noaverageaerial/goalbenefitestablished.",
+      "prediction": {
+        "new_roles": [
+          13,
+          12
+        ]
+      },
+      "steps": [
+        "BEC7choosesfirstavailable9..11",
+        "71<72 ->13",
+        "72>=72 ->12",
+        "returnwithoutotherconversions"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:230C",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "eba876dad7dec2d5cfa5b1b44e68eec91ececf92ed693b336e9bfdfe6f54e4be",
+      "line": 450
+    },
+    {
+      "address": "0791:65FE",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "920889d6d4b1d70e943c8acf51b4f4eca48c21cd7c0975bdd66befa588031416",
+      "line": 370
+    },
+    {
+      "address": "0791:A3DE",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "93da7d0fcebe61b26058c65a37a46aa3d1f9ceffb5c8883a3ed60c20956905f3",
+      "line": 789
+    },
+    {
+      "address": "0791:BBFF",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "f02fe480f7206219f8fbf7058c6f50507c5370faa62cbf96c7649c009d3093b3",
+      "line": 927
+    },
+    {
+      "address": "0791:BC5D",
+      "file": "static/goal-exe/named/seg_0791_10.c",
+      "heading_sha256": "8f6cc10712b219f30dbca2b1b3e8f4ae9dcd97c3e4ea3c3de42067e133390ab5",
+      "line": 952
+    },
+    {
+      "address": "0791:BD03",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "28315dee75ff3ac7a646098176554ad346f6f72cace33471a8bd1ea4f9b9e9d5",
+      "line": 4
+    },
+    {
+      "address": "0791:BD83",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "42edaf109132395ef837e46c33f8311aed70ef7fd7105ef864306cb8eb747add",
+      "line": 30
+    },
+    {
+      "address": "0791:BEC7",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "e120fcfb0c83be4b8a1816510173d4260c11ce56437a8b11d764e61977f52ae0",
+      "line": 76
+    },
+    {
+      "address": "0791:BF6B",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "1b26e7f5be31c3a51b25c241504f370a76887d55ea783dbf65fec1d4730188f6",
+      "line": 121
+    },
+    {
+      "address": "0791:C01A",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "f0e4f4dac80de7ad811509ddec5e055981c8480d1e898945e9afe034561a139b",
+      "line": 156
+    },
+    {
+      "address": "0791:C0DF",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "c09fbfbf18d4afe92f3b990dbdb197b4b70af2acd40b3af1914e070b4c20ce8b",
+      "line": 196
+    },
+    {
+      "address": "0791:C173",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "c2ca6ebb8b49ba7d976dfc3bfff8993265685310c7b509e69d698af9c4adc38e",
+      "line": 228
+    },
+    {
+      "address": "0791:C24D",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "bb8cdaa67d7e98b46f754dcfdd8daf4cc2a0583cf516a5deb061dc61f61cccc5",
+      "line": 281
+    },
+    {
+      "address": "0791:C2A8",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "7a3cb485b01eb4fa5f4f0a5bee1bbde04715995cc6a57a1ea9a3dfcc15fb1fa4",
+      "line": 307
+    },
+    {
+      "address": "0791:C406",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "37fc3db9a01ebed3fcc2d1cf3ad93b426acff16312cb5241ffce22fb489b53d0",
+      "line": 364
+    },
+    {
+      "address": "0791:C48D",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "961c736feabd0049ce50802137c730464fed5208a7892a2968d8fb47b0def141",
+      "line": 398
+    },
+    {
+      "address": "1771:2FAD",
+      "file": "static/goal-exe/named/seg_1771_02.c",
+      "heading_sha256": "22e50acc9fc2ede6141e4e9f25c4ffa9fd49b738ff79b2e00e41dabdf85b9147",
+      "line": 1025
+    },
+    {
+      "address": "1771:3216",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "cf2efc3f95929549dda5cd550fc761119ebf69ebd0cc42daa2823596d3838491",
+      "line": 75
+    },
+    {
+      "address": "1771:377E",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "be609e51b5b2a56ec30ad217e3c03269eca62b554142c7b632f65b57e552eb65",
+      "line": 316
+    }
+  ],
+  "method": "Original named/listing reading and source-derived projections; no original/port engine execution.",
+  "routines": [
+    {
+      "address": "0791:BBFF",
+      "fields": [
+        "country+2D",
+        "player+F"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Storecurrentcountrytacticbyte then3431 fornonzero20squadwords withoutclear.",
+      "visible_effect": "Currentteamchange canrederivepersonaloverrides."
+    },
+    {
+      "address": "0791:BC5D",
+      "fields": [
+        "9B7C",
+        "9F02",
+        "player+F/+6"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Clearall20ownbytes;BBFF R008;sort52CC;XIplayedrolesfromR011.",
+      "visible_effect": "Reset is notmerelyrestoringteamtactics;order precedesroleassignment."
+    },
+    {
+      "address": "0791:BD03",
+      "fields": [
+        "country.squad",
+        "377E"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Sum377E forbothXI andcompareunsigned strictgreater.",
+      "visible_effect": "Tieisnotstronger;differentfromrank/managerability orwatchedskill."
+    },
+    {
+      "address": "0791:BD83",
+      "fields": [
+        "80FC",
+        "8332/8334",
+        "BBFF"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "RestoreR008;side1host+stronger sets1;strongerincludesrand6twice;clearbothlatches.",
+      "visible_effect": "Drawscanrepeat;settings7/8remainbaseline."
+    },
+    {
+      "address": "0791:BF6B",
+      "fields": [
+        "BBFF",
+        "scorebranch"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "BD83 resetthen3rand6 includeswhenbehind orexcludeswhenahead.",
+      "visible_effect": "Not3distinctsettingsandnoteditofoldcurrentbytealone."
+    },
+    {
+      "address": "0791:C173",
+      "fields": [
+        "9B3C",
+        "0B77",
+        "65FE"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Normal-play8326clear caller only;after-goal policy:managedskip,abs signed-bytegap<2 BD83,==2 BF6B,>2 extremeahead/behind.",
+      "visible_effect": "Notperiodicfirst-minuteAIchange;rawscorewrapcontextmustbequalified."
+    },
+    {
+      "address": "0791:BEC7",
+      "fields": [
+        "2FAD",
+        "0A28"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Firstavailableplayed9..11 convertedbyheight<72 to13,else12;returnafterfirst.",
+      "visible_effect": "Heightchangesrolepolicyhere,notdirectheadingconteststrength."
+    },
+    {
+      "address": "0791:C01A",
+      "fields": [
+        "8332",
+        "player+6"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Ifincludelatchclear,5rand5includesandfixed6,BBFF,setlatch;slot9not12/13 permitsBEC7+230C.",
+      "visible_effect": "Onceperstretch;laterBD83 resetslatch. Existingstrikerselsewheredonotsufficeforslot9test."
+    },
+    {
+      "address": "0791:C0DF",
+      "fields": [
+        "8334",
+        "country+2D"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Ifexcludelatchclear,5rand5excludesandfixed6,BBFF,setlatch.",
+      "visible_effect": "Noextraformationconversioninthisroutine."
+    },
+    {
+      "address": "0791:C24D",
+      "fields": [
+        "3216",
+        "player+6"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Emergencykeeper:firstavailableoutfieldslot2..11 becomesplayed0.",
+      "visible_effect": "No keeping/height/strengthmaximisation."
+    },
+    {
+      "address": "0791:C2A8",
+      "fields": [
+        "0A29/0A2E",
+        "player+6"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "AvailableXIrolecounts;request1priorityindex1..5,request2index2..5;firstsurplusdonor thenfirstavailableidentity.",
+      "visible_effect": "No surplus meansnochange;strictcount>threshold."
+    },
+    {
+      "address": "0791:C406",
+      "fields": [
+        "CSC3E6",
+        "player+6"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "EveryavailableXIplayed3/4 becomes2.",
+      "visible_effect": "Convertsallmatchingavailablefullbacks,notjustone."
+    },
+    {
+      "address": "0791:C48D",
+      "fields": [
+        "pitch+D",
+        "player+6",
+        "country.squad"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Dispatchremovedplayed0->C24D;1/2->C2A8;3/4->C406;12/13->BEC7;then230C.",
+      "visible_effect": "Role repair/removal flow differsfromordinarybenchsubstitution."
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "When the computer changes tactics",
+    "Repeated draws, latches and resets",
+    "Emergency role repair",
+    "Worked checks and remaining limits"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "notes/engine-study/T98/tables.py": "f5e0836d57f8816943f2b2648818cb3a6175060b834f827dff64f27d535215fb",
+    "runtime/original_match/port/discipline.py": "a8ee74a7336ebd3d8c85ee71cbb6a089fca45fc0c05ee3efec866d798649fdcd",
+    "runtime/original_match/port/postmatch.py": "32035e9d055055cc29ba6dedbb38ceda3ac18ea6cc5d2a40605450086f41f86e",
+    "runtime/original_match/port/rare.py": "588b6fc3430a0e674664d9bf8f165bdf31779f240ac783f0490e5f4c5be1d66e",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_0791_11.asm": "a5aebf13faf14469141d8edb9a0878b0a56b7267451694622801732f522603ec",
+    "static/goal-exe/code/seg_0791_17.asm": "e8ca718382b8b72b2a9d1ede8d24bf6bf0bf2e899b3cc70d91a5435d076f6c44",
+    "static/goal-exe/code/seg_0791_19.asm": "9a67e02197e7b3796be1cf653ed6ffff35a9939cbe0044dee57f639971063ed8",
+    "static/goal-exe/code/seg_0791_20.asm": "9ed1e3aa1aca8370004fc286911f2cf55003c084f03f95f8e39b56bf438361f9",
+    "static/goal-exe/code/seg_1771_04.asm": "ef700ca62bccac8a0f61e53f34325483c850f1ba16202ad42a7bb64c29721643",
+    "static/goal-exe/code/seg_1771_05.asm": "4a856a9af9dee3d93fe6e6275ead612d2d3ba4c81363389c68fa5424ca8483d9",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_06.c": "1c03cc01069ce4f4eedb386688654af7c3a3900eeb3470971111b2caa3bbe945",
+    "static/goal-exe/named/seg_0791_09.c": "71a912e2c5564f75078a0db0220c5388a74ec168783371a63c74cdddae22275f",
+    "static/goal-exe/named/seg_0791_10.c": "307274e4e5007f1e809b5b54708a686d106a61d77848ddc6967c9fb0fd88e52f",
+    "static/goal-exe/named/seg_0791_11.c": "6e51b68715ebeca24e6616c99258668b5df0bb927e5e133105e04af66fee650e",
+    "static/goal-exe/named/seg_1771_02.c": "c7e60651ef10c35c018cf97ac3062bf7d8fa66fd155da9f65160e4d16fc85455",
+    "static/goal-exe/named/seg_1771_03.c": "9c51e37d30f7d69e51b2d776c0b704d7f87852cd10d47fa4d679880d13f4d2f4"
+  },
+  "status": "proposed; source-derived explanation",
+  "supporting_artifacts": {},
+  "task": "T103c"
+}

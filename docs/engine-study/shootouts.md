@@ -4,7 +4,7 @@ Extra time reuses the match-half machinery. A shootout reuses watched placement,
 keeper mechanics while repurposing some clock bytes and suppressing selected normal statistics.
 Its order, working tally and fixture result are separate representations.
 
-The [ten-routine ledger](../../notes/engine-study/T104/T104d-v1.json) and
+The [ten-routine ledger](../../notes/engine-study/T104/T104d-v2.json) and
 [bookkeeping calculations](../../notes/engine-study/T104/shootouts.py) contain source-derived
 examples only. No kicks, UI keys, original/port routines or full matches were executed here.
 These interpretations remain proposed pending ES-R2; F015/F023/F030 and T76/T77 coverage
@@ -74,12 +74,12 @@ It is a ball simulation, not a single independent penalty-success coin.
 
 ## Round stopping and score representations
 
-`A10A` temporarily raises pace, forces watched play even after a quick route, fills orders,
+`A10A` temporarily raises the match delay byte to at least2 (slowing play), forces watched play even after a quick route, fills orders,
 initialises five remaining kicks per side and starts with side `831A`. It stops when one
 working score exceeds the other's score plus remaining kicks. When the starting side has
 used its five, the other side's counter is set to one for its equalising opportunity; this
 mechanism also supports successive sudden-death pairs. After the second side's kick the
-round counter increments before the next stop test. It restores the saved pace byte and
+round counter increments before the next stop test. It restores the saved delay byte and
 the quick flag from `9A3F` on return.
 
 With supplied outcomes make/miss repeated, three-nil can terminate after six kicks rather
@@ -122,13 +122,13 @@ taker prompt uses 1000 polls. Their nominal 6000/10000 calibrated units are not 
 of invariant host duration and do not advance the match clock. The wait-count/runtime-unit
 gap on [#412](https://github.com/diegoami/goal2-archaeology/issues/412) is still open.
 
-`0C0B` increments the unsigned pace byte below five and raises a result below two to two;
+`0C0B` increments the unsigned delay byte below five and raises a result below two to two;
 it preserves an already larger raw byte. For inputs 0,1,2,4,5,9,255 the results are
 2,2,3,5,5,9,255. The last two are edited-width cases, not claims that the normal UI chooses
 those settings. A generic clamp-to-five changes the primitive.
 
 Eight altered-rule controls cover extra-time entry, keeper inclusion, initial availability
-fallback, sudden-death equalisation, board dismissal, raw pace, normal player-goal counting
+fallback, sudden-death equalisation, board dismissal, raw delay, normal player-goal counting
 and fixture/working-score separation. None is a new original or port kick comparison. The
 partial-order/dummy context and actual availability histories remain explicit audit questions;
 new probes or match batches require the T105 design and accepted ES-R2 gate.
