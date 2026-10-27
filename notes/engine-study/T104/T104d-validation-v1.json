@@ -1,0 +1,92 @@
+{
+  "baseline": "d82edfff4ba44bfbc35167d8489c205f34c293b7",
+  "method": "source-derived projections; no engine or key execution",
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T104/set_pieces.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T104a, 26 routines, 4 worked examples, 5 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T104/discipline.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T104b, 11 routines, 4 worked examples, 5 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T104/substitutions.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T104c, 16 routines, 4 worked examples, 6 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T104/shootouts.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T104d, 10 routines, 4 worked examples, 8 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "T104d-final",
+        "--",
+        "python3",
+        "-B",
+        "notes/engine-study/T104/check.py",
+        "--task",
+        "T104d",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T104d\",\n  \"scope\": \"T104 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 10,\n  \"manifest_sha256\": \"1891aff2fd9ab5c5945cd22f13912ced14c378e67959a5b473f93efe9ad93119\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/check_links.py"
+      ],
+      "exit": 0,
+      "stdout": "links and JSON ok (9891 files)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "sha256": {
+    "notes/engine-study/T104/shootouts.py": "1425a43631c3e858d37ca80bce909dd4e9a1246b097316b9d451c6166461bf44",
+    "notes/engine-study/T104/common.py": "7b268370b2f3d1503e4a773558e2f6747f8f51008891c8dea2bc791ccdabe01e",
+    "notes/engine-study/T104/check.py": "13e8fa9632b5341df8c1275c1f7ccc1f278868068dde8b14aef498c32d6e35fb",
+    "notes/engine-study/T104/T104d-v1.json": "1891aff2fd9ab5c5945cd22f13912ced14c378e67959a5b473f93efe9ad93119",
+    "docs/engine-study/shootouts.md": "268860f383b19bef085e230f5427ab6aed2d018e0de1d7f39d97fb465ce3c20e"
+  }
+}

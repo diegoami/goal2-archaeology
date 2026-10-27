@@ -1,0 +1,1052 @@
+{
+  "analysis_sha256": {
+    "notes/engine-study/T104/common.py": "7b268370b2f3d1503e4a773558e2f6747f8f51008891c8dea2bc791ccdabe01e",
+    "notes/engine-study/T104/shootouts.py": "1425a43631c3e858d37ca80bce909dd4e9a1246b097316b9d451c6166461bf44"
+  },
+  "calculations": {
+    "after_first_eligible_clock_advance": {
+      "elapsed": 90,
+      "remaining": 30
+    },
+    "controls": {
+      "clamp-raw-speed9": "rejected:9 remains9",
+      "count-pk-in-normal-player-goals": "rejected:normal6443 branch skipped",
+      "filter-before-current-kick": "rejected:first5 instead of2",
+      "outfield-only-ranking": "rejected:keeper1 is highest in supplied order",
+      "overwrite-fixture-with-working-pk-tally": "rejected:F098 updatesresult only",
+      "space-dismissal-commits": "rejected:secondEnter onlydismissesboard",
+      "stop-after-first-sudden-death-kick": "rejected:other side must getitskick",
+      "wrong-extra-entry30": "rejected:first eligible remaining29,not30"
+    },
+    "decider_set": [
+      4,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140,
+      141,
+      142,
+      143,
+      144,
+      145,
+      146,
+      147,
+      148,
+      149,
+      150,
+      151,
+      152,
+      153,
+      154,
+      155,
+      156,
+      157,
+      158,
+      159,
+      160,
+      161,
+      162,
+      163,
+      164,
+      165,
+      166,
+      167,
+      168,
+      169,
+      170,
+      171,
+      172,
+      173,
+      174,
+      175,
+      176,
+      177,
+      178,
+      179,
+      180,
+      181,
+      182,
+      183,
+      184,
+      185,
+      186,
+      187,
+      188,
+      189,
+      190,
+      191,
+      192,
+      193,
+      194,
+      195,
+      196,
+      197,
+      198,
+      199,
+      200,
+      201,
+      202,
+      203
+    ],
+    "early_stop": {
+      "continues": false,
+      "kicks": 6,
+      "remaining": [
+        2,
+        2
+      ],
+      "round": 4,
+      "score": [
+        3,
+        0
+      ],
+      "trace": [
+        {
+          "made": true,
+          "remaining": [
+            4,
+            5
+          ],
+          "round_after": 1,
+          "score": [
+            1,
+            0
+          ],
+          "side": 0
+        },
+        {
+          "made": false,
+          "remaining": [
+            4,
+            4
+          ],
+          "round_after": 2,
+          "score": [
+            1,
+            0
+          ],
+          "side": 1
+        },
+        {
+          "made": true,
+          "remaining": [
+            3,
+            4
+          ],
+          "round_after": 2,
+          "score": [
+            2,
+            0
+          ],
+          "side": 0
+        },
+        {
+          "made": false,
+          "remaining": [
+            3,
+            3
+          ],
+          "round_after": 3,
+          "score": [
+            2,
+            0
+          ],
+          "side": 1
+        },
+        {
+          "made": true,
+          "remaining": [
+            2,
+            3
+          ],
+          "round_after": 3,
+          "score": [
+            3,
+            0
+          ],
+          "side": 0
+        },
+        {
+          "made": false,
+          "remaining": [
+            2,
+            2
+          ],
+          "round_after": 4,
+          "score": [
+            3,
+            0
+          ],
+          "side": 1
+        }
+      ]
+    },
+    "extra_time_entry": {
+      "elapsed": 89,
+      "end_flag": 0,
+      "half_threshold": 15,
+      "permission": 1,
+      "remaining": 31,
+      "subtick": 0
+    },
+    "f098_score_boundary": {
+      "fixture_goal_bytes": [
+        2,
+        2
+      ],
+      "fixture_result": 0,
+      "working_tally": [
+        3,
+        2
+      ]
+    },
+    "first_auto_fallback": {
+      "actual_first": 2,
+      "second_order_entry": 5,
+      "top_order_entry": 11,
+      "unavailable": [
+        11
+      ]
+    },
+    "managed_partial_next_probe": 0,
+    "nominal_poll_units": [
+      6000,
+      10000
+    ],
+    "shootout_goal_effect": {
+      "goal_commentary_perf_delta": 40,
+      "normal_player_goal_delta": 0,
+      "normal_scorer_log": false,
+      "working_score_delta": 1
+    },
+    "shootout_kicker_directions": [
+      -1,
+      -1
+    ],
+    "speed_edges": [
+      2,
+      2,
+      3,
+      5,
+      5,
+      9,
+      255
+    ],
+    "sudden_death_after_first": {
+      "continues": true,
+      "kicks": 11,
+      "remaining": [
+        0,
+        1
+      ],
+      "round": 6,
+      "score": [
+        3,
+        2
+      ],
+      "trace": [
+        {
+          "made": false,
+          "remaining": [
+            4,
+            5
+          ],
+          "round_after": 1,
+          "score": [
+            2,
+            2
+          ],
+          "side": 0
+        },
+        {
+          "made": false,
+          "remaining": [
+            4,
+            4
+          ],
+          "round_after": 2,
+          "score": [
+            2,
+            2
+          ],
+          "side": 1
+        },
+        {
+          "made": false,
+          "remaining": [
+            3,
+            4
+          ],
+          "round_after": 2,
+          "score": [
+            2,
+            2
+          ],
+          "side": 0
+        },
+        {
+          "made": false,
+          "remaining": [
+            3,
+            3
+          ],
+          "round_after": 3,
+          "score": [
+            2,
+            2
+          ],
+          "side": 1
+        },
+        {
+          "made": false,
+          "remaining": [
+            2,
+            3
+          ],
+          "round_after": 3,
+          "score": [
+            2,
+            2
+          ],
+          "side": 0
+        },
+        {
+          "made": false,
+          "remaining": [
+            2,
+            2
+          ],
+          "round_after": 4,
+          "score": [
+            2,
+            2
+          ],
+          "side": 1
+        },
+        {
+          "made": false,
+          "remaining": [
+            1,
+            2
+          ],
+          "round_after": 4,
+          "score": [
+            2,
+            2
+          ],
+          "side": 0
+        },
+        {
+          "made": false,
+          "remaining": [
+            1,
+            1
+          ],
+          "round_after": 5,
+          "score": [
+            2,
+            2
+          ],
+          "side": 1
+        },
+        {
+          "made": false,
+          "remaining": [
+            0,
+            1
+          ],
+          "round_after": 5,
+          "score": [
+            2,
+            2
+          ],
+          "side": 0
+        },
+        {
+          "made": false,
+          "remaining": [
+            0,
+            0
+          ],
+          "round_after": 6,
+          "score": [
+            2,
+            2
+          ],
+          "side": 1
+        },
+        {
+          "made": true,
+          "remaining": [
+            0,
+            1
+          ],
+          "round_after": 6,
+          "score": [
+            3,
+            2
+          ],
+          "side": 0
+        }
+      ]
+    },
+    "sudden_death_complete": {
+      "continues": false,
+      "kicks": 12,
+      "remaining": [
+        0,
+        0
+      ],
+      "round": 7,
+      "score": [
+        3,
+        2
+      ],
+      "trace": [
+        {
+          "made": false,
+          "remaining": [
+            4,
+            5
+          ],
+          "round_after": 1,
+          "score": [
+            2,
+            2
+          ],
+          "side": 0
+        },
+        {
+          "made": false,
+          "remaining": [
+            4,
+            4
+          ],
+          "round_after": 2,
+          "score": [
+            2,
+            2
+          ],
+          "side": 1
+        },
+        {
+          "made": false,
+          "remaining": [
+            3,
+            4
+          ],
+          "round_after": 2,
+          "score": [
+            2,
+            2
+          ],
+          "side": 0
+        },
+        {
+          "made": false,
+          "remaining": [
+            3,
+            3
+          ],
+          "round_after": 3,
+          "score": [
+            2,
+            2
+          ],
+          "side": 1
+        },
+        {
+          "made": false,
+          "remaining": [
+            2,
+            3
+          ],
+          "round_after": 3,
+          "score": [
+            2,
+            2
+          ],
+          "side": 0
+        },
+        {
+          "made": false,
+          "remaining": [
+            2,
+            2
+          ],
+          "round_after": 4,
+          "score": [
+            2,
+            2
+          ],
+          "side": 1
+        },
+        {
+          "made": false,
+          "remaining": [
+            1,
+            2
+          ],
+          "round_after": 4,
+          "score": [
+            2,
+            2
+          ],
+          "side": 0
+        },
+        {
+          "made": false,
+          "remaining": [
+            1,
+            1
+          ],
+          "round_after": 5,
+          "score": [
+            2,
+            2
+          ],
+          "side": 1
+        },
+        {
+          "made": false,
+          "remaining": [
+            0,
+            1
+          ],
+          "round_after": 5,
+          "score": [
+            2,
+            2
+          ],
+          "side": 0
+        },
+        {
+          "made": false,
+          "remaining": [
+            0,
+            0
+          ],
+          "round_after": 6,
+          "score": [
+            2,
+            2
+          ],
+          "side": 1
+        },
+        {
+          "made": true,
+          "remaining": [
+            0,
+            1
+          ],
+          "round_after": 6,
+          "score": [
+            3,
+            2
+          ],
+          "side": 0
+        },
+        {
+          "made": false,
+          "remaining": [
+            0,
+            0
+          ],
+          "round_after": 7,
+          "score": [
+            3,
+            2
+          ],
+          "side": 1
+        }
+      ]
+    }
+  },
+  "examples": [
+    {
+      "id": "sudden-death-pair",
+      "inputs": {
+        "initial10outcomes": "allmiss",
+        "initial_working_score": [
+          2,
+          2
+        ],
+        "next_pair": [
+          true,
+          false
+        ],
+        "starting_side": 0
+      },
+      "limits": "Supplied bookkeeping outcomes,not12original kicks. F098fixturegoalbytes remain2,2 atthatboundary;result becomes0.",
+      "prediction": {
+        "kicks": 12,
+        "round": 7,
+        "working_score": [
+          3,
+          2
+        ]
+      },
+      "steps": [
+        "after10tied,bothremaining0",
+        "firstSDscore3,2 resetsopponentremaining1,continue",
+        "secondside misses,remaining0,0,stop"
+      ]
+    },
+    {
+      "id": "unavailable-top-entry",
+      "inputs": {
+        "side_base": 0,
+        "unavailable_slot": 11,
+        "unmanaged_order": [
+          11,
+          5,
+          2,
+          3,
+          4,
+          6,
+          7,
+          8,
+          9,
+          10,
+          1
+        ]
+      },
+      "limits": "Source-conditioned availability example,notobservedfrequency. Partialmanagedzero-entryavailability remainsunresolved.",
+      "prediction": {
+        "first_kicker": 2,
+        "next_order_entry": 5
+      },
+      "steps": [
+        "A006calls6BF1 onentry11",
+        "2A15wraps toavailable2forcurrentkick",
+        "nextordercursor2 names5"
+      ]
+    },
+    {
+      "id": "taker-board-read",
+      "inputs": {
+        "keys": [
+          "Space",
+          "Enter",
+          "Enter"
+        ],
+        "role": 3
+      },
+      "limits": "Source stateprojection,notgenuinekey-input evidence;#400gaps remain.",
+      "prediction": {
+        "requires_board_dismissal": true,
+        "selected": "highlighted-player"
+      },
+      "steps": [
+        "Spaceopensboard",
+        "firstEnterdismissesboard",
+        "nextpromptEnterselectsavailablehighlight"
+      ]
+    },
+    {
+      "id": "mode-dependent-goal",
+      "inputs": {
+        "goal_template": 38,
+        "shootout_end_mode_8326": 1
+      },
+      "limits": "Named-player commentary contextassumed;MOM/post-fixturereaders stillneedphase-awareinterpretation. No newenginecall.",
+      "prediction": {
+        "goal_commentary_perf_delta": 40,
+        "normal_player_goal_delta": 0,
+        "normal_scorer_log": false,
+        "working_score_delta": 1
+      },
+      "steps": [
+        "67B6workingtallyincrement",
+        "skipnormal6443/playergoal/log branch",
+        "1EB5stillappliesgoalcommentarydelta before ring"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:0B7C",
+      "file": "static/goal-exe/named/seg_0791_01.c",
+      "heading_sha256": "70522ea0c61f856c1b7c4b6d1f7577c0d6fcc86ed915db93e2b11a8da43b9080",
+      "line": 641
+    },
+    {
+      "address": "0791:0C0B",
+      "file": "static/goal-exe/named/seg_0791_01.c",
+      "heading_sha256": "b3fe67de7df4dc557b8f43d9d98d442a21d04ce933402fba289cd235d720d37d",
+      "line": 680
+    },
+    {
+      "address": "0791:1E53",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "dc142fb75741f8c040b0793c941d5b84a5c7d3fcc2f17289715aa3f89a1e75a3",
+      "line": 243
+    },
+    {
+      "address": "0791:1EB5",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "a6e9db1325d4dbb4fa2598be69a65a033084adaf67de6018436dcb04dfad3d61",
+      "line": 261
+    },
+    {
+      "address": "0791:2A15",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "260d3e2b26d36cb546efd3ddd42e2cc3f8a36d7d40f4fe038a8340ace09711ab",
+      "line": 837
+    },
+    {
+      "address": "0791:2BE5",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "3e460f9039b957339beed498b7fb69797d640cca50ba6d3c1c2fac2564037f56",
+      "line": 4
+    },
+    {
+      "address": "0791:67B6",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "4c42822192009f41bab718c000943813fa176a2c06397e021a20b3612c2c605a",
+      "line": 472
+    },
+    {
+      "address": "0791:9B0C",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "2143bf583b3ba36bbe7124c3862098502140c6d6216ece62e2da49e127a44db8",
+      "line": 391
+    },
+    {
+      "address": "0791:9B5B",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "7f83fbebd8febfbdec9fbf467051f3c63fcd77e3055fabac0bce9af6b5a9b088",
+      "line": 415
+    },
+    {
+      "address": "0791:9B93",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "97201b2bd6fd5845f019ec3431457476c354a077f32954a1110e8a5b9c16b71c",
+      "line": 431
+    },
+    {
+      "address": "0791:9ED3",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "7ebeb4c5a07d8353c3baa91ccfdcb01d125acf354460957fe0c693d66d7ff98e",
+      "line": 544
+    },
+    {
+      "address": "0791:A006",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "2a6a339471cc86f110a5f806aec77113309a257d697009ed5a5c258ab8535090",
+      "line": 589
+    },
+    {
+      "address": "0791:A10A",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "fdaa88545da96c82f16890cde8e2a424b4544f50528a53a4578aa4ffc601290e",
+      "line": 628
+    },
+    {
+      "address": "0791:A3DE",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "93da7d0fcebe61b26058c65a37a46aa3d1f9ceffb5c8883a3ed60c20956905f3",
+      "line": 789
+    },
+    {
+      "address": "0791:CC2E",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "d93149ed50e005a5611d9f0b10f5ec60d55850831788737e79784318cb1e4465",
+      "line": 724
+    },
+    {
+      "address": "0791:CC7B",
+      "file": "static/goal-exe/named/seg_0791_11.c",
+      "heading_sha256": "4daa24a9464b34413fcb7b7359ee51b095353f7c118b2631a1df6ca8d300624d",
+      "line": 744
+    },
+    {
+      "address": "0791:F098",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "3a479475383937b39b481005207ae4318f2f73335c14cfa4c95ddb3b035f50c7",
+      "line": 550
+    }
+  ],
+  "method": "Original named/listing reading and source-derived projections; no original/port engine execution.",
+  "routines": [
+    {
+      "address": "0791:0B7C",
+      "fields": [
+        "CC2E",
+        "A976",
+        "prompttext"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Y/N prompt waits600 polls,returnsYes onlyforwaitingY;otherkey/no-keyNo.",
+      "visible_effect": "Replay/save/summary question isdistinctfromtakerprompt1000polls."
+    },
+    {
+      "address": "0791:0C0B",
+      "fields": [
+        "game+3F"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Unsigned speed/delaybyte incrementsbelow5 thenminimum2;largervaluespreserved.",
+      "visible_effect": "Shootout temporarilychangespace andrestoresoldbyte later."
+    },
+    {
+      "address": "0791:9B0C",
+      "fields": [
+        "831B/831F/8319/831D/8326",
+        "9B41",
+        "80FD/831A"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "FirstETwrapper setsremaining31,elapsed89,half15,subtick/endflag0,permission1,managedmenu if80FD,startingselector,983F.",
+      "visible_effect": "ETclockentry valuesarepartofclock/directionprotocol,notliteral31minutes."
+    },
+    {
+      "address": "0791:9B5B",
+      "fields": [
+        "9B41",
+        "80FD/831A",
+        "830B"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "SecondETwrapper grantspermission,optionalmanagedmenu,oppositekickoffselector,983F.",
+      "visible_effect": "UsesremainingETclock ratherthanindependentnewmatchinitialisation."
+    },
+    {
+      "address": "0791:9B93",
+      "fields": [
+        "parent12-byteper-sideorder",
+        "3216",
+        "playercards"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Managedshootoutorder selectsallavailableplayers,avoidsduplicates;Enterappend,Escundo,finishatavailablecount.",
+      "visible_effect": "Order canhavefewerthan11entries;genuineinputs andzero-entrycursor behaviorneedtheir ownlimits."
+    },
+    {
+      "address": "0791:9ED3",
+      "fields": [
+        "278A(12)",
+        "parentorderarrays"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Fillall11pitchslotsincludingkeeper;descendingpairwise effectivepenalties12sort,noavailabilityfilterhere.",
+      "visible_effect": "Unavailableentryinrankarraydoesnotmeanthatplayernecessarilytakescurrentkick."
+    },
+    {
+      "address": "0791:A006",
+      "fields": [
+        "8319/8324/8325",
+        "6BF1/2A15",
+        "parentcursor",
+        "9564"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Set8319=-side,setupcurrentorderedtaker,thenadvanceordercursor1..11pastavailability;mode8324andwatchedsweepsuntilkick/flightsettles.",
+      "visible_effect": "Currentfallbackandnext-orderadvancement areseparate;clockbytesrepurposedfordirection."
+    },
+    {
+      "address": "0791:A10A",
+      "fields": [
+        "9A3E/9A3F",
+        "831D",
+        "9B3C",
+        "parentstackcounters"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Savedpace,forcewatched,selectorders,remainingkicks/rounds,andearly/suddendeathloopusingworkingtally;restorepaceandquickflag.",
+      "visible_effect": "Fiveinitialkicks thenequalisation logic;normalstatistics/scorer handlingisphase-dependent."
+    },
+    {
+      "address": "0791:CC2E",
+      "fields": [
+        "0723",
+        "1E09(10)"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Speakeroff;up ton keypolls eachfollowedbycalibrateddelay10 whennokey;zero n no loop.",
+      "visible_effect": "Nominalwaitunitsnotmatchclockticks ormeasuredhostduration."
+    },
+    {
+      "address": "0791:CC7B",
+      "fields": [
+        "9976",
+        "6B65",
+        "1F3C/1FDD",
+        "1000polls",
+        "CF3A"
+      ],
+      "limits": "Conditional source mechanism; natural reach/frequency not established by this calculation.",
+      "mechanism": "Validatecurrentpickavailability/slot<=11,automaticfallback,C/Enter/Esc/timeoutchoices,boardSpaceextra readforroles2..5,returnplayerID.",
+      "visible_effect": "Spaceboarddismissaldoesnotcommittaker;selection identitynotasquadslot."
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "Extra time and overloaded clock state",
+    "Ordering, eligibility and one kick",
+    "Round stopping and score representations",
+    "Prompts, timing and evidence limits"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "findings/F023-the-stage-builders-write-the-competition-calendar-from-ranked-pots-and-a-points-sort-with-no-coin.md": "97b2ad4a34e5d71e3ec3a0358661465b2604ed558b3a2a80485cd0b2a26c1146",
+    "notes/engine-study/T98/tables.py": "f5e0836d57f8816943f2b2648818cb3a6175060b834f827dff64f27d535215fb",
+    "runtime/original_match/port/duels.py": "37fe8ea7dec6c3aff8c80d26367d3225460af037a839912e98b4e6217dd739b6",
+    "runtime/original_match/port/frame.py": "d4c0cd4753038d6058f8359818164ce8cd0be775191fc8338f9a7ec9849b3a6a",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "runtime/original_match/port/restarts.py": "c378834575a59d89f31fea8f9ee5ffca7daaf98754a36e848164bb819ad87977",
+    "runtime/original_match/port/takers.py": "fcd182d4543af18a0def9e16773cd317939fd0ca37559f941b499bf9ab40d7b8",
+    "static/goal-exe/code/seg_0791_02.asm": "57849ee0856cb014c748370434588b99cd5151ce14d785a125c3a4350e04eb8b",
+    "static/goal-exe/code/seg_0791_03.asm": "960a08fdcaa6f4115a4702c48a454b097fe0194db91c76ea5a4a9818bbfca0a3",
+    "static/goal-exe/code/seg_0791_05.asm": "0635bc395cd69ffe2c77ead9aaaf786f36eedeee5496daae8f43127ce4aed474",
+    "static/goal-exe/code/seg_0791_11.asm": "a5aebf13faf14469141d8edb9a0878b0a56b7267451694622801732f522603ec",
+    "static/goal-exe/code/seg_0791_16.asm": "970a6ea902b38abd5e437aed568fc1833caf6bac00e25194be1f3f39504ea4e1",
+    "static/goal-exe/code/seg_0791_17.asm": "e8ca718382b8b72b2a9d1ede8d24bf6bf0bf2e899b3cc70d91a5435d076f6c44",
+    "static/goal-exe/code/seg_0791_20.asm": "9ed1e3aa1aca8370004fc286911f2cf55003c084f03f95f8e39b56bf438361f9",
+    "static/goal-exe/code/seg_0791_23.asm": "49e12bb8534566ad1e6b4b22e2f088ce483d4518f8d2b8cf28fefb3c7f9b9cde",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_01.c": "d8a020bf4ff10098b2b5f0b9ea2a61085f46c500cd7f6b929bdf8f0bf8f3ce37",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_03.c": "c49d73137a03e70e2f02b8b54dfe04d8805239f55fc80a99d23a6943354e5800",
+    "static/goal-exe/named/seg_0791_06.c": "1c03cc01069ce4f4eedb386688654af7c3a3900eeb3470971111b2caa3bbe945",
+    "static/goal-exe/named/seg_0791_09.c": "71a912e2c5564f75078a0db0220c5388a74ec168783371a63c74cdddae22275f",
+    "static/goal-exe/named/seg_0791_11.c": "6e51b68715ebeca24e6616c99258668b5df0bb927e5e133105e04af66fee650e",
+    "static/goal-exe/named/seg_0791_13.c": "4fe6fb41281082fba52ebdc61c6ba147de1dff5bf3ee94fe0bf1314e33878d21"
+  },
+  "status": "proposed; source-derived explanation",
+  "supporting_artifacts": {},
+  "task": "T104d"
+}
