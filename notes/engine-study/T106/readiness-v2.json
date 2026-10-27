@@ -1,0 +1,78 @@
+{
+  "checker_sha256": "3d9f0983352602349008f367d2166d59ab11e7fb8090710a3a0e017a0cb25593",
+  "results": [
+    {
+      "absent_exit": 1,
+      "absent_stderr": "Traceback (most recent call last):\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T106/check.py\", line 64, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T106/check.py\", line 57, in main\n    path=a.ledger or ROOT/f'notes/engine-study/T106/{a.task}-v1.json';data=json.loads(path.read_text());validate(a.task,data)\n                                                                                      ^^^^^^^^^^^^^^^^\n  File \"/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py\", line 1027, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py\", line 1013, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/home/diego/projects/goal2-archaeology/notes/engine-study/T106/T106a-v1.json'\n",
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/check.py",
+        "--task",
+        "T106a",
+        "--controls"
+      ],
+      "controls": {
+        "false-exact": "rejected",
+        "missing-budget": "rejected",
+        "missing-case": "rejected",
+        "missing-completion": "rejected",
+        "missing-input": "rejected",
+        "missing-record": "rejected",
+        "missing-source": "rejected"
+      },
+      "mock_as_measurement": "rejected",
+      "structural_mock": "accepted with explicit readiness-only switch",
+      "task": "T106a"
+    },
+    {
+      "absent_exit": 1,
+      "absent_stderr": "Traceback (most recent call last):\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T106/check.py\", line 64, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T106/check.py\", line 57, in main\n    path=a.ledger or ROOT/f'notes/engine-study/T106/{a.task}-v1.json';data=json.loads(path.read_text());validate(a.task,data)\n                                                                                      ^^^^^^^^^^^^^^^^\n  File \"/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py\", line 1027, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py\", line 1013, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/home/diego/projects/goal2-archaeology/notes/engine-study/T106/T106b-v1.json'\n",
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/check.py",
+        "--task",
+        "T106b",
+        "--controls"
+      ],
+      "controls": {
+        "false-exact": "rejected",
+        "missing-budget": "rejected",
+        "missing-case": "rejected",
+        "missing-completion": "rejected",
+        "missing-input": "rejected",
+        "missing-record": "rejected",
+        "missing-source": "rejected"
+      },
+      "mock_as_measurement": "rejected",
+      "structural_mock": "accepted with explicit readiness-only switch",
+      "task": "T106b"
+    },
+    {
+      "absent_exit": 1,
+      "absent_stderr": "Traceback (most recent call last):\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T106/check.py\", line 64, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T106/check.py\", line 57, in main\n    path=a.ledger or ROOT/f'notes/engine-study/T106/{a.task}-v1.json';data=json.loads(path.read_text());validate(a.task,data)\n                                                                                      ^^^^^^^^^^^^^^^^\n  File \"/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py\", line 1027, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py\", line 1013, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/home/diego/projects/goal2-archaeology/notes/engine-study/T106/T106c-v1.json'\n",
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/check.py",
+        "--task",
+        "T106c",
+        "--controls"
+      ],
+      "controls": {
+        "false-exact": "rejected",
+        "missing-budget": "rejected",
+        "missing-case": "rejected",
+        "missing-completion": "rejected",
+        "missing-input": "rejected",
+        "missing-record": "rejected",
+        "missing-source": "rejected"
+      },
+      "mock_as_measurement": "rejected",
+      "structural_mock": "accepted with explicit readiness-only switch",
+      "task": "T106c"
+    }
+  ],
+  "scope": "Absent-result rejection and explicitly labelled structural mocks; no game execution."
+}
