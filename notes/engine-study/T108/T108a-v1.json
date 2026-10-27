@@ -1,0 +1,283 @@
+{
+  "analysis_sha256": "164c3fa81d0ef6a067eea3fe0e5e3ea6f4e657d5124cb15d152a8d8a2e13a3a9",
+  "calculations": {
+    "controls": {
+      "form-cutoff33": "rejected:73 instead of54",
+      "omit-target-half-premise": "rejected:adjusted_y9 is not negative",
+      "python-modulo": "rejected:3 instead of32767",
+      "strict-offside-target": "rejected:20 instead of19"
+    },
+    "ds_sources": [
+      "static/goal-exe/data/ds_2581_01.hex",
+      "static/goal-exe/data/ds_2581_02.hex",
+      "static/goal-exe/data/ds_2581_03.hex",
+      "static/goal-exe/data/ds_2581_04.hex"
+    ],
+    "form_skill_values": [
+      72,
+      54
+    ],
+    "form_strength_values": [
+      226,
+      183
+    ],
+    "half_pitch_proof_pairs": 3876,
+    "marking_bounds": {
+      "before_venue": 766,
+      "derived": 2047,
+      "draw": 51,
+      "effective": 813
+    },
+    "negative_leadership_age20_age21": [
+      32767,
+      65535
+    ],
+    "normal_leadership_age20_age21": [
+      2,
+      4
+    ],
+    "off_pitch_wrap_counterexample": 127,
+    "offside_equal_target": 19
+  },
+  "candidates": [
+    {
+      "actual": {
+        "basis": "source-derived arithmetic, not a new original run",
+        "effective_skill": [
+          72,
+          54
+        ],
+        "strength": [
+          226,
+          183
+        ]
+      },
+      "disposition": "original quirk",
+      "evidence": [
+        "0791:278A",
+        "1771:377E"
+      ],
+      "expected": "A monotone numeric-form assumption would predict no drop at31->32; fidelity must instead preserve the signed branch at32.",
+      "follow_up": "Keep branch semantics in readable rewrite; T105 may select a local corroboration. No original repair.",
+      "id": "form-sentinel",
+      "minimal_input": {
+        "skill": {
+          "ability": 180,
+          "club": 2,
+          "element": 3,
+          "energy": 32,
+          "form": [
+            31,
+            32
+          ],
+          "profile": 8
+        },
+        "strength": {
+          "ability": 225,
+          "energy": 32,
+          "form": [
+            31,
+            32
+          ],
+          "placement": false
+        }
+      },
+      "reachability": "Ordinary-width controlled inputs; no claim that the form byte is an ordered rating or that an observed match crosses this edge."
+    },
+    {
+      "actual": {
+        "leadership": [
+          32767,
+          65535
+        ],
+        "python_modulo_young": 3
+      },
+      "disposition": "original quirk",
+      "evidence": [
+        "1771:30D9",
+        "0791:1F3C",
+        "0791:20E3"
+      ],
+      "expected": "Signed IDIV remainder -1 is retained as wordFFFF; unsigned DIV2 below age21 yields7FFF.",
+      "follow_up": "Preserve finite-width semantics; do not extend the normal0..7 leadership claim to every byte tuple. Leave all-unavailable leader return for record audit.",
+      "id": "negative-leadership",
+      "minimal_input": {
+        "age": [
+          20,
+          21
+        ],
+        "ceiling": 0,
+        "profile": 1
+      },
+      "reachability": "Representable edited-record case; creation/recovery invariants admitting ceiling<profile have not been established. Not a natural player claim."
+    },
+    {
+      "actual": {
+        "bound_max": 51,
+        "half_pitch_guard": "passes",
+        "proof_pairs": 3876,
+        "target": [
+          2,
+          -5
+        ]
+      },
+      "disposition": "documentation/test defect",
+      "evidence": [
+        "0791:47C5",
+        "0791:4A28",
+        "0791:2C54",
+        "0791:278A",
+        "1771:3A06"
+      ],
+      "expected": "Full-pitch bypass can change a copy only if the half-pitch guard would otherwise fail.",
+      "follow_up": "Qualify F026 follow-reach wording and T103 predictions via #514; retain separate e5 depth effect and unvisited off-pitch contexts.",
+      "id": "half-pitch-follow",
+      "minimal_input": {
+        "draw": 3,
+        "feinting": 81,
+        "marker_direction": 1,
+        "marking": 48,
+        "target_direction": -1,
+        "target_y": -2
+      },
+      "reachability": "Proof assumes opposed directions, accepted target in|y|<=37, fixed skill tables and exact branch order. Overapproximation, not observed fixtures. Off-pitch byte wrapping can invalidate the implication."
+    },
+    {
+      "actual": {
+        "activity180_spends": false,
+        "activity181_spends": true,
+        "restricted_target_y": 19
+      },
+      "disposition": "unsupported suspicion",
+      "evidence": [
+        "0791:8889",
+        "0791:8AE9"
+      ],
+      "expected": "8972 jl skips only smaller absolute targets;8C45 expenditure requires unsigned activity>180.",
+      "follow_up": "Use instructions rather than stale decompiler flags; future targeted edge checks if selected in T105. No runtime change.",
+      "id": "strict-edges",
+      "minimal_input": {
+        "activity_values": [
+          180,
+          181
+        ],
+        "direction": 1,
+        "eligible_state": 5,
+        "movement_target_y": 20,
+        "opponent_line_y": 20
+      },
+      "reachability": "Other target-restriction/activity gates assumed satisfied. Listing and port agree; no current off-by-one defect reproduced."
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:1F3C",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "735d4834139839b0fc609ea89098c0e65163d3b6bdc2887411cc791159280a6c",
+      "line": 294
+    },
+    {
+      "address": "0791:20E3",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "d62c11e613557259ccccc208b7e7349be38933c388d479a3a11282140c79a941",
+      "line": 376
+    },
+    {
+      "address": "0791:278A",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "53ab03c3ffdb1889db40be192b3cb0a701e875093f3d860b9bf19332f68c5a2d",
+      "line": 671
+    },
+    {
+      "address": "0791:2C54",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "b142ccf5ca88c2335b316502921e4e2fdb369fe1038c5b98f50214a92609ef9d",
+      "line": 45
+    },
+    {
+      "address": "0791:47C5",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "f29f16774cf062e05a5be68beac7af09eb52fd602a5884539972f0abafc94db9",
+      "line": 552
+    },
+    {
+      "address": "0791:4A28",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "a5cd93ccf6a3b7cf4dacfdc4aac7064184f6850e0664c4a26d7a888c26f6261c",
+      "line": 634
+    },
+    {
+      "address": "0791:8889",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "8c68c6444c9a319daa478bbae80010531f6d61ee00f3222d003fbc54de105bd0",
+      "line": 402
+    },
+    {
+      "address": "0791:8AE9",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "d198ef91981f2306bba5156f0205aca906ebee7a59fb4756eea87dd05689daff",
+      "line": 505
+    },
+    {
+      "address": "1771:30D9",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "b676c12ea188f2ab7d8704c2d78445f9d190eb64c33a945c43fff200047658fb",
+      "line": 4
+    },
+    {
+      "address": "1771:377E",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "be609e51b5b2a56ec30ad217e3c03269eca62b554142c7b632f65b57e552eb65",
+      "line": 316
+    },
+    {
+      "address": "1771:3A06",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "c243812d3bf7c7a7900c06a91e8653fbfbee029227fd99eed057d166eae4d048",
+      "line": 459
+    }
+  ],
+  "method": "Static arithmetic candidate audit; no original/port routine or Match execution.",
+  "schema": 1,
+  "sections": [
+    "What counts as a defect",
+    "Arithmetic candidates",
+    "A redundant guard under stated bounds",
+    "Edges, negatives and remaining risks"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "notes/engine-study/T98/skill.py": "969f475209d777a798dd2c634b188405cade97f24e260daafac6bc24d734f936",
+    "notes/engine-study/T98/strength.py": "86a7fdbec15723a063b957affad294670dc35ab381fa70f74a37ea4144eccf9f",
+    "notes/engine-study/T98/tables.py": "f5e0836d57f8816943f2b2648818cb3a6175060b834f827dff64f27d535215fb",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "runtime/original_match/port/motion.py": "4e7bab13c1e196464ecb41fd2ddb3a41878c217885c238fd2e80cd8329746eb2",
+    "runtime/original_match/port/pilot.py": "700a8bf56db7adcccd6d011b0e26d0a06599c24fbc451e44fee033b8e56e0863",
+    "runtime/original_match/port/positioning.py": "6a8feb436f745149a010db472a1aed04569d897875cd966eb434a6170b7f839e",
+    "static/goal-exe/code/seg_0791_03.asm": "960a08fdcaa6f4115a4702c48a454b097fe0194db91c76ea5a4a9818bbfca0a3",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_0791_05.asm": "0635bc395cd69ffe2c77ead9aaaf786f36eedeee5496daae8f43127ce4aed474",
+    "static/goal-exe/code/seg_0791_08.asm": "6932ef5507b1fa923e7fcec51e4abb0c091d413571c80d0d3798cb1382119acd",
+    "static/goal-exe/code/seg_0791_14.asm": "032e2d6f22d6db5981e2a11f43298924a53e15d080e1d73d1fb375ddbe400abd",
+    "static/goal-exe/code/seg_1771_05.asm": "4a856a9af9dee3d93fe6e6275ead612d2d3ba4c81363389c68fa5424ca8483d9",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_03.c": "c49d73137a03e70e2f02b8b54dfe04d8805239f55fc80a99d23a6943354e5800",
+    "static/goal-exe/named/seg_0791_04.c": "0118b26c212562f1eaecefe22850166c2e2b7755952a09abad00a5b42fbf8325",
+    "static/goal-exe/named/seg_0791_08.c": "130e91927a5bb2fed2adb998225fc88091816752051eee90ae004e30fcfecc96",
+    "static/goal-exe/named/seg_1771_03.c": "9c51e37d30f7d69e51b2d776c0b704d7f87852cd10d47fa4d679880d13f4d2f4"
+  },
+  "status": "proposed; candidate attribution pending independent review",
+  "supporting_artifacts": {
+    "notes/engine-study/T101/T101b-v1.json": "a43c9885d783c71b9ad014cd575afcc0c8a274c71363c7f61959a86e6ccc9abe",
+    "notes/engine-study/T101/T101c-v1.json": "9078c296a4a27fa3989609ce8d3bf5393b5ea861bba8a70c89eb6a978027f374",
+    "notes/engine-study/T98/skill-v1.json": "b1956bd879fe347bffaef68453021ec98d644608f6847d9cdbff68a7d4cd52e5",
+    "notes/engine-study/T98/strength-v1.json": "3af8f59f7645409f9d91bdc2b48d17f9412fb99bc4c82b5c4d75807211d026d5"
+  },
+  "task": "T108a"
+}
