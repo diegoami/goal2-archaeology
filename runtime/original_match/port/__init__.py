@@ -68,7 +68,7 @@ class Registry:
         self.variants[name] = what
 
 
-NOT_PORT_MODULES = ("mem", "guest", "prove")     # the view, the guest calls and the proof (T59): machinery, no ports
+NOT_PORT_MODULES = ("mem", "guest", "prove", "engine")     # the view, the guest calls and the proof (T59): machinery, no ports
 
 
 def available():
@@ -145,7 +145,8 @@ def install(machine, specs, keys=None):
     """Put the ports of `specs` (load()) in place of their routines in `machine` (after the kit's own hooks, so
     they run after them). keys: the kit's key services (Match). Returns Installed."""
     loaded = load(specs)
-    mem = MachineMem(machine, keys)
+    factory = getattr(machine, "port_memory", None)
+    mem = factory(keys) if factory is not None else MachineMem(machine, keys)
     inst = Installed(loaded, mem)
     owner = {}
     for reg, variant in loaded:

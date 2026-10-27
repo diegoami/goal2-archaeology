@@ -1,0 +1,13 @@
+test_deferred_site_event_resumes_the_parent_without_replaying_site (tests.test_port_machine.PortableMachine.test_deferred_site_event_resumes_the_parent_without_replaying_site) ... ok
+test_entry_decision_resumes_before_running_the_callee_once (tests.test_port_machine.PortableMachine.test_entry_decision_resumes_before_running_the_callee_once) ... ok
+test_hooks_writer_identity_and_prewrite_order_are_preserved (tests.test_port_machine.PortableMachine.test_hooks_writer_identity_and_prewrite_order_are_preserved) ... ok
+test_nested_near_and_far_returns_use_existing_port_frames (tests.test_port_machine.PortableMachine.test_nested_near_and_far_returns_use_existing_port_frames) ... ok
+test_partial_registers_memory_bounds_and_snapshots (tests.test_port_machine.PortableMachine.test_partial_registers_memory_bounds_and_snapshots) ... ok
+test_positive_import_denial_control_and_plain_execution (tests.test_port_machine.PortableMachine.test_positive_import_denial_control_and_plain_execution) ... ok
+test_unregistered_addresses_never_execute_poison_instruction_bytes (tests.test_port_machine.PortableMachine.test_unregistered_addresses_never_execute_poison_instruction_bytes) ... ok
+test_write_listener_failure_does_not_land_the_refused_write (tests.test_port_machine.PortableMachine.test_write_listener_failure_does_not_land_the_refused_write) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.058s
+
+OK
