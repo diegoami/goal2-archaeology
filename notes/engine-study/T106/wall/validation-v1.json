@@ -1,0 +1,74 @@
+{
+  "scope": "Final-source wall analysis/integrity/audit and prior-slice compatibility;no new engine calls",
+  "source_commit": "d0f6afedd4b1f2514b90bcc2fea430470c51c91c",
+  "checks": [
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/wall/analyse.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS:15wall targets per backend;native-backed guards/repeats;unmasked comparisons;frozen budget\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "T106b-final",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/check.py",
+        "--task",
+        "T106b",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T106b\",\n  \"scope\": \"T106 record/completeness integrity; field, ABI and full-state results stay separate.\",\n  \"positive\": \"accepted\",\n  \"cases\": 3,\n  \"ledger_sha256\": \"8cd7459634ee8babe56f3ceeba012947f52e3c86bee922c8b0d6a542581a796e\",\n  \"controls\": {\n    \"missing-case\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"missing-input\": \"rejected\",\n    \"missing-completion\": \"rejected\",\n    \"missing-budget\": \"rejected\",\n    \"missing-record\": \"rejected\",\n    \"false-exact\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/runner.py",
+        "--audit"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"scope\": \"Actual committed reservation/outcome integrity and resource accounting;not semantic proof\",\n  \"invocations\": 48,\n  \"cpu_s\": 6.6320429999999995,\n  \"active_wall_s\": 6.5725694360007765,\n  \"groups\": {\n    \"launch\": 12,\n    \"wall\": 36\n  },\n  \"unclosed_invocations\": [],\n  \"unclosed_batches\": [],\n  \"failed_invocations\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T106/launch/analyse.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: three launch predictions;native-backed controls/repeats;unmasked state comparisons;budget\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/check_links.py"
+      ],
+      "exit": 0,
+      "stdout": "links and JSON ok (10225 files)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/ES-R2/whitespace.py"
+      ],
+      "exit": 0,
+      "stdout": "PASS: committed milestone range whitespace; generated TSV and immutable raw logs excluded\n",
+      "stderr": ""
+    }
+  ]
+}
