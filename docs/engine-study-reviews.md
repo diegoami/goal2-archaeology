@@ -11,7 +11,7 @@ This extends the [engine study plan](engine-study-plan.md), using the existing
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [ES-R1](https://github.com/diegoami/goal2-archaeology/issues/454) | Foundations | T95–T100: engine/evidence inventory, player/team/fixture/transient-state dictionaries, skill/strength and contest formulas, tick/state/RNG flow. | T101's dependent pitch analysis and T108's arithmetic audit; later work inherits this gate through dependencies. | hard | M; 2–4 h | high | high |
 | [ES-R2](https://github.com/diegoami/goal2-archaeology/issues/455) | Field behaviour and experimental design | T101–T105 and T108: positioning/motion, possession/scoring, tactics/AI, lifecycle, experiment preregistration and arithmetic/index audit. | T106 synthetic probes and T107's first bounded match batch. | hard | M; 2–4 h | high | high |
-| [ES-R3](https://github.com/diegoami/goal2-archaeology/issues/456) | Empirical evidence and defect attribution | T106, T107 and T109: selected original-backed probes, first bounded match batch and cross-module consistency audit. | T110's architecture/rewrite assessment and completion of the empirical conclusions in T112. | hard | M; 2–4 h | high | high |
+| [ES-R3](https://github.com/diegoami/goal2-archaeology/issues/456) | Empirical evidence and defect attribution | T106 and T109: selected original-backed probes and cross-module consistency audit; explicit owner deferral of T107 and its resulting inference gaps. | T110's architecture/rewrite assessment and completion of the empirical conclusions in T112 within the reviewed evidence scope. | hard | M; 2–4 h | high | high |
 | [ES-R4](https://github.com/diegoami/goal2-archaeology/issues/457) | Rewrite feasibility and compatibility contract | T110: readable architecture alternatives, representative before/after pseudocode, compatibility requirements, costs and prototype proposal. | T111 additionally requires an explicit owner design decision; T112's final architecture recommendation requires ES-R4 acceptance. | hard | M; 2–4 h | high | high |
 | [ES-R4P](https://github.com/diegoami/goal2-archaeology/issues/458) | Optional readable-rule prototype | T111 only, if the owner approves a prototype after ES-R4. | Publication/adoption of prototype conclusions. T112/T113 can complete without the prototype; if they include its results, those claims require this review or must remain explicitly unresolved. | hard | M; 2–4 h | high | medium |
 | [ES-R5](https://github.com/diegoami/goal2-archaeology/issues/452) | Final guide and integrated conclusions | T112's assembled guide and the T113 review packet, with integrated spot-checks across all accepted earlier stages. | Completion of the study and promotion/delivery of its integrated conclusions. This is the existing T113/#452 review, not a second final-review task. | hard | M; 2–4 (already in T113) h | high | high |
@@ -100,6 +100,13 @@ game-rule scrutiny to the end.
 
 **Entry:** ES-R2 accepted; immutable raw records, actual budget receipts, source fingerprints, analysis scripts, deviations and candidate reproductions are committed.
 
+[designed: owner decision, 2026-10-27; #571] T107's current scoring pilot is deferred until
+T106 results inform a better design. ES-R3 reviews the completed T106/T109 evidence and the
+explicit absence of match-effect results. This does not complete T107, approve a replacement
+experiment, or permit scoring-effect/null-result claims. A revised proposal needs its own
+precision, executable contracts and pre-execution review before spending. Later empirical
+conclusions retain this gap; source-based architecture assessment can use only accepted evidence.
+
 **Review:** Recompute selected summaries and literal expectations, inspect completion/refusal controls and limited held-out reruns where justified. Check effect intervals, null results, seed/context structure and RNG divergence. Separate original quirks, port defects, documentation/test defects and unresolved attribution; confirm minimal reproductions and no duplicate issue claims.
 
 **Exit:** Published results reproduce from retained inputs, claims match their actual sample and scope, and every consequential discrepancy has a supported classification or an explicit evidence gap. MUST-FIX analysis/attribution errors are corrected and rechecked.
@@ -155,5 +162,6 @@ capped in T105; this planning change starts no review or measurement.
 
 The explicit new gates are ES-R1 → T101/T108; ES-R2 → T106/T107; ES-R3 → T110 and T112's empirical
 conclusions; ES-R4 → T111 and T112's architecture conclusions; and ES-R5 → completion of the study.
-If prototype conclusions are included, ES-R4P gates those conclusions. Thus T107 now precedes
-T110 through ES-R3. Drafting and independent source reading can continue while claims await review.
+If prototype conclusions are included, ES-R4P gates those conclusions. The owner's T107 deferral
+keeps match-effect claims unresolved while ES-R3 can review the completed probe/integration scope.
+Drafting and independent source reading can continue while claims await review.

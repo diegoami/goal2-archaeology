@@ -5,6 +5,9 @@ chapters connect original source, formulas, live state, control interactions and
 unknowns. The final empirical guide and rewrite recommendation are later programme work;
 this index is not a claim that those stages have finished.
 
+The [bounded probe report](micro-probes.md) records the six selected original/port geometry cases,
+controls and separate field/ABI/memory/register comparisons. It makes no match-effect claim.
+
 The [programme](../engine-study-plan.md), [live epic #433](https://github.com/diegoami/goal2-archaeology/issues/433)
 and [review #455](https://github.com/diegoami/goal2-archaeology/issues/455) hold scope and status.
 Foundations were independently accepted at `m5-engine-study-foundations`; later field/design
