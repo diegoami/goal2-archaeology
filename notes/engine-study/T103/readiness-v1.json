@@ -1,0 +1,132 @@
+{
+  "census_dispositions": [
+    {
+      "address": "0791:BBFF",
+      "owner": "T103c"
+    },
+    {
+      "address": "0791:BD03",
+      "owner": "T103c"
+    },
+    {
+      "address": "0791:BD83",
+      "owner": "T103c"
+    },
+    {
+      "address": "0791:BF6B",
+      "owner": "T103c"
+    },
+    {
+      "address": "0791:C173",
+      "owner": "T103c"
+    },
+    {
+      "address": "0791:BEC7",
+      "owner": "T103c"
+    },
+    {
+      "address": "0791:C01A",
+      "owner": "T103c"
+    },
+    {
+      "address": "0791:C0DF",
+      "owner": "T103c"
+    },
+    {
+      "address": "0791:C24D",
+      "owner": "T103c"
+    },
+    {
+      "address": "0791:C2A8",
+      "owner": "T103c"
+    },
+    {
+      "address": "0791:C406",
+      "owner": "T103c"
+    },
+    {
+      "address": "0791:C48D",
+      "owner": "T103c"
+    },
+    {
+      "address": "1771:53E8",
+      "owner": "T103b"
+    },
+    {
+      "address": "1771:5532",
+      "owner": "T103b"
+    },
+    {
+      "address": "0791:BC5D",
+      "owner": "T103c"
+    }
+  ],
+  "checker_sha256": "12d3aa101fe48eca90b5b274f63bf07a7d258943a7413515c9e27ffed8d2dea1",
+  "results": [
+    {
+      "baseline_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/diego/projects/goal2-archaeology/notes/engine-study/T103/check.py",
+        "--task",
+        "T103a",
+        "--controls"
+      ],
+      "baseline_exit": 1,
+      "baseline_stderr": "Traceback (most recent call last):\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T103/check.py\", line 104, in <module>\n    main()\n    ~~~~^^\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T103/check.py\", line 91, in main\n    data = json.loads(ledger.read_text())\n                      ~~~~~~~~~~~~~~~~^^\n  File \"/usr/lib/python3.14/pathlib/__init__.py\", line 788, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\n         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/pathlib/__init__.py\", line 772, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/home/diego/projects/goal2-archaeology/notes/engine-study/T103/T103a-v1.json'\n",
+      "controls": {
+        "missing-examples": "rejected",
+        "missing-prediction": "rejected",
+        "missing-routine": "rejected",
+        "missing-source": "rejected",
+        "shifted-source": "rejected"
+      },
+      "mock": "accepted; structural only",
+      "task": "T103a"
+    },
+    {
+      "baseline_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/diego/projects/goal2-archaeology/notes/engine-study/T103/check.py",
+        "--task",
+        "T103b",
+        "--controls"
+      ],
+      "baseline_exit": 1,
+      "baseline_stderr": "Traceback (most recent call last):\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T103/check.py\", line 104, in <module>\n    main()\n    ~~~~^^\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T103/check.py\", line 91, in main\n    data = json.loads(ledger.read_text())\n                      ~~~~~~~~~~~~~~~~^^\n  File \"/usr/lib/python3.14/pathlib/__init__.py\", line 788, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\n         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/pathlib/__init__.py\", line 772, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/home/diego/projects/goal2-archaeology/notes/engine-study/T103/T103b-v1.json'\n",
+      "controls": {
+        "missing-examples": "rejected",
+        "missing-prediction": "rejected",
+        "missing-routine": "rejected",
+        "missing-source": "rejected",
+        "shifted-source": "rejected"
+      },
+      "mock": "accepted; structural only",
+      "task": "T103b"
+    },
+    {
+      "baseline_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/diego/projects/goal2-archaeology/notes/engine-study/T103/check.py",
+        "--task",
+        "T103c",
+        "--controls"
+      ],
+      "baseline_exit": 1,
+      "baseline_stderr": "Traceback (most recent call last):\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T103/check.py\", line 104, in <module>\n    main()\n    ~~~~^^\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T103/check.py\", line 91, in main\n    data = json.loads(ledger.read_text())\n                      ~~~~~~~~~~~~~~~~^^\n  File \"/usr/lib/python3.14/pathlib/__init__.py\", line 788, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\n         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/pathlib/__init__.py\", line 772, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/home/diego/projects/goal2-archaeology/notes/engine-study/T103/T103c-v1.json'\n",
+      "controls": {
+        "missing-examples": "rejected",
+        "missing-prediction": "rejected",
+        "missing-routine": "rejected",
+        "missing-source": "rejected",
+        "shifted-source": "rejected"
+      },
+      "mock": "accepted; structural only",
+      "task": "T103c"
+    }
+  ],
+  "scope": "Exercise the structural T103 contracts on absent deliverables and labelled mocks.",
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325"
+}
