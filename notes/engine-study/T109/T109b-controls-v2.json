@@ -1,0 +1,120 @@
+{
+  "candidates": 9,
+  "controls": {
+    "literal_listing_negatives": [
+      {
+        "address": "21FC",
+        "path": "static/goal-exe/code/seg_0791_04.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "2201",
+        "path": "static/goal-exe/code/seg_0791_04.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "273B",
+        "path": "static/goal-exe/code/seg_0791_04.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "2752",
+        "path": "static/goal-exe/code/seg_0791_04.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "2BCA",
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "8805",
+        "path": "static/goal-exe/code/seg_0791_14.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "880D",
+        "path": "static/goal-exe/code/seg_0791_14.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "685C",
+        "path": "static/goal-exe/code/seg_0791_11.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "6879",
+        "path": "static/goal-exe/code/seg_0791_11.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "68B3",
+        "path": "static/goal-exe/code/seg_0791_11.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "68B7",
+        "path": "static/goal-exe/code/seg_0791_11.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "97DA",
+        "path": "static/goal-exe/code/seg_0791_16.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "9813",
+        "path": "static/goal-exe/code/seg_0791_16.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "6EE5",
+        "path": "static/goal-exe/code/seg_0791_12.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "6F17",
+        "path": "static/goal-exe/code/seg_0791_12.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "A36A",
+        "path": "static/goal-exe/code/seg_0791_17.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "C712",
+        "path": "static/goal-exe/code/seg_0791_20.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "C718",
+        "path": "static/goal-exe/code/seg_0791_20.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "CCEC",
+        "path": "static/goal-exe/code/seg_0791_20.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "CCEF",
+        "path": "static/goal-exe/code/seg_0791_20.asm",
+        "result": "altered listing rejected"
+      },
+      {
+        "address": "6F88",
+        "path": "static/goal-exe/code/seg_0791_12.asm",
+        "result": "altered listing rejected"
+      }
+    ],
+    "missing-candidate": "rejected",
+    "missing-evidence": "rejected",
+    "missing-limit": "rejected",
+    "missing-source": "rejected",
+    "mock-as-evidence": "rejected"
+  },
+  "ledger_sha256": "00ba42ab5c3bf18674f492cac2aee195ea7bd38d1baa0321fa8021e66002d256",
+  "scope": "Candidate/source integrity plus explicit literal-listing guards; not automatic attribution.",
+  "task": "T109b"
+}
