@@ -19,7 +19,7 @@ def main():
         with tempfile.TemporaryDirectory(prefix='T109-labelled-mock-') as tmp:
             mock_path=Path(tmp)/'mock.json';write_new(mock_path,mock)
             rejected=subprocess.run(cmd+['--ledger',str(mock_path)],capture_output=True,text=True)
-            assert rejected.returncode!=0
+            assert rejected.returncode!=0 and 'structural mock is not research evidence' in rejected.stderr
         rows.append(dict(task=task,baseline_argv=cmd,baseline_exit=baseline.returncode,baseline_stderr=baseline.stderr,
                          mock='accepted only with allow_mock=True;not evidence',production_cli_mock_exit=rejected.returncode,
                          controls=negative))
