@@ -139,3 +139,7 @@ exists.
 
 - [T105a](T105a.md): Preregister isolated probes and match intervention boundaries.
 - [T105b](T105b.md): Preregister seed blocks, precision, stopping and compute caps.
+| [T78a](T78a.md) | Plain-memory port dispatcher | #289 | T77 |
+| [T78b](T78b.md) | Wire Match to the plain-memory engine | #289 | T78a |
+| [T78c](T78c.md) | Checkpoint the plain-memory engine at event boundaries | #289 | T78b |
+| [T78d](T78d.md) | Close T78 with strict family and measured runtime | #289 | T78b and T78c |

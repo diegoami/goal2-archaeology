@@ -78,7 +78,15 @@ kept on the branch `local`.
     rests on runs says in its Method what static analysis was tried and why it was not enough. A
     missing tool is never the reason: install it, or stop and report. A review treats runs made
     because a tool was missing as a contract defect (gate G0a): rework.
-23. [designed: owner, 2026-10-22] **goal2's first version runs the original's whole game under Unicorn**
+23. [designed: owner priority update, 2026-10-27; goal2#393] Standalone engine replacement
+    is now immediate priority: T78 assembly, T79 fidelity, T80 sealed delivery and request427
+    for safe tournament continuation. Fresh careers suffice; old-career migration is not required.
+    This supersedes the earlier long-term/planning-only deferral. Preserve active engine-study
+    work and strict fidelity/review/delivery gates; do not ship an unvalidated default.
+    [designed: owner, 2026-10-27] The goal session handles that delivery independently in a
+    cloned repository. This engine-study session continues the analysis through ES-R2 and
+    prepares its independent-review prompt; it does not start standalone/backend work here.
+    [designed: owner, 2026-10-22] **goal2's first version runs the original's whole game under Unicorn**
     (goal2 #308, stage 3): requests from goal2 for it (where the state lives in memory, key waits and
     timed prompts, screens; process.md §15) come before new port tasks. The independent executable
     stays the long-term goal, so the engine port continues after them, as its track; the port PRs in
