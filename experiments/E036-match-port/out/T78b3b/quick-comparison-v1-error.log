@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/experiments/E036-match-port/out/T78b3b/compare_preview.py", line 10, in <module>
+    a=records.loads((folder/f'quick-original-{version}.jsonl').read_text());records.validate(a)
+                                                                            ^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/experiments/E036-match-port/records.py", line 290, in validate
+    validate_evidence(r)
+  File "/home/diego/projects/goal2-archaeology-engine/experiments/E036-match-port/records.py", line 315, in validate_evidence
+    raise SchemaError(f"board.statistics: rows {list(b['statistics'])} are not in the board's order {list(STAT_NAMES)}")
+records.SchemaError: board.statistics: rows ['bookings', 'corners', 'fouls', 'free_kicks', 'injuries', 'on_target', 'penalties', 'red_cards', 'saves', 'shots'] are not in the board's order ['corners', 'free_kicks', 'penalties', 'shots', 'on_target', 'saves', 'fouls', 'bookings', 'red_cards', 'injuries']

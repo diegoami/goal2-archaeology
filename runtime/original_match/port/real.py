@@ -323,3 +323,127 @@ def real_divide(mem,variant):
     near(R,0x0CB2,divide_real)
     if R.carry:runtime_error(R,0xCD)
     R.store()
+
+
+def coefficient(R,word):
+    """A word in the source's CS coefficient tables (the 16-bit offset wraps)."""
+    return R._mem.u16(R._mem.seg(0x23E4)*16+(word&MASK))
+
+
+def polynomial(R):                     # 1101–114F, including the loop at111F
+    R.enter(6)
+    R.local16(-6,R.ax);R.local16(-4,R.bx);R.local16(-2,R.dx)
+    R.ax=coefficient(R,R.di);R.bx=coefficient(R,R.di+2);R.dx=coefficient(R,R.di+4)
+    first=True
+    while True:
+        R.push(R.cx);R.push(R.di)
+        if not first:
+            R.cx=coefficient(R,R.di);R.si=coefficient(R,R.di+2);R.di=coefficient(R,R.di+4)
+            near(R,0x112F,add_real)
+        first=False
+        R.flush()
+        R.cx=R._mem.u16(R._mem.ss_lin(R.bp-6));R.si=R._mem.u16(R._mem.ss_lin(R.bp-4));R.di=R._mem.u16(R._mem.ss_lin(R.bp-2))
+        near(R,0x113B,multiply_real)
+        R.di=R.pop();R.cx=R.pop();R.di=R.add(R.di,6)
+        R.cx-=1                        # LOOP preserves flags
+        if R.cx==0:break
+    R.cx=0x81;R.si=R.logic(0);R.di=R.logic(0)
+    near(R,0x114C,add_real)
+    R.leave()
+
+
+def odd_polynomial(R):                 # 10E8–1100, tail-jumps to0A52
+    for value in (R.dx,R.bx,R.ax,R.cx,R.di):R.push(value)
+    R.cx,R.si,R.di=R.ax,R.bx,R.dx
+    near(R,0x10F6,multiply_real)
+    R.di=R.pop();R.cx=R.pop()
+    near(R,0x10FB,polynomial)
+    R.cx=R.pop();R.si=R.pop();R.di=R.pop()
+    multiply_real(R)
+
+
+def add_preserved(R):                  # 0CDF–0CE8
+    for value in (R.di,R.si,R.cx):R.push(value)
+    near(R,0x0CE5,add_real)
+    R.cx=R.pop();R.si=R.pop();R.di=R.pop()
+
+
+def subtract_real(R):                  # 098B falls through to098F
+    R.di=R.logic(R.di^0x8000)
+    add_real(R)
+
+
+@PORTS.port('23E4:0E67',ret='retf')
+def real_logarithm(mem,variant):
+    """0E67–0EEB: source normalization, odd polynomial, and exponent correction."""
+    R=RealRegs(mem)
+    R.logic(R.al,8)
+    if R.zero:runtime_error(R,0xCF)
+    R.logic(R.dh&0x80,8)
+    if not R.zero:runtime_error(R,0xCF)
+    R.cl=0x81;R.al=R.sub(R.al,R.cl,8);R.push(R.ax);R.al=R.cl
+    R.cx,R.si,R.di=0xFB80,0xF333,0x3504
+    near(R,0x0E89,multiply_real)
+    R.cx,R.si,R.di=R.ax,R.bx,R.dx
+    R.ax=0x81;R.bx=R.logic(0);R.dx=R.logic(0)
+    near(R,0x0E99,add_preserved)
+    for value in (R.dx,R.bx,R.ax):R.push(value)
+    R.ax=0x81;R.bx=R.logic(0);R.dx=0x8000
+    near(R,0x0EA7,add_real)
+    R.cx=R.pop();R.si=R.pop();R.di=R.pop()
+    near(R,0x0EAD,divide_real)
+    R.di,R.cx=0x0EEC,6
+    near(R,0x0EB6,odd_polynomial)
+    R.al=R.inc(R.al,8)
+    R.cx,R.si,R.di=0xD27F,0x17F7,0x3172
+    near(R,0x0EC4,add_real)
+    R.cx=R.pop()
+    for value in (R.dx,R.bx,R.ax):R.push(value)
+    R.al=R.cl;R.ax=R.al-256 if R.al&128 else R.al;R.dx=0xFFFF if R.ax&0x8000 else 0
+    near(R,0x0ECF,from_long)
+    R.cx,R.si,R.di=0xD280,0x17F7,0x3172
+    near(R,0x0EDB,multiply_real)
+    R.cx=R.pop();R.si=R.pop();R.di=R.pop()
+    near(R,0x0EE1,add_real)
+    R.sub(R.al,0x67,8)
+    if R.al<0x67:zero(R)
+    R.store()
+
+
+@PORTS.port('23E4:0F10',ret='retf')
+def real_exponential(mem,variant):
+    """0F10–0F82: saved sign, integer/fraction split, source polynomial and scale."""
+    R=RealRegs(mem)
+    R.logic(R.dh&0x80,8);R.push(R.flags)
+    R.dh=R.logic(R.dh&0x7F,8)
+    R.cx,R.si,R.di=0xD280,0x17F7,0x3172
+    near(R,0x0F23,divide_real)
+    R.sub(R.al,0x88,8)
+    if R.al>=0x88:
+        R.ax=R.pop();runtime_error(R,0xCD)
+    for value in (R.dx,R.bx,R.ax):R.push(value)
+    R.al=R.inc(R.al,8);R.ch=0xFF
+    near(R,0x0F31,to_long)
+    R.cx=R.pop();R.si=R.pop();R.di=R.pop()
+    R.push(R.ax);R.push(R.cx)
+    near(R,0x0F39,from_long)
+    R.cx=R.pop();R.logic(R.al,8)
+    if not R.zero:R.al=R.inc(R.al,8,-1)
+    R.ax,R.cx=R.cx,R.ax;R.bx,R.si=R.si,R.bx;R.dx,R.di=R.di,R.dx
+    near(R,0x0F48,subtract_real)
+    R.di,R.cx=0x0F83,8
+    near(R,0x0F51,polynomial)
+    R.cx=R.pop();R.cx=R.shr(R.cx)
+    if R.carry:
+        R.push(R.cx);R.cx,R.si,R.di=0xFB81,0xF333,0x3504
+        near(R,0x0F63,multiply_real)
+        R.cx=R.pop()
+    R.al=R.add(R.al,R.cl,8)
+    if R.carry:
+        R.ax=R.pop();runtime_error(R,0xCD)
+    R.flags=R.pop()
+    if not R.zero:
+        R.cx,R.si,R.di=R.ax,R.bx,R.dx
+        R.ax=0x81;R.bx=R.logic(0);R.dx=R.logic(0)
+        near(R,0x0F7B,divide_real)
+    R.store()
