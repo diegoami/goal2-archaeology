@@ -25,15 +25,17 @@ LITERALS=[
 
 
 def build(producer_commit=None):
-    code=sorted((ROOT/ASM).glob('seg_0791*.asm'));calls=[]
+    code=sorted((ROOT/ASM).glob('seg_0791*.asm'));calls=[];wall_calls=[]
     for path in code:
         lines=path.read_text().splitlines()
         for i,line in enumerate(lines):
+            if re.search(r'\bcall 0x7621$',line):wall_calls.append(dict(path=str(path.relative_to(ROOT)),address=line.split()[0]))
             if re.search(r'\bcall 0x34c1$',line):
                 off=line.split()[0];following=[s for s in lines[i+1:] if re.match(r'^[0-9A-F]{4} ',s)][:8]
                 calls.append(dict(path=str(path.relative_to(ROOT)),line=i+1,address=off,following_instructions=following,
                                   limit='Eight lexical successor instructions,not a transitive alias/control-flow proof.'))
     assert len(calls)==10 and {r['address'] for r in calls}==EXPECTED_CALLS
+    assert wall_calls==[dict(path=ASM+'seg_0791_14.asm',address='8BB0')]
     guards=[dict(path=ASM+name,address=off,instruction=expected) for name,off,expected in LITERALS]
     guards += [dict(path=r['path'],address=r['address'],instruction='call 0x34c1') for r in calls]
     for g in guards:check_guard(g,(ROOT/g['path']).read_text())
@@ -65,7 +67,7 @@ def build(producer_commit=None):
     sources += ['static/goal-exe/named/'+n for n in ['seg_0791_03.c','seg_0791_07.c','seg_0791_08.c','seg_214B_02.c']]
     support=['notes/engine-study/T106/report-v1.json','notes/engine-study/T106/T106b-v1.json',str((launch/'manifest-v1.json').relative_to(ROOT)),str((launch/'out/manifest-v1-79e714555a81-comparisons.json').relative_to(ROOT))]
     path=str(Path(__file__).resolve().relative_to(ROOT));commit=producer_commit or subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
-    data=pin(dict(task='T109a',method=__doc__,sections=['Observed residue and frame arithmetic','Wall flags at the ordinary continuation','Direct callers and unresolved boundaries'],limits=['Source-based proposed attribution pending ES-R3;zero new engine calls.','Literal listing guards protect named instructions;candidate integrity is not behavioural proof.'],candidates=rows,call_census=calls,residue=residues,frame_arithmetic=dict(sound_entry=f'{sound_entry:04X}',sound_bp=f'{sound_bp:04X}',delay_entry=f'{delay_entry:04X}',delay_bp=f'{delay_bp:04X}',delay_local_bottom=f'{delay_bottom:04X}'),producer=dict(commit=commit,path=path,sha256=sha(Path(__file__).read_bytes()))),sources,guards,support)
+    data=pin(dict(task='T109a',method=__doc__,sections=['Observed residue and frame arithmetic','Wall flags at the ordinary continuation','Direct callers and unresolved boundaries'],limits=['Source-based proposed attribution pending ES-R3;zero new engine calls.','Literal listing guards protect named instructions;candidate integrity is not behavioural proof.'],candidates=rows,call_census=calls,wall_call_census=wall_calls,residue=residues,frame_arithmetic=dict(sound_entry=f'{sound_entry:04X}',sound_bp=f'{sound_bp:04X}',delay_entry=f'{delay_entry:04X}',delay_bp=f'{delay_bp:04X}',delay_local_bottom=f'{delay_bottom:04X}'),producer=dict(commit=commit,path=path,sha256=sha(Path(__file__).read_bytes()))),sources,guards,support)
     return data
 
 
