@@ -146,3 +146,7 @@ exists.
 | [T78b1](T78b1.md) | Residual helper ABI entrypoints | #289 | T78a |
 
 - [T78b2](T78b2.md): wrapped destination/RNG helper ABIs and residual call audit.
+
+- [T78b3a](T78b3a.md): reached real-number arithmetic primitives for standalone sound.
+
+- [T78b3b](T78b3b.md): reached logarithm/exponential and polynomial sound layer.

@@ -396,3 +396,17 @@ The wrapper-aware residual inventory and its dynamic-call limits are documented
 in E036 notes/T78b2.md. Missing optional routes and enabled-speaker real arithmetic
 remain unsupported until separately proved; this registry count is not complete
 standalone Match acceptance.
+
+T78b3a's `real` module translates the reached six-byte Real add/multiply/divide
+and signed-long conversions (23E4:0C93/0CA5/0CAB/0CB9/0CC5). It uses the original
+integer algorithms and preserves register/flag and dead-frame effects. Checked
+runtime errors 200/205/207 are explicit PortError refusals; the kit does not run
+the original DOS runtime-error handler. Logarithm, exponential and their polynomial
+layer remain separate prerequisites; these five entries alone do not complete
+sound-enabled standalone Match execution.
+
+T78b3b adds source-exact logarithm/exponential entries23E4:0E67/0F10 and their
+shared polynomial evaluation. These reuse the integer Real operations and read
+the source coefficient tables from the input image. No host math approximation
+or native instruction fallback is used. Standalone inputs remain image-backed
+until T80's separate derived-table extraction and records-only delivery.
