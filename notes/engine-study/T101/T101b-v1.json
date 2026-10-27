@@ -1,0 +1,341 @@
+{
+  "analysis_sha256": "1eb4daf5f47c8c30a44eaae225f5a5c29eafbe3d158c34fbf8bb78cccb1f792c",
+  "calculations": {
+    "cache_before56_after64": 64,
+    "cache_wrap_example": 8,
+    "captain_choice": 101,
+    "controls": {
+      "inclusive-energy": "rejected:draw6 must fail at energy6",
+      "omit-bound-plus-one": "rejected:target[2,-4] instead of[2,-5]",
+      "omit-cache-wrap": "rejected:264 instead of8",
+      "replace-tie": "rejected:102 instead of101"
+    },
+    "ds_sources": [
+      "static/goal-exe/data/ds_2581_01.hex",
+      "static/goal-exe/data/ds_2581_02.hex",
+      "static/goal-exe/data/ds_2581_03.hex",
+      "static/goal-exe/data/ds_2581_04.hex"
+    ],
+    "energy_accepted_draws": {
+      "1": [],
+      "2": [
+        1
+      ],
+      "6": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "7": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    "leadership_age20_age21": [
+      2,
+      4
+    ],
+    "marking_bound": 3,
+    "marking_target": [
+      2,
+      -5
+    ],
+    "player_zone_edges": [
+      true,
+      false,
+      false
+    ],
+    "post_zone_edges": [
+      true,
+      false,
+      false
+    ],
+    "taker_elements": [
+      7,
+      12,
+      12,
+      2
+    ],
+    "taker_first_slots": [
+      2,
+      2,
+      2,
+      1
+    ]
+  },
+  "examples": [
+    {
+      "id": "marking-sequence",
+      "inputs": {
+        "direction": 1,
+        "displacement_draw": 3,
+        "energy": 6,
+        "energy_draw": 5,
+        "marking": 48,
+        "opponent_feinting": 81,
+        "opponent_point": [
+          2,
+          -2
+        ]
+      },
+      "limits": "Assume bound players, accepted identity and nonwrapping coordinates; no full fixture execution or frequency.",
+      "prediction": [
+        2,
+        -5
+      ],
+      "steps": [
+        "4A28 first sets a post destination via4354",
+        "47C5 resolves an available target outside its own half",
+        "bound=1+(81-48)//16=3; adjusted target(2,-5)",
+        "draw5<energy6 and adjusted y*direction<0 -> copy"
+      ]
+    },
+    {
+      "id": "captain-cache",
+      "inputs": {
+        "ages": [
+          20,
+          21
+        ],
+        "base_extra": 56,
+        "profile": 4,
+        "rating": 72
+      },
+      "limits": "After one captain application following binding;278A extra/event gate still applies; not every element gains this amount.",
+      "prediction": {
+        "age20_extra": 60,
+        "age21_extra": 64
+      },
+      "steps": [
+        "positive signed remainder(72-4)%8=4",
+        "under21 halves to2, age21 retains4",
+        "20E3 adds twice that leadership to all eleven bytes"
+      ]
+    },
+    {
+      "id": "half-pitch-candidate",
+      "inputs": {
+        "marker_direction": "d",
+        "nonwrapping": true,
+        "roll": ">=1",
+        "target_direction": "-d"
+      },
+      "limits": "Static candidate for T108; byte wrap, unusual directions and all caller contexts require separate audit; e5 still changes depth tables.",
+      "prediction": "The e5=0 follow guard passes under these assumptions, so e5 cannot change this copy decision.",
+      "steps": [
+        "accepted target implies y*(-d)>=0",
+        "so y*d<=0",
+        "adjusted_y*d=y*d-roll<0"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:1F3C",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "735d4834139839b0fc609ea89098c0e65163d3b6bdc2887411cc791159280a6c",
+      "line": 294
+    },
+    {
+      "address": "0791:1FDD",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "036bf6b788d54c1fd8c47955db23778224a9be62dcf37040a4f79d6a99cf7648",
+      "line": 330
+    },
+    {
+      "address": "0791:20E3",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "d62c11e613557259ccccc208b7e7349be38933c388d479a3a11282140c79a941",
+      "line": 376
+    },
+    {
+      "address": "0791:2218",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "4cd1301c0db0adf32a5de2ea9184238feba34757e22025eac55646705d4a2fba",
+      "line": 425
+    },
+    {
+      "address": "0791:230C",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "eba876dad7dec2d5cfa5b1b44e68eec91ececf92ed693b336e9bfdfe6f54e4be",
+      "line": 450
+    },
+    {
+      "address": "0791:2C54",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "b142ccf5ca88c2335b316502921e4e2fdb369fe1038c5b98f50214a92609ef9d",
+      "line": 45
+    },
+    {
+      "address": "0791:4438",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "971bb7a96e9740f4fe8eaeb352ccbcd2f67863aaf9c9951b11e5faa3f8d7e60c",
+      "line": 321
+    },
+    {
+      "address": "0791:44C1",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "9a46c8e6e9460f2266f45e55ac9298c1062aa00581aef9f2fc4ff93088cabeaf",
+      "line": 363
+    },
+    {
+      "address": "0791:47C5",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "f29f16774cf062e05a5be68beac7af09eb52fd602a5884539972f0abafc94db9",
+      "line": 552
+    },
+    {
+      "address": "0791:4A28",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "a5cd93ccf6a3b7cf4dacfdc4aac7064184f6850e0664c4a26d7a888c26f6261c",
+      "line": 634
+    },
+    {
+      "address": "1771:30D9",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "b676c12ea188f2ab7d8704c2d78445f9d190eb64c33a945c43fff200047658fb",
+      "line": 4
+    },
+    {
+      "address": "1771:3E2F",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "5e300adc83816fc67ca1ac70d5bc0550700b4626ec6ee9524147ddb5f390dff2",
+      "line": 642
+    },
+    {
+      "address": "1771:3EF8",
+      "file": "static/goal-exe/named/seg_1771_03.c",
+      "heading_sha256": "a1a41d73b22dd92b677e18f609c0c0ea39b2a677c580708c11d04706d8becbb0",
+      "line": 687
+    }
+  ],
+  "method": "Local source-derived marking/leader calculations, without executing an engine.",
+  "routines": [
+    {
+      "address": "0791:1F3C",
+      "fields": [
+        "country.squad",
+        "1771:30D9",
+        "1771:3216"
+      ],
+      "limits": "Local mechanism; no new full-match observation or natural frequency.",
+      "mechanism": "Scan first eleven available players for strictly greater leadership; first tie wins.",
+      "visible_effect": "Captain choice; all-unavailable return remains inherited stack state."
+    },
+    {
+      "address": "0791:1FDD",
+      "fields": [
+        "DS:9976+10*side+2*role",
+        "DS:0764",
+        "278A"
+      ],
+      "limits": "Local mechanism; no new full-match observation or natural frequency.",
+      "mechanism": "Select captain/set-piece table role by strictly greater effective skill, despite historical marker name.",
+      "visible_effect": "Chosen player identity, not opponent man-marking assignment."
+    },
+    {
+      "address": "0791:20E3",
+      "fields": [
+        "DS:0C1F",
+        "DS:9978+10*side",
+        "pitch+11"
+      ],
+      "limits": "Local mechanism; no new full-match observation or natural frequency.",
+      "mechanism": "Managed/menu-context captain and taker branches, followed by twice captain leadership added to each cached extra byte.",
+      "visible_effect": "Team-wide skill-extra contribution where278A later gates it."
+    },
+    {
+      "address": "0791:2218",
+      "fields": [
+        "country.squad",
+        "DS:9B07",
+        "DS:9A3E"
+      ],
+      "limits": "Local mechanism; no new full-match observation or natural frequency.",
+      "mechanism": "Swap squad words, saved-form bytes and marking words together; caller handles pitch records and holder remapping.",
+      "visible_effect": "Assignment and form stay attached during the surrounding sort."
+    },
+    {
+      "address": "0791:4438",
+      "fields": [
+        "pitch+9/+A",
+        "DS:07BE+role",
+        "2BE5"
+      ],
+      "limits": "Local mechanism; no new full-match observation or natural frequency.",
+      "mechanism": "Strict post-centred rectangle, with role depth adjustment outside state9.",
+      "visible_effect": "Zone eligibility for fallback marking target."
+    },
+    {
+      "address": "0791:44C1",
+      "fields": [
+        "pitch+0/+1/+6/+12",
+        "DS:830B",
+        "2BE5"
+      ],
+      "limits": "Local mechanism; no new full-match observation or natural frequency.",
+      "mechanism": "Strict player-centred rectangle excluding holder and state13.",
+      "visible_effect": "Proximity branch used by play decisions."
+    },
+    {
+      "address": "0791:47C5",
+      "fields": [
+        "DS:9A3E",
+        "278A(5/8)",
+        "4A28 frame target"
+      ],
+      "limits": "Local mechanism; no new full-match observation or natural frequency.",
+      "mechanism": "Use assigned opponent identity or last eligible in-zone opponent; reject opponent own half, displace longitudinal target by a skill-dependent draw.",
+      "visible_effect": "Target follows or lags an opponent; selection is not a binary tackle contest."
+    },
+    {
+      "address": "0791:4A28",
+      "fields": [
+        "pitch+7",
+        "player+E",
+        "DS:8325",
+        "26D7(1/5)",
+        "2B7B"
+      ],
+      "limits": "Local mechanism; no new full-match observation or natural frequency.",
+      "mechanism": "Holding-side energy reset or defending post fallback; keeper exception; marker copy requires context, strict energy and half-pitch guards.",
+      "visible_effect": "Changes target, consuming draws even when a later guard rejects the copy."
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "Assignment and identity",
+    "Following an opponent",
+    "Leaders and worked examples"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "runtime/original_match/port/frame.py": "d4c0cd4753038d6058f8359818164ce8cd0be775191fc8338f9a7ec9849b3a6a",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "runtime/original_match/port/positioning.py": "6a8feb436f745149a010db472a1aed04569d897875cd966eb434a6170b7f839e",
+    "static/goal-exe/code/seg_0791_03.asm": "960a08fdcaa6f4115a4702c48a454b097fe0194db91c76ea5a4a9818bbfca0a3",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_0791_07.asm": "1cee0aa8db2d9e0be1e885f1f535eca11f450cbee9421366182528e540d94804",
+    "static/goal-exe/code/seg_0791_08.asm": "6932ef5507b1fa923e7fcec51e4abb0c091d413571c80d0d3798cb1382119acd",
+    "static/goal-exe/code/seg_1771_05.asm": "4a856a9af9dee3d93fe6e6275ead612d2d3ba4c81363389c68fa5424ca8483d9",
+    "static/goal-exe/code/seg_1771_06.asm": "2daf9c18c61eec2d0ef54c5d5480619274020f18124f26b685b7a41a0e19e820",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_03.c": "c49d73137a03e70e2f02b8b54dfe04d8805239f55fc80a99d23a6943354e5800",
+    "static/goal-exe/named/seg_0791_04.c": "0118b26c212562f1eaecefe22850166c2e2b7755952a09abad00a5b42fbf8325",
+    "static/goal-exe/named/seg_1771_03.c": "9c51e37d30f7d69e51b2d776c0b704d7f87852cd10d47fa4d679880d13f4d2f4"
+  },
+  "status": "proposed; source-derived explanation",
+  "task": "T101b"
+}
