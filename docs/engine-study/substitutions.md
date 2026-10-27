@@ -5,7 +5,7 @@ form, marking, pitch records, cached skills and replay state. The UI and normal 
 guards that the low-level refresh routine does not repeat. A raw record edit or isolated call
 is therefore different from the normal operation.
 
-The [sixteen-routine ledger](../../notes/engine-study/T104/T104c-v1.json) and
+The [sixteen-routine ledger](../../notes/engine-study/T104/T104c-v2.json) and
 [source calculations](../../notes/engine-study/T104/substitutions.py) cover those layers.
 They execute no engine, UI or original-key path. Interpretations remain proposed for ES-R2;
 the genuine-input gaps on #400 and runtime-test gaps on #412 remain visible.

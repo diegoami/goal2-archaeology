@@ -76,7 +76,7 @@ def calculations():
     assert valid_roles(roles,missing) and not valid_roles(roles,missing,in_match=False)
     assert not valid_roles(roles,all_ok,empty=True)
     assert 56+2*2==60 and 56+2*7==70 and (60+2*7)!=70
-    return dict(managed_admission=[True,False,False,False],bench_natural_map=bench_map,centre_back_preference=prefs,
+    return dict(managed_admission=[True,False,False,False],bench_natural_map={str(k):v for k,v in bench_map.items()},centre_back_preference=prefs,
                 selected_bench=selected,ai_managed_incoming_roles=[2,7],managed_ai_mark_pairs=[managed_marks,ai_marks],
                 pairwise_order=[r[0] for r in ordered],stable_sort_control=['C','A','B'],
                 foot_case={'foot':foot,'two_footed':two,'bench_eligible':bench_eligible,'placement_flag':int(placement)},
