@@ -1,0 +1,15 @@
+{
+  "candidates": 5,
+  "checker_sha256": "5d7dbd375112da08e0d875fdbc6f4aa4c5a3dc4eb3677132c31634b2c3ae6f81",
+  "controls": {
+    "missing-candidate": "rejected",
+    "missing-disposition": "rejected",
+    "missing-evidence": "rejected",
+    "missing-source": "rejected",
+    "shifted-source": "rejected"
+  },
+  "manifest_sha256": "d8e9e861fd5894302d457e47fbbdda154b9f041d574d7073e35de3f2a4579561",
+  "positive": "accepted",
+  "scope": "Audit candidate completeness and source integrity, not automatic defect attribution.",
+  "task": "T108b"
+}
