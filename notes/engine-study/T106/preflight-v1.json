@@ -1,0 +1,67 @@
+{
+  "accepted_study_commit": "55d7a479a7288ea044ceaa315eaff87e2077fdb6",
+  "current_source_commit": "bfc99252cdd734075b8b12e87ec978a9dd417bc3",
+  "engine_invocations": 0,
+  "input": {
+    "build_problems": [],
+    "memory_component_sha256": "87400f6a866e0798f61a9f3ab3bfcaa322469fa6b238b0061f1b7ab2b6a3f979",
+    "reference": {
+      "asset": "e0afff6751747233-e006-1000-r0001.sav",
+      "release": "E006",
+      "sha256": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d"
+    }
+  },
+  "limits": [
+    "Imports/registration and image hash/build checks only;not proof of routine execution.",
+    "Production1EA1is a declared T73sound stub;actual calls and unmasked differences must be reported."
+  ],
+  "registry": {
+    "0791:2CC5": {
+      "module": "entrypoints",
+      "production_stub": null,
+      "ret": "retf 4"
+    },
+    "0791:333F": {
+      "module": "ball",
+      "production_stub": null,
+      "ret": "ret 2"
+    },
+    "0791:34C1": {
+      "module": "ball",
+      "production_stub": null,
+      "ret": "retf 8"
+    },
+    "0791:7621": {
+      "module": "restarts",
+      "production_stub": null,
+      "ret": "retf 4"
+    },
+    "214B:1EA1": {
+      "module": "display",
+      "production_stub": "display/sound/wait body omitted; listing return cleanup and incoming result registers preserved",
+      "ret": "retf 4"
+    },
+    "23E4:0279": {
+      "module": "runtime",
+      "production_stub": null,
+      "ret": "retf"
+    },
+    "23E4:0294": {
+      "module": "runtime",
+      "production_stub": null,
+      "ret": "retf"
+    }
+  },
+  "scope": "Read-only source/input/registration compatibility; no target or game engine is executed.",
+  "unchanged_critical_sha256": {
+    "runtime/original_match/image.py": "0b6c8a98c0d4fabdfe63be52561dd2afc56a4f0a8238e8ccc06dfd33e78e35a9",
+    "runtime/original_match/machine.py": "c01aa890626ac0235f6e1a40dec93475624a5f09d426bdb6f701b37ceb6c2db1",
+    "runtime/original_match/port/ball.py": "6b5f17ee9af3bf7dbb2bae4bd5ae00e1a012f6d6cf6e6e3c2cdd8464a7e2c72a",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "runtime/original_match/port/guest.py": "1c2f1eba101c7ce08cb7d23d273d69411ec4dcbfd1512427042c304a2721c8d9",
+    "runtime/original_match/port/mem.py": "0105113f8102a3e8c3544942a445e156fecc0196f7911089e7f789a7775fe45c",
+    "runtime/original_match/port/restarts.py": "c378834575a59d89f31fea8f9ee5ffca7daaf98754a36e848164bb819ad87977",
+    "static/goal-exe/code/seg_0791_06.asm": "b7debdb96455259d2dca1e10096d42fb6ae843b79105eda4c5e7b7cf7b34ceb6",
+    "static/goal-exe/code/seg_0791_12.asm": "51e9bb66b774cb145dea8d8986ee4dbcb3c6b74b1a79e47808fe28909916b108"
+  }
+}

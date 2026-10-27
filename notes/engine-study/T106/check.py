@@ -19,6 +19,9 @@ def validate(task,data,*,allow_mock=False):
     assert data['method'] and data['limits'] and data['source_sha256']
     for r in rows:
         assert r['manifest_sha256'] and r['records'] and r['prediction']
+        expected_records=2 if r['id'].startswith('launch-') else 10
+        assert len(r['records'])==expected_records
+        assert len({rec['path'] for rec in r['records']})==expected_records
         assert isinstance(r['field_match'],bool) and isinstance(r['strict_memory_equal'],bool)
         assert r['completed'] is True
         assert r['disposition'] in ['exact','state disagreement','field disagreement']
@@ -34,13 +37,14 @@ def validate(task,data,*,allow_mock=False):
 
 def controls(task,data,*,allow_mock=False):
     out={}
-    for name in ['missing-case','missing-source','missing-input','missing-completion','missing-budget','false-exact']:
+    for name in ['missing-case','missing-source','missing-input','missing-completion','missing-budget','missing-record','false-exact']:
         bad=copy.deepcopy(data)
         if name=='missing-case':bad['cases'].pop()
         elif name=='missing-source':bad['source_sha256']={}
         elif name=='missing-input':bad['cases'][0]['manifest_sha256']=''
         elif name=='missing-completion':bad['cases'][0]['completed']=False
         elif name=='missing-budget':bad['budget']={}
+        elif name=='missing-record':bad['cases'][0]['records'].pop()
         else:bad['cases'][0].update(strict_memory_equal=False,disposition='exact')
         try:validate(task,bad,allow_mock=allow_mock)
         except (AssertionError,KeyError):out[name]='rejected'
