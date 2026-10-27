@@ -1,0 +1,1036 @@
+{
+  "analysis_sha256": "a644f2bee8dc4d198c59d7abc956d8c5c490e74d2caa1cd4aac26556c1ae2947",
+  "calculations": {
+    "celebration_explicit_main_calls": {
+      "watchedFalse_keeperFalse": 0,
+      "watchedFalse_keeperTrue": 1,
+      "watchedTrue_keeperFalse": 3,
+      "watchedTrue_keeperTrue": 4
+    },
+    "conditional_finish": {
+      "draws": 2,
+      "holder": 8,
+      "opponent": 4,
+      "route": "67B6",
+      "seed": 15138
+    },
+    "controls": {
+      "clear-air-after-selected-receipt": "rejected:8AE9 restores old air1",
+      "inclusive-tackle": "rejected:tie must not win",
+      "record-before-offside": "rejected:disallowed goal must not enter scorer record",
+      "remove-celebration-draws": "rejected:watched nonkeeper has3 body draws, not0",
+      "reverse-finish-draws": "rejected:goal route changes",
+      "unlimited-scorer-log": "rejected:row11 remains final row"
+    },
+    "ds_sources": [
+      "static/goal-exe/data/ds_2581_01.hex",
+      "static/goal-exe/data/ds_2581_02.hex",
+      "static/goal-exe/data/ds_2581_03.hex",
+      "static/goal-exe/data/ds_2581_04.hex"
+    ],
+    "finish_elements": [
+      10,
+      11,
+      4,
+      12,
+      12
+    ],
+    "flight_keeper_examples": {
+      "travel1": [
+        1,
+        7,
+        true
+      ],
+      "travel20": [
+        9,
+        7,
+        false
+      ]
+    },
+    "goal_allowed": {
+      "after_goal": true,
+      "credited_side": 0,
+      "final": [
+        2,
+        0
+      ],
+      "player_goal_delta": 1,
+      "provisional": [
+        2,
+        0
+      ],
+      "recorded": true,
+      "replay_request": true
+    },
+    "goal_disallowed": {
+      "after_goal": false,
+      "credited_side": 0,
+      "final": [
+        1,
+        0
+      ],
+      "player_goal_delta": 0,
+      "provisional": [
+        2,
+        0
+      ],
+      "recorded": false,
+      "replay_request": false
+    },
+    "own_goal": {
+      "after_goal": true,
+      "credited_side": 1,
+      "final": [
+        1,
+        1
+      ],
+      "player_goal_delta": 0,
+      "provisional": [
+        1,
+        1
+      ],
+      "recorded": true,
+      "replay_request": true
+    },
+    "reaction_elements_defending_holding": [
+      3,
+      9
+    ],
+    "reversed_finish_control": {
+      "draws": 2,
+      "holder": 4,
+      "opponent": 8,
+      "route": "6755",
+      "seed": 15138
+    },
+    "selected_receipts_ground_air": [
+      {
+        "air": 0,
+        "commentary19": true,
+        "event": 0,
+        "holder": 9,
+        "moving": 0,
+        "nearest": 0,
+        "receiver": 0,
+        "timer": 0
+      },
+      {
+        "air": 1,
+        "commentary19": false,
+        "event": 0,
+        "holder": 9,
+        "moving": 0,
+        "nearest": 0,
+        "receiver": 0,
+        "timer": 0
+      }
+    ],
+    "tackle_tables": [
+      3,
+      4,
+      10,
+      4,
+      4,
+      1
+    ],
+    "tackle_with_multiplier4": {
+      "challenger": 28,
+      "holder": 9,
+      "seed": 15138,
+      "won": true
+    },
+    "tackle_without_multiplier": {
+      "challenger": 7,
+      "holder": 9,
+      "seed": 15138,
+      "won": false
+    }
+  },
+  "census_dispositions": [
+    {
+      "address": "0791:2FB1",
+      "module": "ball",
+      "owner": "T102a"
+    },
+    {
+      "address": "0791:30EA",
+      "module": "ball",
+      "owner": "T102a"
+    },
+    {
+      "address": "0791:3111",
+      "module": "ball",
+      "owner": "T102a"
+    },
+    {
+      "address": "0791:3323",
+      "module": "ball",
+      "owner": "T102a"
+    },
+    {
+      "address": "0791:333F",
+      "module": "ball",
+      "owner": "T102a"
+    },
+    {
+      "address": "0791:34C1",
+      "module": "ball",
+      "owner": "T102b"
+    },
+    {
+      "address": "0791:384C",
+      "module": "ball",
+      "owner": "T102a"
+    },
+    {
+      "address": "0791:3B15",
+      "module": "ball",
+      "owner": "T102b"
+    },
+    {
+      "address": "0791:3B9E",
+      "module": "ball",
+      "owner": "T102a"
+    },
+    {
+      "address": "0791:3BEE",
+      "module": "ball",
+      "owner": "T102a"
+    },
+    {
+      "address": "0791:3C20",
+      "module": "ball",
+      "owner": "T102b"
+    },
+    {
+      "address": "0791:3C3F",
+      "module": "ball",
+      "owner": "T102b"
+    },
+    {
+      "address": "0791:3D38",
+      "module": "ball",
+      "owner": "T102a"
+    },
+    {
+      "address": "0791:3DF6",
+      "module": "ball",
+      "owner": "T102a"
+    },
+    {
+      "address": "0791:3EC5",
+      "module": "ball",
+      "owner": "T102b"
+    },
+    {
+      "address": "0791:3EDF",
+      "module": "ball",
+      "owner": "T102b"
+    },
+    {
+      "address": "0791:3EF8",
+      "module": "ball",
+      "owner": "T102b"
+    },
+    {
+      "address": "0791:3FAD",
+      "module": "ball",
+      "owner": "T102b"
+    },
+    {
+      "address": "0791:408E",
+      "module": "ball",
+      "owner": "T102b"
+    },
+    {
+      "address": "0791:40BC",
+      "module": "ball",
+      "owner": "T102b"
+    },
+    {
+      "address": "0791:4151",
+      "module": "ball",
+      "owner": "T102b"
+    },
+    {
+      "address": "0791:4DA9",
+      "module": "contests",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:4E28",
+      "module": "contests",
+      "owner": "T102a"
+    },
+    {
+      "address": "0791:500C",
+      "module": "contests",
+      "owner": "T102a"
+    },
+    {
+      "address": "0791:5049",
+      "module": "contests",
+      "owner": "T102a"
+    },
+    {
+      "address": "0791:533B",
+      "module": "contests",
+      "owner": "T102a"
+    },
+    {
+      "address": "0791:539F",
+      "module": "contests",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:5474",
+      "module": "contests",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:5513",
+      "module": "contests",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:5565",
+      "module": "contests",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:56D9",
+      "module": "contests",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:5729",
+      "module": "contests",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:57AC",
+      "module": "contests",
+      "owner": "T102a"
+    },
+    {
+      "address": "0791:58E1",
+      "module": "contests",
+      "owner": "T102a"
+    },
+    {
+      "address": "0791:593B",
+      "module": "contests",
+      "owner": "T102b"
+    },
+    {
+      "address": "0791:59B3",
+      "module": "contests",
+      "owner": "T102b"
+    },
+    {
+      "address": "0791:5A33",
+      "module": "contests",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:5A8E",
+      "module": "contests",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:5B36",
+      "module": "duels",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:5E41",
+      "module": "duels",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:5EAB",
+      "module": "duels",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:5F06",
+      "module": "duels",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:5F8A",
+      "module": "duels",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:6188",
+      "module": "duels",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:61EC",
+      "module": "duels",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:6240",
+      "module": "duels",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:6337",
+      "module": "duels",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:6443",
+      "module": "duels",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:65A4",
+      "module": "duels",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:65FE",
+      "module": "duels",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:6755",
+      "module": "duels",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:67B6",
+      "module": "duels",
+      "owner": "T102c"
+    },
+    {
+      "address": "0791:835F",
+      "module": "motion",
+      "owner": "T102b"
+    },
+    {
+      "address": "0791:83A2",
+      "module": "motion",
+      "owner": "T102b"
+    },
+    {
+      "address": "0791:869F",
+      "module": "motion",
+      "owner": "T102b"
+    }
+  ],
+  "examples": [
+    {
+      "id": "ground-tackle",
+      "inputs": {
+        "challenger_tackling": 30,
+        "holder_dribbling": 80,
+        "multipliers": [
+          1,
+          4
+        ],
+        "stage_seed": 0
+      },
+      "limits": "Local source draw pairs; eligibility/fouls/possession resolution and natural encounter frequency not simulated.",
+      "prediction": {
+        "with_multiplier4": true,
+        "without_multiplier": false
+      },
+      "steps": [
+        "holder draws9 first",
+        "challenger draws7 at bound30 or28 at bound120",
+        "strict comparison;win enters539F,which still has conditional resolution"
+      ]
+    },
+    {
+      "id": "conditional-finish-to-goal",
+      "inputs": {
+        "decision_seed": 0,
+        "effective_penalties": 32,
+        "event": 3,
+        "holder_side": 0,
+        "own_goal_flag": 0,
+        "quality_flag": 0,
+        "score": [
+          1,
+          0
+        ]
+      },
+      "limits": "Two connected source projections;67B6 commentary coin/after-goal RNG not simulated or counted. Supplied effective value,not complete original call frame.",
+      "prediction": {
+        "after_goal": true,
+        "credited_side": 0,
+        "final": [
+          2,
+          0
+        ],
+        "player_goal_delta": 1,
+        "provisional": [
+          2,
+          0
+        ],
+        "recorded": true,
+        "replay_request": true
+      },
+      "steps": [
+        "690C opponentrand32=4 then holderrand32=8 ->67B6",
+        "normal goal increments score to2,0",
+        "with no offside record scorer and invoke after-goal/replay bookkeeping"
+      ]
+    },
+    {
+      "id": "offside-rollback",
+      "inputs": {
+        "holder_side": 0,
+        "normal_phase": true,
+        "pending_offside": true,
+        "score": [
+          1,
+          0
+        ]
+      },
+      "limits": "Provisional display/event exists;does not prove original input reachability or restart management details.",
+      "prediction": {
+        "after_goal": false,
+        "credited_side": 0,
+        "final": [
+          1,
+          0
+        ],
+        "player_goal_delta": 0,
+        "provisional": [
+          2,
+          0
+        ],
+        "recorded": false,
+        "replay_request": false
+      },
+      "steps": [
+        "67B6 provisional score2,0",
+        "pending flag subtracts it again",
+        "return through82EB before scorer/after-goal/replay request"
+      ]
+    },
+    {
+      "id": "selected-reception",
+      "inputs": {
+        "at_ball": true,
+        "old_air": [
+          0,
+          1
+        ],
+        "old_holder": 6,
+        "receiver": 9,
+        "state": 5,
+        "still_selected_830D": 9
+      },
+      "limits": "Additional8AE9 conditions assumed;partial globals,not full frame/position/drawing effects. No heading gate on this particular path.",
+      "prediction": [
+        {
+          "air": 0,
+          "commentary19": true,
+          "event": 0,
+          "holder": 9,
+          "moving": 0,
+          "nearest": 0,
+          "receiver": 0,
+          "timer": 0
+        },
+        {
+          "air": 1,
+          "commentary19": false,
+          "event": 0,
+          "holder": 9,
+          "moving": 0,
+          "nearest": 0,
+          "receiver": 0,
+          "timer": 0
+        }
+      ],
+      "steps": [
+        "8AE9 after step acquires through869F under its selected-record predicate",
+        "clear selectors/play/event/timer",
+        "restore oldair;ground can submit19,air does not"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:4DA9",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "dafd755a9614da1b7bfd1329b86781ed784d0c2cefec1e65b6dcb9317c5b905e",
+      "line": 812
+    },
+    {
+      "address": "0791:539F",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "005fe7c7cda48f8234de477c2e6c2709c407a181f16dd2299a4759feefd399af",
+      "line": 189
+    },
+    {
+      "address": "0791:5474",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "9146ab061ac15204300069a452889d0966f8d1ef0420c8d730dd74fe54b17985",
+      "line": 234
+    },
+    {
+      "address": "0791:5513",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "49b210b52759378b3bf65a9c5921ecdfef1e83d8fed81953eab15ed3984d1fb0",
+      "line": 274
+    },
+    {
+      "address": "0791:5565",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "eb8634e3327b5c6715416ef866c462c542e7edbf8b2654c29e1f23cd25f7e55d",
+      "line": 303
+    },
+    {
+      "address": "0791:56D9",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "0862ae2aeeb4a1c748088a48fd920135828dff09eb6c27cbec1ecdc37b4150c2",
+      "line": 379
+    },
+    {
+      "address": "0791:5729",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "07823e7e21673e0bb54f75a8a9c0ed0144c144319d3e4cc4a513d37fd51b4963",
+      "line": 406
+    },
+    {
+      "address": "0791:5A33",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "ab996d8d739ee7addf79b3d6af9d74a7a3b7cd16485355450cfb648c77c071a9",
+      "line": 608
+    },
+    {
+      "address": "0791:5A8E",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "2c0f0119ea93a0b25e9e7598299238cc180bbe2e22987f896b8570899e758006",
+      "line": 635
+    },
+    {
+      "address": "0791:5B36",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "973535149ca09d68330db25d05bd5ff5b49436e7ee6d4ca4906d1a577f8b3ad2",
+      "line": 672
+    },
+    {
+      "address": "0791:5E41",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "218f8320dca18523538854a74243cd466faea8382dba9c1af7c692063a15279d",
+      "line": 826
+    },
+    {
+      "address": "0791:5EAB",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "142cbaba783c94613826d007a670cb42cb503631d20e687d3102ed2518631fe4",
+      "line": 858
+    },
+    {
+      "address": "0791:5F06",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "c94160817781f42aa34ef871de19ce4fe5b65310f4083748e3d02471580a739e",
+      "line": 880
+    },
+    {
+      "address": "0791:5F8A",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "b012fa1601e1f607a446bc71db617520808039e2df4b4b1ce1bb415e785f7328",
+      "line": 4
+    },
+    {
+      "address": "0791:6188",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "e7cc725e7045471d2bc86e9c9a3d6332997a898479156e7c73b8e52a5b5c2600",
+      "line": 113
+    },
+    {
+      "address": "0791:61EC",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "02343cedf5d7e1929f7a702efdedcb6d7297b9f80387f0eeff6200bc96cca434",
+      "line": 144
+    },
+    {
+      "address": "0791:6240",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "b199334dff71619652840a42d2e2f9bfde5e51d02d9891d52f3a67449649aa4d",
+      "line": 171
+    },
+    {
+      "address": "0791:6337",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "808092b6e3b0daf22c37983d21961281ba3066aefc199900549ea0f93e29fdd1",
+      "line": 227
+    },
+    {
+      "address": "0791:6443",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "4cf93918a27e1f289b8aebf840a534b5f5ddf083d05f7c8043e3354a45795380",
+      "line": 281
+    },
+    {
+      "address": "0791:65A4",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "942038ef106811280620e33518baabd6d7d020f8bedb4221afc2c65fbf2bd7e9",
+      "line": 340
+    },
+    {
+      "address": "0791:65FE",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "920889d6d4b1d70e943c8acf51b4f4eca48c21cd7c0975bdd66befa588031416",
+      "line": 370
+    },
+    {
+      "address": "0791:6755",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "6ca27bd337bd84c556f13964d6bc536cf7d1873f314251a05903a4d7ae804c16",
+      "line": 432
+    },
+    {
+      "address": "0791:67B6",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "4c42822192009f41bab718c000943813fa176a2c06397e021a20b3612c2c605a",
+      "line": 472
+    },
+    {
+      "address": "0791:690C",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "7ff6c3e7ece08b4b8067972df73dcc55f230d97df049fdedc854fcf0aa2d909d",
+      "line": 541
+    },
+    {
+      "address": "0791:698E",
+      "file": "static/goal-exe/named/seg_0791_06.c",
+      "heading_sha256": "c52cf5f6cf9fca88a1ad68d10f7608b5aa9acbfa8c91aa487014e7c4c6fa58e6",
+      "line": 580
+    },
+    {
+      "address": "0791:8AE9",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "d198ef91981f2306bba5156f0205aca906ebee7a59fb4756eea87dd05689daff",
+      "line": 505
+    },
+    {
+      "address": "0791:94C9",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "cddf4281d049e34d798f879af48d0ab9ac8cf985cea59db79c1680bf84b36582",
+      "line": 963
+    },
+    {
+      "address": "0791:94E8",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "7cea436a2354967029488c1421da74823d7c51800647f8f1c1b8f7e6f56a442a",
+      "line": 4
+    },
+    {
+      "address": "0791:9564",
+      "file": "static/goal-exe/named/seg_0791_09.c",
+      "heading_sha256": "f099285487cf0c98feb7e082960df0666c43790e0c04441d397fd8d9d8ee59be",
+      "line": 30
+    }
+  ],
+  "method": "Source-derived contest/goal bookkeeping; no original/port engine or match execution.",
+  "routines": [
+    {
+      "address": "0791:4DA9",
+      "fields": [
+        "1771:2FFB",
+        "26D7(4)",
+        "DS:830B"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Initial random-is-one(18-hardness) or e4 admission, then holder/challenger hardness rolls; challenger strictly larger means foul gate.",
+      "visible_effect": "Hardness/tactic access is separate from tackling skill; initial draw still occurs with e4 on."
+    },
+    {
+      "address": "0791:539F",
+      "fields": [
+        "DS:830B/8303",
+        "287C(3)",
+        "869F",
+        "5E41/408E"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Won-ball resolution despite legacy foul name: keeper-holder exemption,old holder delay,possession/deflection/clearance and commentary.",
+      "visible_effect": "Winning tackle is not always clean possession."
+    },
+    {
+      "address": "0791:5474",
+      "fields": [
+        "DS:07F4/07F6/07F8",
+        "2C54",
+        "278A"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Holder roll first:dribbling10 ground/heading4 air; challenger tackling3/heading4,ground own-half multiplier4 else1; strict larger wins.",
+      "visible_effect": "Geometry changes challenger bound; ties do not win."
+    },
+    {
+      "address": "0791:5513",
+      "fields": [
+        "4DA9",
+        "8206",
+        "539F"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Foul gate then coin between watched foul sequence and won-ball resolution.",
+      "visible_effect": "Foul-predicate success does not alone identify the final card/whistle/possession event."
+    },
+    {
+      "address": "0791:5565",
+      "fields": [
+        "pitch point",
+        "DS:830B/8302/8303/830E",
+        "player+12"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Eligible opposing contact challenge: keeper/outfield duel,foul/clearance branches and possible quiet player-performance+10.",
+      "visible_effect": "Position/phase gates and a silent performance write affect full outcome."
+    },
+    {
+      "address": "0791:56D9",
+      "fields": [
+        "DS:830E/8329",
+        "26A0",
+        "2B0F"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Pending-offside marker/message request and once-only template66; low-byte return always0.",
+      "visible_effect": "Notification does not itself stop57AC or award the restart."
+    },
+    {
+      "address": "0791:5729",
+      "fields": [
+        "2EB8",
+        "2EF0",
+        "26D7(6)"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Nonkeeper off-holding-side go-to-ball gate from own/opposing strip predicates and e6.",
+      "visible_effect": "Stand-ground/sag-back changes whether a record targets the ball."
+    },
+    {
+      "address": "0791:5A33",
+      "fields": [
+        "DS:830B/8324/8327",
+        "DS:7B7E+10*side+5"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Install record holder and save/parry commentary; increment stat+5 and clear event only outside8326; clear8324.",
+      "visible_effect": "Save-looking line and committed possession are distinct wrappers."
+    },
+    {
+      "address": "0791:5A8E",
+      "fields": [
+        "DS:8326",
+        "869F",
+        "5A33",
+        "2EB8"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Normal take-possession or mode-specific timer clear,template29 through5A33,then own-strip delay or clearance.",
+      "visible_effect": "Keeper resolution can still start a new launch."
+    },
+    {
+      "address": "0791:5B36",
+      "fields": [
+        "DS:8302/8303/8324",
+        "278A(1/4/10)",
+        "835F",
+        "DS:07FE/0800"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Own-side possession shortcut; ground/air opposing duels; moving-ball threshold uses difficulty before keeper roll,then parry/wide/catch outcomes.",
+      "visible_effect": "Keeping has several contexts; winning a flight threshold is not guaranteed clean catch."
+    },
+    {
+      "address": "0791:5E41",
+      "fields": [
+        "DS:0802",
+        "869F",
+        "34C1"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Two axis draw/coin offsets around a record point,then take possession and event6 relaunch.",
+      "visible_effect": "Deflection changes holder/launch state, not only ball velocity."
+    },
+    {
+      "address": "0791:5EAB",
+      "fields": [
+        "DS:8311/80FA",
+        "2FB1",
+        "384C"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Take possession,submit32,recompute nearest list,temporarily set80FA to pass toward nearest with384C.",
+      "visible_effect": "Loose-ball route can become a heading-event launch via80FA."
+    },
+    {
+      "address": "0791:5F06",
+      "fields": [
+        "DS:8303/8327",
+        "CS:5EE6",
+        "DS:080A"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Cache air8303 and side; air/event-set branch chooses5EAB or deflection route; restore/set final air from a coin.",
+      "visible_effect": "The local named moving is air flag8303, not play flag8302."
+    },
+    {
+      "address": "0791:5F8A",
+      "fields": [
+        "DS:8325/8324",
+        "835F",
+        "DS:0804/0806/0808",
+        "287C"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "At-ball nonholder reactions use remaining travel,air,geometry and gates for control9/tackling3/heading4 or side table3/9.",
+      "visible_effect": "Interception/reaction outcome depends on context beyond being on the ball cell."
+    },
+    {
+      "address": "0791:6188",
+      "fields": [
+        "DS:9A3E/830C/8326",
+        "pitch+12",
+        "2CEC"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Watched,state-not13,at-ball dispatch: keeper duel or unselected nonholder reaction under additional phase gates.",
+      "visible_effect": "Distinct from8AE9 selected-target acquisition."
+    },
+    {
+      "address": "0791:61EC",
+      "fields": [
+        "DS:8325/830B/7C39",
+        "DS:0668",
+        "8062",
+        "2929"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Stop activity,check substitutions,pick conceding side relative slot10 (own-goal reversal),advance unavailable slot,fill state1.",
+      "visible_effect": "Goal restart and substitution management meet at this boundary."
+    },
+    {
+      "address": "0791:6240",
+      "fields": [
+        "DS:830B/7C39/9B3C",
+        "pitch+7/+8",
+        "rand16"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "State6 celebration/restart movement depends on holder,target,score comparison and own-goal flag; eventually61EC.",
+      "visible_effect": "Score affects player targets before the kickoff transition."
+    },
+    {
+      "address": "0791:6337",
+      "fields": [
+        "DS:830B/0668/9A3E",
+        "rand10/coin/rand5-or25/coin"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Keeper holder can transfer to a random available outfielder; watched branch gives holder a random celebration target,quick branch copies point.",
+      "visible_effect": "Watched body consumes3 additional main draws even when holder is not a keeper."
+    },
+    {
+      "address": "0791:6443",
+      "fields": [
+        "player+A/+C",
+        "DS:80F0/7BD1",
+        "DS:8324/7C39",
+        "7CC5"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Normal scorer goals/form and optional top-scorer update;own-goal branch reverses credited log side;11-row saturating goal list and byte-tagged minute.",
+      "visible_effect": "Persistent scorer data differs from temporary scoreboard increment."
+    },
+    {
+      "address": "0791:65A4",
+      "fields": [
+        "pitch+12",
+        "2B51",
+        "045D"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Holding-side nonkeepers get state6,others0,then6337.",
+      "visible_effect": "After-goal formation/celebration state is explicitly rebuilt."
+    },
+    {
+      "address": "0791:65FE",
+      "fields": [
+        "DS:8325/8326/832A/9A3E/9B55",
+        "7CC5",
+        "C173"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Activity/whistle/targets,normal phase state+AI updates then live form swing;score/own-flag-indexed sound-envelope word832A and quick snapshot request.",
+      "visible_effect": "Goals feed later attributes; sound counter has identified audio readers, not a proven aggression effect."
+    },
+    {
+      "address": "0791:6755",
+      "fields": [
+        "DS:830E/832A",
+        "6F01",
+        "82EB"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Miss/goalline route places y at39 with sign,submits40/41,sound word20,then goal-kick/free-kick or pending-offside route.",
+      "visible_effect": "A mouth boundary can lead to a restart instead of a score."
+    },
+    {
+      "address": "0791:67B6",
+      "fields": [
+        "DS:9B3C/830E/8326/7C39/0C20/7C37",
+        "6443",
+        "65FE"
+      ],
+      "limits": "Source-conditioned mechanism;no new engine execution or whole-match probability.",
+      "mechanism": "Provisional score increment,normal offside rollback before6443;otherwise after_goal and replay bookkeeping.",
+      "visible_effect": "Final accepted goal differs from provisional goal/disallowed events."
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "Contact is not one contest",
+    "From the goal line to an accepted goal",
+    "After-goal feedback and random consumption",
+    "Worked paths and rewrite limits"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "notes/engine-study/T95/census-08beac2e-v1.json": "e0f0938e2a21bdb7920e51eb958b73fad152b11b668de91f5a4eb8e57508a95c",
+    "runtime/original_match/port/contests.py": "b4db099959a09a1dcb78f031e9a44dc64624a5ffd8ea7b0be3441298bb0ec40e",
+    "runtime/original_match/port/display.py": "33b298ead7c58815b9463a39f14e0ba862c81a3af02d53cd5f6184b0f4d8da5e",
+    "runtime/original_match/port/duels.py": "37fe8ea7dec6c3aff8c80d26367d3225460af037a839912e98b4e6217dd739b6",
+    "runtime/original_match/port/frame.py": "d4c0cd4753038d6058f8359818164ce8cd0be775191fc8338f9a7ec9849b3a6a",
+    "runtime/original_match/port/motion.py": "4e7bab13c1e196464ecb41fd2ddb3a41878c217885c238fd2e80cd8329746eb2",
+    "runtime/original_match/port/restarts.py": "c378834575a59d89f31fea8f9ee5ffca7daaf98754a36e848164bb819ad87977",
+    "static/goal-exe/code/seg_0791_08.asm": "6932ef5507b1fa923e7fcec51e4abb0c091d413571c80d0d3798cb1382119acd",
+    "static/goal-exe/code/seg_0791_09.asm": "1236aa3fcb2d30080e22d9a4bee4398c52d09fc3010e133bc124e318f7e89ac0",
+    "static/goal-exe/code/seg_0791_10.asm": "dabf426d52c0c137574a07b97044e43868ebe0e0e49b4b7367be05e98842c88c",
+    "static/goal-exe/code/seg_0791_11.asm": "a5aebf13faf14469141d8edb9a0878b0a56b7267451694622801732f522603ec",
+    "static/goal-exe/code/seg_0791_14.asm": "032e2d6f22d6db5981e2a11f43298924a53e15d080e1d73d1fb375ddbe400abd",
+    "static/goal-exe/code/seg_0791_15.asm": "39083ebcc1fba0fc0c377bd9656189ceb0e0a328d0940583c774e910967e1abf",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_04.c": "0118b26c212562f1eaecefe22850166c2e2b7755952a09abad00a5b42fbf8325",
+    "static/goal-exe/named/seg_0791_05.c": "b0871f197621d5abfd3b4db00ec3eca42c9eea6cb45626651842147b4d8ce228",
+    "static/goal-exe/named/seg_0791_06.c": "1c03cc01069ce4f4eedb386688654af7c3a3900eeb3470971111b2caa3bbe945",
+    "static/goal-exe/named/seg_0791_08.c": "130e91927a5bb2fed2adb998225fc88091816752051eee90ae004e30fcfecc96",
+    "static/goal-exe/named/seg_0791_09.c": "71a912e2c5564f75078a0db0220c5388a74ec168783371a63c74cdddae22275f"
+  },
+  "status": "proposed; source-derived explanation",
+  "supporting_artifacts": {
+    "notes/engine-study/T102/flight.py": "f87c5a4b98184a9661306cb26417e7811b161e171c8e5a5fd7349c4b29849e67",
+    "notes/engine-study/T99/contests-v2.json": "5e340dd6a70273a2d804c05f2ba85c32f5170fdca8df5d4f2635abe097580c94"
+  },
+  "task": "T102c"
+}
