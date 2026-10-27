@@ -1,0 +1,738 @@
+test_plain_helpers_with_unicorn_import_denied (tests.test_port_entrypoints.Helpers.test_plain_helpers_with_unicorn_import_denied) ... FAIL
+test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) ... 
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='0791:2CC5', args=[256, 36864], writes=[(590080, b'\x00\x00\x00\x00\x00\x00\x00\x00\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='0791:2CC5', args=[256, 36864], writes=[(590080, b'\x00\x00\x00\x00\x00\x00\x00\x00\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='0791:2CC5', args=[256, 36864], writes=[(590080, b'\xcd\xab\x00\x00\x00\x00\x00\xcd\xab')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='0791:2CC5', args=[256, 36864], writes=[(590080, b'\xcd\xab\x00\x00\x00\x00\x00\xcd\xab')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='0791:2CC5', args=[256, 36864], writes=[(590080, b'\xcd\xab\x00\x00\x00\x00\x00\xce\xab')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='0791:2CC5', args=[256, 36864], writes=[(590080, b'\xcd\xab\x00\x00\x00\x00\x00\xce\xab')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='0791:2CC5', args=[256, 36864], writes=[(590080, b'\x80\xff\x00\x00\x00\x00\x00\x80\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='0791:2CC5', args=[256, 36864], writes=[(590080, b'\x80\xff\x00\x00\x00\x00\x00\x80\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x01\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x01\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x01\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x01\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x01\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x01\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x01\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x01\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x01\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x01\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x01\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x01\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x01\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x01\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x01\x00')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x01\x00')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x80')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x80')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x80')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x80')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x80')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x80')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x80')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x80')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x80')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x80')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x80')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x80')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x80')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x80')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x80')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x80')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\xff\xff')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\xff\xff')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\xff\xff')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\xff\xff')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\xff\xff')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\xff\xff')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\xff\xff')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\xff\xff')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\xff\xff')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\xff\xff')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\xff\xff')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\xff\xff')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\xff\xff')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\xff\xff')], flags=3799) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\xff\xff')], flags=514) ... ERROR
+  test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\xff\xff')], flags=3799) ... ERROR
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='0791:2CC5', args=[256, 36864], writes=[(590080, b'\x00\x00\x00\x00\x00\x00\x00\x00\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '0791:2CC5'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='0791:2CC5', args=[256, 36864], writes=[(590080, b'\x00\x00\x00\x00\x00\x00\x00\x00\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '0791:2CC5'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='0791:2CC5', args=[256, 36864], writes=[(590080, b'\xcd\xab\x00\x00\x00\x00\x00\xcd\xab')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '0791:2CC5'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='0791:2CC5', args=[256, 36864], writes=[(590080, b'\xcd\xab\x00\x00\x00\x00\x00\xcd\xab')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '0791:2CC5'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='0791:2CC5', args=[256, 36864], writes=[(590080, b'\xcd\xab\x00\x00\x00\x00\x00\xce\xab')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '0791:2CC5'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='0791:2CC5', args=[256, 36864], writes=[(590080, b'\xcd\xab\x00\x00\x00\x00\x00\xce\xab')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '0791:2CC5'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='0791:2CC5', args=[256, 36864], writes=[(590080, b'\x80\xff\x00\x00\x00\x00\x00\x80\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '0791:2CC5'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='0791:2CC5', args=[256, 36864], writes=[(590080, b'\x80\xff\x00\x00\x00\x00\x00\x80\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '0791:2CC5'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x01\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x01\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x01\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x01\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x01\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x01\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x01\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x01\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x01\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x01\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x01\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x01\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x01\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x01\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x01\x00')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x01\x00')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x80')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x80')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x80')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x80')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x80')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x80')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x80')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x80')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x80')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x80')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x80')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x80')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x80')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\x00\x80')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x80')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\x00\x80')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\xff\xff')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\xff\xff')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\xff\xff')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[0, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\xff\xff')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\xff\xff')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\xff\xff')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\xff\xff')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[1, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\xff\xff')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\xff\xff')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\xff\xff')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\xff\xff')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[2, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\xff\xff')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\xff\xff')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 256, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590080, b'\xff\xff')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\xff\xff')], flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+ERROR: test_synthetic_helpers_against_original_including_dead_frames (tests.test_port_entrypoints.Helpers.test_synthetic_helpers_against_original_including_dead_frames) (address='214B:0688', args=[65535, 512, 36864], writes=[('ds', 43384, b'\x00\x01\x00\x90'), (590080, b'4\x12'), (590336, b'xV'), (590336, b'\xff\xff')], flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 70, in test_synthetic_helpers_against_original_including_dead_frames
+    oracle.run_one(m, registry.entries[address].far, address, args,
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '214B:0688'
+
+======================================================================
+FAIL: test_plain_helpers_with_unicorn_import_denied (tests.test_port_entrypoints.Helpers.test_plain_helpers_with_unicorn_import_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_entrypoints.py", line 109, in test_plain_helpers_with_unicorn_import_denied
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "<string>", line 23, in <module>
+KeyError: '0791:2CC5'
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.514s
+
+FAILED (failures=1, errors=72)

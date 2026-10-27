@@ -42,8 +42,35 @@ def holder_choice(role,push,x,y,first_table,second_table,*,midfield_pass=False,f
     return 'pass',2
 
 
+def pass_entry(pending_offside, target_in_own_strip, self_target):
+    """Entry gates only; no execution/model of the subsequent launch tail."""
+    if pending_offside:return {'branch':'offside','launch':False,'receiver_writes':False}
+    if target_in_own_strip:return {'branch':'return','launch':False,'receiver_writes':False}
+    return {'branch':'self' if self_target else 'teammate','launch':True,'receiver_writes':True}
+
+
+def exit_listing_checks():
+    import re
+    path=ROOT/'static/goal-exe/code/seg_0791_06.asm'
+    expected={'3884':r'call 0x2eb8','3889':r'je 0x388e','388B':r'jmp 0x3b0f','3897':r'cmp ax, word ptr \[bp \+ 0xa\]','3B0F':r'mov sp, bp'}
+    lines=path.read_text().splitlines()
+    for pc,op in expected.items():
+        line=next(l for l in lines if l.startswith(pc+' '));assert re.search(op+'$',line),(pc,line)
+    # This negative changes the early-exit instruction, not the model's own answer.
+    changed=[l.replace('jmp 0x3b0f','jmp 0x388e') if l.startswith('388B ') else l for l in lines]
+    bad=next(l for l in changed if l.startswith('388B '))
+    assert not re.search(expected['388B']+'$',bad)
+    return {'file':str(path.relative_to(ROOT)),'instructions':expected,'altered_388B_continuation':'rejected'}
+
+
 def calculations():
     read,_,sources=load_ds()
+    listing_exit=exit_listing_checks()
+    for own in [False,True]:
+        assert pass_entry(False,True,own)=={'branch':'return','launch':False,'receiver_writes':False}
+    assert pass_entry(True,True,True)['branch']=='offside'
+    assert pass_entry(False,False,False)['receiver_writes']
+    assert pass_entry(False,False,True)['branch']=='self'
     assert [read(0x778+i) for i in range(2)]==[2,24]
     candidates=[(11,4),(10,3),(9,2)]
     short=receiver(candidates,2+3,False,[0,1])
@@ -72,7 +99,7 @@ def calculations():
                  for pc in ['3D18','3D28'])
     cross_roles=[p for p in range(14) if raw[p//8]&(1<<(p%8))]
     assert len(raw)==32 and cross_roles==[2,12]
-    return dict(short_selection=short,long_fallback=fallback,cross_target_roles=cross_roles,
+    return dict(pass_entry_listing=listing_exit,pass_entry_cases=[pass_entry(False,True,t) for t in [False,True]],short_selection=short,long_fallback=fallback,cross_target_roles=cross_roles,
                 short_long_cutoff_bases=[2,24],forward_pass_bounds_role13_role12=[4,3],
                 holder_role3_push_off_on=['pass','dribble'],cross_strict_edge={'at27':['pass',2],'at28':['cross',1]},
                 controls={'always-replace':'rejected:winner9 instead of11 on two failed replacement coins',
@@ -96,7 +123,7 @@ def build():
          ['receiver slot argument','guest returnAX'],'Select and launch toward receiver; preserve ABI beyond decompiled char type.'),
         ('333F','If activity off enable it; otherwise mark first eligible teammate beyond opposite line with timer0, saving point and flag.',
          ['DS:8325/830E/830A/8317/8329','DS:82E3','pitch+10'],'Prepares delayed offside candidate rather than immediately awarding a foul.'),
-        ('384C','If no pending offside, prepare self/receiver target, receiver state5 and830C; launch6 or11, then flight/commentary tail. Chase initialisation belongs to other wrappers.',
+        ('384C','Pending offside routes to82EB; otherwise2EB8(target) exits the entire routine before self/teammate split. Only an outside-strip target reaches receiver state5/830C, launch6/11 and flight/commentary tail; chase belongs to other wrappers.',
          ['DS:830E/830C/8303/80FA/8313','pitch+12','34C1'],'Pass or self-directed dribble shares mechanics; attempted launch is not a goal.'),
         ('3B9E','Target a slot, choose event by passer half, submit commentary3, coin flight flag and begin chase.',
          ['DS:078C/830C/8303','target point'],'Half-dependent launch wrapper with its own draw/state order.'),
@@ -120,12 +147,12 @@ def build():
          ['pitch+7/+10/+12','DS:8302/8300'],'Chase delay affects future eligibility; detailed countdown is inT101.'),
     ]
     examples=[
-        {'id':'selected-short-pass','inputs':{'holder_slot':6,'holder_point':[0,0],'role':7,'effective_e1':0,'effective_e2':1,'effective_e3':0,
+        {'id':'selected-short-pass','inputs':{'holder_slot':6,'holder_point':[0,0],'role':7,'effective_e1':0,'effective_e2':1,'effective_e3':0,'selected_target_in_own_strip':False,
                                              'eligible_receivers_desc':[[11,4],[10,3],[9,2]],'cutoff_table_byte':3,'replacement_coins':[0,1]},
          'steps':['Assume57AC holder branch and outside shot/clearance contexts; e2 coin admits4E28',
                   '4E28 advanced/deep/forced-pass checks fail; role7/e1off selects3323',
                   '3111 short cutoff5; first11 accepted, coin0 keeps11 over10, coin1 selects9',
-                  '384C writes receiver state5,830C=9 and event6 through34C1 when80FA=0',
+                  'Assume selected target outside its own goal strip:384C passes2EB8, then writes receiver state5,830C=9 and event6 through34C1 when80FA=0',
                   'Assume launch gate passes, travel<11, no offside; ground ordinary tail submits commentary template8'],
          'prediction':{'receiver':9,'selection_main_coins':2,'selection_table_reads':1,'score_change_at_selection':0},
          'limits':'Partial source-conditioned sequence with supplied draws; no complete legal fixture, seeded run or exact velocity/state differential. Commentary can be deduplicated; flight/resolution are separate slices.'},
@@ -137,6 +164,7 @@ def build():
          'steps':['threshold27; equality failscross then passes throughrole selection','28>27 selects cross before second table read'],
          'prediction':[['pass',2],['cross',1]],'limits':'Only4E28 local branch; table reads are not fresh main-seed draws.'},
     ]
+    examples.append({'id':'own-strip-whole-exit','inputs':{'target_in_own_strip':True,'self_or_teammate':['self','teammate'],'pending_offside':False},'steps':['selection draws already consumed','3884 calls2EB8 before self/teammate split','388B jumps to3B0F epilogue'],'prediction':{'launch':False,'receiver_state_write':False,'receiver_selector_write':False,'extra_selection_draws':0},'limits':'Entry-gate projection tied to literal instructions;no engine call or natural-frequency claim. Existing holder/selection draws are not undone.'})
     sources=['runtime/original_match/port/ball.py','runtime/original_match/port/contests.py','runtime/original_match/port/geometry.py',
              'static/goal-exe/code/seg_0791_05.asm','static/goal-exe/code/seg_0791_06.asm',
              'static/goal-exe/code/seg_0791_07.asm','static/goal-exe/code/seg_0791_09.asm',*calc['ds_sources']]
@@ -145,12 +173,12 @@ def build():
                     routines=[dict(address='0791:'+a,mechanism=m,fields=f,visible_effect=e,
                                    limits='Conditional source mechanism; no fresh original/port execution or natural frequency claim.') for a,m,f,e in rows],
                     examples=examples,calculations=calc,analysis_sha256=sha(Path(__file__).read_bytes())),
-               ['0791:'+a for a in ROUTINES['T102a']]+['0791:261A','0791:2C54','0791:2EF0','0791:2F28'],sources,source_commit=BASE)
+               ['0791:'+a for a in ROUTINES['T102a']]+['0791:261A','0791:2C54','0791:2EF0','0791:2F28','0791:2EB8'],sources,source_commit=BASE)
 
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--check',action='store_true')
-    args=ap.parse_args();data=build();path=ROOT/'notes/engine-study/T102/T102a-v2.json'
+    args=ap.parse_args();data=build();path=ROOT/'notes/engine-study/T102/T102a-v3.json'
     if args.check:
         assert json.loads(path.read_text())==data
         print('PASS: receiver scan/fallback/coin order,role and cross thresholds,CS cross roles,5 altered-rule controls')

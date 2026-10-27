@@ -1,0 +1,1137 @@
+{
+  "analysis_sha256": {
+    "notes/engine-study/T105/budget.py": "b0747c4b04f8d16acdbe14a8998d2fa4fe41ac0be7ac33f92007f248830d4b58",
+    "notes/engine-study/T105/common.py": "aac23aab5bc42c9b20653f63f14aa298744d2d12afeb808f0effa914bb1592b1"
+  },
+  "calculations": {
+    "all_retained_original_max_projection": 3789.4559999999997,
+    "caps": {
+      "T106": {
+        "cpu_s": 600,
+        "one_invocation_cpu_s": 5,
+        "one_invocation_wall_s": 10,
+        "ordinary_target_calls": 36,
+        "top_level_invocations_including_setup_control_repeat": 60,
+        "wall_s": 900,
+        "workers": 1
+      },
+      "T107": {
+        "calibration_primary_matches": 8,
+        "cpu_s": 3600,
+        "one_match_cpu_s": 45,
+        "one_match_wall_s": 60,
+        "primary_matches": 128,
+        "total_match_attempts": 132,
+        "wall_s": 5400,
+        "witness_matches": 4,
+        "workers": 1
+      },
+      "additional_all_port_full_matches": 0,
+      "combined_cpu_s": 4200,
+      "combined_wall_s": 6300
+    },
+    "controls": {
+      "add-batches-until-significant": "rejected:fixedcount orresource/validitystop,noeffect-basedextension",
+      "arm-count-as-N": "rejected:128cells are32seed-context blocks,not128 independent interactions",
+      "impute-failed-match-zero": "rejected:Noneoutcome fails;report incomplete ratherthan salvageprimaryestimate",
+      "independent-marginal-CI": "rejected:compute block interactions first,keep allfour arms together",
+      "port-runtime-equals-original": "rejected:retained medians1549.8785vs14.4,withhost/profile qualifications",
+      "precision-0.1-with16blocks": "rejected:conservative halfwidth1.4802;need3506blocks/context for0.1",
+      "reuse-seeds-as-extra-context-replicates": "rejected:contexts are fixed,not random draws from footballpopulation",
+      "unaccounted-wall-records": "rejected:36normal targetcallsplussetup/controls/repeatsallwithin60"
+    },
+    "current_kit_at_design": "4",
+    "noninterference_witnesses": [
+      {
+        "arm": "E16-Q0",
+        "context": "A",
+        "observer": false,
+        "seed": 19516
+      },
+      {
+        "arm": "E32-Q1",
+        "context": "A",
+        "observer": false,
+        "seed": 19516
+      },
+      {
+        "arm": "E16-Q0",
+        "context": "B",
+        "observer": false,
+        "seed": 21433
+      },
+      {
+        "arm": "E32-Q1",
+        "context": "B",
+        "observer": false,
+        "seed": 21433
+      }
+    ],
+    "pre_execution_owner_decision": "T107 spending/design must be explicitly decided under#571 before execution;no bound or cap changed here",
+    "precision": {
+      "aggregate_halfwidth": 1.4802071873007983,
+      "alternative_adopted": false,
+      "alternative_direct_aggregate_halfwidth": 0.9603227913199207,
+      "alternative_direct_blocks_for_point1": 1476,
+      "context_alpha": 0.025,
+      "hoeffding_halfwidth": 1.4802071873007983,
+      "minimum_observed_aggregate_sum": 48,
+      "minimum_observed_context_sum": 24,
+      "required_blocks_per_context": 3506,
+      "required_matches": 28048,
+      "simultaneous_alpha": 0.05,
+      "target_halfwidth": 0.1
+    },
+    "primary": {
+      "arm_order": [
+        "E16-Q0",
+        "E16-Q1",
+        "E32-Q0",
+        "E32-Q1"
+      ],
+      "block_interaction": "(E16Q1-E16Q0)-(E32Q1-E32Q0)",
+      "block_range": [
+        -2,
+        2
+      ],
+      "blocks_per_context": 16,
+      "context_weights": [
+        0.5,
+        0.5
+      ],
+      "contexts": 2,
+      "outcome": "indicator managed country scores at least one retained fixture goal in the friendly",
+      "planned_cells": 128
+    },
+    "projected_original_cpu_s": {
+      "historical_max_each": 2781.504,
+      "historical_median": 1900.8
+    },
+    "schedule": [
+      {
+        "arm": "E16-Q0",
+        "block": 1,
+        "context": "A",
+        "seed": 19516
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 1,
+        "context": "A",
+        "seed": 19516
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 1,
+        "context": "A",
+        "seed": 19516
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 1,
+        "context": "A",
+        "seed": 19516
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 1,
+        "context": "B",
+        "seed": 21433
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 1,
+        "context": "B",
+        "seed": 21433
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 1,
+        "context": "B",
+        "seed": 21433
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 1,
+        "context": "B",
+        "seed": 21433
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 2,
+        "context": "A",
+        "seed": 45597
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 2,
+        "context": "A",
+        "seed": 45597
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 2,
+        "context": "A",
+        "seed": 45597
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 2,
+        "context": "A",
+        "seed": 45597
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 2,
+        "context": "B",
+        "seed": 28214
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 2,
+        "context": "B",
+        "seed": 28214
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 2,
+        "context": "B",
+        "seed": 28214
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 2,
+        "context": "B",
+        "seed": 28214
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 3,
+        "context": "A",
+        "seed": 29364
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 3,
+        "context": "A",
+        "seed": 29364
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 3,
+        "context": "A",
+        "seed": 29364
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 3,
+        "context": "A",
+        "seed": 29364
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 3,
+        "context": "B",
+        "seed": 60620
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 3,
+        "context": "B",
+        "seed": 60620
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 3,
+        "context": "B",
+        "seed": 60620
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 3,
+        "context": "B",
+        "seed": 60620
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 4,
+        "context": "A",
+        "seed": 29966
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 4,
+        "context": "A",
+        "seed": 29966
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 4,
+        "context": "A",
+        "seed": 29966
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 4,
+        "context": "A",
+        "seed": 29966
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 4,
+        "context": "B",
+        "seed": 19017
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 4,
+        "context": "B",
+        "seed": 19017
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 4,
+        "context": "B",
+        "seed": 19017
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 4,
+        "context": "B",
+        "seed": 19017
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 5,
+        "context": "A",
+        "seed": 32093
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 5,
+        "context": "A",
+        "seed": 32093
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 5,
+        "context": "A",
+        "seed": 32093
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 5,
+        "context": "A",
+        "seed": 32093
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 5,
+        "context": "B",
+        "seed": 24009
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 5,
+        "context": "B",
+        "seed": 24009
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 5,
+        "context": "B",
+        "seed": 24009
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 5,
+        "context": "B",
+        "seed": 24009
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 6,
+        "context": "A",
+        "seed": 25195
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 6,
+        "context": "A",
+        "seed": 25195
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 6,
+        "context": "A",
+        "seed": 25195
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 6,
+        "context": "A",
+        "seed": 25195
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 6,
+        "context": "B",
+        "seed": 22008
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 6,
+        "context": "B",
+        "seed": 22008
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 6,
+        "context": "B",
+        "seed": 22008
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 6,
+        "context": "B",
+        "seed": 22008
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 7,
+        "context": "A",
+        "seed": 20121
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 7,
+        "context": "A",
+        "seed": 20121
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 7,
+        "context": "A",
+        "seed": 20121
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 7,
+        "context": "A",
+        "seed": 20121
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 7,
+        "context": "B",
+        "seed": 28455
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 7,
+        "context": "B",
+        "seed": 28455
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 7,
+        "context": "B",
+        "seed": 28455
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 7,
+        "context": "B",
+        "seed": 28455
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 8,
+        "context": "A",
+        "seed": 5461
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 8,
+        "context": "A",
+        "seed": 5461
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 8,
+        "context": "A",
+        "seed": 5461
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 8,
+        "context": "A",
+        "seed": 5461
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 8,
+        "context": "B",
+        "seed": 32509
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 8,
+        "context": "B",
+        "seed": 32509
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 8,
+        "context": "B",
+        "seed": 32509
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 8,
+        "context": "B",
+        "seed": 32509
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 9,
+        "context": "A",
+        "seed": 34317
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 9,
+        "context": "A",
+        "seed": 34317
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 9,
+        "context": "A",
+        "seed": 34317
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 9,
+        "context": "A",
+        "seed": 34317
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 9,
+        "context": "B",
+        "seed": 14616
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 9,
+        "context": "B",
+        "seed": 14616
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 9,
+        "context": "B",
+        "seed": 14616
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 9,
+        "context": "B",
+        "seed": 14616
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 10,
+        "context": "A",
+        "seed": 21250
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 10,
+        "context": "A",
+        "seed": 21250
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 10,
+        "context": "A",
+        "seed": 21250
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 10,
+        "context": "A",
+        "seed": 21250
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 10,
+        "context": "B",
+        "seed": 11233
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 10,
+        "context": "B",
+        "seed": 11233
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 10,
+        "context": "B",
+        "seed": 11233
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 10,
+        "context": "B",
+        "seed": 11233
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 11,
+        "context": "A",
+        "seed": 41924
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 11,
+        "context": "A",
+        "seed": 41924
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 11,
+        "context": "A",
+        "seed": 41924
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 11,
+        "context": "A",
+        "seed": 41924
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 11,
+        "context": "B",
+        "seed": 56722
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 11,
+        "context": "B",
+        "seed": 56722
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 11,
+        "context": "B",
+        "seed": 56722
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 11,
+        "context": "B",
+        "seed": 56722
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 12,
+        "context": "A",
+        "seed": 11439
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 12,
+        "context": "A",
+        "seed": 11439
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 12,
+        "context": "A",
+        "seed": 11439
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 12,
+        "context": "A",
+        "seed": 11439
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 12,
+        "context": "B",
+        "seed": 59893
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 12,
+        "context": "B",
+        "seed": 59893
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 12,
+        "context": "B",
+        "seed": 59893
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 12,
+        "context": "B",
+        "seed": 59893
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 13,
+        "context": "A",
+        "seed": 15368
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 13,
+        "context": "A",
+        "seed": 15368
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 13,
+        "context": "A",
+        "seed": 15368
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 13,
+        "context": "A",
+        "seed": 15368
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 13,
+        "context": "B",
+        "seed": 14753
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 13,
+        "context": "B",
+        "seed": 14753
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 13,
+        "context": "B",
+        "seed": 14753
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 13,
+        "context": "B",
+        "seed": 14753
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 14,
+        "context": "A",
+        "seed": 7679
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 14,
+        "context": "A",
+        "seed": 7679
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 14,
+        "context": "A",
+        "seed": 7679
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 14,
+        "context": "A",
+        "seed": 7679
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 14,
+        "context": "B",
+        "seed": 12441
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 14,
+        "context": "B",
+        "seed": 12441
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 14,
+        "context": "B",
+        "seed": 12441
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 14,
+        "context": "B",
+        "seed": 12441
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 15,
+        "context": "A",
+        "seed": 62584
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 15,
+        "context": "A",
+        "seed": 62584
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 15,
+        "context": "A",
+        "seed": 62584
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 15,
+        "context": "A",
+        "seed": 62584
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 15,
+        "context": "B",
+        "seed": 5270
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 15,
+        "context": "B",
+        "seed": 5270
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 15,
+        "context": "B",
+        "seed": 5270
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 15,
+        "context": "B",
+        "seed": 5270
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 16,
+        "context": "A",
+        "seed": 62568
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 16,
+        "context": "A",
+        "seed": 62568
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 16,
+        "context": "A",
+        "seed": 62568
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 16,
+        "context": "A",
+        "seed": 62568
+      },
+      {
+        "arm": "E32-Q0",
+        "block": 16,
+        "context": "B",
+        "seed": 45020
+      },
+      {
+        "arm": "E32-Q1",
+        "block": 16,
+        "context": "B",
+        "seed": 45020
+      },
+      {
+        "arm": "E16-Q1",
+        "block": 16,
+        "context": "B",
+        "seed": 45020
+      },
+      {
+        "arm": "E16-Q0",
+        "block": 16,
+        "context": "B",
+        "seed": 45020
+      }
+    ],
+    "seed_sampler": "separate random.Random(10520261027+i).sample(range(65536),16), i=A0/B1; no resampling",
+    "seeds": {
+      "A": [
+        19516,
+        45597,
+        29364,
+        29966,
+        32093,
+        25195,
+        20121,
+        5461,
+        34317,
+        21250,
+        41924,
+        11439,
+        15368,
+        7679,
+        62584,
+        62568
+      ],
+      "B": [
+        21433,
+        28214,
+        60620,
+        19017,
+        24009,
+        22008,
+        28455,
+        32509,
+        14616,
+        11233,
+        56722,
+        59893,
+        14753,
+        12441,
+        5270,
+        45020
+      ]
+    },
+    "timing_sources": [
+      {
+        "F40_cpu_max": 19.36,
+        "F40_cpu_median": 14.5815,
+        "F40_n": 40,
+        "cpu_max": 21.072,
+        "cpu_median": 14.4,
+        "cpu_sum": 873.672,
+        "kits": [
+          "2"
+        ],
+        "n": 62,
+        "path": "experiments/E036-match-port/out/T57/reference.jsonl",
+        "wall_max": 19.866,
+        "wall_median": 13.51
+      },
+      {
+        "F40_cpu_max": 19.363,
+        "F40_cpu_median": 15.184999999999999,
+        "F40_n": 40,
+        "cpu_max": 28.708,
+        "cpu_median": 15.4025,
+        "cpu_sum": 950.519,
+        "kits": [
+          "2"
+        ],
+        "n": 62,
+        "path": "experiments/E036-match-port/out/T57/trial-all-20261017.jsonl",
+        "wall_max": 25.148,
+        "wall_median": 14.1665
+      },
+      {
+        "F40_cpu_max": 15.558,
+        "F40_cpu_median": 12.063500000000001,
+        "F40_n": 40,
+        "cpu_max": 17.619,
+        "cpu_median": 11.888,
+        "cpu_sum": 729.969,
+        "kits": [
+          "2"
+        ],
+        "n": 62,
+        "path": "experiments/E036-match-port/out/T57/rerun.jsonl",
+        "wall_max": 16.736,
+        "wall_median": 11.244499999999999
+      },
+      {
+        "F40_cpu_max": 2065.857,
+        "F40_cpu_median": 1876.2939999999999,
+        "F40_n": 40,
+        "cpu_max": 2851.377,
+        "cpu_median": 1549.8785,
+        "cpu_sum": 100728.424,
+        "kits": [
+          "4"
+        ],
+        "n": 74,
+        "path": "experiments/E036-match-port/out/T77/all-actions-1-40090586451/all-actions-1.jsonl",
+        "wall_max": 2458.214,
+        "wall_median": 1385.6715
+      }
+    ]
+  },
+  "decisions": [
+    {
+      "decision": "Freeze16 uniform-without-replacement mainseed words percontext from separate named sampler streams; exactlists/schedule inledger,actualsetsdisjoint,noresampling.",
+      "limits": "PRNG-generated Monte Carlo design targets each fixed context\u2019s finite seed universe,not independent football fixtures or synchronized laterdraws.",
+      "topic": "seed-blocks",
+      "why": "Independent unit is a seed/context block carrying four potential outcomes; different contexts remain fixed strata."
+    },
+    {
+      "decision": "PrimaryY=managedscored>=1 retainedfriendlygoal. I=(Y16Q1-Y16Q0)-(Y32Q1-Y32Q0);equalmeanA/B. Othergate/statistic contrasts exploratory.",
+      "limits": "Friendlyscenario/liveenergyinterventiononly;no claim about naturally generated condition,allcountries,formationrank ornewstandaloneengine.",
+      "topic": "estimands",
+      "why": "One prespecified boundedprimarynet-effect interaction;source localgate directiondoesnot dictatewholematchgoals."
+    },
+    {
+      "decision": "Compute16blockI values/context; finite-uniform-seed Hoeffding range4 bound at97.5% percontext;clip[-2,2],averagecontextintervals forsimultaneous95% target. ReportrawSD/counts asdescriptive.",
+      "limits": "Nominal samplingcoverageassumesuniformseedselection;deterministicPRNG/pseudorandomsimulation limitations explicit. Halfwidth1.4802 requires contextsum>=24/32 or aggregatesum>=48/64 to excludezero;spending decision#571 remains before execution;noequivalenceor0.1-effectclaim.",
+      "topic": "uncertainty",
+      "why": "Preservepairedblock covariance;unionboundcoversbothcontextswithoutassumingcontextsareindependentnewfixtures."
+    },
+    {
+      "decision": "Oneprimaryinteraction;contextintervalsfamilyalpha0.05;allshots/goals/possession/actionratios/playeroutcomes labelledexploratory withno confirmatorypvaluesorbest-settingselection.",
+      "limits": "Anynewcontrast/batch requiresseparatelypreregisteredfollow-up;descriptivepatterns arenotconfirmedcausalmechanisms.",
+      "topic": "multiplicity",
+      "why": "Avoid selectingthemostfavourableofmanycorrelatedoutcomes orstatisticaltargets."
+    },
+    {
+      "decision": "Fixed128primary+4witnessmax;first8primarytimingscalibrate blind to outcomes. Stopbeforefurtherlaunch if132*max(first8cpu)>3600;stoponvalidity/noninterferencefailure orhardcaps. Nostatisticalpeekingextension.",
+      "limits": "Runtime/validitystops canbeinformative;incompleteprimarydataset getsnofullplanned primaryestimate orequivalenceclaim.",
+      "topic": "stopping",
+      "why": "Cap cost with observableruntimeevidenceandpreservefailed/interruptedattempts."
+    },
+    {
+      "decision": "T106<=60top-levelcalls inclsetup/control/repeat,600CPUs/900walls;T107<=132attempts,3600CPUs/5400walls;oneworkerthroughheavy. Combined4200CPUs/6300walls;zeroadditionalfull-portmatches.",
+      "limits": "Differenthosts/profile/contention;projectionsnotnewbenchmarks. IncludechildCPU/initialisation andfailedattempts;wall excludesonlyqueuedslotwait recordedseparately.",
+      "topic": "compute",
+      "why": "Allthree retained kit2 originalruns max17.619..28.708 gives132 upper projection2325.708..3789.456s;currentkit4 feasibility is unmeasured and gated by calibration;74all-port med1549.8785 makes duplicationexpensive."
+    },
+    {
+      "decision": "Fourfixedwitnesses rerunsamefirstseed/context andarm withpassiveobserverdisabled,activeeditretained;compareinputs/results/draws/strictmemoryexceptobserveronlyoutputs. Archiveeveryattempt,newexclusiveoutputs.",
+      "limits": "Noport-onlysensitivityorneworiginalkeys. Source/inputidentitydrift refusesbeforelaunch;oldrawoutputsneveroverwritten.",
+      "topic": "reproducibility",
+      "why": "Separatethepassiveobservereffectfromtheactualinterventionandtestdeterminismwithoutopportunisticseedchoice."
+    },
+    {
+      "decision": "Require128uniquecompleteprimarycells,all4witnesses,validphase/inputs/return,actualgateobservations andresourceaccounting;explicitzeroopportunitiesandrefusals. PublishN/effects/intervals/failures/deviationsfirst.",
+      "limits": "Failurepublishesaspartial/inconclusive;neverreplacewithquickmode,mock,anotherfixtureorweakenedassertion. T106/T107implementationstillneedsexecutablecontractsafterES-R2.",
+      "topic": "completion",
+      "why": "Preventduplicates,partialblocks,silentdropsortimeoutsfrommanufacturingprecision."
+    }
+  ],
+  "examples": [
+    {
+      "expected": {
+        "block_interaction": 1
+      },
+      "inputs": {
+        "binary_outcomes_E16Q0_Q1_E32Q0_Q1": [
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "limits": "Synthetic arithmetic example,notnewmatchdata."
+    },
+    {
+      "expected": {
+        "attempt_cap": 132,
+        "independent_blocks": 32,
+        "primary": 128
+      },
+      "inputs": {
+        "arms": 4,
+        "blocks_per_context": 16,
+        "contexts": 2,
+        "witnesses": 4
+      },
+      "limits": "Fourarms/ticks/eventsnotindependentreplicates;contextsarenotrandomfootballsample."
+    },
+    {
+      "expected": {
+        "blocks_for_halfwidth0.1": 3506,
+        "conservative_halfwidth": 1.4802071873007983
+      },
+      "inputs": {
+        "alpha_per_context": 0.025,
+        "n": 16,
+        "range": 4
+      },
+      "limits": "Samplingboundunderuniformseeddesign,notpowerguarantee;ordinarysmallneteffects likelyinconclusive."
+    },
+    {
+      "expected": {
+        "historical_max_each": 2781.504,
+        "historical_median": 1900.8
+      },
+      "inputs": {
+        "matches": 132,
+        "retained_original_cpu_max": 21.072,
+        "retained_original_cpu_median": 14.4
+      },
+      "limits": "Historicalcostprojectiononly;freshcalibrationandhardcaparemandatory,noengineexecutionhere."
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:2648",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "f6eef1b2c9e597215049cb214abdad84f71b69e7939b708685bab79298db69de",
+      "line": 592
+    },
+    {
+      "address": "0791:5049",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "6d0e728141a3f946c482a96b01f70692c0ab77f00fa51df22cc035919d02858c",
+      "line": 4
+    },
+    {
+      "address": "0791:F098",
+      "file": "static/goal-exe/named/seg_0791_13.c",
+      "heading_sha256": "3a479475383937b39b481005207ae4318f2f73335c14cfa4c95ddb3b035f50c7",
+      "line": 550
+    }
+  ],
+  "method": "Source/API reading and retained-record arithmetic only; no engine or match execution",
+  "schema": 1,
+  "sections": [
+    "Frozen seed blocks and estimands",
+    "Precision and multiplicity",
+    "Compute caps and stopping",
+    "Completion, reproducibility and delivery"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "experiments/E036-match-port/family.py": "8ef109330be7bc59b88f3aad40202de47eef87021b6db9b8f9b4eeebbcdc396e",
+    "experiments/E036-match-port/out/T57/reference.jsonl": "0ed325db5d45718e9d947fe2a1c507f24873c6513f00a4850a40c1c40146db4b",
+    "experiments/E036-match-port/out/T57/rerun.jsonl": "d9e20ccf04b54a24c98491e6a1d258e6089bb6e491887bc788245b538ba30f2f",
+    "experiments/E036-match-port/out/T57/trial-all-20261017.jsonl": "34490f1d744e334d1106fad986737ae68adee483cb2fd14449f8338bb72198d7",
+    "experiments/E036-match-port/out/T77/all-actions-1-40090586451/all-actions-1.jsonl": "6ce5d83a0c04ef0123bdc84eaa3c7a25578333ca2014194b11de9e90bdeedc3a",
+    "experiments/E036-match-port/records.py": "41ca64aeb4e052c6daa07546b847d346fab5e903a13d93ad435b5b3660429ef4",
+    "runtime/original_match/match.py": "f48af24c40e571be10c31b21e5551c47d26af3624c71bf97cd7348c9a64e9885",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_0791_09.asm": "1236aa3fcb2d30080e22d9a4bee4398c52d09fc3010e133bc124e318f7e89ac0",
+    "static/goal-exe/code/seg_0791_23.asm": "49e12bb8534566ad1e6b4b22e2f088ce483d4518f8d2b8cf28fefb3c7f9b9cde",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_05.c": "b0871f197621d5abfd3b4db00ec3eca42c9eea6cb45626651842147b4d8ce228",
+    "static/goal-exe/named/seg_0791_13.c": "4fe6fb41281082fba52ebdc61c6ba147de1dff5bf3ee94fe0bf1314e33878d21"
+  },
+  "status": "proposed preregistration; no measurements authorised before accepted ES-R2",
+  "supporting_artifacts": {
+    "experiments/E036-match-port/out/T77/main-integrated-final-audit-1.json": "de99ffc7d27ed1456e8ea3f6c199565f3a1386fff78c98ee8e45f5e99ea0388e",
+    "notes/engine-study/T105/T105a-v2.json": "20f89ee6a7443834480eedd14c76670fabe1e251fa4d579e4a6f6f1b5b22dcae"
+  },
+  "task": "T105b"
+}

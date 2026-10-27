@@ -131,9 +131,15 @@ mirror. The port agrees. Natural free-kick reachability/frequency and complete-m
 remain unestablished; silently normalising the sign would change original behaviour.
 
 The script checks spot signs, snapshot kinds, kickoff tables, readiness and role thresholds,
-wall-set membership and this near/far transition. Five altered interpretations are rejected.
+wall-set membership and this near/far transition. Five alternate interpretations differ within the authored model; this is not an independent listing check.
 These projections do not demonstrate a genuine managed taker prompt or a complete original
 call-frame comparison. T77's exact/READ classifications and the genuine-key gaps on
 [#400](https://github.com/diegoami/goal2-archaeology/issues/400) remain explicit. No new private
 input collection or original/port probe was run here; selected corroboration requires the
 T105 design and accepted ES-R2 gate.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

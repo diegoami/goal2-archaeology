@@ -107,7 +107,7 @@ tracks the cross-chapter correction and remaining contexts.
 At `8970/8972` in `8889`, an absolute target equal to the opposing line reaches the restriction
 because `jl` skips only a smaller value. With all other gates eligible, target y=20,
 line y=20 and direction +1 gives restricted target 19. A `>` interpretation leaves 20 and
-is rejected. The decompiler can misattribute flags across the set-membership call that follows;
+differs in the authored model. The independent listing check is documented below. The decompiler can misattribute flags across the set-membership call that follows;
 use the instruction comparison and branch, which the port matches.
 
 At the `8AE9` expenditure tail, activity 180 does not spend energy and 181 can. The increment
@@ -119,3 +119,9 @@ audit covers short analytical table windows, cache ownership, historical test bl
 the uncaught A2E6 mutation. This audit does not cover every signed expression, malformed record,
 alias, frame or original-only continuation. Preserving those explicit boundaries is necessary
 for a rewrite cost estimate that can be assessed against the actual evidence.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/experiments/E036-match-port/out/T78b2/assembly_preview.py", line 26, in <module>
+    for event in m.events(): pass
+                 ^^^^^^^^^^
+  File "T78b-d8f10f9a-match.py", line 436, in events
+  File "T78b-d8f10f9a-match.py", line 566, in _advance
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/engine.py", line 163, in run
+    self._dispatch(self.pc())
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/engine.py", line 128, in _dispatch
+    def _dispatch(self, linear):
+
+KeyboardInterrupt

@@ -5,7 +5,7 @@ holder acts now, where the ball is aimed, whether the launch miscues, and who re
 A single passing rating or a single “pass success” roll cannot describe that pipeline.
 
 This proposed source explanation covers sixteen routines in the
-[ledger](../../notes/engine-study/T102/T102a-v2.json). The
+[ledger](../../notes/engine-study/T102/T102a-v3.json). The
 [worked calculations](../../notes/engine-study/T102/receivers.py) use supplied branch inputs
 and draws; they execute no engine routine or complete fixture. Original named sources were
 read alongside instruction listings and the port. Existing F022/F026 observations retain
@@ -107,9 +107,13 @@ is not permission to discard ABI bits or frame effects in the faithful port. The
 receiver model concerns ordinary slot values, not a proof of arbitrary return-register states.
 
 `0791:384C` first routes an existing pending offside (`830E`) to `82EB`. Otherwise it reads
-the selected slot's point. A self-target becomes a forward dribble point and clears the
-flight flag initially; a teammate outside its own goal strip can receive a small directed
-lead when abs(y)<25. The receiver gets state 5 and `830C` names it. `34C1` launches event 6,
+the selected slot's point and calls `2EB8` on that target record. If the target stands in
+its own goal strip, **the entire routine returns**, before the self/teammate split. There
+is no receiver-state/`830C` write, self-dribble table read, launch, flight or commentary tail.
+This applies to self-targets and teammates; selection coins already consumed stay consumed.
+Only a target outside that strip continues: a self-target becomes a forward dribble point
+and initially clears flight; a teammate can receive a small directed lead when abs(y)<25.
+The receiver then gets state 5 and `830C` names it. `34C1` launches event 6,
 or event 11 under `80FA`. The later launch reader uses the event's skill table; ordinary
 passing element 6 affects that accuracy/miscue gate, not `3111`'s receiver-distance scan.
 
@@ -154,14 +158,15 @@ A conditional possession sequence takes a state-5 holder at feet in slot 6, role
 `(0,0)`, with effective elements e1=0/e2=1/e3=0. Assume the earlier offside/shot/clearance
 contexts do not intervene, the e2 coin admits action, and the two `4E28` table values avoid
 crossing/forced-pass. Role 7 with e1 off chooses `3323`, and the supplied short scan above
-selects slot 9. `384C` installs receiver state 5 and `830C=9`, then invokes event-6 launch
+selects slot 9. Assume slot9 stands outside its own goal strip, so `384C` passes the
+entry gate and installs receiver state 5 and `830C=9`, then invokes event-6 launch
 when `80FA=0`. With the launch gate passing, no pending offside and travel below eleven,
 the ordinary ground tail submits commentary template 8. Selection itself changes no score.
 Commentary can be deduplicated; later interception, flight and scoring remain separate steps.
 
 This is a source-conditioned sequence with stated draws, not an executed complete legal
 fixture. It does not claim exact velocities, total full-call draw counts, reachability or
-passing success frequency. The script rejects always replacing a receiver, drawing a coin
+passing success frequency. The authored model compares always replacing a receiver, drawing a coin
 for the first acceptance, an inclusive long-distance comparison, taking the first fallback,
 and treating the advanced-cross threshold as inclusive.
 
@@ -169,3 +174,13 @@ A readable design can separate eligible candidates, receiver preference, holder 
 launch request and receive target. Preserve traversal order, fallback filters, conditional
 draw/table consumption, selected-slot/identity distinctions and delayed offside state.
 Changing those while keeping the same labels would change play.
+
+Review correction #566 ties this entry gate to literal listing3884/3889/388B and checks an
+altered388B jump as a source falsifier. The selected-pass worked example explicitly assumes
+a target outside its own strip. This remains source evidence, not a new engine execution.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

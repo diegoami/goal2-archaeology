@@ -1,0 +1,23 @@
+{
+  "scope": "Check committed milestone whitespace; exempt generated TSV and immutable raw .log output.",
+  "argv": [
+    "git",
+    "diff",
+    "--check",
+    "m5-engine-study-foundations",
+    "HEAD",
+    "--",
+    ".",
+    ":(exclude)static/goal-exe/named/index.tsv",
+    ":(exclude)**/*.log"
+  ],
+  "exit": 0,
+  "stdout": "",
+  "stderr": "",
+  "negative_control": {
+    "scope": "independent temporary fixture repository; no project worktree",
+    "old_clean_worktree_exit": 0,
+    "committed_range_exit": 2,
+    "range_stdout": "sample.py:1: trailing whitespace.\n+x = 1  \n"
+  }
+}

@@ -1,0 +1,628 @@
+{
+  "scope": "Count legacy calculation annotations as model examples, not independent source falsifiers.",
+  "legacy_model_annotations": 100,
+  "source_bound_falsifiers_from_this_count": 0,
+  "annotations": [
+    {
+      "task": "T101a",
+      "name": "advance-at-equal-limit",
+      "legacy_label": "rejected: depth45 would become46 with ordinary limit45",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T101a",
+      "name": "floor-instead-of-idiv",
+      "legacy_label": "rejected: [2,27] differs from literal [3,27]",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T101a",
+      "name": "separate-wide-posts-symmetrically",
+      "legacy_label": "rejected: prior y must fall3, current x moves inward3",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T101a",
+      "name": "step-before-target",
+      "legacy_label": "rejected: first target would be [-5,-2], not [-5,-1]",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T101b",
+      "name": "inclusive-energy",
+      "legacy_label": "rejected:draw6 must fail at energy6",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T101b",
+      "name": "omit-bound-plus-one",
+      "legacy_label": "rejected:target[2,-4] instead of[2,-5]",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T101b",
+      "name": "omit-cache-wrap",
+      "legacy_label": "rejected:264 instead of8",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T101b",
+      "name": "replace-tie",
+      "legacy_label": "rejected:102 instead of101",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T101c",
+      "name": "ignore-occupancy",
+      "legacy_label": "rejected:accepts[1,0], loses retry draw",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T101c",
+      "name": "omit-zero-offside-initializer",
+      "legacy_label": "rejected:10 instead of0",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T101c",
+      "name": "referee-floor-division",
+      "legacy_label": "rejected:target x0 instead of1",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T101c",
+      "name": "unconditional-sprite-erasure",
+      "legacy_label": "rejected:background replaces another glyph",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T102a",
+      "name": "always-replace",
+      "legacy_label": "rejected:winner9 instead of11 on two failed replacement coins",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T102a",
+      "name": "coin-for-first",
+      "legacy_label": "rejected:3 selection coins instead of2",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T102a",
+      "name": "first-fallback",
+      "legacy_label": "rejected:winner9 instead of11",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T102a",
+      "name": "inclusive-cross",
+      "legacy_label": "rejected:cross/1 table read instead of pass/2 at equality",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T102a",
+      "name": "inclusive-long-distance",
+      "legacy_label": "rejected:winner11 instead of10 at equality edge",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T102b",
+      "name": "air-test-before-countdown",
+      "legacy_label": "rejected:remaining travel2 must clear air",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T102b",
+      "name": "extra-on-penalty-event3",
+      "legacy_label": "rejected:timer11 instead of10",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T102b",
+      "name": "remove-unused-shot-coin",
+      "legacy_label": "rejected:next rand10024 instead of97",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T102b",
+      "name": "universal-halving",
+      "legacy_label": "rejected:projection[10,20] instead of[7,14]",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T102b",
+      "name": "zero-vector-idle",
+      "legacy_label": "rejected:original velocity[0,-1]",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T102c",
+      "name": "clear-air-after-selected-receipt",
+      "legacy_label": "rejected:8AE9 restores old air1",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T102c",
+      "name": "inclusive-tackle",
+      "legacy_label": "rejected:tie must not win",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T102c",
+      "name": "record-before-offside",
+      "legacy_label": "rejected:disallowed goal must not enter scorer record",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T102c",
+      "name": "remove-celebration-draws",
+      "legacy_label": "rejected:watched nonkeeper has3 body draws, not0",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T102c",
+      "name": "reverse-finish-draws",
+      "legacy_label": "rejected:goal route changes",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T102c",
+      "name": "unlimited-scorer-log",
+      "legacy_label": "rejected:row11 remains final row",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103a",
+      "name": "BBFF-clears-overrides",
+      "legacy_label": "rejected:old17->51, fresh0->50",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103a",
+      "name": "bit-index-k-instead-k-1",
+      "legacy_label": "rejected:team element5 is mask16",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103a",
+      "name": "formation-counts-unavailable",
+      "legacy_label": "rejected:available-only label becomes3-4-2",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103a",
+      "name": "own-controls5-through8",
+      "legacy_label": "rejected:own255/team0 gives e5 false",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103a",
+      "name": "team-zonal-clears-manual",
+      "legacy_label": "rejected:protected205 survives",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103a",
+      "name": "two-state-own-editor",
+      "legacy_label": "rejected:inherit/off/on/return sequence has three distinct modes",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103b",
+      "name": "always-inherit-role",
+      "legacy_label": "rejected:7 with natural10 becomes10",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103b",
+      "name": "choose-best-overall",
+      "legacy_label": "rejected:ordered natural preferences can chooseweaker candidate",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103b",
+      "name": "never-replace-with-weaker",
+      "legacy_label": "rejected:natural-role correction admits100->90",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103b",
+      "name": "rebuild-entire-map-after-swap",
+      "legacy_label": "rejected:role2 remaining12 does not automaticallyreappear",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103b",
+      "name": "reuse-inmatch-last-map",
+      "legacy_label": "rejected:equal90 keeps12 rather than15",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103b",
+      "name": "stable-sort",
+      "legacy_label": "rejected:equalA/B becomeB/A",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103c",
+      "name": "best-keeper-emergency",
+      "legacy_label": "rejected:firstavailable3 is selectedwithoutkeepingcomparison",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103c",
+      "name": "convert-only-one-fullback",
+      "legacy_label": "rejected:bothavailable3/4become2",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103c",
+      "name": "gap2-does-not-reset",
+      "legacy_label": "rejected:BD83 baseline/stronger step precedes3changes",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103c",
+      "name": "height-threshold-strict-greater72",
+      "legacy_label": "rejected:height72 selects12",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103c",
+      "name": "ignore-latch",
+      "legacy_label": "rejected:secondextremegapcallmakesnonewdraws",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103c",
+      "name": "random-distinct-settings",
+      "legacy_label": "rejected:five identicalrand1 plusfixed6 sets33,not63",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T103c",
+      "name": "update-managed-side",
+      "legacy_label": "rejected:managedbranchskip",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104a",
+      "name": "mirror-corner-by-team",
+      "legacy_label": "rejected:ball-sign corner[-8,36] differs",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104a",
+      "name": "normalise-far-wall-sign",
+      "legacy_label": "rejected:source far-wall y is negative for positive spot26",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104a",
+      "name": "ready-on-decrement-to-zero",
+      "legacy_label": "rejected:ready one call too early",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104a",
+      "name": "role1-is-keeper0",
+      "legacy_label": "rejected:attacking-zone threshold differs at12",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104a",
+      "name": "timer-from-restart-spot",
+      "legacy_label": "rejected:13 instead of23",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104b",
+      "name": "always-add11-opponent-slot",
+      "legacy_label": "rejected:16 maps5,not27",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104b",
+      "name": "ignore-injury-count",
+      "legacy_label": "rejected:shared cap already3",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104b",
+      "name": "omit-ai-depth-guard",
+      "legacy_label": "rejected:11 available does not pass unmanaged guard",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104b",
+      "name": "persist-team-swing",
+      "legacy_label": "rejected:saved16 must stay16",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104b",
+      "name": "unsigned-saved-form-cap",
+      "legacy_label": "rejected:128 differs from32 on edited signed edge",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104c",
+      "name": "add-captain-without-rebind",
+      "legacy_label": "rejected:74 instead of70",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104c",
+      "name": "copy-role-on-managed-swap",
+      "legacy_label": "rejected:incoming7 retained,not2",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104c",
+      "name": "first-bench-role-wins",
+      "legacy_label": "rejected:12 instead of18",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104c",
+      "name": "inclusive-performance-cutoff",
+      "legacy_label": "rejected:performance88 atremaining2 does not qualify",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104c",
+      "name": "stable-sort-replacement",
+      "legacy_label": "rejected:unavailableA/B order differs",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104c",
+      "name": "unify-foot-predicates",
+      "legacy_label": "rejected:eligible two-footed left player still hasplacement1",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104d",
+      "name": "clamp-raw-speed9",
+      "legacy_label": "rejected:9 remains9",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104d",
+      "name": "count-pk-in-normal-player-goals",
+      "legacy_label": "rejected:normal6443 branch skipped",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104d",
+      "name": "filter-before-current-kick",
+      "legacy_label": "rejected:first5 instead of2",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104d",
+      "name": "outfield-only-ranking",
+      "legacy_label": "rejected:keeper1 is highest in supplied order",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104d",
+      "name": "overwrite-fixture-with-working-pk-tally",
+      "legacy_label": "rejected:F098 updatesresult only",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104d",
+      "name": "space-dismissal-commits",
+      "legacy_label": "rejected:secondEnter onlydismissesboard",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104d",
+      "name": "stop-after-first-sudden-death-kick",
+      "legacy_label": "rejected:other side must getitskick",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104d",
+      "name": "wrong-extra-entry30",
+      "legacy_label": "rejected:first eligible remaining29,not30",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104e",
+      "name": "aggregate-parity-tiebreak",
+      "legacy_label": "rejected:equality jumps jae before parity branch",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104e",
+      "name": "ban-needs-participation",
+      "legacy_label": "rejected:status transition applies every nonzero squad word",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104e",
+      "name": "combine-confidence-clips",
+      "legacy_label": "rejected:31+3 clipped32 then-1 yields31, not32",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104e",
+      "name": "copy-energy-after-lower-clamp",
+      "legacy_label": "rejected:managed extreme fitness1/energy0",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104e",
+      "name": "drop-substitute-offset-test",
+      "legacy_label": "rejected:10095 is decoded95, strict tie keeps101",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T104e",
+      "name": "restore-injury-from-fitness",
+      "legacy_label": "rejected:zero energy remains zero at CB7D",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T105a",
+      "name": "all-six-probes-one-call-each",
+      "legacy_label": "rejected:wall case needs five records,36 reference/port calls",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T105a",
+      "name": "completed-Match-omits-B7FA",
+      "legacy_label": "rejected:Match._advance calls PLAYER_UPDATE before _finish",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T105a",
+      "name": "energy-before-setup-is-isolated",
+      "legacy_label": "rejected:opponent BD03/BD83 can react before kickoff",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T105a",
+      "name": "independent-coin-formula-exact",
+      "legacy_label": "rejected:finiteLCG on counts36866/34815 differ from36864/34816",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T105a",
+      "name": "live-score-always-fixture-goals",
+      "legacy_label": "rejected:PK tally and quick scratch/rollback phases differ",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T105a",
+      "name": "pre_match-public-answer",
+      "legacy_label": "rejected:no public pre_match decision in DECIDED_AT_MENU",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T105a",
+      "name": "seed-rebuilds-table",
+      "legacy_label": "rejected:late seed override does not rerun2648",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T105b",
+      "name": "add-batches-until-significant",
+      "legacy_label": "rejected:fixedcount orresource/validitystop,noeffect-basedextension",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T105b",
+      "name": "arm-count-as-N",
+      "legacy_label": "rejected:128cells are32seed-context blocks,not128 independent interactions",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T105b",
+      "name": "impute-failed-match-zero",
+      "legacy_label": "rejected:Noneoutcome fails;report incomplete ratherthan salvageprimaryestimate",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T105b",
+      "name": "independent-marginal-CI",
+      "legacy_label": "rejected:compute block interactions first,keep allfour arms together",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T105b",
+      "name": "port-runtime-equals-original",
+      "legacy_label": "rejected:retained medians1549.8785vs14.4,withhost/profile qualifications",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T105b",
+      "name": "precision-0.1-with16blocks",
+      "legacy_label": "rejected:conservative halfwidth1.4802;need3506blocks/context for0.1",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T105b",
+      "name": "reuse-seeds-as-extra-context-replicates",
+      "legacy_label": "rejected:contexts are fixed,not random draws from footballpopulation",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T105b",
+      "name": "unaccounted-wall-records",
+      "legacy_label": "rejected:36normal targetcallsplussetup/controls/repeatsallwithin60",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T108a",
+      "name": "form-cutoff33",
+      "legacy_label": "rejected:73 instead of54",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T108a",
+      "name": "omit-target-half-premise",
+      "legacy_label": "rejected:adjusted_y9 is not negative",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T108a",
+      "name": "python-modulo",
+      "legacy_label": "rejected:3 instead of32767",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T108a",
+      "name": "strict-offside-target",
+      "legacy_label": "rejected:20 instead of19",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T108b",
+      "name": "identity-as-slot",
+      "legacy_label": "rejected:314 differs from11",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T108b",
+      "name": "omit-cache-wrap",
+      "legacy_label": "rejected:264 differs from8",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T108b",
+      "name": "omit-element11",
+      "legacy_label": "rejected:incomplete gate set",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    },
+    {
+      "task": "T108b",
+      "name": "zero-pad-window",
+      "legacy_label": "rejected:0 differs from107",
+      "classification": "model consistency annotation; not counted as a source-bound falsifier"
+    }
+  ],
+  "ledger_sha256": {
+    "notes/engine-study/T101/T101a-v1.json": "91f552663a1c2ce11010d57fa2601b704e5c818eb6a6211a0288cf56a357db1e",
+    "notes/engine-study/T101/T101b-v1.json": "a43c9885d783c71b9ad014cd575afcc0c8a274c71363c7f61959a86e6ccc9abe",
+    "notes/engine-study/T101/T101c-v1.json": "9078c296a4a27fa3989609ce8d3bf5393b5ea861bba8a70c89eb6a978027f374",
+    "notes/engine-study/T102/T102a-v3.json": "0d865c7b9544b06049a74e364422b9c18d935a7a9331966b11671c41b7820ca6",
+    "notes/engine-study/T102/T102b-v1.json": "3126f97a4badc8a000e1f6fad8143dc996eff745775758d86dcdac6ca5d738bf",
+    "notes/engine-study/T102/T102c-v1.json": "4957409151df32892cd127141330cc432973b5b034dddb64678abdca71571ac3",
+    "notes/engine-study/T103/T103a-v2.json": "fa2209943713f02cd9d805fc9d213dd545c766286f77fecb600029e2bde39ca4",
+    "notes/engine-study/T103/T103b-v1.json": "611497d6396f8155d5db4c6b4f263827164976a1c64b5dad3ea8d88224b2a476",
+    "notes/engine-study/T103/T103c-v2.json": "6269b4a20d6ab32c6052ba3ce90335853c9ce361158014388511ee9e2f1ab7c0",
+    "notes/engine-study/T104/T104a-v1.json": "26e3eee578c74b8c0c5c8bf7ca7b0349d2c60ecdf864244f9f4819e580305092",
+    "notes/engine-study/T104/T104b-v1.json": "fea0ca34d6f4d4556ba259bdd9bb43698e33ae7fbeb06edbb4f6387e57d0fed7",
+    "notes/engine-study/T104/T104c-v2.json": "e0f7ee30bb088b0830ddac1b12d306cad4b36b94282a3b59fdff705b125d6687",
+    "notes/engine-study/T104/T104d-v2.json": "076cb97d4447166ced4e8db6ff767c2f0fa2f702f3e9c9be02b4203a5d05e6f6",
+    "notes/engine-study/T104/T104e-v1.json": "e597308602cfaf484e69167f185faca0a9bd4ea865fe27c9fa1caf12737e145d",
+    "notes/engine-study/T105/T105a-v2.json": "20f89ee6a7443834480eedd14c76670fabe1e251fa4d579e4a6f6f1b5b22dcae",
+    "notes/engine-study/T105/T105b-v2.json": "843b297030a42443102ab4f734733b64951eaab64e7a1e2262e17ef7c149146d",
+    "notes/engine-study/T108/T108a-v1.json": "41e3735af73c81667a1a0d6468326750a4a6cf8096f3777fd531c509ba64ea7e",
+    "notes/engine-study/T108/T108b-v2.json": "907481d93da8612900d4ae2a1e2134a308efac5add1384d79bc1eff97d55dfea"
+  },
+  "source_check": "listing_guards.py independently checks named instructions and altered-listing negatives; no engine execution"
+}

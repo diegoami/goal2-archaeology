@@ -5,7 +5,7 @@ corrects incomplete descriptions of cached extras and taker identities. It also 
 existing test/annotation defects and an unresolved surviving mutation. No new production
 engine defect is established by these five examined candidates.
 
-The [candidate ledger](../../notes/engine-study/T108/T108b-v1.json) records minimal changes,
+The [candidate ledger](../../notes/engine-study/T108/T108b-v2.json) records minimal changes,
 expected/actual source behaviour, dispositions, primary sources and reachability limits.
 [records.py](../../notes/engine-study/T108/records.py) repeats the cheap legacy helper checks,
 verifies instruction anchors and hashes the historical reports. It does not execute original
@@ -33,15 +33,16 @@ with zero would invent a different value and is not an acceptable repair.
 
 **The cached skill extra has more than one writer.** `A260` initially binds manager bonus
 plus 32 into pitch `+11`. `20E3` adds twice the captain's leadership to each of the side's
-eleven bytes; `278A` later decides which element/event uses the resulting byte. For one
+eleven bytes; `278A` gates skill use, while `34C1` reads the byte directly again for
+event1/2 duration `U16(V+K)//3`, outside that gate. For one
 application, initial 56 and leadership four give 64. The byte example 250+14 becoming eight
 illustrates storage width only, without claiming that a natural fixture reaches it.
 
 The [effective-skill chapter](attribute-formulas.md), [derived-trait dictionary](player-derived.md)
 and [live-state dictionary](transient-state.md) now include that contribution. Their previous
 numeric examples remain valid because they supply the cached byte as an input. T97's additive
-v4 ledger names it `cached_skill_extra`; older ledgers remain intact. Captain effects are
-element/event-gated and are not a universal bonus to every displayed skill or to quick-engine
+v5 ledger names it `cached_skill_extra`; older ledgers remain intact. Captain effects include gated effective-skill use and the separate event1/2 duration read;
+they are not a universal bonus to every displayed skill or to quick-engine
 line strength.
 
 **Taker words hold identities, not slot numbers.** `9976+10*side+2*role` stores an own player's
@@ -121,3 +122,9 @@ known documentation/tooling defects and remaining path questions. The audit is n
 over all record tuples, live continuations or private inputs. Future experiments should select
 questions with unresolved consequences, rather than spending a new campaign to rediscover
 already understood source arithmetic or duplicate T79's planned fidelity work. T79/#290 is still blocked and has no accepted700-match sheet; existing T77 comparison receipts have their own narrower scope.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

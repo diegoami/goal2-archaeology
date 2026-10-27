@@ -1,0 +1,183 @@
+{
+  "issue": "567-574",
+  "baseline": "c594581047dec624aa86eeaede8244b4dd565afe",
+  "checks": [
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T97/make_transient.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: pitch22, ball12, sprite8 and marker6 byte covers; seven state families; source pins/aliases\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T108/records.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: five candidates,2 legacy IndexErrors,identity/cache checks,source edges/historical8 uncaught,4 controls\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T103/controls.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T103a, 12 routines, 4 worked examples, 6 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T103/computer.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T103c, 13 routines, 4 worked examples, 7 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T104/shootouts.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T104d, 10 routines, 4 worked examples, 8 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "field-qualifiers",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/foundations/check.py",
+        "--task",
+        "T97b",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T97b\",\n  \"manifest_sha256\": \"106d7b645db6e0f1f994c8ad730866d6c9205ce881a1da5d70d2c044062a038c\",\n  \"checker_sha256\": \"22f3bde451f993be947adfb4a06c338b8050f2c02c246bd49ad4f508fcb439fc\",\n  \"results\": {\n    \"positive\": \"accepted\",\n    \"missing-provenance\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-field\": \"rejected\",\n    \"overlapping-field\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "field-qualifiers",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T108/check.py",
+        "--task",
+        "T108b",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T108b\",\n  \"candidates\": 5,\n  \"manifest_sha256\": \"907481d93da8612900d4ae2a1e2134a308efac5add1384d79bc1eff97d55dfea\",\n  \"checker_sha256\": \"564910061b72024db715d970b5387e15f93ddcecc59f3faa9d69bc523862f195\",\n  \"positive\": \"accepted\",\n  \"scope\": \"Audit candidate completeness and source integrity, not automatic defect attribution.\",\n  \"controls\": {\n    \"missing-candidate\": \"rejected\",\n    \"missing-evidence\": \"rejected\",\n    \"missing-disposition\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "field-qualifiers",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T103/check.py",
+        "--task",
+        "T103a",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T103a\",\n  \"scope\": \"T103 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 12,\n  \"manifest_sha256\": \"fa2209943713f02cd9d805fc9d213dd545c766286f77fecb600029e2bde39ca4\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "field-qualifiers",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T103/check.py",
+        "--task",
+        "T103c",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T103c\",\n  \"scope\": \"T103 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 13,\n  \"manifest_sha256\": \"6269b4a20d6ab32c6052ba3ce90335853c9ce361158014388511ee9e2f1ab7c0\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "field-qualifiers",
+        "--",
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "notes/engine-study/T104/check.py",
+        "--task",
+        "T104d",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T104d\",\n  \"scope\": \"T104 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 10,\n  \"manifest_sha256\": \"076cb97d4447166ced4e8db6ff767c2f0fa2f702f3e9c9be02b4203a5d05e6f6\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/check_links.py"
+      ],
+      "exit": 0,
+      "stdout": "links and JSON ok (9984 files)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "sha256": {
+    "docs/engine-study/audit-records.md": "614e287c40b5fee905242045d36db2fd4d893da92c7b4fbd4217d5c27114b625",
+    "docs/engine-study/computer-policy.md": "b9fa7c97c63e352aa34efffb585352a349f526f7d86b496f3f555b556688a0ed",
+    "docs/engine-study/marking.md": "ca8dd313db5883e2d65ec11e457f3b417302a53385b5f339a02150ea18d5ff86",
+    "docs/engine-study/player-derived.md": "95720cca2e6eefa5e7d9f2961a0e369f91e1194e8546ee6adf970a718c8d0a9f",
+    "docs/engine-study/shootouts.md": "ae039bf6d293ea0348c4d448cf92a6020369bdbfccea5291cf51f56890a32489",
+    "docs/engine-study/tactics.md": "cc971e91616229398ea1b1d1fca6e72784fe96f2afff1b762fa3703babe3ee0c",
+    "docs/engine-study/transient-state.md": "af95e17920823f570bcbefcc96e49c1408e9b7498e5eb8b30edaae8b0f83611d",
+    "notes/engine-study/T103/T103a-v2.json": "fa2209943713f02cd9d805fc9d213dd545c766286f77fecb600029e2bde39ca4",
+    "notes/engine-study/T103/T103c-v2.json": "6269b4a20d6ab32c6052ba3ce90335853c9ce361158014388511ee9e2f1ab7c0",
+    "notes/engine-study/T103/check.py": "800ef5306a8ca39d9779221050bb463af90ab96234725cb09baecf698e2ee9ff",
+    "notes/engine-study/T103/computer.py": "d23296ec1fa8e042e3cdcf1de61ed5fb62523b2bac4b29926e188d8184050eba",
+    "notes/engine-study/T103/controls.py": "9f3f352475c5c55c09602ff9076b30a5530c049484d25a3674239921575c7520",
+    "notes/engine-study/T104/T104d-v2.json": "076cb97d4447166ced4e8db6ff767c2f0fa2f702f3e9c9be02b4203a5d05e6f6",
+    "notes/engine-study/T104/check.py": "150a195181dd78f6ad2c150531e3e0f83dddeea5933faa59a40722cf38a87218",
+    "notes/engine-study/T104/shootouts.py": "e60d9b4123d746e26a0410328bb71f25b02a868c0ee1a3922a9455a9bad9af1a",
+    "notes/engine-study/T108/T108b-v2.json": "907481d93da8612900d4ae2a1e2134a308efac5add1384d79bc1eff97d55dfea",
+    "notes/engine-study/T108/check.py": "564910061b72024db715d970b5387e15f93ddcecc59f3faa9d69bc523862f195",
+    "notes/engine-study/T108/records.py": "a1a93c854e1e8ea73db8d5da26abaafe2cc196636055f1de5c23ae5e4b966c4b",
+    "notes/engine-study/T97/make_transient.py": "f0562e86219e67d7d38efc1d3d9d5a0a5ba5fe6797cdff5bc6ed7272d72e9b11",
+    "notes/engine-study/T97/transient-v5.json": "106d7b645db6e0f1f994c8ad730866d6c9205ce881a1da5d70d2c044062a038c",
+    "notes/engine-study/foundations/check.py": "22f3bde451f993be947adfb4a06c338b8050f2c02c246bd49ad4f508fcb439fc"
+  }
+}

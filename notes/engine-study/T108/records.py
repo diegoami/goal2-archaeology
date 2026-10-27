@@ -56,9 +56,9 @@ def calculations():
     historical=(ROOT/report).read_text()
     assert historical.count('NOT CAUGHT: identical: FAIL')==8
     assert '8 matches expected differ, 0 pass, 8 fail' in historical
-    current=json.loads((ROOT/'notes/engine-study/T97/transient-v4.json').read_text())
+    current=json.loads((ROOT/'notes/engine-study/T97/transient-v5.json').read_text())
     field=next(f for f in current['records']['pitch']['fields'] if f['offset']==17)
-    assert field['name']=='cached_skill_extra' and '20E3' in field['meaning']
+    assert field['name']=='cached_skill_extra' and '20E3' in field['meaning'] and '34C1' in field['meaning']
     assert 'player-identity' in current['state_groups']['marking']['DS:9976+10*side+2*role, role=1..5']
     return dict(window_cases=windows,maximum_profile_index=max_profile_index,role_identity314_resolves_slot=resolved,cache56_leader4=64,
                 extra_gate_elements=gates,source_sites=sites,historical_uncaught_count=8,
@@ -76,11 +76,11 @@ def build():
              reachability='Ordinary declared helper domains; reproduced here in the legacy analytical helper. Memory-faithful port reads full memory and does not use those short windows.',
              follow_up='#477 remains open for versioned complete/rebased windows and helper-domain coverage; never zero-pad retained evidence.'),
         dict(id='cache-and-identities',minimal_input={'initial_extra':56,'captain_leadership':4,'stored_taker_identity':314,'squad_slot':11},
-             expected='20E3 adds2*leadership to cached byte;6B65 maps stored player identity to first matching squad slot.',
-             actual={'complete_extra':64,'resolved_slot':11,'wrapped_extra_at250_lead7':8,'current_ledger':'transient-v4.json'},
+             expected='20E3 adds2*leadership to cached byte;278A gates skill use and34C1 events1/2 directly read it for duration;6B65 maps stored player identity to first matching squad slot.',
+             actual={'complete_extra':64,'direct_34C1_reader_events':[1,2],'resolved_slot':11,'wrapped_extra_at250_lead7':8,'current_ledger':'transient-v5.json'},
              evidence=['0791:A260','0791:20E3','0791:6B65','0791:A920','0791:1F3C'],disposition='documentation/test defect',
              reachability='Ordinary identity/cache mechanism; wrap example is representable only. All-unavailable1F3C retains an uninitialised winner local, with natural reachability unresolved.',
-             follow_up='Corrected foundation prose and additive v4 ledger in this slice; #514 retains attribution/reachability context; no formula-input or runtime change.'),
+             follow_up='Corrected foundation prose and additive v5 ledger in this slice; #514 retains attribution/reachability context; no formula-input or runtime change.'),
         dict(id='uncaught-initial-direction',minimal_input={'intervention':'A36A pitch+F assignment5->4','historical_family':'O8,8 retained cases'},
              expected='An observable writer mutation would change at least one compared record; source direction remains5.',
              actual={'historical_identical':8,'before_move':'8889 assigns direction on both on-target and coin paths',
@@ -101,7 +101,7 @@ def build():
              reachability='Source/table contradictions in old annotation text, not new engine bugs. Current guide uses instruction-backed meanings.',
              follow_up='#494/#512 remain open for scoped annotation regeneration; raw/named history and existing source pins preserved.'),
     ]
-    artifacts=['notes/engine-study/T97/transient-v4.json','notes/engine-study/T98/window-repro-v1.json',
+    artifacts=['notes/engine-study/T97/transient-v5.json','notes/engine-study/T98/window-repro-v1.json',
                'notes/engine-study/T98/validation-scope-v1.json','notes/engine-study/T108/T108a-v1.json',
                'notes/engine-study/T108/historical-issues-v1.json']
     sources=['runtime/model/keeping.py','runtime/original_match/port/attributes.py','runtime/original_match/port/positioning.py',
@@ -121,7 +121,7 @@ def build():
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--check',action='store_true')
-    args=ap.parse_args();data=build();path=ROOT/'notes/engine-study/T108/T108b-v1.json'
+    args=ap.parse_args();data=build();path=ROOT/'notes/engine-study/T108/T108b-v2.json'
     if args.check:
         assert json.loads(path.read_text())==data
         print('PASS: five candidates,2 legacy IndexErrors,identity/cache checks,source edges/historical8 uncaught,4 controls')

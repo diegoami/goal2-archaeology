@@ -65,16 +65,25 @@ From this checkout with Python3.12:
 tools/heavy.sh ES-R2-source -- python3.12 -B notes/engine-study/ES-R2/verify.py
 ```
 
-The [receipt directory](../../notes/engine-study/ES-R2/) (`source-checks-v1.json`) records41 commands:
+The [receipt directory](../../notes/engine-study/ES-R2/) (`source-checks-v2.json`;v1 is historical) records 43 commands:
 18 calculators,18 completeness/source/control checks, current transient-state/restore checks,
-links and diff whitespace. It also audits201 distinct scoped routine entries,60 worked examples,
-nine arithmetic/index candidate groups,100 calculation controls and preservation of prior raw
-study outputs. These are coverage and calculation counts, not201 independently proven game rules
-or100 executed engine mutants. Full CI on the exact review candidate is recorded on #455.
+links and committed-range whitespace. It also audits 201 distinct scoped routine entries,61 worked examples,
+nine arithmetic/index candidate groups,100 legacy model annotations and preservation of prior raw
+study outputs. These are coverage and calculation counts, not 201 independently proven game rules
+or 100 source/engine falsifiers. The matrix also runs 25 literal instruction expectations and
+25 altered-listing negatives, the annotation classifier, and a committed-whitespace negative
+control. The whitespace guard excludes generated index.tsv and immutable raw .log outputs. Full CI on the exact review candidate is recorded on #455. The annotation count does not
+prove 100 independent falsifiers: [control_scope.py](../../notes/engine-study/ES-R2/control_scope.py)
+classifies these labels as model consistency examples. Literal-only examples can pass even
+when a source branch is omitted. Listing-bound checks are separately reported by
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py).
 
-Original raw listings and runtime/original_match remain unchanged from the accepted foundation.
-New ledgers pin the later `a42c2cbe91300c8ee261b82fa993e665ed3f3325` snapshot, which includes
-intervening T114–T116 annotation changes. Older foundation generators deliberately reject drift
+Original raw listings remain unchanged from the accepted foundation. Independently merged
+T78a/T78b1 runtime additions are separately pinned and reported; the study fixes change no
+production engine semantics.
+Most field ledgers pin the later `a42c2cbe91300c8ee261b82fa993e665ed3f3325` snapshot, which includes
+intervening T114–T116 annotation changes; current T97v5 pins c5945810 to include the
+intervening API-overview source. Older foundation generators deliberately reject drift
 from their earlier pin; reproduce those receipts at the accepted m5 checkout instead of weakening
 them against today's named index. New corrections preserve earlier JSON/TXT evidence as separate
 versions. The verification tool refuses to overwrite a receipt path.

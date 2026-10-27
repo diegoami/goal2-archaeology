@@ -1,0 +1,46 @@
+minute 1
+minute 2
+minute 3
+minute 4
+minute 5
+minute 6
+minute 7
+minute 8
+minute 9
+minute 10
+minute 11
+minute 12
+minute 13
+minute 14
+minute 15
+minute 16
+minute 17
+minute 18
+minute 19
+minute 20
+diagnostic {'phase': 'run_match', 'minute': 20, 'ticks': 979} 0791:2BE5 dispatch [75557, 0, 2214197] frames ['0791:983F waiting on its call of 0791:97D0 (returning to 0791:987F)', '0791:97D0 waiting on its call of 0791:9564 (returning to 0791:980E)', '0791:9564 waiting on its call of 0791:2FB1 (returning to 0791:95FE)', '0791:2FB1 waiting on its call of 0791:2BE5 (returning to 0791:3090)']
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/experiments/E036-match-port/out/T78b2/assembly_preview_v2.py", line 42, in <module>
+    for event in m.events():
+                 ^^^^^^^^^^
+  File "T78b-d8f10f9a-match.py", line 436, in events
+  File "T78b-d8f10f9a-match.py", line 566, in _advance
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/engine.py", line 163, in run
+    self._dispatch(self.pc())
+  File "/home/diego/projects/goal2-archaeology-engine/experiments/E036-match-port/out/T78b2/assembly_preview_v2.py", line 35, in diagnostic_dispatch
+    original_dispatch(linear)
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/engine.py", line 143, in _dispatch
+    if runner is not None:runner(self)
+                          ^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/__init__.py", line 139, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/guest.py", line 47, in __init__
+    self.ss, self.sp, self.bp = machine.reg("ss"), machine.reg("sp"), machine.reg("bp")
+                                                   ^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/engine.py", line 77, in reg
+    def reg(self, name):
+
+  File "/home/diego/projects/goal2-archaeology-engine/experiments/E036-match-port/out/T78b2/assembly_preview_v2.py", line 38, in stop
+    raise TimeoutError('bounded diagnostic wall time 60s')
+TimeoutError: bounded diagnostic wall time 60s

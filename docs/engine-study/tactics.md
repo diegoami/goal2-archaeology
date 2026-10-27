@@ -1,7 +1,7 @@
 # Tactics and manager controls: from choice to field action
 
 A tactic is a branch input, with personal overrides, role gates and refresh timing. Its label
-does not guarantee an action or a better result. The [20-row control matrix](../../notes/engine-study/T103/T103a-v1.json)
+does not guarantee an action or a better result. The [20-row control matrix](../../notes/engine-study/T103/T103a-v2.json)
 records writes, readers, effects, refresh, persistence and limits; the [source calculator](../../notes/engine-study/T103/controls.py)
 checks four worked cases and six altered-rule alternatives. These remain proposed interpretations
 pending ES-R2. No original/port routine, UI keys or matches were executed for this chapter.
@@ -97,8 +97,10 @@ range four preference rows and opposing slots11 down to2 choose the first free o
 Keeper is outside the loops; own sweeper, unavailable and protected players are excluded from
 new automatic choices. Explicit protected targets are removed from the opposing candidate pool.
 
-A protected player retains its word even when team8 is off: valid old opponent identity205 remains205
-rather than becoming zero.49B8's protected-zero state is deliberate zonal override; its other states
+Except a role1 sweeper in slot2, a protected player retains its word even when team8 is off: valid old opponent identity205 remains205
+rather than becoming zero. However,3EF8 unconditionally clears the slot2 word first when its
+played role is1; protection preserves that zero. A player can retain protection when4952
+changes its role, so this is not an impossible UI context.49B8's protected-zero state is deliberate zonal override; its other states
 choose available opposing outfield identities. The fifth row requires setup, played role>=2,
 availability and the caller's enable flag. Role<2 clears protection in the cycling primitive.
 Invalid explicit identities and automatic fallback follow resolver rules documented in marking.md.
@@ -116,3 +118,9 @@ possession and occupancy. T105 must define which boundary is changed, which bran
 it, independent randomness and meaningful outcomes before a new sensitivity batch. Historical
 F026 measurements retain their original fixture/intervention limits, including its now-qualified
 half-pitch interpretation. Source integrity/coverage checks are not match-effect measurements.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.

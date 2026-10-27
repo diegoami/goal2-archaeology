@@ -126,7 +126,9 @@ separate branches, not a blanket “computer side only” routine.
 After those branches, **both sides' eleven pitch records receive twice their captain's
 leadership**, added to cached byte `+11`. `A260` initially supplies manager bonus plus 32;
 that initial value is not the whole later cache. Starting at 56, leadership four gives 64.
-`278A` still gates use of that byte by element/event, so it is not a flat bonus to every skill.
+`278A` gates its effective-skill addition by element/event. `34C1` independently adds the raw
+byte again on events1/2 for ball duration, so its influence is broader than the skill gate
+but remains different from a flat bonus to every skill.
 Binding resets and captain application order matter; calling the additive step twice is not
 equivalent to rebinding once. A byte-edge calculation, 250+14 becoming 8, illustrates storage
 width only and is not evidence that a natural match produces that cache value.
@@ -140,7 +142,13 @@ post-derived target remains. Other target selection and earlier play-state gates
 declared prerequisites, not observations from a full fixture.
 
 The calculation script checks strict zone/energy edges, skill-difference thresholds, tied
-selection and captain cache arithmetic, rejecting four altered interpretations. A rewrite can
+selection and captain cache arithmetic, comparing four altered interpretations within the authored model. A rewrite can
 use distinct types/names for opponent identity, taker identity, resolved pitch slot and target
 coordinate. Keep assignment order, fallback scan order, byte writes and conditional draws;
 cleaner names alone must not change those decisions.
+
+Validation scope: legacy calculator labels called “controls” are model consistency examples,
+not independently executed source/engine falsifiers. Some literal-only annotations do not
+exercise a branch at all. See the [control-scope report](../../notes/engine-study/ES-R2/model-annotation-scope-v1.json);
+[listing_guards.py](../../notes/engine-study/ES-R2/listing_guards.py) separately checks explicit
+instructions and rejects altered-listing inputs. Neither establishes natural incidence.
