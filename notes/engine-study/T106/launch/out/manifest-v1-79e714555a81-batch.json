@@ -1,0 +1,67 @@
+{
+  "batch": "manifest-v1-79e714555a81",
+  "budget": {
+    "active_wall_s": 1.540719785996771,
+    "cpu_s": 1.562987,
+    "failed_invocations": [],
+    "groups": {
+      "launch": 12,
+      "wall": 0
+    },
+    "invocations": 12,
+    "unclosed_batches": [],
+    "unclosed_invocations": []
+  },
+  "error": null,
+  "manifest_sha256": "79e714555a81d473422bb30b18b572f83bb892f5db8b50741c291f5d17ae0e5f",
+  "records": [
+    {
+      "path": "notes/engine-study/T106/launch/out/0001-launch-zero_baseline_original.json",
+      "sha256": "0311d12c2171453ed19b3eebc7280f170026a1f55115bd80245b2faaa0082a5a"
+    },
+    {
+      "path": "notes/engine-study/T106/launch/out/0002-launch-zero_baseline_port.json",
+      "sha256": "376edc178e33823c6458136cb89a2736c26a20fb0d2e0144f211eef3f254c1da"
+    },
+    {
+      "path": "notes/engine-study/T106/launch/out/0003-launch-small_baseline_original.json",
+      "sha256": "1175d39c49ba744fb8ac09c130a1607b1c6a2f6898ec35cb12a81d3d1552db34"
+    },
+    {
+      "path": "notes/engine-study/T106/launch/out/0004-launch-small_baseline_port.json",
+      "sha256": "27e5440e35dc2e00b7e9af372f25d7fe5b0cf955998d75cfddd5e130ab5220da"
+    },
+    {
+      "path": "notes/engine-study/T106/launch/out/0005-launch-diagonal_baseline_original.json",
+      "sha256": "ba1ba1ebca2861342565bbd1d2ab2a542df908f65ad2181426b79928132b1385"
+    },
+    {
+      "path": "notes/engine-study/T106/launch/out/0006-launch-diagonal_baseline_port.json",
+      "sha256": "ea33a299aa5a66cec76f02529326597be7ad3e372994518c0aaa54bfac798e40"
+    },
+    {
+      "path": "notes/engine-study/T106/launch/out/0007-launch-zero_energy16_original.json",
+      "sha256": "25cc8a2cd9351355624e3cf5ceeef5487e7de32d5dca17f0294390d86cd22a9f"
+    },
+    {
+      "path": "notes/engine-study/T106/launch/out/0008-launch-zero_energy16_port.json",
+      "sha256": "a41a3993ae5af5faa13d6c9b8ddde52196f8e7ec6fd51623d41dcf3d812c128c"
+    },
+    {
+      "path": "notes/engine-study/T106/launch/out/0009-launch-small_reverse-x_port.json",
+      "sha256": "60931353ab369b7931832b3ac5f95fd81b0de07a3b42d18d000d801e45e0bd58"
+    },
+    {
+      "path": "notes/engine-study/T106/launch/out/0010-launch-diagonal_reverse-x_port.json",
+      "sha256": "dbce4143c46a8593bac2437401f5a99e854e5d46a2663347c327712dfc5406a6"
+    },
+    {
+      "path": "notes/engine-study/T106/launch/out/0011-launch-zero_repeat_original.json",
+      "sha256": "adda2344c1d0ff2b19dd751ca2e0f940dd3d5480c75500f38816b8db8a07124b"
+    },
+    {
+      "path": "notes/engine-study/T106/launch/out/0012-launch-diagonal_repeat_port.json",
+      "sha256": "9189c01478c20e2bfe12b983a376639ad187633eb4f28b61d627cc2ef6ce3c14"
+    }
+  ]
+}
