@@ -1,0 +1,69 @@
+{
+  "baseline": "37b40fce43e0cea71e4bdd8e9c087682be3dddbc",
+  "method": "source-derived status/form/cap calculations;no engine execution",
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T104/set_pieces.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T104a, 26 routines, 4 worked examples, 5 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T104/discipline.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T104b, 11 routines, 4 worked examples, 5 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "T104b-coverage-receipt",
+        "--",
+        "python3",
+        "-B",
+        "notes/engine-study/T104/check.py",
+        "--task",
+        "T104b",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T104b\",\n  \"scope\": \"T104 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 11,\n  \"manifest_sha256\": \"fea0ca34d6f4d4556ba259bdd9bb43698e33ae7fbeb06edbb4f6387e57d0fed7\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/check_links.py"
+      ],
+      "exit": 0,
+      "stdout": "links and JSON ok (9880 files)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "sha256": {
+    "notes/engine-study/T104/discipline.py": "2e1e082b1e03a29251f7f0c5141a6e14c73a918c69c1d50b5e29b131c1b30a73",
+    "notes/engine-study/T104/common.py": "7b268370b2f3d1503e4a773558e2f6747f8f51008891c8dea2bc791ccdabe01e",
+    "notes/engine-study/T104/T104b-v1.json": "fea0ca34d6f4d4556ba259bdd9bb43698e33ae7fbeb06edbb4f6387e57d0fed7",
+    "docs/engine-study/discipline.md": "3868f0055518ef9da756d1dd714a6d480ea840f9fdabe4a06bc023f12f588714"
+  }
+}
