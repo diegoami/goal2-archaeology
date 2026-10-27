@@ -1,0 +1,387 @@
+{
+  "analysis_sha256": "10e3198058df121ff1d651ce0a31dc81f006e98bab2892c640ce91d316a9893c",
+  "calculations": {
+    "attack_limits": [
+      [
+        60,
+        45,
+        25
+      ],
+      [
+        60,
+        50,
+        35
+      ]
+    ],
+    "controls": {
+      "advance-at-equal-limit": "rejected: depth45 would become46 with ordinary limit45",
+      "floor-instead-of-idiv": "rejected: [2,27] differs from literal [3,27]",
+      "separate-wide-posts-symmetrically": "rejected: prior y must fall3, current x moves inward3",
+      "step-before-target": "rejected: first target would be [-5,-2], not [-5,-1]"
+    },
+    "defence_limits": [
+      [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          15,
+          10,
+          2
+        ]
+      ],
+      [
+        [
+          10,
+          5,
+          0
+        ],
+        [
+          45,
+          25,
+          5
+        ]
+      ]
+    ],
+    "ds_sources": [
+      "static/goal-exe/data/ds_2581_01.hex",
+      "static/goal-exe/data/ds_2581_02.hex",
+      "static/goal-exe/data/ds_2581_03.hex",
+      "static/goal-exe/data/ds_2581_04.hex"
+    ],
+    "posts": [
+      [
+        0,
+        -37
+      ],
+      [
+        0,
+        -36
+      ],
+      [
+        0,
+        -35
+      ],
+      [
+        -6,
+        -33
+      ],
+      [
+        6,
+        -33
+      ],
+      [
+        0,
+        -31
+      ],
+      [
+        0,
+        -28
+      ],
+      [
+        -5,
+        -27
+      ],
+      [
+        5,
+        -27
+      ],
+      [
+        0,
+        -24
+      ],
+      [
+        -7,
+        -22
+      ],
+      [
+        7,
+        -22
+      ],
+      [
+        0,
+        -21
+      ],
+      [
+        0,
+        -18
+      ]
+    ],
+    "zonal_sequence": [
+      {
+        "depth_after": 25,
+        "depth_before": 26,
+        "destination": [
+          -5,
+          -1
+        ]
+      },
+      {
+        "depth_after": 25,
+        "depth_before": 25,
+        "destination": [
+          -5,
+          -2
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "id": "zonal-target-before-step",
+      "inputs": {
+        "code": 7,
+        "depth": 26,
+        "direction": 1,
+        "e5": 1,
+        "e6": 1,
+        "jitter_draw": 3,
+        "post": [
+          -5,
+          -27
+        ]
+      },
+      "limits": "Conditional source sequence:57AC early branches clear,4A28 selected,no accepted marker; ahead-of-ball true. No complete fixture or observed visit frequency.",
+      "prediction": "Targets (-5,-1), then (-5,-2); first call stores depth25 after building its target.",
+      "steps": [
+        {
+          "depth_after": 25,
+          "depth_before": 26,
+          "destination": [
+            -5,
+            -1
+          ]
+        },
+        {
+          "depth_after": 25,
+          "depth_before": 25,
+          "destination": [
+            -5,
+            -2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "offside-line-control-threshold",
+      "inputs": {
+        "advancement_predicate": true,
+        "depth": 45,
+        "e7": [
+          0,
+          1
+        ],
+        "group": 2
+      },
+      "limits": "Hold class, geometry and branch eligibility fixed; whole-match effect and RNG alignment are not inferred.",
+      "prediction": "Toggle element7 changes this one update by one depth cell; no direct offside detection toggle.",
+      "steps": [
+        "ordinary limit45 -> strict test false -> depth45",
+        "trap limit50 -> true -> depth46"
+      ]
+    },
+    {
+      "id": "negative-odd-centering",
+      "inputs": {
+        "depth": 0,
+        "direction": -1,
+        "draw5": 3,
+        "post": [
+          -5,
+          -27
+        ]
+      },
+      "limits": "Byte arithmetic projection; floor division yields the wrong x=2.",
+      "prediction": [
+        3,
+        27
+      ],
+      "steps": [
+        "jitter0 - trunc(-5/2) =2",
+        "own target(-3,-27)",
+        "mirror both bytes"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:26D7",
+      "file": "static/goal-exe/named/seg_0791_02.c",
+      "heading_sha256": "8e56e851b7331109287ac4244698c1ee94e6fdb643e804d203ae904ee1b89bf0",
+      "line": 645
+    },
+    {
+      "address": "0791:2BE5",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "3e460f9039b957339beed498b7fb69797d640cca50ba6d3c1c2fac2564037f56",
+      "line": 4
+    },
+    {
+      "address": "0791:2C86",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "349fab516a83a6c72f5030ab9c931ccb333f8e4be75fbf49984e34ad1320d9c5",
+      "line": 62
+    },
+    {
+      "address": "0791:419C",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "c319c5034a3bcbf5c84eb3de66005b4d63e931f51add7218ab8cd2485a6352da",
+      "line": 177
+    },
+    {
+      "address": "0791:42CB",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "eb6a8e7bab2c287f814474deecf66590a1e5faae8ab962a667dc85f110c932a1",
+      "line": 236
+    },
+    {
+      "address": "0791:4354",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "ea12754977e2d9bb11106df4c708aeab453f06726b16c4f108cdcd706c607e7f",
+      "line": 278
+    },
+    {
+      "address": "0791:4532",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "f1a96d6461ad9caec6cd085fe0baeb1f3004744a71685259ece506c054b6849b",
+      "line": 397
+    },
+    {
+      "address": "0791:4649",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "9ce7bad63f28b6c23872f04ef17d1eb98c583e82657beed8fe2282c454c3f333",
+      "line": 465
+    },
+    {
+      "address": "0791:474D",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "5706f27534ef4e37b002a2c7d37993ede458d18e1cc32875961b86b08f456c99",
+      "line": 518
+    },
+    {
+      "address": "0791:4B64",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "a8eb9dff64bbad704de73ec1891facace05957438a0300c8e156f6a48906537e",
+      "line": 693
+    },
+    {
+      "address": "0791:57AC",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "f0158cd006b27dc7bf493884903728430e47a07191386ba076f5cbc07a065f7c",
+      "line": 462
+    }
+  ],
+  "method": "Source-derived post/target arithmetic; no Match, guest code or synthetic engine call.",
+  "routines": [
+    {
+      "address": "0791:419C",
+      "fields": [
+        "player+6",
+        "pitch+9/+A",
+        "DS:079E",
+        "DS:7920"
+      ],
+      "limits": "Local branch rule; no new match-frequency or full-fixture claim.",
+      "mechanism": "Played code indexes post table; adjacent equal posts get asymmetric separation.",
+      "visible_effect": "Starting shape and slot-order dependence."
+    },
+    {
+      "address": "0791:42CB",
+      "fields": [
+        "player+6",
+        "DS:07BA",
+        "26D7(1)",
+        "2B51"
+      ],
+      "limits": "Local branch rule; no new match-frequency or full-fixture claim.",
+      "mechanism": "Keeper group4; otherwise table selects class from code range, possession and effective element1.",
+      "visible_effect": "Controls which depth-table column applies."
+    },
+    {
+      "address": "0791:4354",
+      "fields": [
+        "pitch+7..+C",
+        "player+6",
+        "pitch+12",
+        "2C86"
+      ],
+      "limits": "Local branch rule; no new match-frequency or full-fixture claim.",
+      "mechanism": "Choose lateral jitter, centre shallow depth with signed division, add post/offset and mirror both bytes.",
+      "visible_effect": "Produces a destination; does not move or clamp the player."
+    },
+    {
+      "address": "0791:4532",
+      "fields": [
+        "pitch+C",
+        "DS:07DB",
+        "26D7(1/7)"
+      ],
+      "limits": "Local branch rule; no new match-frequency or full-fixture claim.",
+      "mechanism": "Strict depth<attack limit; class-dependent ball/tactic/coin predicate yields one or zero.",
+      "visible_effect": "One-cell advance only on a passing predicate."
+    },
+    {
+      "address": "0791:4649",
+      "fields": [
+        "pitch+C",
+        "DS:07CB",
+        "26D7(5/6)"
+      ],
+      "limits": "Local branch rule; no new match-frequency or full-fixture claim.",
+      "mechanism": "Strict depth>defence limit; class-dependent ahead-of-ball and slot2/code1 predicates.",
+      "visible_effect": "One-cell retreat can stop above the numeric target."
+    },
+    {
+      "address": "0791:474D",
+      "fields": [
+        "pitch+B/+C",
+        "player+6",
+        "2BB1",
+        "2D10"
+      ],
+      "limits": "Local branch rule; no new match-frequency or full-fixture claim.",
+      "mechanism": "Possession and defender-ahead gate choose addition or subtraction; defending slot2 centres lateral offset.",
+      "visible_effect": "Persistent target-depth update, separate from actual motion."
+    },
+    {
+      "address": "0791:4B64",
+      "fields": [
+        "pitch+7/+C/+12",
+        "DS:82F7",
+        "DS:07CB/07DB",
+        "CS:4B44"
+      ],
+      "limits": "Local branch rule; no new match-frequency or full-fixture claim.",
+      "mechanism": "Keeper mirrors post; state9/state11-special use draw table; otherwise depth resets from tactical tables and ball-dependent bounds, then4A28.",
+      "visible_effect": "Can replace incremental depth with a jump to a bounded reset value."
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "Posts and effective controls",
+    "Depth and destination updates",
+    "Worked sequences and limits"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "runtime/original_match/port/positioning.py": "6a8feb436f745149a010db472a1aed04569d897875cd966eb434a6170b7f839e",
+    "static/goal-exe/code/seg_0791_05.asm": "0635bc395cd69ffe2c77ead9aaaf786f36eedeee5496daae8f43127ce4aed474",
+    "static/goal-exe/code/seg_0791_07.asm": "1cee0aa8db2d9e0be1e885f1f535eca11f450cbee9421366182528e540d94804",
+    "static/goal-exe/code/seg_0791_08.asm": "6932ef5507b1fa923e7fcec51e4abb0c091d413571c80d0d3798cb1382119acd",
+    "static/goal-exe/code/seg_0791_09.asm": "1236aa3fcb2d30080e22d9a4bee4398c52d09fc3010e133bc124e318f7e89ac0",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_03.c": "c49d73137a03e70e2f02b8b54dfe04d8805239f55fc80a99d23a6943354e5800",
+    "static/goal-exe/named/seg_0791_04.c": "0118b26c212562f1eaecefe22850166c2e2b7755952a09abad00a5b42fbf8325",
+    "static/goal-exe/named/seg_0791_05.c": "b0871f197621d5abfd3b4db00ec3eca42c9eea6cb45626651842147b4d8ce228"
+  },
+  "status": "proposed; source-derived explanation",
+  "task": "T101a"
+}
