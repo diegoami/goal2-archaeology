@@ -31,7 +31,11 @@ def validate(task, data, text):
     assert all('## ' + s in text for s in data['sections'])
     assert len(data['examples']) >= 2
     for example in data['examples']:
-        assert all(example.get(k) for k in ['id', 'inputs', 'steps', 'prediction', 'limits'])
+        assert all(example.get(k) for k in ['id', 'inputs', 'steps', 'limits'])
+        # Zero/False are substantive predictions (for example an offside line at
+        # zero). Missing, null and empty placeholder predictions still fail.
+        prediction = example['prediction']
+        assert prediction is not None and (isinstance(prediction, (bool, int, float)) or bool(prediction))
     assert {'0791:' + a for a in ROUTINES[task]} <= {r['address'] for r in data['locations']}
     assert data['source_sha256']
     for name, digest in data['source_sha256'].items():
@@ -45,7 +49,7 @@ def validate(task, data, text):
 
 def controls(task, data, text):
     results = {}
-    for case in ['missing-routine', 'missing-source', 'shifted-source', 'missing-examples']:
+    for case in ['missing-routine', 'missing-source', 'shifted-source', 'missing-examples', 'missing-prediction']:
         broken = copy.deepcopy(data)
         if case == 'missing-routine':
             broken['routines'].pop()
@@ -53,8 +57,10 @@ def controls(task, data, text):
             broken['source_sha256'] = {}
         elif case == 'shifted-source':
             broken['locations'][0]['line'] += 1
-        else:
+        elif case == 'missing-examples':
             broken['examples'] = []
+        else:
+            broken['examples'][0].pop('prediction')
         try:
             validate(task, broken, text)
         except (AssertionError, KeyError):

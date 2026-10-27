@@ -1,0 +1,602 @@
+{
+  "analysis_sha256": "2660a0183acb337f9269994d656c3555f8891c2442393d9e87ed330ea064eb20",
+  "calculations": {
+    "blocked_step": [
+      {
+        "accepted": false,
+        "candidate": [
+          1,
+          0
+        ],
+        "direction": 2
+      },
+      {
+        "accepted": true,
+        "candidate": [
+          0,
+          1
+        ],
+        "direction": 4
+      }
+    ],
+    "blocking_characters": [
+      1,
+      2,
+      16,
+      17,
+      36,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      128,
+      155
+    ],
+    "chase_countdown_from4": [
+      [
+        3,
+        13
+      ],
+      [
+        2,
+        13
+      ],
+      [
+        1,
+        13
+      ],
+      [
+        0,
+        13
+      ],
+      [
+        0,
+        5
+      ]
+    ],
+    "controls": {
+      "ignore-occupancy": "rejected:accepts[1,0], loses retry draw",
+      "omit-zero-offside-initializer": "rejected:10 instead of0",
+      "referee-floor-division": "rejected:target x0 instead of1",
+      "unconditional-sprite-erasure": "rejected:background replaces another glyph"
+    },
+    "ds_sources": [
+      "static/goal-exe/data/ds_2581_01.hex",
+      "static/goal-exe/data/ds_2581_02.hex",
+      "static/goal-exe/data/ds_2581_03.hex",
+      "static/goal-exe/data/ds_2581_04.hex"
+    ],
+    "energy_edges": {
+      "179_running": [
+        180,
+        10
+      ],
+      "180_running": [
+        0,
+        9
+      ],
+      "180_standing": [
+        180,
+        10
+      ],
+      "clock_off": [
+        181,
+        10
+      ],
+      "energy1_floor": [
+        0,
+        1
+      ]
+    },
+    "offside_examples": [
+      0,
+      -8,
+      8
+    ],
+    "referee_examples": [
+      [
+        1,
+        -2
+      ],
+      [
+        5,
+        32
+      ]
+    ],
+    "sprite_other_glyph_preserved": 1808,
+    "supplied_draws": {
+      "failed_step_retry_draw": 4,
+      "initial_axis_coin": 1,
+      "total_main_draws": 2
+    }
+  },
+  "census_dispositions": [
+    {
+      "address": "0791:1F3C",
+      "module": "positioning",
+      "owner": "T101b"
+    },
+    {
+      "address": "0791:1FDD",
+      "module": "positioning",
+      "owner": "T101b"
+    },
+    {
+      "address": "0791:20E3",
+      "module": "positioning",
+      "owner": "T101b"
+    },
+    {
+      "address": "0791:2218",
+      "module": "positioning",
+      "owner": "T101b"
+    },
+    {
+      "address": "0791:419C",
+      "module": "positioning",
+      "owner": "T101a"
+    },
+    {
+      "address": "0791:42CB",
+      "module": "positioning",
+      "owner": "T101a"
+    },
+    {
+      "address": "0791:4354",
+      "module": "positioning",
+      "owner": "T101a"
+    },
+    {
+      "address": "0791:4438",
+      "module": "positioning",
+      "owner": "T101b"
+    },
+    {
+      "address": "0791:44C1",
+      "module": "positioning",
+      "owner": "T101b"
+    },
+    {
+      "address": "0791:4532",
+      "module": "positioning",
+      "owner": "T101a"
+    },
+    {
+      "address": "0791:4649",
+      "module": "positioning",
+      "owner": "T101a"
+    },
+    {
+      "address": "0791:474D",
+      "module": "positioning",
+      "owner": "T101a"
+    },
+    {
+      "address": "0791:47C5",
+      "module": "positioning",
+      "owner": "T101b"
+    },
+    {
+      "address": "0791:4A28",
+      "module": "positioning",
+      "owner": "T101b"
+    },
+    {
+      "address": "0791:4B64",
+      "module": "positioning",
+      "owner": "T101a"
+    },
+    {
+      "address": "0791:4D3F",
+      "module": "positioning",
+      "owner": "T101c"
+    },
+    {
+      "address": "0791:835F",
+      "module": "motion",
+      "owner": "T102"
+    },
+    {
+      "address": "0791:83A2",
+      "module": "motion",
+      "owner": "T102"
+    },
+    {
+      "address": "0791:8537",
+      "module": "motion",
+      "owner": "T101c"
+    },
+    {
+      "address": "0791:869F",
+      "module": "motion",
+      "owner": "T102"
+    },
+    {
+      "address": "0791:8889",
+      "module": "pilot",
+      "owner": "T101c"
+    },
+    {
+      "address": "0791:8AE9",
+      "module": "motion",
+      "owner": "T101c"
+    },
+    {
+      "address": "0791:8C67",
+      "module": "motion",
+      "owner": "T101c"
+    },
+    {
+      "address": "0791:8CCA",
+      "module": "motion",
+      "owner": "T101c"
+    },
+    {
+      "address": "0791:8CF5",
+      "module": "motion",
+      "owner": "T101c"
+    },
+    {
+      "address": "0791:8E24",
+      "module": "motion",
+      "owner": "T101c"
+    },
+    {
+      "address": "0791:90C5",
+      "module": "motion",
+      "owner": "T101c"
+    },
+    {
+      "address": "0791:9119",
+      "module": "motion",
+      "owner": "T101c"
+    }
+  ],
+  "examples": [
+    {
+      "id": "blocked-step",
+      "inputs": {
+        "destination": [
+          1,
+          0
+        ],
+        "first_cell": [
+          1,
+          7
+        ],
+        "initial_coin": 1,
+        "old": [
+          0,
+          0
+        ],
+        "retry_cell": [
+          32,
+          7
+        ],
+        "retry_draw5": 4
+      },
+      "limits": "Supplied draw values and ordinary live outfielder, not holder/challenger/keeper; no complete seeded fixture execution.",
+      "prediction": {
+        "direction": 4,
+        "final": [
+          0,
+          1
+        ],
+        "main_draws": 2
+      },
+      "steps": [
+        {
+          "accepted": false,
+          "candidate": [
+            1,
+            0
+          ],
+          "direction": 2
+        },
+        {
+          "accepted": true,
+          "candidate": [
+            0,
+            1
+          ],
+          "direction": 4
+        }
+      ]
+    },
+    {
+      "id": "energy-edge",
+      "inputs": {
+        "activity": 180,
+        "direction": 2,
+        "energy": 10,
+        "live": true
+      },
+      "limits": "Only8AE9 expenditure tail; other energy writers and opportunity frequency remain separate.",
+      "prediction": [
+        0,
+        9
+      ],
+      "steps": [
+        "increment to181",
+        "strict>180 passes",
+        "energy10>1 ->9; activity reset0"
+      ]
+    },
+    {
+      "id": "offside-zero",
+      "inputs": {
+        "direction": 1,
+        "outfield_directed_y": [
+          10,
+          20
+        ]
+      },
+      "limits": "Other eight values also nonnegative; no automatic interpretation as modern second-last-defender law.",
+      "prediction": 0,
+      "steps": [
+        "initial minimum0",
+        "neither positive value replaces0"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "address": "0791:2DCA",
+      "file": "static/goal-exe/named/seg_0791_03.c",
+      "heading_sha256": "6c2a4c17db582d9efe242ce935f0bb3214cee22c1212f18ef3f8baf74feacf1f",
+      "line": 166
+    },
+    {
+      "address": "0791:4D3F",
+      "file": "static/goal-exe/named/seg_0791_04.c",
+      "heading_sha256": "219d7965ed9ac2eab411abc96a42dee14d341889c1f5269c60a8a989a31e929e",
+      "line": 785
+    },
+    {
+      "address": "0791:57AC",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "f0158cd006b27dc7bf493884903728430e47a07191386ba076f5cbc07a065f7c",
+      "line": 462
+    },
+    {
+      "address": "0791:58E1",
+      "file": "static/goal-exe/named/seg_0791_05.c",
+      "heading_sha256": "056b45a337019f703a7c74b5a91ea97278282391669e5048ad68970bb69efb75",
+      "line": 513
+    },
+    {
+      "address": "0791:8537",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "ceb9952f9bc62173216d7b491931ce70772d64bace8c4b761c43c5b45596c14f",
+      "line": 257
+    },
+    {
+      "address": "0791:86D0",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "b40a4a32443aa1d891d0fc25c5d571ea5e72620d5c50579af72c19de78848314",
+      "line": 333
+    },
+    {
+      "address": "0791:8889",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "8c68c6444c9a319daa478bbae80010531f6d61ee00f3222d003fbc54de105bd0",
+      "line": 402
+    },
+    {
+      "address": "0791:8AE9",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "d198ef91981f2306bba5156f0205aca906ebee7a59fb4756eea87dd05689daff",
+      "line": 505
+    },
+    {
+      "address": "0791:8C67",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "8135f88a6d773a8210679591c65dc458d9eeb01cfb2f60b3e8ba5605a1486ca4",
+      "line": 583
+    },
+    {
+      "address": "0791:8CCA",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "b809aceb73e9c85ed6a27bb3a3c0965073f304d736141f0ea76fab84fed8d293",
+      "line": 603
+    },
+    {
+      "address": "0791:8CF5",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "b9c53c2d3468d4e42f844df8e95371f1d32060cd6d26b560e7ccf18f0f35abf8",
+      "line": 622
+    },
+    {
+      "address": "0791:8E24",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "fe7a71a11c3ba2197a63acbc572736d3db5248c054a389e038f8bbb5a693cf08",
+      "line": 667
+    },
+    {
+      "address": "0791:90C5",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "734663705e65ee9d38083624a45c0d394aedd5745e15fae8e092687d4d59217c",
+      "line": 763
+    },
+    {
+      "address": "0791:9119",
+      "file": "static/goal-exe/named/seg_0791_08.c",
+      "heading_sha256": "10c230abfc978cb25c377342a0827ddc45efb72731f82e7cf86906953e7e326b",
+      "line": 784
+    }
+  ],
+  "method": "Source-derived movement/occupancy examples; no original or port routine execution.",
+  "routines": [
+    {
+      "address": "0791:4D3F",
+      "fields": [
+        "pitch+7/+10/+12",
+        "261A",
+        "2EB8"
+      ],
+      "limits": "Local source rule; no new engine execution or whole-match effect estimate.",
+      "mechanism": "Eligible outfield/keeper-in-strip enters state13, target=current point, draw-table countdown+4 and keeper+10.",
+      "visible_effect": "Chase/recovery delay; no guaranteed travel toward the ball."
+    },
+    {
+      "address": "0791:8537",
+      "fields": [
+        "DS:7C16/7C1E",
+        "pitch+0/+2/+4/+F",
+        "DS:82F6"
+      ],
+      "limits": "Local source rule; no new engine execution or whole-match effect estimate.",
+      "mechanism": "Restore/draw player glyph in live occupancy; move held ball relative to run direction and draw ball.",
+      "visible_effect": "Display writes affect later collision tests and held-ball coordinates."
+    },
+    {
+      "address": "0791:8889",
+      "fields": [
+        "pitch+7/+8/+F",
+        "DS:82E3",
+        "CS:8869",
+        "DS:0648"
+      ],
+      "limits": "Local source rule; no new engine execution or whole-match effect estimate.",
+      "mechanism": "Conditional offside target restriction, then target test, axis coin and86D0 retries from old drawn position.",
+      "visible_effect": "At most one accepted cardinal move or standstill; retry draws change RNG."
+    },
+    {
+      "address": "0791:8AE9",
+      "fields": [
+        "pitch+12/+14",
+        "player+E",
+        "DS:8325",
+        "DS:8302/8303/830D"
+      ],
+      "limits": "Local source rule; no new engine execution or whole-match effect estimate.",
+      "mechanism": "State handler, run step, activity count, possible possession, drawing and live energy expenditure in that order.",
+      "visible_effect": "Target/action updates precede motion; energy can fall after activity>180."
+    },
+    {
+      "address": "0791:8C67",
+      "fields": [
+        "DS:82E2+6*side",
+        "2BE5"
+      ],
+      "limits": "Local source rule; no new engine execution or whole-match effect estimate.",
+      "mechanism": "Reset one offside-line sprite to x=8*direction,y=0,old=current.",
+      "visible_effect": "Half-start line initialisation."
+    },
+    {
+      "address": "0791:8CCA",
+      "fields": [
+        "DS:82EE..82F5"
+      ],
+      "limits": "Local source rule; no new engine execution or whole-match effect estimate.",
+      "mechanism": "Reset both lines, then initialise referee point/old/target to(1,0).",
+      "visible_effect": "Referee/line continuation starts from defined coordinates."
+    },
+    {
+      "address": "0791:8CF5",
+      "fields": [
+        "DS:82E2",
+        "DS:8328",
+        "DS:8304/8308",
+        "DS:82F7"
+      ],
+      "limits": "Local source rule; no new engine execution or whole-match effect estimate.",
+      "mechanism": "Minimum of zero and all ten outfield directed y values, mirror back, draw line; optional marker.",
+      "visible_effect": "Line geometry and subsequent target restriction/marker feedback."
+    },
+    {
+      "address": "0791:8E24",
+      "fields": [
+        "DS:7C16/7C1E",
+        "sprite+0/+2/+4"
+      ],
+      "limits": "Local source rule; no new engine execution or whole-match effect estimate.",
+      "mechanism": "Restore old cell only if its full glyph still belongs to sprite; store old=current and draw new glyph.",
+      "visible_effect": "Avoid erasing another glyph; modifies live occupancy."
+    },
+    {
+      "address": "0791:90C5",
+      "fields": [
+        "DS:8304",
+        "DS:9A3E",
+        "DS:7920"
+      ],
+      "limits": "Local source rule; no new engine execution or whole-match effect estimate.",
+      "mechanism": "Write marker glyph and x, offset y by direction table indexed by glyph; draw unless quick flag.",
+      "visible_effect": "Message/offside marker placement is a state write, not pure output."
+    },
+    {
+      "address": "0791:9119",
+      "fields": [
+        "referee+0/+2/+6",
+        "DS:82F7",
+        "DS:7C1E",
+        "DS:0648"
+      ],
+      "limits": "Local source rule; no new engine execution or whole-match effect estimate.",
+      "mechanism": "Ordinary referee target uses one rand2, signed division/clamp, guarded axis steps and background blocker rollback.",
+      "visible_effect": "Referee changes occupancy and consumes RNG even if no movement follows."
+    }
+  ],
+  "schema": 1,
+  "sections": [
+    "Targets become steps",
+    "The picture is occupancy",
+    "Offside, referee and worked boundaries"
+  ],
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "source_sha256": {
+    "notes/engine-study/T95/census-08beac2e-v1.json": "e0f0938e2a21bdb7920e51eb958b73fad152b11b668de91f5a4eb8e57508a95c",
+    "runtime/original_match/port/frame.py": "d4c0cd4753038d6058f8359818164ce8cd0be775191fc8338f9a7ec9849b3a6a",
+    "runtime/original_match/port/motion.py": "4e7bab13c1e196464ecb41fd2ddb3a41878c217885c238fd2e80cd8329746eb2",
+    "runtime/original_match/port/pilot.py": "700a8bf56db7adcccd6d011b0e26d0a06599c24fbc451e44fee033b8e56e0863",
+    "runtime/original_match/port/positioning.py": "6a8feb436f745149a010db472a1aed04569d897875cd966eb434a6170b7f839e",
+    "static/goal-exe/code/seg_0791_05.asm": "0635bc395cd69ffe2c77ead9aaaf786f36eedeee5496daae8f43127ce4aed474",
+    "static/goal-exe/code/seg_0791_08.asm": "6932ef5507b1fa923e7fcec51e4abb0c091d413571c80d0d3798cb1382119acd",
+    "static/goal-exe/code/seg_0791_14.asm": "032e2d6f22d6db5981e2a11f43298924a53e15d080e1d73d1fb375ddbe400abd",
+    "static/goal-exe/code/seg_0791_15.asm": "39083ebcc1fba0fc0c377bd9656189ceb0e0a328d0940583c774e910967e1abf",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/data/ds_2581_02.hex": "072b0f184ca8b78953a8d23f7ad0b67d7439141b627e06343dad4fd2db72403b",
+    "static/goal-exe/data/ds_2581_03.hex": "db40db7b9dc7841bbef0782fa9cb5abff698b3919fae7496bced2ba1940b97c7",
+    "static/goal-exe/data/ds_2581_04.hex": "ccb06e3f49993a74d103dce9a1da83e1a713061120dde230380393bb78347867",
+    "static/goal-exe/named/index.tsv": "547a92e6fbfae130149cc79f872ccf7b0cf14c2093062a11520331e43eb98741",
+    "static/goal-exe/named/seg_0791_03.c": "c49d73137a03e70e2f02b8b54dfe04d8805239f55fc80a99d23a6943354e5800",
+    "static/goal-exe/named/seg_0791_04.c": "0118b26c212562f1eaecefe22850166c2e2b7755952a09abad00a5b42fbf8325",
+    "static/goal-exe/named/seg_0791_05.c": "b0871f197621d5abfd3b4db00ec3eca42c9eea6cb45626651842147b4d8ce228",
+    "static/goal-exe/named/seg_0791_08.c": "130e91927a5bb2fed2adb998225fc88091816752051eee90ae004e30fcfecc96"
+  },
+  "status": "proposed; source-derived explanation",
+  "task": "T101c"
+}
