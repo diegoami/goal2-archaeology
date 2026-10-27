@@ -1,0 +1,875 @@
+{
+  "analysis_commit": "c6cf24eeba79056d69f0009908ff5572a46e44f8",
+  "budget": {
+    "active_wall_s": 6.5725694360007765,
+    "cpu_s": 6.6320429999999995,
+    "failed_invocations": [],
+    "groups": {
+      "launch": 12,
+      "wall": 36
+    },
+    "invocations": 48,
+    "unclosed_batches": [],
+    "unclosed_invocations": []
+  },
+  "cases": [
+    {
+      "abi_equal": true,
+      "completed": true,
+      "controls": [
+        "observation-backed no-effect/mutant/repeat checks as declared;zero-idle/universal-half hypotheses rejected by native data"
+      ],
+      "disposition": "state disagreement",
+      "field_match": true,
+      "id": "launch-zero",
+      "limits": [
+        "Synthetic direct-call geometry;not natural incidence or whole-match fidelity.",
+        "Any byte/ABI disagreement is retained,not masked. Production sound stub is observed metadata,not automatic causal attribution."
+      ],
+      "manifest_sha256": "79e714555a81d473422bb30b18b572f83bb892f5db8b50741c291f5d17ae0e5f",
+      "prediction": {
+        "event": 6,
+        "projected": [
+          0,
+          -2
+        ],
+        "timer": 2,
+        "velocity": [
+          0,
+          -1
+        ]
+      },
+      "records": [
+        {
+          "path": "notes/engine-study/T106/launch/out/0001-launch-zero_baseline_original.json",
+          "sha256": "0311d12c2171453ed19b3eebc7280f170026a1f55115bd80245b2faaa0082a5a"
+        },
+        {
+          "path": "notes/engine-study/T106/launch/out/0002-launch-zero_baseline_port.json",
+          "sha256": "376edc178e33823c6458136cb89a2736c26a20fb0d2e0144f211eef3f254c1da"
+        }
+      ],
+      "strict_comparison": {
+        "abi_equal": true,
+        "case": "launch-zero",
+        "memory_diff_count": 15,
+        "memory_diff_first_offsets": [
+          247342,
+          247344,
+          247345,
+          247346,
+          247348,
+          247350,
+          247351,
+          247352,
+          247353,
+          247354,
+          247355,
+          247356,
+          247357,
+          247358,
+          247359
+        ],
+        "memory_equal": false,
+        "original_record": {
+          "path": "notes/engine-study/T106/launch/out/0001-launch-zero_baseline_original.json",
+          "sha256": "0311d12c2171453ed19b3eebc7280f170026a1f55115bd80245b2faaa0082a5a"
+        },
+        "port_record": {
+          "path": "notes/engine-study/T106/launch/out/0002-launch-zero_baseline_port.json",
+          "sha256": "376edc178e33823c6458136cb89a2736c26a20fb0d2e0144f211eef3f254c1da"
+        },
+        "production_stub_entries": [
+          {
+            "address": "214B:1EA1",
+            "why": "display/sound/wait body omitted; listing return cleanup and incoming result registers preserved"
+          }
+        ],
+        "register_differences": [],
+        "slot": 2
+      },
+      "strict_memory_equal": false
+    },
+    {
+      "abi_equal": true,
+      "completed": true,
+      "controls": [
+        "observation-backed no-effect/mutant/repeat checks as declared;zero-idle/universal-half hypotheses rejected by native data"
+      ],
+      "disposition": "state disagreement",
+      "field_match": true,
+      "id": "launch-small",
+      "limits": [
+        "Synthetic direct-call geometry;not natural incidence or whole-match fidelity.",
+        "Any byte/ABI disagreement is retained,not masked. Production sound stub is observed metadata,not automatic causal attribution."
+      ],
+      "manifest_sha256": "79e714555a81d473422bb30b18b572f83bb892f5db8b50741c291f5d17ae0e5f",
+      "prediction": {
+        "event": 6,
+        "projected": [
+          2,
+          -2
+        ],
+        "timer": 2,
+        "velocity": [
+          1,
+          -1
+        ]
+      },
+      "records": [
+        {
+          "path": "notes/engine-study/T106/launch/out/0003-launch-small_baseline_original.json",
+          "sha256": "1175d39c49ba744fb8ac09c130a1607b1c6a2f6898ec35cb12a81d3d1552db34"
+        },
+        {
+          "path": "notes/engine-study/T106/launch/out/0004-launch-small_baseline_port.json",
+          "sha256": "27e5440e35dc2e00b7e9af372f25d7fe5b0cf955998d75cfddd5e130ab5220da"
+        }
+      ],
+      "strict_comparison": {
+        "abi_equal": true,
+        "case": "launch-small",
+        "memory_diff_count": 15,
+        "memory_diff_first_offsets": [
+          247342,
+          247344,
+          247345,
+          247346,
+          247348,
+          247350,
+          247351,
+          247352,
+          247353,
+          247354,
+          247355,
+          247356,
+          247357,
+          247358,
+          247359
+        ],
+        "memory_equal": false,
+        "original_record": {
+          "path": "notes/engine-study/T106/launch/out/0003-launch-small_baseline_original.json",
+          "sha256": "1175d39c49ba744fb8ac09c130a1607b1c6a2f6898ec35cb12a81d3d1552db34"
+        },
+        "port_record": {
+          "path": "notes/engine-study/T106/launch/out/0004-launch-small_baseline_port.json",
+          "sha256": "27e5440e35dc2e00b7e9af372f25d7fe5b0cf955998d75cfddd5e130ab5220da"
+        },
+        "production_stub_entries": [
+          {
+            "address": "214B:1EA1",
+            "why": "display/sound/wait body omitted; listing return cleanup and incoming result registers preserved"
+          }
+        ],
+        "register_differences": [],
+        "slot": 2
+      },
+      "strict_memory_equal": false
+    },
+    {
+      "abi_equal": true,
+      "completed": true,
+      "controls": [
+        "observation-backed no-effect/mutant/repeat checks as declared;zero-idle/universal-half hypotheses rejected by native data"
+      ],
+      "disposition": "state disagreement",
+      "field_match": true,
+      "id": "launch-diagonal",
+      "limits": [
+        "Synthetic direct-call geometry;not natural incidence or whole-match fidelity.",
+        "Any byte/ABI disagreement is retained,not masked. Production sound stub is observed metadata,not automatic causal attribution."
+      ],
+      "manifest_sha256": "79e714555a81d473422bb30b18b572f83bb892f5db8b50741c291f5d17ae0e5f",
+      "prediction": {
+        "event": 7,
+        "projected": [
+          7,
+          14
+        ],
+        "timer": 7,
+        "velocity": [
+          1,
+          2
+        ]
+      },
+      "records": [
+        {
+          "path": "notes/engine-study/T106/launch/out/0005-launch-diagonal_baseline_original.json",
+          "sha256": "ba1ba1ebca2861342565bbd1d2ab2a542df908f65ad2181426b79928132b1385"
+        },
+        {
+          "path": "notes/engine-study/T106/launch/out/0006-launch-diagonal_baseline_port.json",
+          "sha256": "ea33a299aa5a66cec76f02529326597be7ad3e372994518c0aaa54bfac798e40"
+        }
+      ],
+      "strict_comparison": {
+        "abi_equal": true,
+        "case": "launch-diagonal",
+        "memory_diff_count": 15,
+        "memory_diff_first_offsets": [
+          247342,
+          247344,
+          247345,
+          247346,
+          247348,
+          247350,
+          247351,
+          247352,
+          247353,
+          247354,
+          247355,
+          247356,
+          247357,
+          247358,
+          247359
+        ],
+        "memory_equal": false,
+        "original_record": {
+          "path": "notes/engine-study/T106/launch/out/0005-launch-diagonal_baseline_original.json",
+          "sha256": "ba1ba1ebca2861342565bbd1d2ab2a542df908f65ad2181426b79928132b1385"
+        },
+        "port_record": {
+          "path": "notes/engine-study/T106/launch/out/0006-launch-diagonal_baseline_port.json",
+          "sha256": "ea33a299aa5a66cec76f02529326597be7ad3e372994518c0aaa54bfac798e40"
+        },
+        "production_stub_entries": [
+          {
+            "address": "214B:1EA1",
+            "why": "display/sound/wait body omitted; listing return cleanup and incoming result registers preserved"
+          }
+        ],
+        "register_differences": [],
+        "slot": 2
+      },
+      "strict_memory_equal": false
+    },
+    {
+      "abi_equal": true,
+      "completed": true,
+      "controls": [
+        "real original/port guard fallback witnesses;two fixed repeats;wrong boundary/sign/axis hypotheses rejected by native data"
+      ],
+      "disposition": "exact",
+      "field_match": true,
+      "id": "wall-near",
+      "limits": [
+        "Five synthetic defending slots;not natural occurrence or whole-match fidelity.",
+        "Every memory byte compared;no normalisation/masks;full-register differences separate from declared ABI."
+      ],
+      "manifest_sha256": "260dc6a3659bd802331d99c5bcd8967423a07df502916dae613093c27dba0b19",
+      "prediction": {
+        "slots": [
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "targets": [
+          [
+            2,
+            30
+          ],
+          [
+            1,
+            30
+          ],
+          [
+            0,
+            30
+          ],
+          [
+            -1,
+            30
+          ],
+          [
+            -2,
+            30
+          ]
+        ]
+      },
+      "records": [
+        {
+          "path": "notes/engine-study/T106/wall/out/0013-wall-near_slot18_original.json",
+          "sha256": "73f4517fe7a81816801b457f4fc52d4e896812372f6aed3af32a2d172c8c3aaa"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0014-wall-near_slot18_port.json",
+          "sha256": "992d365f497e87a6a6c8b031702cec2db9d3dffe7c2ac255e5a3f87d51e13797"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0015-wall-near_slot19_original.json",
+          "sha256": "86656ec65b5994da873685dcc3bb2c5386ad93981d305a4d95e26d0b71afc9f8"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0016-wall-near_slot19_port.json",
+          "sha256": "15b8475459e0b67aaac956d7b8453c200f526450789496870507ce3d92a5ec22"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0017-wall-near_slot20_original.json",
+          "sha256": "21e0608feb580d55f0835b61af88be30d16f5817c0d8b338a1a5606dadbb3e20"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0018-wall-near_slot20_port.json",
+          "sha256": "22df8cd288d8141993e22afbe888313578340d258de6b711bf734898afe110d3"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0019-wall-near_slot21_original.json",
+          "sha256": "6642f1e5909e30564a1249bc174ecbdc6bdf74020da1bde705a6d7c6fc2b18a9"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0020-wall-near_slot21_port.json",
+          "sha256": "37fdf82acaa64b5a5087f8185098f84cbbd8861403786deb5b5b4283048d8792"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0021-wall-near_slot22_original.json",
+          "sha256": "bffbc2092ce3520e6b42bd11d121f8d2cabfd0961a17dd83b0ac31b7ce803fbe"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0022-wall-near_slot22_port.json",
+          "sha256": "90080a7dd3b836a98f287515bc394487a6ed1e714c567767c6bde87c45c95b4f"
+        }
+      ],
+      "strict_comparisons": [
+        {
+          "abi_equal": true,
+          "case": "wall-near",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0013-wall-near_slot18_original.json",
+            "sha256": "73f4517fe7a81816801b457f4fc52d4e896812372f6aed3af32a2d172c8c3aaa"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0014-wall-near_slot18_port.json",
+            "sha256": "992d365f497e87a6a6c8b031702cec2db9d3dffe7c2ac255e5a3f87d51e13797"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 18
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-near",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0015-wall-near_slot19_original.json",
+            "sha256": "86656ec65b5994da873685dcc3bb2c5386ad93981d305a4d95e26d0b71afc9f8"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0016-wall-near_slot19_port.json",
+            "sha256": "15b8475459e0b67aaac956d7b8453c200f526450789496870507ce3d92a5ec22"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 19
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-near",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0017-wall-near_slot20_original.json",
+            "sha256": "21e0608feb580d55f0835b61af88be30d16f5817c0d8b338a1a5606dadbb3e20"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0018-wall-near_slot20_port.json",
+            "sha256": "22df8cd288d8141993e22afbe888313578340d258de6b711bf734898afe110d3"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 20
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-near",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0019-wall-near_slot21_original.json",
+            "sha256": "6642f1e5909e30564a1249bc174ecbdc6bdf74020da1bde705a6d7c6fc2b18a9"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0020-wall-near_slot21_port.json",
+            "sha256": "37fdf82acaa64b5a5087f8185098f84cbbd8861403786deb5b5b4283048d8792"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 21
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-near",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0021-wall-near_slot22_original.json",
+            "sha256": "bffbc2092ce3520e6b42bd11d121f8d2cabfd0961a17dd83b0ac31b7ce803fbe"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0022-wall-near_slot22_port.json",
+            "sha256": "90080a7dd3b836a98f287515bc394487a6ed1e714c567767c6bde87c45c95b4f"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 22
+        }
+      ],
+      "strict_memory_equal": true
+    },
+    {
+      "abi_equal": true,
+      "completed": true,
+      "controls": [
+        "real original/port guard fallback witnesses;two fixed repeats;wrong boundary/sign/axis hypotheses rejected by native data"
+      ],
+      "disposition": "exact",
+      "field_match": true,
+      "id": "wall-far-positive",
+      "limits": [
+        "Five synthetic defending slots;not natural occurrence or whole-match fidelity.",
+        "Every memory byte compared;no normalisation/masks;full-register differences separate from declared ABI."
+      ],
+      "manifest_sha256": "260dc6a3659bd802331d99c5bcd8967423a07df502916dae613093c27dba0b19",
+      "prediction": {
+        "slots": [
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "targets": [
+          [
+            -3,
+            -28
+          ],
+          [
+            -3,
+            -27
+          ],
+          [
+            -3,
+            -26
+          ],
+          [
+            -3,
+            -25
+          ],
+          [
+            -3,
+            -24
+          ]
+        ]
+      },
+      "records": [
+        {
+          "path": "notes/engine-study/T106/wall/out/0023-wall-far-positive_slot18_original.json",
+          "sha256": "86dd80655a4537e59ce0674fc7fb00143c408f47b87bf118b6e3604729f63eb4"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0024-wall-far-positive_slot18_port.json",
+          "sha256": "3f89aae808fa1fefd8518705475e0bb932eee36f253823fc332d4706ed722a07"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0025-wall-far-positive_slot19_original.json",
+          "sha256": "8582d745c558225f975cc96abd6ccd18739b91f41df2def9b6d998800d7caafa"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0026-wall-far-positive_slot19_port.json",
+          "sha256": "82a557898233c87ce6abb5a97c34f904ef73de7586f2bb1fac2ff45bfd005fa7"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0027-wall-far-positive_slot20_original.json",
+          "sha256": "51327dce2712d5741da428b425a91622ee9a476e83673a6f726c0b4430e53cb7"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0028-wall-far-positive_slot20_port.json",
+          "sha256": "10673ea3bf6ea50f9b3052f4061a9eab7735584894ae5c800879a90b0324de2d"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0029-wall-far-positive_slot21_original.json",
+          "sha256": "04e47f1758eaf9ddc6efe888d6c3e558e70cec4c2b7b280967946cace0460b2f"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0030-wall-far-positive_slot21_port.json",
+          "sha256": "9af52b9f2535efdbcad28fbd7dbad830771b6abd080a4cb623c94c3f383372f7"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0031-wall-far-positive_slot22_original.json",
+          "sha256": "056c1cdece67a5289c9d8bac26ebc0228d7d0009a0e20d960288afda35397612"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0032-wall-far-positive_slot22_port.json",
+          "sha256": "9254160956c8bc053e92e5582eed3037011c75c269add3ba2dbb6ed1972f5ccc"
+        }
+      ],
+      "strict_comparisons": [
+        {
+          "abi_equal": true,
+          "case": "wall-far-positive",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0023-wall-far-positive_slot18_original.json",
+            "sha256": "86dd80655a4537e59ce0674fc7fb00143c408f47b87bf118b6e3604729f63eb4"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0024-wall-far-positive_slot18_port.json",
+            "sha256": "3f89aae808fa1fefd8518705475e0bb932eee36f253823fc332d4706ed722a07"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 18
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-far-positive",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0025-wall-far-positive_slot19_original.json",
+            "sha256": "8582d745c558225f975cc96abd6ccd18739b91f41df2def9b6d998800d7caafa"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0026-wall-far-positive_slot19_port.json",
+            "sha256": "82a557898233c87ce6abb5a97c34f904ef73de7586f2bb1fac2ff45bfd005fa7"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 19
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-far-positive",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0027-wall-far-positive_slot20_original.json",
+            "sha256": "51327dce2712d5741da428b425a91622ee9a476e83673a6f726c0b4430e53cb7"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0028-wall-far-positive_slot20_port.json",
+            "sha256": "10673ea3bf6ea50f9b3052f4061a9eab7735584894ae5c800879a90b0324de2d"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 20
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-far-positive",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0029-wall-far-positive_slot21_original.json",
+            "sha256": "04e47f1758eaf9ddc6efe888d6c3e558e70cec4c2b7b280967946cace0460b2f"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0030-wall-far-positive_slot21_port.json",
+            "sha256": "9af52b9f2535efdbcad28fbd7dbad830771b6abd080a4cb623c94c3f383372f7"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 21
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-far-positive",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0031-wall-far-positive_slot22_original.json",
+            "sha256": "056c1cdece67a5289c9d8bac26ebc0228d7d0009a0e20d960288afda35397612"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0032-wall-far-positive_slot22_port.json",
+            "sha256": "9254160956c8bc053e92e5582eed3037011c75c269add3ba2dbb6ed1972f5ccc"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 22
+        }
+      ],
+      "strict_memory_equal": true
+    },
+    {
+      "abi_equal": true,
+      "completed": true,
+      "controls": [
+        "real original/port guard fallback witnesses;two fixed repeats;wrong boundary/sign/axis hypotheses rejected by native data"
+      ],
+      "disposition": "exact",
+      "field_match": true,
+      "id": "wall-far-negative",
+      "limits": [
+        "Five synthetic defending slots;not natural occurrence or whole-match fidelity.",
+        "Every memory byte compared;no normalisation/masks;full-register differences separate from declared ABI."
+      ],
+      "manifest_sha256": "260dc6a3659bd802331d99c5bcd8967423a07df502916dae613093c27dba0b19",
+      "prediction": {
+        "slots": [
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "targets": [
+          [
+            -3,
+            28
+          ],
+          [
+            -3,
+            29
+          ],
+          [
+            -3,
+            30
+          ],
+          [
+            -3,
+            31
+          ],
+          [
+            -3,
+            32
+          ]
+        ]
+      },
+      "records": [
+        {
+          "path": "notes/engine-study/T106/wall/out/0033-wall-far-negative_slot7_original.json",
+          "sha256": "9e0b7249891aa58c5c263de7ba087a162f4af5cdc7538c07c8c7a9ff2b323bb2"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0034-wall-far-negative_slot7_port.json",
+          "sha256": "2817b3d5ecbe017595091a268b055e0a8ef64e4a3decf0a55be40b20ec3e4314"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0035-wall-far-negative_slot8_original.json",
+          "sha256": "030658c0334e898d90b8fea7f682e394eefcf2b509a76c0e485218fb17b00b32"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0036-wall-far-negative_slot8_port.json",
+          "sha256": "bfc32ea61cdb49cc820d423052e6b159a8d62ba86ddd22d9bdc834eeabaad37f"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0037-wall-far-negative_slot9_original.json",
+          "sha256": "14b471c5b04f4f6cffbd24917d99bef05346f8e22fccb0f5cb03b66cc2a96de2"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0038-wall-far-negative_slot9_port.json",
+          "sha256": "4baeb53f3acd5d1d411da852d236ddd27879fa1b2f7b3cf09c724f3c1b9bdc44"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0039-wall-far-negative_slot10_original.json",
+          "sha256": "37a9db55fe2a6119791be2ca42a56ad88552d922aefdfa829a81a184184bc90c"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0040-wall-far-negative_slot10_port.json",
+          "sha256": "b42e879cf922a06f3ef2a3adbe6de8bb34eb8fb298c3d0404180775e3b899047"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0041-wall-far-negative_slot11_original.json",
+          "sha256": "6902c1ffa3f7a8e4908ac209598695ada7e54a5ce4dcc9b0fb15137e9c41ac9f"
+        },
+        {
+          "path": "notes/engine-study/T106/wall/out/0042-wall-far-negative_slot11_port.json",
+          "sha256": "f5d1b8028f9ce910c38b00dc43e34c67c1c81a3c4eef2c09ff29bfc391f6103d"
+        }
+      ],
+      "strict_comparisons": [
+        {
+          "abi_equal": true,
+          "case": "wall-far-negative",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0033-wall-far-negative_slot7_original.json",
+            "sha256": "9e0b7249891aa58c5c263de7ba087a162f4af5cdc7538c07c8c7a9ff2b323bb2"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0034-wall-far-negative_slot7_port.json",
+            "sha256": "2817b3d5ecbe017595091a268b055e0a8ef64e4a3decf0a55be40b20ec3e4314"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 7
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-far-negative",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0035-wall-far-negative_slot8_original.json",
+            "sha256": "030658c0334e898d90b8fea7f682e394eefcf2b509a76c0e485218fb17b00b32"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0036-wall-far-negative_slot8_port.json",
+            "sha256": "bfc32ea61cdb49cc820d423052e6b159a8d62ba86ddd22d9bdc834eeabaad37f"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 8
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-far-negative",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0037-wall-far-negative_slot9_original.json",
+            "sha256": "14b471c5b04f4f6cffbd24917d99bef05346f8e22fccb0f5cb03b66cc2a96de2"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0038-wall-far-negative_slot9_port.json",
+            "sha256": "4baeb53f3acd5d1d411da852d236ddd27879fa1b2f7b3cf09c724f3c1b9bdc44"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 9
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-far-negative",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0039-wall-far-negative_slot10_original.json",
+            "sha256": "37a9db55fe2a6119791be2ca42a56ad88552d922aefdfa829a81a184184bc90c"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0040-wall-far-negative_slot10_port.json",
+            "sha256": "b42e879cf922a06f3ef2a3adbe6de8bb34eb8fb298c3d0404180775e3b899047"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 10
+        },
+        {
+          "abi_equal": true,
+          "case": "wall-far-negative",
+          "memory_diff_count": 0,
+          "memory_diff_first_offsets": [],
+          "memory_equal": true,
+          "original_record": {
+            "path": "notes/engine-study/T106/wall/out/0041-wall-far-negative_slot11_original.json",
+            "sha256": "6902c1ffa3f7a8e4908ac209598695ada7e54a5ce4dcc9b0fb15137e9c41ac9f"
+          },
+          "port_record": {
+            "path": "notes/engine-study/T106/wall/out/0042-wall-far-negative_slot11_port.json",
+            "sha256": "f5d1b8028f9ce910c38b00dc43e34c67c1c81a3c4eef2c09ff29bfc391f6103d"
+          },
+          "production_stub_entries": [],
+          "register_differences": [
+            "eflags"
+          ],
+          "slot": 11
+        }
+      ],
+      "strict_memory_equal": true
+    }
+  ],
+  "limits": [
+    "Proposed single-call corroboration pending ES-R3;not natural incidence,whole-match fidelity or scoring effect inference.",
+    "exact in slice ledgers means full-memory plus declared return ABI equality;all captured register equality is separately reported.",
+    "Full memory snapshots contain original bytes and are not published;retained comparisons record hashes,all observed differing offsets(up to128),not their byte values. No new execution in this analysis.",
+    "Production sound stub is reached by launch calls;callee-stack residue attribution remains #591. Wall arithmetic flags differ under the declared scratch policy;caller liveness belongs to T109.",
+    "Owner deferred T107;no matches,no effect interval or null result. Revised proposal required before spending."
+  ],
+  "method": "Audit committed T106 construction, observations and resource accounting; never run the engine.",
+  "record_negative_controls": {
+    "completion": "rejected",
+    "input": "rejected",
+    "prediction": "rejected",
+    "reservation": "rejected"
+  },
+  "source_commits": {
+    "notes/engine-study/T106/T106a-v2.json": "c6cf24eeba79056d69f0009908ff5572a46e44f8",
+    "notes/engine-study/T106/T106b-v1.json": "c6cf24eeba79056d69f0009908ff5572a46e44f8",
+    "notes/engine-study/T106/analysis.py": "c6cf24eeba79056d69f0009908ff5572a46e44f8",
+    "notes/engine-study/T106/check.py": "c6cf24eeba79056d69f0009908ff5572a46e44f8",
+    "notes/engine-study/T106/construction.py": "c6cf24eeba79056d69f0009908ff5572a46e44f8",
+    "notes/engine-study/T106/runner.py": "c6cf24eeba79056d69f0009908ff5572a46e44f8"
+  },
+  "source_sha256": {
+    "notes/engine-study/T106/T106a-v2.json": "6a3c74089f066868d8ca8cada71406dd6f1a464312ea63bf5570ab0daafa7b5a",
+    "notes/engine-study/T106/T106b-v1.json": "8cd7459634ee8babe56f3ceeba012947f52e3c86bee922c8b0d6a542581a796e",
+    "notes/engine-study/T106/analysis.py": "0736f039a57fda249538f690c12d27b3542821f900d3b1b63474e3b9d688edb8",
+    "notes/engine-study/T106/check.py": "2e71c8b9d276a5b484d16b339c72daa7d87099aceed4b66cc6153555fbaa802a",
+    "notes/engine-study/T106/construction.py": "8e6c854c14ec6234075003e824410ab6199d49c5cdaa23ceb5e6dd0013017917",
+    "notes/engine-study/T106/runner.py": "8ec130ca9194fcc5503d5c7ff5577e17d1fe2a47f0cf1faf72f4343e1b376320"
+  },
+  "summary": {
+    "abi_equal_pairs": 18,
+    "all_registers_equal_pairs": 3,
+    "baseline_pairs": 18,
+    "cases": 6,
+    "complete_memory_and_registers_equal_pairs": 0,
+    "deviations": [
+      "Launch full-memory equality failed;15bytes differ in each of3pairs.",
+      "Wall complete-register equality failed;arithmetic EFLAGS differ in each of15pairs."
+    ],
+    "failures": [],
+    "field_equal_pairs": 18,
+    "memory_equal_pairs": 15,
+    "ordinary_invocations": 36,
+    "remaining_invocations": 12,
+    "roles": {
+      "baseline": 36,
+      "guard": 4,
+      "mutant": 2,
+      "no-effect": 2,
+      "repeat": 4
+    }
+  },
+  "task": "T106c"
+}
