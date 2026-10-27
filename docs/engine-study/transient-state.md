@@ -3,7 +3,7 @@
 The match creates state on top of the [persistent records](match-fields.md): pitch identity,
 coordinates, action handlers, ball travel, clocks, pending events, random streams and cached
 values. Several addresses have misleading names if their owner or phase is omitted.
-The [source ledger](../../notes/engine-study/T97/transient-v2.json) pins the layouts and primary
+The [source ledger](../../notes/engine-study/T97/transient-v3.json) pins the layouts and primary
 routines; it does not claim a complete typed schema for every byte in DS.
 
 ## Live records and coordinate conventions
@@ -144,7 +144,7 @@ other globals are unused. Exact original/source locations and hashes are in the 
 
 | Location | Meaning / boundary |
 | --- | --- |
-| `DS:9B30..9B33` | replay snapshot of the country words at 9B34..9B37; 15B9 writes, 0C65 restores |
+| `DS:9B30..9B33` | replay snapshot of the country words at 9B34..9B37; 15B9 writes; 0C65 action replay and 112C saved-goal viewing restore |
 | `DS:9B38..9B39` | replay snapshot of substitution-budget bytes at 9B3A..9B3B |
 | `DS:9B07` | per-side/squad saved form snapshot; not the live player form byte |
 | `DS:9B55,7C37` | original snapshot/replay request flags |
@@ -174,9 +174,17 @@ interpretation needs both sources.
 
 **Replay country and budget snapshots are separate from live fixture state.** `15B9`
 copies 9B34..9B37 to 9B30..9B33 at 17DE/17E1 and 9B3A..9B3B to 9B38..9B39 at 17E8.
-`0C65` copies the country words back at 0CDE/0CE1 and 11BD/11C0. The four-byte copy
+`0C65` (action replay) restores the country words at 0CDE/0CE1. A separate routine,
+`112C` (view saved goal), restores them at 11BD/11C0 before backing up the current
+career records and playing the saved goal. The four-byte copy
 uses `les` as a transfer operation; that does not make the two country words a far pointer.
-The live fixture pointer is 7C2A..7C2D. These v2 meanings correct the retained v1 ledger.
+The live fixture pointer is 7C2A..7C2D. The v3 ledger corrects the second restore's routine attribution; v1 and v2 remain historical records.
+
+The v3 source pin includes the reviewed T114–T116 annotation updates at `a42c2cbe`.
+Older foundation receipts describe their recorded milestone checkouts; source-strict generators
+can reject later annotation changes even when the underlying original instructions are unchanged.
+The [restore-site check](../../notes/engine-study/T97/check_snapshot_restores.py) independently
+finds the containing routine in the instruction listing; it is not a new game execution.
 
 **The taker-table base has a separate use.** A3DE copies pre-play fixture +1 to the
 byte at 9976 (A42D); E929 reads it at E935 for group-table display. Taker words use

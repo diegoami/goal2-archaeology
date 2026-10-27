@@ -11,11 +11,14 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[3]
 BASE = "08beac2e9d43faf766e445e924da096b8a99d748"
+# A new ledger may explicitly pin a later reviewed source snapshot. Older ledgers
+# and their receipts remain reproducible at their original milestone checkout.
+TASK_BASES = {"T97b": "a42c2cbe91300c8ee261b82fa993e665ed3f3325"}
 FILES = {
     "T96a": ("T96/fields-v2.json", "player-fields.md"),
     "T96b": ("T96/derived.json", "player-derived.md"),
     "T97a": ("T97/persistent-v2.json", "match-fields.md"),
-    "T97b": ("T97/transient-v2.json", "transient-state.md"),
+    "T97b": ("T97/transient-v3.json", "transient-state.md"),
     "T98a": ("T98/skill-v1.json", "attribute-formulas.md"),
     "T98b": ("T98/strength-v1.json", "strength-formulas.md"),
     "T99a": ("T99/gates-v1.json", "skill-gates.md"),
@@ -35,7 +38,7 @@ def index():
     return {r["address"]: r for r in csv.DictReader(path.read_text().splitlines(), delimiter="\t")}
 
 
-def pin(data, addresses, sources=()):
+def pin(data, addresses, sources=(), *, source_commit=BASE):
     """Bind a hand-written interpretation to unchanged original/evidence source locations."""
     ix, names, locations = index(), set(sources), []
     names.add("static/goal-exe/named/index.tsv")
@@ -53,11 +56,11 @@ def pin(data, addresses, sources=()):
     for name in sorted(names):
         path = ROOT / name
         raw = path.read_bytes()
-        original = subprocess.check_output(["git", "show", f"{BASE}:{name}"], cwd=ROOT)
+        original = subprocess.check_output(["git", "show", f"{source_commit}:{name}"], cwd=ROOT)
         if raw != original:
             raise ValueError(f"source drift: {name}")
         hashes[name] = sha(raw)
-    return {"schema": 1, "source_commit": BASE, **data, "locations": locations, "source_sha256": hashes}
+    return {"schema": 1, "source_commit": source_commit, **data, "locations": locations, "source_sha256": hashes}
 
 
 def write_new(path, data):
@@ -68,7 +71,8 @@ def write_new(path, data):
 
 
 def validate(task, data):
-    if data.get("schema") != 1 or data.get("source_commit") != BASE or data.get("task") != task:
+    baseline = TASK_BASES.get(task, BASE)
+    if data.get("schema") != 1 or data.get("source_commit") != baseline or data.get("task") != task:
         raise ValueError("wrong task/schema/source baseline")
     doc = ROOT / "docs/engine-study" / FILES[task][1]
     text = doc.read_text()
@@ -93,7 +97,7 @@ def validate(task, data):
         raw = (ROOT / name).read_bytes()
         if sha(raw) != digest:
             raise ValueError(f"source hash differs: {name}")
-        if raw != subprocess.check_output(["git", "show", f"{BASE}:{name}"], cwd=ROOT):
+        if raw != subprocess.check_output(["git", "show", f"{baseline}:{name}"], cwd=ROOT):
             raise ValueError(f"source differs from baseline: {name}")
     for name, size in RECORDS.get(task, {}).items():
         fields = data["records"][name]["fields"]
