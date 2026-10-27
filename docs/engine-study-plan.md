@@ -193,3 +193,5 @@ proof. The final guide and review can finish without this optional experiment.
 ## Field-behaviour execution slices
 
 [designed: owner resume, 2026-10-27] ES-R1 is accepted at `m5-engine-study-foundations`. Continue in the main session toward ES-R2, then stop with its candidate-pinned reviewer prompt. T101 runs as [T101a](tasks/T101a.md), [T101b](tasks/T101b.md) and [T101c](tasks/T101c.md), with independently mergeable chapters and source-derived examples. The [readiness receipt](../notes/engine-study/T101/readiness-v1.json) checks contract structure only. New original/port probes and match batches remain gated by accepted ES-R2 and T105 budgets; this continuation does not activate them.
+
+T108 follows T101 as [T108a](tasks/T108a.md)/[T108b](tasks/T108b.md), before the remaining ball/tactics work: T101 exposed captain-cache and marking interpretations that need qualification before experimental predictions use them. This is a bounded audit of nine named candidates, not permission to repair the original or run new probes. [Readiness](../notes/engine-study/T108/readiness-v1.json) pins the structural checks.
