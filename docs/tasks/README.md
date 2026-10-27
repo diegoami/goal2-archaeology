@@ -136,3 +136,7 @@ exists.
 - [T103a](T103a.md): Tactics and manager-control matrix.
 - [T103b](T103b.md): Computer lineup selection and sorting.
 - [T103c](T103c.md): Computer tactics and emergency role policy.
+| [T78a](T78a.md) | Plain-memory port dispatcher | #289 | T77 |
+| [T78b](T78b.md) | Wire Match to the plain-memory engine | #289 | T78a |
+| [T78c](T78c.md) | Checkpoint the plain-memory engine at event boundaries | #289 | T78b |
+| [T78d](T78d.md) | Close T78 with strict family and measured runtime | #289 | T78b and T78c |
