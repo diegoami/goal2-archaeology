@@ -1,0 +1,96 @@
+{
+  "abi_registers": {
+    "ax": 0,
+    "bp": 16256,
+    "cs": 4020,
+    "ds": 11684,
+    "dx": 65534,
+    "ip": 0,
+    "sp": 16136,
+    "ss": 14453
+  },
+  "active_wall_s": 0.12472164499922656,
+  "batch": "manifest-v1-260dc6a3659b",
+  "completed": true,
+  "cpu_s": 0.12483600000000006,
+  "execution_commit": "f56ad5eb2ff90575f7b1ad7848d23583ba272617",
+  "frames_remaining": 0,
+  "full_memory_sha256": "653a3d958c0c823f258927f3e6224569a1ebc962fadde0dc6e78a2e44efa3d05",
+  "input_memory_sha256": "b1c552e6289311a8ea2fe29cadc56db0979b96e0eaa0b807edc6d1f0fb1ca140",
+  "instruction_events": 361,
+  "known_entry_events": [
+    "0791:7621",
+    "0791:2B51",
+    "0791:2996",
+    "0791:2974",
+    "0791:2BE5",
+    "0791:2974",
+    "0791:2BB1",
+    "23E4:08DF",
+    "0791:2BE5",
+    "0791:2974",
+    "0791:2BB1",
+    "0791:2BB1",
+    "0791:2CC5"
+  ],
+  "logical": "wall-near/slot20/original",
+  "main_rng_writes": [],
+  "manifest_sha256": "260dc6a3659bd802331d99c5bcd8967423a07df502916dae613093c27dba0b19",
+  "native_instruction_attempts": [],
+  "observed": {
+    "state": 11,
+    "target": [
+      0,
+      30
+    ]
+  },
+  "port_entries": [],
+  "process_exit": 0,
+  "production_stub_entries": [],
+  "registers": {
+    "cs": 4020,
+    "ds": 11684,
+    "eax": 0,
+    "ebp": 16256,
+    "ebx": 0,
+    "ecx": 5,
+    "edi": 33440,
+    "edx": 65534,
+    "eflags": 582,
+    "eip": 0,
+    "es": 11684,
+    "esi": 22136,
+    "esp": 16136,
+    "fs": 0,
+    "gs": 0,
+    "ss": 14453
+  },
+  "seed_after": 60994,
+  "seed_before": 60994,
+  "seq": 17,
+  "spec": {
+    "backend": "original",
+    "case": "wall-near",
+    "holder": 2,
+    "kind": "wall",
+    "logical": "wall-near/slot20/original",
+    "required_prediction": {
+      "state": 11,
+      "target": [
+        0,
+        30
+      ]
+    },
+    "role": "baseline",
+    "routine": "0791:7621",
+    "slot": 20,
+    "spot": [
+      0,
+      25
+    ],
+    "state": 11
+  },
+  "stderr": "",
+  "trace_limits": "Entry/return hook events are not native executed instructions in the port arm;inlined production helpers are not separately counted.",
+  "yielded_calls": []
+}

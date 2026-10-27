@@ -1,0 +1,172 @@
+{
+  "abi_registers": {
+    "ax": 0,
+    "bp": 16256,
+    "cs": 4020,
+    "ds": 11684,
+    "dx": 0,
+    "ip": 0,
+    "sp": 16136,
+    "ss": 14453
+  },
+  "active_wall_s": 0.12480379299813649,
+  "batch": "manifest-v1-260dc6a3659b",
+  "completed": true,
+  "cpu_s": 0.12513600000000036,
+  "execution_commit": "f56ad5eb2ff90575f7b1ad7848d23583ba272617",
+  "frames_remaining": 0,
+  "full_memory_sha256": "a744820fe4448f5786c3f60e7f6b8038e8c2ff7c95721f917dd111e574cd5423",
+  "input_memory_sha256": "4082ba198266c4aee8fd473e2f4b301f607cdd9ef50dd4ce43c6682ba3b04cdf",
+  "instruction_events": 15,
+  "known_entry_events": [
+    "0791:7621",
+    "0791:2B51",
+    "0791:2BE5",
+    "0791:2BB1",
+    "23E4:08DF",
+    "0791:2BB1",
+    "0791:2BB1",
+    "0791:2CC5"
+  ],
+  "logical": "wall-far-negative/slot9/port",
+  "main_rng_writes": [],
+  "manifest_sha256": "260dc6a3659bd802331d99c5bcd8967423a07df502916dae613093c27dba0b19",
+  "native_instruction_attempts": [],
+  "observed": {
+    "state": 11,
+    "target": [
+      -3,
+      30
+    ]
+  },
+  "port_entries": [
+    "0791:7621",
+    "0791:2B51",
+    "0791:2BE5",
+    "0791:2BB1",
+    "23E4:08DF",
+    "0791:2BB1",
+    "0791:2BB1",
+    "0791:2CC5"
+  ],
+  "process_exit": 0,
+  "production_stub_entries": [],
+  "registers": {
+    "cs": 4020,
+    "ds": 11684,
+    "eax": 0,
+    "ebp": 16256,
+    "ebx": 1,
+    "ecx": 2,
+    "edi": 33198,
+    "edx": 0,
+    "eflags": 663,
+    "eip": 0,
+    "es": 11684,
+    "esi": 22136,
+    "esp": 16136,
+    "fs": 0,
+    "gs": 0,
+    "ss": 14453
+  },
+  "seed_after": 60994,
+  "seed_before": 60994,
+  "seq": 38,
+  "spec": {
+    "backend": "port",
+    "case": "wall-far-negative",
+    "holder": 13,
+    "kind": "wall",
+    "logical": "wall-far-negative/slot9/port",
+    "required_prediction": {
+      "state": 11,
+      "target": [
+        -3,
+        30
+      ]
+    },
+    "role": "baseline",
+    "routine": "0791:7621",
+    "slot": 9,
+    "spot": [
+      0,
+      -26
+    ],
+    "state": 11
+  },
+  "stderr": "",
+  "trace_limits": "Entry/return hook events are not native executed instructions in the port arm;inlined production helpers are not separately counted.",
+  "yielded_calls": [
+    {
+      "args": [
+        11684,
+        33198
+      ],
+      "caller": "0791:7621",
+      "far": true,
+      "return_to": "0791:7644",
+      "target": "0791:2B51"
+    },
+    {
+      "args": [
+        11684,
+        33286
+      ],
+      "caller": "0791:7621",
+      "far": true,
+      "return_to": "0791:7661",
+      "target": "0791:2BE5"
+    },
+    {
+      "args": [
+        11684,
+        33198
+      ],
+      "caller": "0791:7621",
+      "far": true,
+      "return_to": "0791:769A",
+      "target": "0791:2BB1"
+    },
+    {
+      "args": [
+        9,
+        4020,
+        30209
+      ],
+      "caller": "0791:7621",
+      "far": true,
+      "return_to": "0791:76A5",
+      "target": "23E4:08DF"
+    },
+    {
+      "args": [
+        11684,
+        33198
+      ],
+      "caller": "0791:7621",
+      "far": true,
+      "return_to": "0791:77AD",
+      "target": "0791:2BB1"
+    },
+    {
+      "args": [
+        11684,
+        33198
+      ],
+      "caller": "0791:7621",
+      "far": true,
+      "return_to": "0791:77D2",
+      "target": "0791:2BB1"
+    },
+    {
+      "args": [
+        11684,
+        33198
+      ],
+      "caller": "0791:7621",
+      "far": true,
+      "return_to": "0791:77F7",
+      "target": "0791:2CC5"
+    }
+  ]
+}

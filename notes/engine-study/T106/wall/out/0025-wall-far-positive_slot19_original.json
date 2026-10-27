@@ -1,0 +1,94 @@
+{
+  "abi_registers": {
+    "ax": 0,
+    "bp": 16256,
+    "cs": 4020,
+    "ds": 11684,
+    "dx": 0,
+    "ip": 0,
+    "sp": 16136,
+    "ss": 14453
+  },
+  "active_wall_s": 0.12197838699648855,
+  "batch": "manifest-v1-260dc6a3659b",
+  "completed": true,
+  "cpu_s": 0.12207699999999999,
+  "execution_commit": "f56ad5eb2ff90575f7b1ad7848d23583ba272617",
+  "frames_remaining": 0,
+  "full_memory_sha256": "a269e24361b5b30a351bdbe905352b2cb0f1fb2a1c6d166adcf7a6d5567a9d7a",
+  "input_memory_sha256": "80343db818eeeea1b6e8ec7fb5937a80213259ef4958f95bca5234e47401cec0",
+  "instruction_events": 308,
+  "known_entry_events": [
+    "0791:7621",
+    "0791:2B51",
+    "0791:2996",
+    "0791:2974",
+    "0791:2BE5",
+    "0791:2974",
+    "0791:2BB1",
+    "23E4:08DF",
+    "0791:2BB1",
+    "0791:2BB1",
+    "0791:2CC5"
+  ],
+  "logical": "wall-far-positive/slot19/original",
+  "main_rng_writes": [],
+  "manifest_sha256": "260dc6a3659bd802331d99c5bcd8967423a07df502916dae613093c27dba0b19",
+  "native_instruction_attempts": [],
+  "observed": {
+    "state": 11,
+    "target": [
+      -3,
+      -27
+    ]
+  },
+  "port_entries": [],
+  "process_exit": 0,
+  "production_stub_entries": [],
+  "registers": {
+    "cs": 4020,
+    "ds": 11684,
+    "eax": 0,
+    "ebp": 16256,
+    "ebx": 65535,
+    "ecx": 2,
+    "edi": 33418,
+    "edx": 0,
+    "eflags": 582,
+    "eip": 0,
+    "es": 11684,
+    "esi": 22136,
+    "esp": 16136,
+    "fs": 0,
+    "gs": 0,
+    "ss": 14453
+  },
+  "seed_after": 60994,
+  "seed_before": 60994,
+  "seq": 25,
+  "spec": {
+    "backend": "original",
+    "case": "wall-far-positive",
+    "holder": 2,
+    "kind": "wall",
+    "logical": "wall-far-positive/slot19/original",
+    "required_prediction": {
+      "state": 11,
+      "target": [
+        -3,
+        -27
+      ]
+    },
+    "role": "baseline",
+    "routine": "0791:7621",
+    "slot": 19,
+    "spot": [
+      0,
+      26
+    ],
+    "state": 11
+  },
+  "stderr": "",
+  "trace_limits": "Entry/return hook events are not native executed instructions in the port arm;inlined production helpers are not separately counted.",
+  "yielded_calls": []
+}

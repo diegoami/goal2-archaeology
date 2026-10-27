@@ -1,0 +1,626 @@
+{
+  "abi_registers": {
+    "ax": 253,
+    "bp": 16256,
+    "cs": 4020,
+    "ds": 11684,
+    "dx": 25,
+    "ip": 0,
+    "sp": 16136,
+    "ss": 14453
+  },
+  "active_wall_s": 0.14263494499755325,
+  "batch": "manifest-v1-260dc6a3659b",
+  "completed": true,
+  "cpu_s": 0.14312999999999843,
+  "execution_commit": "f56ad5eb2ff90575f7b1ad7848d23583ba272617",
+  "frames_remaining": 0,
+  "full_memory_sha256": "6723b41c9e718dcf045995fe93f471e22de42989dc1164a65355d7ed6d15c77c",
+  "input_memory_sha256": "a457d5586a7050d1fc3c71424cfafa07328aa8dddb6acc90e5d8f67b7def8d17",
+  "instruction_events": 91,
+  "known_entry_events": [
+    "0791:7621",
+    "0791:2B51",
+    "0791:2BE5",
+    "0791:2BB1",
+    "23E4:08DF",
+    "0791:4B64",
+    "0791:045D",
+    "0791:2BE5",
+    "0791:2B51",
+    "0791:42CB",
+    "0791:26D7",
+    "0791:2B51",
+    "0791:26D7",
+    "0791:26D7",
+    "214B:0D1C",
+    "214B:2031",
+    "0791:4A28",
+    "0791:2B51",
+    "0791:4354",
+    "214B:06B1",
+    "0791:2C86",
+    "0791:045D",
+    "0791:47C5",
+    "0791:2996",
+    "0791:2996",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "0791:2B51"
+  ],
+  "logical": "wall-near/outside-slot6/port",
+  "main_rng_writes": [
+    {
+      "new": 30153,
+      "old": 60994,
+      "writer": "214B:06B1"
+    }
+  ],
+  "manifest_sha256": "260dc6a3659bd802331d99c5bcd8967423a07df502916dae613093c27dba0b19",
+  "native_instruction_attempts": [],
+  "observed": {
+    "state": 11,
+    "target": [
+      -3,
+      33
+    ]
+  },
+  "port_entries": [
+    "0791:7621",
+    "0791:2B51",
+    "0791:2BE5",
+    "0791:2BB1",
+    "23E4:08DF",
+    "0791:4B64",
+    "0791:045D",
+    "0791:2BE5",
+    "0791:2B51",
+    "0791:42CB",
+    "0791:26D7",
+    "0791:2B51",
+    "0791:26D7",
+    "0791:26D7",
+    "214B:0D1C",
+    "214B:2031",
+    "0791:4A28",
+    "0791:2B51",
+    "0791:4354",
+    "214B:06B1",
+    "0791:2C86",
+    "0791:045D",
+    "0791:47C5",
+    "0791:2996",
+    "0791:2996",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "1771:3216",
+    "0791:4438",
+    "0791:2B51"
+  ],
+  "process_exit": 0,
+  "production_stub_entries": [],
+  "registers": {
+    "cs": 4020,
+    "ds": 11684,
+    "eax": 253,
+    "ebp": 16256,
+    "ebx": 0,
+    "ecx": 45,
+    "edi": 33374,
+    "edx": 25,
+    "eflags": 534,
+    "eip": 0,
+    "es": 11684,
+    "esi": 31588,
+    "esp": 16136,
+    "fs": 0,
+    "gs": 0,
+    "ss": 14453
+  },
+  "seed_after": 30153,
+  "seed_before": 60994,
+  "seq": 45,
+  "spec": {
+    "backend": "port",
+    "case": "wall-near",
+    "holder": 2,
+    "kind": "wall",
+    "logical": "wall-near/outside-slot6/port",
+    "required_prediction": null,
+    "role": "guard",
+    "routine": "0791:7621",
+    "slot": 17,
+    "spot": [
+      0,
+      25
+    ],
+    "state": 11
+  },
+  "stderr": "",
+  "trace_limits": "Entry/return hook events are not native executed instructions in the port arm;inlined production helpers are not separately counted.",
+  "yielded_calls": [
+    {
+      "args": [
+        11684,
+        33374
+      ],
+      "caller": "0791:7621",
+      "far": true,
+      "return_to": "0791:7644",
+      "target": "0791:2B51"
+    },
+    {
+      "args": [
+        11684,
+        33044
+      ],
+      "caller": "0791:7621",
+      "far": true,
+      "return_to": "0791:7661",
+      "target": "0791:2BE5"
+    },
+    {
+      "args": [
+        11684,
+        33374
+      ],
+      "caller": "0791:7621",
+      "far": true,
+      "return_to": "0791:769A",
+      "target": "0791:2BB1"
+    },
+    {
+      "args": [
+        6,
+        4020,
+        30209
+      ],
+      "caller": "0791:7621",
+      "far": true,
+      "return_to": "0791:76A5",
+      "target": "23E4:08DF"
+    },
+    {
+      "args": [
+        11684,
+        33374
+      ],
+      "caller": "0791:7621",
+      "far": true,
+      "return_to": "0791:780E",
+      "target": "0791:4B64"
+    },
+    {
+      "args": [
+        17
+      ],
+      "caller": "0791:4B64",
+      "far": false,
+      "return_to": "0791:4B74",
+      "target": "0791:045D"
+    },
+    {
+      "args": [
+        11684,
+        33374
+      ],
+      "caller": "0791:4B64",
+      "far": true,
+      "return_to": "0791:4BB2",
+      "target": "0791:2BE5"
+    },
+    {
+      "args": [
+        11684,
+        33374
+      ],
+      "caller": "0791:4B64",
+      "far": true,
+      "return_to": "0791:4C59",
+      "target": "0791:2B51"
+    },
+    {
+      "args": [
+        11684,
+        33374
+      ],
+      "caller": "0791:4B64",
+      "far": true,
+      "return_to": "0791:4CCA",
+      "target": "0791:42CB"
+    },
+    {
+      "args": [
+        1,
+        11684,
+        33374
+      ],
+      "caller": "0791:42CB",
+      "far": true,
+      "return_to": "0791:4311",
+      "target": "0791:26D7"
+    },
+    {
+      "args": [
+        11684,
+        33374
+      ],
+      "caller": "0791:42CB",
+      "far": true,
+      "return_to": "0791:431E",
+      "target": "0791:2B51"
+    },
+    {
+      "args": [
+        6,
+        11684,
+        33374
+      ],
+      "caller": "0791:4B64",
+      "far": true,
+      "return_to": "0791:4CD8",
+      "target": "0791:26D7"
+    },
+    {
+      "args": [
+        5,
+        11684,
+        33374
+      ],
+      "caller": "0791:4B64",
+      "far": true,
+      "return_to": "0791:4CEB",
+      "target": "0791:26D7"
+    },
+    {
+      "args": [
+        0,
+        42,
+        0,
+        0
+      ],
+      "caller": "0791:4B64",
+      "far": true,
+      "return_to": "0791:4D2A",
+      "target": "214B:0D1C"
+    },
+    {
+      "args": [
+        11684,
+        33386,
+        0,
+        0
+      ],
+      "caller": "0791:4B64",
+      "far": true,
+      "return_to": "0791:4D30",
+      "target": "214B:2031"
+    },
+    {
+      "args": [
+        11684,
+        33374
+      ],
+      "caller": "0791:4B64",
+      "far": true,
+      "return_to": "0791:4D39",
+      "target": "0791:4A28"
+    },
+    {
+      "args": [
+        11684,
+        33374
+      ],
+      "caller": "0791:4A28",
+      "far": true,
+      "return_to": "0791:4A4F",
+      "target": "0791:2B51"
+    },
+    {
+      "args": [
+        11684,
+        33374
+      ],
+      "caller": "0791:4A28",
+      "far": true,
+      "return_to": "0791:4A90",
+      "target": "0791:4354"
+    },
+    {
+      "args": [
+        5
+      ],
+      "caller": "0791:4354",
+      "far": true,
+      "return_to": "0791:43BC",
+      "target": "214B:06B1"
+    },
+    {
+      "args": [
+        57091,
+        11684,
+        33374
+      ],
+      "caller": "0791:4354",
+      "far": true,
+      "return_to": "0791:442B",
+      "target": "0791:2C86"
+    },
+    {
+      "args": [
+        17
+      ],
+      "caller": "0791:4A28",
+      "far": false,
+      "return_to": "0791:4A9D",
+      "target": "0791:045D"
+    },
+    {
+      "args": [
+        16102
+      ],
+      "caller": "0791:4A28",
+      "far": false,
+      "return_to": "0791:4AE1",
+      "target": "0791:47C5"
+    },
+    {
+      "args": [],
+      "caller": "0791:47C5",
+      "far": false,
+      "return_to": "0791:47CE",
+      "target": "0791:2996"
+    },
+    {
+      "args": [],
+      "caller": "0791:47C5",
+      "far": false,
+      "return_to": "0791:47EF",
+      "target": "0791:2996"
+    },
+    {
+      "args": [
+        362
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:485D",
+      "target": "1771:3216"
+    },
+    {
+      "args": [
+        0,
+        11684,
+        33374
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:4888",
+      "target": "0791:4438"
+    },
+    {
+      "args": [
+        363
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:485D",
+      "target": "1771:3216"
+    },
+    {
+      "args": [
+        0,
+        11684,
+        33374
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:4888",
+      "target": "0791:4438"
+    },
+    {
+      "args": [
+        364
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:485D",
+      "target": "1771:3216"
+    },
+    {
+      "args": [
+        0,
+        11684,
+        33374
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:4888",
+      "target": "0791:4438"
+    },
+    {
+      "args": [
+        365
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:485D",
+      "target": "1771:3216"
+    },
+    {
+      "args": [
+        0,
+        11684,
+        33374
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:4888",
+      "target": "0791:4438"
+    },
+    {
+      "args": [
+        366
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:485D",
+      "target": "1771:3216"
+    },
+    {
+      "args": [
+        0,
+        11684,
+        33374
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:4888",
+      "target": "0791:4438"
+    },
+    {
+      "args": [
+        367
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:485D",
+      "target": "1771:3216"
+    },
+    {
+      "args": [
+        0,
+        11684,
+        33374
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:4888",
+      "target": "0791:4438"
+    },
+    {
+      "args": [
+        368
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:485D",
+      "target": "1771:3216"
+    },
+    {
+      "args": [
+        0,
+        11684,
+        33374
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:4888",
+      "target": "0791:4438"
+    },
+    {
+      "args": [
+        369
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:485D",
+      "target": "1771:3216"
+    },
+    {
+      "args": [
+        0,
+        11684,
+        33374
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:4888",
+      "target": "0791:4438"
+    },
+    {
+      "args": [
+        370
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:485D",
+      "target": "1771:3216"
+    },
+    {
+      "args": [
+        0,
+        11684,
+        33374
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:4888",
+      "target": "0791:4438"
+    },
+    {
+      "args": [
+        371
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:485D",
+      "target": "1771:3216"
+    },
+    {
+      "args": [
+        0,
+        11684,
+        33374
+      ],
+      "caller": "0791:47C5",
+      "far": true,
+      "return_to": "0791:4888",
+      "target": "0791:4438"
+    },
+    {
+      "args": [
+        11684,
+        33374
+      ],
+      "caller": "0791:7621",
+      "far": true,
+      "return_to": "0791:7817",
+      "target": "0791:2B51"
+    }
+  ]
+}

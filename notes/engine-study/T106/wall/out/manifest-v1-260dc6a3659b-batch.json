@@ -1,0 +1,163 @@
+{
+  "batch": "manifest-v1-260dc6a3659b",
+  "budget": {
+    "active_wall_s": 6.5725694360007765,
+    "cpu_s": 6.6320429999999995,
+    "failed_invocations": [],
+    "groups": {
+      "launch": 12,
+      "wall": 36
+    },
+    "invocations": 48,
+    "unclosed_batches": [],
+    "unclosed_invocations": []
+  },
+  "error": null,
+  "manifest_sha256": "260dc6a3659bd802331d99c5bcd8967423a07df502916dae613093c27dba0b19",
+  "records": [
+    {
+      "path": "notes/engine-study/T106/wall/out/0013-wall-near_slot18_original.json",
+      "sha256": "73f4517fe7a81816801b457f4fc52d4e896812372f6aed3af32a2d172c8c3aaa"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0014-wall-near_slot18_port.json",
+      "sha256": "992d365f497e87a6a6c8b031702cec2db9d3dffe7c2ac255e5a3f87d51e13797"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0015-wall-near_slot19_original.json",
+      "sha256": "86656ec65b5994da873685dcc3bb2c5386ad93981d305a4d95e26d0b71afc9f8"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0016-wall-near_slot19_port.json",
+      "sha256": "15b8475459e0b67aaac956d7b8453c200f526450789496870507ce3d92a5ec22"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0017-wall-near_slot20_original.json",
+      "sha256": "21e0608feb580d55f0835b61af88be30d16f5817c0d8b338a1a5606dadbb3e20"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0018-wall-near_slot20_port.json",
+      "sha256": "22df8cd288d8141993e22afbe888313578340d258de6b711bf734898afe110d3"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0019-wall-near_slot21_original.json",
+      "sha256": "6642f1e5909e30564a1249bc174ecbdc6bdf74020da1bde705a6d7c6fc2b18a9"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0020-wall-near_slot21_port.json",
+      "sha256": "37fdf82acaa64b5a5087f8185098f84cbbd8861403786deb5b5b4283048d8792"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0021-wall-near_slot22_original.json",
+      "sha256": "bffbc2092ce3520e6b42bd11d121f8d2cabfd0961a17dd83b0ac31b7ce803fbe"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0022-wall-near_slot22_port.json",
+      "sha256": "90080a7dd3b836a98f287515bc394487a6ed1e714c567767c6bde87c45c95b4f"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0023-wall-far-positive_slot18_original.json",
+      "sha256": "86dd80655a4537e59ce0674fc7fb00143c408f47b87bf118b6e3604729f63eb4"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0024-wall-far-positive_slot18_port.json",
+      "sha256": "3f89aae808fa1fefd8518705475e0bb932eee36f253823fc332d4706ed722a07"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0025-wall-far-positive_slot19_original.json",
+      "sha256": "8582d745c558225f975cc96abd6ccd18739b91f41df2def9b6d998800d7caafa"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0026-wall-far-positive_slot19_port.json",
+      "sha256": "82a557898233c87ce6abb5a97c34f904ef73de7586f2bb1fac2ff45bfd005fa7"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0027-wall-far-positive_slot20_original.json",
+      "sha256": "51327dce2712d5741da428b425a91622ee9a476e83673a6f726c0b4430e53cb7"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0028-wall-far-positive_slot20_port.json",
+      "sha256": "10673ea3bf6ea50f9b3052f4061a9eab7735584894ae5c800879a90b0324de2d"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0029-wall-far-positive_slot21_original.json",
+      "sha256": "04e47f1758eaf9ddc6efe888d6c3e558e70cec4c2b7b280967946cace0460b2f"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0030-wall-far-positive_slot21_port.json",
+      "sha256": "9af52b9f2535efdbcad28fbd7dbad830771b6abd080a4cb623c94c3f383372f7"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0031-wall-far-positive_slot22_original.json",
+      "sha256": "056c1cdece67a5289c9d8bac26ebc0228d7d0009a0e20d960288afda35397612"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0032-wall-far-positive_slot22_port.json",
+      "sha256": "9254160956c8bc053e92e5582eed3037011c75c269add3ba2dbb6ed1972f5ccc"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0033-wall-far-negative_slot7_original.json",
+      "sha256": "9e0b7249891aa58c5c263de7ba087a162f4af5cdc7538c07c8c7a9ff2b323bb2"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0034-wall-far-negative_slot7_port.json",
+      "sha256": "2817b3d5ecbe017595091a268b055e0a8ef64e4a3decf0a55be40b20ec3e4314"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0035-wall-far-negative_slot8_original.json",
+      "sha256": "030658c0334e898d90b8fea7f682e394eefcf2b509a76c0e485218fb17b00b32"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0036-wall-far-negative_slot8_port.json",
+      "sha256": "bfc32ea61cdb49cc820d423052e6b159a8d62ba86ddd22d9bdc834eeabaad37f"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0037-wall-far-negative_slot9_original.json",
+      "sha256": "14b471c5b04f4f6cffbd24917d99bef05346f8e22fccb0f5cb03b66cc2a96de2"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0038-wall-far-negative_slot9_port.json",
+      "sha256": "4baeb53f3acd5d1d411da852d236ddd27879fa1b2f7b3cf09c724f3c1b9bdc44"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0039-wall-far-negative_slot10_original.json",
+      "sha256": "37a9db55fe2a6119791be2ca42a56ad88552d922aefdfa829a81a184184bc90c"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0040-wall-far-negative_slot10_port.json",
+      "sha256": "b42e879cf922a06f3ef2a3adbe6de8bb34eb8fb298c3d0404180775e3b899047"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0041-wall-far-negative_slot11_original.json",
+      "sha256": "6902c1ffa3f7a8e4908ac209598695ada7e54a5ce4dcc9b0fb15137e9c41ac9f"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0042-wall-far-negative_slot11_port.json",
+      "sha256": "f5d1b8028f9ce910c38b00dc43e34c67c1c81a3c4eef2c09ff29bfc391f6103d"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0043-wall-near_outside-slot6_original.json",
+      "sha256": "ca3a2c1a0cf74a30946ac177ad3f9cc31957c77c03e26d183e099c8883496322"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0044-wall-near_forward-false_original.json",
+      "sha256": "61e7c82cb36e707aa470c99216a75c328fdf05d28ff25ad6db7ccb96a309a186"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0045-wall-near_outside-slot6_port.json",
+      "sha256": "016e760ea2135e096b4f3f667ab51695afffe5257ab4484f3610536f747ad4c7"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0046-wall-near_forward-false_port.json",
+      "sha256": "8a8042d1acb90fe42cd63ecf58173b92688f736652a53e4358cd938764b26aa0"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0047-wall-near_repeat-slot18_original.json",
+      "sha256": "b1f4b724d6a039424b606dce3379d36a05b86e1d0494b3817194dd9c69734871"
+    },
+    {
+      "path": "notes/engine-study/T106/wall/out/0048-wall-far-negative_repeat-slot11_port.json",
+      "sha256": "21dd5cd105a41a3cbbe868df32c77f52c366951b2dc0bdeded635f3c2fd57cf4"
+    }
+  ]
+}
