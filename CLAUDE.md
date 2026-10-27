@@ -86,6 +86,10 @@ kept on the branch `local`.
     [designed: owner, 2026-10-27] The goal session handles that delivery independently in a
     cloned repository. This engine-study session continues the analysis through ES-R2 and
     prepares its independent-review prompt; it does not start standalone/backend work here.
+    [designed: owner resume, 2026-10-27] After ES-R2 acceptance,the owner resumed the next
+    engine-study steps here:T106 bounded probes and subsequent study work under its gates.
+    T107 still awaits the explicit #571 spending/design choice;standalone delivery stays in
+    the independently progressing goal-session clone.
     [designed: owner, 2026-10-22] **goal2's first version runs the original's whole game under Unicorn**
     (goal2 #308, stage 3): requests from goal2 for it (where the state lives in memory, key waits and
     timed prompts, screens; process.md §15) come before new port tasks. The independent executable

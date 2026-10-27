@@ -150,3 +150,7 @@ exists.
 - [T78b3a](T78b3a.md): reached real-number arithmetic primitives for standalone sound.
 
 - [T78b3b](T78b3b.md): reached logarithm/exponential and polynomial sound layer.
+
+- [T106a](T106a.md): Construct bounded direct-call runner and validate launch cases (#584).
+- [T106b](T106b.md): Validate near/far free-kick wall layouts and guard controls (#585).
+- [T106c](T106c.md): Audit probe records, budget and mechanism conclusions (#586).
