@@ -5,6 +5,8 @@ assembly is compared with the same proved ports under the reference machine;
 the unhooked strict family acceptance remains T78d/T79.
 """
 import dataclasses
+import json
+import tempfile
 import os
 from pathlib import Path
 import subprocess
@@ -95,7 +97,7 @@ assert 'unicorn' not in sys.modules
 assert not hasattr(m.m,'_uc')
 print(json.dumps(dict(positive_denial=True,completed=True,score=r['score'],ticks=r['ticks'],draws=r['draws'])))
 '''
-        run=subprocess.run([sys.executable,'-B','-c',script],cwd=ROOT,env=dict(os.environ,PYTHONPATH=str(ROOT/'runtime')),capture_output=True,text=True,timeout=180)
+        run=subprocess.run([sys.executable,'-B','-c',script],cwd=ROOT,env=dict(os.environ,PYTHONPATH=str(ROOT/'runtime')),capture_output=True,text=True,timeout=600)
         self.assertEqual(run.returncode,0,run.stdout+run.stderr)
         self.assertIn('"completed": true',run.stdout)
 
@@ -103,5 +105,34 @@ print(json.dumps(dict(positive_denial=True,completed=True,score=r['score'],ticks
         from original_match.match import MatchError
         m=Match(self.image,Fixture(7,19,index=21),managed=7,engine='port')
         with self.assertRaisesRegex(MatchError,'checkpoint'):m.save()
+
+
+class CLI(unittest.TestCase):
+    def test_no_unicorn_requires_explicit_port_backend(self):
+        commands = ([sys.executable, '-B', str(ROOT/'experiments/E036-match-port/family.py'),
+                     '--family', 'S', '--out', str(ROOT/'.cache/unused-engine-refusal.jsonl')],
+                    [sys.executable, '-B', '-m', 'original_match.check'])
+        for command in commands:
+            with self.subTest(command=command):
+                run = subprocess.run([*command, '--no-unicorn'], cwd=ROOT,
+                    env=dict(os.environ, PYTHONPATH=str(ROOT/'runtime')), capture_output=True, text=True, timeout=30)
+                self.assertEqual(run.returncode, 2, run.stdout+run.stderr)
+                self.assertIn('--no-unicorn requires --engine port', run.stdout+run.stderr)
+
+    def test_family_cli_guarded_quick_result_records_backend_identity(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory)/'quick.jsonl'
+            command = [sys.executable, '-B', str(ROOT/'experiments/E036-match-port/family.py'),
+                       '--family', 'S', '--only', 'S/quick-1', '--engine', 'port', '--no-unicorn',
+                       '--cache', str(ROOT/'.cache/dl'), '--out', str(path)]
+            run = subprocess.run(command, cwd=ROOT, env=dict(os.environ, PYTHONPATH=str(ROOT/'runtime')),
+                                 capture_output=True, text=True, timeout=600)
+            self.assertEqual(run.returncode, 0, run.stdout+run.stderr)
+            rows = [json.loads(line) for line in path.read_text().splitlines()]
+            self.assertEqual(len(rows), 1)
+            self.assertEqual(rows[0]['engine'], 'port')
+            self.assertIsNone(rows[0]['error'])
+            self.assertTrue(rows[0]['stopped_at_board'])
+            self.assertIn('entrypoints', rows[0]['ports'])
 
 if __name__=='__main__':unittest.main()

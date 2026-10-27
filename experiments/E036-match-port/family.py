@@ -55,6 +55,37 @@ import time
 import zlib
 from pathlib import Path
 
+class Refused(Exception):
+    """A command the script will not run (exit 2)."""
+
+def deny_unicorn():
+    """Positive control: imports must fail, including in a fresh pool worker."""
+    import builtins
+    if any(n == 'unicorn' or n.startswith('unicorn.') for n in sys.modules):
+        raise Refused('no-Unicorn control requires a fresh process')
+    if not getattr(sys, '_goal2_unicorn_denied', False):
+        original_import = builtins.__import__
+        def guarded(name, *args, **kwargs):
+            if name == 'unicorn' or name.startswith('unicorn.'):
+                raise ImportError('positive Unicorn denial')
+            return original_import(name, *args, **kwargs)
+        builtins.__import__ = guarded
+        sys._goal2_unicorn_denied = True
+    try:
+        __import__('unicorn')
+    except ImportError:
+        return
+    raise Refused('Unicorn import denial did not take effect')
+
+
+# Install before families imports the kit. Spawned workers execute this module
+# before their initializer, so their guard must start here too.
+if __name__ in ('__main__', '__mp_main__') and '--no-unicorn' in sys.argv:
+    engine_port = '--engine=port' in sys.argv or any(
+        a == '--engine' and b == 'port' for a, b in zip(sys.argv, sys.argv[1:]))
+    if engine_port:
+        deny_unicorn()
+
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT / "runtime"))
@@ -63,6 +94,15 @@ import families  # noqa: E402
 import fileopts  # noqa: E402
 import records  # noqa: E402
 import image_sources  # noqa: E402
+
+
+def engine_ports(engine, ports):
+    if engine not in ('original', 'port'):
+        raise Refused('engine: original or port')
+    if engine == 'original':
+        return list(ports)
+    from original_match import port
+    return port.spec_names(port.load(['all'] + list(ports)))
 
 DEFAULT_CACHE = ".cache/dl"
 DISPLAY_PROFILE = HERE / "families/display/profile.json"
@@ -74,9 +114,6 @@ SCREEN_POINTERS = (0xA96A, 0xA96E, 0xA972)             # DS: the text page (B800
 SCREEN_BYTES = 4000
 COUNTRIES_PTR, FIXTURES_PTR, GAME_PTR = 0xA917, 0xA92B, 0xA923   # image.py
 
-
-class Refused(Exception):
-    """A command the script will not run (exit 2)."""
 
 
 REFUSALS = (Refused, families.FamilyError, fileopts.PathError, image_sources.SourceError)    # what main() prints as "refused: ..." and the slot step skips
@@ -313,11 +350,13 @@ def port_specs(ports, variant):
     return specs, modules, variant
 
 
-def checkpoint_key(spec, mask, counts, ports, display_profile=False):
+def checkpoint_key(spec, mask, counts, ports, display_profile=False, engine="original"):
     """What a checkpoint must have been taken under to be resumed: the same match, image, kit, mask, --count and ports."""
     from original_match.match import VERSION
     key = {"spec_sha256": spec.sha256, "image_sha256": spec.image_sha256, "kit": VERSION,
            "mask": [list(s) for s in mask], "counts": list(counts), "ports": sorted(ports)}
+    if engine != "original":
+        key["engine"] = engine
     if display_profile:
         key["display_profile"] = 1
     return key
@@ -325,12 +364,15 @@ def checkpoint_key(spec, mask, counts, ports, display_profile=False):
 
 def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, watch=None, check_writes=True,
               stretch_limit=DEFAULT_STRETCH_LIMIT,
-              ports=(), say=None, checkpoints=None, display_profile=False):
+              ports=(), say=None, checkpoints=None, display_profile=False, engine="original"):
     """The record of one match. Never raises for the match's own failure: that is the record's `error`.
     check_writes=False leaves the undeclared-write check out (the write watch that finds the ranges needs it so).
     ports: the kit's port specs (port_specs); the record then carries ports, variant and port_calls.
     checkpoints: a Checkpoints (#359): the match resumes from its checkpoint when there is one, and saves one every
     `every` minute events (not with a watch)."""
+    ports = engine_ports(engine, ports)
+    if engine == 'port' and (counts or checkpoints is not None):
+        raise Refused('engine=port does not yet support --count or --checkpoint')
     from original_match import Match, Fixture
     from original_match.match import VERSION, MatchError
     try:
@@ -344,6 +386,8 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
            "cpu_s": 0.0, "wall_s": 0.0, "score": None, "ticks": None, "draws": None, "board": None,
            "templates": None, "result_sha256": None, "events": None, "decisions": None, "after": None,
            "counts": {}}
+    if engine != "original":
+        rec["engine"] = engine
     if ports:
         variants = [s for s in ports if "." in s]
         rec.update(ports=sorted(s.split(".")[0] for s in ports), variant=variants[0] if variants else None,
@@ -352,7 +396,7 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
     m = None
     if watch is not None:
         checkpoints = None
-    key = checkpoint_key(spec, mask, counts, ports, display_profile) if checkpoints is not None else None
+    key = checkpoint_key(spec, mask, counts, ports, display_profile, engine) if checkpoints is not None else None
     saved = checkpoints.load(spec.id, key) if checkpoints is not None else None
     try:
         if saved is not None:
@@ -371,7 +415,7 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
             if spec.edits:
                 players, countries = families.apply_edits(image.players(), image.countries(), spec.edits)
             first, second, index, kind = spec.fixture
-            m = Match(image, Fixture(first, second, index=index, kind=kind), managed=spec.managed, seed=spec.seed,
+            m = Match(image, Fixture(first, second, index=index, kind=kind), engine=engine, managed=spec.managed, seed=spec.seed,
                       record_draws=True, delay_byte=spec.delay_byte, substitutions=spec.substitutions, players=players,
                       countries=countries, timeout_s=min(stretch_limit, time_limit), ports=list(ports) or None,
                       **({"set_piece": True} if "set_piece" in spec.policy.contexts else {}))
@@ -446,12 +490,13 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
 _worker = {}
 
 
-def _init_worker(cache, mask, counts, time_limit, ports=(), stretch_limit=DEFAULT_STRETCH_LIMIT, checkpoint=None, display_profile=False):
+def _init_worker(cache, mask, counts, time_limit, ports=(), stretch_limit=DEFAULT_STRETCH_LIMIT, checkpoint=None, display_profile=False, engine="original", no_unicorn=False):
     """A worker finds the declared matches itself (families.discover), so no policy object crosses a process."""
+    if no_unicorn: deny_unicorn()
     from original_match import Image
     from original_match.assets import reference_image
     _worker.update(image=image_sources.load(image_sources.DEFAULT,cache), images={}, cache=cache, mask=mask, counts=counts, time_limit=time_limit,
-                   ports=list(ports), stretch_limit=stretch_limit, display_profile=display_profile,
+                   ports=list(ports), engine=engine, stretch_limit=stretch_limit, display_profile=display_profile,
                    checkpoints=Checkpoints(checkpoint) if checkpoint else None, specs={m.id: m for fam in families.discover().values() for m in fam.matches})
 
 
@@ -467,11 +512,11 @@ def _run_in_worker(match_id):
     rec = run_match(image, spec, _worker["mask"], _worker["counts"],
                     _worker["time_limit"], ports=_worker["ports"], say=lines.append,
                     stretch_limit=_worker["stretch_limit"], checkpoints=_worker.get("checkpoints"),
-                    display_profile=_worker.get("display_profile",False))
+                    display_profile=_worker.get("display_profile",False), engine=_worker.get("engine","original"))
     return rec, lines
 
 
-def existing_records(out, selected, mask, ports=()):
+def existing_records(out, selected, mask, ports=(), engine="original"):
     """The valid records already in --out, {id: record}. Refuses a file that is not this run's: an invalid line, an
     id twice or not selected, a spec, mask, image or ports (with their variant) that is not the declared one."""
     if not Path(out).exists():
@@ -496,6 +541,8 @@ def existing_records(out, selected, mask, ports=()):
         if (r.get("ports"), r.get("variant")) != want:
             raise Refused(f"{out}: {r['id']} was run with other ports ({r.get('ports')}, variant {r.get('variant')}) "
                           "than --ports and --variant")
+        if r.get("engine", "original") != engine:
+            raise Refused(f"{out}: {r['id']} was run with another engine")
         done[r["id"]] = r
     return done
 
@@ -513,13 +560,17 @@ def append(out, record):
 
 def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask=(), counts=(),
                time_limit=DEFAULT_TIME_LIMIT, say=print, run_one=None, ports=(), stretch_limit=DEFAULT_STRETCH_LIMIT,
-               checkpoint=None, display_profile=False):
+               checkpoint=None, display_profile=False, engine="original", no_unicorn=False):
     """Run the selected matches not yet in `out`; returns the records of every selected match now in `out`.
     run_one(spec) -> record replaces the kit for a test (one process only). ports: the kit's port specs (port_specs).
     checkpoint: the --checkpoint folder (#359); a match's checkpoint is dropped once its record is in `out`."""
+    if no_unicorn:
+        if engine != "port": raise Refused("no_unicorn requires engine=port")
+        deny_unicorn()
+    ports = engine_ports(engine, ports)
     checkpoints = Checkpoints(checkpoint) if checkpoint else None
     fileopts.check_log_output(out, "--out")     # the check prepare() applied before the slot
-    done = existing_records(out, selected, mask, ports)
+    done = existing_records(out, selected, mask, ports, engine)
     todo = [s for s in selected if s.id not in done]
     if max_new is not None:
         todo = todo[:max_new]
@@ -551,11 +602,11 @@ def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask
                 images[spec.image] = image_sources.load(spec.image,cache)
             image = images[spec.image]
             took(run_match(image, spec, mask, counts, time_limit, ports=ports, say=say, stretch_limit=stretch_limit,
-                           checkpoints=checkpoints, display_profile=display_profile))
+                           checkpoints=checkpoints, display_profile=display_profile, engine=engine))
     else:
         from concurrent.futures import ProcessPoolExecutor
         with ProcessPoolExecutor(max_workers=workers, initializer=_init_worker,
-                                 initargs=(cache, mask, counts, time_limit, list(ports), stretch_limit, checkpoint, display_profile)) as pool:
+                                 initargs=(cache, mask, counts, time_limit, list(ports), stretch_limit, checkpoint, display_profile, engine, no_unicorn)) as pool:
             for rec, lines in pool.map(_run_in_worker, [s.id for s in todo]):
                 for line in lines:
                     say(line)
@@ -649,6 +700,8 @@ def parser():
     """The command line's one definition: main() parses with it, and so does the slot weight (heavy_slot.parsed)."""
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--family", required=True)
+    ap.add_argument("--engine", choices=("original", "port"), default="original")
+    ap.add_argument("--no-unicorn", action="store_true", help="positively deny Unicorn imports in a fresh child/worker (requires --engine port)")
     ap.add_argument("--out")
     ap.add_argument("--find-ranges")
     ap.add_argument("--max", type=int)
@@ -669,6 +722,7 @@ def parser():
 def ports_of(a):
     """The kit's port specs of a parsed command line (T59: --ports, --variant); Refused when main() will refuse them."""
     ports = port_specs(a.ports, a.variant)[0]
+    ports = engine_ports(getattr(a,"engine","original"), ports)
     if a.find_ranges and ports:
         raise Refused("--find-ranges runs the unhooked kit: no --ports or --variant")
     return ports
@@ -679,6 +733,10 @@ def prepare(a):
     The one place a parsed command line is refused: main() calls it, and so does the slot step (_slot_weight), so a refused
     line is answered at once and never queues for a slot (#328); ports_of(a) is the other half, called beside it by both. Run-time refusals (a match under the watch that does not
     complete) are not here: they need the run."""
+    if getattr(a, 'no_unicorn', False) and getattr(a, 'engine', 'original') != 'port':
+        raise Refused('--no-unicorn requires --engine port')
+    if getattr(a, 'engine', 'original') == 'port' and (a.count or a.find_ranges or a.checkpoint):
+        raise Refused('engine=port does not yet support --count, --find-ranges or --checkpoint')
     if (a.out is None) == (a.find_ranges is None):
         raise Refused("give --out (a family run) or --find-ranges (the write watch), not both and not neither")
     if a.max is not None and a.max < 1:
@@ -725,7 +783,7 @@ def processes(a, selected, mask, ports=()):
     many run at once; a ported match is one process like any other: T59)."""
     if a.find_ranges:
         return 1
-    todo = len([s for s in selected if s.id not in existing_records(a.out, selected, mask, ports)])
+    todo = len([s for s in selected if s.id not in existing_records(a.out, selected, mask, ports, getattr(a,"engine","original"))])
     if a.max is not None:
         todo = min(todo, a.max)
     return max(1, min(a.workers, todo))
@@ -733,6 +791,12 @@ def processes(a, selected, mask, ports=()):
 
 def main(argv=None):
     a = parser().parse_args(argv)
+    if a.no_unicorn and a.engine == 'port' and not getattr(sys, '_goal2_unicorn_denied', False):
+        import subprocess
+        # The parent may already have imported the reference module in slot validation.
+        # The actual run starts over with the guard installed before loading any kit code.
+        bootstrap = "import sys,runpy;sys.argv=sys.argv[2:];runpy.run_path(sys.argv[0],run_name='__main__')"
+        return subprocess.call([sys.executable, '-B', '-c', bootstrap, str(HERE), str(Path(__file__).resolve()), *(argv if argv is not None else sys.argv[1:])])
     try:
         selected, mask, counts = prepare(a)
         ports = ports_of(a)
@@ -747,7 +811,8 @@ def main(argv=None):
             find_ranges(image_sources.load(find_selected[0].image,a.cache), find_selected, a.find_ranges)
             return 0
         recs = run_family(selected, a.out, a.workers, a.max, a.cache, mask, counts, a.time_limit, ports=ports,
-                          stretch_limit=a.stretch_limit, checkpoint=a.checkpoint, display_profile=display_profile_selected(a))
+                          stretch_limit=a.stretch_limit, checkpoint=a.checkpoint, display_profile=display_profile_selected(a),
+                          engine=a.engine, no_unicorn=a.no_unicorn)
     except REFUSALS as e:
         print(f"refused: {e}")
         return 2

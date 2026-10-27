@@ -67,11 +67,12 @@ def _first_line(e):
     return f"{type(e).__name__}: {(str(e).splitlines() or [''])[0][:200]}"
 
 
-def ported(specs):
+def ported(specs, engine="original"):
     """Match with `specs` as its ports by default (Match.load keeps a saved match's own)."""
     class Ported(Match):
         def __init__(self, *args, **kw):
             kw.setdefault("ports", specs)
+            kw.setdefault("engine", engine)
             super().__init__(*args, **kw)
     return Ported
 
@@ -244,6 +245,8 @@ def parser():
     ap.add_argument("--image", help="a savestate or Memory component (default: the reference, fetched by hash)")
     ap.add_argument("--cache", default=".cache")
     ap.add_argument("--family", action="store_true")
+    ap.add_argument("--engine", choices=("original", "port"), default="original")
+    ap.add_argument("--no-unicorn", action="store_true", help="run in a fresh child with Unicorn imports positively denied; requires --engine port")
     ap.add_argument("--json")
     ap.add_argument("--ports", help="the port mode: port modules (port/) to run in place of the original's routines, "
                                     "comma-separated, or all")
@@ -260,7 +263,11 @@ def validate(a):
     The one definition of every refusal after parsing: main() calls it, and so does the heavy-job slot (_takes_a_slot), so
     a refused line is answered at once and never queues for a slot (#328). A refusal that needs the run (the reference
     image not in the cache and not downloadable) is not here."""
+    if getattr(a, 'no_unicorn', False) and getattr(a, 'engine', 'original') != 'port':
+        raise Refused('--no-unicorn requires --engine port')
     specs = [s for s in (a.ports or "").split(",") if s]
+    if getattr(a, 'engine', 'original') == 'port':
+        specs = ['all'] + specs
     if a.variant:
         if "." not in a.variant:
             raise Refused("--variant is MODULE.NAME")
@@ -315,12 +322,18 @@ def main(argv=None):
         specs = validate(a)
     except Refused as e:
         ap.error(str(e))
+    if a.no_unicorn and not getattr(sys, '_goal2_unicorn_denied', False):
+        import subprocess
+        bootstrap = "import builtins,sys,runpy\noriginal_import=builtins.__import__\ndef guarded(name,*a,**kw):\n if name=='unicorn' or name.startswith('unicorn.'):raise ImportError('positive Unicorn denial')\n return original_import(name,*a,**kw)\nbuiltins.__import__=guarded\nsys._goal2_unicorn_denied=True\ntry:__import__('unicorn')\nexcept ImportError:pass\nelse:raise AssertionError('denial did not take effect')\nsys.argv=['original_match.check']+sys.argv[1:]\nrunpy.run_module('original_match.check',run_name='__main__')\n"
+        sys.exit(subprocess.call([sys.executable, '-B', '-c', bootstrap, *(argv if argv is not None else sys.argv[1:])]))
+    MATCH = example.Match = ported(specs, a.engine)
     if specs:
-        MATCH = example.Match = ported(specs)
         print(f"ports: {', '.join(specs)}", flush=True)
     data = load_image(a)
     image = Image.from_bytes(data)
     report = {"kit": VERSION, "image_sha256": hashlib.sha256(data).hexdigest(), "reference": REFERENCE, "checks": {}}
+    if a.engine != "original":
+        report["engine"] = a.engine
     if specs:
         report["ports"] = specs
     steps = [("engine", engine), ("interactive", interactive), ("goals", goals), ("knockout", knockout)] + (

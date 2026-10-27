@@ -13,7 +13,7 @@ rounds 1-5) are the grammar's rules:
   down to its contents (a container's length is not enough);
 - evidence is all present or all null; a completed match has all of it.
 
-A record (REQUIRED below; nothing else):
+A record (REQUIRED below; optional `engine` identifies original/port only, never evidence):
   id                family "/" name, equal to a match a family file declares
   family            the family's name
   spec_sha256       the digest of the match's declaration (families.py `spec_sha256`): the fixture, the seed, the
@@ -254,7 +254,12 @@ def validate(r):
     if not isinstance(r, dict):
         raise SchemaError("the record is not an object")
     ported = any(k in r for k in PORT_KEYS)
-    _keys(r, REQUIRED + (PORT_KEYS if ported else ()), "record")
+    _keys(r, REQUIRED + (PORT_KEYS if ported else ()) + (("engine",) if "engine" in r else ()), "record")
+    if "engine" in r:
+        if r["engine"] not in ("original", "port") or not isinstance(r["engine"], str):
+            raise SchemaError("engine: original or port")
+        if r["engine"] == "port" and not ported:
+            raise SchemaError("engine=port requires complete port metadata")
     if ported:
         validate_ports(r)
     _str(r["id"], RECORD_ID, "id")
