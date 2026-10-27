@@ -78,12 +78,19 @@ def deny_unicorn():
     raise Refused('Unicorn import denial did not take effect')
 
 
-# Install before families imports the kit. Spawned workers execute this module
-# before their initializer, so their guard must start here too.
-if __name__ in ('__main__', '__mp_main__') and '--no-unicorn' in sys.argv:
-    engine_port = '--engine=port' in sys.argv or any(
-        a == '--engine' and b == 'port' for a, b in zip(sys.argv, sys.argv[1:]))
-    if engine_port:
+def add_engine_arguments(ap):
+    """The same engine options govern early import denial and the full parser."""
+    ap.add_argument("--engine", choices=("original", "port"), default="original")
+    ap.add_argument("--no-unicorn", action="store_true", help="positively deny Unicorn imports in a fresh child/worker (requires --engine port)")
+
+
+# Parse the shared options before families imports the kit, including in spawned
+# worker mains. Argparse abbreviations must mean the same thing at both stages.
+if __name__ in ('__main__', '__mp_main__'):
+    early = argparse.ArgumentParser(add_help=False)
+    add_engine_arguments(early)
+    engine_options, _ = early.parse_known_args(sys.argv[1:])
+    if engine_options.no_unicorn and engine_options.engine == 'port':
         deny_unicorn()
 
 HERE = Path(__file__).resolve().parent
@@ -700,8 +707,7 @@ def parser():
     """The command line's one definition: main() parses with it, and so does the slot weight (heavy_slot.parsed)."""
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--family", required=True)
-    ap.add_argument("--engine", choices=("original", "port"), default="original")
-    ap.add_argument("--no-unicorn", action="store_true", help="positively deny Unicorn imports in a fresh child/worker (requires --engine port)")
+    add_engine_arguments(ap)
     ap.add_argument("--out")
     ap.add_argument("--find-ranges")
     ap.add_argument("--max", type=int)

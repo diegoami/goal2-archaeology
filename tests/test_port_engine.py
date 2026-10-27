@@ -138,6 +138,28 @@ class CLI(unittest.TestCase):
                 self.assertEqual(run.returncode, 2, run.stdout+run.stderr)
                 self.assertIn('--no-unicorn requires --engine port', run.stdout+run.stderr)
 
+    def test_abbreviated_engine_and_guard_options_do_not_relaunch_recursively(self):
+        # Bound the old recursive relaunch in the test child, so failure cannot leak a process chain.
+        with tempfile.TemporaryDirectory() as directory:
+            folder=Path(directory)
+            (folder/'sitecustomize.py').write_text(
+                "import os\n"
+                "depth=int(os.environ.get('GOAL2_TEST_CLI_DEPTH','0'))+1\n"
+                "os.environ['GOAL2_TEST_CLI_DEPTH']=str(depth)\n"
+                "if depth>2: os._exit(97)\n")
+            for number,flags in enumerate((('--engine','port','--no-un'),('--eng','port','--no-unicorn'))):
+                with self.subTest(flags=flags):
+                    path=folder/f'case-{number}.jsonl'
+                    command=[sys.executable,'-B',str(ROOT/'experiments/E036-match-port/family.py'),
+                             '--family','S','--only','S/quick-1','--cache',str(ROOT/'.cache/dl'),
+                             '--out',str(path),*flags]
+                    env=dict(os.environ,PYTHONPATH=os.pathsep.join((str(folder),str(ROOT/'runtime'))),GOAL2_TEST_CLI_DEPTH='0')
+                    run=subprocess.run(command,cwd=ROOT,env=env,capture_output=True,text=True,timeout=90)
+                    self.assertEqual(run.returncode,0,run.stdout+run.stderr)
+                    rows=[json.loads(line) for line in path.read_text().splitlines()]
+                    self.assertEqual(rows[0]['engine'],'port')
+                    self.assertIsNone(rows[0]['error'])
+
     def test_family_cli_guarded_quick_result_records_backend_identity(self):
         for workers in (1,2):
             with tempfile.TemporaryDirectory() as directory:
