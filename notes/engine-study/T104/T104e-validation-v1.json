@@ -1,0 +1,103 @@
+{
+  "baseline": "c254e46675308d5ab71253b1ea2426b2f1ed5adb",
+  "method": "source projections; no engine execution",
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T104/set_pieces.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T104a, 26 routines, 4 worked examples, 5 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T104/discipline.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T104b, 11 routines, 4 worked examples, 5 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T104/substitutions.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T104c, 16 routines, 4 worked examples, 6 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T104/shootouts.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T104d, 10 routines, 4 worked examples, 8 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T104/postmatch.py",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "PASS: T104e, 24 routines, 4 worked examples, 6 altered-rule controls; source pins match\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "tools/heavy.sh",
+        "T104e-final",
+        "--",
+        "python3",
+        "-B",
+        "notes/engine-study/T104/check.py",
+        "--task",
+        "T104e",
+        "--controls"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"task\": \"T104e\",\n  \"scope\": \"T104 contract coverage and source integrity; not semantic or behavioural proof.\",\n  \"routines\": 24,\n  \"manifest_sha256\": \"e597308602cfaf484e69167f185faca0a9bd4ea865fe27c9fa1caf12737e145d\",\n  \"positive\": \"accepted\",\n  \"controls\": {\n    \"missing-routine\": \"rejected\",\n    \"missing-source\": \"rejected\",\n    \"shifted-source\": \"rejected\",\n    \"missing-examples\": \"rejected\",\n    \"missing-prediction\": \"rejected\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/check_links.py"
+      ],
+      "exit": 0,
+      "stdout": "links and JSON ok (9896 files)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "sha256": {
+    "notes/engine-study/T104/postmatch.py": "9ffea2d8994206f20747167f7ed701d6728dfcb4ff4ca8354b892fb603ddbfaf",
+    "notes/engine-study/T104/common.py": "7b268370b2f3d1503e4a773558e2f6747f8f51008891c8dea2bc791ccdabe01e",
+    "notes/engine-study/T104/check.py": "13e8fa9632b5341df8c1275c1f7ccc1f278868068dde8b14aef498c32d6e35fb",
+    "notes/engine-study/T104/T104e-v1.json": "e597308602cfaf484e69167f185faca0a9bd4ea865fe27c9fa1caf12737e145d",
+    "docs/engine-study/lifecycle.md": "6bfc14c5fba3824505af757557a37cd9008bf31c3e48f1f4c367dc7ffb7bad87"
+  }
+}
