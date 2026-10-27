@@ -1,0 +1,70 @@
+{
+  "registered": 432,
+  "absent": {
+    "23E4:0CB9": [
+      "display.py:1608",
+      "display.py:1613"
+    ],
+    "23E4:0CAB": [
+      "display.py:1610"
+    ],
+    "23E4:0C93": [
+      "display.py:1615"
+    ],
+    "23E4:0E67": [
+      "display.py:1618"
+    ],
+    "23E4:0CA5": [
+      "display.py:1620"
+    ],
+    "23E4:0F10": [
+      "display.py:1621"
+    ],
+    "23E4:0CC5": [
+      "display.py:1622"
+    ],
+    "0791:1A04": [
+      "menus.py:248"
+    ],
+    "16D6:0945": [
+      "menus.py:274"
+    ],
+    "0791:0A6B": [
+      "postmatch.py:97"
+    ],
+    "0791:DDCB": [
+      "selection.py:51"
+    ],
+    "0791:E2E6": [
+      "selection.py:115"
+    ],
+    "0791:DEA6": [
+      "selection.py:150"
+    ],
+    "0791:DC7E": [
+      "selection.py:181"
+    ]
+  },
+  "nonliteral_calls": [
+    "attributes.py:120",
+    "ball.py:279",
+    "ball.py:208",
+    "contests.py:31",
+    "contests.py:783",
+    "display.py:123",
+    "display.py:678",
+    "display.py:1543",
+    "display.py:784",
+    "frame.py:130",
+    "menus.py:26",
+    "menus.py:828",
+    "motion.py:320",
+    "positioning.py:97",
+    "positioning.py:102",
+    "positioning.py:107",
+    "positioning.py:111",
+    "quick.py:36",
+    "setup.py:56"
+  ],
+  "limitation": "Literal/wrapper inventory only; dynamic targets and admitted paths still require source/runtime coverage."
+}

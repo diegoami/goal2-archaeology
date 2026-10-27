@@ -4,7 +4,7 @@ The original listings define the frame writes, partial registers and final flags
 """
 from . import Registry
 from .mem import s8
-from .pilot import is_keeper_slot, on_pitch, pitch_slot_side, rand
+from .pilot import is_keeper_slot, on_pitch, pitch_slot_side, on_target
 from .runtime import Regs, args, invoke, sub_flags, add_flags, CF, PF, ZF, SF
 
 PORTS = Registry('entrypoints', 'Residual pilot helper calling conventions (T78b1)')
@@ -99,8 +99,11 @@ def rng_core(mem, R, off, seg, n):
     R.enter(2)
     sp0 = R.sp
     R.push(mem.DS); R.push(seg); R.push(off)
-    draw = rand(mem, n)  # shared LCG semantics; writer remains 214B:069F
-    new = mem.u16(seg * 16 + off)
+    # 068F LDS uses the explicit pointer, not necessarily DS:A978 (94C9 uses 8336).
+    linear = seg * 16 + off
+    new = (mem.u16(linear) * 0x7ABD + 0x1B0F) & 0xFFFF
+    mem.w16(linear, new, '214B:069F')
+    draw = (((new * n) >> 16) + 1) & 0xFFFF
     high = (new * n) >> 16
     step = -2 if mem.reg("eflags") & 0x400 else 2
     R.bx, R.si, R.di, R.es = 0x7ABD, off + step, off + step, seg
@@ -134,3 +137,22 @@ def random_n(mem, variant):
 @PORTS.port('214B:06FA', ret='retf')
 def coin(mem, variant):
     random_core(mem, 2, True)
+
+
+@PORTS.port('0791:2CC5', ret='retf 4')
+def destination(mem, variant):
+    off, seg = args(mem, 2)
+    R = Regs(mem); R.enter(2)
+    R.di, R.es = off, seg
+    R.ax = mem.u16(seg * 16 + off)
+    target = mem.u16(seg * 16 + ((off + 7) & 0xFFFF))
+    R.arith(sub_flags(R.ax, target, 16))
+    finish_bool(R, on_target(mem, seg * 16 + off))
+
+
+@PORTS.port('214B:0688', ret='retf 6')
+def explicit_seed_draw(mem, variant):
+    n, off, seg = args(mem, 3)
+    R = Regs(mem)
+    rng_core(mem, R, off, seg, n)
+    R.store()
