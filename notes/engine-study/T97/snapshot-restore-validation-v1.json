@@ -1,0 +1,36 @@
+{
+  "source_commit": "a42c2cbe91300c8ee261b82fa993e665ed3f3325",
+  "method": "Read listing; no original execution",
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T97/check_snapshot_restores.py",
+        "--ledger",
+        "notes/engine-study/T97/transient-v2.json"
+      ],
+      "expected_exit": 1,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T97/check_snapshot_restores.py\", line 51, in <module>\n    main()\n    ~~~~^^\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T97/check_snapshot_restores.py\", line 38, in main\n    print(json.dumps(validate(data), sort_keys=True))\n                     ~~~~~~~~^^^^^^\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T97/check_snapshot_restores.py\", line 25, in validate\n    assert len(declared) == 4, 'four explicit restore sites required'\n           ^^^^^^^^^^^^^^^^^^\nAssertionError: four explicit restore sites required\n"
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "notes/engine-study/T97/check_snapshot_restores.py",
+        "--controls"
+      ],
+      "expected_exit": 0,
+      "exit": 0,
+      "stdout": "{\"0CDE\": \"0791:0C65\", \"0CE1\": \"0791:0C65\", \"11BD\": \"0791:112C\", \"11C0\": \"0791:112C\"}\nPASS: inherited wrong-owner control rejected: 11BD: declared 0791:0C65, listing 0791:112C\n",
+      "stderr": ""
+    }
+  ],
+  "sha256": {
+    "notes/engine-study/T97/check_snapshot_restores.py": "07b8ef1254c1bc3599bc5531fc6fb5a0accfbff40815e44ddd4c14f6010c336b",
+    "notes/engine-study/T97/transient-v3.json": "240b345a10180888bf7c841bb69c56ca5948b34324ae0f2f8bc75deef6cf5c6b",
+    "static/goal-exe/code/seg_0791_02.asm": "57849ee0856cb014c748370434588b99cd5151ce14d785a125c3a4350e04eb8b"
+  }
+}

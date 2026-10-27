@@ -7,7 +7,7 @@ import sys
 
 ROOT=Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(ROOT/'notes/engine-study/foundations'))
-from check import pin,sha,write_new
+from check import TASK_BASES,pin,sha,write_new
 
 
 def f(offset,width,name,meaning):return dict(offset=offset,width=width,name=name,meaning=meaning)
@@ -35,18 +35,19 @@ def build():
       'marking':{'DS:9A3E':'quick flag byte; overlaps dummy marking row0, not an active marking word','DS:9A3E+40*t+2*s':'marking words for active squad slots; index/lifetime must be read in context','DS:9976':'fixture-group byte copied from pre-play fixture +1 by A3DE and read by E929 for the group table','DS:9976+10*side+2*role, role=1..5':'captain/set-piece taker slot words; base offset zero is not a taker entry'},
       'restart':{'DS:8302':'ball/play gate; nominal ball+0C','DS:8303':'in-flight/ball-phase flag; nominal ball+0D','DS:830B,830C,830D':'holder/challenger/nearest pitch-slot selectors','DS:8324':'shootout-specific control flag','DS:8327':'ball-event/action code','DS:7C2A':'live current-fixture far pointer; A3DE writes it at A437/A43A','DS:9B34':'two current country words','DS:9B3A':'two substitution-budget bytes'},
       'occupancy':{'DS:7C16':'far pointer to live pitch picture read by move tests','DS:7C1E':'background-picture pointer used for restoration','DS:82E2,82E8':'two six-byte offside-marker prefixes','DS:82EE':'eight-byte referee sprite','DS:82F6':'ball core plus adjacent flags','DS:80FC':'second-team-is-host byte inside nominal pitch row0'},
-      'save-decisions':{'DS:9B30..9B33':'replay snapshot of country words 9B34..9B37; 15B9 writes at 17DE/17E1; 0C65 restores at 0CDE/0CE1 and 11BD/11C0','DS:9B38..9B39':'replay snapshot of substitution-budget bytes 9B3A..9B3B; 15B9 writes at 17E8','DS:9B07':'per-side/squad saved form snapshot; not the live player form byte','DS:9B55,7C37':'original snapshot/replay request flags','Match.st':'host-side phase/decision/event bookkeeping, separate from original DS','Match.save/load':'adapter save/replay reconstruction of live port frames; distinct from original action replay'}}
-    addresses=['0791:A260','0791:A2E6','0791:A375','0791:8537','0791:86D0','0791:8E24','0791:8F10','0791:9119','0791:83A2','0791:835F','0791:8AE9','0791:278A','0791:2974','0791:2BB1','0791:970C','0791:97D0','0791:2648','0791:261A','0791:15B9','0791:0C65','0791:94C9','0791:9372']
+      'save-decisions':{'DS:9B30..9B33':'replay snapshot of country words 9B34..9B37; 15B9 writes at 17DE/17E1; 0C65 action replay restores at 0CDE/0CE1; 112C view saved goal restores at 11BD/11C0','DS:9B38..9B39':'replay snapshot of substitution-budget bytes 9B3A..9B3B; 15B9 writes at 17E8','DS:9B07':'per-side/squad saved form snapshot; not the live player form byte','DS:9B55,7C37':'original snapshot/replay request flags','Match.st':'host-side phase/decision/event bookkeeping, separate from original DS','Match.save/load':'adapter save/replay reconstruction of live port frames; distinct from original action replay'}}
+    addresses=['0791:A260','0791:A2E6','0791:A375','0791:8537','0791:86D0','0791:8E24','0791:8F10','0791:9119','0791:83A2','0791:835F','0791:8AE9','0791:278A','0791:2974','0791:2BB1','0791:970C','0791:97D0','0791:2648','0791:261A','0791:15B9','0791:0C65','0791:112C','0791:94C9','0791:9372']
     return pin({'task':'T97b','sections':['Live records and coordinate conventions','State families and lifetimes','Aliases and cached values','Occupancy, randomness and continuation boundaries'],
                 'records':records,'state_groups':groups,'ball_logical_extent':14,
+                'country_restore_sites': [{'routine':'0791:0C65','sites':['0CDE','0CE1']}, {'routine':'0791:112C','sites':['11BD','11C0']}],
                 'screen_cell':'buffer + 0x90E + s8(x)*160 + s8(y)*2',
                 'pitch_slot_map':{'side0':'12..22','side1':'1..11','keepers':[1,12]},
                 'analysis_sha256':sha(Path(__file__).read_bytes())},addresses+['0791:A3DE','0791:E929','0791:1FDD','0791:F3F2','214B:0688'],
-               ['runtime/original_match/port/motion.py','runtime/original_match/port/geometry.py','runtime/original_match/port/discipline.py','runtime/original_match/port/frame.py','runtime/original_match/port/setup.py','runtime/original_match/match.py','runtime/original_match/README.md','static/goal-exe/annotations/fields.tsv','static/goal-exe/annotations/globals.tsv','static/goal-exe/code/seg_0791_02.asm','static/goal-exe/code/seg_0791_03.asm','static/goal-exe/code/seg_0791_15.asm','static/goal-exe/code/seg_0791_17.asm','static/goal-exe/code/seg_0791_23.asm','static/goal-exe/code/seg_0791_24.asm'])
+               ['runtime/original_match/port/motion.py','runtime/original_match/port/geometry.py','runtime/original_match/port/discipline.py','runtime/original_match/port/frame.py','runtime/original_match/port/setup.py','runtime/original_match/match.py','runtime/original_match/README.md','static/goal-exe/annotations/fields.tsv','static/goal-exe/annotations/globals.tsv','static/goal-exe/code/seg_0791_02.asm','static/goal-exe/code/seg_0791_03.asm','static/goal-exe/code/seg_0791_15.asm','static/goal-exe/code/seg_0791_17.asm','static/goal-exe/code/seg_0791_23.asm','static/goal-exe/code/seg_0791_24.asm'],source_commit=TASK_BASES['T97b'])
 
 
 def main():
-    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--check',action='store_true');a=ap.parse_args();path=ROOT/'notes/engine-study/T97/transient-v2.json';data=build()
+    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--check',action='store_true');a=ap.parse_args();path=ROOT/'notes/engine-study/T97/transient-v3.json';data=build()
     if a.check:
         assert json.loads(path.read_text())==data,'transient ledger/source differs';print('PASS: pitch22, ball12, sprite8 and marker6 byte covers; seven state families; source pins/aliases')
     else:write_new(path,data);print('wrote live layouts, seven state groups and explicit aliases')
