@@ -1,0 +1,25 @@
+Full original E034-02 scenario: positive Unicorn denial, faulthandler enabled
+test_e034_02 (tests.test_port_engine.Checkpoints.test_e034_02) ... checkpoint PASS E034 index 42 boundary=0 phase=event
+checkpoint PASS E034 index 42 boundary=2 phase=event
+checkpoint PASS E034 index 42 boundary=567 phase=event
+checkpoint PASS E034 index 42 boundary=568 phase=event
+checkpoint PASS E034 index 42 boundary=568 phase=answered
+checkpoint PASS E034 index 42 boundary=716 phase=event
+checkpoint PASS E034 index 42 boundary=1037 phase=event
+checkpoint PASS E034 index 42 boundary=1185 phase=event
+checkpoint PASS E034 index 42 boundary=1187 phase=event
+checkpoint PASS E034 index 42 boundary=1187 phase=answered
+checkpoint PASS E034 index 42 boundary=1368 phase=event
+checkpoint PASS E034 index 42 boundary=1368 phase=answered
+checkpoint PASS E034 index 42 boundary=1563 phase=event
+checkpoint PASS E034 index 42 boundary=1564 phase=event
+checkpoint PASS E034 index 42 boundary=1564 phase=answered
+checkpoint PASS E034 index 42 boundary=1569 phase=event
+checkpoint PASS E034 index 42 boundary=1619 phase=event
+checkpoint PASS E034 index 42 boundary=1620 phase=event
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 6283.344s
+
+OK
