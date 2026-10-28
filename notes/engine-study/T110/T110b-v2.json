@@ -1,0 +1,519 @@
+{
+  "baseline": "f55ef8314c1da390eb96091efe2bdab7b73fa534",
+  "limits": [
+    "Structural checks do not certify the recommendation, pseudocode or equivalence.",
+    "No new engine calls, T107 batch, prototype or adopted semantic change."
+  ],
+  "method": "Design/source synthesis; no engine or prototype execution.",
+  "mock": false,
+  "producer": {
+    "commit": "b051994e7f96ac6e84d4159af2602c4669592702",
+    "path": "notes/engine-study/T110/options.py",
+    "sha256": "994e8a1a5600c2bad5b185f6c9ed4b30a370954f6f81f91775c419343f03a835"
+  },
+  "prototype_implemented": false,
+  "research_engine_calls": 0,
+  "reused_movement_case": {
+    "id": "blocked-step",
+    "inputs": {
+      "destination": [
+        1,
+        0
+      ],
+      "first_cell": [
+        1,
+        7
+      ],
+      "initial_coin": 1,
+      "old": [
+        0,
+        0
+      ],
+      "retry_cell": [
+        32,
+        7
+      ],
+      "retry_draw5": 4
+    },
+    "limits": "Supplied draw values and ordinary live outfielder, not holder/challenger/keeper; no complete seeded fixture execution.",
+    "prediction": {
+      "direction": 4,
+      "final": [
+        0,
+        1
+      ],
+      "main_draws": 2
+    },
+    "steps": [
+      {
+        "accepted": false,
+        "candidate": [
+          1,
+          0
+        ],
+        "direction": 2
+      },
+      {
+        "accepted": true,
+        "candidate": [
+          0,
+          1
+        ],
+        "direction": 4
+      }
+    ]
+  },
+  "reused_strength_cases": [
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 32,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "healthy",
+      "trace": {
+        "after_form_word": 226,
+        "base_word": 195,
+        "clamped": 226,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 0,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 226
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 32,
+        "fitness": 32,
+        "form": 32,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "form32",
+      "trace": {
+        "after_form_word": 183,
+        "base_word": 195,
+        "clamped": 183,
+        "foot_index": 0,
+        "form_high": true,
+        "placement": 0,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 183
+      }
+    },
+    {
+      "inputs": {
+        "ability": 225,
+        "club": 2,
+        "energy": 0,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "injured-zero-energy",
+      "trace": {
+        "after_form_word": null,
+        "base_word": null,
+        "clamped": null,
+        "foot_index": null,
+        "form_high": null,
+        "placement": null,
+        "two_footed": null,
+        "unavailable": "energy",
+        "value": 0
+      }
+    },
+    {
+      "inputs": {
+        "ability": 255,
+        "club": 2,
+        "energy": 127,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "upper-clamp",
+      "trace": {
+        "after_form_word": 351,
+        "base_word": 320,
+        "clamped": 256,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 0,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 256
+      }
+    },
+    {
+      "inputs": {
+        "ability": 255,
+        "club": 2,
+        "energy": 127,
+        "fitness": 32,
+        "form": 31,
+        "peak": 27,
+        "played": 4,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "clamp-before-placement",
+      "trace": {
+        "after_form_word": 351,
+        "base_word": 320,
+        "clamped": 256,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 1,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 128
+      }
+    },
+    {
+      "inputs": {
+        "ability": 0,
+        "club": 2,
+        "energy": 1,
+        "fitness": 32,
+        "form": 1,
+        "peak": 27,
+        "played": 2,
+        "player_index": 1,
+        "profile": 8,
+        "status": 0
+      },
+      "name": "available-zero-strength",
+      "trace": {
+        "after_form_word": 65476,
+        "base_word": 65475,
+        "clamped": 0,
+        "foot_index": 0,
+        "form_high": false,
+        "placement": 0,
+        "two_footed": false,
+        "unavailable": null,
+        "value": 0
+      }
+    }
+  ],
+  "rows": [
+    {
+      "after": "player = PlayerView.bind_same_pointer_and_index(memory, pointer, player_index)\nraw_energy = player.read_u8(EnergyRaw)\nplayer.write_u8(StatusRaw, status, at=writer_site)\n# Every accessor delegates to the existing wrapped address and write hook.",
+      "before": "off = (base_off + low_word(player_index * 0x14)) & 0xffff\nraw_energy = mem.u8((seg << 4) + ((off + 0x0e) & 0xffff))\nmem.w8((seg << 4) + ((off + 0x10) & 0xffff), status, at=writer_site)",
+      "claim": "Name shared storage while preserving the existing address calculation, aliasing, read width and write sites.",
+      "counterexample": "With seg=0x2000, record offset=0xfffe and field offset4, the start address is0x20002, not0x30002. A detached copy also stops reflecting an overlapping write.",
+      "id": "record-view",
+      "limits": [
+        "The example fixes the starting address only; backend semantics of a multi-byte read are retained.",
+        "Immutable snapshots are useful only at an explicit effect-free boundary, not as implicit replacements for live views."
+      ],
+      "obligations": [
+        "identities",
+        "machine-state",
+        "event-order"
+      ],
+      "omitted_machine_effects": "No automatic cache refresh, field clamping, bit repacking, wide write substitution or re-resolution of a captured far pointer. Existing Rec behavior and writer-site identity remain in the adapter.",
+      "sources": [
+        {
+          "line": 45,
+          "path": "runtime/original_match/port/attributes.py",
+          "text": "class Rec:"
+        },
+        {
+          "line": 54,
+          "path": "runtime/original_match/port/attributes.py",
+          "text": "return (self.seg << 4) + ((self.off + k) & 0xFFFF)"
+        },
+        {
+          "line": 99,
+          "path": "runtime/original_match/port/engine.py",
+          "text": "def write_as(self, linear, size, value, at):"
+        }
+      ],
+      "validation": "Exact Rec address/read/write tests and later full boundary traces; this sketch is not executed."
+    },
+    {
+      "after": "word = U16(U8(ability_raw) + I8(energy_raw) - 62)\nif I8(form_raw) < 32:\n    word = U16(word + I8(form_raw))\nelse:\n    word = U16(word - trunc_toward_zero(I16(word), 16))\nclamped_strength = clamp(I16(word), 0, 256)\n# Adapter keeps unavailable query before this block, placement query after it,\n# then halves when required and reproduces original registers/locals/sites.",
+      "before": "v = (p.u8(4) - 0x3e + (s8(p.u8(0x0e)) & 0xffff)) & 0xffff\nc = s8(p.u8(0x0c))\nif c >= 0x20:\n    q, dx = idiv(s16(v), 0x10)\n    v = (v - q) & 0xffff\nelse:\n    v = (v + c) & 0xffff\n# Signed clamp, original frame writes, placement query, optional halving follow.",
+      "claim": "Express the finite arithmetic of377E as a numerical core while keeping unavailable/placement queries and machine effects in their original order.",
+      "counterexample": "Retained healthy/form32 rows give226 and183; form is not monotone across32. The clamp-before-placement row gives128. Clamping after halving or treating a byte as unsigned changes a branch.",
+      "id": "strength-core",
+      "limits": [
+        "Pseudocode below projects the numerical result only.",
+        "The original wrapper's AX/DX, frame locals, caller-visible effects and exceptional behavior are not returned by this scalar sketch."
+      ],
+      "obligations": [
+        "arithmetic",
+        "machine-state",
+        "identities"
+      ],
+      "omitted_machine_effects": "A scalar return is insufficient: the adapter may need intermediate words, quotient/remainder and branch information, or retain explicit original operations until full boundary equality is shown.",
+      "sources": [
+        {
+          "line": 316,
+          "path": "static/goal-exe/named/seg_1771_03.c",
+          "text": "// ---- 1771:377E  player_strength  (f_1771_377E; Ghidra 4000:377E, __stdcall16far; found by routines.tsv)"
+        },
+        {
+          "line": 800,
+          "path": "static/goal-exe/code/seg_1771_05.asm",
+          "text": "37D6  F7 F9           idiv cx"
+        },
+        {
+          "line": 551,
+          "path": "runtime/original_match/port/attributes.py",
+          "text": "def player_strength(mem, variant):"
+        },
+        {
+          "line": 16,
+          "path": "notes/engine-study/T98/strength-v1.json",
+          "text": "\"examples\": ["
+        }
+      ],
+      "validation": "Reuse retained T98 cases, then require candidate-versus-accepted-port full boundary state/effect comparisons and independent original oracles before implementation claims."
+    },
+    {
+      "after": "repeat:\n    candidate = step_from_same_drawn_position(direction)\n    reproduce_original_attempt_writes_and_sites(candidate)  # before readers\n    accepted = direction_is_standstill(direction)\n    if not accepted:\n        accepted = inside_original_bounds(candidate)\n        if accepted and original_occupancy_guard_applies(player):\n            accepted = picture_allows(character(candidate), attribute(candidate))\n    retain_original_validation_helper_effects_and_return(accepted)\n    if accepted: break\n    direction = draw_main_rng(5)\n# Retain the separate original sprite/background update after movement.",
+      "before": "current_word = old_drawn_word\napply_direction_byte_to_current()\nif direction != 5:\n    reject_if_outside_original_bounds()\n    if live_and_ordinary_nonholder_nonchallenger:\n        read_picture_character_and_attribute()\n        reject_if_attribute_not_13_and_character_in_original_set()\n#8889 draws rand(5) for each failure and calls this attempt again.",
+      "claim": "A named movement operation must retain per-attempt reset, character/attribute occupancy and conditional draw/effect ordering.",
+      "counterexample": "The retained blocked-step starts at[0,0], rejects[1,0] and accepts[0,1] after two main draws. Ignoring occupancy accepts[1,0] with one draw. Character1/attribute7 and character1/attribute13 differ.",
+      "id": "occupancy-step",
+      "limits": [
+        "Supplied draw examples are not newly executed seeded fixtures.",
+        "The sketch begins after8889's original target restriction/axis selection; it omits the update_player handler and energy tail."
+      ],
+      "obligations": [
+        "occupancy",
+        "random-order",
+        "machine-state"
+      ],
+      "omitted_machine_effects": "A pure legality predicate can help explanation, but candidate writes occur even on failure and reset from the drawn position every attempt. Preserve coordinate bounds, exemptions, packed bytes and restoration order; do not replace the picture with a boolean grid.",
+      "sources": [
+        {
+          "line": 333,
+          "path": "static/goal-exe/named/seg_0791_08.c",
+          "text": "// ---- 0791:86D0  f_0791_86D0  (f_0791_86D0; Ghidra 2000:86D0, __stdcall16near; found by routines.tsv)"
+        },
+        {
+          "line": 456,
+          "path": "static/goal-exe/code/seg_0791_14.asm",
+          "text": "; ---- routine 0791:86D0  (found by: call)"
+        },
+        {
+          "line": 882,
+          "path": "static/goal-exe/code/seg_0791_14.asm",
+          "text": "8AD1  9A B1 06 4B 21  call far 214B:06B1"
+        },
+        {
+          "line": 289,
+          "path": "notes/engine-study/T101/T101c-v1.json",
+          "text": "\"id\": \"blocked-step\","
+        }
+      ],
+      "validation": "Reused T101 blocked-step/source controls; any later implementation needs ordered RNG, complete picture and write/site traces."
+    },
+    {
+      "after": "stop = resume_current_phase_without_reordering_effects()\nclear_current_menu_context()\nif stop.is_event_or_decision: return_pending_boundary()\nelse:\n    flush_pending_observed_writes()\n    on_run_match_return: capture_fixture_then_enter_player_update()\n    on_player_update_return: finish_public_result()\n# Remaining events/answers/frames/records/RNG must reconstruct exactly on supported load.",
+      "before": "stopped = machine.run(current_return_boundary)\nclear_current_menu_context()\nif stopped is not None: return\nflush_pending_observed_writes()\nif phase == 'run_match':\n    capture_fixture_after()\n    phase = 'player_update'\n    call_original_boundary(B7FA)\nelse:\n    phase = 'done'\n    finish_public_result()",
+      "claim": "Name adapter phases while preserving pending event boundaries and F1F6-before-B7FA completion.",
+      "counterexample": "Returning a completed result at the full-time board omits B7FA's later player update. Deferring events until result assembly loses their original write-time stamps. Match equality alone does not prove the #427 live-Core caller continuation.",
+      "id": "event-continuation",
+      "limits": [
+        "This is the admitted Match completion slice, not the full campaign router or a live-Core bridge.",
+        "At m7 engine=port checkpoint save/load remains refused; no transition sketch implements T78c."
+      ],
+      "obligations": [
+        "phase-tail",
+        "event-order",
+        "decisions",
+        "checkpoints",
+        "public-api"
+      ],
+      "omitted_machine_effects": "The host call stack is not automatically serializable. Queues, waiting/refused answers, replay origin/actions, guest frames and return addresses are representation work; an enum alone does not preserve them.",
+      "sources": [
+        {
+          "line": 565,
+          "path": "runtime/original_match/match.py",
+          "text": "def _advance(self):"
+        },
+        {
+          "line": 1394,
+          "path": "runtime/original_match/match.py",
+          "text": "def _load_replay(cls, state, memory):"
+        },
+        {
+          "line": 1369,
+          "path": "runtime/original_match/match.py",
+          "text": "raise ValueError(\"port/unknown engine checkpoint is not supported in this assembly slice\")"
+        }
+      ],
+      "validation": "Existing whole-stream, answer/refusal and supported original-checkpoint comparisons; new phase representation needs its own complete reconstruction proof."
+    },
+    {
+      "benefit": "Expose field meaning while reusing existing Rec/Mem and precise effect adapters.",
+      "claim": "Expose field meaning while reusing existing Rec/Mem and precise effect adapters.",
+      "contract": "Existing machine-boundary contract; extend names without adopting a weaker one.",
+      "dependencies": [
+        "Field meanings/unknown bytes",
+        "Existing wrapping/view helpers",
+        "Boundary write/site tests"
+      ],
+      "id": "memory-views",
+      "limits": [
+        "These are design tradeoffs, not implemented alternatives, benchmarks or equivalence results."
+      ],
+      "obligations": [
+        "identities",
+        "machine-state"
+      ],
+      "risk": "Copies, cache refreshes, packed-bit writes and accessor ordering can change storage semantics.",
+      "sources": [
+        {
+          "line": 45,
+          "path": "runtime/original_match/port/attributes.py",
+          "text": "class Rec:"
+        }
+      ],
+      "validation": "Compare against the twelve-obligation contract and the corresponding representative sketch; cost/prototype work follows in T110c."
+    },
+    {
+      "benefit": "Make a small deterministic numerical rule testable and readable apart from guest plumbing.",
+      "claim": "Make a small deterministic numerical rule testable and readable apart from guest plumbing.",
+      "contract": "Existing boundary contract retained by a separately proved adapter; result-only parity is insufficient.",
+      "dependencies": [
+        "Pure input/output boundary",
+        "Independent numerical oracle",
+        "An adapter whose required effects remain exact"
+      ],
+      "id": "pure-rules",
+      "limits": [
+        "These are design tradeoffs, not implemented alternatives, benchmarks or equivalence results."
+      ],
+      "obligations": [
+        "arithmetic",
+        "machine-state"
+      ],
+      "risk": "Inputs may be cached/context-dependent; a returned scalar omits frame/register/effect behavior.",
+      "sources": [
+        {
+          "line": 551,
+          "path": "runtime/original_match/port/attributes.py",
+          "text": "def player_strength(mem, variant):"
+        }
+      ],
+      "validation": "Compare against the twelve-obligation contract and the corresponding representative sketch; cost/prototype work follows in T110c."
+    },
+    {
+      "benefit": "Make match phases and pending decisions inspectable and potentially serializable.",
+      "claim": "Make match phases and pending decisions inspectable and potentially serializable.",
+      "contract": "Machine-boundary preservation unless the owner explicitly chooses a different public-API representation contract.",
+      "dependencies": [
+        "Complete continuation model",
+        "Pending event/answer state",
+        "Checkpoint and replay proof"
+      ],
+      "id": "explicit-transitions",
+      "limits": [
+        "These are design tradeoffs, not implemented alternatives, benchmarks or equivalence results."
+      ],
+      "obligations": [
+        "phase-tail",
+        "decisions",
+        "checkpoints"
+      ],
+      "risk": "A phase enum hides nested generators, deferred events, menu/refusal state and original ordering.",
+      "sources": [
+        {
+          "line": 565,
+          "path": "runtime/original_match/match.py",
+          "text": "def _advance(self):"
+        }
+      ],
+      "validation": "Compare against the twelve-obligation contract and the corresponding representative sketch; cost/prototype work follows in T110c."
+    },
+    {
+      "benefit": "Use domain records and algorithms throughout, potentially isolating all machine representation at adapters.",
+      "claim": "Use domain records and algorithms throughout, potentially isolating all machine representation at adapters.",
+      "contract": "No automatic compatibility level: removing DOS state needs explicit owner scope; changed football semantics are a separate project.",
+      "dependencies": [
+        "Explicit owner compatibility choice",
+        "Coverage and oracle inventory",
+        "Numeric/runtime replacement",
+        "End-to-end and downstream proof"
+      ],
+      "id": "semantic-rewrite",
+      "limits": [
+        "These are design tradeoffs, not implemented alternatives, benchmarks or equivalence results."
+      ],
+      "obligations": [
+        "arithmetic",
+        "occupancy",
+        "random-order",
+        "machine-state",
+        "public-api"
+      ],
+      "risk": "Highest risk of lost finite arithmetic, occupancy, RNG consumption, rare paths and external continuation behavior.",
+      "sources": [
+        {
+          "line": 8,
+          "path": "docs/engine-study/inventory.md",
+          "text": "**21 modules, 423 unique registered addresses, 406 bodies and 17 declared stubs**. All 423 addresses"
+        },
+        {
+          "line": 21,
+          "path": "runtime/original_match/port/engine.py",
+          "text": "class PortMachine(Machine):"
+        }
+      ],
+      "validation": "Compare against the twelve-obligation contract and the corresponding representative sketch; cost/prototype work follows in T110c."
+    }
+  ],
+  "sections": [
+    "How to read the sketches",
+    "Four representative changes",
+    "Four architecture options",
+    "What remains to prove"
+  ],
+  "sources": {
+    "docs/engine-study/inventory.md": "7becf6fb2978743e47216638267d6398ed487cda12a2b101f2f1467ac22e4dd5",
+    "notes/engine-study/T101/T101c-v1.json": "9078c296a4a27fa3989609ce8d3bf5393b5ea861bba8a70c89eb6a978027f374",
+    "notes/engine-study/T98/strength-v1.json": "3af8f59f7645409f9d91bdc2b48d17f9412fb99bc4c82b5c4d75807211d026d5",
+    "runtime/original_match/match.py": "103478a380ece9504f4368cf4d5d40934f2f944dadb46ebe0a0b6341f849f9e0",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "runtime/original_match/port/engine.py": "5b82528f92309934a7b2010f404bd5787cb13ea08a32463c8fd3b6679e9c48a3",
+    "static/goal-exe/code/seg_0791_14.asm": "032e2d6f22d6db5981e2a11f43298924a53e15d080e1d73d1fb375ddbe400abd",
+    "static/goal-exe/code/seg_1771_05.asm": "4a856a9af9dee3d93fe6e6275ead612d2d3ba4c81363389c68fa5424ca8483d9",
+    "static/goal-exe/named/seg_0791_08.c": "130e91927a5bb2fed2adb998225fc88091816752051eee90ae004e30fcfecc96",
+    "static/goal-exe/named/seg_1771_03.c": "9c51e37d30f7d69e51b2d776c0b704d7f87852cd10d47fa4d679880d13f4d2f4"
+  },
+  "support": {
+    "docs/engine-study/rewrite-contract.md": "c1e12420380eb5c65fee998ee36b576c1aea3cb3d1bbb1b303b7b6a077f6a4c3",
+    "notes/engine-study/T110/T110a-v1.json": "47fb68882ea6c1585f51fc564c04f79115127146e8099cf4d3067ceeb7851729"
+  },
+  "task": "T110b"
+}
