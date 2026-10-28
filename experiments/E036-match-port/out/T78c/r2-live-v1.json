@@ -1,0 +1,13 @@
+{
+  "checks": {
+    "98ea312b65acfa62210e7bd5ad087c318c1bebb6": true,
+    "664b0c7f34113f5d8b82193ddcdb595a1777d6b5": true,
+    "4c183d284f10b506563fb1d86cb259b176a3c40a": false
+  },
+  "source_sha256": {
+    "tools/ci_gate.py": "6e49b85131cd22e30f44ca2f0a36684ca79c9409e966676a55852effe8a22f1f",
+    "tests/test_ci_gate.py": "cfabd0650bcd511edd363a81a1d86e1536d85a46ded2e81be9b9f6a29608da30",
+    ".github/workflows/ci.yml": "bd269816512606b0590fd343919580d218ae9184434d46ecab366c33ca5b7636"
+  },
+  "claim": "Successful real source and verified output-only chain accepted; cancelled real required execution refused"
+}

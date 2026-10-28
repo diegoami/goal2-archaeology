@@ -1,0 +1,87 @@
+test_garbage_is_not_a_pass (tests.test_ci_gate.CheckRuns.test_garbage_is_not_a_pass) ... ok
+test_only_a_successful_checks_job_counts (tests.test_ci_gate.CheckRuns.test_only_a_successful_checks_job_counts) ... ok
+test_every_matrix_check_must_succeed_at_the_same_head (tests.test_ci_gate.CheckpointGroups.test_every_matrix_check_must_succeed_at_the_same_head) ... ok
+test_groups_from_separate_executions_never_assemble_success (tests.test_ci_gate.CheckpointGroups.test_groups_from_separate_executions_never_assemble_success) ... ok
+test_longest_measured_cases_start_with_general_in_the_first_four_slots (tests.test_ci_gate.CheckpointGroups.test_longest_measured_cases_start_with_general_in_the_first_four_slots) ... ok
+test_metadata_parent_checks_actual_git_diff_and_stops_at_source_changes (tests.test_ci_gate.CheckpointGroups.test_metadata_parent_checks_actual_git_diff_and_stops_at_source_changes) ... ok
+test_old_skipped_draft_placeholder_does_not_shadow_real_success (tests.test_ci_gate.CheckpointGroups.test_old_skipped_draft_placeholder_does_not_shadow_real_success) ... ok
+test_only_verified_metadata_chain_can_reuse_complete_source (tests.test_ci_gate.CheckpointGroups.test_only_verified_metadata_chain_can_reuse_complete_source) ... ok
+test_partition_is_the_exact_disjoint_union_including_future_tests (tests.test_ci_gate.CheckpointGroups.test_partition_is_the_exact_disjoint_union_including_future_tests) ... ok
+test_unknown_missing_or_duplicate_boundaries_are_refused (tests.test_ci_gate.CheckpointGroups.test_unknown_missing_or_duplicate_boundaries_are_refused) ... ok
+test_workflow_runs_all_groups_without_fast_fail_or_recorder_setup_in_boundary_jobs (tests.test_ci_gate.CheckpointGroups.test_workflow_runs_all_groups_without_fast_fail_or_recorder_setup_in_boundary_jobs) ... ok
+test_a_change_obliges_the_union_of_its_files (tests.test_ci_gate.Classify.test_a_change_obliges_the_union_of_its_files) ... ok
+test_every_dependency_prefix_exists (tests.test_ci_gate.Classify.test_every_dependency_prefix_exists) ... ok
+test_every_doc_a_test_reads_exists (tests.test_ci_gate.Classify.test_every_doc_a_test_reads_exists) ... ok
+test_every_path_a_slow_module_reads_obliges_that_module (tests.test_ci_gate.Classify.test_every_path_a_slow_module_reads_obliges_that_module)
+The traces of the six slow modules: every repo file one opens or executes must oblige it. ... ok
+test_what_examples_oblige (tests.test_ci_gate.Classify.test_what_examples_oblige) ... ok
+test_a_docs_push_to_a_code_pr_runs_docs_when_the_previous_head_passed (tests.test_ci_gate.Decide.test_a_docs_push_to_a_code_pr_runs_docs_when_the_previous_head_passed) ... ok
+test_a_docs_push_to_a_code_pr_runs_the_whole_pr_when_the_previous_head_did_not_pass (tests.test_ci_gate.Decide.test_a_docs_push_to_a_code_pr_runs_the_whole_pr_when_the_previous_head_did_not_pass)
+The case the rule exists for: a red run followed by a prose-only fix must not go green. ... ok
+test_a_force_push_whose_old_head_is_gone_takes_the_whole_pr (tests.test_ci_gate.Decide.test_a_force_push_whose_old_head_is_gone_takes_the_whole_pr) ... ok
+test_a_new_pr_obliges_what_its_whole_diff_does (tests.test_ci_gate.Decide.test_a_new_pr_obliges_what_its_whole_diff_does) ... ok
+test_a_push_runs_only_the_modules_it_touches (tests.test_ci_gate.Decide.test_a_push_runs_only_the_modules_it_touches) ... ok
+test_a_push_that_obliges_all_the_pr_does_does_not_ask (tests.test_ci_gate.Decide.test_a_push_that_obliges_all_the_pr_does_does_not_ask) ... ok
+test_an_output_only_push_runs_nothing_only_after_a_pass (tests.test_ci_gate.Decide.test_an_output_only_push_runs_nothing_only_after_a_pass) ... ok
+test_an_unreadable_diff_runs_everything (tests.test_ci_gate.Decide.test_an_unreadable_diff_runs_everything) ... ok
+test_manual_runs_are_everything (tests.test_ci_gate.Decide.test_manual_runs_are_everything) ... ok
+test_no_before_takes_the_whole_pr (tests.test_ci_gate.Decide.test_no_before_takes_the_whole_pr) ... ok
+test_the_nightly_run_is_everything_only_when_code_landed_in_the_day (tests.test_ci_gate.Decide.test_the_nightly_run_is_everything_only_when_code_landed_in_the_day) ... ok
+test_the_slow_modules_run_only_when_named (tests.test_ci_gate.Suite.test_the_slow_modules_run_only_when_named) ... ok
+test_a_nightly_full_run_on_main_exists (tests.test_ci_gate.Workflow.test_a_nightly_full_run_on_main_exists) ... ok
+test_no_unquoted_if_holds_a_hash (tests.test_ci_gate.Workflow.test_no_unquoted_if_holds_a_hash)
+In YAML a ` #` inside a plain scalar starts a comment: the first push of PR 298 made ... ok
+test_the_cheap_checks_run_in_every_tier_that_runs (tests.test_ci_gate.Workflow.test_the_cheap_checks_run_in_every_tier_that_runs) ... ok
+test_the_code_tier_installs_the_pinned_unicorn (tests.test_ci_gate.Workflow.test_the_code_tier_installs_the_pinned_unicorn)
+Issue #304: without unicorn the emulator tests skip and their assertions never run in CI. ... ok
+test_the_merge_commit_of_a_research_pr_skips_quick_on_main (tests.test_ci_gate.Workflow.test_the_merge_commit_of_a_research_pr_skips_quick_on_main) ... ok
+test_the_status_job_has_no_needs_and_no_gate_output_in_its_if (tests.test_ci_gate.Workflow.test_the_status_job_has_no_needs_and_no_gate_output_in_its_if)
+A PR that is not a draft always gets a `checks` status: a skipped job must not block. ... ok
+test_the_unit_suite_gets_the_modules_the_gate_chose (tests.test_ci_gate.Workflow.test_the_unit_suite_gets_the_modules_the_gate_chose) ... ok
+test_the_timings_relate_as_their_comment_says (tests.test_heavy_slot.ConstantsTest.test_the_timings_relate_as_their_comment_says) ... ok
+test_a_command_line_the_script_refuses_does_not_queue (tests.test_heavy_slot.EntryPointsTest.test_a_command_line_the_script_refuses_does_not_queue) ... ok
+test_a_valid_command_line_waits_in_the_queue (tests.test_heavy_slot.EntryPointsTest.test_a_valid_command_line_waits_in_the_queue)
+Each entry point queues a line it will run (the refused ones do not: RefusedAfterParsingTest). #328 changed the ... ok
+test_the_entry_points_take_a_slot (tests.test_heavy_slot.EntryPointsTest.test_the_entry_points_take_a_slot) ... ok
+test_a_command_line_main_refuses_holds_no_slot (tests.test_heavy_slot.FamilyWorkersTest.test_a_command_line_main_refuses_holds_no_slot) ... ok
+test_a_line_main_refuses_after_parsing_holds_no_slot_either (tests.test_heavy_slot.FamilyWorkersTest.test_a_line_main_refuses_after_parsing_holds_no_slot_either) ... ok
+test_check_py_runs_in_one_process_in_every_mode (tests.test_heavy_slot.FamilyWorkersTest.test_check_py_runs_in_one_process_in_every_mode)
+Audit of #318 round 3: check.py's modes (--family, --ports, --variant, --image, --json) run their matches one after ... ok
+test_parsed_prints_nothing_and_returns_none_on_a_refused_line (tests.test_heavy_slot.FamilyWorkersTest.test_parsed_prints_nothing_and_returns_none_on_a_refused_line) ... ok
+test_the_weight_is_the_load_of_the_mode_not_the_workers_option (tests.test_heavy_slot.FamilyWorkersTest.test_the_weight_is_the_load_of_the_mode_not_the_workers_option) ... ok
+test_the_weight_is_the_workers_main_uses_whatever_the_spelling (tests.test_heavy_slot.FamilyWorkersTest.test_the_weight_is_the_workers_main_uses_whatever_the_spelling) ... ok
+test_a_fifo_is_not_a_file_and_does_not_block (tests.test_heavy_slot.PathOptionsTest.test_a_fifo_is_not_a_file_and_does_not_block)
+Opening a FIFO for reading waits for a writer: the check must refuse it before it opens anything. ... ok
+test_check_cache (tests.test_heavy_slot.PathOptionsTest.test_check_cache) ... ok
+test_check_cache_permissions (tests.test_heavy_slot.PathOptionsTest.test_check_cache_permissions) ... ok
+test_check_image (tests.test_heavy_slot.PathOptionsTest.test_check_image) ... ok
+test_check_image_permissions (tests.test_heavy_slot.PathOptionsTest.test_check_image_permissions) ... ok
+test_check_json (tests.test_heavy_slot.PathOptionsTest.test_check_json) ... ok
+test_check_json_permissions (tests.test_heavy_slot.PathOptionsTest.test_check_json_permissions) ... ok
+test_every_path_option_is_in_a_table (tests.test_heavy_slot.PathOptionsTest.test_every_path_option_is_in_a_table)
+The audit: the options of the three parsers. A new option that names a file fails here until it has a table. ... ok
+test_family_cache (tests.test_heavy_slot.PathOptionsTest.test_family_cache) ... ok
+test_family_cache_permissions (tests.test_heavy_slot.PathOptionsTest.test_family_cache_permissions) ... ok
+test_family_checkpoint (tests.test_heavy_slot.PathOptionsTest.test_family_checkpoint) ... ok
+test_family_checkpoint_permissions (tests.test_heavy_slot.PathOptionsTest.test_family_checkpoint_permissions) ... ok
+test_family_find_ranges (tests.test_heavy_slot.PathOptionsTest.test_family_find_ranges) ... ok
+test_family_find_ranges_permissions (tests.test_heavy_slot.PathOptionsTest.test_family_find_ranges_permissions) ... ok
+test_family_mask (tests.test_heavy_slot.PathOptionsTest.test_family_mask) ... ok
+test_family_mask_permissions (tests.test_heavy_slot.PathOptionsTest.test_family_mask_permissions) ... ok
+test_family_out (tests.test_heavy_slot.PathOptionsTest.test_family_out) ... ok
+test_family_out_permissions (tests.test_heavy_slot.PathOptionsTest.test_family_out_permissions) ... ok
+test_check_refusals (tests.test_heavy_slot.RefusedAfterParsingTest.test_check_refusals) ... ok
+test_ci_gate_refusals (tests.test_heavy_slot.RefusedAfterParsingTest.test_ci_gate_refusals) ... ok
+test_family_refusals (tests.test_heavy_slot.RefusedAfterParsingTest.test_family_refusals) ... ok
+test_main_asks_the_same_validation (tests.test_heavy_slot.RefusedAfterParsingTest.test_main_asks_the_same_validation)
+The slot step and main() share one function: main() refuses through it, so the two cannot diverge. ... ok
+test_a_job_waits_for_the_slot_a_heavy_job_holds_and_then_runs (tests.test_heavy_slot.TakeTest.test_a_job_waits_for_the_slot_a_heavy_job_holds_and_then_runs) ... ok
+test_in_ci_and_when_switched_off_it_runs_as_it_is (tests.test_heavy_slot.TakeTest.test_in_ci_and_when_switched_off_it_runs_as_it_is) ... ok
+test_inside_a_heavy_job_it_runs_at_once (tests.test_heavy_slot.TakeTest.test_inside_a_heavy_job_it_runs_at_once) ... ok
+test_take_replaces_the_process_by_heavy_sh_with_the_original_command (tests.test_heavy_slot.TakeTest.test_take_replaces_the_process_by_heavy_sh_with_the_original_command) ... ok
+test_the_weight_is_the_number_of_slots_held (tests.test_heavy_slot.TakeTest.test_the_weight_is_the_number_of_slots_held) ... ok
+
+----------------------------------------------------------------------
+Ran 72 tests in 25.107s
+
+OK

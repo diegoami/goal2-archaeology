@@ -79,7 +79,10 @@ BOUNDARY_CASES = {f"e{experiment}-{number:02d}":
                   f"test_port_engine.Checkpoints.test_e{experiment}_{number:02d}"
                   for experiment, count in (("033", 7), ("034", 3))
                   for number in range(1, count + 1)}
-TEST_GROUPS = ("general", *BOUNDARY_CASES)
+# [designed: measured40659261502] Put the three longest cases in the
+# first four slots; this changes queue order only, never coverage or limits.
+_FIRST_GROUPS = ("general", "e034-01", "e033-06", "e034-02")
+TEST_GROUPS = (*_FIRST_GROUPS, *(group for group in BOUNDARY_CASES if group not in _FIRST_GROUPS))
 
 
 def flatten(suite):
@@ -155,23 +158,65 @@ def changed(a, b, three_dots=False):
     return r.stdout.split("\n")[:-1] if r.returncode == 0 else None
 
 
-def previous_head_succeeded(repo, sha, runner=subprocess.run):
-    """Did the `checks` job of the workflow succeed on commit `sha`?  False when it did not run."""
-    r = runner(["gh", "api", f"repos/{repo}/commits/{sha}/check-runs?per_page=100"], capture_output=True, text=True)
-    if r.returncode != 0:
-        return False
-    try:
-        runs = json.loads(r.stdout)["check_runs"]
-    except (ValueError, KeyError):
-        return False
-    matrix = [c for c in runs if c.get("name", "").startswith("checks (")]
+def metadata_parent(sha):
+    """[derived: existing incremental tier] Only prose/outputs may inherit.
+
+    The full aggregate tree difference is checked again at every first-parent
+    step. Any runtime/test/fixture/workflow/tool change, missing object or
+    unclassifiable path stops reuse instead of assuming source equivalence.
+    """
+    parent = git("rev-parse", f"{sha}^")
+    if parent.returncode:
+        return None
+    parent = parent.stdout.strip()
+    files = changed(parent, sha)
+    if files is None or obligations(files) - {QUICK}:
+        return None
+    return parent
+
+
+def _execution_status(runs):
+    # GitHub emits a literal, unexpanded matrix name for a skipped draft job.
+    # It is not an executed test group. Keep real executions/suites separate.
+    placeholder = "checks (${{ matrix.group }})"
+    matrix = [c for c in runs if c.get("name", "").startswith("checks (")
+              and not (c.get("name") == placeholder and c.get("conclusion") == "skipped")]
     if matrix:
         expected = {f"checks ({group})" for group in TEST_GROUPS}
-        return (len(matrix) == len(expected)
+        suites = {c.get("check_suite", {}).get("id") for c in matrix}
+        return (len(suites) == 1 and len(matrix) == len(expected)
                 and {c.get("name") for c in matrix} == expected
                 and all(c.get("conclusion") == "success" for c in matrix))
-    # Historic serial heads executed the complete suite in one checks job.
-    return any(c.get("name") == "checks" and c.get("conclusion") == "success" for c in runs)
+    serial = [c for c in runs if c.get("name") == "checks"]
+    if serial:
+        return len(serial) == 1 and serial[0].get("conclusion") == "success"
+    return None  # no applicable execution: only a verified metadata parent may reuse
+
+
+def previous_head_succeeded(repo, sha, runner=subprocess.run, predecessor=None):
+    """One complete successful execution, directly or over verified metadata.
+
+    Never combine partial groups from different suites or inherit past an
+    actual failed, cancelled, skipped or still-pending required execution.
+    """
+    predecessor = metadata_parent if predecessor is None else predecessor
+    seen = set()
+    for _ in range(20):
+        if not sha or sha in seen:
+            return False
+        seen.add(sha)
+        r = runner(["gh", "api", f"repos/{repo}/commits/{sha}/check-runs?per_page=100"],
+                   capture_output=True, text=True)
+        if r.returncode != 0:
+            return False
+        try:
+            status = _execution_status(json.loads(r.stdout)["check_runs"])
+        except (ValueError, KeyError, TypeError, AttributeError):
+            return False
+        if status is not None:
+            return status
+        sha = predecessor(sha)
+    return False
 
 
 ALL = frozenset({QUICK, CODE, *SLOW})

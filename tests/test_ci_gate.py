@@ -286,6 +286,57 @@ class CheckpointGroups(unittest.TestCase):
         self.assertFalse(ask([*rows,rows[0]]))
         self.assertFalse(ask([dict(name='checks',conclusion='success'),*rows[:-1]]))
 
+    @staticmethod
+    def complete_execution(suite=1):
+        return [dict(name=f'checks ({group})',conclusion='success',check_suite={'id':suite})
+                for group in G.TEST_GROUPS]
+
+    @staticmethod
+    def response(rows):
+        return type('Reply',(),dict(returncode=0,stdout=json.dumps({'check_runs':rows})))()
+
+    def test_old_skipped_draft_placeholder_does_not_shadow_real_success(self):
+        rows=self.complete_execution()
+        rows.append(dict(name='checks (${{ matrix.group }})',conclusion='skipped',check_suite={'id':2}))
+        self.assertTrue(G.previous_head_succeeded('owner/repo','abc',lambda *a,**k:self.response(rows)))
+
+    def test_groups_from_separate_executions_never_assemble_success(self):
+        rows=self.complete_execution()
+        for row in rows[5:]:row['check_suite']={'id':2}
+        self.assertFalse(G.previous_head_succeeded('owner/repo','abc',lambda *a,**k:self.response(rows)))
+        rows=self.complete_execution()+self.complete_execution(2)
+        self.assertFalse(G.previous_head_succeeded('owner/repo','abc',lambda *a,**k:self.response(rows)))
+
+    def test_only_verified_metadata_chain_can_reuse_complete_source(self):
+        rows={'meta':[], 'source':self.complete_execution()}
+        def api(command,**kwargs):return self.response(rows[command[2].split('/commits/')[1].split('/')[0]])
+        parents=lambda sha:'source' if sha=='meta' else None
+        self.assertTrue(G.previous_head_succeeded('owner/repo','meta',api,predecessor=parents))
+        self.assertFalse(G.previous_head_succeeded('owner/repo','meta',api,predecessor=lambda sha:None))
+        rows['meta']=[dict(name='checks (general)',conclusion='failure',check_suite={'id':2})]
+        self.assertFalse(G.previous_head_succeeded('owner/repo','meta',api,predecessor=parents))
+        for bad in ('cancelled','skipped',None):
+            rows['meta'][0]['conclusion']=bad
+            self.assertFalse(G.previous_head_succeeded('owner/repo','meta',api,predecessor=parents))
+
+    def test_metadata_parent_checks_actual_git_diff_and_stops_at_source_changes(self):
+        from unittest.mock import patch
+        def reply(text,code=0):return type('Git',(),dict(returncode=code,stdout=text))()
+        for paths,expected in ((['experiments/E036-match-port/out/T78c/a.json','notes/T78c.md'],'parent'),
+                               (['experiments/E036-match-port/notes/T78c.md'],None),
+                               (['runtime/original_match/match.py'],None),
+                               (['tests/test_port_engine.py'],None),
+                               (['tools/ci_gate.py'],None),
+                               (['docs/play-guide.md'],None)):
+            with self.subTest(paths=paths):
+                with patch.object(G,'git',side_effect=[reply('parent\n'),reply('\n'.join(paths)+'\n')]):
+                    self.assertEqual(G.metadata_parent('head'),expected)
+        with patch.object(G,'git',return_value=reply('',1)):
+            self.assertIsNone(G.metadata_parent('head'))
+
+    def test_longest_measured_cases_start_with_general_in_the_first_four_slots(self):
+        self.assertEqual(G.TEST_GROUPS[:4],('general','e034-01','e033-06','e034-02'))
+
     def test_workflow_runs_all_groups_without_fast_fail_or_recorder_setup_in_boundary_jobs(self):
         text=(ROOT/'.github/workflows/ci.yml').read_text()
         self.assertIn('max-parallel: 4',text)
