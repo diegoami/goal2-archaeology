@@ -181,7 +181,10 @@ Version 2 saves load without ports. `save()` accepts all of them, a `decision`
 before `answer()` included (the loaded match has `m.waiting` set: answer it, as the original is still asking; taking
 the next event unanswered plays on) and after it, and events queued but not yet taken are saved with it. Straight and
 resumed are the same match: the remaining events (kind, minute, score, data) and the result are equal. No boundary is
-refused on purpose. `save()` still raises `MatchError("save between events, not while the kit drives a screen")` if
+refused on purpose. [derived: `answer()` schema] Loading restores the sorted tactic,
+position and marking pairs as tuples, including nested own-tactic pairs, in both
+in-progress decision records and completed results. Substitution and shoot-out
+orders remain lists; JSON encoding itself is unchanged. `save()` still raises `MatchError("save between events, not while the kit drives a screen")` if
 called while the kit is inside one of the original's team screens, which goal2 cannot reach, as no event is taken
 from `events()` in the middle of a screen. A proved match is still refused. Live port frames are reconstructed
 by replay on load ("Ports" below). The check (E033 `save_boundaries.py`) saves and resumes at the first

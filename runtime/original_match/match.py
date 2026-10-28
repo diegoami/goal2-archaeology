@@ -1385,6 +1385,20 @@ class Match:
                 raise ValueError("stale or incomplete port checkpoint")
         return n, state, engine
 
+    @staticmethod
+    def _restore_decision_pairs(decisions):
+        # [derived: answer()'s schema] JSON erases tuple identity. Restore only
+        # declared sorted mapping pairs, retaining substitutions/order as lists
+        # and the existing live result API (including nested own-tactic pairs).
+        for decision in decisions:
+            answer = decision["answer"]
+            for key in ("tactics", "positions", "marking"):
+                if key in answer:
+                    answer[key] = [tuple(pair) for pair in answer[key]]
+            if "own_tactics" in answer:
+                answer["own_tactics"] = [(player, [tuple(pair) for pair in tactics])
+                                         for player, tactics in answer["own_tactics"]]
+
     @classmethod
     def load(cls, data):
         n, state, engine = cls._checkpoint_state(data)
@@ -1419,6 +1433,9 @@ class Match:
         self._queue = [Event(e["kind"], e["minute"], tuple(e["score"]), e["data"]) for e in state["queue"]]
         self._menu = None
         self._result = state["result"]
+        self._restore_decision_pairs(self.st["decisions"])
+        if self._result is not None:
+            self._restore_decision_pairs(self._result["decisions"])
         self._names = None
         self._hooks()
         self._install_ports(self.opts.get("ports"))

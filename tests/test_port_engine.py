@@ -181,6 +181,45 @@ class Checkpoints(unittest.TestCase):
                     with self.assertRaises((ValueError,MatchError)):
                         Match.load(Match._encode_save(outer,memory))
 
+    def test_frame_free_answer_records_keep_pair_types_after_loading(self):
+        # [designed: T78c] Authored pause state isolates the public answer record
+        # schema without replaying a match; no fabricated game result is used.
+        m=self.new()
+        squad=m._squad(7);other=m._squad(19)
+        m.st["waiting"]={"context":"pause"}
+        m.answer(tactics={4:True},positions={squad[5]:7},
+                 marking={squad[3]:other[9]},own_tactics={squad[7]:{1:True,2:None}},
+                 substitutions=[(squad[10],squad[18])])
+        before=m.st["decisions"]
+        self.assertTrue(before[-1]["answer"]["own_tactics"])
+        loaded=Match.load(m.save())
+        self.assertEqual(loaded.st["decisions"],before)
+        self.assertEqual(memory_digest(loaded),memory_digest(m))
+        self.assertEqual(loaded.save(),m.save())
+
+    def test_completed_quick_match_answer_records_and_memory_survive_loading(self):
+        # [derived: E033] Actual play through a pause and post-match tail,
+        # including nested answer records; the end checkpoint has no live frame.
+        m=self.new();paused=False
+        for event in m.events():
+            if event.kind=='minute' and not paused:
+                paused=True;m.pause()
+            if event.kind=='decision':
+                if event.data['context']=='pause':
+                    d=event.data;player=d['eleven'][5]
+                    m.answer(quick=True,tactics={4:True},
+                             positions={player:dict(d['positions'])[player]},
+                             marking={d['eleven'][3]:m._squad(19)[9]},
+                             own_tactics={player:{1:True,2:None}})
+                else:m.answer()
+        self.assertTrue(paused)
+        self.assertFalse(m.m.frames)
+        before=m.result();loaded=Match.load(m.save())
+        self.assertEqual(loaded.result(),before)
+        self.assertEqual(loaded.st['decisions'],m.st['decisions'])
+        self.assertEqual(memory_digest(loaded),memory_digest(m))
+        self.assertEqual(loaded.save(),m.save())
+
     def test_live_decisions_and_completed_tail_with_positive_unicorn_denial(self):
         script=r'''import builtins,sys
 real=builtins.__import__

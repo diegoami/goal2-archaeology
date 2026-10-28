@@ -1,0 +1,20 @@
+test_frame_free_answer_records_keep_pair_types_after_loading (tests.test_port_engine.Checkpoints.test_frame_free_answer_records_keep_pair_types_after_loading) ... FAIL
+
+======================================================================
+FAIL: test_frame_free_answer_records_keep_pair_types_after_loading (tests.test_port_engine.Checkpoints.test_frame_free_answer_records_keep_pair_types_after_loading)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 196, in test_frame_free_answer_records_keep_pair_types_after_loading
+    self.assertEqual(loaded.st["decisions"],before)
+AssertionError: Lists differ: [{'co[79 chars]s': [[4, True]], 'positions': [[126, 7]], 'mar[96 chars]ne}}] != [{'co[79 chars]s': [(4, True)], 'positions': [(126, 7)], 'mar[96 chars]ne}}]
+
+First differing element 0:
+{'con[78 chars]s': [[4, True]], 'positions': [[126, 7]], 'mar[95 chars]one}}
+{'con[78 chars]s': [(4, True)], 'positions': [(126, 7)], 'mar[95 chars]one}}
+
+Diff is 871 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.301s
+
+FAILED (failures=1)
