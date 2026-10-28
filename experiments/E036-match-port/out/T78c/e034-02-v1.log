@@ -1,0 +1,19 @@
+heavy: T78c-e034-02: waiting for a slot (5 ahead)
+heavy: T78c-e034-02: waiting for a slot (3 ahead)
+heavy: T78c-e034-02: waiting for a slot (2 ahead)
+heavy: T78c-e034-02: waiting for a slot (1 ahead)
+heavy: T78c-e034-02: waiting for a slot (0 ahead)
+heavy: T78c-e034-02: got slot 3 after 3893 s
+test_e034_02 (tests.test_port_engine.Checkpoints.test_e034_02) ... checkpoint PASS E034 index 42 boundary=0 phase=event
+checkpoint PASS E034 index 42 boundary=2 phase=event
+checkpoint PASS E034 index 42 boundary=567 phase=event
+checkpoint PASS E034 index 42 boundary=568 phase=event
+checkpoint PASS E034 index 42 boundary=568 phase=answered
+checkpoint PASS E034 index 42 boundary=716 phase=event
+checkpoint PASS E034 index 42 boundary=1037 phase=event
+checkpoint PASS E034 index 42 boundary=1185 phase=event
+checkpoint PASS E034 index 42 boundary=1187 phase=event
+checkpoint PASS E034 index 42 boundary=1187 phase=answered
+checkpoint PASS E034 index 42 boundary=1368 phase=event
+checkpoint PASS E034 index 42 boundary=1368 phase=answered
+checkpoint PASS E034 index 42 boundary=1563 phase=event
