@@ -45,7 +45,9 @@ def memory_digest(match):
 def play_knockout(image,engine):
     from original_match import example
     m=Match(image,Fixture(7,19,index=example.KNOCKOUT_INDEX,kind=example.KNOCKOUT),
-            managed=7,substitutions=example.BUDGET,record_draws=True,ports=['all'],engine=engine)
+            managed=7,substitutions=example.BUDGET,record_draws=True,ports=['all'],engine=engine,
+            # Full Python-port stretches exceed the public API's 60s default on CI (#605).
+            timeout_s=600)
     events=[]
     for event in m.events():
         events.append(dataclasses.asdict(event))
@@ -116,7 +118,8 @@ assert 'unicorn' not in sys.modules
 assert not hasattr(m.m,'_uc')
 print(json.dumps(dict(positive_denial=True,completed=True,score=r['score'],ticks=r['ticks'],draws=r['draws'])))
 '''
-        run=subprocess.run([sys.executable,'-B','-c',script],cwd=ROOT,env=dict(os.environ,PYTHONPATH=str(ROOT/'runtime')),capture_output=True,text=True,timeout=600)
+        # This is a complete match, not one event stretch; CI exceeded 600s (#605).
+        run=subprocess.run([sys.executable,'-B','-c',script],cwd=ROOT,env=dict(os.environ,PYTHONPATH=str(ROOT/'runtime')),capture_output=True,text=True,timeout=1800)
         self.assertEqual(run.returncode,0,run.stdout+run.stderr)
         self.assertIn('"completed": true',run.stdout)
 

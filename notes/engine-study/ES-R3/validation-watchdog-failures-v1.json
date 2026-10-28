@@ -1,0 +1,55 @@
+{
+  "candidate": "b46ce1e0ef8da41ce744b252678563a3e5cd2aae",
+  "issue": 605,
+  "scope": "Existing full static/unit verification, separate from T106 research invocations and owner-deferred T107.",
+  "attempts": [
+    {
+      "run": 40596330565,
+      "attempt": 1,
+      "job": 122513058472,
+      "conclusion": "failure",
+      "static": {
+        "tests": 115,
+        "seconds": 6.617,
+        "skips": 6
+      },
+      "unit": {
+        "tests": 2165,
+        "seconds": 8809.352,
+        "skips": 52,
+        "errors": 1
+      },
+      "errors": [
+        "Knockout original-backend stretch exceeded unchanged60s watchdog at0791:3090 before port comparison."
+      ],
+      "log_sha256": null
+    },
+    {
+      "run": 40596330565,
+      "attempt": 2,
+      "job": 122707001875,
+      "conclusion": "failure",
+      "static": {
+        "tests": 115,
+        "seconds": 6.568,
+        "skips": 6
+      },
+      "unit": {
+        "tests": 2165,
+        "seconds": 8275.901,
+        "skips": 52,
+        "errors": 2
+      },
+      "errors": [
+        "Knockout original-backend stretch exceeded unchanged60s watchdog at214B:0723 before port comparison.",
+        "No-Unicorn complete-match child exceeded unchanged600s subprocess allowance."
+      ],
+      "log_sha256": null
+    }
+  ],
+  "limits": [
+    "Host timing is observed; an engine semantic difference or infinite loop has not been reproduced.",
+    "Different stop addresses and earlier successful controls do not establish the precise root cause.",
+    "Full-reference and interactive complete-memory comparisons passed both attempts; neither failed knockout comparison executed."
+  ]
+}
