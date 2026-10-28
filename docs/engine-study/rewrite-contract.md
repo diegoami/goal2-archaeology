@@ -118,6 +118,12 @@ A future alternate backend must meet its declared adapter contract. Fresh-career
 sealed packaging and old-career migration are separate owner/delivery questions; no such
 capability is inferred from this analysis.
 
+The [live-Core bridge request #427](https://github.com/diegoami/goal2-archaeology/issues/427)
+separately asks for natural caller frames, complete write sets, return ABI and real management
+continuation. Public Match equality does not establish that bridge. This assessment and its
+cost scenarios exclude delivering the bridge; the dependency must not disappear behind an
+interface labelled "compatible".
+
 ### checkpoints
 
 At m7, supported original-engine save/replay preserves public event and pending-answer state;
