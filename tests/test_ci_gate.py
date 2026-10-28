@@ -243,6 +243,58 @@ class Suite(unittest.TestCase):
         self.assertIn("test_ci_gate", none)
 
 
+class CheckpointGroups(unittest.TestCase):
+    @staticmethod
+    def ids(suite):
+        return [t.id() for t in G.flatten(suite)]
+
+    def test_partition_is_the_exact_disjoint_union_including_future_tests(self):
+        suite=G.select_suite(G.SLOW)
+        class Future(unittest.TestCase):
+            def runTest(self):pass
+        future=Future();suite.addTest(future)
+        wanted=self.ids(suite)
+        groups={group:self.ids(G.partition_suite(suite,group)) for group in G.TEST_GROUPS}
+        actual=[case for cases in groups.values() for case in cases]
+        self.assertEqual(len(actual),len(set(actual)))
+        self.assertCountEqual(actual,wanted)
+        self.assertIn(future.id(),groups['general'])
+        self.assertEqual(len(groups),11)
+        for group,case in G.BOUNDARY_CASES.items():
+            self.assertEqual(len(groups[group]),1)
+            self.assertTrue(groups[group][0].endswith(case))
+
+    def test_unknown_missing_or_duplicate_boundaries_are_refused(self):
+        suite=G.select_suite()
+        with self.assertRaises(ValueError):G.partition_suite(suite,'unknown')
+        with self.assertRaises(ValueError):G.partition_suite(unittest.TestSuite(),'general')
+        all_tests=list(G.flatten(suite))
+        target=next(t for t in all_tests if t.id().endswith(G.BOUNDARY_CASES['e034-02']))
+        with self.assertRaises(ValueError):
+            G.partition_suite(unittest.TestSuite([*all_tests,target]),'general')
+
+    def test_every_matrix_check_must_succeed_at_the_same_head(self):
+        def ask(rows):
+            return G.previous_head_succeeded('owner/repo','abc',
+                lambda *a,**k:type('Reply',(),dict(returncode=0,stdout=json.dumps({'check_runs':rows})))())
+        rows=[dict(name=f'checks ({group})',conclusion='success') for group in G.TEST_GROUPS]
+        self.assertTrue(ask(rows))
+        for bad in ('failure','cancelled','skipped',None):
+            broken=[dict(row) for row in rows];broken[3]['conclusion']=bad
+            self.assertFalse(ask(broken))
+        self.assertFalse(ask(rows[:-1]))
+        self.assertFalse(ask([*rows,rows[0]]))
+        self.assertFalse(ask([dict(name='checks',conclusion='success'),*rows[:-1]]))
+
+    def test_workflow_runs_all_groups_without_fast_fail_or_recorder_setup_in_boundary_jobs(self):
+        text=(ROOT/'.github/workflows/ci.yml').read_text()
+        self.assertIn('max-parallel: 4',text)
+        self.assertIn('fail-fast: false',text)
+        self.assertIn('--group="${{ matrix.group }}"',text)
+        self.assertIn("matrix.group == 'general'",text)
+        self.assertIn('group: ['+', '.join(G.TEST_GROUPS)+']',text)
+
+
 class Workflow(unittest.TestCase):
     TEXT = (ROOT / ".github/workflows/ci.yml").read_text()
 

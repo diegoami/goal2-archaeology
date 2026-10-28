@@ -72,6 +72,43 @@ DOCS_RE = re.compile(r"^([^/]+\.md|docs/.*|notes/.*|spec/.*)$")
 
 QUICK, CODE = "quick", "code"
 
+# [designed: T78c] These complete scenario tests each take up to several hours.
+# Every discovered test belongs to exactly one group; ordinary local discovery
+# remains intact. A matrix succeeds only when all eleven groups succeed.
+BOUNDARY_CASES = {f"e{experiment}-{number:02d}":
+                  f"test_port_engine.Checkpoints.test_e{experiment}_{number:02d}"
+                  for experiment, count in (("033", 7), ("034", 3))
+                  for number in range(1, count + 1)}
+TEST_GROUPS = ("general", *BOUNDARY_CASES)
+
+
+def flatten(suite):
+    for test in suite:
+        if isinstance(test, unittest.TestSuite):
+            yield from flatten(test)
+        else:
+            yield test
+
+
+def partition_suite(suite, group):
+    if group not in TEST_GROUPS:
+        raise ValueError(f"unknown test group: {group}")
+    tests = list(flatten(suite))
+    by_case = {case: name for name, case in BOUNDARY_CASES.items()}
+    found = {name: 0 for name in BOUNDARY_CASES}
+    selected = []
+    for test in tests:
+        canonical = ".".join(test.id().split(".")[-3:])
+        assigned = by_case.get(canonical, "general")
+        if assigned in found:found[assigned] += 1
+        if assigned == group:selected.append(test)
+    if any(count != 1 for count in found.values()):
+        raise ValueError(f"boundary group inventory must occur exactly once: {found}")
+    if not selected:
+        raise ValueError(f"empty test group: {group}")
+    return unittest.TestSuite(selected)
+
+
 
 def _under(path, prefix):
     return path.startswith(prefix) if prefix.endswith("/") else path == prefix
@@ -127,6 +164,13 @@ def previous_head_succeeded(repo, sha, runner=subprocess.run):
         runs = json.loads(r.stdout)["check_runs"]
     except (ValueError, KeyError):
         return False
+    matrix = [c for c in runs if c.get("name", "").startswith("checks (")]
+    if matrix:
+        expected = {f"checks ({group})" for group in TEST_GROUPS}
+        return (len(matrix) == len(expected)
+                and {c.get("name") for c in matrix} == expected
+                and all(c.get("conclusion") == "success" for c in matrix))
+    # Historic serial heads executed the complete suite in one checks job.
     return any(c.get("name") == "checks" and c.get("conclusion") == "success" for c in runs)
 
 
@@ -167,13 +211,6 @@ def select_suite(modules=()):
         sys.path.insert(0, str(ROOT))
     suite = unittest.defaultTestLoader.discover(str(ROOT / "tests"))
 
-    def flatten(s):
-        for t in s:
-            if isinstance(t, unittest.TestSuite):
-                yield from flatten(t)
-            else:
-                yield t
-
     left_out = set(SLOW) - set(modules)
     keep = unittest.TestSuite()
     for t in flatten(suite):
@@ -183,8 +220,12 @@ def select_suite(modules=()):
     return keep
 
 
-def run_tests(modules):
-    return 0 if unittest.TextTestRunner(verbosity=2).run(select_suite(modules)).wasSuccessful() else 1
+def run_tests(modules, group=None):
+    suite = select_suite(modules)
+    if group is not None:
+        suite = partition_suite(suite, group)
+        print(json.dumps({"group": group, "test_ids": [t.id() for t in flatten(suite)]}), flush=True)
+    return 0 if unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful() else 1
 
 
 def parser():
@@ -194,6 +235,7 @@ def parser():
     sub.add_parser("decide")
     rt = sub.add_parser("run-tests")
     rt.add_argument("--modules", default="", help="comma-separated SLOW modules to run besides the others")
+    rt.add_argument("--group", choices=TEST_GROUPS, help="one disjoint CI partition; default runs the whole suite")
     return ap
 
 
@@ -218,7 +260,7 @@ def main(argv):
         print(why, file=sys.stderr)
         return 2
     if a.cmd == "run-tests":
-        return run_tests(modules_of(a))
+        return run_tests(modules_of(a), a.group)
     env = {k: os.environ.get(k, "") for k in ("EVENT", "ACTION", "BASE", "HEAD", "BEFORE", "REPO")}
     ob, why = decide(env)
     print(f"tier={name_of(ob)} ({why})", file=sys.stderr)
