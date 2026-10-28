@@ -1,0 +1,143 @@
+{
+  "run_id": 40659261502,
+  "source_head": "98ea312b65acfa62210e7bd5ad087c318c1bebb6",
+  "complete_acceptance": true,
+  "ci_success": true,
+  "groups": [
+    {
+      "job": "checks (e033-01)",
+      "conclusion": "success",
+      "job_id": 122717873486,
+      "path": "experiments/E036-match-port/out/T78c/ci40659261502/job-122717873486-v1.log",
+      "sha256": "baf7387fba11980c47d1cc32d8018ae6b318474e8ca68bbb6ff88bf72e9518b3",
+      "bytes": 64414,
+      "boundary_pass_lines": 9,
+      "unittest_summaries": [
+        "Ran 1 test in 4040.999s"
+      ]
+    },
+    {
+      "job": "checks (e033-06)",
+      "conclusion": "success",
+      "job_id": 122717873731,
+      "path": "experiments/E036-match-port/out/T78c/ci40659261502/job-122717873731-v1.log",
+      "sha256": "7958fc220d004562b7732e31fbfa4654f3749c1140da522e4122a4340da8b835",
+      "bytes": 65910,
+      "boundary_pass_lines": 22,
+      "unittest_summaries": [
+        "Ran 1 test in 13464.760s"
+      ]
+    },
+    {
+      "job": "checks (e033-07)",
+      "conclusion": "success",
+      "job_id": 122717873782,
+      "path": "experiments/E036-match-port/out/T78c/ci40659261502/job-122717873782-v1.log",
+      "sha256": "0792b933c0aaafbc1ed56c79e1006a4252e9e039ec393291098dc77d9dc18fb0",
+      "bytes": 64226,
+      "boundary_pass_lines": 12,
+      "unittest_summaries": [
+        "Ran 1 test in 1413.799s"
+      ]
+    },
+    {
+      "job": "checks (e033-02)",
+      "conclusion": "success",
+      "job_id": 122717873850,
+      "path": "experiments/E036-match-port/out/T78c/ci40659261502/job-122717873850-v1.log",
+      "sha256": "fa811467124fdf9decd704511395024baf9fdabc9b7a1897086df6b5a97e5521",
+      "bytes": 64523,
+      "boundary_pass_lines": 9,
+      "unittest_summaries": [
+        "Ran 1 test in 4892.706s"
+      ]
+    },
+    {
+      "job": "checks (e033-04)",
+      "conclusion": "success",
+      "job_id": 122717873921,
+      "path": "experiments/E036-match-port/out/T78c/ci40659261502/job-122717873921-v1.log",
+      "sha256": "7f22fd3fdcd82a5c0153bdbb83ffc97de9eb2c1f5f29b08624d9134f7c3edf39",
+      "bytes": 64212,
+      "boundary_pass_lines": 13,
+      "unittest_summaries": [
+        "Ran 1 test in 6439.902s"
+      ]
+    },
+    {
+      "job": "checks (e034-01)",
+      "conclusion": "success",
+      "job_id": 122717873925,
+      "path": "experiments/E036-match-port/out/T78c/ci40659261502/job-122717873925-v1.log",
+      "sha256": "218556a8639fd38f4cad761cd344ffb215144a03ba696fb3b28ec05146b8cbce",
+      "bytes": 66423,
+      "boundary_pass_lines": 22,
+      "unittest_summaries": [
+        "Ran 1 test in 18654.664s"
+      ]
+    },
+    {
+      "job": "checks (e034-02)",
+      "conclusion": "success",
+      "job_id": 122717873928,
+      "path": "experiments/E036-match-port/out/T78c/ci40659261502/job-122717873928-v1.log",
+      "sha256": "5153e4812c3d24266704a27d83585c0778c993395fc6032f93a7d6c2505dc01b",
+      "bytes": 64311,
+      "boundary_pass_lines": 18,
+      "unittest_summaries": [
+        "Ran 1 test in 7519.090s"
+      ]
+    },
+    {
+      "job": "checks (e033-03)",
+      "conclusion": "success",
+      "job_id": 122717874019,
+      "path": "experiments/E036-match-port/out/T78c/ci40659261502/job-122717874019-v1.log",
+      "sha256": "c79eec84199117725cc9f4f54e93deb1cf67e3f4e883d9df17f7619df0322c81",
+      "bytes": 64887,
+      "boundary_pass_lines": 11,
+      "unittest_summaries": [
+        "Ran 1 test in 5220.104s"
+      ]
+    },
+    {
+      "job": "checks (general)",
+      "conclusion": "success",
+      "job_id": 122717874025,
+      "path": "experiments/E036-match-port/out/T78c/ci40659261502/job-122717874025-v1.log",
+      "sha256": "9185ee605d8ce0068c11e227257fd061d3c938bba158b6d6f14313331ab7824c",
+      "bytes": 811382,
+      "boundary_pass_lines": 0,
+      "unittest_summaries": [
+        "Ran 115 tests in 4.019s",
+        "Ran 2174 tests in 4840.946s"
+      ]
+    },
+    {
+      "job": "checks (e034-03)",
+      "conclusion": "success",
+      "job_id": 122717874107,
+      "path": "experiments/E036-match-port/out/T78c/ci40659261502/job-122717874107-v1.log",
+      "sha256": "3b8eadc96b684756fff94bfbcbd207f19c4bd93eef87b92abab49b33f5b1daa2",
+      "bytes": 64528,
+      "boundary_pass_lines": 21,
+      "unittest_summaries": [
+        "Ran 1 test in 3939.421s"
+      ]
+    },
+    {
+      "job": "checks (e033-05)",
+      "conclusion": "success",
+      "job_id": 122717874401,
+      "path": "experiments/E036-match-port/out/T78c/ci40659261502/job-122717874401-v1.log",
+      "sha256": "a7485a39ce6d5c3c3d0d0c71804721ac8fe20d91a677ac47a6b1db2fc84c07f4",
+      "bytes": 64681,
+      "boundary_pass_lines": 11,
+      "unittest_summaries": [
+        "Ran 1 test in 6270.023s"
+      ]
+    }
+  ],
+  "verified_boundary_count": 148,
+  "earlier_sigsegv": "not reproduced; cause unknown; failed original receipt retained"
+}
