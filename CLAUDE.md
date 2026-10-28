@@ -88,6 +88,9 @@ kept on the branch `local`.
     prepares its independent-review prompt; it does not start standalone/backend work here.
     [designed: owner resume, 2026-10-27] After ES-R2 acceptance,the owner resumed the next
     engine-study steps here:T106 bounded probes and subsequent study work under its gates.
+    [designed: owner resume, 2026-10-28] ES-R3 is accepted at exact f55ef831/m7. Continue T110's
+    architecture/readability assessment through executable slices, then stop at ES-R4's independent
+    review prompt. This does not authorise T111, a production rewrite, new engine probes or T107 spending.
     [designed: owner decision, 2026-10-27; #571] Defer the current T107 match batch until
     T106 probe results inform a better design. Prepare a revised proposal before any match
     spending;the current132attempt pilot is not authorised. Standalone delivery stays in

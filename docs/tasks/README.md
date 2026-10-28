@@ -31,6 +31,9 @@ exists.
 | [T108](T108.md) | Audit arithmetic, boundaries and record indexing (engine study) | [#447](https://github.com/diegoami/goal2-archaeology/issues/447) | T96, T97, T98, T99; [ES-R1](../engine-study-reviews.md#es-r1) accepted |
 | [T109](T109.md) | Audit cross-module consistency and execution paths (engine study) | [#448](https://github.com/diegoami/goal2-archaeology/issues/448) | T100, T101, T102, T103, T104, T106 |
 | [T110](T110.md) | Readable-engine architecture and rewrite decision (engine study) | [#449](https://github.com/diegoami/goal2-archaeology/issues/449) | T95, T98, T99, T100, T101, T102, T103, T104, T108, T109; [ES-R3](../engine-study-reviews.md#es-r3) accepted |
+| [T110a](T110a.md) | Compatibility obligations and inventory | [#609](https://github.com/diegoami/goal2-archaeology/issues/609) | T110 readiness #608 |
+| [T110b](T110b.md) | Readable options and pseudocode | [#610](https://github.com/diegoami/goal2-archaeology/issues/610) | T110a |
+| [T110c](T110c.md) | Costed recommendation and prototype proposal | [#611](https://github.com/diegoami/goal2-archaeology/issues/611) | T110b |
 | [T111](T111.md) | Conditional readable-rule prototype (engine study) | [#450](https://github.com/diegoami/goal2-archaeology/issues/450) | T110; [ES-R4](../engine-study-reviews.md#es-r4) accepted |
 | [T112](T112.md) | Assemble the engine guide and exploration atlas (engine study) | [#451](https://github.com/diegoami/goal2-archaeology/issues/451) | T95, T96, T97, T98, T99, T100, T101, T102, T103, T104, T106, T107, T108, T109, T110; [ES-R3](../engine-study-reviews.md#es-r3) accepted, [ES-R4](../engine-study-reviews.md#es-r4) accepted |
 | [T113](T113.md) | Independent milestone review of the engine study (engine study) | [#452](https://github.com/diegoami/goal2-archaeology/issues/452) | T112 |
