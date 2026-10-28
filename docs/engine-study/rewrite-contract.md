@@ -12,7 +12,8 @@ The [T110a ledger](../../notes/engine-study/T110/T110a-v1.json) records an exact
 inventory of that snapshot, all exported runtime source hashes, and the source line behind
 each obligation. The [producer](../../notes/engine-study/T110/contract.py) imports registry
 definitions from a temporary frozen Python-source export. It constructs no Match, reads no
-original image and invokes no registered engine routine. This is membership, not reachability.
+original image and invokes no registered engine routine. It finds **23 selectable modules and
+439 unique registered addresses** at m7. This is membership, not reachability.
 
 Do not carry the old [T95 inventory](inventory.md)'s 21 modules/423 addresses forward as a
 current denominator: it belongs to 08beac2e, before standalone entrypoints and Real helpers.

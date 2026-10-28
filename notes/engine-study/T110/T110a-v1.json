@@ -1,0 +1,1035 @@
+{
+  "adopted_weaker_contract": false,
+  "baseline": "f55ef8314c1da390eb96091efe2bdab7b73fa534",
+  "compatibility_levels": {
+    "machine-boundary": "Existing routine ABI/effects plus explicit full-state diagnostics; preserve known differences and caller/liveness limits.",
+    "public-api-records": "A different contract that may remove DOS internals only after explicit owner choice and end-to-end evidence; not adopted.",
+    "redesigned-semantics": "Deliberately changed football rules; separate owner design and validation project; not fidelity-preserving."
+  },
+  "inventory": {
+    "addresses": [
+      "0791:0000",
+      "0791:006C",
+      "0791:0106",
+      "0791:0425",
+      "0791:0441",
+      "0791:045D",
+      "0791:0481",
+      "0791:04C9",
+      "0791:054C",
+      "0791:05C6",
+      "0791:0691",
+      "0791:0712",
+      "0791:0B7C",
+      "0791:0C0B",
+      "0791:0C65",
+      "0791:1073",
+      "0791:15B9",
+      "0791:1829",
+      "0791:1C78",
+      "0791:1D4A",
+      "0791:1E53",
+      "0791:1EB5",
+      "0791:1F3C",
+      "0791:1FDD",
+      "0791:20E3",
+      "0791:2218",
+      "0791:230C",
+      "0791:261A",
+      "0791:2648",
+      "0791:26A0",
+      "0791:26C2",
+      "0791:26D7",
+      "0791:278A",
+      "0791:287C",
+      "0791:28B2",
+      "0791:2929",
+      "0791:2956",
+      "0791:2974",
+      "0791:2996",
+      "0791:29B3",
+      "0791:2A15",
+      "0791:2A6D",
+      "0791:2AA3",
+      "0791:2AD4",
+      "0791:2B0F",
+      "0791:2B28",
+      "0791:2B51",
+      "0791:2B7B",
+      "0791:2BB1",
+      "0791:2BE5",
+      "0791:2C29",
+      "0791:2C54",
+      "0791:2C86",
+      "0791:2CC5",
+      "0791:2CEC",
+      "0791:2D10",
+      "0791:2D6D",
+      "0791:2DCA",
+      "0791:2E00",
+      "0791:2E36",
+      "0791:2E82",
+      "0791:2EB8",
+      "0791:2EF0",
+      "0791:2F28",
+      "0791:2FB1",
+      "0791:30EA",
+      "0791:3111",
+      "0791:3323",
+      "0791:333F",
+      "0791:34C1",
+      "0791:384C",
+      "0791:3B15",
+      "0791:3B9E",
+      "0791:3BEE",
+      "0791:3C20",
+      "0791:3C3F",
+      "0791:3D38",
+      "0791:3DF6",
+      "0791:3EC5",
+      "0791:3EDF",
+      "0791:3EF8",
+      "0791:3FAD",
+      "0791:408E",
+      "0791:40BC",
+      "0791:4151",
+      "0791:419C",
+      "0791:42CB",
+      "0791:4354",
+      "0791:4438",
+      "0791:44C1",
+      "0791:4532",
+      "0791:4649",
+      "0791:474D",
+      "0791:47C5",
+      "0791:4A28",
+      "0791:4B64",
+      "0791:4D3F",
+      "0791:4DA9",
+      "0791:4E28",
+      "0791:500C",
+      "0791:5049",
+      "0791:533B",
+      "0791:539F",
+      "0791:5474",
+      "0791:5513",
+      "0791:5565",
+      "0791:56D9",
+      "0791:5729",
+      "0791:57AC",
+      "0791:58E1",
+      "0791:593B",
+      "0791:59B3",
+      "0791:5A33",
+      "0791:5A8E",
+      "0791:5B36",
+      "0791:5E41",
+      "0791:5EAB",
+      "0791:5F06",
+      "0791:5F8A",
+      "0791:6188",
+      "0791:61EC",
+      "0791:6240",
+      "0791:6337",
+      "0791:6443",
+      "0791:65A4",
+      "0791:65FE",
+      "0791:6755",
+      "0791:67B6",
+      "0791:690C",
+      "0791:698E",
+      "0791:69BD",
+      "0791:6AAD",
+      "0791:6AF7",
+      "0791:6B65",
+      "0791:6BF1",
+      "0791:6D4E",
+      "0791:6DEA",
+      "0791:6E11",
+      "0791:6E6E",
+      "0791:6ECF",
+      "0791:6F01",
+      "0791:6F3E",
+      "0791:6FB6",
+      "0791:6FEE",
+      "0791:7069",
+      "0791:70F6",
+      "0791:715A",
+      "0791:717F",
+      "0791:71E8",
+      "0791:7287",
+      "0791:72F2",
+      "0791:73BA",
+      "0791:74C2",
+      "0791:7621",
+      "0791:7881",
+      "0791:798D",
+      "0791:7A43",
+      "0791:7B24",
+      "0791:7B77",
+      "0791:7CC5",
+      "0791:7D56",
+      "0791:7E60",
+      "0791:7EEF",
+      "0791:7FCF",
+      "0791:8062",
+      "0791:8206",
+      "0791:82EB",
+      "0791:835F",
+      "0791:83A2",
+      "0791:8537",
+      "0791:869F",
+      "0791:8889",
+      "0791:8AE9",
+      "0791:8C67",
+      "0791:8CCA",
+      "0791:8CF5",
+      "0791:8E24",
+      "0791:8F10",
+      "0791:9079",
+      "0791:90C5",
+      "0791:9119",
+      "0791:92FC",
+      "0791:9372",
+      "0791:94C9",
+      "0791:94E8",
+      "0791:9564",
+      "0791:970C",
+      "0791:97D0",
+      "0791:983F",
+      "0791:98C4",
+      "0791:9955",
+      "0791:998C",
+      "0791:9A32",
+      "0791:9B0C",
+      "0791:9B5B",
+      "0791:9B93",
+      "0791:9ED3",
+      "0791:A006",
+      "0791:A10A",
+      "0791:A260",
+      "0791:A2E6",
+      "0791:A375",
+      "0791:A3B6",
+      "0791:A3DE",
+      "0791:A4A1",
+      "0791:A699",
+      "0791:A6E4",
+      "0791:A75D",
+      "0791:A841",
+      "0791:A920",
+      "0791:A9B8",
+      "0791:AAE8",
+      "0791:AC67",
+      "0791:AD8F",
+      "0791:AFA3",
+      "0791:B11F",
+      "0791:B19D",
+      "0791:B27F",
+      "0791:B364",
+      "0791:B3B7",
+      "0791:B6CC",
+      "0791:B71C",
+      "0791:B7FA",
+      "0791:BA4E",
+      "0791:BBFF",
+      "0791:BC5D",
+      "0791:BD03",
+      "0791:BD83",
+      "0791:BEC7",
+      "0791:BF6B",
+      "0791:C01A",
+      "0791:C0DF",
+      "0791:C173",
+      "0791:C24D",
+      "0791:C2A8",
+      "0791:C406",
+      "0791:C48D",
+      "0791:C50C",
+      "0791:C5DC",
+      "0791:C7EB",
+      "0791:C88D",
+      "0791:CAB0",
+      "0791:CB7D",
+      "0791:CC2E",
+      "0791:CC7B",
+      "0791:D016",
+      "0791:D032",
+      "0791:D050",
+      "0791:D44C",
+      "0791:D5C1",
+      "0791:D733",
+      "0791:DE27",
+      "0791:DE51",
+      "0791:E022",
+      "0791:E2A0",
+      "0791:E44F",
+      "0791:E929",
+      "0791:E949",
+      "0791:EA09",
+      "0791:ED8A",
+      "0791:F098",
+      "0791:F1F6",
+      "1771:0947",
+      "1771:0AA7",
+      "1771:0AF8",
+      "1771:0B77",
+      "1771:0BC4",
+      "1771:0E24",
+      "1771:0E6C",
+      "1771:0F58",
+      "1771:0FB1",
+      "1771:10E7",
+      "1771:11E1",
+      "1771:1289",
+      "1771:13D0",
+      "1771:1527",
+      "1771:157D",
+      "1771:1981",
+      "1771:2E20",
+      "1771:2E93",
+      "1771:2EE5",
+      "1771:2F37",
+      "1771:2FAD",
+      "1771:2FFB",
+      "1771:3041",
+      "1771:3088",
+      "1771:30D9",
+      "1771:3179",
+      "1771:3216",
+      "1771:33CD",
+      "1771:3431",
+      "1771:34E7",
+      "1771:3558",
+      "1771:3651",
+      "1771:377E",
+      "1771:3827",
+      "1771:3947",
+      "1771:3A06",
+      "1771:3A82",
+      "1771:3AE2",
+      "1771:3B3F",
+      "1771:3BD3",
+      "1771:3E2F",
+      "1771:3EF8",
+      "1771:42BC",
+      "1771:4859",
+      "1771:4925",
+      "1771:4952",
+      "1771:49B8",
+      "1771:4B61",
+      "1771:4D8A",
+      "1771:4E22",
+      "1771:50F1",
+      "1771:517A",
+      "1771:52CC",
+      "1771:53E8",
+      "1771:5532",
+      "1771:580B",
+      "1771:59D8",
+      "1771:5A03",
+      "1771:5A38",
+      "1771:5A8F",
+      "1771:5AC4",
+      "1771:5C60",
+      "1771:5C94",
+      "1771:5CCB",
+      "1771:76FA",
+      "1771:77C3",
+      "1771:82BD",
+      "1771:85F7",
+      "1771:8757",
+      "1771:883F",
+      "1771:8939",
+      "1771:89C1",
+      "1771:89FE",
+      "1771:8A5D",
+      "1771:8A87",
+      "1771:8CA2",
+      "1771:8CCF",
+      "1771:8D84",
+      "1771:8E9A",
+      "1771:9028",
+      "1771:91CE",
+      "1771:937C",
+      "1771:9509",
+      "1771:958D",
+      "214B:0000",
+      "214B:0018",
+      "214B:003C",
+      "214B:007B",
+      "214B:009C",
+      "214B:00DB",
+      "214B:00FF",
+      "214B:0123",
+      "214B:0147",
+      "214B:01A3",
+      "214B:0205",
+      "214B:026D",
+      "214B:02C8",
+      "214B:0329",
+      "214B:0350",
+      "214B:04F8",
+      "214B:0566",
+      "214B:05DB",
+      "214B:05F0",
+      "214B:0625",
+      "214B:0643",
+      "214B:0661",
+      "214B:0688",
+      "214B:06B1",
+      "214B:06D0",
+      "214B:06FA",
+      "214B:0723",
+      "214B:0755",
+      "214B:08DD",
+      "214B:0983",
+      "214B:0993",
+      "214B:09A7",
+      "214B:09DA",
+      "214B:0C57",
+      "214B:0C79",
+      "214B:0CA1",
+      "214B:0CCB",
+      "214B:0CF4",
+      "214B:0D1C",
+      "214B:0D56",
+      "214B:13C5",
+      "214B:13F6",
+      "214B:1452",
+      "214B:14AC",
+      "214B:1507",
+      "214B:1560",
+      "214B:158E",
+      "214B:15B1",
+      "214B:1765",
+      "214B:1C86",
+      "214B:1D6F",
+      "214B:1E09",
+      "214B:1E5A",
+      "214B:1E75",
+      "214B:1E8D",
+      "214B:1EA1",
+      "214B:1EBC",
+      "214B:1EF1",
+      "214B:1F87",
+      "214B:2000",
+      "214B:2031",
+      "235C:0000",
+      "235C:000B",
+      "2382:0099",
+      "2382:00E7",
+      "2382:016D",
+      "2382:0215",
+      "2382:04FC",
+      "2382:0608",
+      "23E4:025D",
+      "23E4:0279",
+      "23E4:0294",
+      "23E4:062A",
+      "23E4:0644",
+      "23E4:0676",
+      "23E4:06B7",
+      "23E4:06E3",
+      "23E4:072F",
+      "23E4:075A",
+      "23E4:0787",
+      "23E4:07DB",
+      "23E4:08BF",
+      "23E4:08DF",
+      "23E4:0C93",
+      "23E4:0CA5",
+      "23E4:0CAB",
+      "23E4:0CB9",
+      "23E4:0CC5",
+      "23E4:0E67",
+      "23E4:0F10",
+      "23E4:11E4",
+      "23E4:12F6",
+      "23E4:19B2"
+    ],
+    "entries": 439,
+    "method": "Import frozen registry definitions only; no Match, original image or registered routine invoked.",
+    "modules": [
+      {
+        "declared_stubs": 0,
+        "entries": 22,
+        "name": "attributes",
+        "variants": 5
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 21,
+        "name": "ball",
+        "variants": 3
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 17,
+        "name": "contests",
+        "variants": 3
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 20,
+        "name": "discipline",
+        "variants": 4
+      },
+      {
+        "declared_stubs": 17,
+        "entries": 88,
+        "name": "display",
+        "variants": 74
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 14,
+        "name": "duels",
+        "variants": 3
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 9,
+        "name": "entrypoints",
+        "variants": 0
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 14,
+        "name": "frame",
+        "variants": 5
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 32,
+        "name": "geometry",
+        "variants": 7
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 27,
+        "name": "menus",
+        "variants": 4
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 11,
+        "name": "motion",
+        "variants": 3
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 1,
+        "name": "pilot",
+        "variants": 3
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 16,
+        "name": "positioning",
+        "variants": 3
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 12,
+        "name": "postmatch",
+        "variants": 6
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 4,
+        "name": "quick",
+        "variants": 3
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 13,
+        "name": "rare",
+        "variants": 0
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 7,
+        "name": "real",
+        "variants": 0
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 26,
+        "name": "restarts",
+        "variants": 4
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 38,
+        "name": "runtime",
+        "variants": 5
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 9,
+        "name": "selection",
+        "variants": 3
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 16,
+        "name": "setup",
+        "variants": 4
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 10,
+        "name": "takers",
+        "variants": 3
+      },
+      {
+        "declared_stubs": 0,
+        "entries": 12,
+        "name": "update",
+        "variants": 3
+      }
+    ],
+    "source_files": {
+      "runtime/original_match/__init__.py": "b1286fdd13e3862f5e21c91c9879a1de078199c6180328e78bcde28f5ac12d5c",
+      "runtime/original_match/assets.py": "fb5da2f045c06e3a54d5fe162a89947969d547b3d0dca4d8ed716ea380250685",
+      "runtime/original_match/build.py": "e3b7c45b7442115361a6bfbded6f954749eea4e31e4f45714684bc2b071a6b41",
+      "runtime/original_match/check.py": "02260e09fba35b110be79c4b676ba1820ea3ea92a323ff0c8f4dda9731e16604",
+      "runtime/original_match/example.py": "d17a104f8c08635fb8a3ff61f6113aa56a902b88aef5fcceaf32ab27790bbacf",
+      "runtime/original_match/image.py": "0b6c8a98c0d4fabdfe63be52561dd2afc56a4f0a8238e8ccc06dfd33e78e35a9",
+      "runtime/original_match/machine.py": "c01aa890626ac0235f6e1a40dec93475624a5f09d426bdb6f701b37ceb6c2db1",
+      "runtime/original_match/match.py": "103478a380ece9504f4368cf4d5d40934f2f944dadb46ebe0a0b6341f849f9e0",
+      "runtime/original_match/port/__init__.py": "755c1d44d453854d04733ea1678ad588b23c45152d84336168c8342f9bc760e6",
+      "runtime/original_match/port/_display_finals.py": "32ad22c55be46cd6ce22ac105070f5938f94d013f3ea41d26df967d8bcf02325",
+      "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+      "runtime/original_match/port/ball.py": "6b5f17ee9af3bf7dbb2bae4bd5ae00e1a012f6d6cf6e6e3c2cdd8464a7e2c72a",
+      "runtime/original_match/port/contests.py": "b4db099959a09a1dcb78f031e9a44dc64624a5ffd8ea7b0be3441298bb0ec40e",
+      "runtime/original_match/port/discipline.py": "a8ee74a7336ebd3d8c85ee71cbb6a089fca45fc0c05ee3efec866d798649fdcd",
+      "runtime/original_match/port/display.py": "33b298ead7c58815b9463a39f14e0ba862c81a3af02d53cd5f6184b0f4d8da5e",
+      "runtime/original_match/port/duels.py": "37fe8ea7dec6c3aff8c80d26367d3225460af037a839912e98b4e6217dd739b6",
+      "runtime/original_match/port/engine.py": "5b82528f92309934a7b2010f404bd5787cb13ea08a32463c8fd3b6679e9c48a3",
+      "runtime/original_match/port/entrypoints.py": "a55d378798ed5ec2c33404739b0961b8fec1e6167d1d301f5512cced4063b5b7",
+      "runtime/original_match/port/frame.py": "d4c0cd4753038d6058f8359818164ce8cd0be775191fc8338f9a7ec9849b3a6a",
+      "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+      "runtime/original_match/port/guest.py": "1c2f1eba101c7ce08cb7d23d273d69411ec4dcbfd1512427042c304a2721c8d9",
+      "runtime/original_match/port/mem.py": "0105113f8102a3e8c3544942a445e156fecc0196f7911089e7f789a7775fe45c",
+      "runtime/original_match/port/menus.py": "ea87406a9f0300d0d54c3f71d664a8ed2925505fb133b59a481e8fc5f098f053",
+      "runtime/original_match/port/motion.py": "4e7bab13c1e196464ecb41fd2ddb3a41878c217885c238fd2e80cd8329746eb2",
+      "runtime/original_match/port/pilot.py": "700a8bf56db7adcccd6d011b0e26d0a06599c24fbc451e44fee033b8e56e0863",
+      "runtime/original_match/port/positioning.py": "6a8feb436f745149a010db472a1aed04569d897875cd966eb434a6170b7f839e",
+      "runtime/original_match/port/postmatch.py": "32035e9d055055cc29ba6dedbb38ceda3ac18ea6cc5d2a40605450086f41f86e",
+      "runtime/original_match/port/prove.py": "74e7724eaf93206e4070b9bc41d2f04cf546e177b6a9718451da6476a313e8d7",
+      "runtime/original_match/port/quick.py": "28836a578a2937b72a4fff05ab315bb0a9f665f24cf79e5a14bd4da710432590",
+      "runtime/original_match/port/rare.py": "588b6fc3430a0e674664d9bf8f165bdf31779f240ac783f0490e5f4c5be1d66e",
+      "runtime/original_match/port/real.py": "dbd3e488d8959924ffedeb58f8afec62ffa4c71a35116d7dd72c307a30dcd1f9",
+      "runtime/original_match/port/restarts.py": "c378834575a59d89f31fea8f9ee5ffca7daaf98754a36e848164bb819ad87977",
+      "runtime/original_match/port/runtime.py": "0a03827635ec11e2edf31fe9344ac56363bd6aadbe15e09f8ccfee4c384e6b1d",
+      "runtime/original_match/port/selection.py": "4a2ac1e0868d44f0e58dfcf31b1df1c3f1171edf4a511d4695e73fb7ee9ef382",
+      "runtime/original_match/port/setup.py": "0f703063621cd8a96d9ac0acde56da89754aa885a3d94d9333991a115e8185e2",
+      "runtime/original_match/port/takers.py": "fcd182d4543af18a0def9e16773cd317939fd0ca37559f941b499bf9ab40d7b8",
+      "runtime/original_match/port/update.py": "0a4b3f58a48aec4fc69a229410e566af2144cc9e7153cbfd604da1557deb36b2",
+      "runtime/original_match/screens.py": "45c220305d3e9bbbb4680edbb29fee6d6526d6521fbeea67a969d7b8daf7b304"
+    }
+  },
+  "limits": [
+    "Structural checks do not certify the recommendation, pseudocode or equivalence.",
+    "No new engine calls, T107 batch, prototype or adopted semantic change."
+  ],
+  "method": "Design/source synthesis; no engine or prototype execution.",
+  "mock": false,
+  "producer": {
+    "commit": "84d36a14b462b37a5b4525bedf4e1f7fa05a0864",
+    "path": "notes/engine-study/T110/contract.py",
+    "sha256": "c12c94c9dcfa3532b004bc74f2e02210e0db0cd0ef0c9cb4bea77b088e1d378f"
+  },
+  "prototype_implemented": false,
+  "research_engine_calls": 0,
+  "rows": [
+    {
+      "claim": "Retain byte/word wrapping, signed reads, truncation, staged clamping and 40-bit Real rules; names do not imply host integers/floats.",
+      "id": "arithmetic",
+      "limits": [
+        "376 retained strength returns and other sampled tests are not all-input equivalence; Real multiply/divide/ln/exp not fully hand-traced."
+      ],
+      "obligations": [
+        "arithmetic"
+      ],
+      "sources": [
+        {
+          "line": 72,
+          "path": "runtime/original_match/port/attributes.py",
+          "text": "def idiv(a, b):"
+        },
+        {
+          "line": 800,
+          "path": "static/goal-exe/code/seg_1771_05.asm",
+          "text": "37D6  F7 F9           idiv cx"
+        },
+        {
+          "line": 16,
+          "path": "docs/engine-study/strength-formulas.md",
+          "text": "interpretations. `trunc_div` truncates toward zero, as x86 signed division does."
+        }
+      ],
+      "validation": "Reused T98 numerical records and existing original-differential tests; full wrapper state still needs its own boundary comparison."
+    },
+    {
+      "claim": "Preserve both PRNG streams, their cursors and conditional consumption; failed moves and branches consume actual draws in sequence.",
+      "id": "random-order",
+      "limits": [
+        "Equal initial seeds do not preserve later alignment after changed branches."
+      ],
+      "obligations": [
+        "random-order"
+      ],
+      "sources": [
+        {
+          "line": 226,
+          "path": "runtime/original_match/port/geometry.py",
+          "text": "def draw_table_byte(mem, variant):"
+        },
+        {
+          "line": 882,
+          "path": "static/goal-exe/code/seg_0791_14.asm",
+          "text": "8AD1  9A B1 06 4B 21  call far 214B:06B1"
+        },
+        {
+          "line": 63,
+          "path": "docs/engine-study/movement.md",
+          "text": "point for the next one. Every failure consumes `rand(5)` for another direction and retries;"
+        }
+      ],
+      "validation": "Compare ordered draw/write/site traces plus final seeds/cursors, not just initial seed or score."
+    },
+    {
+      "claim": "Keep the simulation-visible picture character and attribute words, background restoration, update order and special-player exemptions.",
+      "id": "occupancy",
+      "limits": [
+        "A boolean occupancy grid or a render-only replacement changes a branch; natural incidence is not measured here."
+      ],
+      "obligations": [
+        "occupancy"
+      ],
+      "sources": [
+        {
+          "line": 40,
+          "path": "runtime/original_match/port/motion.py",
+          "text": "PICTURE, BACKGROUND = 0x7C16, 0x7C1E   # far pointers: the pitch picture and its background copy (E032 notes)"
+        },
+        {
+          "line": 456,
+          "path": "static/goal-exe/code/seg_0791_14.asm",
+          "text": "; ---- routine 0791:86D0  (found by: call)"
+        },
+        {
+          "line": 92,
+          "path": "docs/engine-study/movement.md",
+          "text": "attribute 0x0D permits the step; otherwise a character in the 256-bit set at `DS:0648` blocks"
+        }
+      ],
+      "validation": "Retained T101 blocked-step/control examples; later candidate needs complete picture/write and RNG trace comparisons."
+    },
+    {
+      "claim": "Preserve event kind, full data, score/minute stamps and ordering at the original writes, including provisional goals and rollback.",
+      "id": "event-order",
+      "limits": [
+        "Result equality alone hides intermediate events and effects."
+      ],
+      "obligations": [
+        "event-order"
+      ],
+      "sources": [
+        {
+          "line": 995,
+          "path": "runtime/original_match/match.py",
+          "text": "def _on_score(self, old, new):"
+        },
+        {
+          "line": 1078,
+          "path": "runtime/original_match/match.py",
+          "text": "def _flush(self):"
+        },
+        {
+          "line": 158,
+          "path": "runtime/original_match/README.md",
+          "text": "**Order**: events come in the order of the original's writes across kinds, not only within a kind: no event is"
+        }
+      ],
+      "validation": "Existing stamp/order and original/port Engine controls; a later candidate must preserve the full externally observed stream."
+    },
+    {
+      "claim": "Preserve pending/queued events, answer contexts, refusal/re-entry, pause and optional taker interactions at existing public boundaries.",
+      "id": "decisions",
+      "limits": [
+        "No claim of fresh genuine original-key reachability; #400 remains separate."
+      ],
+      "obligations": [
+        "decisions"
+      ],
+      "sources": [
+        {
+          "line": 439,
+          "path": "runtime/original_match/match.py",
+          "text": "def answer(self, substitutions=(), tactics=None, positions=None, marking=None, own_tactics=None, quick=False,"
+        },
+        {
+          "line": 189,
+          "path": "runtime/original_match/README.md",
+          "text": "**Decisions** (where the original itself stops for the manager) and what an answer does there:"
+        }
+      ],
+      "validation": "Compare remaining event stream and state before/after answers, including refused answers and defaults."
+    },
+    {
+      "claim": "Keep watched, quick and outer silent-result paths distinct; public Match does not reproduce the whole campaign router.",
+      "id": "modes",
+      "limits": [
+        "T79 broad fidelity and natural reachability remain separate; current inventory is not path coverage."
+      ],
+      "obligations": [
+        "modes"
+      ],
+      "sources": [
+        {
+          "line": 83,
+          "path": "runtime/original_match/port/frame.py",
+          "text": "0x987C: (\"0791:97D0\", False, \"0791:987F\", 1),"
+        },
+        {
+          "line": 24,
+          "path": "docs/engine-study/inventory.md",
+          "text": "A quick or silent result is therefore not a substitute for watched play in an effect experiment."
+        }
+      ],
+      "validation": "Use actual admitted family modes and retained per-path comparisons; never substitute quick/silent outcomes for watched effect measurements."
+    },
+    {
+      "claim": "Keep F1F6 match completion separate from B7FA player update; public completion includes post-fixture continuation.",
+      "id": "phase-tail",
+      "limits": [
+        "Outer campaign news/sacking/router effects are not automatically part of Match."
+      ],
+      "obligations": [
+        "phase-tail"
+      ],
+      "sources": [
+        {
+          "line": 565,
+          "path": "runtime/original_match/match.py",
+          "text": "def _advance(self):"
+        },
+        {
+          "line": 29,
+          "path": "runtime/original_match/match.py",
+          "text": "PLAYER_UPDATE, PLAYER_UPDATE_RETURN = \"0791:B7FA\", \"000E:6FFD\""
+        },
+        {
+          "line": 71,
+          "path": "docs/engine-study/match-flow.md",
+          "text": "N --> U[Separate post-fixture B7FA continuation]"
+        }
+      ],
+      "validation": "Compare pre-update versus finished records, result events and all post-update player bytes under the chosen boundary."
+    },
+    {
+      "claim": "Preserve original default, explicit engine identity, event/answer/result grammar, complete player/country records and adapter behavior.",
+      "id": "public-api",
+      "limits": [
+        "No sealed delivery or checkpoint/default acceptance is implied by m7 or this assessment."
+      ],
+      "obligations": [
+        "public-api"
+      ],
+      "sources": [
+        {
+          "line": 207,
+          "path": "runtime/original_match/match.py",
+          "text": "prove=None, set_piece=False, engine=\"original\"):"
+        },
+        {
+          "line": 252,
+          "path": "experiments/E036-match-port/records.py",
+          "text": "def validate(r):"
+        },
+        {
+          "line": 211,
+          "path": "runtime/original_match/README.md",
+          "text": "## Competitive fixtures (issue 252)"
+        }
+      ],
+      "validation": "Existing Engine/records/admission tests plus downstream #427 obligations; version any deliberately changed interface."
+    },
+    {
+      "claim": "Preserve supported original-engine event-boundary continuation and pending answers; plain engine=port save/load is explicitly refused at m7.",
+      "id": "checkpoints",
+      "limits": [
+        "T78c/T80 may advance independently later; do not project those capabilities backwards onto this source baseline."
+      ],
+      "obligations": [
+        "checkpoints"
+      ],
+      "sources": [
+        {
+          "line": 1324,
+          "path": "runtime/original_match/match.py",
+          "text": "def save(self):"
+        },
+        {
+          "line": 1369,
+          "path": "runtime/original_match/match.py",
+          "text": "raise ValueError(\"port/unknown engine checkpoint is not supported in this assembly slice\")"
+        },
+        {
+          "line": 1394,
+          "path": "runtime/original_match/match.py",
+          "text": "def _load_replay(cls, state, memory):"
+        }
+      ],
+      "validation": "Existing original replay/boundary tests and explicit port refusal; future port support must prove its own event/state/RNG reconstruction."
+    },
+    {
+      "claim": "Keep far-pointer offset wrapping, aliasing, player/country/pitch identity and cached field lifetimes explicit; typed views share storage.",
+      "id": "identities",
+      "limits": [
+        "Copying a record or refreshing a cache can change behavior even when visible fields have the same names."
+      ],
+      "obligations": [
+        "identities"
+      ],
+      "sources": [
+        {
+          "line": 45,
+          "path": "runtime/original_match/port/attributes.py",
+          "text": "class Rec:"
+        },
+        {
+          "line": 54,
+          "path": "runtime/original_match/port/attributes.py",
+          "text": "return (self.seg << 4) + ((self.off + k) & 0xFFFF)"
+        },
+        {
+          "line": 4,
+          "path": "docs/engine-study/transient-state.md",
+          "text": "coordinates, action handlers, ball travel, clocks, pending events, random streams and cached"
+        }
+      ],
+      "validation": "Pointer-edge/sentinel tests and read/write traces around rebind/setup; preserve unnamed bytes and packed words."
+    },
+    {
+      "claim": "For in-place readability changes preserve the existing boundary ABI, physical writes/sites and unmasked state; do not silently discard stack/register observations.",
+      "id": "machine-state",
+      "limits": [
+        "T106 has0/18 joint full-memory/all-captured-register equality; #591 alias/liveness gap is unresolved, not a new permitted mask."
+      ],
+      "obligations": [
+        "machine-state"
+      ],
+      "sources": [
+        {
+          "line": 62,
+          "path": "docs/engine-study/micro-probes.md",
+          "text": "| Every memory byte and every captured register together | 0/18 |"
+        },
+        {
+          "line": 5,
+          "path": "docs/engine-study/audit-boundaries.md",
+          "text": "sound-boundary explanation, but a complete transitive liveness argument is still absent."
+        },
+        {
+          "line": 42,
+          "path": "runtime/original_match/port/guest.py",
+          "text": "class PortFrame:"
+        }
+      ],
+      "validation": "Candidate-versus-accepted-port full boundary snapshots/traces plus independent original comparisons under the existing disclosed contract."
+    },
+    {
+      "claim": "Keep historical producers, fixtures, reachability, no-op/mutation coverage and proposed interpretations distinct from design choices.",
+      "id": "evidence-scope",
+      "limits": [
+        "No T107 effect interval, natural incidence, exhaustive fidelity or production rewrite approval exists here."
+      ],
+      "obligations": [
+        "evidence-scope"
+      ],
+      "sources": [
+        {
+          "line": 1,
+          "path": "docs/engine-study/t107-revision-proposal.md",
+          "text": "# T107 revision proposal after the direct probes"
+        },
+        {
+          "line": 96,
+          "path": "docs/engine-study/micro-probes.md",
+          "text": "Synthetic direct calls establish neither natural incidence nor match-level scoring impact."
+        },
+        {
+          "line": 8,
+          "path": "docs/engine-study/inventory.md",
+          "text": "**21 modules, 423 unique registered addresses, 406 bodies and 17 declared stubs**. All 423 addresses"
+        }
+      ],
+      "validation": "Preserve old records; reuse T95/T98/T101/T106/T109 evidence with exact scope and owner decisions. Any new prototype needs a new contract/oracles/budget."
+    }
+  ],
+  "sections": [
+    "The code being assessed",
+    "Compatibility levels",
+    "Twelve obligations",
+    "Validation and boundary decisions"
+  ],
+  "sources": {
+    "docs/engine-study/audit-boundaries.md": "dc4a3640588f283ad7088a31d76337e65b23c5bf8edc5a80e4a797738d8a37fe",
+    "docs/engine-study/inventory.md": "7becf6fb2978743e47216638267d6398ed487cda12a2b101f2f1467ac22e4dd5",
+    "docs/engine-study/match-flow.md": "e2c94f61adb794abcca803509134b13a4edc02039dbabb967047ea3f195baff7",
+    "docs/engine-study/micro-probes.md": "9d7923655543bfe22ee47eb1ecf80a81c68ad8fb4763d96c5f9d7291e5532ac7",
+    "docs/engine-study/movement.md": "64888e54bf62eef05cb0c135590924f4acbe1b76648f806317b1b5ed0ef7f0d4",
+    "docs/engine-study/strength-formulas.md": "4f096eb18c523c9c9e160e0cfcc31e76f6ff89de97f2c89329768b07bc1949b0",
+    "docs/engine-study/t107-revision-proposal.md": "250d0c9e968ad64e160ac01b14cc5d61b33cecc28942f6d386c94d60e089b639",
+    "docs/engine-study/transient-state.md": "af95e17920823f570bcbefcc96e49c1408e9b7498e5eb8b30edaae8b0f83611d",
+    "experiments/E036-match-port/records.py": "bb9a9ee2df49ed775d5db05b835626dc94a165893ad5a4fa5e09021ef3beabe0",
+    "runtime/original_match/README.md": "80c03668edcda7a72c3af2a05e616693315bcf6c5cf0c5ca5aa2062a932ac7b1",
+    "runtime/original_match/__init__.py": "b1286fdd13e3862f5e21c91c9879a1de078199c6180328e78bcde28f5ac12d5c",
+    "runtime/original_match/assets.py": "fb5da2f045c06e3a54d5fe162a89947969d547b3d0dca4d8ed716ea380250685",
+    "runtime/original_match/build.py": "e3b7c45b7442115361a6bfbded6f954749eea4e31e4f45714684bc2b071a6b41",
+    "runtime/original_match/check.py": "02260e09fba35b110be79c4b676ba1820ea3ea92a323ff0c8f4dda9731e16604",
+    "runtime/original_match/example.py": "d17a104f8c08635fb8a3ff61f6113aa56a902b88aef5fcceaf32ab27790bbacf",
+    "runtime/original_match/image.py": "0b6c8a98c0d4fabdfe63be52561dd2afc56a4f0a8238e8ccc06dfd33e78e35a9",
+    "runtime/original_match/machine.py": "c01aa890626ac0235f6e1a40dec93475624a5f09d426bdb6f701b37ceb6c2db1",
+    "runtime/original_match/match.py": "103478a380ece9504f4368cf4d5d40934f2f944dadb46ebe0a0b6341f849f9e0",
+    "runtime/original_match/port/__init__.py": "755c1d44d453854d04733ea1678ad588b23c45152d84336168c8342f9bc760e6",
+    "runtime/original_match/port/_display_finals.py": "32ad22c55be46cd6ce22ac105070f5938f94d013f3ea41d26df967d8bcf02325",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "runtime/original_match/port/ball.py": "6b5f17ee9af3bf7dbb2bae4bd5ae00e1a012f6d6cf6e6e3c2cdd8464a7e2c72a",
+    "runtime/original_match/port/contests.py": "b4db099959a09a1dcb78f031e9a44dc64624a5ffd8ea7b0be3441298bb0ec40e",
+    "runtime/original_match/port/discipline.py": "a8ee74a7336ebd3d8c85ee71cbb6a089fca45fc0c05ee3efec866d798649fdcd",
+    "runtime/original_match/port/display.py": "33b298ead7c58815b9463a39f14e0ba862c81a3af02d53cd5f6184b0f4d8da5e",
+    "runtime/original_match/port/duels.py": "37fe8ea7dec6c3aff8c80d26367d3225460af037a839912e98b4e6217dd739b6",
+    "runtime/original_match/port/engine.py": "5b82528f92309934a7b2010f404bd5787cb13ea08a32463c8fd3b6679e9c48a3",
+    "runtime/original_match/port/entrypoints.py": "a55d378798ed5ec2c33404739b0961b8fec1e6167d1d301f5512cced4063b5b7",
+    "runtime/original_match/port/frame.py": "d4c0cd4753038d6058f8359818164ce8cd0be775191fc8338f9a7ec9849b3a6a",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "runtime/original_match/port/guest.py": "1c2f1eba101c7ce08cb7d23d273d69411ec4dcbfd1512427042c304a2721c8d9",
+    "runtime/original_match/port/mem.py": "0105113f8102a3e8c3544942a445e156fecc0196f7911089e7f789a7775fe45c",
+    "runtime/original_match/port/menus.py": "ea87406a9f0300d0d54c3f71d664a8ed2925505fb133b59a481e8fc5f098f053",
+    "runtime/original_match/port/motion.py": "4e7bab13c1e196464ecb41fd2ddb3a41878c217885c238fd2e80cd8329746eb2",
+    "runtime/original_match/port/pilot.py": "700a8bf56db7adcccd6d011b0e26d0a06599c24fbc451e44fee033b8e56e0863",
+    "runtime/original_match/port/positioning.py": "6a8feb436f745149a010db472a1aed04569d897875cd966eb434a6170b7f839e",
+    "runtime/original_match/port/postmatch.py": "32035e9d055055cc29ba6dedbb38ceda3ac18ea6cc5d2a40605450086f41f86e",
+    "runtime/original_match/port/prove.py": "74e7724eaf93206e4070b9bc41d2f04cf546e177b6a9718451da6476a313e8d7",
+    "runtime/original_match/port/quick.py": "28836a578a2937b72a4fff05ab315bb0a9f665f24cf79e5a14bd4da710432590",
+    "runtime/original_match/port/rare.py": "588b6fc3430a0e674664d9bf8f165bdf31779f240ac783f0490e5f4c5be1d66e",
+    "runtime/original_match/port/real.py": "dbd3e488d8959924ffedeb58f8afec62ffa4c71a35116d7dd72c307a30dcd1f9",
+    "runtime/original_match/port/restarts.py": "c378834575a59d89f31fea8f9ee5ffca7daaf98754a36e848164bb819ad87977",
+    "runtime/original_match/port/runtime.py": "0a03827635ec11e2edf31fe9344ac56363bd6aadbe15e09f8ccfee4c384e6b1d",
+    "runtime/original_match/port/selection.py": "4a2ac1e0868d44f0e58dfcf31b1df1c3f1171edf4a511d4695e73fb7ee9ef382",
+    "runtime/original_match/port/setup.py": "0f703063621cd8a96d9ac0acde56da89754aa885a3d94d9333991a115e8185e2",
+    "runtime/original_match/port/takers.py": "fcd182d4543af18a0def9e16773cd317939fd0ca37559f941b499bf9ab40d7b8",
+    "runtime/original_match/port/update.py": "0a4b3f58a48aec4fc69a229410e566af2144cc9e7153cbfd604da1557deb36b2",
+    "runtime/original_match/screens.py": "45c220305d3e9bbbb4680edbb29fee6d6526d6521fbeea67a969d7b8daf7b304",
+    "static/goal-exe/code/seg_0791_14.asm": "032e2d6f22d6db5981e2a11f43298924a53e15d080e1d73d1fb375ddbe400abd",
+    "static/goal-exe/code/seg_1771_05.asm": "4a856a9af9dee3d93fe6e6275ead612d2d3ba4c81363389c68fa5424ca8483d9"
+  },
+  "support": {},
+  "task": "T110a"
+}
