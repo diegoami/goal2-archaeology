@@ -1,0 +1,13 @@
+{
+  "run_id": 40726731511,
+  "job_id": 122952758380,
+  "source_head": "a94efb03b49177a80709c161906c4dcef1c4c55a",
+  "case": "e034-03",
+  "outcome": "PortError: plain dispatch time limit exceeded",
+  "dispatch_guard_s": 60,
+  "total_unittest_s": 389.11,
+  "log": "experiments/E036-match-port/out/T78c/ci40726731511-job-122952758380-failed-v1.log",
+  "log_sha256": "6d3fe484bd98f2ac9e62ed3eeedc665b8d90965d5128360a053036d8ec07b9b8",
+  "comparison_phase_reached": false,
+  "related_runtime_issue": 589
+}
