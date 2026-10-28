@@ -1,0 +1,626 @@
+﻿2026-10-28T10:15:18.4529503Z Current runner version: '2.338.0'
+2026-10-28T10:15:18.4555469Z ##[group]Runner Image Provisioner
+2026-10-28T10:15:18.4556313Z Hosted Compute Agent
+2026-10-28T10:15:18.4556990Z Version: 20261021.618
+2026-10-28T10:15:18.4557486Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-28T10:15:18.4558158Z Build Date: 2026-10-21T00:45:21Z
+2026-10-28T10:15:18.4558785Z Worker ID: {9c5240fb-140c-41dd-b943-e75c86343cd7}
+2026-10-28T10:15:18.4559400Z Region: centralus
+2026-10-28T10:15:18.4559919Z Cloud: Azure
+2026-10-28T10:15:18.4560368Z ##[endgroup]
+2026-10-28T10:15:18.4561609Z ##[group]Operating System
+2026-10-28T10:15:18.4562140Z Ubuntu
+2026-10-28T10:15:18.4562620Z 24.04.5
+2026-10-28T10:15:18.4563112Z LTS
+2026-10-28T10:15:18.4563550Z ##[endgroup]
+2026-10-28T10:15:18.4564064Z ##[group]Runner Image
+2026-10-28T10:15:18.4564625Z Image: ubuntu-24.04
+2026-10-28T10:15:18.4565241Z Version: 20261012.334.1
+2026-10-28T10:15:18.4566384Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-28T10:15:18.4567821Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-28T10:15:18.4568655Z ##[endgroup]
+2026-10-28T10:15:18.4569671Z ##[group]GITHUB_TOKEN Permissions
+2026-10-28T10:15:18.4572263Z Checks: read
+2026-10-28T10:15:18.4572843Z Contents: read
+2026-10-28T10:15:18.4573397Z Metadata: read
+2026-10-28T10:15:18.4573881Z ##[endgroup]
+2026-10-28T10:15:18.4577320Z Secret source: Actions
+2026-10-28T10:15:18.4578172Z Cache mode: write
+2026-10-28T10:15:18.4579113Z Prepare workflow directory
+2026-10-28T10:15:18.5079436Z Prepare all required actions
+2026-10-28T10:15:18.5142255Z Getting action download info
+2026-10-28T10:15:18.8029306Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-28T10:15:18.9739967Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-10-28T10:15:19.1905692Z Download action repository 'actions/cache@v4' (SHA:0057852bfaa89a56745cba8c7296529d2fc39830)
+2026-10-28T10:15:19.4684238Z Complete job name: checks (e033-07)
+2026-10-28T10:15:19.5740508Z ##[group]Run actions/checkout@v4
+2026-10-28T10:15:19.5741364Z with:
+2026-10-28T10:15:19.5741808Z   fetch-depth: 0
+2026-10-28T10:15:19.5742241Z   repository: diegoami/goal2-archaeology
+2026-10-28T10:15:19.5746612Z   token: ***
+2026-10-28T10:15:19.5747220Z   ssh-strict: true
+2026-10-28T10:15:19.5747622Z   ssh-user: git
+2026-10-28T10:15:19.5748029Z   persist-credentials: true
+2026-10-28T10:15:19.5748461Z   clean: true
+2026-10-28T10:15:19.5748854Z   sparse-checkout-cone-mode: true
+2026-10-28T10:15:19.5749367Z   fetch-tags: false
+2026-10-28T10:15:19.5749776Z   show-progress: true
+2026-10-28T10:15:19.5750183Z   lfs: false
+2026-10-28T10:15:19.5750568Z   submodules: false
+2026-10-28T10:15:19.5751005Z   set-safe-directory: true
+2026-10-28T10:15:19.5751470Z   allow-unsafe-pr-checkout: false
+2026-10-28T10:15:19.5752178Z env:
+2026-10-28T10:15:19.5756039Z   GH_TOKEN: ***
+2026-10-28T10:15:19.5756485Z ##[endgroup]
+2026-10-28T10:15:19.9413984Z Syncing repository: diegoami/goal2-archaeology
+2026-10-28T10:15:19.9417361Z ##[group]Getting Git version info
+2026-10-28T10:15:19.9418756Z Working directory is '/home/runner/work/goal2-archaeology/goal2-archaeology'
+2026-10-28T10:15:19.9420906Z [command]/usr/bin/git version
+2026-10-28T10:15:19.9459469Z git version 2.55.0
+2026-10-28T10:15:19.9480756Z ##[endgroup]
+2026-10-28T10:15:19.9495156Z Temporarily overriding HOME='/home/runner/work/_temp/296b5480-e5c8-4cb9-b31a-8dd13e7be93e' before making global git config changes
+2026-10-28T10:15:19.9606593Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-28T10:15:19.9610565Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/goal2-archaeology/goal2-archaeology
+2026-10-28T10:15:19.9617173Z Deleting the contents of '/home/runner/work/goal2-archaeology/goal2-archaeology'
+2026-10-28T10:15:19.9620591Z ##[group]Initializing the repository
+2026-10-28T10:15:19.9623268Z [command]/usr/bin/git init /home/runner/work/goal2-archaeology/goal2-archaeology
+2026-10-28T10:15:19.9680830Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-28T10:15:19.9683392Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-28T10:15:19.9686048Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-28T10:15:19.9688498Z hint: call:
+2026-10-28T10:15:19.9689583Z hint:
+2026-10-28T10:15:19.9690848Z hint: 	git config --global init.defaultBranch <name>
+2026-10-28T10:15:19.9692302Z hint:
+2026-10-28T10:15:19.9693823Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-28T10:15:19.9695853Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-28T10:15:19.9698119Z hint:
+2026-10-28T10:15:19.9699076Z hint: 	git branch -m <name>
+2026-10-28T10:15:19.9700236Z hint:
+2026-10-28T10:15:19.9702218Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-28T10:15:19.9705321Z Initialized empty Git repository in /home/runner/work/goal2-archaeology/goal2-archaeology/.git/
+2026-10-28T10:15:19.9710775Z [command]/usr/bin/git remote add origin https://github.com/diegoami/goal2-archaeology
+2026-10-28T10:15:19.9750564Z ##[endgroup]
+2026-10-28T10:15:19.9752548Z ##[group]Disabling automatic garbage collection
+2026-10-28T10:15:19.9754179Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-28T10:15:19.9800935Z ##[endgroup]
+2026-10-28T10:15:19.9802350Z ##[group]Setting up auth
+2026-10-28T10:15:19.9803840Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-28T10:15:19.9851571Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-28T10:15:20.0258280Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-28T10:15:20.0284297Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-28T10:15:20.0512573Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-28T10:15:20.0552704Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-28T10:15:20.0770010Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-28T10:15:20.0815978Z ##[endgroup]
+2026-10-28T10:15:20.0817657Z ##[group]Fetching the repository
+2026-10-28T10:15:20.0828525Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +bb1ccba5ebd1c54903ca6e88a3bdaebdd70dcb5f:refs/remotes/pull/602/merge
+2026-10-28T10:15:23.1867514Z From https://github.com/diegoami/goal2-archaeology
+2026-10-28T10:15:23.1869014Z  * [new branch]        claude/github-prs-project-harness-c4dvpr -> origin/claude/github-prs-project-harness-c4dvpr
+2026-10-28T10:15:23.1870369Z  * [new branch]        claude/gracious-fermat-eik7l4            -> origin/claude/gracious-fermat-eik7l4
+2026-10-28T10:15:23.1871551Z  * [new branch]        claude/zealous-fermi-hziuwh              -> origin/claude/zealous-fermi-hziuwh
+2026-10-28T10:15:23.1872499Z  * [new branch]        cloud-cut                                -> origin/cloud-cut
+2026-10-28T10:15:23.1874404Z  * [new branch]        docs/L110-subagent-waiting               -> origin/docs/L110-subagent-waiting
+2026-10-28T10:15:23.1875373Z  * [new branch]        docs/T85-guard-contract                  -> origin/docs/T85-guard-contract
+2026-10-28T10:15:23.1876299Z  * [new branch]        docs/T86-original-input-contract         -> origin/docs/T86-original-input-contract
+2026-10-28T10:15:23.1877127Z  * [new branch]        docs/T95-executable-contract             -> origin/docs/T95-executable-contract
+2026-10-28T10:15:23.1878567Z  * [new branch]        docs/engine-anatomy-plan                 -> origin/docs/engine-anatomy-plan
+2026-10-28T10:15:23.1879498Z  * [new branch]        docs/engine-migration-first              -> origin/docs/engine-migration-first
+2026-10-28T10:15:23.1880500Z  * [new branch]        docs/engine-study-model-dispatch         -> origin/docs/engine-study-model-dispatch
+2026-10-28T10:15:23.1881410Z  * [new branch]        docs/engine-study-review-milestones      -> origin/docs/engine-study-review-milestones
+2026-10-28T10:15:23.1882271Z  * [new branch]        docs/environment-keep-tools              -> origin/docs/environment-keep-tools
+2026-10-28T10:15:23.1883101Z  * [new branch]        docs/family-runs-where                   -> origin/docs/family-runs-where
+2026-10-28T10:15:23.1884046Z  * [new branch]        docs/foundation-slice-contracts          -> origin/docs/foundation-slice-contracts
+2026-10-28T10:15:23.1884963Z  * [new branch]        docs/handoff-process                     -> origin/docs/handoff-process
+2026-10-28T10:15:23.1885795Z  * [new branch]        docs/lessons-116-122                     -> origin/docs/lessons-116-122
+2026-10-28T10:15:23.1886677Z  * [new branch]        docs/match-engine-backlog                -> origin/docs/match-engine-backlog
+2026-10-28T10:15:23.1887692Z  * [new branch]        docs/match-engine-plan                   -> origin/docs/match-engine-plan
+2026-10-28T10:15:23.1888578Z  * [new branch]        docs/memory-into-repo                    -> origin/docs/memory-into-repo
+2026-10-28T10:15:23.1889421Z  * [new branch]        docs/play-the-game                       -> origin/docs/play-the-game
+2026-10-28T10:15:23.1890372Z  * [new branch]        docs/sol-high-main-session-policy        -> origin/docs/sol-high-main-session-policy
+2026-10-28T10:15:23.1891287Z  * [new branch]        docs/stage3-first-version                -> origin/docs/stage3-first-version
+2026-10-28T10:15:23.1892177Z  * [new branch]        e015/mined-and-questions                 -> origin/e015/mined-and-questions
+2026-10-28T10:15:23.1893319Z  * [new branch]        e015/sitting-20261011                    -> origin/e015/sitting-20261011
+2026-10-28T10:15:23.1894630Z  * [new branch]        e015/sitting-20261011-160938             -> origin/e015/sitting-20261011-160938
+2026-10-28T10:15:23.1895634Z  * [new branch]        feat/engine-plug-in-kit                  -> origin/feat/engine-plug-in-kit
+2026-10-28T10:15:23.1896561Z  * [new branch]        feat/kit-competitive-fixtures            -> origin/feat/kit-competitive-fixtures
+2026-10-28T10:15:23.1897608Z  * [new branch]        feat/tp-version                          -> origin/feat/tp-version
+2026-10-28T10:15:23.1898735Z  * [new branch]        fix/102-e014-stale-spots                 -> origin/fix/102-e014-stale-spots
+2026-10-28T10:15:23.1899542Z  * [new branch]        fix/141-earlysave-flake                  -> origin/fix/141-earlysave-flake
+2026-10-28T10:15:23.1900395Z  * [new branch]        fix/141-flaky-recorder-tests             -> origin/fix/141-flaky-recorder-tests
+2026-10-28T10:15:23.1901252Z  * [new branch]        fix/142-skip-ret-near                    -> origin/fix/142-skip-ret-near
+2026-10-28T10:15:23.1902098Z  * [new branch]        fix/143-render-release-states            -> origin/fix/143-render-release-states
+2026-10-28T10:15:23.1902891Z  * [new branch]        fix/148-play-scale                       -> origin/fix/148-play-scale
+2026-10-28T10:15:23.1903776Z  * [new branch]        fix/150-rule-citations                   -> origin/fix/150-rule-citations
+2026-10-28T10:15:23.1904581Z  * [new branch]        fix/161-keeping-event-docs               -> origin/fix/161-keeping-event-docs
+2026-10-28T10:15:23.1905133Z  * [new branch]        fix/169-recorder-sweeps                  -> origin/fix/169-recorder-sweeps
+2026-10-28T10:15:23.1905656Z  * [new branch]        fix/174-scale-fits-display               -> origin/fix/174-scale-fits-display
+2026-10-28T10:15:23.1906346Z  * [new branch]        fix/175-host-bindings                    -> origin/fix/175-host-bindings
+2026-10-28T10:15:23.1907071Z  * [new branch]        fix/177-video-test-flake                 -> origin/fix/177-video-test-flake
+2026-10-28T10:15:23.1907593Z  * [new branch]        fix/180-make-brief                       -> origin/fix/180-make-brief
+2026-10-28T10:15:23.1908109Z  * [new branch]        fix/182-dispatch-settings                -> origin/fix/182-dispatch-settings
+2026-10-28T10:15:23.1908632Z  * [new branch]        fix/183-reference-cache                  -> origin/fix/183-reference-cache
+2026-10-28T10:15:23.1909151Z  * [new branch]        fix/184-asset-download                   -> origin/fix/184-asset-download
+2026-10-28T10:15:23.1909701Z  * [new branch]        fix/209-long-helper-annotations          -> origin/fix/209-long-helper-annotations
+2026-10-28T10:15:23.1910269Z  * [new branch]        fix/220-video-nested-display             -> origin/fix/220-video-nested-display
+2026-10-28T10:15:23.1910828Z  * [new branch]        fix/234-make-brief-head-race             -> origin/fix/234-make-brief-head-race
+2026-10-28T10:15:23.1911395Z  * [new branch]        fix/235-reviewer-idle-timeout            -> origin/fix/235-reviewer-idle-timeout
+2026-10-28T10:15:23.1911931Z  * [new branch]        fix/236-offline-tests                    -> origin/fix/236-offline-tests
+2026-10-28T10:15:23.1912437Z  * [new branch]        fix/244-driver-alt-held                  -> origin/fix/244-driver-alt-held
+2026-10-28T10:15:23.1912959Z  * [new branch]        fix/258-header-punctuation               -> origin/fix/258-header-punctuation
+2026-10-28T10:15:23.1913537Z  * [new branch]        fix/264-post-review-donewhen             -> origin/fix/264-post-review-donewhen
+2026-10-28T10:15:23.1914373Z  * [new branch]        fix/30-a4a1-per-match-setup              -> origin/fix/30-a4a1-per-match-setup
+2026-10-28T10:15:23.1915169Z  * [new branch]        fix/304-ci-unicorn                       -> origin/fix/304-ci-unicorn
+2026-10-28T10:15:23.1915920Z  * [new branch]        fix/307-cite-drift                       -> origin/fix/307-cite-drift
+2026-10-28T10:15:23.1917084Z  * [new branch]        fix/310-ci-emul-match-test               -> origin/fix/310-ci-emul-match-test
+2026-10-28T10:15:23.1918089Z  * [new branch]        fix/311-review-scratch                   -> origin/fix/311-review-scratch
+2026-10-28T10:15:23.1918933Z  * [new branch]        fix/314-make-brief-frictions             -> origin/fix/314-make-brief-frictions
+2026-10-28T10:15:23.1919874Z  * [new branch]        fix/315-ghidra-dot-free-work             -> origin/fix/315-ghidra-dot-free-work
+2026-10-28T10:15:23.1920689Z  * [new branch]        fix/316-e036-kit-version                 -> origin/fix/316-e036-kit-version
+2026-10-28T10:15:23.1921407Z  * [new branch]        fix/318-heavy-lock                       -> origin/fix/318-heavy-lock
+2026-10-28T10:15:23.1922204Z  * [new branch]        fix/319-rework-review-sample             -> origin/fix/319-rework-review-sample
+2026-10-28T10:15:23.1923013Z  * [new branch]        fix/328-pre-slot-validate                -> origin/fix/328-pre-slot-validate
+2026-10-28T10:15:23.1923873Z  * [new branch]        fix/378-379-trace-checkers               -> origin/fix/378-379-trace-checkers
+2026-10-28T10:15:23.1924698Z  * [new branch]        fix/380-381-keeper-slot                  -> origin/fix/380-381-keeper-slot
+2026-10-28T10:15:23.1925450Z  * [new branch]        fix/408-sound-toggle                     -> origin/fix/408-sound-toggle
+2026-10-28T10:15:23.1926210Z  * [new branch]        fix/410-keeper-order-tests               -> origin/fix/410-keeper-order-tests
+2026-10-28T10:15:23.1927202Z  * [new branch]        fix/411-menu-argument-tests              -> origin/fix/411-menu-argument-tests
+2026-10-28T10:15:23.1927981Z  * [new branch]        fix/419-finals-table-state               -> origin/fix/419-finals-table-state
+2026-10-28T10:15:23.1928543Z  * [new branch]        fix/420-role5-handover-link              -> origin/fix/420-role5-handover-link
+2026-10-28T10:15:23.1929246Z  * [new branch]        fix/46-q004-docs                         -> origin/fix/46-q004-docs
+2026-10-28T10:15:23.1929775Z  * [new branch]        fix/69-named-view-loose-ends             -> origin/fix/69-named-view-loose-ends
+2026-10-28T10:15:23.1930369Z  * [new branch]        fix/85-ghidra-crash-preflight            -> origin/fix/85-ghidra-crash-preflight
+2026-10-28T10:15:23.1930923Z  * [new branch]        fix/ES-R3-603                            -> origin/fix/ES-R3-603
+2026-10-28T10:15:23.1931433Z  * [new branch]        fix/ci-apt-cache                         -> origin/fix/ci-apt-cache
+2026-10-28T10:15:23.1931945Z  * [new branch]        fix/cloud-setup-exec                     -> origin/fix/cloud-setup-exec
+2026-10-28T10:15:23.1932502Z  * [new branch]        fix/es-r1-contest-ledger-link            -> origin/fix/es-r1-contest-ledger-link
+2026-10-28T10:15:23.1933044Z  * [new branch]        fix/es-r1-flow-rng                       -> origin/fix/es-r1-flow-rng
+2026-10-28T10:15:23.1933582Z  * [new branch]        fix/es-r1-guide-precision                -> origin/fix/es-r1-guide-precision
+2026-10-28T10:15:23.1934159Z  * [new branch]        fix/es-r1-player-ledgers                 -> origin/fix/es-r1-player-ledgers
+2026-10-28T10:15:23.1934743Z  * [new branch]        fix/es-r1-saved-goal-restore             -> origin/fix/es-r1-saved-goal-restore
+2026-10-28T10:15:23.1935295Z  * [new branch]        fix/es-r1-state-ledgers                  -> origin/fix/es-r1-state-ledgers
+2026-10-28T10:15:23.1935827Z  * [new branch]        fix/es-r2-566-goal-strip                 -> origin/fix/es-r2-566-goal-strip
+2026-10-28T10:15:23.1936410Z  * [new branch]        fix/es-r2-experiment-disclosures         -> origin/fix/es-r2-experiment-disclosures
+2026-10-28T10:15:23.1937216Z  * [new branch]        fix/es-r2-field-qualifiers               -> origin/fix/es-r2-field-qualifiers
+2026-10-28T10:15:23.1937826Z  * [new branch]        fix/es-r2-validation-provenance          -> origin/fix/es-r2-validation-provenance
+2026-10-28T10:15:23.1938384Z  * [new branch]        fix/ga-pin-7d10d70                       -> origin/fix/ga-pin-7d10d70
+2026-10-28T10:15:23.1939017Z  * [new branch]        fix/goal2-saves-release                  -> origin/fix/goal2-saves-release
+2026-10-28T10:15:23.1939563Z  * [new branch]        fix/heavy-four-slots                     -> origin/fix/heavy-four-slots
+2026-10-28T10:15:23.1940069Z  * [new branch]        fix/peek-sh                              -> origin/fix/peek-sh
+2026-10-28T10:15:23.1940560Z  * [new branch]        fix/play-cycles                          -> origin/fix/play-cycles
+2026-10-28T10:15:23.1941118Z  * [new branch]        fix/reviewers-post-themselves            -> origin/fix/reviewers-post-themselves
+2026-10-28T10:15:23.1941707Z  * [new branch]        fix/scripted-keys-deadline               -> origin/fix/scripted-keys-deadline
+2026-10-28T10:15:23.1942250Z  * [new branch]        harness/bump-48b788d                     -> origin/harness/bump-48b788d
+2026-10-28T10:15:23.1942770Z  * [new branch]        harness/bump-75ac325                     -> origin/harness/bump-75ac325
+2026-10-28T10:15:23.1943280Z  * [new branch]        harness/bump-l50-l51                     -> origin/harness/bump-l50-l51
+2026-10-28T10:15:23.1943743Z  * [new branch]        local                                    -> origin/local
+2026-10-28T10:15:23.1944165Z  * [new branch]        main                                     -> origin/main
+2026-10-28T10:15:23.1944654Z  * [new branch]        plan/ES-R3-review-packet                 -> origin/plan/ES-R3-review-packet
+2026-10-28T10:15:23.1945212Z  * [new branch]        plan/T101-research-slices                -> origin/plan/T101-research-slices
+2026-10-28T10:15:23.1945740Z  * [new branch]        plan/T102-ball-slices                    -> origin/plan/T102-ball-slices
+2026-10-28T10:15:23.1946275Z  * [new branch]        plan/T104-lifecycle-slices               -> origin/plan/T104-lifecycle-slices
+2026-10-28T10:15:23.1946979Z  * [new branch]        plan/T106-bounded-probes                 -> origin/plan/T106-bounded-probes
+2026-10-28T10:15:23.1947674Z  * [new branch]        plan/T108-audit-slices                   -> origin/plan/T108-audit-slices
+2026-10-28T10:15:23.1948248Z  * [new branch]        research/E015-coverage-20261015          -> origin/research/E015-coverage-20261015
+2026-10-28T10:15:23.1948826Z  * [new branch]        research/E015-sitting-20261015           -> origin/research/E015-sitting-20261015
+2026-10-28T10:15:23.1949409Z  * [new branch]        research/E015-sittings-0113-0115         -> origin/research/E015-sittings-0113-0115
+2026-10-28T10:15:23.1949941Z  * [new branch]        review-base/303                          -> origin/review-base/303
+2026-10-28T10:15:23.1950410Z  * [new branch]        review/303                               -> origin/review/303
+2026-10-28T10:15:23.1950935Z  * [new branch]        task/390-existing-state-delivery         -> origin/task/390-existing-state-delivery
+2026-10-28T10:15:23.1951497Z  * [new branch]        task/400-remaining-inputs                -> origin/task/400-remaining-inputs
+2026-10-28T10:15:23.1952041Z  * [new branch]        task/400-remaining-r2                    -> origin/task/400-remaining-r2
+2026-10-28T10:15:23.1952547Z  * [new branch]        task/400-remaining-r3                    -> origin/task/400-remaining-r3
+2026-10-28T10:15:23.1953058Z  * [new branch]        task/T01-research-repo                   -> origin/task/T01-research-repo
+2026-10-28T10:15:23.1953564Z  * [new branch]        task/T02-runtime-spike                   -> origin/task/T02-runtime-spike
+2026-10-28T10:15:23.1954075Z  * [new branch]        task/T03-record-tools                    -> origin/task/T03-record-tools
+2026-10-28T10:15:23.1954598Z  * [new branch]        task/T04-static-inventory                -> origin/task/T04-static-inventory
+2026-10-28T10:15:23.1955142Z  * [new branch]        task/T05-documentation-map               -> origin/task/T05-documentation-map
+2026-10-28T10:15:23.1955681Z  * [new branch]        task/T10-q002-quick-result               -> origin/task/T10-q002-quick-result
+2026-10-28T10:15:23.1956303Z  * [new branch]        task/T100-engine-study                   -> origin/task/T100-engine-study
+2026-10-28T10:15:23.1956999Z  * [new branch]        task/T101a-engine-study                  -> origin/task/T101a-engine-study
+2026-10-28T10:15:23.1957532Z  * [new branch]        task/T101b-engine-study                  -> origin/task/T101b-engine-study
+2026-10-28T10:15:23.1958051Z  * [new branch]        task/T101c-engine-study                  -> origin/task/T101c-engine-study
+2026-10-28T10:15:23.1958556Z  * [new branch]        task/T102a-engine-study                  -> origin/task/T102a-engine-study
+2026-10-28T10:15:23.1959063Z  * [new branch]        task/T102b-engine-study                  -> origin/task/T102b-engine-study
+2026-10-28T10:15:23.1959573Z  * [new branch]        task/T102c-engine-study                  -> origin/task/T102c-engine-study
+2026-10-28T10:15:23.1960075Z  * [new branch]        task/T103-readiness                      -> origin/task/T103-readiness
+2026-10-28T10:15:23.1960591Z  * [new branch]        task/T103a-engine-study                  -> origin/task/T103a-engine-study
+2026-10-28T10:15:23.1961096Z  * [new branch]        task/T103b-engine-study                  -> origin/task/T103b-engine-study
+2026-10-28T10:15:23.1961610Z  * [new branch]        task/T103c-engine-study                  -> origin/task/T103c-engine-study
+2026-10-28T10:15:23.1962119Z  * [new branch]        task/T104a-engine-study                  -> origin/task/T104a-engine-study
+2026-10-28T10:15:23.1962630Z  * [new branch]        task/T104b-engine-study                  -> origin/task/T104b-engine-study
+2026-10-28T10:15:23.1963136Z  * [new branch]        task/T104c-engine-study                  -> origin/task/T104c-engine-study
+2026-10-28T10:15:23.1963644Z  * [new branch]        task/T104d-engine-study                  -> origin/task/T104d-engine-study
+2026-10-28T10:15:23.1964146Z  * [new branch]        task/T104e-engine-study                  -> origin/task/T104e-engine-study
+2026-10-28T10:15:23.1964771Z  * [new branch]        task/T105-readiness                      -> origin/task/T105-readiness
+2026-10-28T10:15:23.1965279Z  * [new branch]        task/T105a-engine-study                  -> origin/task/T105a-engine-study
+2026-10-28T10:15:23.1965786Z  * [new branch]        task/T105b-engine-study                  -> origin/task/T105b-engine-study
+2026-10-28T10:15:23.1966296Z  * [new branch]        task/T106a-engine-study                  -> origin/task/T106a-engine-study
+2026-10-28T10:15:23.1967439Z  * [new branch]        task/T106b-engine-study                  -> origin/task/T106b-engine-study
+2026-10-28T10:15:23.1967954Z  * [new branch]        task/T106c-engine-study                  -> origin/task/T106c-engine-study
+2026-10-28T10:15:23.1968468Z  * [new branch]        task/T108a-engine-study                  -> origin/task/T108a-engine-study
+2026-10-28T10:15:23.1968980Z  * [new branch]        task/T108b-engine-study                  -> origin/task/T108b-engine-study
+2026-10-28T10:15:23.1969502Z  * [new branch]        task/T109-readiness                      -> origin/task/T109-readiness
+2026-10-28T10:15:23.1970004Z  * [new branch]        task/T109a-engine-study                  -> origin/task/T109a-engine-study
+2026-10-28T10:15:23.1970522Z  * [new branch]        task/T109b-engine-study                  -> origin/task/T109b-engine-study
+2026-10-28T10:15:23.1971039Z  * [new branch]        task/T114-team-skills                    -> origin/task/T114-team-skills
+2026-10-28T10:15:23.1971573Z  * [new branch]        task/T115-team-performance               -> origin/task/T115-team-performance
+2026-10-28T10:15:23.1972141Z  * [new branch]        task/T116-team-characteristics           -> origin/task/T116-team-characteristics
+2026-10-28T10:15:23.1972681Z  * [new branch]        task/T12-q003-cycles                     -> origin/task/T12-q003-cycles
+2026-10-28T10:15:23.1973236Z  * [new branch]        task/T14-shared-research-tools           -> origin/task/T14-shared-research-tools
+2026-10-28T10:15:23.1973920Z  * [new branch]        task/T15-q004-skills                     -> origin/task/T15-q004-skills
+2026-10-28T10:15:23.1974452Z  * [new branch]        task/T16-q009-player-screen              -> origin/task/T16-q009-player-screen
+2026-10-28T10:15:23.1975001Z  * [new branch]        task/T17-finding-citations               -> origin/task/T17-finding-citations
+2026-10-28T10:15:23.1975548Z  * [new branch]        task/T18-ghidra-decompile                -> origin/task/T18-ghidra-decompile
+2026-10-28T10:15:23.1976116Z  * [new branch]        task/T19-q005-r008-tactics               -> origin/task/T19-q005-r008-tactics
+2026-10-28T10:15:23.1976625Z  * [new branch]        task/T20-named-view                      -> origin/task/T20-named-view
+2026-10-28T10:15:23.1977305Z  * [new branch]        task/T23-q010-quick-engine               -> origin/task/T23-q010-quick-engine
+2026-10-28T10:15:23.1977852Z  * [new branch]        task/T24-q010-quick-engine-2             -> origin/task/T24-q010-quick-engine-2
+2026-10-28T10:15:23.1978412Z  * [new branch]        task/T25-watched-engine-9564             -> origin/task/T25-watched-engine-9564
+2026-10-28T10:15:23.1978941Z  * [new branch]        task/T26-q011-ratings                    -> origin/task/T26-q011-ratings
+2026-10-28T10:15:23.1979441Z  * [new branch]        task/T262-opencode-v2                    -> origin/task/T262-opencode-v2
+2026-10-28T10:15:23.1980008Z  * [new branch]        task/T27-q012-keeping-and-penalties      -> origin/task/T27-q012-keeping-and-penalties
+2026-10-28T10:15:23.1980563Z  * [new branch]        task/T297-ci-minutes                     -> origin/task/T297-ci-minutes
+2026-10-28T10:15:23.1981082Z  * [new branch]        task/T33-q017-events-morale              -> origin/task/T33-q017-events-morale
+2026-10-28T10:15:23.1981595Z  * [new branch]        task/T34-game-keys                       -> origin/task/T34-game-keys
+2026-10-28T10:15:23.1982153Z  * [new branch]        task/T36-q018-condition-performance      -> origin/task/T36-q018-condition-performance
+2026-10-28T10:15:23.1982876Z  * [new branch]        task/T38-m0-whole-match-harness          -> origin/task/T38-m0-whole-match-harness
+2026-10-28T10:15:23.1983437Z  * [new branch]        task/T39a-screen-catalogue               -> origin/task/T39a-screen-catalogue
+2026-10-28T10:15:23.1983963Z  * [new branch]        task/T39b-coaching-kit                   -> origin/task/T39b-coaching-kit
+2026-10-28T10:15:23.1984482Z  * [new branch]        task/T39c-video-screens                  -> origin/task/T39c-video-screens
+2026-10-28T10:15:23.1985016Z  * [new branch]        task/T40-keeper-event-set                -> origin/task/T40-keeper-event-set
+2026-10-28T10:15:23.1985549Z  * [new branch]        task/T41-f020-result-kinds               -> origin/task/T41-f020-result-kinds
+2026-10-28T10:15:23.1986051Z  * [new branch]        task/T42-m1-278a                         -> origin/task/T42-m1-278a
+2026-10-28T10:15:23.1986511Z  * [new branch]        task/T43-m1-377e                         -> origin/task/T43-m1-377e
+2026-10-28T10:15:23.1987234Z  * [new branch]        task/T44-one-save-in-flight              -> origin/task/T44-one-save-in-flight
+2026-10-28T10:15:23.1987765Z  * [new branch]        task/T45-m2a-contests                    -> origin/task/T45-m2a-contests
+2026-10-28T10:15:23.1988256Z  * [new branch]        task/T46-m2b-287c                        -> origin/task/T46-m2b-287c
+2026-10-28T10:15:23.1988769Z  * [new branch]        task/T47-m2c-draw-wrappers               -> origin/task/T47-m2c-draw-wrappers
+2026-10-28T10:15:23.1989296Z  * [new branch]        task/T48-m2d-long-helpers                -> origin/task/T48-m2d-long-helpers
+2026-10-28T10:15:23.1989861Z  * [new branch]        task/T49-competitions-structure          -> origin/task/T49-competitions-structure
+2026-10-28T10:15:23.1990422Z  * [new branch]        task/T50-computer-managers               -> origin/task/T50-computer-managers
+2026-10-28T10:15:23.1990953Z  * [new branch]        task/T51-sacking-and-end                 -> origin/task/T51-sacking-and-end
+2026-10-28T10:15:23.1991586Z  * [new branch]        task/T52-tactics-effect                  -> origin/task/T52-tactics-effect
+2026-10-28T10:15:23.1992124Z  * [new branch]        task/T53-discipline-rules                -> origin/task/T53-discipline-rules
+2026-10-28T10:15:23.1992681Z  * [new branch]        task/T54-formations-positions            -> origin/task/T54-formations-positions
+2026-10-28T10:15:23.1993240Z  * [new branch]        task/T55-lineup-persistence              -> origin/task/T55-lineup-persistence
+2026-10-28T10:15:23.1993780Z  * [new branch]        task/T56-match-prompts                   -> origin/task/T56-match-prompts
+2026-10-28T10:15:23.1994293Z  * [new branch]        task/T57-port-families                   -> origin/task/T57-port-families
+2026-10-28T10:15:23.1994788Z  * [new branch]        task/T58-port-mode                       -> origin/task/T58-port-mode
+2026-10-28T10:15:23.1995310Z  * [new branch]        task/T59-guest-calls-locator             -> origin/task/T59-guest-calls-locator
+2026-10-28T10:15:23.1995919Z  * [new branch]        task/T60-port-runtime-geometry           -> origin/task/T60-port-runtime-geometry
+2026-10-28T10:15:23.1996471Z  * [new branch]        task/T61-port-attributes                 -> origin/task/T61-port-attributes
+2026-10-28T10:15:23.1997167Z  * [new branch]        task/T62-port-motion                     -> origin/task/T62-port-motion
+2026-10-28T10:15:23.1997688Z  * [new branch]        task/T63-port-positioning                -> origin/task/T63-port-positioning
+2026-10-28T10:15:23.1998211Z  * [new branch]        task/T64-port-ball                       -> origin/task/T64-port-ball
+2026-10-28T10:15:23.1998697Z  * [new branch]        task/T69-port-frame                      -> origin/task/T69-port-frame
+2026-10-28T10:15:23.1999205Z  * [new branch]        task/T71-port-run-match                  -> origin/task/T71-port-run-match
+2026-10-28T10:15:23.1999738Z  * [new branch]        task/T72-port-player-update              -> origin/task/T72-port-player-update
+2026-10-28T10:15:23.2000450Z  * [new branch]        task/T73-display-boundary                -> origin/task/T73-display-boundary
+2026-10-28T10:15:23.2000970Z  * [new branch]        task/T74-port-menus                      -> origin/task/T74-port-menus
+2026-10-28T10:15:23.2001469Z  * [new branch]        task/T75-port-selection                  -> origin/task/T75-port-selection
+2026-10-28T10:15:23.2002021Z  * [new branch]        task/T76-port-takers-shootout            -> origin/task/T76-port-takers-shootout
+2026-10-28T10:15:23.2002570Z  * [new branch]        task/T77-port-rare-quick                 -> origin/task/T77-port-rare-quick
+2026-10-28T10:15:23.2003108Z  * [new branch]        task/T78a-engine-on-its-own              -> origin/task/T78a-engine-on-its-own
+2026-10-28T10:15:23.2003646Z  * [new branch]        task/T78b-engine-on-its-own              -> origin/task/T78b-engine-on-its-own
+2026-10-28T10:15:23.2004216Z  * [new branch]        task/T78b1-helper-entrypoints            -> origin/task/T78b1-helper-entrypoints
+2026-10-28T10:15:23.2004831Z  * [new branch]        task/T78b2-wrapped-helper-entrypoints    -> origin/task/T78b2-wrapped-helper-entrypoints
+2026-10-28T10:15:23.2005435Z  * [new branch]        task/T78b3a-real-arithmetic              -> origin/task/T78b3a-real-arithmetic
+2026-10-28T10:15:23.2006020Z  * [new branch]        task/T78b3b-real-transcendentals         -> origin/task/T78b3b-real-transcendentals
+2026-10-28T10:15:23.2006585Z  * [new branch]        task/T78c-engine-on-its-own              -> origin/task/T78c-engine-on-its-own
+2026-10-28T10:15:23.2007351Z  * [new branch]        task/T81-exchange-windows                -> origin/task/T81-exchange-windows
+2026-10-28T10:15:23.2007900Z  * [new branch]        task/T85-mutable-build-guard             -> origin/task/T85-mutable-build-guard
+2026-10-28T10:15:23.2008448Z  * [new branch]        task/T86-g13-original-input              -> origin/task/T86-g13-original-input
+2026-10-28T10:15:23.2009007Z  * [new branch]        task/T91-400-static-reassessment         -> origin/task/T91-400-static-reassessment
+2026-10-28T10:15:23.2009711Z  * [new branch]        task/T92-400-synthetic-contract          -> origin/task/T92-400-synthetic-contract
+2026-10-28T10:15:23.2010292Z  * [new branch]        task/T92-400-synthetic-fixtures          -> origin/task/T92-400-synthetic-fixtures
+2026-10-28T10:15:23.2010833Z  * [new branch]        task/T93-manager-name                    -> origin/task/T93-manager-name
+2026-10-28T10:15:23.2011348Z  * [new branch]        task/T94-country-labels                  -> origin/task/T94-country-labels
+2026-10-28T10:15:23.2011856Z  * [new branch]        task/T95-engine-study                    -> origin/task/T95-engine-study
+2026-10-28T10:15:23.2012366Z  * [new branch]        task/T96a-engine-study                   -> origin/task/T96a-engine-study
+2026-10-28T10:15:23.2012886Z  * [new branch]        task/T96b-engine-study                   -> origin/task/T96b-engine-study
+2026-10-28T10:15:23.2013403Z  * [new branch]        task/T97a-engine-study                   -> origin/task/T97a-engine-study
+2026-10-28T10:15:23.2013919Z  * [new branch]        task/T97b-engine-study                   -> origin/task/T97b-engine-study
+2026-10-28T10:15:23.2014423Z  * [new branch]        task/T98a-engine-study                   -> origin/task/T98a-engine-study
+2026-10-28T10:15:23.2014916Z  * [new branch]        task/T98b-engine-study                   -> origin/task/T98b-engine-study
+2026-10-28T10:15:23.2015409Z  * [new branch]        task/T99a-engine-study                   -> origin/task/T99a-engine-study
+2026-10-28T10:15:23.2015903Z  * [new branch]        task/T99b-engine-study                   -> origin/task/T99b-engine-study
+2026-10-28T10:15:23.2016423Z  * [new branch]        task/es-r2-review-packet                 -> origin/task/es-r2-review-packet
+2026-10-28T10:15:23.2017161Z  * [new branch]        task/fix-295-net-retry                   -> origin/task/fix-295-net-retry
+2026-10-28T10:15:23.2017707Z  * [new branch]        worktree-opencode-implementers           -> origin/worktree-opencode-implementers
+2026-10-28T10:15:23.2018314Z  * [new tag]           E005                                     -> E005
+2026-10-28T10:15:23.2018687Z  * [new tag]           E006                                     -> E006
+2026-10-28T10:15:23.2019049Z  * [new tag]           E010                                     -> E010
+2026-10-28T10:15:23.2019404Z  * [new tag]           E011                                     -> E011
+2026-10-28T10:15:23.2019762Z  * [new tag]           E012                                     -> E012
+2026-10-28T10:15:23.2020121Z  * [new tag]           E013                                     -> E013
+2026-10-28T10:15:23.2020479Z  * [new tag]           E014                                     -> E014
+2026-10-28T10:15:23.2020829Z  * [new tag]           E015                                     -> E015
+2026-10-28T10:15:23.2021185Z  * [new tag]           E018                                     -> E018
+2026-10-28T10:15:23.2021581Z  * [new tag]           goal2-original                           -> goal2-original
+2026-10-28T10:15:23.2022015Z  * [new tag]           goal2-saves                              -> goal2-saves
+2026-10-28T10:15:23.2022424Z  * [new tag]           m1-port-p2                               -> m1-port-p2
+2026-10-28T10:15:23.2022824Z  * [new tag]           m2-port-p3                               -> m2-port-p3
+2026-10-28T10:15:23.2023266Z  * [new tag]           m3-port-setup-tail                       -> m3-port-setup-tail
+2026-10-28T10:15:23.2023716Z  * [new tag]           m4-port-ui-frontier                      -> m4-port-ui-frontier
+2026-10-28T10:15:23.2024203Z  * [new tag]           m5-engine-study-foundations              -> m5-engine-study-foundations
+2026-10-28T10:15:23.2024739Z  * [new tag]           m6-engine-study-field-behaviour          -> m6-engine-study-field-behaviour
+2026-10-28T10:15:23.2025243Z  * [new tag]           play-the-game-saves                      -> play-the-game-saves
+2026-10-28T10:15:23.2025710Z  * [new tag]           play-the-game-states                     -> play-the-game-states
+2026-10-28T10:15:23.2026273Z  * [new tag]           research/T02                             -> research/T02
+2026-10-28T10:15:23.2026839Z  * [new ref]           bb1ccba5ebd1c54903ca6e88a3bdaebdd70dcb5f -> pull/602/merge
+2026-10-28T10:15:23.2028250Z ##[endgroup]
+2026-10-28T10:15:23.2028631Z ##[group]Determining the checkout info
+2026-10-28T10:15:23.2029038Z ##[endgroup]
+2026-10-28T10:15:23.2029291Z [command]/usr/bin/git sparse-checkout disable
+2026-10-28T10:15:23.2185194Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-28T10:15:23.2220019Z ##[group]Checking out the ref
+2026-10-28T10:15:23.2224795Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/602/merge
+2026-10-28T10:15:24.2491930Z Updating files:  94% (9778/10352)
+2026-10-28T10:15:24.3390323Z Updating files:  95% (9835/10352)
+2026-10-28T10:15:24.3530178Z Updating files:  96% (9938/10352)
+2026-10-28T10:15:24.3689156Z Updating files:  97% (10042/10352)
+2026-10-28T10:15:24.3788143Z Updating files:  98% (10145/10352)
+2026-10-28T10:15:24.3878751Z Updating files:  99% (10249/10352)
+2026-10-28T10:15:24.3879202Z Updating files: 100% (10352/10352)
+2026-10-28T10:15:24.3879682Z Updating files: 100% (10352/10352), done.
+2026-10-28T10:15:24.3991566Z Note: switching to 'refs/remotes/pull/602/merge'.
+2026-10-28T10:15:24.3991881Z 
+2026-10-28T10:15:24.3992121Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-28T10:15:24.3992564Z changes and commit them, and you can discard any commits you make in this
+2026-10-28T10:15:24.3992991Z state without impacting any branches by switching back to a branch.
+2026-10-28T10:15:24.3993226Z 
+2026-10-28T10:15:24.3993411Z If you want to create a new branch to retain commits you create, you may
+2026-10-28T10:15:24.3993820Z do so (now or later) by using -c with the switch command. Example:
+2026-10-28T10:15:24.3994065Z 
+2026-10-28T10:15:24.3994184Z   git switch -c <new-branch-name>
+2026-10-28T10:15:24.3994813Z 
+2026-10-28T10:15:24.3994913Z Or undo this operation with:
+2026-10-28T10:15:24.3995072Z 
+2026-10-28T10:15:24.3995190Z   git switch -
+2026-10-28T10:15:24.3995305Z 
+2026-10-28T10:15:24.3995493Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-28T10:15:24.3995745Z 
+2026-10-28T10:15:24.3996049Z HEAD is now at bb1ccba5 Merge 98ea312b65acfa62210e7bd5ad087c318c1bebb6 into cd917bd2b2c24bf79c3b94eac35fe16253f567e9
+2026-10-28T10:15:24.4075454Z ##[endgroup]
+2026-10-28T10:15:24.4134500Z [command]/usr/bin/git log -1 --format=%H
+2026-10-28T10:15:24.4163889Z bb1ccba5ebd1c54903ca6e88a3bdaebdd70dcb5f
+2026-10-28T10:15:24.4488560Z ##[group]Run actions/setup-python@v5
+2026-10-28T10:15:24.4488812Z with:
+2026-10-28T10:15:24.4489002Z   python-version: 3.12
+2026-10-28T10:15:24.4489192Z   check-latest: false
+2026-10-28T10:15:24.4491341Z   token: ***
+2026-10-28T10:15:24.4491539Z   update-environment: true
+2026-10-28T10:15:24.4491749Z   allow-prereleases: false
+2026-10-28T10:15:24.4491956Z   freethreaded: false
+2026-10-28T10:15:24.4492136Z env:
+2026-10-28T10:15:24.4494154Z   GH_TOKEN: ***
+2026-10-28T10:15:24.4494334Z ##[endgroup]
+2026-10-28T10:15:24.5729421Z ##[group]Installed versions
+2026-10-28T10:15:24.5825353Z (node:2089) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-28T10:15:24.5826279Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-28T10:15:24.5826948Z Successfully set up CPython (3.12.15)
+2026-10-28T10:15:24.5827595Z ##[endgroup]
+2026-10-28T10:15:24.6052945Z ##[group]Run python3 tools/ci_gate.py decide >> "$GITHUB_OUTPUT"
+2026-10-28T10:15:24.6053495Z [36;1mpython3 tools/ci_gate.py decide >> "$GITHUB_OUTPUT"[0m
+2026-10-28T10:15:24.6720376Z shell: /usr/bin/bash -e {0}
+2026-10-28T10:15:24.6720701Z env:
+2026-10-28T10:15:24.6723396Z   GH_TOKEN: ***
+2026-10-28T10:15:24.6723688Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:24.6724115Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-28T10:15:24.6724565Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:24.6724910Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:24.6725215Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:24.6725542Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-28T10:15:24.6725825Z   EVENT: pull_request
+2026-10-28T10:15:24.6726048Z   ACTION: ready_for_review
+2026-10-28T10:15:24.6726425Z   BASE: cd917bd2b2c24bf79c3b94eac35fe16253f567e9
+2026-10-28T10:15:24.6726693Z   HEAD: 98ea312b65acfa62210e7bd5ad087c318c1bebb6
+2026-10-28T10:15:24.6727174Z   BEFORE: 
+2026-10-28T10:15:24.6727359Z   REPO: diegoami/goal2-archaeology
+2026-10-28T10:15:24.6727603Z ##[endgroup]
+2026-10-28T10:15:25.2046154Z tier=full (the whole PR (event ready_for_review))
+2026-10-28T10:15:25.2214871Z ##[group]Run python3 tools/check_links.py
+2026-10-28T10:15:25.2215188Z [36;1mpython3 tools/check_links.py[0m
+2026-10-28T10:15:25.2276260Z shell: /usr/bin/bash -e {0}
+2026-10-28T10:15:25.2276507Z env:
+2026-10-28T10:15:25.2279065Z   GH_TOKEN: ***
+2026-10-28T10:15:25.2279317Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:25.2279683Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-28T10:15:25.2280037Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:25.2280344Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:25.2280651Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:25.2280962Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-28T10:15:25.2281238Z ##[endgroup]
+2026-10-28T10:15:26.5478836Z links and JSON ok (10352 files)
+2026-10-28T10:15:26.5576337Z ##[group]Run python3 tools/fetch_artifact.py goal2-67cf27d6
+2026-10-28T10:15:26.5576700Z [36;1mpython3 tools/fetch_artifact.py goal2-67cf27d6[0m
+2026-10-28T10:15:26.5633323Z shell: /usr/bin/bash -e {0}
+2026-10-28T10:15:26.5633694Z env:
+2026-10-28T10:15:26.5636031Z   GH_TOKEN: ***
+2026-10-28T10:15:26.5636276Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:26.5636633Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-28T10:15:26.5637068Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:26.5637400Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:26.5637701Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:26.5638003Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-28T10:15:26.5638266Z ##[endgroup]
+2026-10-28T10:15:34.4390415Z goal2-67cf27d6: verified in /home/runner/work/goal2-archaeology/goal2-archaeology/.cache/artifacts/goal2-67cf27d6
+2026-10-28T10:15:34.4514624Z ##[group]Run python3 tools/fetch_artifact.py goal2-a949da2f
+2026-10-28T10:15:34.4515005Z [36;1mpython3 tools/fetch_artifact.py goal2-a949da2f[0m
+2026-10-28T10:15:34.4573552Z shell: /usr/bin/bash -e {0}
+2026-10-28T10:15:34.4573787Z env:
+2026-10-28T10:15:34.4576177Z   GH_TOKEN: ***
+2026-10-28T10:15:34.4576498Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:34.4577144Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-28T10:15:34.4577541Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:34.4577868Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:34.4578179Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:34.4578531Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-28T10:15:34.4578828Z ##[endgroup]
+2026-10-28T10:15:41.0717977Z goal2-a949da2f: verified in /home/runner/work/goal2-archaeology/goal2-archaeology/.cache/artifacts/goal2-a949da2f
+2026-10-28T10:15:41.2625068Z ##[group]Run actions/cache@v4
+2026-10-28T10:15:41.2625288Z with:
+2026-10-28T10:15:41.2625460Z   path: ~/.cache/pip
+2026-10-28T10:15:41.2625787Z   key: pip-Linux-0bbc17d7acfe5ffb0db2281b0ed2443ad8c7fb0e1fa9bb8e916786bd02de570a
+2026-10-28T10:15:41.2626142Z   enableCrossOsArchive: false
+2026-10-28T10:15:41.2626383Z   fail-on-cache-miss: false
+2026-10-28T10:15:41.2626578Z   lookup-only: false
+2026-10-28T10:15:41.2626921Z   save-always: false
+2026-10-28T10:15:41.2627170Z env:
+2026-10-28T10:15:41.2629341Z   GH_TOKEN: ***
+2026-10-28T10:15:41.2629585Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:41.2629933Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-28T10:15:41.2630270Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:41.2630570Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:41.2630868Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:41.2631216Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-28T10:15:41.2631502Z ##[endgroup]
+2026-10-28T10:15:41.3570636Z (node:2256) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-28T10:15:41.3571505Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-28T10:15:41.5205543Z Cache hit for: pip-Linux-0bbc17d7acfe5ffb0db2281b0ed2443ad8c7fb0e1fa9bb8e916786bd02de570a
+2026-10-28T10:15:41.5303178Z (node:2256) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-28T10:15:42.4257987Z Received 17811382 of 17811382 (100.0%), 23.7 MBs/sec
+2026-10-28T10:15:42.4258454Z Cache Size: ~17 MB (17811382 B)
+2026-10-28T10:15:42.4280232Z [command]/usr/bin/tar -xf /home/runner/work/_temp/8e196da7-845c-49cf-b317-f116d6f941d8/cache.tzst -P -C /home/runner/work/goal2-archaeology/goal2-archaeology --use-compress-program unzstd
+2026-10-28T10:15:42.4502133Z Cache restored successfully
+2026-10-28T10:15:42.4626545Z Cache restored from key: pip-Linux-0bbc17d7acfe5ffb0db2281b0ed2443ad8c7fb0e1fa9bb8e916786bd02de570a
+2026-10-28T10:15:42.4723027Z ##[group]Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt
+2026-10-28T10:15:42.4723558Z [36;1mpip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt[0m
+2026-10-28T10:15:42.4780365Z shell: /usr/bin/bash -e {0}
+2026-10-28T10:15:42.4780583Z env:
+2026-10-28T10:15:42.4782703Z   GH_TOKEN: ***
+2026-10-28T10:15:42.4782960Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:42.4783316Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-28T10:15:42.4783667Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:42.4783984Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:42.4784286Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:42.4784594Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-28T10:15:42.4784875Z ##[endgroup]
+2026-10-28T10:15:43.4191604Z Collecting capstone==5.0.9 (from -r tools/static/requirements.txt (line 1))
+2026-10-28T10:15:43.4202795Z   Using cached capstone-5.0.9-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.3 kB)
+2026-10-28T10:15:43.4532703Z Collecting unicorn==2.1.4 (from -r runtime/emul/requirements.txt (line 1))
+2026-10-28T10:15:43.4543937Z   Using cached unicorn-2.1.4-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.2 kB)
+2026-10-28T10:15:43.4586456Z Using cached capstone-5.0.9-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.5 MB)
+2026-10-28T10:15:43.4605110Z Using cached unicorn-2.1.4-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (16.4 MB)
+2026-10-28T10:15:43.5859164Z Installing collected packages: unicorn, capstone
+2026-10-28T10:15:43.9043659Z 
+2026-10-28T10:15:43.9052546Z Successfully installed capstone-5.0.9 unicorn-2.1.4
+2026-10-28T10:15:43.9060162Z 
+2026-10-28T10:15:43.9060630Z [notice] A new release of pip is available: 26.2.1 -> 26.2.2
+2026-10-28T10:15:43.9061181Z [notice] To update, run: pip install --upgrade pip
+2026-10-28T10:15:43.9709350Z ##[group]Run python3 tools/ci_gate.py run-tests --modules="test_human_keys,test_human_record,test_screens_video,test_e032_recheck,test_e036_compare,test_emul_match" --group="e033-07"
+2026-10-28T10:15:43.9710305Z [36;1mpython3 tools/ci_gate.py run-tests --modules="test_human_keys,test_human_record,test_screens_video,test_e032_recheck,test_e036_compare,test_emul_match" --group="e033-07"[0m
+2026-10-28T10:15:43.9767735Z shell: /usr/bin/bash -e {0}
+2026-10-28T10:15:43.9767969Z env:
+2026-10-28T10:15:43.9770180Z   GH_TOKEN: ***
+2026-10-28T10:15:43.9770442Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:43.9770806Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-28T10:15:43.9771153Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:43.9771460Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:43.9771782Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:15:43.9772131Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-28T10:15:43.9772398Z ##[endgroup]
+2026-10-28T10:15:46.6035345Z {"group": "e033-07", "test_ids": ["test_port_engine.Checkpoints.test_e033_07"]}
+2026-10-28T10:20:02.3363839Z checkpoint PASS a quick result, tick events boundary=0 phase=event
+2026-10-28T10:22:07.4652773Z checkpoint PASS a quick result, tick events boundary=1 phase=event
+2026-10-28T10:24:13.4107464Z checkpoint PASS a quick result, tick events boundary=49 phase=event
+2026-10-28T10:26:18.9759861Z checkpoint PASS a quick result, tick events boundary=918 phase=event
+2026-10-28T10:28:24.3046945Z checkpoint PASS a quick result, tick events boundary=1701 phase=event
+2026-10-28T10:30:31.2069642Z checkpoint PASS a quick result, tick events boundary=1701 phase=answered
+2026-10-28T10:32:43.7963227Z checkpoint PASS a quick result, tick events boundary=1736 phase=event
+2026-10-28T10:34:56.8432092Z checkpoint PASS a quick result, tick events boundary=1737 phase=event
+2026-10-28T10:37:10.3654729Z checkpoint PASS a quick result, tick events boundary=1737 phase=answered
+2026-10-28T10:39:19.4526971Z checkpoint PASS a quick result, tick events boundary=1763 phase=event
+2026-10-28T10:39:19.9491592Z checkpoint PASS a quick result, tick events boundary=1842 phase=event
+2026-10-28T10:39:20.3941245Z checkpoint PASS a quick result, tick events boundary=1843 phase=event
+2026-10-28T10:39:20.4025099Z test_e033_07 (test_port_engine.Checkpoints.test_e033_07) ... ok
+2026-10-28T10:39:20.4025403Z 
+2026-10-28T10:39:20.4025554Z ----------------------------------------------------------------------
+2026-10-28T10:39:20.4025901Z Ran 1 test in 1413.799s
+2026-10-28T10:39:20.4026025Z 
+2026-10-28T10:39:20.4026104Z OK
+2026-10-28T10:39:20.6058138Z ##[group]Run for f in findings/F*.md; do python3 tools/check_citations.py "$f"; done
+2026-10-28T10:39:20.6071964Z [36;1mfor f in findings/F*.md; do python3 tools/check_citations.py "$f"; done[0m
+2026-10-28T10:39:20.6135516Z shell: /usr/bin/bash -e {0}
+2026-10-28T10:39:20.6135764Z env:
+2026-10-28T10:39:20.6138561Z   GH_TOKEN: ***
+2026-10-28T10:39:20.6138840Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:39:20.6139252Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-28T10:39:20.6139673Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:39:20.6140021Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:39:20.6140354Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:39:20.6140695Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-28T10:39:20.6140993Z ##[endgroup]
+2026-10-28T10:39:36.1345678Z ok: citations in findings/F001-goal2-runs-unattended-under-dosbox-x.md resolve
+2026-10-28T10:39:36.6318021Z ok: citations in findings/F002-static-inventory.md resolve
+2026-10-28T10:39:37.4806673Z ok: citations in findings/F003-g1-driver-repeats-the-restore-cycle.md resolve
+2026-10-28T10:39:37.9850020Z ok: citations in findings/F004-dos-time-seeds-the-game-and-key-timing-drives-the-live-match.md resolve
+2026-10-28T10:39:38.4808629Z ok: citations in findings/F005-the-quick-result-runs-another-engine-than-the-watched-match.md resolve
+2026-10-28T10:39:38.9334141Z ok: citations in findings/F006-cycles-and-host-speed-do-not-change-a-match.md resolve
+2026-10-28T10:39:39.4019225Z ok: citations in findings/F007-player-values-are-made-at-a-new-game-from-a-seed-per-country-not-from-the-dos-time.md resolve
+2026-10-28T10:39:39.8908487Z ok: citations in findings/F008-the-player-screen-draws-12-skills-as-bars-derived-from-three-record-bytes.md resolve
+2026-10-28T10:39:40.3807936Z ok: citations in findings/F009-ghidra-decompiled-view-agrees-with-nine-of-ten-hand-traced-claims.md resolve
+2026-10-28T10:39:41.0187494Z ok: citations in findings/F010-r008-is-a-countrys-default-team-tactics-and-both-match-engines-read-it.md resolve
+2026-10-28T10:39:41.4266328Z ok: citations in findings/F011-the-pool-screen-lists-the-squad-and-80-extra-records-numbered-from-a927.md resolve
+2026-10-28T10:39:41.8643583Z ok: citations in findings/F012-quick-engine-rule.md resolve
+2026-10-28T10:39:42.2936616Z ok: citations in findings/F013-the-watched-engine-tick-map.md resolve
+2026-10-28T10:39:42.7613521Z ok: citations in findings/F014-performance-ratings-and-man-of-the-match.md resolve
+2026-10-28T10:39:43.2632281Z ok: citations in findings/F015-keeping-and-penalties-read-through-the-derived-skills.md resolve
+2026-10-28T10:39:43.7633641Z ok: citations in findings/F016-ageing-peak-band-and-yearly-writes.md resolve
+2026-10-28T10:39:44.2290660Z ok: citations in findings/F017-retirement-creation-and-results-to-talent.md resolve
+2026-10-28T10:39:44.6925783Z ok: citations in findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md resolve
+2026-10-28T10:39:45.1380428Z ok: citations in findings/F019-confidence-follows-result-relative-to-country-ranks.md resolve
+2026-10-28T10:39:45.6467604Z ok: citations in findings/F020-events-change-confidence-and-team-morale-aggregates-it.md resolve
+2026-10-28T10:39:46.1630869Z ok: citations in findings/F021-energy-and-form-set-a-players-strength-fitness-is-never-read-in-a-match.md resolve
+2026-10-28T10:39:47.0928999Z ok: citations in findings/F022-contest-sites-287c-5474-5d69-and-the-branches-e011-takes.md resolve
+2026-10-28T10:39:47.7278469Z ok: citations in findings/F023-the-stage-builders-write-the-competition-calendar-from-ranked-pots-and-a-points-sort-with-no-coin.md resolve
+2026-10-28T10:39:48.4776502Z ok: citations in findings/F024-computer-lineup-is-the-stored-eleven-corrected-by-bench-swaps-on-377e-and-silent-fixtures-are-one-b19d-call.md resolve
+2026-10-28T10:39:49.2326708Z ok: citations in findings/F025-sacking-and-end-of-the-game.md resolve
+2026-10-28T10:39:49.7507037Z ok: citations in findings/F026-what-each-team-tactic-changes-in-a-watched-match.md resolve
+2026-10-28T10:39:50.5669314Z ok: citations in findings/F027-discipline-cap-bans-added-time-substitution-budget-and-foul-chain.md resolve
+2026-10-28T10:39:51.4654789Z ok: citations in findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md resolve
+2026-10-28T10:39:52.0388426Z ok: citations in findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md resolve
+2026-10-28T10:39:52.7111038Z ok: citations in findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md resolve
+2026-10-28T10:39:53.3625031Z ok: citations in findings/F031-the-squad-and-the-pool-exchange-except-from-a-countrys-first-finals-group-fixture-to-the-next-qualifying-build-and-between-two-away-cross-continent-friendlies.md resolve
+2026-10-28T10:39:53.7976264Z ok: citations in findings/F032-from-the-titles-key-read-to-the-first-manager-menu-a-new-game-opens-reads-and-closes-goal-dat-and-reads-the-dos-time-and-makes-no-other-interrupt.md resolve
+2026-10-28T10:39:54.2352646Z ok: citations in findings/F033-the-start-year-is-the-dos-year-read-once-at-start-up-plus-one-made-even-a-state-at-that-date-call-replays-to-the-title-and-the-manager-menu-for-any-date-served.md resolve
+2026-10-28T10:39:54.7290963Z ok: citations in findings/F034-manager-names-preserve-pascal-nuls-and-screen-glyphs.md resolve
+2026-10-28T10:39:55.1891210Z ok: citations in findings/F035-team-status-is-country-rank-and-skill-is-manager-ability.md resolve
+2026-10-28T10:39:55.6509824Z ok: citations in findings/F036-team-skills-bars-are-0bc4-side-one-line-sums-scaled-by-11e1.md resolve
+2026-10-28T10:39:56.1167386Z ok: citations in findings/F037-team-performance-bars-sum-the-match-sides-performance-words-by-role-after-the-first-in-match-menu.md resolve
+2026-10-28T10:39:56.6169272Z ok: citations in findings/F038-team-characteristics-are-six-13d0-averages-over-eleven-with-four-descriptors-and-two-numbers.md resolve
+2026-10-28T10:39:56.6332107Z ##[group]Run ! git ls-files | grep -iE '\.(exe|dat|hlp|hil|pif|bat)$'
+2026-10-28T10:39:56.6332585Z [36;1m! git ls-files | grep -iE '\.(exe|dat|hlp|hil|pif|bat)$'[0m
+2026-10-28T10:39:56.6393256Z shell: /usr/bin/bash -e {0}
+2026-10-28T10:39:56.6393487Z env:
+2026-10-28T10:39:56.6395783Z   GH_TOKEN: ***
+2026-10-28T10:39:56.6396049Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:39:56.6396427Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-28T10:39:56.6396925Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:39:56.6397269Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:39:56.6397589Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-28T10:39:56.6397911Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-28T10:39:56.6398187Z ##[endgroup]
+2026-10-28T10:39:56.7100711Z Post job cleanup.
+2026-10-28T10:39:56.8031135Z Cache hit occurred on the primary key pip-Linux-0bbc17d7acfe5ffb0db2281b0ed2443ad8c7fb0e1fa9bb8e916786bd02de570a, not saving cache.
+2026-10-28T10:39:56.8032578Z (node:3314) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-28T10:39:56.8033437Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-28T10:39:56.8138105Z Post job cleanup.
+2026-10-28T10:39:56.9149289Z (node:3322) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-28T10:39:56.9150202Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-28T10:39:56.9305055Z Post job cleanup.
+2026-10-28T10:39:57.0121718Z [command]/usr/bin/git version
+2026-10-28T10:39:57.0166159Z git version 2.55.0
+2026-10-28T10:39:57.0207311Z Temporarily overriding HOME='/home/runner/work/_temp/b736d8a7-2317-45b8-ac45-4e86558d2adf' before making global git config changes
+2026-10-28T10:39:57.0208595Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-28T10:39:57.0211653Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/goal2-archaeology/goal2-archaeology
+2026-10-28T10:39:57.0256493Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-28T10:39:57.0297435Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-28T10:39:57.0646177Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-28T10:39:57.0699178Z http.https://github.com/.extraheader
+2026-10-28T10:39:57.0753373Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-28T10:39:57.0809427Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-28T10:39:57.1109319Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-28T10:39:57.1163535Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-28T10:39:57.1624324Z Cleaning up orphan processes
+2026-10-28T10:39:57.1925141Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache@v4, actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
