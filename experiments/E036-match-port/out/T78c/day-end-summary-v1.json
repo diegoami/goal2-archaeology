@@ -1,0 +1,158 @@
+{
+  "executable_source": "b5ad2099d58127895d29217338c204f83571e9a3",
+  "scenarios": [
+    {
+      "scenario": "e033-01",
+      "exit_code": 0,
+      "source_unchanged": true,
+      "source_head_at_start": "b5ad2099d58127895d29217338c204f83571e9a3",
+      "verified_boundaries": 9,
+      "log": "experiments/E036-match-port/out/T78c/e033-01-v1.log",
+      "log_sha256": "976cf199a996348c4aa7f4b8353be226eaa0b363c0bd06cf03c951963b681042",
+      "receipt": "experiments/E036-match-port/out/T78c/e033-01-v1-exit.json",
+      "receipt_sha256": "bf2bf7c76a57f020750f2f9e394fc8a844555605299dae324c1f3f0d0785dff3"
+    },
+    {
+      "scenario": "e033-02",
+      "exit_code": 0,
+      "source_unchanged": true,
+      "source_head_at_start": "b5ad2099d58127895d29217338c204f83571e9a3",
+      "verified_boundaries": 9,
+      "log": "experiments/E036-match-port/out/T78c/e033-02-v1.log",
+      "log_sha256": "59523623307a3d4ce198894be3a9792d190630ee94e9bfcd98485893405555a2",
+      "receipt": "experiments/E036-match-port/out/T78c/e033-02-v1-exit.json",
+      "receipt_sha256": "4cac8a1e1ae767ffdc17ed28a6917d6e0507e3c1cad6e7324ab2e98d77f62f53"
+    },
+    {
+      "scenario": "e033-03",
+      "exit_code": 0,
+      "source_unchanged": true,
+      "source_head_at_start": "f6a2c1b33e263c0097682c583fc14cde177ef92d",
+      "verified_boundaries": 11,
+      "log": "experiments/E036-match-port/out/T78c/e033-03-v2.log",
+      "log_sha256": "d4deb225c681d8854ba5f388fd5af0ea51459aa8266bcf1298441570ff16f918",
+      "receipt": "experiments/E036-match-port/out/T78c/e033-03-v2-exit.json",
+      "receipt_sha256": "b3547570b2f0d0464a546d0b9d934e243ec75703851a797b35ab5d619de5a8da"
+    },
+    {
+      "scenario": "e033-04",
+      "exit_code": 0,
+      "source_unchanged": true,
+      "source_head_at_start": "b5ad2099d58127895d29217338c204f83571e9a3",
+      "verified_boundaries": 13,
+      "log": "experiments/E036-match-port/out/T78c/e033-04-v1.log",
+      "log_sha256": "1c729dcefc891a0780145fc2a4d8e4d7adba8ee7cc9e11836014289b6d3c1634",
+      "receipt": "experiments/E036-match-port/out/T78c/e033-04-v1-exit.json",
+      "receipt_sha256": "8dde22ba021ba0238bff519aa935a9e465037a6c77651a8f69ce3105c4a96a58"
+    },
+    {
+      "scenario": "e033-05",
+      "exit_code": 0,
+      "source_unchanged": true,
+      "source_head_at_start": "f6a2c1b33e263c0097682c583fc14cde177ef92d",
+      "verified_boundaries": 11,
+      "log": "experiments/E036-match-port/out/T78c/e033-05-v2.log",
+      "log_sha256": "0ebb00a745c6c7a7063ac5a8fe93545907d490c0a85357c81d57f1ab7f8f47f5",
+      "receipt": "experiments/E036-match-port/out/T78c/e033-05-v2-exit.json",
+      "receipt_sha256": "48f2a70831bf3c46bc5862b201d2347dc9dba72a5f38a53d6feb28cf976af2d5"
+    },
+    {
+      "scenario": "e033-06",
+      "exit_code": 1,
+      "source_unchanged": true,
+      "source_head_at_start": "b5ad2099d58127895d29217338c204f83571e9a3",
+      "verified_boundaries": 20,
+      "log": "experiments/E036-match-port/out/T78c/e033-06-v1.log",
+      "log_sha256": "d224239b7b895c2a04e6b8dd194467682897783cbdd5bb956b017c881ab1569a",
+      "receipt": "experiments/E036-match-port/out/T78c/e033-06-v1-exit.json",
+      "receipt_sha256": "40173b57fd824a628ea49e3bcc1f22fa48ed2bf1bb546d8c33858b05d0450eae"
+    },
+    {
+      "scenario": "e033-07",
+      "exit_code": 0,
+      "source_unchanged": true,
+      "source_head_at_start": "b5ad2099d58127895d29217338c204f83571e9a3",
+      "verified_boundaries": 12,
+      "log": "experiments/E036-match-port/out/T78c/e033-07-v1.log",
+      "log_sha256": "89cb5cb4ca8f424d7c12cc0e75e229f5f8fedb123956de7aa005dc43e628e487",
+      "receipt": "experiments/E036-match-port/out/T78c/e033-07-v1-exit.json",
+      "receipt_sha256": "b0f9f88002250e9b871efca352fdf9759a4d5770377ad5a7e2b71ac3775f0eac"
+    },
+    {
+      "scenario": "e034-01",
+      "exit_code": 1,
+      "source_unchanged": true,
+      "source_head_at_start": "b5ad2099d58127895d29217338c204f83571e9a3",
+      "verified_boundaries": 19,
+      "log": "experiments/E036-match-port/out/T78c/e034-01-v1.log",
+      "log_sha256": "70b6cb79442082547bfe4591c458f63313b01588fbc371fab3465e796009d6a8",
+      "receipt": "experiments/E036-match-port/out/T78c/e034-01-v1-exit.json",
+      "receipt_sha256": "9bea3ea20d9edb5f081c7304b5a4ab8f9b0bb832b8554525fd82497a94a64b17"
+    },
+    {
+      "scenario": "e034-02",
+      "exit_code": -11,
+      "source_unchanged": true,
+      "source_head_at_start": "b5ad2099d58127895d29217338c204f83571e9a3",
+      "verified_boundaries": 13,
+      "log": "experiments/E036-match-port/out/T78c/e034-02-v1.log",
+      "log_sha256": "9d851ba353817af04228f80aba361a063265c03b651d2c0f5b972bf2b38b4d59",
+      "receipt": "experiments/E036-match-port/out/T78c/e034-02-v1-exit.json",
+      "receipt_sha256": "2898f80839faa281a48608de304a14d8f74c270ee4c8f52e16bf50171f8cc14a"
+    },
+    {
+      "scenario": "e034-03",
+      "exit_code": 0,
+      "source_unchanged": true,
+      "source_head_at_start": "f6a2c1b33e263c0097682c583fc14cde177ef92d",
+      "verified_boundaries": 21,
+      "log": "experiments/E036-match-port/out/T78c/e034-03-v2.log",
+      "log_sha256": "483428731bb63111c4f53f27ca7f0cda605acb96f8f5f02a33b1ee6135878f32",
+      "receipt": "experiments/E036-match-port/out/T78c/e034-03-v2-exit.json",
+      "receipt_sha256": "990ea818ca7de70c205c0d26e161195a0ae5c15920ea6a8588853dd6690404b9"
+    }
+  ],
+  "passed": 7,
+  "failed_assertions_scenarios": [
+    "e033-06",
+    "e034-01"
+  ],
+  "crashed_scenarios": [
+    "e034-02"
+  ],
+  "verified_boundaries": 138,
+  "reference_boundaries": 148,
+  "acceptance": "FAIL; do not merge602",
+  "failures": {
+    "e033-06": {
+      "boundary_indices": [
+        1237,
+        1238
+      ],
+      "observed": "result answer metadata lists versus tuples; final memory assertions not reached"
+    },
+    "e034-01": {
+      "boundary_indices": [
+        1696,
+        1729,
+        1730
+      ],
+      "observed": "result answer metadata lists versus tuples; final memory assertions not reached"
+    },
+    "e034-02": {
+      "signal": "SIGSEGV",
+      "exit_code": -11,
+      "last_verified_boundary": 1563,
+      "verified_boundaries": 13,
+      "unverified_reference_boundaries": 5,
+      "backtrace": "none in captured log",
+      "cause": "unknown; reproduce with crash diagnostics after explicit resume"
+    }
+  },
+  "regressions": {
+    "tests": 201,
+    "exit_code": 0,
+    "skips": 0
+  },
+  "owner_decision": "Wait for existing checks, then end day. No fixes, reruns, reviews, merges or next tasks before explicit resume."
+}
