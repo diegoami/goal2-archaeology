@@ -10,7 +10,7 @@ This chapter compares alternatives against the [twelve obligations](rewrite-cont
 These are **documentation pseudocode**, not a new backend, implementation prototype or measured
 speed/readability result. “Before” is a normalized excerpt of the pinned operation, not the
 entire port. “After” names a proposed organization. A source-pinned ledger records the omitted
-machine work and retained counterexamples: [T110b-v1](../../notes/engine-study/T110/T110b-v1.json).
+machine work and retained counterexamples: [T110b-v2](../../notes/engine-study/T110/T110b-v2.json).
 The [producer](../../notes/engine-study/T110/options.py) only assembles strings and copies old
 evidence; it does not evaluate the sketches or invoke an engine.
 
@@ -111,12 +111,13 @@ Proposed organization:
 ```text
 repeat:
     candidate = step_from_same_drawn_position(direction)
+    reproduce_original_attempt_writes_and_sites(candidate)  # before readers
     accepted = direction_is_standstill(direction)
     if not accepted:
         accepted = inside_original_bounds(candidate)
         if accepted and original_occupancy_guard_applies(player):
             accepted = picture_allows(character(candidate), attribute(candidate))
-    reproduce_original_attempt_writes_and_sites(candidate, accepted)
+    retain_original_validation_helper_effects_and_return(accepted)
     if accepted: break
     direction = draw_main_rng(5)
 # Retain the separate original sprite/background update after movement.
@@ -247,3 +248,8 @@ separate: Match's F1F6→B7FA adapter does not prove natural caller-frame or out
 continuation. No option above silently delivers that bridge, sealed records-only packaging,
 T79's broad fidelity sheet or a scoring-effect estimate. T110c prices explicit work scopes,
 states the assumptions and proposes a bounded future prototype for an owner decision.
+
+The historical v1 ledger placed attempted-position writes after validation in its proposed
+movement sketch. v2 corrects that order: original86D0 writes current position before bounds
+and occupancy readers. Both old ledger and structural validation remain immutable; their
+passing checks did not establish that the sketch preserved effect order.

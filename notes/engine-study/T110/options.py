@@ -104,7 +104,7 @@ DATA=json.loads(r'''[
       }
     ],
     "before": "current_word = old_drawn_word\napply_direction_byte_to_current()\nif direction != 5:\n    reject_if_outside_original_bounds()\n    if live_and_ordinary_nonholder_nonchallenger:\n        read_picture_character_and_attribute()\n        reject_if_attribute_not_13_and_character_in_original_set()\n#8889 draws rand(5) for each failure and calls this attempt again.",
-    "after": "repeat:\n    candidate = step_from_same_drawn_position(direction)\n    accepted = direction_is_standstill(direction)\n    if not accepted:\n        accepted = inside_original_bounds(candidate)\n        if accepted and original_occupancy_guard_applies(player):\n            accepted = picture_allows(character(candidate), attribute(candidate))\n    reproduce_original_attempt_writes_and_sites(candidate, accepted)\n    if accepted: break\n    direction = draw_main_rng(5)\n# Retain the separate original sprite/background update after movement.",
+    "after": "repeat:\n    candidate = step_from_same_drawn_position(direction)\n    reproduce_original_attempt_writes_and_sites(candidate)  # before readers\n    accepted = direction_is_standstill(direction)\n    if not accepted:\n        accepted = inside_original_bounds(candidate)\n        if accepted and original_occupancy_guard_applies(player):\n            accepted = picture_allows(character(candidate), attribute(candidate))\n    retain_original_validation_helper_effects_and_return(accepted)\n    if accepted: break\n    direction = draw_main_rng(5)\n# Retain the separate original sprite/background update after movement.",
     "counterexample": "The retained blocked-step starts at[0,0], rejects[1,0] and accepts[0,1] after two main draws. Ignoring occupancy accepts[1,0] with one draw. Character1/attribute7 and character1/attribute13 differ.",
     "omitted_machine_effects": "A pure legality predicate can help explanation, but candidate writes occur even on failure and reset from the drawn position every attempt. Preserve coordinate bounds, exemptions, packed bytes and restoration order; do not replace the picture with a boolean grid."
   },
@@ -269,7 +269,7 @@ def build():
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--check',action='store_true');ap.add_argument('--out',type=Path);a=ap.parse_args();d=build()
  if a.check:
-  p=ROOT/'notes/engine-study/T110/T110b-v1.json';old=json.loads(p.read_text());assert sha(Path(__file__).read_bytes())==old['producer']['sha256']
+  p=ROOT/'notes/engine-study/T110/T110b-v2.json';old=json.loads(p.read_text());assert sha(Path(__file__).read_bytes())==old['producer']['sha256']
   d['producer']=old['producer'];assert d==old
   text=(ROOT/'docs/engine-study/rewrite-options.md').read_text();validate('T110b',old,text)
   for r in d['rows'][:4]:assert r['before'] in text and r['after'] in text,'pseudocode/document drift'
