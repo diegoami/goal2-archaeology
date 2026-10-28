@@ -5,7 +5,7 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[3]
 PREVIOUS='m6-engine-study-field-behaviour'
-STUDY_BASE='f057b4b1d62794a544208ee25e12a2479473657b'
+STUDY_BASE='2ec0fff4b05c4f04735b481b2193f2cea760f3da'  # separately merged T78b/#575; historical receipts keep older pins
 
 
 def git(*args):return subprocess.check_output(['git',*args],cwd=ROOT)
@@ -55,14 +55,14 @@ def main():
         raw=(ROOT/p).read_bytes();assert git('show',first+':'+p)==raw,('immutable artifact changed',p)
         preserved.append(dict(path=p,first_commit=first,sha256=sha(raw)))
     probes=json.loads((ROOT/'notes/engine-study/T106/report-v1.json').read_text())
-    audits=[json.loads((ROOT/f'notes/engine-study/T109/T109{t}-v{v}.json').read_text()) for t,v in [('a',1),('b',2)]]
+    audits=[json.loads((ROOT/f'notes/engine-study/T109/T109{t}-v{v}.json').read_text()) for t,v in [('a',1),('b',3)]]
     inputs=['notes/engine-study/ES-R3/verify.py','docs/engine-study/README.md','docs/engine-study/micro-probes.md','docs/engine-study/audit-boundaries.md','docs/engine-study/audit-integration.md','docs/engine-study/t107-revision-proposal.md','notes/engine-study/T106/check.py','notes/engine-study/T106/analysis.py','notes/engine-study/T109/check.py','notes/engine-study/T109/boundaries.py','notes/engine-study/T109/integration.py']
     data=dict(scope=__doc__,execution_head=head,previous_milestone=PREVIOUS,declared_intervening_runtime_base=STUDY_BASE,
               python=sys.version,checks=checks,probe_summary=probes['summary'],actual_research_budget=probes['budget'],
               audit_candidates=sum(len(d['candidates']) for d in audits),new_literal_guards=sum(len(d['guards']) for d in audits),
               original_raw_source_changes=raw_changes,intervening_runtime_sha256=runtime,immutable_previous_outputs=preserved,
               current_input_sha256={p:sha((ROOT/p).read_bytes()) for p in inputs},
-              limits=['15source/data/software commands,not15engine experiments. Existing ES-R2 listing guards are reused separately from45new audit guards.','Research cap counts48top-level calls;full-CIexisting regressions are a separate verification workload.','T107deferred;no scoring-effect interval or null result. No reviewer launched.','Full static/unit CI with all6slowmodules must pass separately on exact merged candidate.'])
+              limits=['15source/data/software commands,not15engine experiments. Audit instruction guards,selection-table/prose negatives and reused ES-R2 guards are reported separately.','Research cap counts48top-level calls;full-CIexisting regressions are a separate verification workload.','T107deferred;no scoring-effect interval or null result. This command launches no reviewer.','Full static/unit CI with all6slowmodules must pass separately on exact merged candidate.'])
     if a.receipt:write=a.receipt.open('x');json.dump(data,write,indent=2,sort_keys=True);write.write('\n');write.close()
     print(json.dumps(dict(checks=len(checks),preserved_outputs=len(preserved),probe_cases=6,audit_candidates=data['audit_candidates'],new_literal_guards=data['new_literal_guards'],research_invocations=probes['budget']['invocations']),indent=2))
 

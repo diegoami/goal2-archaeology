@@ -71,7 +71,7 @@ tools/heavy.sh ES-R3-source -- python3.12 -B notes/engine-study/ES-R3/verify.py
 ```
 
 This audits six cases, 48 completed research calls, thirteen integration/boundary candidates,
-45 new literal instruction guards and unchanged historical outputs. It executes no new engine
+55 literal instruction guards, separate selection-table/prose negatives and unchanged historical outputs. It executes no new engine
 routine or match. The [ES-R3 receipt directory](../../notes/engine-study/ES-R3/) records checks;
 required full CI is separate. Do not rerun measured batches merely to regenerate a report.
 

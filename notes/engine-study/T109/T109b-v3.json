@@ -1,0 +1,430 @@
+{
+  "automatic_selection_skills": {
+    "2": 7,
+    "3": 12,
+    "4": 12,
+    "5": 2
+  },
+  "candidates": [
+    {
+      "actual": "F1F6 managed-pool BA4E precedes outer6CA7/B7FA squad update;overlap can update an identity twice.20E3 separately adds twice captain leadership to eleven pitch+11 bytes. CB7D restores temporary form/energy before later career updates.",
+      "disposition": "original quirk",
+      "evidence": [
+        "docs/engine-study/lifecycle.md",
+        "docs/engine-study/audit-records.md",
+        "static/goal-exe/code/seg_0791_04.asm"
+      ],
+      "expected": "Do not assume one recovery/status update per fixture,or that pitch cache is continuously recomputed.",
+      "follow_up": "#546 retains membership/natural-incidence question;#514 retains its historical candidate bundle. No original fix.",
+      "id": "cache-reset",
+      "limits": [
+        "Source/evidence synthesis pending ES-R3;not exhaustive fidelity or natural frequency."
+      ],
+      "minimal_input": "Identity present in managed pool and squad;cached pitch extra versus persistent player attributes.",
+      "reachability": "Conditional source path;not a new observed full match."
+    },
+    {
+      "actual": "26D7 at273B calls2974,then9B34/36 country lookup and+2D read.2BB1 maps pitch slots12..22 to1..11. Existing annotation shorthand differs on incoherent synthetic bindings;ordinary coherent bindings agree.",
+      "disposition": "documentation/test defect",
+      "evidence": [
+        "static/goal-exe/code/seg_0791_04.asm",
+        "static/goal-exe/code/seg_0791_05.asm",
+        "docs/engine-study/positioning.md"
+      ],
+      "expected": "Effective team tactics use the bound side country,not an assumed player-country byte.",
+      "follow_up": "#553 is the existing annotation correction;no duplicate issue or production change.",
+      "id": "side-bindings",
+      "limits": [
+        "Source/evidence synthesis pending ES-R3;not exhaustive fidelity or natural frequency."
+      ],
+      "minimal_input": "Coherent pitch slot,country and player identity versus a deliberately mismatched raw binding.",
+      "reachability": "Conditional source path;not a new observed full match."
+    },
+    {
+      "actual": "86D0 reads7C16 picture words;attribute0D bypasses the blocking-character test.8537 restores frombackground;8E24 restores only if full old glyph still matches. Occupancy bypasses are conditional,not universal.",
+      "disposition": "intentional path difference",
+      "evidence": [
+        "docs/engine-study/movement.md",
+        "static/goal-exe/code/seg_0791_14.asm"
+      ],
+      "expected": "Picture cells can affect movement;render-only separation must preserve that simulation state.",
+      "follow_up": "Preserve typed glyph/attribute and draw order in a future contract;#416 covers unrelated unvisited display effects.",
+      "id": "occupancy",
+      "limits": [
+        "Source/evidence synthesis pending ES-R3;not exhaustive fidelity or natural frequency."
+      ],
+      "minimal_input": "Ordinary live outfielder step into character1 at attribute7 versus13;draw/restore order retained.",
+      "reachability": "Conditional source path;not a new observed full match."
+    },
+    {
+      "actual": "685C increments score before6879offside gate;68B3 decrements it before82EB,skipping6443. Accepted goal-list rows saturate at11;D050uses fixture result forW/D/L andstored goals forGF/GA. Shootout tally/result differs from ordinary career goals.",
+      "disposition": "intentional path difference",
+      "evidence": [
+        "static/goal-exe/code/seg_0791_11.asm",
+        "docs/engine-study/scoring.md",
+        "docs/engine-study/lifecycle.md",
+        "docs/engine-study/shootouts.md"
+      ],
+      "expected": "Provisional score,accepted scorer statistics,goal history and competition result need not be the same counter.",
+      "follow_up": "#227 specific old playthrough attribution stays open;do not collapse tentative/cancelled events into final score.",
+      "id": "score-counters",
+      "limits": [
+        "Source/evidence synthesis pending ES-R3;not exhaustive fidelity or natural frequency."
+      ],
+      "minimal_input": "Normal67B6goal with830Epending;accepted score versus goal-list capacity and shootout result.",
+      "reachability": "Conditional source path;not a new observed full match."
+    },
+    {
+      "actual": "97DA callsD733whenquickflag9A3Eset;afterwatched9564,9813can skipoffside/referee. Celebration6337consumes extra watched draws. Silent postmatch andquick trial/commit counters have distinct source paths.",
+      "disposition": "intentional path difference",
+      "evidence": [
+        "static/goal-exe/code/seg_0791_16.asm",
+        "docs/engine-study/match-flow.md",
+        "docs/engine-study/scoring.md",
+        "docs/engine-study/lifecycle.md"
+      ],
+      "expected": "A speed/mode switch is not automatically the same simulation with fewer draws.",
+      "follow_up": "#531 is the existing incomplete-celebration-RNG annotation. T107unrun;no paired score effect or null result.",
+      "id": "modes",
+      "limits": [
+        "Source/evidence synthesis pending ES-R3;not exhaustive fidelity or natural frequency."
+      ],
+      "minimal_input": "Same nominal seed andteams under watched97D0,quickD733and silentB602routes.",
+      "reachability": "Conditional source path;not a new observed full match."
+    },
+    {
+      "actual": "For the original backend, Match.save refuses active menu/prover and unrecorded liveframes;version4can encode deterministic replay origin/actions/frames andload checks replay state. T78b at2ec0fff4 separately adds explicit engine selection and refuses port-backend checkpoints in that assembly slice. Originalaction replay is separate;standalone sealed delivery belongs to the other session.",
+      "disposition": "unresolved",
+      "evidence": [
+        "runtime/original_match/match.py",
+        "docs/engine-study/match-flow.md",
+        "runtime/original_match/README.md"
+      ],
+      "expected": "Whole continuation includes memory,registers,kit queue andany live Python call reconstruction,not only RNG word.",
+      "follow_up": "#394 remains direct DOS-wrapper proof limit;#400 is genuine checkpoint gap. This audit adds no new continuation run.",
+      "id": "save-load",
+      "limits": [
+        "Source contract and retained tests are not every-manager-path natural coverage.",
+        "Do not claim a general standalone save/load delivery or force a synthetic state into a genuine checkpoint role."
+      ],
+      "minimal_input": "Save with active menu,proved Match,or live portframes;compare ordinary accepted event boundary.",
+      "reachability": "Conditional source path;not a new observed full match."
+    },
+    {
+      "actual": "Roles3/4/5 are PENALTY/FREE KICK/GOAL KICK; automatic skill elements are12/12/2. The old penalties-selected role4 and kicking-selected role5 wording was correct. #599 conflated titles with selection skills and is withdrawn under#603. The guide now names both quantities explicitly; genuine checkpoints remain missing under#400.",
+      "disposition": "unsupported suspicion",
+      "evidence": [
+        "static/goal-exe/code/seg_0791_04.asm",
+        "static/goal-exe/code/seg_0791_12.asm",
+        "static/goal-exe/data/ds_2581_01.hex",
+        "docs/engine-study/restarts.md",
+        "docs/engine-study/marking.md"
+      ],
+      "expected": "Read both title table DS:0A29+11*role and selection-skill table DS:0764+role through their actual consumers.",
+      "follow_up": "#603 retracts the false positive #599;#400 remains open for original-key provenance;#544 retains partial/fallback-order reachability.",
+      "id": "manager-continuations",
+      "limits": [
+        "Automatic selection criteria do not constrain a managed manual choice.",
+        "Titles/skill-byte/prose negatives are separate literal guards,not engine mutants.",
+        "Historical T104/T109v1/v2 outputs remain immutable;v3 supersedes the false-positive attribution."
+      ],
+      "minimal_input": "Role titles versus the skill used by automatic selection; managed input waits remain separate.",
+      "reachability": "Literal source table/caller interpretation; no managed prompt or taker routine newly executed."
+    },
+    {
+      "actual": "Accepted source chapters trace those stages and67B6rollback,butdo not reconstruct exact old player/ball/phase state. A team-mate pending marker can matter at goal adjudication;specific playthrough attribution needs its actual continuation.",
+      "disposition": "unresolved",
+      "evidence": [
+        "docs/engine-study/scoring.md",
+        "docs/engine-study/movement.md",
+        "static/goal-exe/code/seg_0791_11.asm"
+      ],
+      "expected": "Separate offside-line candidate,pending830E,notification56D9and actual82EBadjudication.",
+      "follow_up": "#227 remains open;no new game-balance claim or fabricated old-input reproduction.",
+      "id": "legacy-offside",
+      "limits": [
+        "Source route is not proof of the exact historical player-side incident."
+      ],
+      "minimal_input": "OldE015reported scorer/team-mate offside or apparently defending-side notification.",
+      "reachability": "Conditional source path;not a new observed full match."
+    },
+    {
+      "actual": "#375still lacks complete read-before-overwrite/alias proof;#412focusedunitgaps remain;#394directproof return prediction misses displacement;#416unvisited effects remain. C718+F clears persistent-player tactics afterA91Bbinding,not pitchdirection.",
+      "disposition": "unresolved",
+      "evidence": [
+        "docs/engine-study/audit-records.md",
+        "static/goal-exe/code/seg_0791_17.asm",
+        "static/goal-exe/code/seg_0791_20.asm",
+        "notes/engine-study/T109/T109a-v1.json"
+      ],
+      "expected": "Passing families or source agreement do not imply every edge is falsifiable or every stub state-free.",
+      "follow_up": "Reuse#375/#412/#394/#416/#591;no new production bug or silently closed coverage issue.",
+      "id": "coverage-gaps",
+      "limits": [
+        "Source/evidence synthesis pending ES-R3;not exhaustive fidelity or natural frequency."
+      ],
+      "minimal_input": "UncaughtA36Adirection4mutant,threeweak focused-unitedges,displacedDOSreturn andunvisiteddisplaystubs.",
+      "reachability": "Conditional source path;not a new observed full match."
+    }
+  ],
+  "correction": {
+    "current_sha256": "4682fbd081746d7754c1f507d2f0a0330365c3c7a02d06b059041e41539d8945",
+    "historical_commit": "f1d1767219569ab9b2c67a034012ee645f0d5e83",
+    "historical_sha256": "befa1b67841d7dc779fb99a2ab9a15a836ba5d8bd4b210cc23efce81f41dcbc4",
+    "issue": 603,
+    "meaning": "Original skill wording was correct:free-kick role4 uses penalties12;goal-kick role5 uses kicking2;role3 also uses12.",
+    "path": "docs/engine-study/restarts.md",
+    "rejected_candidate": "eee8fae4b3e6ed74e07d6aeda0398dbf0e76c628",
+    "rejected_title_only_sha256": "050789bd8716c400a5e91a323c73ed3d04849534e6fb45fbffc7d866bacc1d79",
+    "withdrawn_false_positive": 599
+  },
+  "guards": [
+    {
+      "address": "21FC",
+      "instruction": "shl ax, 1",
+      "path": "static/goal-exe/code/seg_0791_04.asm"
+    },
+    {
+      "address": "2201",
+      "instruction": "add byte ptr es:[di + 0x11], al",
+      "path": "static/goal-exe/code/seg_0791_04.asm"
+    },
+    {
+      "address": "273B",
+      "instruction": "call 0x2974",
+      "path": "static/goal-exe/code/seg_0791_04.asm"
+    },
+    {
+      "address": "2752",
+      "instruction": "mov al, byte ptr es:[di + 0x2d]",
+      "path": "static/goal-exe/code/seg_0791_04.asm"
+    },
+    {
+      "address": "2BCA",
+      "instruction": "sub ax, 0xb",
+      "path": "static/goal-exe/code/seg_0791_05.asm"
+    },
+    {
+      "address": "8805",
+      "instruction": "les di, ptr [0x7c16]",
+      "path": "static/goal-exe/code/seg_0791_14.asm"
+    },
+    {
+      "address": "880D",
+      "instruction": "cmp byte ptr es:[di + 0x90f], 0xd",
+      "path": "static/goal-exe/code/seg_0791_14.asm"
+    },
+    {
+      "address": "685C",
+      "instruction": "inc byte ptr [di - 0x64c4]",
+      "path": "static/goal-exe/code/seg_0791_11.asm"
+    },
+    {
+      "address": "6879",
+      "instruction": "cmp byte ptr [0x830e], 0",
+      "path": "static/goal-exe/code/seg_0791_11.asm"
+    },
+    {
+      "address": "68B3",
+      "instruction": "dec byte ptr [di - 0x64c4]",
+      "path": "static/goal-exe/code/seg_0791_11.asm"
+    },
+    {
+      "address": "68B7",
+      "instruction": "call 0x82eb",
+      "path": "static/goal-exe/code/seg_0791_11.asm"
+    },
+    {
+      "address": "97DA",
+      "instruction": "call 0xd733",
+      "path": "static/goal-exe/code/seg_0791_16.asm"
+    },
+    {
+      "address": "9813",
+      "instruction": "jne 0x9824",
+      "path": "static/goal-exe/code/seg_0791_16.asm"
+    },
+    {
+      "address": "6EE5",
+      "instruction": "mov ax, 3",
+      "path": "static/goal-exe/code/seg_0791_12.asm"
+    },
+    {
+      "address": "6F17",
+      "instruction": "mov ax, 5",
+      "path": "static/goal-exe/code/seg_0791_12.asm"
+    },
+    {
+      "address": "A36A",
+      "instruction": "mov byte ptr es:[di + 0xf], 5",
+      "path": "static/goal-exe/code/seg_0791_17.asm"
+    },
+    {
+      "address": "C712",
+      "instruction": "les di, ptr [0xa91b]",
+      "path": "static/goal-exe/code/seg_0791_20.asm"
+    },
+    {
+      "address": "C718",
+      "instruction": "mov byte ptr es:[di + 0xf], 0",
+      "path": "static/goal-exe/code/seg_0791_20.asm"
+    },
+    {
+      "address": "CCEC",
+      "instruction": "cmp ax, 0xb",
+      "path": "static/goal-exe/code/seg_0791_20.asm"
+    },
+    {
+      "address": "CCEF",
+      "instruction": "jbe 0xcd09",
+      "path": "static/goal-exe/code/seg_0791_20.asm"
+    },
+    {
+      "address": "215F",
+      "instruction": "mov al, byte ptr [di + 0x764]",
+      "path": "static/goal-exe/code/seg_0791_04.asm"
+    },
+    {
+      "address": "2169",
+      "instruction": "call 0x1fdd",
+      "path": "static/goal-exe/code/seg_0791_04.asm"
+    },
+    {
+      "address": "6D97",
+      "instruction": "mov al, byte ptr [di + 0x764]",
+      "path": "static/goal-exe/code/seg_0791_12.asm"
+    },
+    {
+      "address": "6DA1",
+      "instruction": "call 0x1fdd",
+      "path": "static/goal-exe/code/seg_0791_12.asm"
+    },
+    {
+      "address": "2074",
+      "instruction": "push word ptr [bp + 6]",
+      "path": "static/goal-exe/code/seg_0791_04.asm"
+    },
+    {
+      "address": "20A0",
+      "instruction": "call 0x278a",
+      "path": "static/goal-exe/code/seg_0791_04.asm"
+    },
+    {
+      "address": "20A4",
+      "instruction": "push word ptr [bp + 6]",
+      "path": "static/goal-exe/code/seg_0791_04.asm"
+    },
+    {
+      "address": "20AD",
+      "instruction": "call 0x278a",
+      "path": "static/goal-exe/code/seg_0791_04.asm"
+    },
+    {
+      "address": "1FFD",
+      "instruction": "cmp word ptr [bp + 4], 5",
+      "path": "static/goal-exe/code/seg_0791_04.asm"
+    },
+    {
+      "address": "200C",
+      "instruction": "mov al, byte ptr [di + 0x764]",
+      "path": "static/goal-exe/code/seg_0791_04.asm"
+    },
+    {
+      "address": "6F88",
+      "instruction": "mov ax, 4",
+      "path": "static/goal-exe/code/seg_0791_12.asm"
+    }
+  ],
+  "issue_snapshot": {
+    "captured_utc": "2026-10-27 18:12:57 UTC",
+    "note": "Historical snapshot;live labels remain authoritative.",
+    "path": "notes/engine-study/T109/issues-v1.json"
+  },
+  "limits": [
+    "Nine source/evidence groups;no fresh engine call or exhaustive fidelity claim.",
+    "T107owner-deferred;no match-effect estimate,null-result claim or new spending."
+  ],
+  "method": "Reproduce a bounded source/evidence integration register, never new match outcomes.",
+  "producer": {
+    "commit": "0a2133eec752a26910d2c69ae8a7cd2536cc3442",
+    "path": "notes/engine-study/T109/integration.py",
+    "sha256": "1cc614425ced71d25bfbb2a417d4eedd7522920fda45278faa6e615b1f8557f4"
+  },
+  "prompt_titles": {
+    "1": "CAPTAIN",
+    "2": "CORNER",
+    "3": "PENALTY",
+    "4": "FREE KICK",
+    "5": "GOAL KICK"
+  },
+  "sections": [
+    "Candidate register",
+    "Source contradictions and bounded examples",
+    "Remaining gaps and review scope"
+  ],
+  "selection_negative_controls": {
+    "changed-skill-byte-role2": "rejected",
+    "changed-skill-byte-role3": "rejected",
+    "changed-skill-byte-role4": "rejected",
+    "changed-skill-byte-role5": "rejected",
+    "dropped-selection-skill-role3": "rejected",
+    "dropped-selection-skill-role4": "rejected",
+    "dropped-selection-skill-role5": "rejected",
+    "prior-title-only-599-edit": "rejected"
+  },
+  "source_commit": "f1d1767219569ab9b2c67a034012ee645f0d5e83",
+  "source_commits": {
+    "runtime/original_match/README.md": "2ec0fff4b05c4f04735b481b2193f2cea760f3da",
+    "runtime/original_match/match.py": "2ec0fff4b05c4f04735b481b2193f2cea760f3da"
+  },
+  "source_sha256": {
+    "docs/engine-study/audit-records.md": "9afb5bb35ef049aa52c47503165015be3859ebccd5f7d53fd07315f67ba9a3f1",
+    "docs/engine-study/lifecycle.md": "16d61835c01204085111ac53985937ecb9c92dc396c4e1191fb4025d2fdc0fb1",
+    "docs/engine-study/marking.md": "ed64e9ecac14aacb46a7a97fbd02e47903242f7efb27e68f60329946ac2bc93a",
+    "docs/engine-study/match-flow.md": "e2c94f61adb794abcca803509134b13a4edc02039dbabb967047ea3f195baff7",
+    "docs/engine-study/movement.md": "64888e54bf62eef05cb0c135590924f4acbe1b76648f806317b1b5ed0ef7f0d4",
+    "docs/engine-study/positioning.md": "7888506c8e8ecb98693be390600d2f20b54c9b5a440aff6444cc6f76084f1ceb",
+    "docs/engine-study/scoring.md": "faaf8d4779b0e2239afa35562bb786362aad9abda57c60361b799055a815f933",
+    "docs/engine-study/shootouts.md": "98661b70f153817a736874c62e922746aa225ce6980aaf95520616a62f5aa2d8",
+    "findings/F021-energy-and-form-set-a-players-strength-fitness-is-never-read-in-a-match.md": "30d16bab8733f73809813ce7fd9bc525912fbb98a9845df323188818af5049f5",
+    "findings/F022-contest-sites-287c-5474-5d69-and-the-branches-e011-takes.md": "25dcab7f1338d63b0a5917d2d7e10fc81d2c3cb7fe1e870ef6a5b2afdc1e8b64",
+    "runtime/original_match/README.md": "80c03668edcda7a72c3af2a05e616693315bcf6c5cf0c5ca5aa2062a932ac7b1",
+    "runtime/original_match/match.py": "103478a380ece9504f4368cf4d5d40934f2f944dadb46ebe0a0b6341f849f9e0",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_0791_05.asm": "0635bc395cd69ffe2c77ead9aaaf786f36eedeee5496daae8f43127ce4aed474",
+    "static/goal-exe/code/seg_0791_11.asm": "a5aebf13faf14469141d8edb9a0878b0a56b7267451694622801732f522603ec",
+    "static/goal-exe/code/seg_0791_12.asm": "51e9bb66b774cb145dea8d8986ee4dbcb3c6b74b1a79e47808fe28909916b108",
+    "static/goal-exe/code/seg_0791_14.asm": "032e2d6f22d6db5981e2a11f43298924a53e15d080e1d73d1fb375ddbe400abd",
+    "static/goal-exe/code/seg_0791_16.asm": "970a6ea902b38abd5e437aed568fc1833caf6bac00e25194be1f3f39504ea4e1",
+    "static/goal-exe/code/seg_0791_17.asm": "e8ca718382b8b72b2a9d1ede8d24bf6bf0bf2e899b3cc70d91a5435d076f6c44",
+    "static/goal-exe/code/seg_0791_20.asm": "9ed1e3aa1aca8370004fc286911f2cf55003c084f03f95f8e39b56bf438361f9",
+    "static/goal-exe/data/ds_2581_01.hex": "891d7f823e4246f1b1997b7c63ba7479bebc8e99541f17d14226ca6ba21584c7",
+    "static/goal-exe/named/seg_0791_02.c": "d922fc65fcfc863d5a12ee50e12e51840736169fd596ff0971fd4fd15b181d2c",
+    "static/goal-exe/named/seg_0791_06.c": "1c03cc01069ce4f4eedb386688654af7c3a3900eeb3470971111b2caa3bbe945",
+    "static/goal-exe/named/seg_0791_07.c": "f8be0e2879e8a4bc18eb228dcca17ae91cf318c8b6f8b4b4ac94baa67ac2ad85",
+    "static/goal-exe/named/seg_0791_08.c": "130e91927a5bb2fed2adb998225fc88091816752051eee90ae004e30fcfecc96",
+    "static/goal-exe/named/seg_0791_11.c": "6e51b68715ebeca24e6616c99258668b5df0bb927e5e133105e04af66fee650e"
+  },
+  "summary": {
+    "dispositions": {
+      "documentation/test defect": 1,
+      "intentional path difference": 3,
+      "original quirk": 1,
+      "unresolved": 3,
+      "unsupported suspicion": 1
+    },
+    "groups": 9,
+    "new_reproduced_production_defects": 0
+  },
+  "supporting_artifacts": {
+    "docs/engine-study/restarts.md": "4682fbd081746d7754c1f507d2f0a0330365c3c7a02d06b059041e41539d8945",
+    "notes/engine-study/T109/T109a-v1.json": "dd90b9292afb9ba2854a514f2df6e807d0726496b8b9377c1e0dde2e38521357",
+    "notes/engine-study/T109/issues-v1.json": "04d68df75cc5ee3f3f8c911ea79e86d0008fe1a22b5c98f40460822462d393ac"
+  },
+  "task": "T109b",
+  "title_negative_controls": {
+    "3": "altered original title rejected",
+    "4": "altered original title rejected",
+    "5": "altered original title rejected"
+  }
+}
