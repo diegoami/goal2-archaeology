@@ -85,6 +85,22 @@ class _PortMemory(MachineMem):
                 return m._registers[base] >> shift & mask
         return m.reg(name)
 
+    # T117: Mem's write path in one layer (Mem.w8/w16 -> _write -> Machine.write_as), the
+    # instruction's address from the same cache.
+    def _at(self, at):
+        cache = self.__dict__.get("_at_cache")
+        if cache is not None:
+            lin = cache.get(at)
+            if lin is not None:
+                return lin
+        return MachineMem._at(self, at)
+
+    def w8(self, linear, value, at):
+        self.m.write_as(linear, 1, value & 0xFF, self._at(at))
+
+    def w16(self, linear, value, at):
+        self.m.write_as(linear, 2, value & 0xFFFF, self._at(at))
+
     def set_reg(self, name, value):
         m = self.m
         if m.io_tap is None and _set_plain(m._registers, name, value):

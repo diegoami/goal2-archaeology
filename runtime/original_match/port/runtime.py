@@ -72,15 +72,16 @@ class Regs:
     def __init__(self, mem, resumed=False):
         """resumed: after a guest call the machine's SP is where the port left it (stored before the call); else it is
         the entry's, which the port frame has (no read)."""
-        object.__setattr__(self, "_fresh", not resumed)
-        object.__setattr__(self, "_mem", mem)
-        object.__setattr__(self, "_v", {})
-        object.__setattr__(self, "_dirty", set())
-        object.__setattr__(self, "_flags_on", 0)
-        object.__setattr__(self, "_flags_off", 0)
-        object.__setattr__(self, "_ss", None)
-        object.__setattr__(self, "_pending", [])
-        object.__setattr__(self, "_bps", [])
+        # Plain slot assignments: Regs has no __setattr__ of its own since T117.
+        self._fresh = not resumed
+        self._mem = mem
+        self._v = {}
+        self._dirty = set()
+        self._flags_on = 0
+        self._flags_off = 0
+        self._ss = None
+        self._pending = []
+        self._bps = []
 
     def __getattr__(self, name):
         # T117: the registers are properties (below); this is reached for any other missing name only.

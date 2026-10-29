@@ -106,7 +106,7 @@ class PortFrame:
             mem.w16(mem.ss_lin(sp), w, c.ret_to)
         m.set_reg("sp", sp)
         self.expect_sp = self.after_sp if not c.caller_pops else (self.after_sp - 2 * len(c.args)) & 0xFFFF
-        self.waiting, self.ret_lin = c, m.lin(c.ret_to)
+        self.waiting, self.ret_lin = c, m.seg(rseg) * 16 + roff  # m.lin(c.ret_to), parsed once
         m.set_reg("cs", m.seg(tseg))
         m.set_reg("eip", toff)
         m.expect_return(self)
