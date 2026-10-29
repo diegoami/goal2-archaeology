@@ -344,10 +344,17 @@ def discover(directory=FAMILIES_DIR):
     return out
 
 
+# [designed: T79] Sheets: families declared for a fidelity sheet, each with its own reference, that ALL leaves out.
+# ALL stays the admitted family (the 75 matches every other task's commands name); a sheet is named explicitly
+# (T79: --family A700, sheet_a.py, out/T79/compare_a700_v1.py).
+SHEETS = ("A700",)
+
+
 def select(arg, families):
-    """The families a --family argument names: ALL, or comma-separated names (each once, each known)."""
+    """The families a --family argument names: ALL (every family but the sheets), or comma-separated names (each
+    once, each known, sheets included)."""
     if arg == "ALL":
-        return [families[n] for n in sorted(families)]
+        return [families[n] for n in sorted(families) if n not in SHEETS]
     names = arg.split(",")
     if len(set(names)) != len(names) or any(n not in families for n in names):
         raise FamilyError(f"--family {arg!r}: ALL, or distinct names among {sorted(families)}")
