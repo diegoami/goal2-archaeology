@@ -9,7 +9,7 @@
 set -euo pipefail
 pr=${1:?usage: tools/review_pr.sh <pr> <opencode|claude|codex> <model> [--print]}
 cli=${2:?give the CLI: opencode, claude or codex}
-model=${3:?give the model, e.g. openai/gpt-5.6-luna#high, opus or gpt-6.1-sol}
+model=${3:?give the caller-selected model identifier}
 print=${4:-}
 cd "$(git rev-parse --show-toplevel)"
 

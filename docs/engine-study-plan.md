@@ -103,8 +103,8 @@ do not launch the reviewer or begin ES-R2-gated pitch work in this execution run
 ## Main-session implementation and targeted help
 
 [designed: owner, 2026-10-29] No model is fixed: the main session works on the model the owner
-runs it on and uses helpers on its own judgment ([model policy](engine-study-models.md)), which
-supersedes the 2026-10-26 Sol/high correction and the earlier per-task model assignments.
+runs it on and uses helpers on its own judgment ([model policy](model-policy.md)), which
+supersedes all earlier model-specific task assignments and effort requirements.
 
 Independent milestone reviews are by a model of another family than the author's, selected at
 activation. T113's packet preparation and fixes use the main session; its reviewer supplies the

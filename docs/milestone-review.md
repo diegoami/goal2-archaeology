@@ -45,9 +45,7 @@ example `m3-campaign-ui`) on **exactly the reviewed commit** of `main`.
    the launcher, from any clean checkout of this repository:
 
    ```bash
-   tools/milestone_review.sh <issue> opencode openai/gpt-6.1-sol#low   # OpenCode
-   tools/milestone_review.sh <issue> claude opus                        # Claude Code CLI
-   tools/milestone_review.sh <issue> codex gpt-6.1-sol                  # Codex CLI
+   tools/milestone_review.sh <issue> <opencode|claude|codex> <model>
    ```
 
    The script reads the candidate from the issue, checks the checkout out at it (detached; it

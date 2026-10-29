@@ -13,12 +13,12 @@ indexed in `docs/tasks/README.md`.
 kept on the branch `local`.
 
 ## Working rules
-1. [designed: owner, 2026-10-29] No model is fixed. The main session plans, triages, implements,
-   verifies and merges on whichever model the owner runs it on, and implements itself or spawns a
-   helper on its own judgment; the owner names a model only when they want a specific one. This
-   retires the 2026-10-26 Sol/high correction and the model lines in earlier task files, which
-   record history only. An independent review is by a model that did not author the deliverables,
-   of another family than the author's (`docs/engine-study-models.md`). Codex follows the same
+1. [owner instruction, 2026-10-29] This repository is model-agnostic. The main session and
+   helpers use caller/session-configured models and supported settings; no named model,
+   provider-specific effort tier, ban or fallback is imposed. Follow `docs/model-policy.md`.
+   Historical task assignments are not current execution constraints, including during a
+   handoff or work at a pinned older revision. Preserve author-independent, cross-family
+   reviews and all evidence, scope, CI, budget and milestone gates. Codex follows the same
    rules from `AGENTS.md`.
 2. Work on a branch in the checkout at hand; one task at a time per checkout. No worktrees. Locally
    a task branch `task/T<nn>-<slug>`; in a cloud session the session's own `claude/…` branch, for
