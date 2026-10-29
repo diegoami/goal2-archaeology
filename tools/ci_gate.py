@@ -72,6 +72,46 @@ DOCS_RE = re.compile(r"^([^/]+\.md|docs/.*|notes/.*|spec/.*)$")
 
 QUICK, CODE = "quick", "code"
 
+# [designed: T78c] These complete scenario tests each take up to several hours.
+# Every discovered test belongs to exactly one group; ordinary local discovery
+# remains intact. A matrix succeeds only when all eleven groups succeed.
+BOUNDARY_CASES = {f"e{experiment}-{number:02d}":
+                  f"test_port_engine.Checkpoints.test_e{experiment}_{number:02d}"
+                  for experiment, count in (("033", 7), ("034", 3))
+                  for number in range(1, count + 1)}
+# [designed: measured40659261502] Put the three longest cases in the
+# first four slots; this changes queue order only, never coverage or limits.
+_FIRST_GROUPS = ("general", "e034-01", "e033-06", "e034-02")
+TEST_GROUPS = (*_FIRST_GROUPS, *(group for group in BOUNDARY_CASES if group not in _FIRST_GROUPS))
+
+
+def flatten(suite):
+    for test in suite:
+        if isinstance(test, unittest.TestSuite):
+            yield from flatten(test)
+        else:
+            yield test
+
+
+def partition_suite(suite, group):
+    if group not in TEST_GROUPS:
+        raise ValueError(f"unknown test group: {group}")
+    tests = list(flatten(suite))
+    by_case = {case: name for name, case in BOUNDARY_CASES.items()}
+    found = {name: 0 for name in BOUNDARY_CASES}
+    selected = []
+    for test in tests:
+        canonical = ".".join(test.id().split(".")[-3:])
+        assigned = by_case.get(canonical, "general")
+        if assigned in found:found[assigned] += 1
+        if assigned == group:selected.append(test)
+    if any(count != 1 for count in found.values()):
+        raise ValueError(f"boundary group inventory must occur exactly once: {found}")
+    if not selected:
+        raise ValueError(f"empty test group: {group}")
+    return unittest.TestSuite(selected)
+
+
 
 def _under(path, prefix):
     return path.startswith(prefix) if prefix.endswith("/") else path == prefix
@@ -118,16 +158,65 @@ def changed(a, b, three_dots=False):
     return r.stdout.split("\n")[:-1] if r.returncode == 0 else None
 
 
-def previous_head_succeeded(repo, sha, runner=subprocess.run):
-    """Did the `checks` job of the workflow succeed on commit `sha`?  False when it did not run."""
-    r = runner(["gh", "api", f"repos/{repo}/commits/{sha}/check-runs?per_page=100"], capture_output=True, text=True)
-    if r.returncode != 0:
-        return False
-    try:
-        runs = json.loads(r.stdout)["check_runs"]
-    except (ValueError, KeyError):
-        return False
-    return any(c.get("name") == "checks" and c.get("conclusion") == "success" for c in runs)
+def metadata_parent(sha):
+    """[derived: existing incremental tier] Only prose/outputs may inherit.
+
+    The full aggregate tree difference is checked again at every first-parent
+    step. Any runtime/test/fixture/workflow/tool change, missing object or
+    unclassifiable path stops reuse instead of assuming source equivalence.
+    """
+    parent = git("rev-parse", f"{sha}^")
+    if parent.returncode:
+        return None
+    parent = parent.stdout.strip()
+    files = changed(parent, sha)
+    if files is None or obligations(files) - {QUICK}:
+        return None
+    return parent
+
+
+def _execution_status(runs):
+    # GitHub emits a literal, unexpanded matrix name for a skipped draft job.
+    # It is not an executed test group. Keep real executions/suites separate.
+    placeholder = "checks (${{ matrix.group }})"
+    matrix = [c for c in runs if c.get("name", "").startswith("checks (")
+              and not (c.get("name") == placeholder and c.get("conclusion") == "skipped")]
+    if matrix:
+        expected = {f"checks ({group})" for group in TEST_GROUPS}
+        suites = {c.get("check_suite", {}).get("id") for c in matrix}
+        return (len(suites) == 1 and len(matrix) == len(expected)
+                and {c.get("name") for c in matrix} == expected
+                and all(c.get("conclusion") == "success" for c in matrix))
+    serial = [c for c in runs if c.get("name") == "checks"]
+    if serial:
+        return len(serial) == 1 and serial[0].get("conclusion") == "success"
+    return None  # no applicable execution: only a verified metadata parent may reuse
+
+
+def previous_head_succeeded(repo, sha, runner=subprocess.run, predecessor=None):
+    """One complete successful execution, directly or over verified metadata.
+
+    Never combine partial groups from different suites or inherit past an
+    actual failed, cancelled, skipped or still-pending required execution.
+    """
+    predecessor = metadata_parent if predecessor is None else predecessor
+    seen = set()
+    for _ in range(20):
+        if not sha or sha in seen:
+            return False
+        seen.add(sha)
+        r = runner(["gh", "api", f"repos/{repo}/commits/{sha}/check-runs?per_page=100"],
+                   capture_output=True, text=True)
+        if r.returncode != 0:
+            return False
+        try:
+            status = _execution_status(json.loads(r.stdout)["check_runs"])
+        except (ValueError, KeyError, TypeError, AttributeError):
+            return False
+        if status is not None:
+            return status
+        sha = predecessor(sha)
+    return False
 
 
 ALL = frozenset({QUICK, CODE, *SLOW})
@@ -167,13 +256,6 @@ def select_suite(modules=()):
         sys.path.insert(0, str(ROOT))
     suite = unittest.defaultTestLoader.discover(str(ROOT / "tests"))
 
-    def flatten(s):
-        for t in s:
-            if isinstance(t, unittest.TestSuite):
-                yield from flatten(t)
-            else:
-                yield t
-
     left_out = set(SLOW) - set(modules)
     keep = unittest.TestSuite()
     for t in flatten(suite):
@@ -183,8 +265,12 @@ def select_suite(modules=()):
     return keep
 
 
-def run_tests(modules):
-    return 0 if unittest.TextTestRunner(verbosity=2).run(select_suite(modules)).wasSuccessful() else 1
+def run_tests(modules, group=None):
+    suite = select_suite(modules)
+    if group is not None:
+        suite = partition_suite(suite, group)
+        print(json.dumps({"group": group, "test_ids": [t.id() for t in flatten(suite)]}), flush=True)
+    return 0 if unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful() else 1
 
 
 def parser():
@@ -194,6 +280,7 @@ def parser():
     sub.add_parser("decide")
     rt = sub.add_parser("run-tests")
     rt.add_argument("--modules", default="", help="comma-separated SLOW modules to run besides the others")
+    rt.add_argument("--group", choices=TEST_GROUPS, help="one disjoint CI partition; default runs the whole suite")
     return ap
 
 
@@ -218,7 +305,7 @@ def main(argv):
         print(why, file=sys.stderr)
         return 2
     if a.cmd == "run-tests":
-        return run_tests(modules_of(a))
+        return run_tests(modules_of(a), a.group)
     env = {k: os.environ.get(k, "") for k in ("EVENT", "ACTION", "BASE", "HEAD", "BEFORE", "REPO")}
     ob, why = decide(env)
     print(f"tier={name_of(ob)} ({why})", file=sys.stderr)

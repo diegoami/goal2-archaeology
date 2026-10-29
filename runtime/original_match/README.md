@@ -9,16 +9,19 @@ The explicit assembly mode `Match(image, fixture, engine="port")` instead runs a
 registered Python translations on plain memory, without a Unicorn object or
 original-instruction execution. The original backend remains the default and
 reference. This mode still needs the data image; sealing and goal2 adoption are
-separate delivery gates. In this slice port `save()`/`load()` are explicitly
-unsupported until T78c; historical unmarked checkpoints keep the original engine.
+separate delivery gates. Port `save()`/`load()` preserve the explicit backend, including pending Python
+frames reconstructed by deterministic action replay (see Saving below). Historical
+unmarked checkpoints keep the original engine; unknown, stale port or inconsistent
+outer/origin backend identities are refused before either machine is constructed.
 
 The family CLI accepts `--engine port --no-unicorn` to install positive import
 denial before kit loading, including pool workers. Optional record `engine`
 metadata identifies the backend without changing evidence fields; an existing
 output from another backend is refused. Port raw `--count`, `--find-ranges` and
 `--checkpoint` are refused explicitly. The runtime checker also accepts engine
-selection/import denial via same-process interpreter replacement; its checkpoint-dependent steps remain unsupported until
-T78c, so a partial assembly is never reported as a complete passing checker.
+selection/import denial via same-process interpreter replacement; its checkpoint-dependent steps use the same backend-preserving save/load API.
+The family CLI checkpoint wrapper remains explicitly refused in port mode; its
+separate worker checkpoint envelope has not yet been admitted.
 
 ## Get it (once)
 
@@ -178,7 +181,10 @@ Version 2 saves load without ports. `save()` accepts all of them, a `decision`
 before `answer()` included (the loaded match has `m.waiting` set: answer it, as the original is still asking; taking
 the next event unanswered plays on) and after it, and events queued but not yet taken are saved with it. Straight and
 resumed are the same match: the remaining events (kind, minute, score, data) and the result are equal. No boundary is
-refused on purpose. `save()` still raises `MatchError("save between events, not while the kit drives a screen")` if
+refused on purpose. [derived: `answer()` schema] Loading restores the sorted tactic,
+position and marking pairs as tuples, including nested own-tactic pairs, in both
+in-progress decision records and completed results. Substitution and shoot-out
+orders remain lists; JSON encoding itself is unchanged. `save()` still raises `MatchError("save between events, not while the kit drives a screen")` if
 called while the kit is inside one of the original's team screens, which goal2 cannot reach, as no event is taken
 from `events()` in the middle of a screen. A proved match is still refused. Live port frames are reconstructed
 by replay on load ("Ports" below). The check (E033 `save_boundaries.py`) saves and resumes at the first

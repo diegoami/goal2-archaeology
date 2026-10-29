@@ -1324,8 +1324,6 @@ class Match:
     def save(self):
         """The whole match now (guest memory, registers, the kit's state) as bytes; Match.load() resumes it.
         Call it between events."""
-        if getattr(self, "engine", "original") == "port":
-            raise MatchError("port checkpoints are not enabled in this assembly slice")
         if self._menu is not None and not self.st["over"]:
             raise MatchError("save between events, not while the kit drives a screen")
         if self.m.frames and getattr(self, "_replay_origin", None) is None:
@@ -1356,23 +1354,75 @@ class Match:
         memory = zlib.compress(memory, 6)
         return b"OMK1" + len(blob).to_bytes(4, "little") + blob + memory
 
-    @classmethod
-    def load(cls, data):
-        if bytes(data[:4]) != b"OMK1":
+    @staticmethod
+    def _checkpoint_state(data):
+        """[designed: T78c] Validate backend identity before allocating either machine.
+
+        Historical unmarked versions retain their original backend. Port checkpoints
+        require the current kit schema and the complete explicit port registry.
+        """
+        if len(data) < 8 or bytes(data[:4]) != b"OMK1":
             raise ValueError("not a saved match of this kit")
         n = int.from_bytes(data[4:8], "little")
-        state = json.loads(data[8:8 + n])
-        if state["version"] not in LOADS:
-            raise ValueError(f"saved by kit version {state['version']}, this is {VERSION} (it loads {', '.join(LOADS)})")
-        engine = state["opts"].get("engine", "original")
-        if engine != "original":
-            raise ValueError("port/unknown engine checkpoint is not supported in this assembly slice")
+        if n > len(data) - 8:
+            raise ValueError("truncated checkpoint header")
+        try:
+            state = json.loads(data[8:8 + n])
+            version, opts = state["version"], state["opts"]
+            engine = opts.get("engine", "original")
+        except (ValueError, TypeError, KeyError, AttributeError) as exc:
+            raise ValueError("invalid checkpoint header") from exc
+        if version not in LOADS:
+            raise ValueError(f"saved by kit version {version}, this is {VERSION} (it loads {', '.join(LOADS)})")
+        if engine not in ("original", "port"):
+            raise ValueError("unknown checkpoint engine")
+        if engine == "port":
+            from . import port
+            specs = opts.get("ports")
+            if (version != VERSION or not isinstance(specs, list)
+                    or any(not isinstance(spec, str) for spec in specs)
+                    or {reg.name for reg, variant in port.load(specs)} != set(port.available())):
+                raise ValueError("stale or incomplete port checkpoint")
+        return n, state, engine
+
+    @staticmethod
+    def _restore_decision_pairs(decisions):
+        # [derived: answer()'s schema] JSON erases tuple identity. Restore only
+        # declared sorted mapping pairs, retaining substitutions/order as lists
+        # and the existing live result API (including nested own-tactic pairs).
+        for decision in decisions:
+            answer = decision["answer"]
+            for key in ("tactics", "positions", "marking"):
+                if key in answer:
+                    answer[key] = [tuple(pair) for pair in answer[key]]
+            if "own_tactics" in answer:
+                answer["own_tactics"] = [(player, [tuple(pair) for pair in tactics])
+                                         for player, tactics in answer["own_tactics"]]
+
+    @classmethod
+    def load(cls, data):
+        n, state, engine = cls._checkpoint_state(data)
+        # Validate a replay origin before replay can allocate or execute a backend.
+        if "replay" in state:
+            try:
+                origin = bytes.fromhex(state["replay"]["origin"])
+                _, origin_state, origin_engine = cls._checkpoint_state(origin)
+                if "replay" in origin_state:
+                    raise ValueError("replay origin is not a plain checkpoint")
+                if origin_engine != engine:
+                    raise ValueError("replay origin backend differs from checkpoint")
+            except (ValueError, TypeError, KeyError) as exc:
+                raise MatchError(f"port replay failed: {exc}") from exc
         memory = zlib.decompress(data[8 + n:])
         if "replay" in state:
             return cls._load_replay(state, memory)
         self = cls.__new__(cls)
-        self.engine = "original"
-        self.m = Machine(memory, state["load"])
+        self.engine = engine
+        if engine == "port":
+            from .port.engine import PortMachine
+            self.m = PortMachine(memory, state["load"])
+        else:
+            self.m = Machine(memory, state["load"])
         self.m.restore({"memory": memory[:MEM_SIZE], "regs": state["regs"]})
         self.image_header = bytes.fromhex(state["header"])
         self.image_tail = memory[MEM_SIZE:]
@@ -1383,6 +1433,9 @@ class Match:
         self._queue = [Event(e["kind"], e["minute"], tuple(e["score"]), e["data"]) for e in state["queue"]]
         self._menu = None
         self._result = state["result"]
+        self._restore_decision_pairs(self.st["decisions"])
+        if self._result is not None:
+            self._restore_decision_pairs(self._result["decisions"])
         self._names = None
         self._hooks()
         self._install_ports(self.opts.get("ports"))

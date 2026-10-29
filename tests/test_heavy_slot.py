@@ -309,6 +309,7 @@ class RefusedAfterParsingTest(unittest.TestCase):
     def test_ci_gate_refusals(self):
         gate = str(ROOT / "tools" / "ci_gate.py")
         self.refused_at_once([gate, "run-tests", "--modules", "nope"], "not slow modules: ['nope']")
+        self.refused_at_once([gate, "run-tests", "--group", "unknown"], "invalid choice")
         self.refused_at_once([gate, "run-tests", "--modules", "nope,also-not"], "not slow modules: ['also-not', 'nope']")
 
     def test_family_refusals(self):
@@ -687,7 +688,7 @@ class PathOptionsTest(unittest.TestCase):
     def test_every_path_option_is_in_a_table(self):
         """The audit: the options of the three parsers. A new option that names a file fails here until it has a table."""
         listed = {"--image", "--json", "--cache", "--out", "--find-ranges", "--mask", "--checkpoint"}
-        others = {"--family", "--max", "--workers", "--time-limit", "--stretch-limit", "--count", "--only", "--ports", "--variant", "--modules",
+        others = {"--family", "--max", "--workers", "--time-limit", "--stretch-limit", "--count", "--only", "--ports", "--variant", "--modules", "--group",
                   "--help", "-h", "--engine", "--no-unicorn"}  # enum/boolean options, not paths (T78b)
         seen = set()
         for parser in (self.family.parser(), self.check.parser()):

@@ -1,0 +1,49 @@
+heavy: T78c-e033-06: waiting for a slot (2 ahead)
+heavy: T78c-e033-06: waiting for a slot (1 ahead)
+heavy: T78c-e033-06: got slot 2 after 2 s
+test_e033_06 (tests.test_port_engine.Checkpoints.test_e033_06) ... checkpoint PASS every answer at a pause, a refused eleven boundary=0 phase=event
+checkpoint PASS every answer at a pause, a refused eleven boundary=2 phase=event
+checkpoint PASS every answer at a pause, a refused eleven boundary=191 phase=event
+checkpoint PASS every answer at a pause, a refused eleven boundary=191 phase=answered
+checkpoint PASS every answer at a pause, a refused eleven boundary=192 phase=event
+checkpoint PASS every answer at a pause, a refused eleven boundary=193 phase=event
+checkpoint PASS every answer at a pause, a refused eleven boundary=194 phase=event
+checkpoint PASS every answer at a pause, a refused eleven boundary=195 phase=event
+checkpoint PASS every answer at a pause, a refused eleven boundary=197 phase=event
+checkpoint PASS every answer at a pause, a refused eleven boundary=227 phase=event
+checkpoint PASS every answer at a pause, a refused eleven boundary=227 phase=answered
+checkpoint PASS every answer at a pause, a refused eleven boundary=228 phase=event
+checkpoint PASS every answer at a pause, a refused eleven boundary=273 phase=event
+checkpoint PASS every answer at a pause, a refused eleven boundary=636 phase=event
+checkpoint PASS every answer at a pause, a refused eleven boundary=637 phase=event
+checkpoint PASS every answer at a pause, a refused eleven boundary=637 phase=answered
+checkpoint PASS every answer at a pause, a refused eleven boundary=639 phase=event
+checkpoint PASS every answer at a pause, a refused eleven boundary=639 phase=answered
+checkpoint PASS every answer at a pause, a refused eleven boundary=835 phase=event
+checkpoint PASS every answer at a pause, a refused eleven boundary=835 phase=answered
+
+  test_e033_06 (tests.test_port_engine.Checkpoints.test_e033_06) (scenario='every answer at a pause, a refused eleven', index=1237, phase='event') ... FAIL
+  test_e033_06 (tests.test_port_engine.Checkpoints.test_e033_06) (scenario='every answer at a pause, a refused eleven', index=1238, phase='event') ... FAIL
+
+======================================================================
+FAIL: test_e033_06 (tests.test_port_engine.Checkpoints.test_e033_06) (scenario='every answer at a pause, a refused eleven', index=1237, phase='event')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 232, in boundary_case
+    self.assertEqual(r.result(),wanted)
+AssertionError: {'fir[108708 chars]s': [[4, False]], 'positions': [[126, 6]], 'ma[15800 chars] 1}}} != {'fir[108708 chars]s': [(4, False)], 'positions': [(126, 6)], 'ma[15800 chars] 1}}}
+Diff is 250485 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_e033_06 (tests.test_port_engine.Checkpoints.test_e033_06) (scenario='every answer at a pause, a refused eleven', index=1238, phase='event')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 232, in boundary_case
+    self.assertEqual(r.result(),wanted)
+AssertionError: {'fir[108708 chars]s': [[4, False]], 'positions': [[126, 6]], 'ma[15800 chars] 1}}} != {'fir[108708 chars]s': [(4, False)], 'positions': [(126, 6)], 'ma[15800 chars] 1}}}
+Diff is 250485 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 1 test in 8059.087s
+
+FAILED (failures=2)

@@ -1,0 +1,21 @@
+test_longest_measured_cases_start_with_general_in_the_first_four_slots (tests.test_ci_gate.CheckpointGroups.test_longest_measured_cases_start_with_general_in_the_first_four_slots) ... FAIL
+
+======================================================================
+FAIL: test_longest_measured_cases_start_with_general_in_the_first_four_slots (tests.test_ci_gate.CheckpointGroups.test_longest_measured_cases_start_with_general_in_the_first_four_slots)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_ci_gate.py", line 338, in test_longest_measured_cases_start_with_general_in_the_first_four_slots
+    self.assertEqual(G.TEST_GROUPS[:4],('general','e034-01','e033-06','e034-02'))
+AssertionError: Tuples differ: ('general', 'e033-01', 'e033-02', 'e033-03') != ('general', 'e034-01', 'e033-06', 'e034-02')
+
+First differing element 1:
+'e033-01'
+'e034-01'
+
+- ('general', 'e033-01', 'e033-02', 'e033-03')
++ ('general', 'e034-01', 'e033-06', 'e034-02')
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (failures=1)

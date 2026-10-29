@@ -1,0 +1,17 @@
+test_e033_05 (tests.test_port_engine.Checkpoints.test_e033_05) ... checkpoint PASS go in hard, seed 4: sendings off boundary=0 phase=event
+checkpoint PASS go in hard, seed 4: sendings off boundary=2 phase=event
+checkpoint PASS go in hard, seed 4: sendings off boundary=71 phase=event
+checkpoint PASS go in hard, seed 4: sendings off boundary=208 phase=event
+checkpoint PASS go in hard, seed 4: sendings off boundary=261 phase=event
+checkpoint PASS go in hard, seed 4: sendings off boundary=552 phase=event
+checkpoint PASS go in hard, seed 4: sendings off boundary=553 phase=event
+checkpoint PASS go in hard, seed 4: sendings off boundary=553 phase=answered
+checkpoint PASS go in hard, seed 4: sendings off boundary=727 phase=event
+checkpoint PASS go in hard, seed 4: sendings off boundary=1241 phase=event
+checkpoint PASS go in hard, seed 4: sendings off boundary=1242 phase=event
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 3923.746s
+
+OK

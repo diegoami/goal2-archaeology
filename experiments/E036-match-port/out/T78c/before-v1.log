@@ -1,0 +1,19 @@
+test_plain_checkpoint_keeps_backend_and_legacy_saves_keep_original (tests.test_port_engine.Checkpoints.test_plain_checkpoint_keeps_backend_and_legacy_saves_keep_original) ... ERROR
+test_unknown_corrupt_stale_backend_refuses_before_machine_construction (tests.test_port_engine.Checkpoints.test_unknown_corrupt_stale_backend_refuses_before_machine_construction) ... ok
+test_replay_origin_must_be_plain_and_have_the_same_backend_before_construction (tests.test_port_engine.Checkpoints.test_replay_origin_must_be_plain_and_have_the_same_backend_before_construction) ... ok
+
+======================================================================
+ERROR: test_plain_checkpoint_keeps_backend_and_legacy_saves_keep_original (tests.test_port_engine.Checkpoints.test_plain_checkpoint_keeps_backend_and_legacy_saves_keep_original)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 141, in test_plain_checkpoint_keeps_backend_and_legacy_saves_keep_original
+    m=self.new();blob=m.save();r=Match.load(blob)
+                      ^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 1328, in save
+    raise MatchError("port checkpoints are not enabled in this assembly slice")
+original_match.match.MatchError: port checkpoints are not enabled in this assembly slice
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.773s
+
+FAILED (errors=1)

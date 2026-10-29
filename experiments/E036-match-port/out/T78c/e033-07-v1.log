@@ -1,0 +1,22 @@
+heavy: T78c-e033-07: waiting for a slot (3 ahead)
+heavy: T78c-e033-07: waiting for a slot (2 ahead)
+heavy: T78c-e033-07: waiting for a slot (1 ahead)
+heavy: T78c-e033-07: got slot 3 after 3 s
+test_e033_07 (tests.test_port_engine.Checkpoints.test_e033_07) ... checkpoint PASS a quick result, tick events boundary=0 phase=event
+checkpoint PASS a quick result, tick events boundary=1 phase=event
+checkpoint PASS a quick result, tick events boundary=49 phase=event
+checkpoint PASS a quick result, tick events boundary=918 phase=event
+checkpoint PASS a quick result, tick events boundary=1701 phase=event
+checkpoint PASS a quick result, tick events boundary=1701 phase=answered
+checkpoint PASS a quick result, tick events boundary=1736 phase=event
+checkpoint PASS a quick result, tick events boundary=1737 phase=event
+checkpoint PASS a quick result, tick events boundary=1737 phase=answered
+checkpoint PASS a quick result, tick events boundary=1763 phase=event
+checkpoint PASS a quick result, tick events boundary=1842 phase=event
+checkpoint PASS a quick result, tick events boundary=1843 phase=event
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1062.033s
+
+OK

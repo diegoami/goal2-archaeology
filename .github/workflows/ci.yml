@@ -42,14 +42,21 @@ jobs:
       - run: for f in findings/F*.md; do python3 tools/check_citations.py "$f"; done
       - run: "! git ls-files | grep -iE '\\.(exe|dat|hlp|hil|pif|bat)$'"
 
-  # One job that reports a status for every PR that is not a draft (a skipped job must not block a
-  # merge), and for the nightly and manual runs.  The first step chooses the tier; the others run
+  # Every matrix group must succeed; ci_gate.py rejects incomplete or skipped sets.
+  # Ten long checkpoint cases run independently; general holds every other test.
+  # A status is reported for every non-draft PR, and nightly/manual runs.  The first step chooses the tier; the others run
   # when the tier asks for them.  A green `checks` on a PR head means every obligation of the
   # whole PR's diff has been met (tools/ci_gate.py explains why a docs-only push to a code PR may
   # run less).
   checks:
+    name: checks (${{ matrix.group }})
     if: github.event_name != 'push' && (github.event_name != 'pull_request' || !github.event.pull_request.draft)
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        group: [general, e034-01, e033-06, e034-02, e033-01, e033-02, e033-03, e033-04, e033-05, e033-07, e034-03]
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -89,7 +96,7 @@ jobs:
           key: pip-${{ runner.os }}-${{ hashFiles('tools/static/requirements.txt', 'runtime/emul/requirements.txt') }}
       - if: steps.gate.outputs.code == 'true'
         run: pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt
-      - if: steps.gate.outputs.code == 'true'
+      - if: steps.gate.outputs.code == 'true' && matrix.group == 'general'
         run: python3 -m unittest discover -s tests/static -v
       # T34: the human-recorder tests need a nested X display stack (Xephyr inside Xvfb) and the
       # emulator; tests that require it skip themselves (skipUnless) when a tool is missing, so
@@ -97,13 +104,13 @@ jobs:
       # The packages' .deb files are cached between runs (2026-10-22: the runners' Ubuntu mirror served them at a few
       # KB/s and the install, ffmpeg's ~70 dependencies, ran 40 minutes twice); a cache hit installs without
       # downloading them. A slow mirror stops the step at 15 minutes instead of holding the job.
-      - if: steps.gate.outputs.code == 'true'
+      - if: steps.gate.outputs.code == 'true' && matrix.group == 'general'
         uses: actions/cache@v4
         with:
           path: ~/apt-archives
           key: apt-${{ runner.os }}-${{ hashFiles('.github/workflows/ci.yml') }}
           restore-keys: apt-${{ runner.os }}-
-      - if: steps.gate.outputs.code == 'true'
+      - if: steps.gate.outputs.code == 'true' && matrix.group == 'general'
         timeout-minutes: 15
         run: |
           mkdir -p ~/apt-archives/partial
@@ -114,7 +121,7 @@ jobs:
       # The record tools, their tests and fixtures (the fetched checker and artifact stay in .cache/).
       # The six slow modules (tools/ci_gate.py SLOW) run only when the gate names them.
       - if: steps.gate.outputs.code == 'true'
-        run: python3 tools/ci_gate.py run-tests --modules="${{ steps.gate.outputs.modules }}"
+        run: python3 tools/ci_gate.py run-tests --modules="${{ steps.gate.outputs.modules }}" --group="${{ matrix.group }}"
       # T37: every finding's citations resolve under the pinned checker (U25-U27).
       - if: steps.gate.outputs.quick == 'true'
         run: for f in findings/F*.md; do python3 tools/check_citations.py "$f"; done

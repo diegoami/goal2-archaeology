@@ -1,0 +1,29 @@
+heavy: T78c-e034-03: waiting for a slot (1 ahead)
+heavy: T78c-e034-03: got slot 5 after 1 s
+test_e034_03 (tests.test_port_engine.Checkpoints.test_e034_03) ... checkpoint PASS E034 index 9 boundary=0 phase=event
+checkpoint PASS E034 index 9 boundary=2 phase=event
+checkpoint PASS E034 index 9 boundary=8 phase=event
+checkpoint PASS E034 index 9 boundary=166 phase=event
+checkpoint PASS E034 index 9 boundary=168 phase=event
+checkpoint PASS E034 index 9 boundary=616 phase=event
+checkpoint PASS E034 index 9 boundary=617 phase=event
+checkpoint PASS E034 index 9 boundary=617 phase=answered
+checkpoint PASS E034 index 9 boundary=631 phase=event
+checkpoint PASS E034 index 9 boundary=637 phase=event
+checkpoint PASS E034 index 9 boundary=674 phase=event
+checkpoint PASS E034 index 9 boundary=676 phase=event
+checkpoint PASS E034 index 9 boundary=676 phase=answered
+checkpoint PASS E034 index 9 boundary=694 phase=event
+checkpoint PASS E034 index 9 boundary=694 phase=answered
+checkpoint PASS E034 index 9 boundary=711 phase=event
+checkpoint PASS E034 index 9 boundary=712 phase=event
+checkpoint PASS E034 index 9 boundary=712 phase=answered
+checkpoint PASS E034 index 9 boundary=718 phase=event
+checkpoint PASS E034 index 9 boundary=829 phase=event
+checkpoint PASS E034 index 9 boundary=830 phase=event
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 4745.216s
+
+OK

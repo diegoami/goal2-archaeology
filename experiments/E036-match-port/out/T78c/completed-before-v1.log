@@ -1,0 +1,15 @@
+test_completed_quick_match_answer_records_and_memory_survive_loading (tests.test_port_engine.Checkpoints.test_completed_quick_match_answer_records_and_memory_survive_loading) ... FAIL
+
+======================================================================
+FAIL: test_completed_quick_match_answer_records_and_memory_survive_loading (tests.test_port_engine.Checkpoints.test_completed_quick_match_answer_records_and_memory_survive_loading)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_port_engine.py", line 218, in test_completed_quick_match_answer_records_and_memory_survive_loading
+    self.assertEqual(loaded.result(),before)
+AssertionError: {'fir[2524 chars]s': [[4, True]], 'positions': [[126, 4]], 'mar[14978 chars] 1}}} != {'fir[2524 chars]s': [(4, True)], 'positions': [(126, 4)], 'mar[14978 chars] 1}}}
+Diff is 37814 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 1 test in 7.989s
+
+FAILED (failures=1)

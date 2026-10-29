@@ -1,0 +1,17 @@
+heavy: T78c-e033-01: waiting for a slot (1 ahead)
+heavy: T78c-e033-01: got slot 1 after 1 s
+test_e033_01 (tests.test_port_engine.Checkpoints.test_e033_01) ... checkpoint PASS Denmark v 19 at 21 boundary=0 phase=event
+checkpoint PASS Denmark v 19 at 21 boundary=2 phase=event
+checkpoint PASS Denmark v 19 at 21 boundary=207 phase=event
+checkpoint PASS Denmark v 19 at 21 boundary=566 phase=event
+checkpoint PASS Denmark v 19 at 21 boundary=567 phase=event
+checkpoint PASS Denmark v 19 at 21 boundary=567 phase=answered
+checkpoint PASS Denmark v 19 at 21 boundary=788 phase=event
+checkpoint PASS Denmark v 19 at 21 boundary=1122 phase=event
+checkpoint PASS Denmark v 19 at 21 boundary=1123 phase=event
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 2726.639s
+
+OK

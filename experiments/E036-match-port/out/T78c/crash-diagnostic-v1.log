@@ -1,0 +1,30 @@
+{"stage": "start", "elapsed_s": 0.0, "pid": 10963, "positive_unicorn_denial": true, "diagnostic_only": true}
+Current thread 0x000072348abea740 (most recent call first):
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/machine.py", line 392 in pc
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/port/engine.py", line 161 in run
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 567 in _advance
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 437 in events
+  File "/home/diego/projects/goal2-archaeology-engine/experiments/E033-original-match-kit/save_boundaries.py", line 91 in drive
+  File "/home/diego/projects/goal2-archaeology-engine/experiments/E036-match-port/out/T78c/crash_probe_v1.py", line 50 in <module>
+{"stage": "captured", "elapsed_s": 369.726, "pid": 10963, "boundary": 1564, "phase": "event", "kind": "decision", "sha256": "b5fe96e3dc5aa0e3db1989ba77271e71e08076cd203d77939e7b0ebc9244bd97"}
+{"stage": "captured", "elapsed_s": 369.806, "pid": 10963, "boundary": 1564, "phase": "answered", "kind": "decision", "sha256": "4febacc656288ec1489c83d0e13254cb89cb37024a9fad606eb93795b7bc8058"}
+{"stage": "captured", "elapsed_s": 387.371, "pid": 10963, "boundary": 1569, "phase": "event", "kind": "shootout_kick", "sha256": "077e62384b460cabbfc432b10c9dc10f22a63fc88474dd5dc489d50a78962838"}
+{"stage": "captured", "elapsed_s": 387.452, "pid": 10963, "boundary": 1619, "phase": "event", "kind": "full_time", "sha256": "1b910d8dbe47c7725e2fc6e84d916b93977a05fcac9b79c1e33aa8e02b7a89e2"}
+{"stage": "captured", "elapsed_s": 387.617, "pid": 10963, "boundary": 1620, "phase": "event", "kind": "end", "sha256": "683394b2c98aae010d068a06f86e06c5854aa3f554c2c1da029c8fb45f59c3d7"}
+{"stage": "straight_finished", "elapsed_s": 387.618, "pid": 10963, "events": 1621, "captured": 5, "memory_sha256": "a72f596e754c016104af34870c8ae06703137d1d70d25798ee63f8b810a1cdaa"}
+{"stage": "load_start", "elapsed_s": 387.618, "pid": 10963, "boundary": 1564, "phase": "event"}
+{"stage": "load_finished", "elapsed_s": 733.434, "pid": 10963, "boundary": 1564, "phase": "event", "frames": 5}
+{"stage": "boundary_pass", "elapsed_s": 751.285, "pid": 10963, "boundary": 1564, "phase": "event"}
+{"stage": "load_start", "elapsed_s": 751.285, "pid": 10963, "boundary": 1564, "phase": "answered"}
+{"stage": "load_finished", "elapsed_s": 1104.44, "pid": 10963, "boundary": 1564, "phase": "answered", "frames": 5}
+{"stage": "boundary_pass", "elapsed_s": 1122.274, "pid": 10963, "boundary": 1564, "phase": "answered"}
+{"stage": "load_start", "elapsed_s": 1122.274, "pid": 10963, "boundary": 1569, "phase": "event"}
+{"stage": "load_finished", "elapsed_s": 1122.467, "pid": 10963, "boundary": 1569, "phase": "event", "frames": 0}
+{"stage": "boundary_pass", "elapsed_s": 1122.928, "pid": 10963, "boundary": 1569, "phase": "event"}
+{"stage": "load_start", "elapsed_s": 1122.929, "pid": 10963, "boundary": 1619, "phase": "event"}
+{"stage": "load_finished", "elapsed_s": 1123.045, "pid": 10963, "boundary": 1619, "phase": "event", "frames": 0}
+{"stage": "boundary_pass", "elapsed_s": 1123.52, "pid": 10963, "boundary": 1619, "phase": "event"}
+{"stage": "load_start", "elapsed_s": 1123.52, "pid": 10963, "boundary": 1620, "phase": "event"}
+{"stage": "load_finished", "elapsed_s": 1123.602, "pid": 10963, "boundary": 1620, "phase": "event", "frames": 0}
+{"stage": "boundary_pass", "elapsed_s": 1124.064, "pid": 10963, "boundary": 1620, "phase": "event"}
+{"stage": "diagnostic_pass", "elapsed_s": 1124.064, "pid": 10963, "boundaries": 5, "full_acceptance": false}
