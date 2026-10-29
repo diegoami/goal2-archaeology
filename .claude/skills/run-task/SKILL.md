@@ -1,6 +1,6 @@
 ---
 name: run-task
-description: Run goal2-archaeology tasks or fixes end to end on the work branch in the checkout at hand - implement (the main session or the implementer subagent), give the owner a review prompt when one is warranted (never start a review), wait for green CI, merge with a merge commit and report. Main session only.
+description: Run goal2-archaeology tasks or fixes end to end on the work branch in the checkout at hand - implement (the main session or the implementer subagent), wait for green CI, merge with a merge commit and report. Main session only.
 ---
 
 Engine port stage exception: see `docs/process.md` section 3 (owner, 2026-10-21;
@@ -21,9 +21,9 @@ Follow `docs/process.md` §3 for each id in order (none given: the first `status
    `Agent(subagent_type: "implementer")` with the task file pasted in full and process §4's block
    (on rework, the review's URL). Label `status:in-progress`. Read the subagent's final report
    before acting.
-3. **Review, when warranted** (a finding, a game rule or constant, the engine port, the proof, or the
-   owner asks): never start one. Give the owner the prompt (`tools/review_pr.sh <pr> <cli> <model>
-   --print`) and wait for the owner to say it is posted (owner, 2026-10-29). Relay findings
+3. **No per-PR review** (owner, 2026-10-29): go on to green CI. Only when the owner asks for a review
+   of this PR, give the prompt (`tools/review_pr.sh <pr> <cli> <model> --print`), never start one,
+   and wait for the owner to say it is posted. Relay findings
    in full; rework on the same branch; non-blocking findings become one `T<nn> follow-up` issue
    (`triage:needed`).
 4. **Checks**: re-run every Done-when line on the PR head; CI must be green on that head.

@@ -28,11 +28,13 @@ kept on the branch `local`.
    with a merge commit (`gh pr merge <pr> --merge --match-head-commit <sha>`): research PRs need their
    commits kept (rule 20), and a cloud session's branch then fast-forwards (`git pull --ff-only
    origin main`).
-4. [designed: owner, 2026-10-29] No session starts a review. When a PR's risk warrants one (a
-   finding, a game rule or constant, the engine port, the proof), and at each milestone, the main
-   session writes the review prompt and gives it to the owner, who runs it on a model of their
-   choice (`tools/review_pr.sh <pr> <cli> <model> --print` shows the prompt; the milestone one is
-   `docs/milestone-review.md`). Relay review findings in full.
+4. [designed: owner, 2026-10-29, as in malpaco] Only milestones mandate a review. A PR merges
+   when its Done-when lines pass and CI is green, with no per-PR review. At each milestone (the
+   engine-study checkpoints of `docs/engine-study-reviews.md` included) the main session gives the
+   owner the review prompt (`docs/milestone-review.md`) and the owner runs it on a model of their
+   choice. A per-PR review happens only when the owner asks for one, from a prompt the main session
+   writes (`tools/review_pr.sh <pr> <cli> <model> --print`). No session starts a review. Relay
+   review findings in full.
 5. The Done-when is not negotiable by the implementer: it stops and reports, never weakens an
    assertion, skips a test or edits its task file. The main session amends a Done-when on `main`
    with the reason in the commit message.
@@ -70,9 +72,9 @@ kept on the branch `local`.
     measured output (run records, probe logs, timings) lives under a tracked path the task owns, is
     committed and pushed after each batch of runs and at least every 30 minutes, and is never deleted
     or overwritten (game-archaeologist L207).
-21. **Difficulty** (U13): game rules, formulas or constants from evidence are hard work; a hard
-    task gets an independent review (`tools/review_pr.sh`, rule 4) on a strong model. This repository
-    builds no playable game.
+21. **Difficulty** (U13): game rules, formulas or constants from evidence are hard work; its
+    independent review is the milestone's (rule 4, owner 2026-10-29), unless the owner asks for one
+    on the PR. This repository builds no playable game.
 22. **Static first** (game-archaeologist U32, the owner, 2026-10-05). A research question is answered
     by reading the decompiled and disassembled `GOAL.EXE` first (the named view
     `static/goal-exe/named/`, then the raw `static/goal-exe/decompiled/` and `static/goal-exe/code/`; Ghidra as `docs/environment.md` says). Runs of the game are made only

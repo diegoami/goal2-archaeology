@@ -4,8 +4,8 @@ Read [CLAUDE.md](CLAUDE.md): its rules apply to every client (Codex, Claude Code
 [docs/process.md](docs/process.md) for how a task runs. Claude Code's skills and agents under
 `.claude/` are Claude-specific; Codex follows the same steps with its own tools. Since 2026-10-20
 there is no review harness and no worktree: work on a branch in the checkout at hand, merge with a
-merge commit on green CI, and when a PR needs an independent review, give the owner the prompt (`tools/review_pr.sh ... --print`):
-no session starts a review (owner, 2026-10-29).
+merge commit on green CI. Only milestones mandate a review; no session starts one, the owner runs
+it from the prompt the main session gives (owner, 2026-10-29).
 
 ## Resuming the engine port
 
