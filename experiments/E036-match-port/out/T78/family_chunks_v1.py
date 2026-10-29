@@ -12,7 +12,9 @@ Each chunk writes its own new `family-<tag>.part-<k>.jsonl` and log; the chunk l
 first to `family-<tag>.chunks.json`. `join` checks that the parts hold every match once, completed,
 and writes `family-<tag>.jsonl` (new, never overwritten) with the records in the declared order;
 the Done-when command run on it then finds every match present and validates each record itself
-(family.py's resume check). A match that failed in its chunk is not joined: rerun it in a new part.
+(family.py's resume check). A match that failed in its chunk is rerun alone into a new
+`family-<tag>.rerun-<n>.jsonl`; `join` takes a rerun's completed record in place of the failed one,
+keeps the failed one where it is, and lists every replacement in `family-<tag>.joined.json`.
 
 `sync` commits and pushes the tag's chunk plan, parts and logs whenever they changed, every --every
 seconds, until every chunk is complete and none runs (then once more): the records survive a lost
@@ -123,13 +125,18 @@ def resume(args):
 def join(args):
     import records  # family.py's own record rules
     order = ids()
-    found = {}
-    for part in sorted(OUT.glob(f"family-{args.tag}.part-*.jsonl")):
+    found, replaced = {}, []
+    files = sorted(OUT.glob(f"family-{args.tag}.part-*.jsonl")) + sorted(OUT.glob(f"family-{args.tag}.rerun-*.jsonl"))
+    for part in files:
         for line in part.read_text().splitlines():
             record = json.loads(line)
             key = record.get("id")
             if key in found:
-                raise SystemExit(f"{key} twice ({part.name})")
+                earlier = found[key][0]
+                if records.is_completed(earlier) or ".rerun-" not in part.name or not records.is_completed(record):
+                    raise SystemExit(f"{key} twice ({part.name}), not a completed rerun of a failed record")
+                replaced.append(dict(id=key, failed_cpu_s=earlier.get("cpu_s"), failed_error=earlier.get("error"),
+                                     rerun=part.name, rerun_cpu_s=record.get("cpu_s")))
             found[key] = (record, line)
     missing = [i for i in order if i not in found]
     failed = [i for i in order if i in found and not records.is_completed(found[i][0])]
@@ -138,7 +145,9 @@ def join(args):
     with (OUT / f"family-{args.tag}.jsonl").open("x") as f:
         for i in order:
             f.write(found[i][1] + "\n")
-    print(f"joined {len(order)} records into family-{args.tag}.jsonl")
+    with (OUT / f"family-{args.tag}.joined.json").open("x") as f:
+        json.dump(dict(tag=args.tag, matches=len(order), files=[p.name for p in files], replaced=replaced), f, indent=2)
+    print(f"joined {len(order)} records into family-{args.tag}.jsonl; replaced {[r['id'] for r in replaced]}")
 
 
 ap = argparse.ArgumentParser()
