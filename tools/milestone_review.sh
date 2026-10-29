@@ -6,7 +6,7 @@
 set -euo pipefail
 issue=${1:?usage: tools/milestone_review.sh <issue> <opencode|claude|codex> <model> [--print]}
 cli=${2:?give the CLI: opencode, claude or codex}
-model=${3:?give the model, e.g. openai/gpt-6.1-sol#low, opus or gpt-6.1-sol}
+model=${3:?give the caller-selected model identifier}
 print=${4:-}
 top=$(git rev-parse --show-toplevel)
 cd "$top"

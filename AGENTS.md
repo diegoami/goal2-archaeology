@@ -6,6 +6,12 @@ Read [CLAUDE.md](CLAUDE.md): its rules apply to every client (Codex, Claude Code
 there is no review harness and no worktree: work on a branch in the checkout at hand, merge with a
 merge commit on green CI, and use `tools/review_pr.sh` when a PR needs an independent review.
 
+## Model selection
+
+The owner requires model-agnostic operation; follow [docs/model-policy.md](docs/model-policy.md).
+Use caller/session configuration. Model assignments in older task snapshots are historical,
+not requirements for the current implementer, helper or reviewer. Preserve review independence.
+
 ## Resuming the engine port
 
 Read the [latest shutdown checkpoint on #386](https://github.com/diegoami/goal2-archaeology/issues/386#issuecomment-6375808145)

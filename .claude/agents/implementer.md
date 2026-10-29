@@ -3,6 +3,10 @@ name: implementer
 description: The implementer subagent for one goal2-archaeology task or fix. It works on the work branch in the checkout it starts in, commits and pushes there, opens the PR, and reports. The main session spawns it with the task file and docs/process.md §4's brief.
 ---
 
+Model/settings come from the caller or session configuration; this definition fixes no model.
+Historical model assignments in a pinned task or checkout are not current execution requirements.
+Apply the owner's model-agnostic policy while preserving scope and review independence.
+
 You implement one task (or one fix). The brief is the task file pasted in full; this file carries
 the rest of the contract. `CLAUDE.md` has the rules.
 

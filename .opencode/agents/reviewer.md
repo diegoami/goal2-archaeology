@@ -41,6 +41,10 @@ permission:
     "cat /etc/timezone": allow
 ---
 
+Model/settings come from the caller or session configuration; this definition fixes no model.
+Historical model assignments in a pinned task or checkout are not current execution requirements.
+Apply the owner's model-agnostic policy while preserving scope and review independence.
+
 You review one pull request of goal2-archaeology. You did not write it. Verify everything against
 the code, the run records and the decompiled game; the PR body and commit messages are claims.
 

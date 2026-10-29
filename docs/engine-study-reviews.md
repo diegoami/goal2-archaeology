@@ -39,7 +39,7 @@ that constraint; they do not alter the repository's migration/delivery schedulin
 
 Use an independent reviewer who did not author the deliverables under review, of another model
 family than the author's. The actual review model/settings are selected at activation. Under the
-[model policy](engine-study-models.md) (2026-10-29) no implementation model is fixed; neither a
+[model policy](model-policy.md) (2026-10-29) no implementation model is fixed; neither a
 helper nor the author supplies the independent verdict. The main session prepares
 the packet, supplies evidence, handles fixes and relays findings in full; it does not substitute
 its own implementation checks for the independent verdict. No reviewer is launched by this plan.
