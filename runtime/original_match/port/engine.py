@@ -33,6 +33,8 @@ for _name in ('eax','ebx','ecx','edx','esi','edi','ebp','esp','eip','eflags','cs
               'ax','bx','cx','dx','si','di','bp','sp','ip','flags','al','ah','bl','bh','cl','ch','dl','dh'):
     _REGISTERS[_name] = _alias_of(_name) + (_name, _name in ('ip','flags'))
 del _name
+# The same table for a read with no io_tap: (base, shift, mask).
+_READ = {name: (base, shift, (1 << bits)-1) for name, (base, shift, bits, _, _) in _REGISTERS.items()}
 
 
 def _register(name):
@@ -48,6 +50,31 @@ class _PortMemory(MachineMem):
         # As MachineMem's native read, a port's own read is not a kit IO-tap read.
         self.m._bounds(linear, n)
         return bytes(self.m._memory[linear:linear+n])
+
+    # T117: the view's hottest reads, one call each. A read of the port's own is never tapped (above),
+    # so u8/u16 need no tap check; a register read takes the machine's path whenever an io_tap listens.
+    def u8(self, linear):
+        self.m._bounds(linear, 1)
+        return self.m._memory[linear]
+
+    def u16(self, linear):
+        self.m._bounds(linear, 2)
+        return int.from_bytes(self.m._memory[linear:linear+2], "little")
+
+    def reg(self, name):
+        m = self.m
+        if m.io_tap is None:
+            fast = _READ.get(name) if name.__class__ is str else None
+            if fast is not None:
+                base, shift, mask = fast
+                return m._registers[base] >> shift & mask
+        return m.reg(name)
+
+    def ss_lin(self, off):
+        m = self.m
+        if m.io_tap is None:
+            return (m._registers['ss'] & 0xFFFF) * 16 + (off & 0xFFFF)
+        return m.reg("ss") * 16 + (off & 0xFFFF)
 
 
 class PortMachine(Machine):
@@ -68,7 +95,8 @@ class PortMachine(Machine):
         self._handlers, self._ports = {}, {}
         self._resume_lin = self._pc_override = self.no_replay_at = None
         self._writes, self.frames = [], []
-        self._writes_now = ()       # T117: _writes as a tuple, replaced (never changed) by _add_write
+        self._writes_now = ()       # T117: _writes as a tuple, replaced (never changed) by _add_write,
+        self._writes_span = (1, 0)  # and the lowest begin/highest end of all of them (none: empty)
         self.muted = False
         self.muted_hook = self.site_tap = self.write_tap = None
         self.io_tap = self.listen_tap = None
@@ -120,10 +148,15 @@ class PortMachine(Machine):
     def _add_write(self, begin, end, fn, recorder):
         self._writes.append((begin, end, fn, recorder))
         self._writes_now = tuple(self._writes)
+        self._writes_span = (min(w[0] for w in self._writes), max(w[1] for w in self._writes))
 
     def write_as(self, linear, size, value, at):
         self._bounds(linear, size)
         value &= (1 << (8*size))-1
+        lo, hi = self._writes_span
+        if not lo <= linear <= hi:  # no listener's range holds it: the loop below would call none
+            self._memory[linear:linear+size] = value.to_bytes(size, 'little')
+            return
         saved, self._pc_override = self._pc_override, at
         try:
             # The listeners as at this write's start, as the list copy was: one added meanwhile waits.
@@ -150,6 +183,15 @@ class PortMachine(Machine):
 
     def stop(self, reason):
         self.stop_reason = reason
+
+    def pc(self):
+        # T117: Machine.pc without its two register calls, unless an io_tap listens to them.
+        if self.io_tap is not None:
+            return Machine.pc(self)
+        if self._pc_override is not None:
+            return self._pc_override
+        registers = self._registers
+        return (registers['cs'] & 0xFFFF) * 16 + (registers['eip'] & 0xFFFF)
 
     def _dispatch(self, linear):
         replay = linear == self._resume_lin

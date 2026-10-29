@@ -83,23 +83,8 @@ class Regs:
         object.__setattr__(self, "_bps", [])
 
     def __getattr__(self, name):
-        if name not in Regs._NAME_SET:
-            raise AttributeError(name)
-        v = self._v.get(name)
-        if v is None:
-            if name == "sp" and self._fresh:
-                v = self._mem._entries[-1][0]
-            else:
-                v = self._mem.reg(name) & M16
-            self._v[name] = v
-        return v
-
-    def __setattr__(self, name, value):
-        if name in Regs._NAME_SET:
-            self._v[name] = value & M16
-            self._dirty.add(name)
-        else:
-            object.__setattr__(self, name, value)     # al, ah
+        # T117: the registers are properties (below); this is reached for any other missing name only.
+        raise AttributeError(name)
 
     @property
     def al(self):
@@ -221,6 +206,30 @@ class Regs:
             object.__setattr__(self, "_flags_on", 0)
             object.__setattr__(self, "_flags_off", 0)
 
+
+
+def _register_property(name):
+    """[T117] A Regs register as a property, doing what Regs.__getattr__/__setattr__ did: read from the
+    machine when first used (SP of a fresh frame from the entry), masked to 16 bits at every assignment."""
+    def get(self):
+        v = self._v.get(name)
+        if v is None:
+            if name == "sp" and self._fresh:
+                v = self._mem._entries[-1][0]
+            else:
+                v = self._mem.reg(name) & M16
+            self._v[name] = v
+        return v
+
+    def put(self, value):
+        self._v[name] = value & M16
+        self._dirty.add(name)
+    return property(get, put)
+
+
+for _name in Regs._NAMES:
+    setattr(Regs, _name, _register_property(_name))
+del _name
 
 def invoke(mem, R, cs_paragraph, ret_ip, core, *args, pushes=()):
     """`push w1; ... push wn; push cs; call core` (or `call far core`): the words, the segment (None for a near call) and
