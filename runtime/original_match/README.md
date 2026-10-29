@@ -8,8 +8,8 @@ keys a manager would press. Nothing of the original is in this folder: its code 
 The explicit assembly mode `Match(image, fixture, engine="port")` instead runs all
 registered Python translations on plain memory, without a Unicorn object or
 original-instruction execution. The original backend remains the default and
-reference. This mode still needs the data image; sealing and goal2 adoption are
-separate delivery gates. Port `save()`/`load()` preserve the explicit backend, including pending Python
+reference. With an image it reads the original's constant data from that image; sealed (below), from
+GOAL.EXE's tables and goal2's state alone; goal2's adoption is a separate delivery gate. Port `save()`/`load()` preserve the explicit backend, including pending Python
 frames reconstructed by deterministic action replay (see Saving below). Historical
 unmarked checkpoints keep the original engine; unknown, stale port or inconsistent
 outer/origin backend identities are refused before either machine is constructed.
@@ -22,6 +22,32 @@ output from another backend is refused. Port raw `--count`, `--find-ranges` and
 selection/import denial via same-process interpreter replacement; its checkpoint-dependent steps use the same backend-preserving save/load API.
 The family CLI checkpoint wrapper remains explicitly refused in port mode; its
 separate worker checkpoint envelope has not yet been admitted.
+
+## The sealed engine (T80): no image, no Unicorn
+
+The port needs no byte of GOAL.EXE at run time beyond its constant tables, which the game builds once from the
+player's own GOAL.EXE and never ships (`tools/static/port_tables.py extract --exe GOAL.EXE --out DIR` in
+goal2-archaeology; it refuses a GOAL.EXE that is not the registered one). Its input is goal2's state:
+
+```python
+from goal2.engine.original_match import Image, Match, Fixture
+from goal2.engine.original_match.port import tables
+
+t = tables.load(tables_dir)                 # manifest.json, ds.hex, code_data.hex; refused if not the manifest's
+state = Image.from_memory_component(state_mem).state(t)   # once, from a memory goal2 holds: goal2's state
+m = Match(Image.from_state(state, t), Fixture(first=7, second=19, index=40), managed=7, engine="port")
+for ev in m.events():
+    ...
+state = m.records_after()                   # goal2's state after the match and its post-match update
+```
+
+A state (`image.state_of`, JSON-able) is the whole memory with GOAL.EXE's load module left out (its code and
+the initialised data DS:0000..7B6F), plus the initialised bytes the game changed after start-up;
+`Image.from_state` refuses one that holds module bytes or was made against other tables. Every admitted
+match, and the kit's check, are the original's from a state and the tables
+(goal2-archaeology `experiments/E036-match-port/out/T80/`):
+
+    python3 -m goal2.engine.original_match.check --engine port --no-unicorn --state STATE.json --tables DIR --family
 
 ## Get it (once)
 
