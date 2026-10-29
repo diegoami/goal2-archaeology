@@ -1,0 +1,23 @@
+subset: 20 matches
+strict display profile applied: False; mask None
+A700/ref-000: score [1, 1] ticks 4146 draws 184109 cpu 13.862 s -> 10.31 s; identical
+A700/ref-035: score [0, 1] ticks 4130 draws 184779 cpu 23.956 s -> 10.068 s; identical
+A700/ref-070: score [1, 0] ticks 4144 draws 184558 cpu 25.545 s -> 11.072 s; identical
+A700/ref-105: score [0, 1] ticks 4223 draws 189387 cpu 24.379 s -> 11.253 s; identical
+A700/ref-140: score [1, 0] ticks 4277 draws 186806 cpu 23.983 s -> 11.82 s; identical
+A700/ref-175: score [1, 1] ticks 4144 draws 182442 cpu 25.679 s -> 11.278 s; identical
+A700/ref-210: score [1, 0] ticks 4369 draws 196410 cpu 23.744 s -> 12.057 s; identical
+A700/ref-245: score [2, 0] ticks 3981 draws 176146 cpu 22.384 s -> 11.245 s; identical
+A700/ref-280: score [2, 1] ticks 4225 draws 186268 cpu 22.826 s -> 11.215 s; identical
+A700/ref-315: score [0, 1] ticks 4143 draws 183709 cpu 23.614 s -> 11.713 s; identical
+A700/ref-350: score [0, 1] ticks 4156 draws 188969 cpu 23.653 s -> 11.381 s; identical
+A700/ref-385: score [0, 0] ticks 4411 draws 201413 cpu 25.134 s -> 12.048 s; identical
+A700/ref-420: score [4, 1] ticks 4395 draws 185861 cpu 23.868 s -> 11.654 s; identical
+A700/ref-455: score [1, 0] ticks 4257 draws 188698 cpu 23.648 s -> 11.815 s; identical
+A700/ref-490: score [1, 0] ticks 4264 draws 189628 cpu 23.82 s -> 11.752 s; identical
+A700/c30-c44-friendly-025: score [1, 0] ticks 4240 draws 193099 cpu 24.286 s -> 11.738 s; identical
+A700/c30-c44-friendly-060: score [3, 0] ticks 4147 draws 179827 cpu 23.516 s -> 11.276 s; identical
+A700/c30-c44-friendly-095: score [0, 0] ticks 4534 draws 205962 cpu 26.022 s -> 12.333 s; identical
+A700/c64-c90-qualifier-030: score [5, 1] ticks 4492 draws 189446 cpu 26.098 s -> 11.813 s; identical
+A700/c64-c90-qualifier-065: score [4, 0] ticks 4549 draws 192398 cpu 27.154 s -> 12.838 s; identical
+20 matches expected identical, 20 pass, 0 fail

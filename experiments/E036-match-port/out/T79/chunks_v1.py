@@ -59,6 +59,7 @@ def launch(tag, k, chunk, slots, log_name):
     cmd = ["tools/heavy.sh", f"t79-{tag}-{k}", "--", plan["python"], "-B",
            "experiments/E036-match-port/family.py", "--family", plan["family"], "--engine", plan["engine"],
            *(["--no-unicorn"] if plan["engine"] == "port" else []),
+           *(["--mask", plan["mask"]] if plan.get("mask") else []),
            "--only", ",".join(chunk), "--out", str(part.relative_to(ROOT))]
     p = subprocess.Popen(cmd, cwd=ROOT, env=env, stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT,
                          start_new_session=True)
@@ -73,6 +74,7 @@ def start(args):
     version = subprocess.run([args.python, "-c", "import sys;print(sys.version)"], capture_output=True, text=True).stdout.strip()
     with plan.open("x") as f:
         json.dump(dict(tag=args.tag, family=args.family, engine=args.engine, python=args.python, python_version=version,
+                       mask=args.mask,
                        matches=len(order), chunks=chunks), f, indent=2)
     for k, chunk in enumerate(chunks):
         launch(args.tag, k, chunk, args.slots, f"family-{args.tag}.part-{k}.log")
@@ -149,15 +151,21 @@ def join(args):
                                      rerun=part.name, rerun_cpu_s=record.get("cpu_s")))
             found[key] = (record, line)
     missing = [i for i in order if i not in found]
-    failed = [i for i in order if i in found and not records.is_completed(found[i][0])]
+    keep = set(args.keep_failed or [])
+    failed = [i for i in order if i in found and not records.is_completed(found[i][0]) and i not in keep]
+    kept = [i for i in order if i in found and not records.is_completed(found[i][0]) and i in keep]
     if missing or failed:
         raise SystemExit(f"not joined: missing {missing}, not completed {failed}")
-    with (OUT / f"family-{args.tag}.jsonl").open("x") as f:
+    target = ROOT / args.out if args.out else OUT / f"family-{args.tag}.jsonl"
+    with target.open("x") as f:
         for i in order:
             f.write(found[i][1] + "\n")
     with (OUT / f"family-{args.tag}.joined.json").open("x") as f:
-        json.dump(dict(tag=args.tag, matches=len(order), files=[p.name for p in files], replaced=replaced), f, indent=2)
-    print(f"joined {len(order)} records into family-{args.tag}.jsonl; replaced {[r['id'] for r in replaced]}")
+        json.dump(dict(tag=args.tag, matches=len(order), files=[p.name for p in files], replaced=replaced,
+                       kept_not_completed=[dict(id=i, error=found[i][0].get("error")) for i in kept],
+                       out=str(target.relative_to(ROOT))), f, indent=2)
+    print(f"joined {len(order)} records into {target.relative_to(ROOT)}; replaced {[r['id'] for r in replaced]}; "
+          f"kept not completed {kept}")
 
 
 ap = argparse.ArgumentParser()
@@ -165,8 +173,11 @@ sub = ap.add_subparsers(dest="action", required=True)
 s = sub.add_parser("start");s.add_argument("--chunks", type=int, default=12);s.add_argument("--tag", required=True)
 s.add_argument("--family", required=True);s.add_argument("--engine", choices=("original", "port"), required=True)
 s.add_argument("--python", default=sys.executable)
+s.add_argument("--mask", help="family.py --mask (the display profile's families/display/mask.json for a strict original reference)")
 s.add_argument("--slots", type=int, default=16)
 j = sub.add_parser("join");j.add_argument("--tag", required=True)
+j.add_argument("--keep-failed", nargs="*", help="ids whose not-completed record is joined as recorded (named, never silent)")
+j.add_argument("--out", help="repository-relative output file (default family-<tag>.jsonl)")
 r = sub.add_parser("resume");r.add_argument("--tag", required=True);r.add_argument("--slots", type=int, default=16)
 y = sub.add_parser("sync");y.add_argument("--tag", required=True);y.add_argument("--every", type=int, default=900)
 a = ap.parse_args()
