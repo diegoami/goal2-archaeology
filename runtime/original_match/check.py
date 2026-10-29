@@ -59,6 +59,14 @@ EXPECTED_FAMILY = {   # seed: [score, ticks, draws, draws digest] (E032)
 # not independent evidence; a machine that gives another digest plays another match from the same inputs.
 EXPECTED_INTERACTIVE = "0078fad9859d4b4083a88707785e2cf0a49e1b6cddfa48bfec5aa765590e592f"
 EXPECTED_KNOCKOUT = "7de611c6dec2508bf8504a83a2c680fd253c1ff798ad2c9e1e6db79592034049"
+# [designed: T78d, the parent T78's "their digests without the screen"] The same two digests with the
+# board's screen left out, as the original engine gives them (`--no-screen` on the original: the
+# original is the arbiter; experiments/E036-match-port/out/T78/check-original-noscreen-v1.json).
+EXPECTED_INTERACTIVE_NO_SCREEN = "8de3af19448095441a67f5776c13ec4fb47330d747fc16d71c9f77c01ed15d1b"
+EXPECTED_KNOCKOUT_NO_SCREEN = "f5d846d69d1e507bab11ca6e43b0016934e05cca89d4c6ddbb2134d812f20869"
+# Whether the digests take the board's screen: the port compares without it (its board screen is not
+# the original's bytes; T78's records and compare.py --no-screen likewise), or --no-screen.
+SCREEN = True
 REFERENCE_FIXTURE = Fixture(first=7, second=19, index=21)
 MATCH = Match                  # the port mode: a Match with the ports given (ported()), here and in example.py
 
@@ -81,7 +89,7 @@ def result_digest(r):
     """A digest of what a match produced: score, events, the board, the commentary, the squads and the seed."""
     keep = {k: r[k] for k in ("score", "half_time_score", "goals", "bookings", "sendings_off", "injuries",
                               "substitutions", "man_of_the_match", "ticks", "seed_after", "squads_after")}
-    keep["board"] = {k: r["board"][k] for k in ("statistics", "bars", "screen_sha256")}
+    keep["board"] = {k: r["board"][k] for k in ("statistics", "bars") + (("screen_sha256",) if SCREEN else ())}
     keep["commentary"] = [c["text"] for c in r["commentary"]]
     return hashlib.sha256(json.dumps(keep, sort_keys=True).encode()).hexdigest()
 
@@ -103,7 +111,10 @@ def engine(image):
            "man_of_the_match": r["man_of_the_match"], "draws_digest": r["draws_digest"],
            "board_screen_sha256": r["board"]["screen_sha256"],
            "commentary_last199_sha256": hashlib.sha256(lines.encode()).hexdigest()}
-    return got == EXPECTED_ENGINE, {k: (got[k], EXPECTED_ENGINE[k]) for k in got if got[k] != EXPECTED_ENGINE[k]}
+    want = dict(EXPECTED_ENGINE)
+    if not SCREEN:
+        del got["board_screen_sha256"], want["board_screen_sha256"]
+    return got == want, {k: (got[k], want[k]) for k in got if got[k] != want[k]}
 
 
 def family(image):
@@ -137,8 +148,9 @@ def family(image):
 def interactive(image):
     straight = result_digest(example.play(image, quiet=True, resume_at=None))
     resumed = result_digest(example.play(image, quiet=True, resume_at=60))
-    ok = straight == resumed and (EXPECTED_INTERACTIVE is None or straight == EXPECTED_INTERACTIVE)
-    return ok, {"straight": straight, "resumed": resumed, "expected": EXPECTED_INTERACTIVE}
+    expected = EXPECTED_INTERACTIVE if SCREEN else EXPECTED_INTERACTIVE_NO_SCREEN
+    ok = straight == resumed and (expected is None or straight == expected)
+    return ok, {"straight": straight, "resumed": resumed, "expected": expected, "screen": SCREEN}
 
 
 def goal_problems(events, result):
@@ -233,9 +245,9 @@ def knockout(image):
         problems.append(f"not decided on penalties: extra time {r['extra_time']}, shoot-out {so}")
     elif r["winner"] != (0 if so["score"][0] > so["score"][1] else 1):
         problems.append(f"winner {r['winner']} is not the side ahead on penalties {so['score']}")
-    ok = len(set(digests.values())) == 1 and not problems and (
-        EXPECTED_KNOCKOUT is None or digests["straight"] == EXPECTED_KNOCKOUT)
-    return ok, {"digests": digests, "expected": EXPECTED_KNOCKOUT, "problems": problems,
+    expected = EXPECTED_KNOCKOUT if SCREEN else EXPECTED_KNOCKOUT_NO_SCREEN
+    ok = len(set(digests.values())) == 1 and not problems and (expected is None or digests["straight"] == expected)
+    return ok, {"digests": digests, "expected": expected, "screen": SCREEN, "problems": problems,
                 "score": r["score"], "score_90": r["score_90"], "shootout": so and so["score"], "winner": r["winner"]}
 
 
@@ -248,6 +260,7 @@ def parser():
     ap.add_argument("--engine", choices=("original", "port"), default="original")
     ap.add_argument("--no-unicorn", action="store_true", help="run in a fresh interpreter with Unicorn imports positively denied; requires --engine port")
     ap.add_argument("--json")
+    ap.add_argument("--no-screen", action="store_true", help="compare without the board's screen (implied by --engine port)")
     ap.add_argument("--ports", help="the port mode: port modules (port/) to run in place of the original's routines, "
                                     "comma-separated, or all")
     ap.add_argument("--variant", help="the port mode: MODULE.NAME, one of a port module's variants (a falsifier)")
@@ -317,7 +330,7 @@ def _takes_a_slot(argv=None):
 def main(argv=None):
     ap = parser()
     a = ap.parse_args(argv)
-    global MATCH
+    global MATCH, SCREEN
     try:
         specs = validate(a)
     except Refused as e:
@@ -332,6 +345,10 @@ def main(argv=None):
     data = load_image(a)
     image = Image.from_bytes(data)
     report = {"kit": VERSION, "image_sha256": hashlib.sha256(data).hexdigest(), "reference": REFERENCE, "checks": {}}
+    SCREEN = not (a.no_screen or a.engine == "port")
+    if not SCREEN:
+        report["screen"] = False
+        print("digests without the board's screen", flush=True)
     if a.engine != "original":
         report["engine"] = a.engine
     if specs:
