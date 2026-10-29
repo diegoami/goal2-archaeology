@@ -50,7 +50,7 @@ records, families, compare_module, family = isolated_import(E036, ("records", "f
 from original_match.check import EXPECTED_FAMILY  # noqa: E402
 
 COMPARE = E036 / "compare.py"
-FAMILIES = families.discover()
+FAMILIES = {f.name: f for f in families.select("ALL", families.discover())}   # the admitted families: ALL leaves T79's sheet out
 EXPECTED = {mid: d for fam in FAMILIES.values() for mid, d in fam.expected().items()}
 F40 = sorted(FAMILIES["F40"].expected())
 IMAGE = families.image_sha256()
