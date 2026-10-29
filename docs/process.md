@@ -271,3 +271,20 @@ labelled `triage:needed` and `from-goal2`; rule 14 lists it at the start of ever
   (then it comes to the owner with the proposed assumption).
 - The answer travels by section 14: a finding, a register branch and handover, and an issue in goal2. Static first
   (rule 22); nothing of the original goes across beyond the identifiers a row needs (rule 18).
+
+## 16. Stop and resume
+
+[designed: owner, 2026-10-29] Every task is resumable and cut into milestones, so a crash, a reboot
+or a stop loses at most the unit in progress.
+- **Milestones.** A task names its milestones (for example: runs recorded, checks passed, receipts,
+  PR green, merged). Reaching one means its outputs are committed and pushed (anything holding
+  original bytes goes to the owner's Drive, never to git) and a checkpoint comment on the task's
+  issue says which milestone is reached and what comes next.
+- **Long runs** write append-only records (as `family.py --out` does: a resumed run skips the matches
+  already recorded and never rewrites a line), are started through `tools/heavy.sh`, and have a resume
+  command that restarts only what is missing; their records are pushed while they run (rule 20's
+  thirty minutes at most), not only at the end. Example: T78d's
+  `experiments/E036-match-port/out/T78/family_chunks_v1.py` (`start`, `sync`, `resume`, `join`).
+- **Resuming** reads the latest checkpoint comment, rechecks live heads and checks, and continues
+  from the next milestone. A run found stopped is resumed, never assumed to have passed.
+
