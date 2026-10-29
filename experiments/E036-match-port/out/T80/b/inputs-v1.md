@@ -25,3 +25,14 @@ not read from the heap here (the commentary's texts are in the initialised data,
 Open for T80b: which of these goal2 passes as records (players, countries, fixtures, the game record,
 the variables) and which the engine builds itself (the squads' name lists from the player records;
 the screen and buffers blank, as no result depends on them: the comparisons exclude the screen).
+
+## The probe: tables plus state only
+
+`minimal_image_v1.py`: a memory image that is zero except T80a's tables (43,172 bytes at their image
+positions) and the read map's 20,500 state bytes, taken from the reference image (52,297 non-zero
+bytes in all, of 1.1 MB). E034-03's straight drive from it equals the drive from the full image in its
+831 events (the same digest), the score, the 110,835 draws and every field of the result; the only
+field that differs is `image_sha256`, the result's digest of its own input image
+(`minimal-image-v1.json`), so v2 compares the result without it: `equal: true`
+(`minimal-image-v2.json`). The build guard is bypassed in the probe only, because it zeroes the code
+on purpose. Still to show: the family (T80b's Done-when runs the kit's check from records).
