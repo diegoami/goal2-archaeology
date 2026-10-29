@@ -30,6 +30,7 @@ examples and hashes do not establish natural frequency, net tactical benefit or 
 | Which suspected defects remain? | [Arithmetic audit](audit-arithmetic.md), [record/evidence audit](audit-records.md), [caller boundaries](audit-boundaries.md), [integration register](audit-integration.md), and linked live issues |
 | What did the probes establish? | [Micro-probes](micro-probes.md): six geometry cases, controls and explicit state differences |
 | What should be measured next, and at what cost? | Historical [design](experiment-design.md)/[budget](experiment-budget.md), then the owner-deferred [T107 revision proposal](t107-revision-proposal.md) |
+| How can this code become more readable, and what must remain exact? | [Compatibility obligations](rewrite-contract.md), [four code sketches/options](rewrite-options.md), [costed recommendation/prototype proposal](rewrite-assessment.md) |
 | What is the full inventory and existing evidence scope? | [Inventory](inventory.md), then its source/evidence census |
 
 For a first reading, use match flow → attributes/strength → positioning/marking/movement →

@@ -1,0 +1,7 @@
+{
+  "producer": "24676df2",
+  "attempt": "initial nohup background launches",
+  "reported_pids": [80312, 80313],
+  "observed": "Both PIDs absent at the first survival check; both v1 logs empty, no exit receipts, all heavy slots free.",
+  "disposition": "Retain the empty v1 logs. Replacement foreground-managed setsid sessions write new v2 paths. No completion or engine result is claimed for the initial launches."
+}

@@ -1,0 +1,76 @@
+{
+  "execution_head": "8af8261b7fea7522a2c2ad217a35c6de722fb931",
+  "results": [
+    {
+      "baseline_argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "/home/diego/projects/goal2-archaeology/notes/engine-study/T110/check.py",
+        "--task",
+        "T110a",
+        "--controls"
+      ],
+      "baseline_exit": 1,
+      "baseline_stderr": "Traceback (most recent call last):\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T110/check.py\", line 101, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T110/check.py\", line 94, in main\n    p=a.ledger or ROOT/f'notes/engine-study/T110/{a.task}-v1.json';d=json.loads(p.read_text())\n                                                                                ^^^^^^^^^^^^^\n  File \"/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py\", line 1027, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py\", line 1013, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/home/diego/projects/goal2-archaeology/notes/engine-study/T110/T110a-v1.json'\n",
+      "labelled_mock": "accepted only structurally; not evidence",
+      "production_mock_exit": 1,
+      "structural_negatives": [
+        "missing-row",
+        "missing-source",
+        "missing-limit",
+        "missing-obligation",
+        "wrong-quote",
+        "mock-as-evidence"
+      ],
+      "task": "T110a"
+    },
+    {
+      "baseline_argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "/home/diego/projects/goal2-archaeology/notes/engine-study/T110/check.py",
+        "--task",
+        "T110b",
+        "--controls"
+      ],
+      "baseline_exit": 1,
+      "baseline_stderr": "Traceback (most recent call last):\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T110/check.py\", line 101, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T110/check.py\", line 94, in main\n    p=a.ledger or ROOT/f'notes/engine-study/T110/{a.task}-v1.json';d=json.loads(p.read_text())\n                                                                                ^^^^^^^^^^^^^\n  File \"/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py\", line 1027, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py\", line 1013, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/home/diego/projects/goal2-archaeology/notes/engine-study/T110/T110b-v1.json'\n",
+      "labelled_mock": "accepted only structurally; not evidence",
+      "production_mock_exit": 1,
+      "structural_negatives": [
+        "missing-row",
+        "missing-source",
+        "missing-limit",
+        "missing-obligation",
+        "wrong-quote",
+        "mock-as-evidence"
+      ],
+      "task": "T110b"
+    },
+    {
+      "baseline_argv": [
+        "/home/diego/.local/bin/python3.12",
+        "-B",
+        "/home/diego/projects/goal2-archaeology/notes/engine-study/T110/check.py",
+        "--task",
+        "T110c",
+        "--controls"
+      ],
+      "baseline_exit": 1,
+      "baseline_stderr": "Traceback (most recent call last):\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T110/check.py\", line 101, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/diego/projects/goal2-archaeology/notes/engine-study/T110/check.py\", line 94, in main\n    p=a.ledger or ROOT/f'notes/engine-study/T110/{a.task}-v1.json';d=json.loads(p.read_text())\n                                                                                ^^^^^^^^^^^^^\n  File \"/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py\", line 1027, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/diego/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py\", line 1013, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/home/diego/projects/goal2-archaeology/notes/engine-study/T110/T110c-v1.json'\n",
+      "labelled_mock": "accepted only structurally; not evidence",
+      "production_mock_exit": 1,
+      "structural_negatives": [
+        "missing-row",
+        "missing-source",
+        "missing-limit",
+        "missing-obligation",
+        "wrong-quote",
+        "mock-as-evidence",
+        "wrong-cost-sum"
+      ],
+      "task": "T110c"
+    }
+  ],
+  "scope": "Pre-dispatch absent rejection, labelled structural mocks and mock-evidence refusal; no engine calls."
+}

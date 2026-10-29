@@ -1,0 +1,938 @@
+{
+  "mode": "taps",
+  "head": "1bc7720e48d0b298e6c34dbb4e9c7ac9a218ccde",
+  "python": "3.12.14 (main, Sep  1 2026, 14:16:52) [Clang 22.1.3 ]",
+  "events": 831,
+  "events_sha256": "aa402fb8c2fd912c6bed8150ee79de0c4429c3bb2835651cfeaa6c2ebd7f1dd1",
+  "score": [
+    1,
+    1
+  ],
+  "draws": 110835,
+  "result_sha256": "b08217dfc263e5406fe960e6a31dbae42770deb94f81b6ef339f2e1fac0eb289",
+  "memory_sha256": "f308151e71b9c2559734d46c10b1b8890f2b1497fc59fa26cbffb6d83d7daaa6",
+  "drive_cpu_s": 400.121844911,
+  "drive_wall_s": 400.16430754199973,
+  "stretches": 553,
+  "longest_stretch": {
+    "context": [
+      "run_match",
+      "shootout",
+      120
+    ],
+    "cpu_s": 63.983884707000016,
+    "wall_s": 63.99237779600662
+  },
+  "stretches_over_1s": [
+    {
+      "context": [
+        "run_match",
+        "match",
+        0
+      ],
+      "cpu_s": 1.0782847409999998,
+      "wall_s": 1.078379465994658
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        0
+      ],
+      "cpu_s": 3.689114228,
+      "wall_s": 3.6894990489963675
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        1
+      ],
+      "cpu_s": 3.6723966299999997,
+      "wall_s": 3.672685569996247
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        2
+      ],
+      "cpu_s": 1.1747736429999982,
+      "wall_s": 1.1748668929940322
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        2
+      ],
+      "cpu_s": 1.1936500899999984,
+      "wall_s": 1.1937390130042331
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        4
+      ],
+      "cpu_s": 1.4119428640000002,
+      "wall_s": 1.4120480739948107
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        5
+      ],
+      "cpu_s": 1.0083067339999943,
+      "wall_s": 1.0084163319988875
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        5
+      ],
+      "cpu_s": 3.410462434000003,
+      "wall_s": 3.410719553998206
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        5
+      ],
+      "cpu_s": 1.1269828919999938,
+      "wall_s": 1.1270666630007327
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        6
+      ],
+      "cpu_s": 1.1808484850000056,
+      "wall_s": 1.1809363210049924
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        6
+      ],
+      "cpu_s": 2.4799196620000004,
+      "wall_s": 2.4801095470029395
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        6
+      ],
+      "cpu_s": 3.602622734999997,
+      "wall_s": 3.6028935969952727
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        6
+      ],
+      "cpu_s": 2.3189175489999982,
+      "wall_s": 2.31911258699256
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        8
+      ],
+      "cpu_s": 1.1607947870000004,
+      "wall_s": 1.160899591006455
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        8
+      ],
+      "cpu_s": 1.1586520090000008,
+      "wall_s": 1.1587446479970822
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        9
+      ],
+      "cpu_s": 1.8688103340000026,
+      "wall_s": 1.8690242050070083
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        9
+      ],
+      "cpu_s": 2.2380846140000017,
+      "wall_s": 2.238426273994264
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        10
+      ],
+      "cpu_s": 1.3592683600000015,
+      "wall_s": 1.3593782730022212
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        10
+      ],
+      "cpu_s": 2.4077177779999914,
+      "wall_s": 2.4079005230014445
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        10
+      ],
+      "cpu_s": 1.6361474429999987,
+      "wall_s": 1.6362983869912568
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        11
+      ],
+      "cpu_s": 1.7241804760000008,
+      "wall_s": 1.7243220639938954
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        11
+      ],
+      "cpu_s": 2.0324112190000108,
+      "wall_s": 2.032602777995635
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        11
+      ],
+      "cpu_s": 2.3327430700000065,
+      "wall_s": 2.3329292779963
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        12
+      ],
+      "cpu_s": 1.0939633720000046,
+      "wall_s": 1.0941193049948197
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        12
+      ],
+      "cpu_s": 2.2696621319999934,
+      "wall_s": 2.2698691560071893
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        13
+      ],
+      "cpu_s": 1.7527200430000107,
+      "wall_s": 1.7528981659997953
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        14
+      ],
+      "cpu_s": 1.0783008350000074,
+      "wall_s": 1.0784112600085791
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        14
+      ],
+      "cpu_s": 3.4281035730000013,
+      "wall_s": 3.4284337959979894
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        15
+      ],
+      "cpu_s": 1.4239246630000082,
+      "wall_s": 1.4240862489969004
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        15
+      ],
+      "cpu_s": 2.256662087999999,
+      "wall_s": 2.256894834994455
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        15
+      ],
+      "cpu_s": 2.8263331619999974,
+      "wall_s": 2.8266372039943235
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        16
+      ],
+      "cpu_s": 1.401419556999997,
+      "wall_s": 1.4015593140065903
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        16
+      ],
+      "cpu_s": 1.367360351000002,
+      "wall_s": 1.3675061070098309
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        17
+      ],
+      "cpu_s": 1.0905309080000052,
+      "wall_s": 1.0906268969993107
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        17
+      ],
+      "cpu_s": 1.0237185539999984,
+      "wall_s": 1.0238542310107732
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        18
+      ],
+      "cpu_s": 1.6052670729999932,
+      "wall_s": 1.6053994829999283
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        18
+      ],
+      "cpu_s": 2.359891272999988,
+      "wall_s": 2.360096397009329
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        18
+      ],
+      "cpu_s": 1.9276856089999796,
+      "wall_s": 1.9278500249929493
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        19
+      ],
+      "cpu_s": 2.2523563500000137,
+      "wall_s": 2.2526223360036965
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        19
+      ],
+      "cpu_s": 3.0287990419999744,
+      "wall_s": 3.029164015999413
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        19
+      ],
+      "cpu_s": 2.7664679909999847,
+      "wall_s": 2.7667472660104977
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        20
+      ],
+      "cpu_s": 2.6746145589999912,
+      "wall_s": 2.6750759429996833
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        20
+      ],
+      "cpu_s": 1.6350512350000201,
+      "wall_s": 1.6354103549965657
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        21
+      ],
+      "cpu_s": 3.1600567030000093,
+      "wall_s": 3.160414997008047
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        21
+      ],
+      "cpu_s": 1.8751538599999833,
+      "wall_s": 1.8754289070056984
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        22
+      ],
+      "cpu_s": 5.411128684999994,
+      "wall_s": 5.411809630997595
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        23
+      ],
+      "cpu_s": 2.1197829160000197,
+      "wall_s": 2.1200648820085917
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        23
+      ],
+      "cpu_s": 2.676511251999983,
+      "wall_s": 2.677116450999165
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        23
+      ],
+      "cpu_s": 1.7579481839999858,
+      "wall_s": 1.7580911949917208
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        24
+      ],
+      "cpu_s": 1.1144678779999992,
+      "wall_s": 1.1145772989984835
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        24
+      ],
+      "cpu_s": 3.650659389999987,
+      "wall_s": 3.651118455993128
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        25
+      ],
+      "cpu_s": 1.6562622639999915,
+      "wall_s": 1.656473584997002
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        25
+      ],
+      "cpu_s": 1.0491280029999928,
+      "wall_s": 1.0493010759964818
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        26
+      ],
+      "cpu_s": 2.263401031000001,
+      "wall_s": 2.263608345994726
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        26
+      ],
+      "cpu_s": 1.588876331000023,
+      "wall_s": 1.5890530010074144
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        27
+      ],
+      "cpu_s": 1.0946345070000234,
+      "wall_s": 1.0947686120052822
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        27
+      ],
+      "cpu_s": 1.2594765130000098,
+      "wall_s": 1.2596004020015243
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        28
+      ],
+      "cpu_s": 1.5689564489999839,
+      "wall_s": 1.5691309539979557
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        28
+      ],
+      "cpu_s": 1.7339413660000105,
+      "wall_s": 1.7341157310002018
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        29
+      ],
+      "cpu_s": 2.9046320019999996,
+      "wall_s": 2.9048847160011064
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        29
+      ],
+      "cpu_s": 3.3809824089999836,
+      "wall_s": 3.381278091997956
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        30
+      ],
+      "cpu_s": 3.799624095999974,
+      "wall_s": 3.8000223700073548
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        30
+      ],
+      "cpu_s": 1.4628909200000066,
+      "wall_s": 1.463024595999741
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        31
+      ],
+      "cpu_s": 1.033459970999985,
+      "wall_s": 1.033685880000121
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        31
+      ],
+      "cpu_s": 1.590754125999979,
+      "wall_s": 1.5908915129984962
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        31
+      ],
+      "cpu_s": 1.9584866490000081,
+      "wall_s": 1.9588045330019668
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        31
+      ],
+      "cpu_s": 1.6761777270000096,
+      "wall_s": 1.6763671310036443
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        32
+      ],
+      "cpu_s": 1.4787899910000135,
+      "wall_s": 1.4789262879930902
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        32
+      ],
+      "cpu_s": 1.1450811189999968,
+      "wall_s": 1.1451732470013667
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        33
+      ],
+      "cpu_s": 2.1028214709999986,
+      "wall_s": 2.103046351010562
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        34
+      ],
+      "cpu_s": 1.7331160200000113,
+      "wall_s": 1.733251404002658
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        34
+      ],
+      "cpu_s": 1.43157955800001,
+      "wall_s": 1.4316911740024807
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        34
+      ],
+      "cpu_s": 2.3491720009999995,
+      "wall_s": 2.349368240000331
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        36
+      ],
+      "cpu_s": 2.306656072999999,
+      "wall_s": 2.3069245039951056
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        36
+      ],
+      "cpu_s": 1.8161353240000153,
+      "wall_s": 1.816306339998846
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        37
+      ],
+      "cpu_s": 2.0754495890000157,
+      "wall_s": 2.075679975008825
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        37
+      ],
+      "cpu_s": 1.0057026679999694,
+      "wall_s": 1.005825818006997
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        37
+      ],
+      "cpu_s": 1.188284877000001,
+      "wall_s": 1.1883966289897216
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        38
+      ],
+      "cpu_s": 3.4877660270000206,
+      "wall_s": 3.48807540400594
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        39
+      ],
+      "cpu_s": 1.6219579290000183,
+      "wall_s": 1.622112544006086
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        39
+      ],
+      "cpu_s": 1.0318228180000233,
+      "wall_s": 1.0319329159974586
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        40
+      ],
+      "cpu_s": 1.0824142119999465,
+      "wall_s": 1.0824928360088961
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        41
+      ],
+      "cpu_s": 2.0714937210000244,
+      "wall_s": 2.0716764390090248
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        41
+      ],
+      "cpu_s": 1.8667842629999996,
+      "wall_s": 1.8668706409953302
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        42
+      ],
+      "cpu_s": 1.6136499969999818,
+      "wall_s": 1.6137826110061724
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        42
+      ],
+      "cpu_s": 2.0092393540000444,
+      "wall_s": 2.0094270320114447
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        42
+      ],
+      "cpu_s": 1.6147224229999892,
+      "wall_s": 1.614799012997537
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        43
+      ],
+      "cpu_s": 1.3157181899999841,
+      "wall_s": 1.315770353001426
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        43
+      ],
+      "cpu_s": 3.1551545879999594,
+      "wall_s": 3.155469927995
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        44
+      ],
+      "cpu_s": 1.4797653420000074,
+      "wall_s": 1.4799713810061803
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        44
+      ],
+      "cpu_s": 1.1317242140000303,
+      "wall_s": 1.131854677994852
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        44
+      ],
+      "cpu_s": 2.8234201429999644,
+      "wall_s": 2.8239631739998003
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        45
+      ],
+      "cpu_s": 3.7035005110000156,
+      "wall_s": 3.703900930006057
+    },
+    {
+      "context": [
+        "run_match",
+        "match",
+        46
+      ],
+      "cpu_s": 2.2538960809999935,
+      "wall_s": 2.2541830279951682
+    },
+    {
+      "context": [
+        "run_match",
+        "shootout",
+        120
+      ],
+      "cpu_s": 63.983884707000016,
+      "wall_s": 63.99237779600662
+    }
+  ],
+  "taps": {
+    "sha256": "76ac2f951bbed7bff94c4cfd1a2413de7207b47f027b141d35caf498f9f46647",
+    "counts": {
+      "io": 158092779,
+      "listen_enter": 114492,
+      "listen_leave": 114492,
+      "site_enter": 81134,
+      "site_leave": 81134,
+      "write": 4
+    }
+  },
+  "source_sha256": {
+    "runtime/original_match/__init__.py": "b1286fdd13e3862f5e21c91c9879a1de078199c6180328e78bcde28f5ac12d5c",
+    "runtime/original_match/assets.py": "fb5da2f045c06e3a54d5fe162a89947969d547b3d0dca4d8ed716ea380250685",
+    "runtime/original_match/build.py": "e3b7c45b7442115361a6bfbded6f954749eea4e31e4f45714684bc2b071a6b41",
+    "runtime/original_match/check.py": "02260e09fba35b110be79c4b676ba1820ea3ea92a323ff0c8f4dda9731e16604",
+    "runtime/original_match/example.py": "d17a104f8c08635fb8a3ff61f6113aa56a902b88aef5fcceaf32ab27790bbacf",
+    "runtime/original_match/image.py": "0b6c8a98c0d4fabdfe63be52561dd2afc56a4f0a8238e8ccc06dfd33e78e35a9",
+    "runtime/original_match/machine.py": "c01aa890626ac0235f6e1a40dec93475624a5f09d426bdb6f701b37ceb6c2db1",
+    "runtime/original_match/match.py": "103478a380ece9504f4368cf4d5d40934f2f944dadb46ebe0a0b6341f849f9e0",
+    "runtime/original_match/port/__init__.py": "755c1d44d453854d04733ea1678ad588b23c45152d84336168c8342f9bc760e6",
+    "runtime/original_match/port/_display_finals.py": "32ad22c55be46cd6ce22ac105070f5938f94d013f3ea41d26df967d8bcf02325",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "runtime/original_match/port/ball.py": "6b5f17ee9af3bf7dbb2bae4bd5ae00e1a012f6d6cf6e6e3c2cdd8464a7e2c72a",
+    "runtime/original_match/port/contests.py": "b4db099959a09a1dcb78f031e9a44dc64624a5ffd8ea7b0be3441298bb0ec40e",
+    "runtime/original_match/port/discipline.py": "a8ee74a7336ebd3d8c85ee71cbb6a089fca45fc0c05ee3efec866d798649fdcd",
+    "runtime/original_match/port/display.py": "33b298ead7c58815b9463a39f14e0ba862c81a3af02d53cd5f6184b0f4d8da5e",
+    "runtime/original_match/port/duels.py": "37fe8ea7dec6c3aff8c80d26367d3225460af037a839912e98b4e6217dd739b6",
+    "runtime/original_match/port/engine.py": "5b82528f92309934a7b2010f404bd5787cb13ea08a32463c8fd3b6679e9c48a3",
+    "runtime/original_match/port/entrypoints.py": "a55d378798ed5ec2c33404739b0961b8fec1e6167d1d301f5512cced4063b5b7",
+    "runtime/original_match/port/frame.py": "d4c0cd4753038d6058f8359818164ce8cd0be775191fc8338f9a7ec9849b3a6a",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "runtime/original_match/port/guest.py": "1c2f1eba101c7ce08cb7d23d273d69411ec4dcbfd1512427042c304a2721c8d9",
+    "runtime/original_match/port/mem.py": "0105113f8102a3e8c3544942a445e156fecc0196f7911089e7f789a7775fe45c",
+    "runtime/original_match/port/menus.py": "ea87406a9f0300d0d54c3f71d664a8ed2925505fb133b59a481e8fc5f098f053",
+    "runtime/original_match/port/motion.py": "4e7bab13c1e196464ecb41fd2ddb3a41878c217885c238fd2e80cd8329746eb2",
+    "runtime/original_match/port/pilot.py": "700a8bf56db7adcccd6d011b0e26d0a06599c24fbc451e44fee033b8e56e0863",
+    "runtime/original_match/port/positioning.py": "6a8feb436f745149a010db472a1aed04569d897875cd966eb434a6170b7f839e",
+    "runtime/original_match/port/postmatch.py": "32035e9d055055cc29ba6dedbb38ceda3ac18ea6cc5d2a40605450086f41f86e",
+    "runtime/original_match/port/prove.py": "74e7724eaf93206e4070b9bc41d2f04cf546e177b6a9718451da6476a313e8d7",
+    "runtime/original_match/port/quick.py": "28836a578a2937b72a4fff05ab315bb0a9f665f24cf79e5a14bd4da710432590",
+    "runtime/original_match/port/rare.py": "588b6fc3430a0e674664d9bf8f165bdf31779f240ac783f0490e5f4c5be1d66e",
+    "runtime/original_match/port/real.py": "dbd3e488d8959924ffedeb58f8afec62ffa4c71a35116d7dd72c307a30dcd1f9",
+    "runtime/original_match/port/restarts.py": "c378834575a59d89f31fea8f9ee5ffca7daaf98754a36e848164bb819ad87977",
+    "runtime/original_match/port/runtime.py": "0a03827635ec11e2edf31fe9344ac56363bd6aadbe15e09f8ccfee4c384e6b1d",
+    "runtime/original_match/port/selection.py": "4a2ac1e0868d44f0e58dfcf31b1df1c3f1171edf4a511d4695e73fb7ee9ef382",
+    "runtime/original_match/port/setup.py": "0f703063621cd8a96d9ac0acde56da89754aa885a3d94d9333991a115e8185e2",
+    "runtime/original_match/port/takers.py": "fcd182d4543af18a0def9e16773cd317939fd0ca37559f941b499bf9ab40d7b8",
+    "runtime/original_match/port/update.py": "0a4b3f58a48aec4fc69a229410e566af2144cc9e7153cbfd604da1557deb36b2",
+    "runtime/original_match/screens.py": "45c220305d3e9bbbb4680edbb29fee6d6526d6521fbeea67a969d7b8daf7b304",
+    "experiments/E033-original-match-kit/save_boundaries.py": "e5b6fc2452e7d26809a73db8ead5a1561c5b0a23a72b2d63caff3a1bc9832af9",
+    "experiments/E036-match-port/out/T117/drive_receipt_v1.py": "d384d13a4f4fc71a452d3939a51a574df93f8cd9acfc2d9708080770eeee58c6"
+  },
+  "source_unchanged": true,
+  "diagnostic_not_acceptance": true
+}

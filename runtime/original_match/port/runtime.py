@@ -66,39 +66,26 @@ class Regs:
     collected and written to memory by flush()/store() in runs (one write for a frame's contiguous words): a direct write of
     the port to its own frame's locals is preceded by flush()."""
     _NAMES = ("ax", "bx", "cx", "dx", "si", "di", "es", "sp", "bp")
+    _NAME_SET = frozenset(_NAMES)       # T117: the same names, for the membership tests on every access
     __slots__ = ("_mem", "_v", "_dirty", "_flags_on", "_flags_off", "_ss", "_pending", "_bps", "_fresh")
 
     def __init__(self, mem, resumed=False):
         """resumed: after a guest call the machine's SP is where the port left it (stored before the call); else it is
         the entry's, which the port frame has (no read)."""
-        object.__setattr__(self, "_fresh", not resumed)
-        object.__setattr__(self, "_mem", mem)
-        object.__setattr__(self, "_v", {})
-        object.__setattr__(self, "_dirty", set())
-        object.__setattr__(self, "_flags_on", 0)
-        object.__setattr__(self, "_flags_off", 0)
-        object.__setattr__(self, "_ss", None)
-        object.__setattr__(self, "_pending", [])
-        object.__setattr__(self, "_bps", [])
+        # Plain slot assignments: Regs has no __setattr__ of its own since T117.
+        self._fresh = not resumed
+        self._mem = mem
+        self._v = {}
+        self._dirty = set()
+        self._flags_on = 0
+        self._flags_off = 0
+        self._ss = None
+        self._pending = []
+        self._bps = []
 
     def __getattr__(self, name):
-        if name not in Regs._NAMES:
-            raise AttributeError(name)
-        v = self._v.get(name)
-        if v is None:
-            if name == "sp" and self._fresh:
-                v = self._mem._entries[-1][0]
-            else:
-                v = self._mem.reg(name) & M16
-            self._v[name] = v
-        return v
-
-    def __setattr__(self, name, value):
-        if name in Regs._NAMES:
-            self._v[name] = value & M16
-            self._dirty.add(name)
-        else:
-            object.__setattr__(self, name, value)     # al, ah
+        # T117: the registers are properties (below); this is reached for any other missing name only.
+        raise AttributeError(name)
 
     @property
     def al(self):
@@ -220,6 +207,30 @@ class Regs:
             object.__setattr__(self, "_flags_on", 0)
             object.__setattr__(self, "_flags_off", 0)
 
+
+
+def _register_property(name):
+    """[T117] A Regs register as a property, doing what Regs.__getattr__/__setattr__ did: read from the
+    machine when first used (SP of a fresh frame from the entry), masked to 16 bits at every assignment."""
+    def get(self):
+        v = self._v.get(name)
+        if v is None:
+            if name == "sp" and self._fresh:
+                v = self._mem._entries[-1][0]
+            else:
+                v = self._mem.reg(name) & M16
+            self._v[name] = v
+        return v
+
+    def put(self, value):
+        self._v[name] = value & M16
+        self._dirty.add(name)
+    return property(get, put)
+
+
+for _name in Regs._NAMES:
+    setattr(Regs, _name, _register_property(_name))
+del _name
 
 def invoke(mem, R, cs_paragraph, ret_ip, core, *args, pushes=()):
     """`push w1; ... push wn; push cs; call core` (or `call far core`): the words, the segment (None for a near call) and
