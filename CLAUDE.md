@@ -13,12 +13,13 @@ indexed in `docs/tasks/README.md`.
 kept on the branch `local`.
 
 ## Working rules
-1. [designed: owner correction, 2026-10-26] The main session plans, triages, implements, verifies
-   and merges on `gpt-6.1-sol` at `high`. It may sparingly spawn a `gpt-6.1-sol` / `xhigh` agent
-   for only the hardest, narrowly scoped parts; it does not delegate every task. Astra is excluded
-   from implementation and review; xhigh is the Codex effort ceiling. The engine-study policy is
-   `docs/engine-study-models.md`; its independent Claude/Kimi review milestones remain in force.
-   Codex follows the same rules from `AGENTS.md`.
+1. [designed: owner, 2026-10-29] No model is fixed. The main session plans, triages, implements,
+   verifies and merges on whichever model the owner runs it on, and implements itself or spawns a
+   helper on its own judgment; the owner names a model only when they want a specific one. This
+   retires the 2026-10-26 Sol/high correction and the model lines in earlier task files, which
+   record history only. An independent review is by a model that did not author the deliverables,
+   of another family than the author's (`docs/engine-study-models.md`). Codex follows the same
+   rules from `AGENTS.md`.
 2. Work on a branch in the checkout at hand; one task at a time per checkout. No worktrees. Locally
    a task branch `task/T<nn>-<slug>`; in a cloud session the session's own `claude/…` branch, for
    every task of that session (process.md §3). Never `git stash`, never force-push, never rewrite

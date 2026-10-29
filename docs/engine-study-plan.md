@@ -102,16 +102,13 @@ do not launch the reviewer or begin ES-R2-gated pitch work in this execution run
 
 ## Main-session implementation and targeted help
 
-[designed: owner correction, 2026-10-26] Do all implementation and analysis in the main session
-on `gpt-6.1-sol` at `high`. Sparingly use a separate `gpt-6.1-sol` / `xhigh` agent for only the
-hardest, narrowly scoped subproblems after working them at high. No task automatically requires
-delegation or extra-high effort. The [main-session model policy](engine-study-models.md) supersedes
-the previous per-task model assignments, mandatory implementer spawning and Claude implementation
-alternatives. Astra is excluded; xhigh is the Codex effort ceiling.
+[designed: owner, 2026-10-29] No model is fixed: the main session works on the model the owner
+runs it on and uses helpers on its own judgment ([model policy](engine-study-models.md)), which
+supersedes the 2026-10-26 Sol/high correction and the earlier per-task model assignments.
 
-Independent milestone reviews remain Claude or Kimi reviews with model/settings selected at
-activation. T113's packet preparation and fixes use the main session at Sol/high; its reviewer
-supplies the independent verdict. Existing readiness, source/evidence, budget and milestone gates
+Independent milestone reviews are by a model of another family than the author's, selected at
+activation. T113's packet preparation and fixes use the main session; its reviewer supplies the
+independent verdict. Existing readiness, source/evidence, budget and milestone gates
 continue to apply.
 
 ## Dispatch and milestones

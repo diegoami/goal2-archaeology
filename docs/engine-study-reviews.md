@@ -37,11 +37,10 @@ Only the exact accepted SHA is tagged. Drafting a future chapter need not wait; 
 publication that relies on a gated claim waits for its checkpoint. Dependencies below express
 that constraint; they do not alter the repository's migration/delivery scheduling priority.
 
-Use an independent Claude or Kimi reviewer who did not author the deliverables under review.
-The owner selects the actual review model/settings at activation. The corrected
-[main-session model policy](engine-study-models.md) assigns implementation and packet preparation
-to Sol/high, with rare bounded Sol/xhigh help; neither a helper nor the author supplies the
-independent verdict. The main session prepares
+Use an independent reviewer who did not author the deliverables under review, of another model
+family than the author's. The actual review model/settings are selected at activation. Under the
+[model policy](engine-study-models.md) (2026-10-29) no implementation model is fixed; neither a
+helper nor the author supplies the independent verdict. The main session prepares
 the packet, supplies evidence, handles fixes and relays findings in full; it does not substitute
 its own implementation checks for the independent verdict. No reviewer is launched by this plan.
 
