@@ -1,0 +1,116 @@
+{
+ "kit": "4",
+ "image_sha256": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d",
+ "reference": {
+  "release": "E006",
+  "asset": "e0afff6751747233-e006-1000-r0001.sav",
+  "sha256": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d"
+ },
+ "checks": {
+  "engine": {
+   "pass": true,
+   "detail": {},
+   "wall_s": 207.0,
+   "cpu_s": 207.0
+  },
+  "interactive": {
+   "pass": true,
+   "detail": {
+    "straight": "8de3af19448095441a67f5776c13ec4fb47330d747fc16d71c9f77c01ed15d1b",
+    "resumed": "8de3af19448095441a67f5776c13ec4fb47330d747fc16d71c9f77c01ed15d1b",
+    "expected": "8de3af19448095441a67f5776c13ec4fb47330d747fc16d71c9f77c01ed15d1b",
+    "screen": false
+   },
+   "wall_s": 482.7,
+   "cpu_s": 482.7
+  },
+  "goals": {
+   "pass": true,
+   "detail": {
+    "quick from minute 30": {
+     "score": [
+      1,
+      2
+     ],
+     "goals": 3,
+     "goal_events": 3,
+     "taken_back": 0,
+     "problems": []
+    },
+    "seed 70, a goal taken back": {
+     "score": [
+      1,
+      2
+     ],
+     "goals": 3,
+     "goal_events": 4,
+     "taken_back": 1,
+     "problems": []
+    }
+   },
+   "wall_s": 221.0,
+   "cpu_s": 221.0
+  },
+  "knockout": {
+   "pass": true,
+   "detail": {
+    "digests": {
+     "straight": "f5d846d69d1e507bab11ca6e43b0016934e05cca89d4c6ddbb2134d812f20869",
+     "resumed at extra time": "f5d846d69d1e507bab11ca6e43b0016934e05cca89d4c6ddbb2134d812f20869",
+     "resumed at the order": "f5d846d69d1e507bab11ca6e43b0016934e05cca89d4c6ddbb2134d812f20869"
+    },
+    "expected": "f5d846d69d1e507bab11ca6e43b0016934e05cca89d4c6ddbb2134d812f20869",
+    "screen": false,
+    "problems": [],
+    "score": [
+     0,
+     0
+    ],
+    "score_90": [
+     0,
+     0
+    ],
+    "shootout": [
+     3,
+     1
+    ],
+    "winner": 0
+   },
+   "wall_s": 1179.6,
+   "cpu_s": 1179.5
+  },
+  "family": {
+   "pass": true,
+   "detail": {},
+   "wall_s": 1789.4,
+   "cpu_s": 1789.3
+  }
+ },
+ "screen": false,
+ "engine": "port",
+ "ports": [
+  "attributes",
+  "ball",
+  "contests",
+  "discipline",
+  "display",
+  "duels",
+  "entrypoints",
+  "frame",
+  "geometry",
+  "menus",
+  "motion",
+  "pilot",
+  "positioning",
+  "postmatch",
+  "quick",
+  "rare",
+  "real",
+  "restarts",
+  "runtime",
+  "selection",
+  "setup",
+  "takers",
+  "update"
+ ]
+}

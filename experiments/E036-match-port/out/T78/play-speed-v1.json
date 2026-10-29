@@ -1,0 +1,501 @@
+{
+  "port": {
+    "path": "experiments/E036-match-port/out/T78/family-port-v2.jsonl",
+    "sha256": "3679a96acb3799faef1a1a74cdb5c650c7939beaaf332dcb296cde4778b94da9",
+    "completed": 75
+  },
+  "original": {
+    "path": "experiments/E036-match-port/out/T78/family-original-v1.jsonl",
+    "sha256": "203618de19dd7ff398e0541f4f7356798e2a7f4944ccd6fd589172ecb22b6b8d",
+    "completed": 75
+  },
+  "matches_compared": 75,
+  "port_over_original_all": {
+    "n": 75,
+    "mean": 13.62,
+    "min": 1.7,
+    "max": 18.63
+  },
+  "by_policy_and_kind": {
+    "Decisions kind 1": {
+      "matches": 1,
+      "port_cpu_s": {
+        "n": 1,
+        "mean": 228.16,
+        "min": 228.16,
+        "max": 228.16
+      },
+      "original_cpu_s": {
+        "n": 1,
+        "mean": 17.2,
+        "min": 17.2,
+        "max": 17.2
+      },
+      "port_wall_s": {
+        "n": 1,
+        "mean": 228.2,
+        "min": 228.2,
+        "max": 228.2
+      },
+      "original_wall_s": {
+        "n": 1,
+        "mean": 15.8,
+        "min": 15.8,
+        "max": 15.8
+      },
+      "port_over_original": {
+        "n": 1,
+        "mean": 13.26,
+        "min": 13.26,
+        "max": 13.26
+      },
+      "ids": [
+        "S/decisions-70"
+      ]
+    },
+    "Knockout kind 200": {
+      "matches": 1,
+      "port_cpu_s": {
+        "n": 1,
+        "mean": 244.62,
+        "min": 244.62,
+        "max": 244.62
+      },
+      "original_cpu_s": {
+        "n": 1,
+        "mean": 20.42,
+        "min": 20.42,
+        "max": 20.42
+      },
+      "port_wall_s": {
+        "n": 1,
+        "mean": 244.64,
+        "min": 244.64,
+        "max": 244.64
+      },
+      "original_wall_s": {
+        "n": 1,
+        "mean": 18.77,
+        "min": 18.77,
+        "max": 18.77
+      },
+      "port_over_original": {
+        "n": 1,
+        "mean": 11.98,
+        "min": 11.98,
+        "max": 11.98
+      },
+      "ids": [
+        "S/ko-39-budget-5"
+      ]
+    },
+    "PlayOn kind 1": {
+      "matches": 49,
+      "port_cpu_s": {
+        "n": 49,
+        "mean": 235.55,
+        "min": 207.87,
+        "max": 272.53
+      },
+      "original_cpu_s": {
+        "n": 49,
+        "mean": 16.38,
+        "min": 12.43,
+        "max": 23.53
+      },
+      "port_wall_s": {
+        "n": 49,
+        "mean": 236.27,
+        "min": 207.87,
+        "max": 276.65
+      },
+      "original_wall_s": {
+        "n": 49,
+        "mean": 14.96,
+        "min": 11.47,
+        "max": 21.15
+      },
+      "port_over_original": {
+        "n": 49,
+        "mean": 14.7,
+        "min": 9.9,
+        "max": 18.63
+      },
+      "ids": [
+        "F40/e032-0101",
+        "F40/e032-1234",
+        "F40/e032-2345",
+        "F40/e032-2b7e",
+        "F40/e032-4c1d",
+        "F40/e032-6a33",
+        "F40/e032-8e05",
+        "F40/e032-a1f0",
+        "F40/e032-c3c3",
+        "F40/e032-e719",
+        "F40/more-0042",
+        "F40/more-1111",
+        "F40/more-3a5c",
+        "F40/more-5e5e",
+        "F40/more-7f31",
+        "F40/more-9abc",
+        "F40/more-b4d2",
+        "F40/more-cafe",
+        "F40/more-d00d",
+        "F40/more-face",
+        "F40/edit-0101",
+        "F40/edit-1234",
+        "F40/edit-2345",
+        "F40/edit-2b7e",
+        "F40/edit-4c1d",
+        "F40/edit-6a33",
+        "F40/edit-8e05",
+        "F40/edit-a1f0",
+        "F40/edit-c3c3",
+        "F40/edit-e719",
+        "F40/edit-0042",
+        "F40/edit-1111",
+        "F40/edit-3a5c",
+        "F40/edit-5e5e",
+        "F40/edit-7f31",
+        "F40/edit-9abc",
+        "F40/edit-b4d2",
+        "F40/edit-cafe",
+        "F40/edit-d00d",
+        "F40/edit-face",
+        "O8/c1-c2-friendly",
+        "O8/c30-c44-friendly",
+        "O8/c64-c90-friendly",
+        "O8/c101-c120-friendly",
+        "R/watched-away-hard-4",
+        "S/reference",
+        "S/no-managed-side",
+        "S/injury-70",
+        "S/hard-4"
+      ]
+    },
+    "PlayOn kind 2": {
+      "matches": 5,
+      "port_cpu_s": {
+        "n": 5,
+        "mean": 236.79,
+        "min": 193.37,
+        "max": 282.59
+      },
+      "original_cpu_s": {
+        "n": 5,
+        "mean": 18.09,
+        "min": 12.69,
+        "max": 20.78
+      },
+      "port_wall_s": {
+        "n": 5,
+        "mean": 238.61,
+        "min": 193.37,
+        "max": 286.49
+      },
+      "original_wall_s": {
+        "n": 5,
+        "mean": 16.68,
+        "min": 11.91,
+        "max": 18.99
+      },
+      "port_over_original": {
+        "n": 5,
+        "mean": 13.27,
+        "min": 10.74,
+        "max": 15.24
+      },
+      "ids": [
+        "O8/c1-c2-qualifier",
+        "O8/c30-c44-qualifier",
+        "O8/c64-c90-qualifier",
+        "O8/c101-c120-qualifier",
+        "S/qualifier-21"
+      ]
+    },
+    "PlayOn kind 200": {
+      "matches": 2,
+      "port_cpu_s": {
+        "n": 2,
+        "mean": 283.93,
+        "min": 269.63,
+        "max": 298.24
+      },
+      "original_cpu_s": {
+        "n": 2,
+        "mean": 21.9,
+        "min": 21.35,
+        "max": 22.45
+      },
+      "port_wall_s": {
+        "n": 2,
+        "mean": 283.94,
+        "min": 269.63,
+        "max": 298.25
+      },
+      "original_wall_s": {
+        "n": 2,
+        "mean": 20.09,
+        "min": 19.6,
+        "max": 20.59
+      },
+      "port_over_original": {
+        "n": 2,
+        "mean": 12.96,
+        "min": 12.63,
+        "max": 13.29
+      },
+      "ids": [
+        "S/ko-42-sudden-death",
+        "S/ko-30-extra-time"
+      ]
+    },
+    "PlayOn kind 8": {
+      "matches": 1,
+      "port_cpu_s": {
+        "n": 1,
+        "mean": 269.12,
+        "min": 269.12,
+        "max": 269.12
+      },
+      "original_cpu_s": {
+        "n": 1,
+        "mean": 15.27,
+        "min": 15.27,
+        "max": 15.27
+      },
+      "port_wall_s": {
+        "n": 1,
+        "mean": 272.5,
+        "min": 272.5,
+        "max": 272.5
+      },
+      "original_wall_s": {
+        "n": 1,
+        "mean": 14.02,
+        "min": 14.02,
+        "max": 14.02
+      },
+      "port_over_original": {
+        "n": 1,
+        "mean": 17.62,
+        "min": 17.62,
+        "max": 17.62
+      },
+      "ids": [
+        "FS/public-stage8-holland-belgium"
+      ]
+    },
+    "Quick kind 1": {
+      "matches": 3,
+      "port_cpu_s": {
+        "n": 3,
+        "mean": 68.88,
+        "min": 4.54,
+        "max": 132.86
+      },
+      "original_cpu_s": {
+        "n": 3,
+        "mean": 5.0,
+        "min": 0.43,
+        "max": 10.26
+      },
+      "port_wall_s": {
+        "n": 3,
+        "mean": 68.88,
+        "min": 4.54,
+        "max": 132.86
+      },
+      "original_wall_s": {
+        "n": 3,
+        "mean": 4.61,
+        "min": 0.43,
+        "max": 9.43
+      },
+      "port_over_original": {
+        "n": 3,
+        "mean": 13.19,
+        "min": 10.5,
+        "max": 16.1
+      },
+      "ids": [
+        "S/quick-30",
+        "S/quick-1",
+        "S/decisions-quick-60"
+      ]
+    },
+    "Quick kind 2": {
+      "matches": 9,
+      "port_cpu_s": {
+        "n": 9,
+        "mean": 5.28,
+        "min": 4.8,
+        "max": 7.75
+      },
+      "original_cpu_s": {
+        "n": 9,
+        "mean": 1.02,
+        "min": 0.47,
+        "max": 4.55
+      },
+      "port_wall_s": {
+        "n": 9,
+        "mean": 5.28,
+        "min": 4.8,
+        "max": 7.75
+      },
+      "original_wall_s": {
+        "n": 9,
+        "mean": 0.96,
+        "min": 0.43,
+        "max": 4.19
+      },
+      "port_over_original": {
+        "n": 9,
+        "mean": 8.01,
+        "min": 1.7,
+        "max": 10.42
+      },
+      "ids": [
+        "R/quick-hard-1",
+        "R/quick-hard-2",
+        "R/quick-hard-3",
+        "R/quick-hard-4",
+        "R/quick-hard-5",
+        "R/quick-hard-6",
+        "R/quick-hard-7",
+        "R/quick-tired-8",
+        "R/quick-zero-budget-28"
+      ]
+    },
+    "QuickAtHalfTime kind 200": {
+      "matches": 3,
+      "port_cpu_s": {
+        "n": 3,
+        "mean": 123.68,
+        "min": 109.59,
+        "max": 138.43
+      },
+      "original_cpu_s": {
+        "n": 3,
+        "mean": 8.88,
+        "min": 8.34,
+        "max": 9.22
+      },
+      "port_wall_s": {
+        "n": 3,
+        "mean": 123.7,
+        "min": 109.6,
+        "max": 138.43
+      },
+      "original_wall_s": {
+        "n": 3,
+        "mean": 8.27,
+        "min": 7.82,
+        "max": 8.52
+      },
+      "port_over_original": {
+        "n": 3,
+        "mean": 13.9,
+        "min": 13.14,
+        "max": 15.02
+      },
+      "ids": [
+        "S/ko-9-quick",
+        "S/ko-53-quick",
+        "S/ko-42-quick-g19"
+      ]
+    },
+    "SetPieceTaker kind 1": {
+      "matches": 1,
+      "port_cpu_s": {
+        "n": 1,
+        "mean": 195.19,
+        "min": 195.19,
+        "max": 195.19
+      },
+      "original_cpu_s": {
+        "n": 1,
+        "mean": 15.15,
+        "min": 15.15,
+        "max": 15.15
+      },
+      "port_wall_s": {
+        "n": 1,
+        "mean": 195.2,
+        "min": 195.2,
+        "max": 195.2
+      },
+      "original_wall_s": {
+        "n": 1,
+        "mean": 14.17,
+        "min": 14.17,
+        "max": 14.17
+      },
+      "port_over_original": {
+        "n": 1,
+        "mean": 12.88,
+        "min": 12.88,
+        "max": 12.88
+      },
+      "ids": [
+        "S/set-piece-taker"
+      ]
+    }
+  },
+  "tournament_day": {
+    "source": "goal2 60548c657c2281a39435af7b0738605cd48e5865, E006-r0001 fresh career managing Denmark",
+    "day_sizes": [
+      1,
+      4,
+      99,
+      89,
+      4,
+      109,
+      79,
+      4,
+      111,
+      77,
+      64,
+      64
+    ],
+    "largest_day_fixtures": 111,
+    "unicorn_day_seconds": [
+      {
+        "fixtures": 1,
+        "wall_s": 16.99,
+        "cpu_s": 16.99
+      },
+      {
+        "fixtures": 4,
+        "wall_s": 17.67,
+        "cpu_s": 17.67
+      },
+      {
+        "fixtures": 99,
+        "wall_s": 24.63,
+        "cpu_s": 24.63
+      }
+    ],
+    "unicorn_simulated_fixture_s": 0.078,
+    "managed_match_cpu_s": {
+      "port": {
+        "n": 57,
+        "mean": 237.95,
+        "min": 193.37,
+        "max": 298.24
+      },
+      "original": {
+        "n": 57,
+        "mean": 16.7,
+        "min": 12.43,
+        "max": 23.53
+      }
+    },
+    "largest_day_estimate_s": {
+      "port_managed_match_plus_unicorn_simulated": 246.5,
+      "note": "simulate_fixture (000E:6970) is not ported yet (the tournament continuation, request 427): a day's other fixtures still run on the original engine; their port cost is unmeasured."
+    }
+  },
+  "diagnostic_not_acceptance": true
+}

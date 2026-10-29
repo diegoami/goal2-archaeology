@@ -689,7 +689,8 @@ class PathOptionsTest(unittest.TestCase):
         """The audit: the options of the three parsers. A new option that names a file fails here until it has a table."""
         listed = {"--image", "--json", "--cache", "--out", "--find-ranges", "--mask", "--checkpoint"}
         others = {"--family", "--max", "--workers", "--time-limit", "--stretch-limit", "--count", "--only", "--ports", "--variant", "--modules", "--group",
-                  "--help", "-h", "--engine", "--no-unicorn"}  # enum/boolean options, not paths (T78b)
+                  "--help", "-h", "--engine", "--no-unicorn",  # enum/boolean options, not paths (T78b)
+                  "--no-screen"}  # check.py's boolean screen-free comparison, not a path (T78d)
         seen = set()
         for parser in (self.family.parser(), self.check.parser()):
             seen |= {o for a in parser._actions for o in a.option_strings}

@@ -365,3 +365,38 @@ class CLI(unittest.TestCase):
                 self.assertIn('entrypoints', rows[0]['ports'])
 
 if __name__=='__main__':unittest.main()
+
+
+class CheckScreen(unittest.TestCase):
+    """T78d: check.py compares the port's digests without the board's screen (the parent T78's
+    "their digests without the screen"), against the original's screen-free digests; with the
+    screen, nothing changes. Pure: no image, no match."""
+
+    def setUp(self):
+        from original_match import check
+        self.check=check
+        self.addCleanup(setattr,check,'SCREEN',check.SCREEN)
+
+    def result(self,screen):
+        board={'statistics':[1,2],'bars':[3],'screen_sha256':screen}
+        keys=('score','half_time_score','goals','bookings','sendings_off','injuries','substitutions',
+              'man_of_the_match','ticks','seed_after','squads_after')
+        return dict({k:[] for k in keys},board=board,commentary=[{'text':'x'}])
+
+    def test_without_the_screen_only_the_screen_is_left_out(self):
+        c=self.check
+        c.SCREEN=True
+        self.assertNotEqual(c.result_digest(self.result('a')),c.result_digest(self.result('b')))
+        c.SCREEN=False
+        self.assertEqual(c.result_digest(self.result('a')),c.result_digest(self.result('b')))
+        other=self.result('a');other['ticks']=[5]
+        self.assertNotEqual(c.result_digest(self.result('a')),c.result_digest(other))
+
+    def test_the_port_and_no_screen_compare_without_it_and_the_original_with_it(self):
+        c=self.check
+        self.assertTrue(c.EXPECTED_INTERACTIVE_NO_SCREEN and c.EXPECTED_KNOCKOUT_NO_SCREEN)
+        self.assertNotEqual(c.EXPECTED_INTERACTIVE_NO_SCREEN,c.EXPECTED_INTERACTIVE)
+        self.assertNotEqual(c.EXPECTED_KNOCKOUT_NO_SCREEN,c.EXPECTED_KNOCKOUT)
+        for argv,screen in ((['--engine','port'],False),(['--no-screen'],False),([],True)):
+            a=c.parser().parse_args(argv)
+            self.assertEqual(not (a.no_screen or a.engine=='port'),screen,argv)
