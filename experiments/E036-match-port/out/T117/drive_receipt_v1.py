@@ -78,8 +78,8 @@ class Recorder:
     def site_enter(self, linear, replay, fired=False):
         self.add("site_enter", linear, replay, fired)
 
-    def site_leave(self, linear, stopped):
-        self.add("site_leave", linear, stopped)
+    def site_leave(self, linear, stopped, fired=False):
+        self.add("site_leave", linear, stopped, fired)
 
     def listen_enter(self, index, address, size, value):
         self.token += 1;self.add("listen_enter", index, address, size, value)
