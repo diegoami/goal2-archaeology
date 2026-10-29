@@ -57,6 +57,13 @@ class Before:
         if self.io_tap is not None:self.io_tap('s', name.lower(), value)
 
 
+def Before_bounds(linear, n):
+    """PortMachine._bounds before T117, verbatim."""
+    if (not isinstance(linear, int) or not isinstance(n, int)
+            or linear < 0 or n < 0 or linear+n > MEM_SIZE):
+        raise PortError(f'plain-memory read/write outside mapped range: {linear}+{n}')
+
+
 NAMES = ['eax','ebx','ecx','edx','esi','edi','ebp','esp','eip','eflags','cs','ds','es','ss','fs','gs',
          'ax','bx','cx','dx','si','di','bp','sp','ip','flags','al','ah','bl','bh','cl','ch','dl','dh']
 NAMES += [n.upper() for n in NAMES] + ['Ax', 'eFlags', 'Ip', 'aH']
@@ -93,6 +100,39 @@ class Registers(unittest.TestCase):
             self.assertEqual(new._registers, old._registers)
         self.assertEqual(new_taps, old_taps)
         self.assertGreater(len(new_taps), 3000)
+
+    def test_with_no_tap_the_machine_and_the_port_view_read_and_write_as_before(self):
+        rng = random.Random(1170)
+        for via in ("machine", "view"):
+            new = PortMachine(bytes(MEM_SIZE), 0x1000)
+            old = Before(dict(new._registers))
+            target = new if via == "machine" else new.port_memory()
+            for _ in range(4000):
+                name = rng.choice(NAMES + BAD)
+                if rng.random() < 0.5:
+                    value = rng.choice([0, 1, True, 0xFF, 0xFFFF, 0x10000, 0xFFFFFFFF, -1, rng.getrandbits(40)])
+                    self.assertEqual(outcome(lambda: target.set_reg(name, value)), outcome(lambda: old.set_reg(name, value)),
+                                     (via, name))
+                else:
+                    self.assertEqual(outcome(lambda: target.reg(name)), outcome(lambda: old.reg(name)), (via, name))
+                self.assertEqual(new._registers, old._registers, via)
+            if via == "view":
+                for off in (0, 1, 0xFFFF, 0x10000, -1):
+                    self.assertEqual(target.ss_lin(off), old.reg("ss") * 16 + (off & 0xFFFF))
+
+    def test_bounds_and_word_reads_as_before(self):
+        m = PortMachine(bytes(range(256)) * (MEM_SIZE // 256), 0x1000)
+        view = m.port_memory()
+        for linear, n in ((0, 1), (MEM_SIZE - 2, 2), (MEM_SIZE - 1, 2), (-1, 1), (True, 1), (0, True), (1.0, 1), ("1", 1),
+                          (MEM_SIZE, 0), (0, -1)):
+            self.assertEqual(outcome(lambda: PortMachine._bounds(linear, n)), outcome(lambda: Before_bounds(linear, n)),
+                             (linear, n))
+        for linear in (0, 7, 0x1234, MEM_SIZE - 2, MEM_SIZE - 1, -1, True):
+            self.assertEqual(outcome(lambda: view.u16(linear)),
+                             outcome(lambda: (Before_bounds(linear, 2), int.from_bytes(bytes(m._memory[linear:linear + 2]), "little"))[1]),
+                             linear)
+            self.assertEqual(outcome(lambda: view.u8(linear)),
+                             outcome(lambda: (Before_bounds(linear, 1), bytes(m._memory[linear:linear + 1])[0])[1]), linear)
 
     def test_unsupported_names_fail_with_the_same_error(self):
         new, old, new_taps, old_taps = self.pair()

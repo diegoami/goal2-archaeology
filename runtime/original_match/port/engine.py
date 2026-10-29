@@ -35,6 +35,21 @@ for _name in ('eax','ebx','ecx','edx','esi','edi','ebp','esp','eip','eflags','cs
 del _name
 # The same table for a read with no io_tap: (base, shift, mask).
 _READ = {name: (base, shift, (1 << bits)-1) for name, (base, shift, bits, _, _) in _REGISTERS.items()}
+# ... and for a write: (base, the mask in place, shift, whether the base clears first).
+_WRITE = {name: (base, ((1 << bits)-1) << shift, shift, clears)
+          for name, (base, shift, bits, _, clears) in _REGISTERS.items()}
+
+
+def _set_plain(registers, name, value):
+    """PortMachine.set_reg with no io_tap, for a supported lower-case name; False for any other."""
+    entry = _WRITE.get(name) if name.__class__ is str else None
+    if entry is None:
+        return False
+    base, mask, shift, clears = entry
+    if clears:registers[base] = 0
+    registers[base] = ((registers[base] & ~mask) | ((value << shift) & mask)) & 0xFFFFFFFF
+    if base=='eflags':registers[base] |= 2
+    return True
 
 
 def _register(name):
@@ -69,6 +84,12 @@ class _PortMemory(MachineMem):
                 base, shift, mask = fast
                 return m._registers[base] >> shift & mask
         return m.reg(name)
+
+    def set_reg(self, name, value):
+        m = self.m
+        if m.io_tap is None and _set_plain(m._registers, name, value):
+            return
+        m.set_reg(name, value)
 
     def ss_lin(self, off):
         m = self.m
@@ -107,6 +128,9 @@ class PortMachine(Machine):
 
     @staticmethod
     def _bounds(linear, n):
+        # T117: plain ints in range pass at once; anything else (bool included) takes the full check.
+        if linear.__class__ is int and n.__class__ is int and 0 <= linear and 0 <= n and linear+n <= MEM_SIZE:
+            return
         if (not isinstance(linear, int) or not isinstance(n, int)
                 or linear < 0 or n < 0 or linear+n > MEM_SIZE):
             raise PortError(f'plain-memory read/write outside mapped range: {linear}+{n}')
@@ -133,6 +157,8 @@ class PortMachine(Machine):
         return value
 
     def set_reg(self, name, value):
+        if self.io_tap is None and _set_plain(self._registers, name, value):
+            return
         base, shift, bits, told, clears = _register(name)
         # Reference register API: IP/FLAGS writes clear their upper half;
         # general-purpose low-word aliases retain it (review563 R1 controls).
@@ -196,16 +222,18 @@ class PortMachine(Machine):
     def _dispatch(self, linear):
         replay = linear == self._resume_lin
         self._resume_lin = None
-        handlers = list(self._handlers.get(linear, ()))
-        tap = self.site_tap if any(h is not NOOP for h in handlers) else None
-        if tap is not None:tap.site_enter(linear, replay)
-        stopped = False
-        for handler in handlers:
-            handler(replay)
-            if self.stop_reason is not None or self.error is not None:
-                stopped = True;break
-        if tap is not None:tap.site_leave(linear, stopped)
-        if stopped:return
+        handlers = self._handlers.get(linear)
+        if handlers:  # T117: an address with no handler skips the copy, the tap test and the loop
+            handlers = list(handlers)
+            tap = self.site_tap if any(h is not NOOP for h in handlers) else None
+            if tap is not None:tap.site_enter(linear, replay)
+            stopped = False
+            for handler in handlers:
+                handler(replay)
+                if self.stop_reason is not None or self.error is not None:
+                    stopped = True;break
+            if tap is not None:tap.site_leave(linear, stopped)
+            if stopped:return
         runner = self._ports.get(linear)
         frame = self.frames[-1] if self.frames else None
         if runner is not None:runner(self)
@@ -226,9 +254,12 @@ class PortMachine(Machine):
         deadline = time.monotonic()+timeout_s
         self.running = True
         try:
-            while self.pc()!=until:
+            while True:
+                # T117: pc() once a step; an io_tap is told of both calls, as before.
+                pc = self.pc()
+                if pc==until:break
                 if time.monotonic() > deadline:raise PortError('plain dispatch time limit exceeded')
-                self._dispatch(self.pc())
+                self._dispatch(self.pc() if self.io_tap is not None else pc)
                 if self.error is not None:
                     error, self.error = self.error, None
                     raise error
