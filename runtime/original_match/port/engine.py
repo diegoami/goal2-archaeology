@@ -11,6 +11,38 @@ from ..machine import Machine, MEM_SIZE, DS_PARAGRAPH, REGS, NOOP
 from .mem import MachineMem, PortError
 
 
+def _alias_of(name):
+    """The (base register, shift, bits) a plain register name addresses."""
+    name = name.lower()
+    if name in ('eax','ebx','ecx','edx','esi','edi','ebp','esp','eip','eflags'):
+        return name, 0, 32
+    if name in ('cs','ds','es','ss','fs','gs'):
+        return name, 0, 16
+    if name in ('ax','bx','cx','dx','si','di','bp','sp','ip','flags'):
+        return 'e'+name, 0, 16
+    if len(name)==2 and name[0] in 'abcd' and name[1] in 'lh':
+        return 'e'+name[0]+'x', 8 if name[1]=='h' else 0, 8
+    raise PortError(f'unsupported plain register {name!r}')
+
+
+# T117: every supported lower-case name, resolved once: (base, shift, bits, the name an io_tap is
+# told, whether a write clears the base first). Any other name, upper case included, takes
+# _alias_of's path each time, with its errors unchanged.
+_REGISTERS = {}
+for _name in ('eax','ebx','ecx','edx','esi','edi','ebp','esp','eip','eflags','cs','ds','es','ss','fs','gs',
+              'ax','bx','cx','dx','si','di','bp','sp','ip','flags','al','ah','bl','bh','cl','ch','dl','dh'):
+    _REGISTERS[_name] = _alias_of(_name) + (_name, _name in ('ip','flags'))
+del _name
+
+
+def _register(name):
+    try:
+        return _REGISTERS[name]
+    except (KeyError, TypeError):
+        lowered = name.lower()
+        return _alias_of(name) + (lowered, lowered in ('ip','flags'))
+
+
 class _PortMemory(MachineMem):
     def read(self, linear, n):
         # As MachineMem's native read, a port's own read is not a kit IO-tap read.
@@ -36,6 +68,7 @@ class PortMachine(Machine):
         self._handlers, self._ports = {}, {}
         self._resume_lin = self._pc_override = self.no_replay_at = None
         self._writes, self.frames = [], []
+        self._writes_now = ()       # T117: _writes as a tuple, replaced (never changed) by _add_write
         self.muted = False
         self.muted_hook = self.site_tap = self.write_tap = None
         self.io_tap = self.listen_tap = None
@@ -63,45 +96,38 @@ class PortMachine(Machine):
 
     @staticmethod
     def _alias(name):
-        name = name.lower()
-        if name in ('eax','ebx','ecx','edx','esi','edi','ebp','esp','eip','eflags'):
-            return name, 0, 32
-        if name in ('cs','ds','es','ss','fs','gs'):
-            return name, 0, 16
-        if name in ('ax','bx','cx','dx','si','di','bp','sp','ip','flags'):
-            return 'e'+name, 0, 16
-        if len(name)==2 and name[0] in 'abcd' and name[1] in 'lh':
-            return 'e'+name[0]+'x', 8 if name[1]=='h' else 0, 8
-        raise PortError(f'unsupported plain register {name!r}')
+        return _register(name)[:3]
 
     def reg(self, name):
-        base, shift, bits = self._alias(name)
+        base, shift, bits, told, _ = _register(name)
         value = self._registers[base] >> shift & ((1 << bits)-1)
-        if self.io_tap is not None:self.io_tap('g', name.lower(), value)
+        if self.io_tap is not None:self.io_tap('g', told, value)
         return value
 
     def set_reg(self, name, value):
-        base, shift, bits = self._alias(name)
+        base, shift, bits, told, clears = _register(name)
         # Reference register API: IP/FLAGS writes clear their upper half;
         # general-purpose low-word aliases retain it (review563 R1 controls).
-        if name.lower() in ('ip','flags'):self._registers[base] = 0
+        if clears:self._registers[base] = 0
         mask = ((1 << bits)-1) << shift
         self._registers[base] = ((self._registers[base] & ~mask) | ((value << shift) & mask)) & 0xFFFFFFFF
         if base=='eflags':self._registers[base] |= 2
-        if self.io_tap is not None:self.io_tap('s', name.lower(), value)
+        if self.io_tap is not None:self.io_tap('s', told, value)
 
     def at_linear(self, linear, handler):
         self._handlers.setdefault(linear, []).append(handler)
 
     def _add_write(self, begin, end, fn, recorder):
         self._writes.append((begin, end, fn, recorder))
+        self._writes_now = tuple(self._writes)
 
     def write_as(self, linear, size, value, at):
         self._bounds(linear, size)
         value &= (1 << (8*size))-1
         saved, self._pc_override = self._pc_override, at
         try:
-            for index, (begin, end, fn, recorder) in enumerate(list(self._writes)):
+            # The listeners as at this write's start, as the list copy was: one added meanwhile waits.
+            for index, (begin, end, fn, recorder) in enumerate(self._writes_now):
                 if begin <= linear <= end and (recorder or not self.muted):
                     if recorder:fn(linear, size, value)
                     else:self._listen(index, fn, linear, size, value)

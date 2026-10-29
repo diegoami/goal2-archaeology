@@ -24,6 +24,15 @@ import inspect
 
 from .mem import PortError
 
+_PARSED = {}    # T117: 'SSSS:OOOO' -> (segment, offset), each address parsed once
+
+
+def _parsed(address):
+    value = _PARSED.get(address)
+    if value is None:
+        value = _PARSED[address] = tuple(int(x, 16) for x in address.split(":"))
+    return value
+
 
 class Call:
     """A call of the guest a port yields (mem.call)."""
@@ -84,8 +93,8 @@ class PortFrame:
 
     def _issue(self, c):
         m, mem = self.m, self.mem
-        rseg, roff = (int(x, 16) for x in c.ret_to.split(":"))
-        tseg, toff = (int(x, 16) for x in c.target.split(":"))
+        rseg, roff = _parsed(c.ret_to)
+        tseg, toff = _parsed(c.target)
         if not c.far and (m.seg(tseg) != m.reg("cs") or m.seg(rseg) != m.reg("cs")):
             raise PortError(f"port {self.entry.address}: a near call of {c.target} returning to {c.ret_to} from CS "
                             f"{m.where(m.reg('cs'), 0)[:4]}: a near call stays in its segment")

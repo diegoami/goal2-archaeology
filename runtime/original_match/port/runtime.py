@@ -66,6 +66,7 @@ class Regs:
     collected and written to memory by flush()/store() in runs (one write for a frame's contiguous words): a direct write of
     the port to its own frame's locals is preceded by flush()."""
     _NAMES = ("ax", "bx", "cx", "dx", "si", "di", "es", "sp", "bp")
+    _NAME_SET = frozenset(_NAMES)       # T117: the same names, for the membership tests on every access
     __slots__ = ("_mem", "_v", "_dirty", "_flags_on", "_flags_off", "_ss", "_pending", "_bps", "_fresh")
 
     def __init__(self, mem, resumed=False):
@@ -82,7 +83,7 @@ class Regs:
         object.__setattr__(self, "_bps", [])
 
     def __getattr__(self, name):
-        if name not in Regs._NAMES:
+        if name not in Regs._NAME_SET:
             raise AttributeError(name)
         v = self._v.get(name)
         if v is None:
@@ -94,7 +95,7 @@ class Regs:
         return v
 
     def __setattr__(self, name, value):
-        if name in Regs._NAMES:
+        if name in Regs._NAME_SET:
             self._v[name] = value & M16
             self._dirty.add(name)
         else:
