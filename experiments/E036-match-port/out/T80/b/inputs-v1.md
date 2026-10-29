@@ -36,3 +36,32 @@ field that differs is `image_sha256`, the result's digest of its own input image
 (`minimal-image-v1.json`), so v2 compares the result without it: `equal: true`
 (`minimal-image-v2.json`). The build guard is bypassed in the probe only, because it zeroes the code
 on purpose. Still to show: the family (T80b's Done-when runs the kit's check from records).
+
+## The family probe: the input contract
+
+[derived: `probe_family_v1.py` .. `probe_family_v5.py`, their parts and `probe-family-v*.compare.log`;
+2026-10-29] Every admitted match (the 75 of `ALL` less A700), played on the port (PyPy, one worker per
+chunk) from its own source image reduced to the tables plus state, then checked by compare.py's
+`identical` check under the strict display profile against its bound reference
+(`families/display/reference-with-finals-20261024-v1.jsonl`), the image binding left out (each record
+names its reduced input image by digest).
+
+| Version | State kept from the source image | Result |
+| --- | --- | --- |
+| v1 | the read map's bytes, DS:7968 | events, scores and draws identical in all 75; post-match digests differ (regions v1 had zeroed outside the bytes read) |
+| v2 | + DS:7B70..FFFF and records.RANGES whole | DS+0x7800, the records and w5c8a0 still differ |
+| v3 | + the 26 initialised bytes (DS:7966..7B68, the RNG word DS:7B62 among them) the game changed after start-up | the records and w5c8a0 still differ |
+| v4 | records.RANGES at load*16 + start (v2/v3 placed them at absolute addresses, a probe bug) | 74 of 75; FS/public-stage8-holland-belgium differs at records+0x16C00 |
+| v5 | each source's own records extent (`records.ranges_for_source`: E031-stage8 and T86-stage8 carry 106,640 bytes, not 93,648) | **75 of 75 identical** (v5 reran the one match its change touches; the other 74 are v4's, whose reduction v5 leaves byte-identical) |
+
+So the sealed engine's input contract, for the admitted family, is:
+- **from GOAL.EXE** (T80a's tables, built from the player's own file, never shipped): the initialised
+  data segment DS:0000..7B6F and the listing's 173 code-segment data areas (11,572 bytes);
+- **from the game** (goal2's state when the match starts): DS:7B70..FFFF; DS:7968; the initialised
+  bytes the game has changed since start-up (26 in the family's sources, DS:7966..7B68); the record
+  ranges at load*16 + start, the records with the source's own extent; and the remaining bytes the
+  read map lists outside those (the text page, the name-list blocks, the 48-byte buffer: display
+  inputs, which the engine can build or blank).
+Nothing else in the 1.1 MB image is read: GOAL.EXE's code and the rest of memory are zero in the
+probe. The build guard (Image.build_problems) and the source's memory digest
+(image_sources.validate_image) are bypassed in the probe only.

@@ -1,0 +1,4 @@
+strict display profile: True; reference experiments/E036-match-port/families/display/reference-with-finals-20261024-v1.jsonl
+S/qualifier-21: score [1, 1] ticks 4149 draws 182188 cpu 49.491 s -> 61.042 s; identical
+S/set-piece-taker: score [1, 1] ticks 4332 draws 190797 cpu 11.003 s -> 65.122 s; identical
+75 matches expected identical, 74 pass, 1 fail
