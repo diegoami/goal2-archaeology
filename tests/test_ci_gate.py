@@ -259,7 +259,7 @@ class CheckpointGroups(unittest.TestCase):
         self.assertEqual(len(actual),len(set(actual)))
         self.assertCountEqual(actual,wanted)
         self.assertIn(future.id(),groups['general'])
-        self.assertEqual(len(groups),11)
+        self.assertEqual(len(groups),12)            # general, the ten boundary cases and the sealed check (T80)
         for group,case in G.BOUNDARY_CASES.items():
             self.assertEqual(len(groups[group]),1)
             self.assertTrue(groups[group][0].endswith(case))

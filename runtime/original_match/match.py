@@ -253,6 +253,7 @@ class Match:
         self.image_header = image.header
         self.image_tail = bytes(image.memory[MEM_SIZE:])    # guest memory above 1 MiB + HMA: the match never
         self.image_sha256 = image.sha256()                  # touches it; kept for memory_component()
+        self.tables = getattr(image, "tables", None)        # GOAL.EXE's tables when the image is goal2's state (T80)
         self.inputs = []
         self._write_state(players, countries)
         if managed is None:
@@ -560,6 +561,20 @@ class Match:
 
     def image(self):
         return Image(self.memory_component())
+
+    def records_after(self, tables=None):
+        """goal2's state now (T80, image.state_of): after the match and its post-match update, the same form the
+        sealed engine takes (Image.from_state), so the next match starts from it. `tables`: GOAL.EXE's tables
+        (port.tables.load), by default those the match was built from."""
+        from types import SimpleNamespace
+        from .image import state_of
+        tables = tables or getattr(self, "tables", None)
+        if tables is None:
+            raise MatchError("records_after needs GOAL.EXE's tables (port.tables.load): this match was not built "
+                             "from them")
+        now = SimpleNamespace(header=self.image_header, memory=self.m.read(0, MEM_SIZE) + self.image_tail,
+                              load=self.m.load)
+        return state_of(now, tables)
 
     # -- running -----------------------------------------------------------------------------------------
     def _advance(self):

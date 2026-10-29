@@ -74,11 +74,14 @@ QUICK, CODE = "quick", "code"
 
 # [designed: T78c] These complete scenario tests each take up to several hours.
 # Every discovered test belongs to exactly one group; ordinary local discovery
-# remains intact. A matrix succeeds only when all eleven groups succeed.
+# remains intact. A matrix succeeds only when all twelve groups succeed.
 BOUNDARY_CASES = {f"e{experiment}-{number:02d}":
                   f"test_port_engine.Checkpoints.test_e{experiment}_{number:02d}"
                   for experiment, count in (("033", 7), ("034", 3))
                   for number in range(1, count + 1)}
+# [designed: T80] The sealed engine's check (engine, interactive, goals, knockout, family from goal2's state and the
+# tables, about an hour of CPU on the author's machine) is a complete scenario test of its own, in its own group.
+BOUNDARY_CASES["seal"] = "test_port_seal.Sealed.test_the_check_passes_from_state_and_tables_alone"
 # [designed: measured40659261502] Put the three longest cases in the
 # first four slots; this changes queue order only, never coverage or limits.
 _FIRST_GROUPS = ("general", "e034-01", "e033-06", "e034-02")
