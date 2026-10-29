@@ -1,0 +1,15 @@
+{
+  "ledger_sha256": "517208b469f9d1de1ea04f17ce167cc2b0dc7fab7871a42b5271b15de6b863fc",
+  "rows": 5,
+  "scope": "Structural/source checks for design proposals; never proof of implementation equivalence.",
+  "structural_negatives": [
+    "missing-row",
+    "missing-source",
+    "missing-limit",
+    "missing-obligation",
+    "wrong-quote",
+    "mock-as-evidence",
+    "wrong-cost-sum"
+  ],
+  "task": "T110c"
+}

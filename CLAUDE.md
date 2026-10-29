@@ -13,12 +13,13 @@ indexed in `docs/tasks/README.md`.
 kept on the branch `local`.
 
 ## Working rules
-1. [designed: owner correction, 2026-10-26] The main session plans, triages, implements, verifies
-   and merges on `gpt-6.1-sol` at `high`. It may sparingly spawn a `gpt-6.1-sol` / `xhigh` agent
-   for only the hardest, narrowly scoped parts; it does not delegate every task. Astra is excluded
-   from implementation and review; xhigh is the Codex effort ceiling. The engine-study policy is
-   `docs/engine-study-models.md`; its independent Claude/Kimi review milestones remain in force.
-   Codex follows the same rules from `AGENTS.md`.
+1. [designed: owner, 2026-10-29] No model is fixed. The main session plans, triages, implements,
+   verifies and merges on whichever model the owner runs it on, and implements itself or spawns a
+   helper on its own judgment; the owner names a model only when they want a specific one. This
+   retires the 2026-10-26 Sol/high correction and the model lines in earlier task files, which
+   record history only. An independent review is by a model that did not author the deliverables,
+   of another family than the author's (`docs/engine-study-models.md`). Codex follows the same
+   rules from `AGENTS.md`.
 2. Work on a branch in the checkout at hand; one task at a time per checkout. No worktrees. Locally
    a task branch `task/T<nn>-<slug>`; in a cloud session the session's own `claude/…` branch, for
    every task of that session (process.md §3). Never `git stash`, never force-push, never rewrite
@@ -27,10 +28,13 @@ kept on the branch `local`.
    with a merge commit (`gh pr merge <pr> --merge --match-head-commit <sha>`): research PRs need their
    commits kept (rule 20), and a cloud session's branch then fast-forwards (`git pull --ff-only
    origin main`).
-4. Reviews are optional. Per PR, when the risk warrants it (a finding, a game rule or constant, the
-   engine port, the proof), run `tools/review_pr.sh <pr> <opencode|claude|codex> <model>`; any model
-   may review. At each milestone, one big independent review: `tools/milestone_review.sh`
-   (`docs/milestone-review.md`). Relay review findings in full.
+4. [designed: owner, 2026-10-29, as in malpaco] Only milestones mandate a review. A PR merges
+   when its Done-when lines pass and CI is green, with no per-PR review. At each milestone (the
+   engine-study checkpoints of `docs/engine-study-reviews.md` included) the main session gives the
+   owner the review prompt (`docs/milestone-review.md`) and the owner runs it on a model of their
+   choice. A per-PR review happens only when the owner asks for one, from a prompt the main session
+   writes (`tools/review_pr.sh <pr> <cli> <model> --print`). No session starts a review. Relay
+   review findings in full.
 5. The Done-when is not negotiable by the implementer: it stops and reports, never weakens an
    assertion, skips a test or edits its task file. The main session amends a Done-when on `main`
    with the reason in the commit message.
@@ -68,9 +72,9 @@ kept on the branch `local`.
     measured output (run records, probe logs, timings) lives under a tracked path the task owns, is
     committed and pushed after each batch of runs and at least every 30 minutes, and is never deleted
     or overwritten (game-archaeologist L207).
-21. **Difficulty** (U13): game rules, formulas or constants from evidence are hard work; a hard
-    task gets an independent review (`tools/review_pr.sh`, rule 4) on a strong model. This repository
-    builds no playable game.
+21. **Difficulty** (U13): game rules, formulas or constants from evidence are hard work; its
+    independent review is the milestone's (rule 4, owner 2026-10-29), unless the owner asks for one
+    on the PR. This repository builds no playable game.
 22. **Static first** (game-archaeologist U32, the owner, 2026-10-05). A research question is answered
     by reading the decompiled and disassembled `GOAL.EXE` first (the named view
     `static/goal-exe/named/`, then the raw `static/goal-exe/decompiled/` and `static/goal-exe/code/`; Ghidra as `docs/environment.md` says). Runs of the game are made only
@@ -88,6 +92,9 @@ kept on the branch `local`.
     prepares its independent-review prompt; it does not start standalone/backend work here.
     [designed: owner resume, 2026-10-27] After ES-R2 acceptance,the owner resumed the next
     engine-study steps here:T106 bounded probes and subsequent study work under its gates.
+    [designed: owner resume, 2026-10-28] ES-R3 is accepted at exact f55ef831/m7. Continue T110's
+    architecture/readability assessment through executable slices, then stop at ES-R4's independent
+    review prompt. This does not authorise T111, a production rewrite, new engine probes or T107 spending.
     [designed: owner decision, 2026-10-27; #571] Defer the current T107 match batch until
     T106 probe results inform a better design. Prepare a revised proposal before any match
     spending;the current132attempt pilot is not authorised. Standalone delivery stays in

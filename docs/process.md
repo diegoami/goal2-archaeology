@@ -20,9 +20,11 @@ Tag capability jumps, not phases. Release notes come from GitHub when the tag is
 ## 1. Roles
 
 The main session (Claude Code or Codex, locally or in a cloud session) plans, writes task files,
-implements or spawns the `implementer` subagent, runs the checks, merges and reports. Reviews are
-optional per PR (`tools/review_pr.sh`, any model) and mandatory in spirit at milestones
-(`tools/milestone_review.sh`, [milestone-review.md](milestone-review.md)). Ghidra and the pinned
+implements or spawns the `implementer` subagent, runs the checks, merges and reports. Only
+milestones mandate a review ([milestone-review.md](milestone-review.md)); PRs merge on green CI and
+their Done-when lines, with a per-PR review only when the owner asks. No session starts one: the
+main session gives the owner the prompt and the owner runs it on the model they choose (owner,
+2026-10-29, as in malpaco). Ghidra and the pinned
 tools under `~/tools` are run by whoever has them; a cloud session gets DOSBox-X 2024.03.01 from
 `tools/cloud_setup.sh` ([cloud.md](cloud.md)).
 
@@ -60,13 +62,14 @@ Scope, Done when, Hazards, Implementer, Reviewer, Merge after. Rules:
 
 ## 3. The loop
 
-`ready → implement → (optional review) → green CI → merge → follow-ups → report`
+`ready → implement → green CI → merge → follow-ups → report` (a review only at milestones, or when the owner asks)
 
 1. **Check** the task is ready and its Merge-after tasks are merged; its Done-when lines fail on `main`.
 2. **Implement** on the work branch (below) with §4's brief; commit and push after each step and
    open the PR as a draft after the first push.
-3. **Review, when warranted** (a finding, a game rule or constant, the engine port, the proof):
-   `tools/review_pr.sh <pr> <cli> <model>` posts one review comment. Rework goes to the same branch;
+3. **No per-PR review** (owner, 2026-10-29): go on to green CI and merge. Only when the owner asks
+   for a review of the PR, the main session gives the prompt (`tools/review_pr.sh <pr> <cli> <model>
+   --print`); the owner runs it and the reviewer posts one comment. Rework goes to the same branch;
    non-blocking findings become one `T<nn> follow-up` issue.
 4. **Checks**: every Done-when line on the PR head, and green CI (`.github/workflows/ci.yml`; its
    gate, `tools/ci_gate.py`, picks what the change obliges).

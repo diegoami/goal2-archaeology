@@ -23,9 +23,9 @@ dependencies, provisional active-effort estimates and acceptance outcomes for ev
 the [task index](tasks/README.md) links each planning brief and issue. The
 [independent review schedule](engine-study-reviews.md) defines five mandatory checkpoints and a
 conditional prototype review, with acceptance gates and separately stated review effort.
-The owner's corrected [model policy](engine-study-models.md) assigns all implementation to the
-main session at Sol/high, with Sol/xhigh agents used sparingly for only the hardest bounded parts.
-Independent milestone reviews remain Claude or Kimi.
+The owner's [model policy](engine-study-models.md) (2026-10-29) fixes no model: implementation is
+the main session's, on the model it runs on. Independent milestone reviews are by another family
+than the author's.
 
 Read static evidence first. Experiments need a pinned question and budget; the optional prototype
 needs a design decision. M/L packages split into independently mergeable slices before dispatch.

@@ -2,16 +2,18 @@
 
 Start here to follow a manager choice or player field into what happens on the pitch. The
 chapters connect original source, formulas, live state, control interactions and explicit
-unknowns. The final empirical guide and rewrite recommendation are later programme work;
-this index is not a claim that those stages have finished.
+unknowns. The final integrated guide is later programme work. The readability chapters are
+proposals for independent review and owner decisions, not an implemented rewrite or prototype.
 
 The [bounded probe report](micro-probes.md) records the six selected original/port geometry cases,
 controls and separate field/ABI/memory/register comparisons. It makes no match-effect claim.
 
 The [programme](../engine-study-plan.md), [live epic #433](https://github.com/diegoami/goal2-archaeology/issues/433)
-and [review #456](https://github.com/diegoami/goal2-archaeology/issues/456) hold scope and status.
+and [architecture review #457](https://github.com/diegoami/goal2-archaeology/issues/457) hold scope and status.
 Foundations were independently accepted at `m5-engine-study-foundations`; field/design work at
-`m6-engine-study-field-behaviour` (55d7a479). New probe/integration interpretations require ES-R3.
+`m6-engine-study-field-behaviour` (55d7a479); probe/integration work at
+`m7-engine-study-probes-and-integration` (f55ef831). The readability assessment uses that frozen
+source baseline; its architecture conclusions require ES-R4.
 Source-derived
 examples and hashes do not establish natural frequency, net tactical benefit or genuine key coverage.
 
@@ -30,6 +32,7 @@ examples and hashes do not establish natural frequency, net tactical benefit or 
 | Which suspected defects remain? | [Arithmetic audit](audit-arithmetic.md), [record/evidence audit](audit-records.md), [caller boundaries](audit-boundaries.md), [integration register](audit-integration.md), and linked live issues |
 | What did the probes establish? | [Micro-probes](micro-probes.md): six geometry cases, controls and explicit state differences |
 | What should be measured next, and at what cost? | Historical [design](experiment-design.md)/[budget](experiment-budget.md), then the owner-deferred [T107 revision proposal](t107-revision-proposal.md) |
+| How can this code become more readable, and what must remain exact? | [Compatibility obligations](rewrite-contract.md), [four code sketches/options](rewrite-options.md), [costed recommendation/prototype proposal](rewrite-assessment.md) |
 | What is the full inventory and existing evidence scope? | [Inventory](inventory.md), then its source/evidence census |
 
 For a first reading, use match flow → attributes/strength → positioning/marking/movement →
@@ -64,7 +67,25 @@ issues rather than invented explanations.
 
 ## Reproduce the source and probe checks
 
-For current probe/integration source, data and software checks with Python 3.12:
+For the readability assessment and preceding probe/integration source checks with Python 3.12:
+
+```bash
+tools/heavy.sh ES-R4-source -- python3.12 -B notes/engine-study/ES-R4/verify.py
+```
+
+This runs 21 source/data/design/software commands: the previous 15-command matrix and each T110
+producer/schema pair. It checks twelve obligations, four sketches/four options, four cost plans
+and one unapproved prototype proposal. Nineteen new source/structure/cost negatives are not
+executed gameplay mutants, and reproduced cost arithmetic does not validate the assumed rates.
+It constructs no prototype or match and invokes no registered engine routine. The frozen registry
+metadata census imports definitions only. Old T110b-v1's incorrect movement-order sketch remains
+beside operative v2; its structural pass did not establish semantic correctness.
+
+The [ES-R4 receipt directory](../../notes/engine-study/ES-R4/) retains exact execution heads and
+input hashes. Required full CI is separate. The old ES-R3 receipt's README hash belongs to its
+historical source; the guide's new links/explanations are explicitly accounted for here.
+
+To reproduce accepted m7 probe/integration checks at their exact source snapshot:
 
 ```bash
 tools/heavy.sh ES-R3-source -- python3.12 -B notes/engine-study/ES-R3/verify.py
@@ -115,5 +136,6 @@ the revision proposal needs a concrete design and pre-execution gates before any
 T79's broad700-match fidelity sheet is still pending at this design pass; existing T77 exact
 comparison receipts have a narrower scope. Standalone delivery proceeds independently in the
 goal session's clone. Original-bug fixes, production defaults and a readable-engine prototype
-remain separate decisions. The rewrite assessment waits for the empirical/consistency stage
-and ES-R3; the optional prototype additionally needs the owner's explicit decision and review.
+remain separate decisions. The rewrite assessment builds on accepted m7 and requires ES-R4
+for its conclusions; an optional prototype additionally needs the owner's explicit decision,
+executable scope/budget and its own independent review.

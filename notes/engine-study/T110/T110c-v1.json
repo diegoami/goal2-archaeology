@@ -1,0 +1,585 @@
+{
+  "baseline": "f55ef8314c1da390eb96091efe2bdab7b73fa534",
+  "limits": [
+    "Structural checks do not certify the recommendation, pseudocode or equivalence.",
+    "No new engine calls, T107 batch, prototype or adopted semantic change."
+  ],
+  "method": "Design/source synthesis; no engine or prototype execution.",
+  "mock": false,
+  "module_workgroups": {
+    "interaction_assembly": [
+      "display",
+      "menus",
+      "entrypoints"
+    ],
+    "numeric_policy": [
+      "attributes",
+      "contests",
+      "duels",
+      "geometry",
+      "positioning",
+      "quick",
+      "rare",
+      "runtime",
+      "selection",
+      "real"
+    ],
+    "state_effect_lifecycle": [
+      "ball",
+      "discipline",
+      "frame",
+      "motion",
+      "pilot",
+      "postmatch",
+      "restarts",
+      "setup",
+      "takers",
+      "update"
+    ]
+  },
+  "producer": {
+    "commit": "a21906ef1939a80aafceb3f4b1bb76f5265493d6",
+    "path": "notes/engine-study/T110/recommendation.py",
+    "sha256": "4089fddb8bdb28efcdb1ce28ac5d99c590cfb9501013058d3b9b89bc82823d26"
+  },
+  "prototype_implemented": false,
+  "research_engine_calls": 0,
+  "rows": [
+    {
+      "assumptions": [
+        "Three families are a designed rollout scope, not a measured count of independent implementations.",
+        "Reuse Rec/Mem; no copied replacement storage, cache refresh or reordered writer effects.",
+        "Rates are uncalibrated active-hour inputs for planning, not measured productivity."
+      ],
+      "claim": "Recommend incremental named views over existing storage/helpers; preserve the current boundary contract.",
+      "compute": "not budgeted; no execution authorised",
+      "dependencies": [
+        "Accepted field meanings/opaque bytes",
+        "Aliasing/wrapping and write-site audit",
+        "Boundary regression infrastructure"
+      ],
+      "disposition": "recommend",
+      "double_validation_and_implementation_hours": [
+        58,
+        116
+      ],
+      "estimate_kind": "designed active-engineering-hour assumptions, not measured productivity",
+      "id": "memory-views",
+      "limits": [
+        "Different scopes, not equal-feature bids; totals are not a ranking by cost.",
+        "CPU, runner elapsed time, later delivery and unresolved proof work are separate and unbudgeted."
+      ],
+      "obligations": [
+        "identities",
+        "machine-state",
+        "event-order"
+      ],
+      "scope": "Three record families (player, country, pitch), shared accessor naming and two representative integration boundaries; not all unknown fields or the live-Core bridge.",
+      "sources": [
+        {
+          "line": 45,
+          "path": "runtime/original_match/port/attributes.py",
+          "text": "class Rec:"
+        }
+      ],
+      "total_hours": [
+        29,
+        58
+      ],
+      "validation": "Recompute the work breakdown; independently challenge the scope/rates and fidelity/oracle assumptions. Arithmetic consistency is not forecast calibration.",
+      "work": [
+        {
+          "activity": "implementation",
+          "basis": "Name one shared-storage record family",
+          "hours_per_unit": [
+            4,
+            8
+          ],
+          "units": 3
+        },
+        {
+          "activity": "implementation",
+          "basis": "Shared accessor/schema integration",
+          "hours_per_unit": [
+            2,
+            4
+          ],
+          "units": 1
+        },
+        {
+          "activity": "validation",
+          "basis": "Alias/wrapping/reserved-byte/write-site audit per family",
+          "hours_per_unit": [
+            3,
+            6
+          ],
+          "units": 3
+        },
+        {
+          "activity": "validation",
+          "basis": "Two representative integration boundaries; more consumers add cost",
+          "hours_per_unit": [
+            3,
+            6
+          ],
+          "units": 2
+        }
+      ]
+    },
+    {
+      "assumptions": [
+        "Four blocks are selected work scope, not a purity census or all numeric engine code.",
+        "Existing wrappers/calls/sites remain until an adapter passes exact boundary checks.",
+        "No extrapolation of T106's small-call timings into match performance."
+      ],
+      "claim": "Conditionally extract numerical blocks behind explicit ABI/effect adapters after one meaningful prototype.",
+      "compute": "not budgeted; no execution authorised",
+      "dependencies": [
+        "Independent numerical oracles and targeted boundary witnesses",
+        "Adapter preserving intermediate/register/frame effects",
+        "Original/accepted-port comparison harness"
+      ],
+      "disposition": "conditional",
+      "double_validation_and_implementation_hours": [
+        72,
+        144
+      ],
+      "estimate_kind": "designed active-engineering-hour assumptions, not measured productivity",
+      "id": "pure-rules",
+      "limits": [
+        "Different scopes, not equal-feature bids; totals are not a ranking by cost.",
+        "CPU, runner elapsed time, later delivery and unresolved proof work are separate and unbudgeted."
+      ],
+      "obligations": [
+        "arithmetic",
+        "machine-state",
+        "identities"
+      ],
+      "scope": "Four candidate numerical blocks:377E strength,3A06 derived skill,278A effective-skill arithmetic,34C1 geometry arithmetic. Whole routines are not claimed pure.",
+      "sources": [
+        {
+          "line": 551,
+          "path": "runtime/original_match/port/attributes.py",
+          "text": "def player_strength(mem, variant):"
+        },
+        {
+          "line": 312,
+          "path": "runtime/original_match/port/geometry.py",
+          "text": "def skill_of_pitch_record(mem, variant):"
+        },
+        {
+          "line": 1430,
+          "path": "runtime/original_match/port/ball.py",
+          "text": "@PORTS.port(\"0791:34C1\", ret=\"retf 8\")"
+        }
+      ],
+      "total_hours": [
+        36,
+        72
+      ],
+      "validation": "Recompute the work breakdown; independently challenge the scope/rates and fidelity/oracle assumptions. Arithmetic consistency is not forecast calibration.",
+      "work": [
+        {
+          "activity": "implementation",
+          "basis": "One candidate numerical block plus its adapter",
+          "hours_per_unit": [
+            3,
+            6
+          ],
+          "units": 4
+        },
+        {
+          "activity": "implementation",
+          "basis": "Shared input/trace/helper infrastructure",
+          "hours_per_unit": [
+            4,
+            8
+          ],
+          "units": 1
+        },
+        {
+          "activity": "validation",
+          "basis": "Per-block retained/original/accepted-port boundary and negative controls",
+          "hours_per_unit": [
+            4,
+            8
+          ],
+          "units": 4
+        },
+        {
+          "activity": "validation",
+          "basis": "Shared integration and independent review fixes",
+          "hours_per_unit": [
+            4,
+            8
+          ],
+          "units": 1
+        }
+      ]
+    },
+    {
+      "assumptions": [
+        "Context count follows the six documented public decision kinds; extra-time halves/refusal subpaths still need separate cases.",
+        "At m7 plain-port checkpoints are refused; this option does not take credit for later independent T78c work.",
+        "Nested generator/caller state may force redesign; a phase enum alone is insufficient."
+      ],
+      "claim": "Defer broad state-representation replacement until pending decisions and checkpoint obligations have a complete model.",
+      "compute": "not budgeted; no execution authorised",
+      "dependencies": [
+        "Complete continuation/state representation",
+        "Exact event/answer/refusal order",
+        "Pending frame/queue/RNG checkpoint proof",
+        "Reassessment against later accepted delivery if any"
+      ],
+      "disposition": "defer",
+      "double_validation_and_implementation_hours": [
+        316,
+        632
+      ],
+      "estimate_kind": "designed active-engineering-hour assumptions, not measured productivity",
+      "id": "explicit-transitions",
+      "limits": [
+        "Different scopes, not equal-feature bids; totals are not a ranking by cost.",
+        "CPU, runner elapsed time, later delivery and unresolved proof work are separate and unbudgeted."
+      ],
+      "obligations": [
+        "phase-tail",
+        "decisions",
+        "checkpoints",
+        "event-order",
+        "modes"
+      ],
+      "scope": "Four designed phase workgroups (setup,run_match,player_update,terminal), six public decision contexts, three checkpoint workgroups (ordinary,pending/refused,queued). Counts are planning groups, not measured states.",
+      "sources": [
+        {
+          "line": 565,
+          "path": "runtime/original_match/match.py",
+          "text": "def _advance(self):"
+        },
+        {
+          "line": 189,
+          "path": "runtime/original_match/README.md",
+          "text": "**Decisions** (where the original itself stops for the manager) and what an answer does there:"
+        },
+        {
+          "line": 1369,
+          "path": "runtime/original_match/match.py",
+          "text": "raise ValueError(\"port/unknown engine checkpoint is not supported in this assembly slice\")"
+        }
+      ],
+      "total_hours": [
+        158,
+        316
+      ],
+      "validation": "Recompute the work breakdown; independently challenge the scope/rates and fidelity/oracle assumptions. Arithmetic consistency is not forecast calibration.",
+      "work": [
+        {
+          "activity": "implementation",
+          "basis": "Designed phase workgroup",
+          "hours_per_unit": [
+            6,
+            12
+          ],
+          "units": 4
+        },
+        {
+          "activity": "implementation",
+          "basis": "Public decision context with refusal/default path",
+          "hours_per_unit": [
+            4,
+            8
+          ],
+          "units": 6
+        },
+        {
+          "activity": "implementation",
+          "basis": "Checkpoint workgroup",
+          "hours_per_unit": [
+            6,
+            12
+          ],
+          "units": 3
+        },
+        {
+          "activity": "validation",
+          "basis": "Phase boundary/order evidence",
+          "hours_per_unit": [
+            8,
+            16
+          ],
+          "units": 4
+        },
+        {
+          "activity": "validation",
+          "basis": "Decision/refusal/continuation evidence",
+          "hours_per_unit": [
+            6,
+            12
+          ],
+          "units": 6
+        },
+        {
+          "activity": "validation",
+          "basis": "Checkpoint queue/frame/RNG evidence",
+          "hours_per_unit": [
+            8,
+            16
+          ],
+          "units": 3
+        }
+      ]
+    },
+    {
+      "assumptions": [
+        "Partition actual modules into10numeric/policy,10state/effect/lifecycle and3interaction/assembly groups; rates intentionally differ.",
+        "Per-module effort varies widely; module count is a work-allocation input, not a complexity metric.",
+        "Unresolved oracle/coverage/representation obligations can exceed every range here; no confidence bound is claimed.",
+        "A public-API-only representation contract would need explicit owner adoption; it is not assumed."
+      ],
+      "claim": "No-go now for substituting a full domain rewrite under the present fidelity contract; technical feasibility is not disproved.",
+      "compute": "not budgeted; no execution authorised",
+      "dependencies": [
+        "Owner compatibility decision and consumer audit",
+        "Independent numeric/RNG/occupancy replacements",
+        "Rare-path and genuine-key oracle coverage",
+        "Whole API/record/continuation proof",
+        "Separate #427,T79,T80 delivery decisions"
+      ],
+      "disposition": "no-go-now",
+      "double_validation_and_implementation_hours": [
+        1888,
+        3776
+      ],
+      "estimate_kind": "designed active-engineering-hour assumptions, not measured productivity",
+      "id": "semantic-rewrite",
+      "limits": [
+        "Different scopes, not equal-feature bids; totals are not a ranking by cost.",
+        "CPU, runner elapsed time, later delivery and unresolved proof work are separate and unbudgeted."
+      ],
+      "obligations": [
+        "arithmetic",
+        "random-order",
+        "occupancy",
+        "machine-state",
+        "public-api",
+        "checkpoints",
+        "evidence-scope"
+      ],
+      "scope": "Initial rewrite/validation attempt across all23m7 registry modules plus six cross-module workgroups. Not a complete release estimate, exhaustive proof or live-Core bridge/sealed delivery.",
+      "sources": [
+        {
+          "line": 21,
+          "path": "runtime/original_match/port/engine.py",
+          "text": "class PortMachine(Machine):"
+        },
+        {
+          "line": 62,
+          "path": "docs/engine-study/micro-probes.md",
+          "text": "| Every memory byte and every captured register together | 0/18 |"
+        },
+        {
+          "line": 5,
+          "path": "docs/engine-study/audit-boundaries.md",
+          "text": "sound-boundary explanation, but a complete transitive liveness argument is still absent."
+        }
+      ],
+      "total_hours": [
+        944,
+        1888
+      ],
+      "validation": "Recompute the work breakdown; independently challenge the scope/rates and fidelity/oracle assumptions. Arithmetic consistency is not forecast calibration.",
+      "work": [
+        {
+          "activity": "implementation",
+          "basis": "Numeric/policy registry-module group",
+          "hours_per_unit": [
+            12,
+            24
+          ],
+          "units": 10
+        },
+        {
+          "activity": "implementation",
+          "basis": "State/effect/lifecycle registry-module group",
+          "hours_per_unit": [
+            16,
+            32
+          ],
+          "units": 10
+        },
+        {
+          "activity": "implementation",
+          "basis": "Interaction/assembly registry-module group",
+          "hours_per_unit": [
+            16,
+            32
+          ],
+          "units": 3
+        },
+        {
+          "activity": "implementation",
+          "basis": "Cross-module workgroup",
+          "hours_per_unit": [
+            8,
+            16
+          ],
+          "units": 6
+        },
+        {
+          "activity": "validation",
+          "basis": "Numeric/policy module original-oracle evidence",
+          "hours_per_unit": [
+            16,
+            32
+          ],
+          "units": 10
+        },
+        {
+          "activity": "validation",
+          "basis": "State/effect/lifecycle module evidence",
+          "hours_per_unit": [
+            24,
+            48
+          ],
+          "units": 10
+        },
+        {
+          "activity": "validation",
+          "basis": "Interaction/assembly module evidence",
+          "hours_per_unit": [
+            24,
+            48
+          ],
+          "units": 3
+        },
+        {
+          "activity": "validation",
+          "basis": "RNG/events/decisions/checkpoints/modes/post-tail integration evidence",
+          "hours_per_unit": [
+            16,
+            32
+          ],
+          "units": 6
+        }
+      ]
+    },
+    {
+      "authorised": false,
+      "claim": "Propose only the after-availability numerical strength block of377E with its existing machine-effect adapter; do not implement it here.",
+      "id": "prototype",
+      "limits": [
+        "6-12active engineering hours are a provisional prototype planning allowance, not approval or production-readiness estimate.",
+        "Selected-case equivalence does not establish the whole engine, natural frequency, performance or live-Core integration."
+      ],
+      "negative_controls": [
+        "Form cutoff33 against a declared form32 witness",
+        "Clamp after placement against the retained clamp-before-placement witness",
+        "Correct scalar with a deliberately wrong adapter word/register/site; require an actual sensitive witness before crediting the control"
+      ],
+      "obligations": [
+        "arithmetic",
+        "machine-state",
+        "identities",
+        "evidence-scope"
+      ],
+      "oracle": "Retained376original numerical returns cover only their recorded projection. Also compare the complete wrapper's captured registers/memory/ordered writes/sites/draws against unchanged accepted port and independent original behavior under explicitly disclosed existing limits; never use the new helper on both sides.",
+      "owner_decisions": [
+        "Choose existing machine-boundary target or a separately specified alternate contract.",
+        "Approve/defer this prototype and its active-effort allowance; optional T111 may be omitted.",
+        "Approve exact input/oracle/negative-control scope and separate CPU/runner budget before any engine call."
+      ],
+      "readability_questions": [
+        "Can an independent reader locate the signed form32 branch and finite-width arithmetic?",
+        "Can they distinguish unavailable from available-zero strength?",
+        "Can they identify which effects stay in the wrapper and why placement is queried after clamping?",
+        "Does adapter/trace complexity eliminate the proposed readability benefit?"
+      ],
+      "sources": [
+        {
+          "line": 551,
+          "path": "runtime/original_match/port/attributes.py",
+          "text": "def player_strength(mem, variant):"
+        },
+        {
+          "line": 498,
+          "path": "notes/engine-study/T98/strength-v1.json",
+          "text": "\"name\": \"clamp-before-placement\","
+        }
+      ],
+      "stop": [
+        "Any unexplained new original/reference boundary or trace difference blocks success.",
+        "If only scalar parity is available, do not claim adapter equivalence.",
+        "If necessary effects require duplicating most arithmetic/plumbing, stop and prefer views rather than hiding it.",
+        "No performance benefit without a preregistered comparable measurement; no repeated scope/threshold changes after results."
+      ],
+      "total_hours": [
+        6,
+        12
+      ],
+      "validation": "Future T111 must preregister inputs, source/oracle pins, ordinary/boundary cases, actual failing controls, exact boundary observations and separate CPU cap before execution.",
+      "work": [
+        {
+          "activity": "implementation",
+          "basis": "One known numerical block, documentation only until approved",
+          "hours_per_unit": [
+            1,
+            2
+          ],
+          "units": 1
+        },
+        {
+          "activity": "implementation",
+          "basis": "Preserve/adapt the existing wrapper effects",
+          "hours_per_unit": [
+            1,
+            2
+          ],
+          "units": 1
+        },
+        {
+          "activity": "validation",
+          "basis": "Selected ordinary/boundary oracle and failing-control set",
+          "hours_per_unit": [
+            2,
+            4
+          ],
+          "units": 1
+        },
+        {
+          "activity": "validation",
+          "basis": "Boundary trace/readability assessment and review fixes",
+          "hours_per_unit": [
+            2,
+            4
+          ],
+          "units": 1
+        }
+      ]
+    }
+  ],
+  "sections": [
+    "Recommendation and owner choices",
+    "Cost model and exclusions",
+    "Four cost plans",
+    "Smallest meaningful prototype",
+    "Validation and review boundary"
+  ],
+  "sources": {
+    "docs/engine-study/audit-boundaries.md": "dc4a3640588f283ad7088a31d76337e65b23c5bf8edc5a80e4a797738d8a37fe",
+    "docs/engine-study/micro-probes.md": "9d7923655543bfe22ee47eb1ecf80a81c68ad8fb4763d96c5f9d7291e5532ac7",
+    "notes/engine-study/T98/strength-v1.json": "3af8f59f7645409f9d91bdc2b48d17f9412fb99bc4c82b5c4d75807211d026d5",
+    "runtime/original_match/README.md": "80c03668edcda7a72c3af2a05e616693315bcf6c5cf0c5ca5aa2062a932ac7b1",
+    "runtime/original_match/match.py": "103478a380ece9504f4368cf4d5d40934f2f944dadb46ebe0a0b6341f849f9e0",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "runtime/original_match/port/ball.py": "6b5f17ee9af3bf7dbb2bae4bd5ae00e1a012f6d6cf6e6e3c2cdd8464a7e2c72a",
+    "runtime/original_match/port/engine.py": "5b82528f92309934a7b2010f404bd5787cb13ea08a32463c8fd3b6679e9c48a3",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81"
+  },
+  "support": {
+    "docs/engine-study/rewrite-contract.md": "c1e12420380eb5c65fee998ee36b576c1aea3cb3d1bbb1b303b7b6a077f6a4c3",
+    "docs/engine-study/rewrite-options.md": "6fe4b210fb3d89e6531cb6756a1f8b0abc201c9c3edb8f4949201f9c9c6dc64e",
+    "notes/engine-study/T110/T110a-v1.json": "47fb68882ea6c1585f51fc564c04f79115127146e8099cf4d3067ceeb7851729",
+    "notes/engine-study/T110/T110b-v2.json": "620d3f68836135b407328e6e0398c24ffc9c555b915f920bcf77b81cae69a0fa"
+  },
+  "task": "T110c"
+}
