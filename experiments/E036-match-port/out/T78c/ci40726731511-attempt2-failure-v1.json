@@ -1,0 +1,173 @@
+{
+  "source_head": "a94efb03b49177a80709c161906c4dcef1c4c55a",
+  "run_id": 40726731511,
+  "attempt": 2,
+  "outcome": "failure",
+  "passed_groups": 10,
+  "failed_job": {
+    "completedAt": "2026-10-28T22:28:52Z",
+    "conclusion": "failure",
+    "databaseId": 123136981863,
+    "name": "checks (e034-03)",
+    "startedAt": "2026-10-28T22:22:08Z",
+    "status": "completed",
+    "steps": [
+      {
+        "completedAt": "2026-10-28T22:22:09Z",
+        "conclusion": "success",
+        "name": "Set up job",
+        "number": 1,
+        "startedAt": "2026-10-28T22:22:09Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:22:14Z",
+        "conclusion": "success",
+        "name": "Run actions/checkout@v4",
+        "number": 2,
+        "startedAt": "2026-10-28T22:22:09Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:22:14Z",
+        "conclusion": "success",
+        "name": "Run actions/setup-python@v5",
+        "number": 3,
+        "startedAt": "2026-10-28T22:22:14Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:22:14Z",
+        "conclusion": "success",
+        "name": "Run python3 tools/ci_gate.py decide >> \"$GITHUB_OUTPUT\"",
+        "number": 4,
+        "startedAt": "2026-10-28T22:22:14Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:22:16Z",
+        "conclusion": "success",
+        "name": "Run python3 tools/check_links.py",
+        "number": 5,
+        "startedAt": "2026-10-28T22:22:14Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:22:21Z",
+        "conclusion": "success",
+        "name": "Run python3 tools/fetch_artifact.py goal2-67cf27d6",
+        "number": 6,
+        "startedAt": "2026-10-28T22:22:16Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:22:25Z",
+        "conclusion": "success",
+        "name": "Run python3 tools/fetch_artifact.py goal2-a949da2f",
+        "number": 7,
+        "startedAt": "2026-10-28T22:22:21Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:22:26Z",
+        "conclusion": "success",
+        "name": "Run actions/cache@v4",
+        "number": 8,
+        "startedAt": "2026-10-28T22:22:25Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:22:27Z",
+        "conclusion": "success",
+        "name": "Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt",
+        "number": 9,
+        "startedAt": "2026-10-28T22:22:26Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:22:27Z",
+        "conclusion": "skipped",
+        "name": "Run python3 -m unittest discover -s tests/static -v",
+        "number": 10,
+        "startedAt": "2026-10-28T22:22:27Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:22:27Z",
+        "conclusion": "skipped",
+        "name": "Run actions/cache@v4",
+        "number": 11,
+        "startedAt": "2026-10-28T22:22:27Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:22:27Z",
+        "conclusion": "skipped",
+        "name": "Run mkdir -p ~/apt-archives/partial",
+        "number": 12,
+        "startedAt": "2026-10-28T22:22:27Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:28:51Z",
+        "conclusion": "failure",
+        "name": "Run python3 tools/ci_gate.py run-tests --modules=\"test_human_keys,test_human_record,test_screens_video,test_e032_recheck,test_e036_compare,test_emul_match\" --group=\"e034-03\"",
+        "number": 13,
+        "startedAt": "2026-10-28T22:22:27Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:28:51Z",
+        "conclusion": "skipped",
+        "name": "Run for f in findings/F*.md; do python3 tools/check_citations.py \"$f\"; done",
+        "number": 14,
+        "startedAt": "2026-10-28T22:28:51Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:28:51Z",
+        "conclusion": "skipped",
+        "name": "Run ! git ls-files | grep -iE '\\.(exe|dat|hlp|hil|pif|bat)$'",
+        "number": 15,
+        "startedAt": "2026-10-28T22:28:51Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:28:51Z",
+        "conclusion": "skipped",
+        "name": "Post Run actions/cache@v4",
+        "number": 28,
+        "startedAt": "2026-10-28T22:28:51Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:28:51Z",
+        "conclusion": "skipped",
+        "name": "Post Run actions/setup-python@v5",
+        "number": 29,
+        "startedAt": "2026-10-28T22:28:51Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:28:51Z",
+        "conclusion": "success",
+        "name": "Post Run actions/checkout@v4",
+        "number": 30,
+        "startedAt": "2026-10-28T22:28:51Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-10-28T22:28:51Z",
+        "conclusion": "success",
+        "name": "Complete job",
+        "number": 31,
+        "startedAt": "2026-10-28T22:28:51Z",
+        "status": "completed"
+      }
+    ],
+    "url": "https://github.com/diegoami/goal2-archaeology/actions/runs/40726731511/job/123136981863"
+  },
+  "dispatch_guard_s": 60,
+  "total_unittest_s": 381.057,
+  "no_budget_or_assertion_change": true
+}
