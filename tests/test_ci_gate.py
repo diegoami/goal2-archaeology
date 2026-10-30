@@ -339,7 +339,7 @@ class CheckpointGroups(unittest.TestCase):
 
     def test_workflow_runs_all_groups_without_fast_fail_or_recorder_setup_in_boundary_jobs(self):
         text=(ROOT/'.github/workflows/ci.yml').read_text()
-        self.assertIn('max-parallel: 4',text)
+        self.assertNotIn('max-parallel',text)   # [designed: owner, 2026-10-30] every group starts at once
         self.assertIn('fail-fast: false',text)
         self.assertIn('--group="${{ matrix.group }}"',text)
         self.assertIn("matrix.group == 'general'",text)
