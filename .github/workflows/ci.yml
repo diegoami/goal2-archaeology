@@ -52,9 +52,10 @@ jobs:
     name: checks (${{ matrix.group }})
     if: github.event_name != 'push' && (github.event_name != 'pull_request' || !github.event.pull_request.draft)
     runs-on: ubuntu-latest
+    # [designed: owner, 2026-10-30] No cap on parallel groups: every group starts at once (4 at a time held the
+    # twelve-group full run on the Candidate of #629 for about five hours).
     strategy:
       fail-fast: false
-      max-parallel: 4
       matrix:
         group: [general, e034-01, e033-06, e034-02, e033-01, e033-02, e033-03, e033-04, e033-05, e033-07, e034-03, seal]
     env:
