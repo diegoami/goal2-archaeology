@@ -386,6 +386,8 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
         image_sources.validate_image(image, spec.image)
     except image_sources.SourceError as e:
         raise Refused(str(e)) from e
+    if SEALED["tables"] is not None:
+        image = sealed(image)
     cpu0, wall0 = time.process_time(), time.time()
     cpu_before = wall_before = 0.0          # the time a resumed match had used before its checkpoint
     rec = {"id": spec.id, "family": spec.family, "spec_sha256": spec.sha256, "image_sha256": spec.image_sha256,
@@ -497,9 +499,34 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
 _worker = {}
 
 
-def _init_worker(cache, mask, counts, time_limit, ports=(), stretch_limit=DEFAULT_STRETCH_LIMIT, checkpoint=None, display_profile=False, engine="original", no_unicorn=False):
+# [designed: T80] --from-records: the sealed engine's input. A match's registered source is verified as before, then
+# reduced to goal2's state (Image.state_of: the memory without GOAL.EXE's load module) and played from that state and
+# the tables alone (Image.from_state); the record still names the source it was made from.
+SEALED = {"tables": None, "images": {}}
+
+
+def seal(folder):
+    """Load the tables for --from-records (None: the image itself, as before)."""
+    if folder is None:
+        SEALED["tables"] = None
+        return
+    from original_match.port import tables
+    SEALED["tables"] = tables.load(folder)
+
+
+def sealed(image):
+    """The image the sealed engine plays: from goal2's state in `image` and the tables, made once per source."""
+    from original_match import Image
+    key = id(image)
+    if key not in SEALED["images"]:
+        SEALED["images"][key] = (image, Image.from_state(image.state(SEALED["tables"]), SEALED["tables"]))
+    return SEALED["images"][key][1]
+
+
+def _init_worker(cache, mask, counts, time_limit, ports=(), stretch_limit=DEFAULT_STRETCH_LIMIT, checkpoint=None, display_profile=False, engine="original", no_unicorn=False, from_records=None):
     """A worker finds the declared matches itself (families.discover), so no policy object crosses a process."""
     if no_unicorn: deny_unicorn()
+    seal(from_records)
     from original_match import Image
     from original_match.assets import reference_image
     _worker.update(image=image_sources.load(image_sources.DEFAULT,cache), images={}, cache=cache, mask=mask, counts=counts, time_limit=time_limit,
@@ -567,7 +594,7 @@ def append(out, record):
 
 def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask=(), counts=(),
                time_limit=DEFAULT_TIME_LIMIT, say=print, run_one=None, ports=(), stretch_limit=DEFAULT_STRETCH_LIMIT,
-               checkpoint=None, display_profile=False, engine="original", no_unicorn=False):
+               checkpoint=None, display_profile=False, engine="original", no_unicorn=False, from_records=None):
     """Run the selected matches not yet in `out`; returns the records of every selected match now in `out`.
     run_one(spec) -> record replaces the kit for a test (one process only). ports: the kit's port specs (port_specs).
     checkpoint: the --checkpoint folder (#359); a match's checkpoint is dropped once its record is in `out`."""
@@ -575,6 +602,7 @@ def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask
         if engine != "port": raise Refused("no_unicorn requires engine=port")
         deny_unicorn()
     ports = engine_ports(engine, ports)
+    seal(from_records)
     checkpoints = Checkpoints(checkpoint) if checkpoint else None
     fileopts.check_log_output(out, "--out")     # the check prepare() applied before the slot
     done = existing_records(out, selected, mask, ports, engine)
@@ -613,7 +641,7 @@ def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask
     else:
         from concurrent.futures import ProcessPoolExecutor
         with ProcessPoolExecutor(max_workers=workers, initializer=_init_worker,
-                                 initargs=(cache, mask, counts, time_limit, list(ports), stretch_limit, checkpoint, display_profile, engine, no_unicorn)) as pool:
+                                 initargs=(cache, mask, counts, time_limit, list(ports), stretch_limit, checkpoint, display_profile, engine, no_unicorn, from_records)) as pool:
             for rec, lines in pool.map(_run_in_worker, [s.id for s in todo]):
                 for line in lines:
                     say(line)
@@ -708,6 +736,11 @@ def parser():
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--family", required=True)
     add_engine_arguments(ap)
+    ap.add_argument("--from-records", action="store_true",
+                    help="the sealed engine (T80): each match from goal2's state in its source (Image.state_of) and "
+                         "GOAL.EXE's tables (--tables), never the image itself; requires --engine port")
+    ap.add_argument("--tables", default=str(ROOT / "static/goal-exe/tables"),
+                    help="with --from-records: the folder of GOAL.EXE's constant tables (default: %(default)s)")
     ap.add_argument("--out")
     ap.add_argument("--find-ranges")
     ap.add_argument("--max", type=int)
@@ -741,6 +774,14 @@ def prepare(a):
     complete) are not here: they need the run."""
     if getattr(a, 'no_unicorn', False) and getattr(a, 'engine', 'original') != 'port':
         raise Refused('--no-unicorn requires --engine port')
+    if getattr(a, 'from_records', False) and (getattr(a, 'engine', 'original') != 'port' or a.find_ranges):
+        raise Refused('--from-records is a family run on the sealed engine: it requires --engine port and --out')
+    if getattr(a, 'from_records', False):
+        from original_match.port import tables
+        try:
+            tables.load(a.tables)
+        except tables.TablesError as e:
+            raise Refused(str(e)) from e
     if getattr(a, 'engine', 'original') == 'port' and (a.count or a.find_ranges or a.checkpoint):
         raise Refused('engine=port does not yet support --count, --find-ranges or --checkpoint')
     if (a.out is None) == (a.find_ranges is None):
@@ -818,7 +859,8 @@ def main(argv=None):
             return 0
         recs = run_family(selected, a.out, a.workers, a.max, a.cache, mask, counts, a.time_limit, ports=ports,
                           stretch_limit=a.stretch_limit, checkpoint=a.checkpoint, display_profile=display_profile_selected(a),
-                          engine=a.engine, no_unicorn=a.no_unicorn)
+                          engine=a.engine, no_unicorn=a.no_unicorn,
+                          from_records=str(a.tables) if a.from_records else None)
     except REFUSALS as e:
         print(f"refused: {e}")
         return 2

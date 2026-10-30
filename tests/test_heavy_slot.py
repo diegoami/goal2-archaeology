@@ -755,7 +755,8 @@ class PathOptionsTest(unittest.TestCase):
         listed = {"--image", "--json", "--cache", "--out", "--find-ranges", "--mask", "--checkpoint", "--state", "--tables"}
         others = {"--family", "--max", "--workers", "--time-limit", "--stretch-limit", "--count", "--only", "--ports", "--variant", "--modules", "--group",
                   "--help", "-h", "--engine", "--no-unicorn",  # enum/boolean options, not paths (T78b)
-                  "--no-screen"}  # check.py's boolean screen-free comparison, not a path (T78d)
+                  "--no-screen",  # check.py's boolean screen-free comparison, not a path (T78d)
+                  "--from-records"}  # family.py's boolean sealed-engine switch, not a path (T80c)
         seen = set()
         for parser in (self.family.parser(), self.check.parser()):
             seen |= {o for a in parser._actions for o in a.option_strings}
