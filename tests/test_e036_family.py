@@ -183,7 +183,7 @@ class TheDirectory(unittest.TestCase):
         found = families.discover(self.dir)
         self.assertEqual(sorted(found), ["X1"])
         self.assertEqual(found["X1"].matches[1].edits[0]["value"], 3)
-        self.assertEqual(sorted(families.discover()), ["F40", "FS", "O8", "R", "S"])         # a file of its own, in the real directory
+        self.assertEqual(sorted(families.discover()), ["A700", "F40", "FS", "O8", "R", "S"])   # a file of its own, in the real directory (A700: T79's sheet)
 
     def test_a_policy_module_in_the_directory_is_found_too(self):
         (self.dir / "mine.py").write_text(
@@ -302,6 +302,7 @@ class TheDirectory(unittest.TestCase):
         found = families.discover()
         self.assertEqual([f.name for f in families.select("ALL", found)], ["F40", "FS", "O8", "R", "S"])
         self.assertEqual([f.name for f in families.select("S,F40", found)], ["S", "F40"])
+        self.assertEqual([f.name for f in families.select("A700", found)], ["A700"])   # a sheet: by name (T79)
         for bad in ("F41", "F40,F40", "", "all", "F40,"):
             with self.subTest(bad):
                 with self.assertRaises(families.FamilyError):
