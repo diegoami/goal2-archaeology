@@ -27,7 +27,8 @@ separate worker checkpoint envelope has not yet been admitted.
 
 The port needs no byte of GOAL.EXE at run time beyond its constant tables, which the game builds once from the
 player's own GOAL.EXE and never ships (`tools/static/port_tables.py extract --exe GOAL.EXE --out DIR` in
-goal2-archaeology; it refuses a GOAL.EXE that is not the registered one). Its input is goal2's state:
+goal2-archaeology; it refuses a GOAL.EXE that is not the registered one, and writes the folder `tables.load`
+reads: `manifest.json`, `ds.hex`, `code_data.hex`). Its input is goal2's state:
 
 ```python
 from goal2.engine.original_match import Image, Match, Fixture
