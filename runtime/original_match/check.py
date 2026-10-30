@@ -1,6 +1,7 @@
 """The check a goal2 session runs: is this the original's engine, run right, on this machine?
 
     python3 -m original_match.check [--image FILE.sav] [--cache .cache] [--family] [--json REPORT.json]
+    python3 -m original_match.check --engine port --state STATE.json --tables DIR [--no-unicorn] ...   (sealed, T80)
 
 1. engine: E011-r0001's fixture (Denmark v country 19, calendar number 21, no input but the speed byte 0 at the
    captain prompt, as E011's starting keys left it) from the reference image must be the match E021 recorded
@@ -32,6 +33,7 @@ import hashlib
 import json
 import sys
 import time
+from pathlib import Path
 
 from . import Image, Match, Fixture, VERSION
 import fileopts
@@ -255,6 +257,9 @@ def parser():
     """The command line's one definition: main() parses with it, and so does the heavy-job slot (heavy_slot.parsed)."""
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--image", help="a savestate or Memory component (default: the reference, fetched by hash)")
+    ap.add_argument("--state", help="the sealed engine (T80): goal2's state (Image.state_of, JSON) in place of an image; "
+                                    "needs --tables")
+    ap.add_argument("--tables", help="with --state: the folder of GOAL.EXE's constant tables (port/tables.py)")
     ap.add_argument("--cache", default=".cache")
     ap.add_argument("--family", action="store_true")
     ap.add_argument("--engine", choices=("original", "port"), default="original")
@@ -291,8 +296,16 @@ def validate(a):
             specs = port.spec_names(port.load(specs))         # refuses an unknown module or variant before any run
         except ValueError as e:
             raise Refused(str(e))
+    state = getattr(a, 'state', None)
+    if (state is None) != (getattr(a, 'tables', None) is None):
+        raise Refused('--state and --tables go together')
+    if state is not None and a.image is not None:
+        raise Refused('--state replaces --image')
     try:                       # each path option is checked by the operation the run applies to it (runtime/fileopts.py)
-        if a.image is not None:
+        if state is not None:
+            fileopts.check_input(state, "--state")
+            check_tables(a.tables)
+        elif a.image is not None:
             fileopts.check_input(a.image, "--image")
         else:
             check_cache(a.cache)
@@ -301,6 +314,23 @@ def validate(a):
     except fileopts.PathError as e:
         raise Refused(str(e))
     return specs
+
+
+TABLE_FILES = ("manifest.json", "ds.hex", "code_data.hex")
+
+
+def check_tables(folder):
+    """--tables names a folder holding the three files port/tables.py reads, each a readable regular file."""
+    for name in TABLE_FILES:
+        fileopts.check_input(str(Path(folder) / name), "--tables")
+
+
+def load_state(a):
+    """The sealed engine's input (T80): goal2's state from --state and the tables from --tables, as an Image."""
+    from .port import tables
+    data = fileopts.read_input(a.state, "--state")
+    check_tables(a.tables)
+    return data, Image.from_state(json.loads(data), tables.load(a.tables))
 
 
 def load_image(a):
@@ -342,9 +372,14 @@ def main(argv=None):
     MATCH = example.Match = ported(specs, a.engine)
     if specs:
         print(f"ports: {', '.join(specs)}", flush=True)
-    data = load_image(a)
-    image = Image.from_bytes(data)
+    if a.state is not None:            # the sealed engine (T80): goal2's state and GOAL.EXE's tables, no image
+        data, image = load_state(a)
+    else:
+        data = load_image(a)
+        image = Image.from_bytes(data)
     report = {"kit": VERSION, "image_sha256": hashlib.sha256(data).hexdigest(), "reference": REFERENCE, "checks": {}}
+    if a.state is not None:
+        report["state"] = True
     SCREEN = not (a.no_screen or a.engine == "port")
     if not SCREEN:
         report["screen"] = False

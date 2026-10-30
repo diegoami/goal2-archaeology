@@ -68,7 +68,8 @@ class Registry:
         self.variants[name] = what
 
 
-NOT_PORT_MODULES = ("mem", "guest", "prove", "engine")     # the view, the guest calls and the proof (T59): machinery, no ports
+NOT_PORT_MODULES = ("mem", "guest", "prove", "engine", "tables")   # the view, the guest calls, the proof (T59) and
+#                                                                     the tables' loader (T80): machinery, no ports
 
 
 def available():

@@ -1,0 +1,4 @@
+strict display profile: True; reference experiments/E036-match-port/families/display/reference-with-finals-20261024-v1.jsonl
+S/qualifier-21: score [1, 1] ticks 4149 draws 182188 cpu 49.491 s -> 56.902 s; DIFFER: first at after.ds (DS+0x7800); also after.ranges.records, after.ranges.w5c8a0: FAIL
+S/set-piece-taker: score [1, 1] ticks 4332 draws 190797 cpu 11.003 s -> 59.17 s; DIFFER: first at after.ds (DS+0x7800); also after.ranges.records, after.ranges.w5c8a0: FAIL
+75 matches expected identical, 0 pass, 75 fail

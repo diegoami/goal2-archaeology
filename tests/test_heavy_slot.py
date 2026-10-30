@@ -559,6 +559,71 @@ class PathOptionsTest(unittest.TestCase):
         _, perm = build_paths(self.tmp)
         self.table("--image", INPUT_PERM, perm, self.check_validate("--image"), self.check_entry("--image"), self.load_image, SAID_INPUT)
 
+    # ---- check.py --state and --tables (T80: the sealed engine's inputs, goal2's state and GOAL.EXE's tables)
+    TABLES = ROOT / "static/goal-exe/tables"
+
+    def state_validate(self, path):
+        try:
+            self.check.validate(self.check.parser().parse_args(["--state", path, "--tables", str(self.TABLES)]))
+        except self.check.Refused as e:
+            return str(e)
+
+    def state_entry(self, path):
+        return ["-m", "original_match.check", "--state", path, "--tables", str(self.TABLES)], ROOT / "runtime"
+
+    def load_state(self, path):
+        return self.check.load_state(self.check.parser().parse_args(["--state", path, "--tables", str(self.TABLES)]))
+
+    def test_check_state(self):
+        plain, _ = build_paths(self.tmp)
+        self.table("--state", INPUT, plain, self.state_validate, self.state_entry, self.load_state, SAID_INPUT)
+
+    @unittest.skipIf(ROOT_USER, "root is not stopped by a file mode")
+    def test_check_state_permissions(self):
+        _, perm = build_paths(self.tmp)
+        self.table("--state", INPUT_PERM, perm, self.state_validate, self.state_entry, self.load_state, SAID_INPUT)
+
+    def test_check_tables(self):
+        """--tables is a folder of three input files: each condition of one of them is the folder's refusal, at once."""
+        import shutil
+        state = self.tmp / "state.json"
+        state.write_text("{}")
+        good = self.tmp / "tables"
+        shutil.copytree(self.TABLES, good)
+        missing_one = self.tmp / "missing-one"
+        shutil.copytree(self.TABLES, missing_one)
+        (missing_one / "ds.hex").unlink()
+        a_file = self.tmp / "a-file"
+        a_file.write_text("x")
+        dir_in_the_way = self.tmp / "dir-in-the-way"
+        shutil.copytree(self.TABLES, dir_in_the_way)
+        (dir_in_the_way / "manifest.json").unlink()
+        (dir_in_the_way / "manifest.json").mkdir()
+        def validate(folder):
+            try:
+                self.check.validate(self.check.parser().parse_args(["--state", str(state), "--tables", folder]))
+            except self.check.Refused as e:
+                return str(e)
+        self.assertIsNone(validate(str(good)))
+        for folder, said in ((self.tmp / "no-such", "does not exist"), (missing_one, "does not exist"),
+                             (a_file, "cannot be read"), (dir_in_the_way, "is not a file")):
+            why = validate(str(folder))
+            self.assertIsNotNone(why, folder)
+            self.assertIn(said, why, folder)
+            self.assertTrue(why.startswith(f"--tables {folder}"), why)
+            with self.assertRaises(self.fileopts.PathError) as cm:
+                self.check.check_tables(str(folder))
+            self.assertEqual(str(cm.exception), why)
+            self.answered_at_once(["-m", "original_match.check", "--state", str(state), "--tables", str(folder)],
+                                  ROOT / "runtime", why)
+        with self.assertRaises(self.check.Refused):
+            self.check.validate(self.check.parser().parse_args(["--state", str(state)]))
+        with self.assertRaises(self.check.Refused):
+            self.check.validate(self.check.parser().parse_args(["--tables", str(good)]))
+        with self.assertRaises(self.check.Refused):
+            self.check.validate(self.check.parser().parse_args(["--state", str(state), "--tables", str(good),
+                                                                "--image", str(state)]))
+
     def test_check_json(self):
         plain, _ = build_paths(self.tmp)
         self.table("--json", NEW, plain, self.check_validate("--json"), self.check_entry("--json"),
@@ -687,7 +752,7 @@ class PathOptionsTest(unittest.TestCase):
 
     def test_every_path_option_is_in_a_table(self):
         """The audit: the options of the three parsers. A new option that names a file fails here until it has a table."""
-        listed = {"--image", "--json", "--cache", "--out", "--find-ranges", "--mask", "--checkpoint"}
+        listed = {"--image", "--json", "--cache", "--out", "--find-ranges", "--mask", "--checkpoint", "--state", "--tables"}
         others = {"--family", "--max", "--workers", "--time-limit", "--stretch-limit", "--count", "--only", "--ports", "--variant", "--modules", "--group",
                   "--help", "-h", "--engine", "--no-unicorn",  # enum/boolean options, not paths (T78b)
                   "--no-screen"}  # check.py's boolean screen-free comparison, not a path (T78d)
