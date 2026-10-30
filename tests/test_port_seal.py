@@ -146,5 +146,41 @@ class StateContract(unittest.TestCase):
             self.tables.load(folder)
 
 
+class CheckpointTables(unittest.TestCase):
+    """#632: a sealed match saved and loaded keeps its tables, so records_after() still gives goal2's next state."""
+
+    def setUp(self):
+        sys.path.insert(0, str(ROOT / "runtime"))
+        from original_match import Image, Match, Fixture
+        from original_match.assets import reference_image
+        from original_match.port import tables
+        self.Match, self.tables = Match, tables
+        t = tables.load(TABLES)
+        source = Image.from_savestate(reference_image(ROOT / ".cache/dl"))
+        self.m = Match(Image.from_state(source.state(t), t), Fixture(7, 19, index=21), managed=7, engine="port")
+
+    def test_a_loaded_sealed_match_gives_the_same_next_state(self):
+        played = self.m.events()
+        for _ in range(3):
+            next(played)
+        restored = self.Match.load(self.m.save())
+        self.assertEqual(restored.engine, "port")
+        self.assertEqual(restored.records_after(), self.m.records_after())
+        for _ in range(3):                            # both go on alike, and still agree
+            a, b = next(played), next(restored.events())
+            self.assertEqual((a.kind, a.minute, a.score), (b.kind, b.minute, b.score))
+        self.assertEqual(restored.records_after(), self.m.records_after())
+
+    def test_tables_changed_in_a_checkpoint_are_refused(self):
+        import json
+        blob = self.m.save()
+        n = int.from_bytes(blob[4:8], "little")
+        state = json.loads(blob[8:8 + n])
+        state["tables"]["sha256"]["ds"] = "0" * 64
+        head = json.dumps(state).encode()
+        with self.assertRaisesRegex(ValueError, "differ from their recorded digests"):
+            self.Match.load(blob[:4] + len(head).to_bytes(4, "little") + head + blob[8 + n:])
+
+
 if __name__ == "__main__":
     unittest.main()

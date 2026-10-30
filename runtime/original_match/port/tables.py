@@ -8,8 +8,10 @@ code_data.hex. `load(folder)` reads them and refuses tables whose digests are no
 them into a guest memory at a load segment's positions. [derived: experiments/E036-match-port/out/T80/b/inputs-v1.md,
 probe v5: every admitted match equals the original from these tables plus the game's state, 75 of 75]
 """
+import base64
 import hashlib
 import json
+import zlib
 from pathlib import Path
 
 DS_PARAGRAPH = 0x2581       # the data segment, in paragraphs from the load segment (static/goal-exe/README.md)
@@ -74,3 +76,30 @@ def load(folder):
     if at != len(code):
         raise TablesError("the code-data table's length differs from its manifest")
     return Tables(ds, areas, dict(want))
+
+
+def to_record(t):
+    """`t` for a saved match (match.py _save_state): its bytes, compressed, and its digests. The checkpoint already
+    holds the match's guest memory; this keeps the tables records_after needs after Match.load (#632)."""
+    code = b"".join(raw for _, raw in t.code_data)
+    return {"ds": base64.b64encode(zlib.compress(t.ds, 9)).decode(),
+            "code_data": base64.b64encode(zlib.compress(code, 9)).decode(),
+            "areas": [[off, len(raw)] for off, raw in t.code_data], "sha256": dict(t.sha256)}
+
+
+def from_record(record):
+    """The Tables of `to_record`; refused unless both tables still have their recorded digests."""
+    try:
+        ds = zlib.decompress(base64.b64decode(record["ds"]))
+        code = zlib.decompress(base64.b64decode(record["code_data"]))
+        want, areas = record["sha256"], record["areas"]
+    except (KeyError, TypeError, ValueError, zlib.error) as e:
+        raise TablesError(f"unreadable tables in a saved match: {e}") from None
+    if hashlib.sha256(ds).hexdigest() != want.get("ds") or hashlib.sha256(code).hexdigest() != want.get("code_data"):
+        raise TablesError("the tables in a saved match differ from their recorded digests")
+    out, at = [], 0
+    for off, n in areas:
+        out.append((off, code[at:at + n]));at += n
+    if at != len(code) or len(ds) != DS_INIT:
+        raise TablesError("the tables in a saved match differ from their recorded positions")
+    return Tables(ds, out, dict(want))
