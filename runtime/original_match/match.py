@@ -1361,6 +1361,9 @@ class Match:
                  "header": self.image_header.hex()}
         if self.ports:                 # opts["ports"] names them; a stop a port made resumes at its return as new
             state["no_replay_at"] = self.m.no_replay_at
+        if getattr(self, "tables", None) is not None:      # a sealed match keeps records_after() across load (#632)
+            from .port import tables
+            state["tables"] = tables.to_record(self.tables)
         return state, snap["memory"] + self.image_tail
 
     @staticmethod
@@ -1456,6 +1459,13 @@ class Match:
         self._install_ports(self.opts.get("ports"))
         self.prover = None
         self.m.no_replay_at = state.get("no_replay_at")
+        self.tables = None
+        if "tables" in state:
+            from .port import tables
+            try:
+                self.tables = tables.from_record(state["tables"])
+            except tables.TablesError as e:
+                raise ValueError(str(e)) from None
         return self
 
     @classmethod
