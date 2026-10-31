@@ -54,6 +54,20 @@ class PortTables(unittest.TestCase):
                 self.assertIn("differ from the manifest's digests", text)
                 self.t = tool()
 
+    def test_a_read_code_byte_that_differs_from_goal_exe_fails(self):
+        # #638: the port must play only code bytes equal to the tables; a relocated or game-written one is refused.
+        rmap = json.loads(self.t.READ_MAP.read_text())
+        for name, change in (("differ", lambda c: c["differ_ranges"].append(["0x23952", 2])),
+                             ("relocated", lambda c: c.update(relocated=2))):
+            with self.subTest(change=name):
+                altered = json.loads(json.dumps(rmap));change(altered["regions"]["code"])
+                path = self.tmp / f"{name}.json";path.write_text(json.dumps(altered))
+                self.t.READ_MAP = path
+                code, text = run_check(self.t)
+                self.assertEqual(code, 1, text)
+                self.assertIn("#638", text)
+                self.t = tool()
+
     def test_the_hex_format_reads_back(self):
         for data in (b"", bytes(range(256)) * 3, b"\x00" * 1000 + b"\x01", b"A" * 64 + b"B" * 31):
             self.assertEqual(self.t.from_hex(self.t.to_hex(data, "t")), data)

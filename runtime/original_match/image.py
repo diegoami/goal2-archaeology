@@ -120,12 +120,23 @@ class Image:
         """The sealed engine's input (T80): goal2's state (`state_of`) and GOAL.EXE's constant tables
         (port.tables.load, from a folder the caller gives), never an image of the original. The memory is the
         state's, GOAL.EXE's load module (zero in the state) is the tables, and the initialised bytes the game
-        had changed are the state's again."""
-        from .port.tables import MODULE_SIZE, DS_PARAGRAPH, TablesError
+        had changed are the state's again, as are the code-data bytes that differed from the tables (#638). Every
+        entry is checked before it is written: a byte value, inside its table (#639)."""
+        from .port.tables import MODULE_SIZE, DS_PARAGRAPH, DS_INIT, TablesError
         if not isinstance(state, dict) or state.get("schema") != STATE_SCHEMA:
             raise ValueError(f"not a state of schema {STATE_SCHEMA}")
         if state["tables_sha256"] != tables.sha256:
             raise TablesError("the state was made against other tables")
+        areas = {off + i for off, raw in tables.code_data for i in range(len(raw))}
+        for key, inside, where in (("initialised", lambda o: 0 <= o < DS_INIT, "DS:0000..7B6F"),
+                                   ("code_data", areas.__contains__, "GOAL.EXE's code-data areas")):
+            entries = state.get(key)
+            if not isinstance(entries, list):
+                raise ValueError(f"the state has no {key} list")
+            for entry in entries:
+                if not (isinstance(entry, list) and len(entry) == 2 and all(type(x) is int for x in entry)
+                        and inside(entry[0]) and 0 <= entry[1] <= 255):
+                    raise ValueError(f"the state's {key} entry {entry!r} is not a byte inside {where}")
         load = state["load"]
         memory = bytearray(zlib.decompress(base64.b64decode(state["memory"])))
         if len(memory) < 0x110000:
@@ -135,6 +146,8 @@ class Image:
             raise ValueError("the state holds bytes of GOAL.EXE's load module: a state leaves them out")
         tables.place(memory, load)
         ds = module + DS_PARAGRAPH * 16
+        for off, value in state["code_data"]:
+            memory[module + off] = value
         for off, value in state["initialised"]:
             memory[ds + off] = value
         self = cls.__new__(cls)
@@ -213,14 +226,16 @@ class Image:
         return state_of(self, tables or self.tables)
 
 
-STATE_SCHEMA = "original_match.state/1"
+STATE_SCHEMA = "original_match.state/2"     # /2: the code-data bytes that differ from the tables (#638)
 
 
 def state_of(image, tables):
     """goal2's state in an image of the original, as the sealed engine takes it (T80, Image.from_state): the
     whole memory with GOAL.EXE's load module (its code and the initialised data DS:0000..7B6F) left out, and
     the initialised bytes whose values differ from the tables (the game set them after start-up: 26 in the
-    admitted family's sources, the main RNG word DS:7B62 among them). The rest of the memory (DS:7B70..FFFF,
+    admitted family's sources, the main RNG word DS:7B62 among them), and likewise the bytes of the code-data
+    areas that differ from the tables (#638: on the reference image E006-r0001, the DOS loader's relocation of the
+    set-DS stub's immediate at 2382:0132; the port reads no such byte, read map T80a). The rest of the memory (DS:7B70..FFFF,
     the records, the heap, the screen) is the game's, not GOAL.EXE's. [derived: experiments/E036-match-port/
     out/T80/b/inputs-v1.md, probe v5: 75 of 75 identical from tables plus this state]"""
     from .port.tables import MODULE_SIZE, DS_PARAGRAPH
@@ -228,9 +243,11 @@ def state_of(image, tables):
     module = image.load * 16
     ds = module + DS_PARAGRAPH * 16
     changed = [[i, memory[ds + i]] for i, b in enumerate(tables.ds) if memory[ds + i] != b]
+    code = [[off + i, memory[module + off + i]] for off, raw in tables.code_data for i, b in enumerate(raw)
+            if memory[module + off + i] != b]
     memory[module:module + MODULE_SIZE] = bytes(MODULE_SIZE)
     return {"schema": STATE_SCHEMA, "load": image.load, "header": bytes(image.header).hex(),
-            "tables_sha256": dict(tables.sha256), "initialised": changed,
+            "tables_sha256": dict(tables.sha256), "initialised": changed, "code_data": code,
             "memory": base64.b64encode(zlib.compress(bytes(memory), 9)).decode("ascii")}
 
 

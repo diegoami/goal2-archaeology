@@ -150,6 +150,27 @@ class StateContract(unittest.TestCase):
         with self.assertRaises(self.tables.TablesError):
             self.image.Image.from_state(other, self.t)
 
+    def test_a_code_data_byte_that_differs_from_the_tables_is_carried(self):
+        # #638: DOS relocates a word inside a code-data area (2382:0132 on the reference image); the state keeps it.
+        img = self.fake()
+        off = self.t.code_data[0][0]
+        img.memory[img.load * 16 + off] ^= 0xFF
+        state = img.state(self.t)
+        self.assertEqual(state["code_data"], [[off, img.memory[img.load * 16 + off]]])
+        sealed = self.image.Image.from_state(state, self.t)
+        self.assertEqual(sealed.memory[img.load * 16 + off], img.memory[img.load * 16 + off])
+
+    def test_entries_outside_their_table_are_refused(self):
+        # #639: from_state writes only bytes inside DS:0000..7B6F and the code-data areas, and only byte values.
+        state = self.fake().state(self.t)
+        areas = {o + i for o, raw in self.t.code_data for i in range(len(raw))}
+        outside = next(o for o in range(self.tables.MODULE_SIZE) if o not in areas)
+        for key, entries in (("initialised", [[self.tables.DS_INIT, 1]]), ("initialised", [[-1, 1]]),
+                             ("initialised", [[0, 256]]), ("initialised", [[0, "1"]]), ("initialised", [0]),
+                             ("code_data", [[outside, 1]]), ("code_data", [[-1, 1]]), ("code_data", None)):
+            with self.subTest(key=key, entries=entries), self.assertRaisesRegex(ValueError, key):
+                self.image.Image.from_state(dict(state, **{key: entries}), self.t)
+
     def test_tables_that_differ_from_their_manifest_are_refused(self):
         import shutil
         folder = Path(tempfile.mkdtemp()) / "t"

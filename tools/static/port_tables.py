@@ -168,6 +168,12 @@ def check():
             missing = [x for x in range(o, o + n) if x not in covered]
             if missing:
                 problems.append(f"the port read code bytes outside the tables at image {missing[0]:#x} ({len(missing)} bytes)")
+        code_region = rmap["regions"]["code"]
+        for hexoff, n in code_region["differ_ranges"]:
+            problems.append(f"the port read code bytes at module offset {hexoff} ({n}) that differ from GOAL.EXE: the port "
+                            "must not depend on a code byte DOS relocated or the game wrote (#638)")
+        if code_region.get("relocated"):
+            problems.append(f"the port read {code_region['relocated']} relocated code bytes (#638)")
         for hexoff, n in rmap["regions"]["initialised data"]["differ_ranges"]:
             if int(hexoff, 16) not in STATE_BYTES:
                 problems.append(f"DS:{hexoff} differs from GOAL.EXE in the read map and is not named as state")
