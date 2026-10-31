@@ -62,10 +62,17 @@ one comment on the issue and stop.
 
 - The launcher has already checked this checkout out at the candidate. Confirm
   `git rev-parse HEAD` equals the Candidate; if it does not, say so on the issue and stop.
-- Run the checks CI runs, all of them: `python3 tools/check_links.py`, every finding's citations
-  (`for f in findings/F*.md; do python3 tools/check_citations.py "$f"; done`) and the whole unit suite
-  with every slow module (`python3 tools/ci_gate.py run-tests --modules="$(python3 -c 'import sys; sys.path.insert(0, "tools"); import ci_gate; print(",".join(ci_gate.SLOW))')"`).
-  Report the tail of anything failing.
+- Run the quick checks yourself: `python3 tools/check_links.py`, every finding's citations
+  (`for f in findings/F*.md; do python3 tools/check_citations.py "$f"; done`) and
+  `python3 -m unittest discover -s tests/static`. Report the tail of anything failing.
+- [designed: owner, 2026-10-31] The whole unit suite with every slow module is the manual full CI run
+  the issue links, not a local run: the twelve groups run in parallel on separate runners, where a
+  local run either takes hours or, run in parallel, fails on memory (the m9 review's `MemoryError`).
+  Verify that run yourself: `gh run view <id> --json headSha,conclusion,jobs` must show the Candidate
+  as `headSha`, `conclusion` `success`, and every group's job `success` (none skipped); read any job's
+  log you need in full with `gh api repos/diegoami/goal2-archaeology/actions/jobs/<job id>/logs`. If the issue links no such run, or it is
+  not at the Candidate, say so as a MUST-FIX and do not start the suite locally. Run a single test or
+  group locally only to reproduce something you suspect, one heavy group at a time.
 
 ## Review
 

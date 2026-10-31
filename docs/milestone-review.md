@@ -24,7 +24,9 @@ example `m3-campaign-ui`) on **exactly the reviewed commit** of `main`.
    ```
 
    then the PRs merged since (`gh pr list --state merged --search "merged:>=<date>"`), the checks
-   run on the candidate (CI green on it, with a manual run that takes every slow module), what changed in plain words, the claims to verify with `file:line`, and the known owner
+   run on the candidate (CI green on it, with a manual full CI run that takes every slow module, linked by
+   its run id: the reviewer verifies it and takes it as the unit suite's result instead of a local run;
+   owner, 2026-10-31), what changed in plain words, the claims to verify with `file:line`, and the known owner
    decisions (not defects). From then on `main` takes only fixes for the milestone's findings.
    [designed: owner, 2026-10-21] The body **ends with the reviewer's prompt**, ready to paste:
 
