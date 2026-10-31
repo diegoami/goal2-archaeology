@@ -14,7 +14,8 @@ never from GOAL.EXE at run time. They are two areas of the unpacked image:
   "; data (not reached as code), N bytes": 173 areas, 11,572 bytes), the tables the port reads there.
 The manifest holds positions and digests only. `extract` slices any GOAL.EXE (packed LZEXE 0.91 or
 unpacked) at the manifest's positions and refuses one whose slices do not match the manifest's
-digests: it is how goal2 builds the tables from the player's own file (it never ships them).
+digests: it is how goal2 builds the tables from the player's own file (it never ships them). It writes
+the manifest next to both tables, so its folder is one port.tables.load reads (#631).
 `--check` verifies: the manifest re-derives from the listing; the committed tables equal `extract` of
 the registered GOAL.EXE (when it is in .cache/artifacts); the data part equals static/goal-exe/data;
 build.py's data digests hold on it; and every byte the port read in the family read map lies inside
@@ -118,6 +119,8 @@ def extract(exe_path, out_dir, manifest=None):
         raise SystemExit("this GOAL.EXE is not the registered one: its tables differ from the manifest's digests")
     out = Path(out_dir);out.mkdir(parents=True, exist_ok=True)
     write_tables(out, ds, code)
+    # The folder is complete only with its manifest: port.tables.load reads it to place and check the tables (#631).
+    (out / "manifest.json").write_text(json.dumps({**manifest, "sha256": {"ds": sha(ds), "code_data": sha(code)}}, indent=1) + "\n")
     return ds, code
 
 

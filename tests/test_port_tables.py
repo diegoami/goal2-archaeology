@@ -74,6 +74,25 @@ class PortTables(unittest.TestCase):
         self.assertEqual(good, self.t.read_tables(self.t.TABLES))
         self.assertEqual(len(image) > self.t.DS_IMAGE, True)
 
+    def test_extract_writes_a_folder_the_loader_reads(self):
+        # #631: extract wrote ds.hex and code_data.hex but not manifest.json, so port.tables.load refused its
+        # folder. The GOAL.EXE here is synthetic: an unpacked image holding the committed tables at the
+        # manifest's positions (no byte beyond them), so the test runs without the original.
+        manifest = json.loads(self.t.MANIFEST.read_text())
+        ds, code = self.t.read_tables(self.t.TABLES)
+        image = bytearray(manifest["ds"]["image_offset"] + manifest["ds"]["length"])
+        image[manifest["ds"]["image_offset"]:manifest["ds"]["image_offset"] + len(ds)] = ds
+        at = 0
+        for off, n in manifest["code_data"]:
+            image[off:off + n] = code[at:at + n];at += n
+        header = bytearray(32);header[0:2] = b"MZ";header[8:10] = (2).to_bytes(2, "little")
+        exe = self.tmp / "GOAL.EXE";exe.write_bytes(bytes(header + image))
+        folder = self.tmp / "player"
+        self.t.extract(exe, folder)
+        from original_match.port import tables
+        loaded, committed = tables.load(folder), tables.load(self.t.TABLES)
+        self.assertEqual((loaded.ds, loaded.code_data, loaded.sha256), (committed.ds, committed.code_data, committed.sha256))
+
 
 if __name__ == "__main__":
     unittest.main()
