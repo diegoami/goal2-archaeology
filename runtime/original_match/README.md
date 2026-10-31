@@ -43,8 +43,10 @@ state = m.records_after()                   # goal2's state after the match and 
 ```
 
 A state (`image.state_of`, JSON-able) is the whole memory with GOAL.EXE's load module left out (its code and
-the initialised data DS:0000..7B6F), plus the initialised bytes the game changed after start-up;
-`Image.from_state` refuses one that holds module bytes or was made against other tables. Every admitted
+the initialised data DS:0000..7B6F), plus the initialised bytes the game changed after start-up and the
+code-data bytes that differ from the tables (#638: DOS relocated one word there on the reference image);
+`Image.from_state` refuses one that holds module bytes, was made against other tables, or has an entry that is
+not a byte inside its table (#639). The schema is `original_match.state/2`. Every admitted
 match, and the kit's check, are the original's from a state and the tables
 (goal2-archaeology `experiments/E036-match-port/out/T80/`):
 
