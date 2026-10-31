@@ -55,6 +55,25 @@ runpy.run_module('original_match.check', run_name='__main__')
 """
 
 
+def failure_summary(report):
+    """What a failed sealed check says first (#633): the report's path and each failed step's reasons, without
+    the ports' call counters, which ran to more than the 3,000 characters of output the assertion kept."""
+    lines = [f"report: {report}"]
+    try:
+        got = json.loads(Path(report).read_text())
+    except (OSError, ValueError) as e:
+        return "\n".join(lines + [f"no readable report: {e}"])
+    for step, check in sorted(got.get("checks", {}).items()):
+        if check.get("pass"):
+            continue
+        detail = check.get("detail")
+        if isinstance(detail, dict):
+            detail = {k: ({kk: vv for kk, vv in v.items() if kk != "port_calls"} if isinstance(v, dict) else v)
+                      for k, v in detail.items()}
+        lines.append(f"{step} failed: {json.dumps(detail)[:2000]}")
+    return "\n".join(lines)
+
+
 def reference_state():
     sys.path.insert(0, str(ROOT / "runtime"))
     from original_match import Image
@@ -73,7 +92,7 @@ class Sealed(unittest.TestCase):
                               "--state", str(state), "--tables", str(TABLES), "--family", "--json", str(report)],
                              cwd=tmp, env=env, capture_output=True, text=True)
         self.assertIn("denied: unicorn, .sav, .EXE, .DAT", run.stdout, run.stderr[-3000:])
-        self.assertEqual(run.returncode, 0, run.stdout[-3000:] + run.stderr[-3000:])
+        self.assertEqual(run.returncode, 0, failure_summary(report) + "\n" + run.stdout[-3000:] + run.stderr[-3000:])
         got = json.loads(report.read_text())
         self.assertTrue(got.get("state"))
         self.assertEqual(sorted(got["checks"]), sorted(STEPS))
@@ -144,6 +163,26 @@ class StateContract(unittest.TestCase):
         (folder / "code_data.hex").write_text("\n".join(text) + "\n")
         with self.assertRaises(self.tables.TablesError):
             self.tables.load(folder)
+
+
+class FailureSummary(unittest.TestCase):
+    """#633: a seed's exception comes first in a failed sealed check's message, whatever the ports' counters."""
+
+    def test_the_exception_survives_long_port_counters(self):
+        tmp = Path(tempfile.mkdtemp());report = tmp / "report.json"
+        calls = {f"port_{i}": i for i in range(400)}
+        self.assertGreater(len(json.dumps(calls)), 3000)
+        report.write_text(json.dumps({"checks": {
+            "engine": {"pass": True, "detail": {}},
+            "family": {"pass": False, "detail": {"0xA1F0": {"stopped": "MemoryError: ", "port_calls": calls}}}}}))
+        summary = failure_summary(report)
+        self.assertIn(f"report: {report}", summary)
+        self.assertIn('family failed: {"0xA1F0": {"stopped": "MemoryError: "}}', summary)
+        self.assertNotIn("port_399", summary)
+        self.assertNotIn("engine failed", summary)
+
+    def test_a_missing_report_is_said(self):
+        self.assertIn("no readable report", failure_summary(Path(tempfile.mkdtemp()) / "none.json"))
 
 
 class CheckpointTables(unittest.TestCase):

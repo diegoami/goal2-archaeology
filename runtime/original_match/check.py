@@ -130,7 +130,8 @@ def family(image):
             except Exception as e:
                 bad[f"0x{seed:04X}"] = {"stopped": _first_line(e),
                                         "port_calls": dict(m.ports.calls) if m.ports else None}
-                print(f"  seed 0x{seed:04X} stopped   {bad[f'0x{seed:04X}']}", flush=True)
+                print(f"  seed 0x{seed:04X} stopped   {bad[f'0x{seed:04X}']['stopped']}", flush=True)
+                print(f"  seed 0x{seed:04X} port calls {bad[f'0x{seed:04X}']['port_calls']}", flush=True)   # long (#633)
                 continue
         else:
             for _ in m.events():
