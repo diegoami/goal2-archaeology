@@ -215,9 +215,10 @@ void crowd_animation(undefined2 param_1,int param_2)
 }
 
 
-// ---- 000E:04F5  f_000E_04F5  (f_000E_04F5; Ghidra 1000:04F5, __stdcall16near; found by routines.tsv)
+// ---- 000E:04F5  play_tune_part  (f_000E_04F5; Ghidra 1000:04F5, __stdcall16near; found by routines.tsv)
+// one tune part of the news celebration: DS:7968 := the part argument, speaker on (214B:1E75); then up to 16 notes from the table at DS:0000 + 2k, each stopped before it when a key is waiting (214B:0723): play the note (214B:1EF1) and call crowd_animation 000E:045D with the caller's argument; speaker off (1E8D); ret 4  [likely; F039; read code/seg_000E_01.asm]
 
-void f_000E_04F5(undefined2 param_1,undefined1 param_2)
+void play_tune_part(undefined2 param_1,undefined1 param_2)
 
 {
   char cVar1;
@@ -241,9 +242,10 @@ void f_000E_04F5(undefined2 param_1,undefined1 param_2)
 }
 
 
-// ---- 000E:0572  f_000E_0572  (f_000E_0572; Ghidra 1000:0572, __stdcall16near; found by routines.tsv)
+// ---- 000E:0572  news_celebration  (f_000E_0572; Ghidra 1000:0572, __stdcall16near; found by routines.tsv)
+// the celebration of a news page: unpacks DS:5B94 into [A96A]; when its caller's frame byte +6 is set, a text line only; otherwise DS:7966 := 1, tune part 04F5(0), and 04F5(4) when the frame byte +4 is set, and 04F5(8) when game +0x40 is also set; speaker off; then crowd_animation 045D(2) repeated until a key is waiting (at least once); ret 2  [likely; F039; read code/seg_000E_01.asm]
 
-void f_000E_0572(int param_1)
+void news_celebration(int param_1)
 
 {
   char cVar1;
@@ -253,11 +255,11 @@ void f_000E_0572(int param_1)
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96A,0xb000,0x5b94,0xb000);
   if (*(char *)(param_1 + 6) == '\0') {
     DS:7966 = 1;
-    f_000E_04F5(&stack0xfffe,0);
+    play_tune_part(&stack0xfffe,0);
     if (*(char *)(param_1 + 4) != '\0') {
-      f_000E_04F5(&stack0xfffe,4);
+      play_tune_part(&stack0xfffe,4);
       if (*(char *)((int)DS:A923 + 0x40) != '\0') {
-        f_000E_04F5(&stack0xfffe,8);
+        play_tune_part(&stack0xfffe,8);
       }
     }
     u214b_speaker_off();
@@ -275,15 +277,16 @@ void f_000E_0572(int param_1)
 }
 
 
-// ---- 000E:05F6  f_000E_05F6  (f_000E_05F6; Ghidra 1000:05F6, __stdcall16near; found by routines.tsv)
+// ---- 000E:05F6  news_key_wait  (f_000E_05F6; Ghidra 1000:05F6, __stdcall16near; found by routines.tsv)
+// the news pages' key wait (f1, f2, f3): copies [A96E] to [A96A] (4000 bytes); when any flag is nonzero calls news_celebration 000E:0572; then reads a key (214B:08DD); ret 6  [likely; F039; read code/seg_000E_01.asm]
 
-void f_000E_05F6(char param_1,char param_2,char param_3)
+void news_key_wait(char param_1,char param_2,char param_3)
 
 {
   sys_move_025D(4000,(int)DS:A96A,(int)((ulong)DS:A96A >> 0x10),(int)DS:A96E,
                 (int)((ulong)DS:A96E >> 0x10));
   if (((param_3 != '\0') || (param_2 != '\0')) || (param_1 != '\0')) {
-    f_000E_0572(&stack0xfffe);
+    news_celebration(&stack0xfffe);
   }
   u214b_read_key();
   return;
