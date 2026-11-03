@@ -162,6 +162,7 @@ exists.
 - [T118b2](T118b2.md): the post-match news text: its RNG draws, in order, and proof it writes no game state (#427).
 - [T119a](T119a.md): a route harness: route_fixture under the kit's machine, every write recorded, provable (#427).
 - [T119b](T119b.md): the route harness's first runs: route_fixture's writes corroborated, T118c folded in (#427).
+- [T119c](T119c.md): the route harness plays managed competitive matches; its key policy names the table reads (correction of T119a, #647).
 - [T120](T120.md): the silent path ported: simulate_fixture, the quick result and its tail, proven (#427).
 - [T121](T121.md): route_fixture ported: the fixture loop, the gate, the watch prompt and the news page 6685 (#427).
 - [T122](T122.md): the post-match news ported: 4E0E, its headline and text routines, the sack, proven (#427).
