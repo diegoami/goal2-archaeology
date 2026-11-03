@@ -236,9 +236,10 @@ void __stdcall16far announce_stage_to_manager(int param_1)
 }
 
 
-// ---- 000E:6685  f_000E_6685  (f_000E_6685; Ghidra 1000:6685, __stdcall16near; found by routines.tsv)
+// ---- 000E:6685  news_competition_result  (f_000E_6685; Ghidra 1000:6685, __stdcall16near; found by routines.tsv)
+// the news page route_fixture (000E:6CA7, at 7063) shows after a completed fixture of kind 0xCB, or 0x67 with the second side's continent managed, when no managed side played it (a silent fixture, or one played with no managed side): a heading from the 0x60-byte record [A93F] + 0x60 * (the second side's continent, or 5 when game +0x40 is nonzero) - 0x60 when its +0xE is nonzero and +0xC > 1; the winner's and loser's names from [9B68] + 16 * side (1771:5C94, 5CCB); always two draws 214B:06B1(3) on DS:7B62, the first picking the string DS:006A + 16r, the second one of three line forms; the helpers 038E, 062F, 070B, 075F and 5978; then the key wait 05F6(0, 0, 0); ret 4  [likely; F039; read code/seg_000E_08.asm]
 
-void f_000E_6685(undefined4 param_1)
+void news_competition_result(undefined4 param_1)
 
 {
   int iVar1;
@@ -373,7 +374,7 @@ void __stdcall16far welcome_new_manager(int param_1)
 
 
 // ---- 000E:6970  simulate_fixture  (f_000E_6970; Ghidra 1000:6970, __stdcall16near; found by routines.tsv)
-// plays a fixture without a watched match: 0791:D47E (a result without display), then 0791:B7FA, B602 and D050, in that order, then reset_team_tactics (0791:BC5D) for both teams with no test of 0B77; the fixture router sends the fixtures that are not watched here  [established; F010]
+// plays a fixture without a watched match: 0791:D47E (a result without display), then 0791:B7FA, B602 and D050, in that order, then reset_team_tactics (0791:BC5D) for both teams with no test of 0B77; the fixture router sends the fixtures that are not watched here; then for first byte 0xFE the score page (a key, E929) and route_fixture bp-2 := 0, otherwise the results list with the delay game +0x3E (keys 0xAE/0xAF, 0..5, 50 ms waits) and bp-2 := 1; both advance the cursor  [established; F010; F039]
 
 void simulate_fixture(int param_1)
 
@@ -514,7 +515,7 @@ undefined2 maybe_ask_watch_match(int param_1,char param_2)
 
 
 // ---- 000E:6CA7  route_fixture  (f_000E_6CA7; Ghidra 1000:6CA7, __cdecl16near; found by routines.tsv)
-// routes one fixture by its first byte: 0xFE goes to the gate 000E:6C21 with flag 1 only when both teams are unmanaged (1771:0B77), and on a returned 1 to 000E:6E15, where fixture byte +2 = 0 calls 0791:BB2F and otherwise 0791:F1F6; any other first byte, or a 0 from the gate, goes to 000E:6DAE, where membership in the set at 0x695A, or in the set at 0x697A with a nonzero continent flag, can call the gate with flag 1 (and 6E15 on a 1), and otherwise the fixture goes to 000E:6970; so a fixture with a managed team and first byte 0xFE never reaches E80D or 6970; the managed-team test is only on the 0xFE path (seg_000E_09.asm:140-153), the kind-set paths call the gate with flag 1 and test no team (seg_000E_09.asm:163-171, 191-201) (F030)  [established; F010; F030]
+// routes one fixture by its first byte: 0xFE goes to the gate 000E:6C21 with flag 1 only when both teams are unmanaged (1771:0B77), and on a returned 1 to 000E:6E15, where fixture byte +2 = 0 calls 0791:BB2F and otherwise 0791:F1F6; any other first byte, or a 0 from the gate, goes to 000E:6DAE, where membership in the set at 0x695A, or in the set at 0x697A with a nonzero continent flag, can call the gate with flag 1 (and 6E15 on a 1), and otherwise the fixture goes to 000E:6970; so a fixture with a managed team and first byte 0xFE never reaches E80D or 6970; the managed-team test is only on the 0xFE path (seg_000E_09.asm:140-153), the kind-set paths call the gate with flag 1 and test no team (seg_000E_09.asm:163-171, 191-201) (F030); one call loops over the fixtures from the cursor (+0x26): it returns after a fixture it played or prepared with a managed side, or when the cursor reaches +0x28 (1771:8757 then return); on the played path kinds 3 and 7 (CS:6C87) set game +0x13+m := 1 and +0x41+m := 0 per managed side; after run_match: B71C/B6CC for both sides when a side is managed and kind is not 1, then 4E0E per managed side, then B7FA, the cursor and 8757; the 695A test has no first-byte test (6DAE)  [established; F010; F030; F039]
 
 void __cdecl16near route_fixture(void)
 
@@ -676,8 +677,9 @@ LAB_000E_6DAE:
     if ((pbVar7[iVar3 + -6] == 0xcb) ||
        ((pbVar7[iVar3 + -6] == 0x67 &&
         (local_e[((country *)countries)[*(int *)(pbVar7 + iVar3 + -2)].continent - 1] != '\0')))) {
-      f_000E_6685((byte *)fixtures + (*(int *)((byte *)local_12 + 0x26) + -1) * 8 + -8,
-                  (int)((ulong)fixtures >> 0x10));
+      news_competition_result
+                ((byte *)fixtures + (*(int *)((byte *)local_12 + 0x26) + -1) * 8 + -8,
+                 (int)((ulong)fixtures >> 0x10));
     }
   } while( true );
 }
