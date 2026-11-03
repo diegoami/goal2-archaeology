@@ -383,6 +383,26 @@ changed or stopped; a step a port stops FAILs and the next steps still run).
   `m.uc._engine` before the `Prover` is built is accepted); and `m.uc.ctl_get_arch.__self__` is the engine, through
   which a kit handler could `reg_read` unchecked. A port or a kit handler must never use any of them.
 
+## The route harness (T119a): route_fixture itself, recorded
+
+`route.py` runs one call of the original's route_fixture 000E:6CA7 on a kit `Machine`, as play_round's call at
+000E:70D1 makes it, and records every write, every step of the RNG words DS:7B62 and DS:8336 and every visit to a
+key site, in order (goal2-archaeology #427; the ground truth the ports of the round are proven against):
+
+```python
+from goal2.engine.original_match.route import Route, DEFAULT_KEYS
+r = Route(image)                     # keys=DEFAULT_KEYS: a key at the first poll (the owner, 2026-11-03)
+record = r.call()                    # returns after a fixture with a managed side
+assert r.replay(r.origin) == r.m.read(0, 0x110000)
+```
+
+At route_fixture's own `call far 0791:F1F6` (000E:6F18) it plays the match with `Match(..., tail=False)` on a
+machine of Match's own (whose set-up must find its bytes there already), writes back what the match changed and
+resumes at 000E:6F1D; the rest (the news 4E0E, the player update B7FA, the cursor) runs as guest code.
+`tail=False` ends a `Match` at run_match's return, before the post-match player update the kit otherwise calls; the
+default is unchanged. The key sites route_fixture reaches (`route.READS`, `route.POLLS`) are answered from the
+policy; one it does not name raises. The machine takes no foreign hook, so a `Prover` installs on it.
+
 ## Limits and costs
 
 A kind no builder writes (4 included) is refused with a `ValueError`. Not run, because route_fixture runs them
