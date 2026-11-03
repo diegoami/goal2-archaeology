@@ -399,8 +399,10 @@ assert r.replay(r.origin) == r.m.read(0, 0x110000)
 At route_fixture's own `call far 0791:F1F6` (000E:6F18) it plays the match with `Match(..., tail=False)` on a
 machine of Match's own (whose set-up must find its bytes there already), writes back what the match changed and
 resumes at 000E:6F1D; the rest (the news 4E0E, the player update B7FA, the cursor) runs as guest code.
-`tail=False` ends a `Match` at run_match's return, before the post-match player update the kit otherwise calls; the
-default is unchanged. The key sites route_fixture reaches (`route.READS`, `route.POLLS`) are answered from the
+`tail=False` ends a `Match` at run_match's return, before the post-match player update the kit otherwise calls, and
+keeps the fixture record's +1 (a competitive fixture's round) and +3 as route_fixture left them (T119c); the default
+is unchanged, writing `FE 00 kind 00 first second`. The key sites route_fixture reaches (`route.READS`,
+`route.POLLS`, the group-table reads of 0791:E929 among them, Enter as `Match` answers them) are answered from the
 policy; one it does not name raises. The machine takes no foreign hook, so a `Prover` installs on it.
 
 ## Limits and costs
