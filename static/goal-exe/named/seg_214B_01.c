@@ -324,7 +324,7 @@ u214b_write_string_at_attr_var(undefined4 *param_1,byte param_2,byte param_3,und
   
   sys_str_store_max_0644(0xff,local_102,unaff_SS,(int)param_4,(int)((ulong)param_4 >> 0x10));
   u214b_put_chars_backward
-            (local_102[0],DS:AAB2,local_102 + local_102[0],unaff_SS,
+            (local_102[0],crt_text_attr,local_102 + local_102[0],unaff_SS,
              (int)*param_1 + (uint)param_3 * 0xa0 + (uint)param_2 * 2 + -0xa2,
              (int)((ulong)*param_1 >> 0x10));
   return;
@@ -332,18 +332,18 @@ u214b_write_string_at_attr_var(undefined4 *param_1,byte param_2,byte param_3,und
 
 
 // ---- 214B:0205  u214b_write_string_at_set_attr  (f_214B_0205; Ghidra 7000:0205, __stdcall16far; found by routines.tsv)
-// Same as 01A3 but takes the attribute as a parameter and stores it in DS:AAB2  [likely; read decompiled/seg_214B_01.c]
+// Same as 01A3 but takes the attribute as a parameter and stores it in DS:AAB2  [established; F039; read code/seg_214B_01.asm; read decompiled/seg_214B_01.c]
 
 void __stdcall16far
 u214b_write_string_at_set_attr
-          (undefined4 *param_1,byte param_2,byte param_3,undefined4 param_4,undefined1 param_5)
+          (undefined4 *param_1,byte param_2,byte param_3,undefined4 param_4,byte param_5)
 
 {
   undefined2 unaff_SS;
   byte local_102 [256];
   
   sys_str_store_max_0644(0xff,local_102,unaff_SS,(int)param_4,(int)((ulong)param_4 >> 0x10));
-  DS:AAB2 = param_5;
+  crt_text_attr = param_5;
   u214b_put_chars_backward
             (local_102[0],param_5,local_102 + local_102[0],unaff_SS,
              (int)*param_1 + (uint)param_3 * 0xa0 + (uint)param_2 * 2 + -0xa2,
@@ -365,7 +365,7 @@ u214b_write_string_at_fwd(undefined4 *param_1,byte param_2,byte param_3,undefine
   
   sys_str_store_max_0644(0xff,&local_102,unaff_SS,(int)param_4,(int)((ulong)param_4 >> 0x10));
   u214b_put_chars_forward
-            (local_102,DS:AAB2,local_101,unaff_SS,
+            (local_102,crt_text_attr,local_101,unaff_SS,
              (int)*param_1 + (uint)param_3 * 0xa0 + (uint)param_2 * 2 + -0xa2,
              (int)((ulong)*param_1 >> 0x10));
   return;
@@ -373,11 +373,11 @@ u214b_write_string_at_fwd(undefined4 *param_1,byte param_2,byte param_3,undefine
 
 
 // ---- 214B:02C8  u214b_write_string_at_fwd_set_attr  (f_214B_02C8; Ghidra 7000:02C8, __stdcall16far; found by routines.tsv)
-// As 026D with an attribute parameter stored in DS:AAB2  [likely; read decompiled/seg_214B_01.c]
+// As 026D with an attribute parameter stored in DS:AAB2  [established; F039; read code/seg_214B_01.asm; read decompiled/seg_214B_01.c]
 
 void __stdcall16far
 u214b_write_string_at_fwd_set_attr
-          (undefined4 *param_1,byte param_2,byte param_3,undefined4 param_4,undefined1 param_5)
+          (undefined4 *param_1,byte param_2,byte param_3,undefined4 param_4,byte param_5)
 
 {
   undefined2 unaff_SS;
@@ -385,7 +385,7 @@ u214b_write_string_at_fwd_set_attr
   undefined1 local_101 [255];
   
   sys_str_store_max_0644(0xff,&local_102,unaff_SS,(int)param_4,(int)((ulong)param_4 >> 0x10));
-  DS:AAB2 = param_5;
+  crt_text_attr = param_5;
   u214b_put_chars_forward
             (local_102,param_5,local_101,unaff_SS,
              (int)*param_1 + (uint)param_3 * 0xa0 + (uint)param_2 * 2 + -0xa2,
@@ -696,7 +696,7 @@ void __cdecl16near u214b_shell_to_dos(void)
   u214b_unpack_screen_796a_to_back();
   sys_move_025D(4000,(int)DS:A96A,(int)((ulong)DS:A96A >> 0x10),(int)DS:A96E,
                 (int)((ulong)DS:A96E >> 0x10));
-  DS:AAB2 = 0xf;
+  crt_text_attr = 0xf;
   uVar3 = 0xb000;
   uVar1 = 0xabc0;
   sys_write_string_173B(0,0x7a9,0xa000);
@@ -1106,7 +1106,7 @@ void u214b_edit_line_redraw(int param_1)
   undefined2 uVar7;
   undefined1 local_102 [256];
   
-  DS:AAB2 = 5;
+  crt_text_attr = 5;
   uVar1 = sys_upcase_19B2(*(undefined1 *)((int)*(undefined4 *)(param_1 + 0xe) + 1));
   *(undefined1 *)((int)*(undefined4 *)(param_1 + 0xe) + 1) = uVar1;
   iVar2 = (*(int *)(param_1 + -4) - (uint)*(byte *)(param_1 + 8)) + 1;

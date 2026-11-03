@@ -761,7 +761,7 @@ void f_000E_715E(undefined2 param_1,int param_2,int param_3)
   uStack_6 = (undefined2)((ulong)countries >> 0x10);
   local_8 = (country *)countries + param_3;
   if (param_3 != 0) {
-    local_4 = (uint)DS:AAB2;
+    local_4 = (uint)crt_text_attr;
     u214b_write_string_at_fwd_set_attr
               ((undefined4 *)&DS:A96E,0xb000,CONCAT11((char)((uint)(param_2 + 1) >> 8),3),
                param_2 + 1,(uint)local_8->continent * 8 + 0x6e92,0xb000,
@@ -824,7 +824,7 @@ void __cdecl16near f_000E_724A(void)
     draw_country_name(3,0xb,local_4);
   }
   else {
-    DS:AAB2 = 0xf;
+    crt_text_attr = 0xf;
   }
   puVar3 = local_11f;
   uVar2 = unaff_SS;
@@ -911,13 +911,13 @@ void main_menu_loop(void)
               uVar6 = (undefined2)((ulong)manager_countries >> 0x10);
               if (((byte *)manager_countries)[(local_4 + 0x80) * 3] != 0) {
                 if (((byte *)local_8)[1] == local_4) {
-                  DS:AAB2 = 0xf;
+                  crt_text_attr = 0xf;
                 }
                 else {
-                  DS:AAB2 =
-                       *(undefined1 *)
-                        (((country *)countries)[((byte *)manager_countries)[(local_4 + 0x80) * 3]].
-                         continent + 0x6905);
+                  crt_text_attr =
+                       *(byte *)(((country *)countries)
+                                 [((byte *)manager_countries)[(local_4 + 0x80) * 3]].continent +
+                                0x6905);
                 }
                 puVar7 = local_10a;
                 uVar6 = unaff_SS;

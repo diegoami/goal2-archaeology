@@ -121,7 +121,7 @@ void __cdecl16near crt_exit_restore(void)
   (*pcVar1)();
   crt_set_video_mode();
   crt_init_window_state();
-  DS:AAB2 = DS:AABC;
+  crt_text_attr = DS:AABC;
   return;
 }
 
@@ -134,7 +134,7 @@ void __stdcall16far crt_text_mode(void)
 {
   crt_set_video_mode();
   crt_init_window_state();
-  DS:AAB2 = DS:AABC;
+  crt_text_attr = DS:AABC;
   return;
 }
 

@@ -210,9 +210,9 @@ address	name	purpose	confidence	basis
 214B:0123	u214b_put_chars_backward	Same as 00FF but with both pointers descending (near, called by 01A3 and 0205 with the end of the string)	likely	read decompiled/seg_214B_01.c
 214B:0147	u214b_unpack_screen_rle	Decodes a run-length packed text screen (FF escape, 00 = repeat previous value count times) into 80-column word cells; compressed screen unpacker	likely	read decompiled/seg_214B_01.c
 214B:01A3	u214b_write_string_at_attr_var	Writes a Pascal string at column/row into the text-screen buffer (0xA0 bytes per row, 2 per cell) using the current attribute DS:AAB2, via 0123	likely	read decompiled/seg_214B_01.c
-214B:0205	u214b_write_string_at_set_attr	Same as 01A3 but takes the attribute as a parameter and stores it in DS:AAB2	likely	read decompiled/seg_214B_01.c
+214B:0205	u214b_write_string_at_set_attr	Same as 01A3 but takes the attribute as a parameter and stores it in DS:AAB2	established	F039; read code/seg_214B_01.asm; read decompiled/seg_214B_01.c
 214B:026D	u214b_write_string_at_fwd	Writes a Pascal string at column/row into the text buffer with attribute DS:AAB2, via 00FF	likely	read decompiled/seg_214B_01.c
-214B:02C8	u214b_write_string_at_fwd_set_attr	As 026D with an attribute parameter stored in DS:AAB2	likely	read decompiled/seg_214B_01.c
+214B:02C8	u214b_write_string_at_fwd_set_attr	As 026D with an attribute parameter stored in DS:AAB2	established	F039; read code/seg_214B_01.asm; read decompiled/seg_214B_01.c
 214B:0329	u214b_unpack_screen_to_buffer	Thin wrapper: calls the unpacker 0147 with source (second arg) and destination far pointer (first arg, a pointer variable)	likely	read decompiled/seg_214B_01.c
 214B:0350	u214b_draw_centered_message_line	Centres a text message (padding with 0xFE via 0018, Move) and draws it at a row with attributes, with literal '? (Y/N)' tested by a Pos; marks the Y/N parts; screen text	likely	read decompiled/seg_214B_01.c
 214B:04F8	u214b_message_wait_key	T74 (Python port in runtime/original_match/port/menus.py): Saves bottom screen line, shows the message via 0350 with ' PRESS ANY KEY ', waits for a key (0983) and restores the line	likely	read decompiled/seg_214B_01.c

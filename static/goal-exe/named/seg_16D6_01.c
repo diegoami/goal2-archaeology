@@ -130,7 +130,7 @@ void f_16D6_00FE(uint param_1,int param_2)
   undefined4 local_8;
   undefined1 local_4;
   
-  DS:AAB2 = 6;
+  crt_text_attr = 6;
   if (param_1 < DS:99B6) {
     iVar4 = f_16D6_00C3(1,(int)DS:99B0 + param_2,(int)((ulong)DS:99B0 >> 0x10),10,1);
     iVar4 = iVar4 + -2;
@@ -140,7 +140,7 @@ void f_16D6_00FE(uint param_1,int param_2)
       cVar2 = f_16D6_0068(CONCAT11((char)((uint)iVar5 >> 8),local_4),iVar5,
                           (int)((ulong)DS:99B0 >> 0x10));
       if (cVar2 != '\0') {
-        DS:AAB2 = 2;
+        crt_text_attr = 2;
       }
       uVar7 = (undefined2)((ulong)DS:99B0 >> 0x10);
       puVar6 = (undefined1 *)((int)DS:99B0 + param_2 + -1);
@@ -149,7 +149,7 @@ void f_16D6_00FE(uint param_1,int param_2)
       uVar3 = u214b_min_longint(iVar4,iVar4 >> 0xf,0x50,0);
       *local_8 = uVar3;
       u214b_write_string_at_fwd_set_attr
-                ((undefined4 *)&DS:A96E,0xb000,1,DS:99BA,puVar6,uVar7,DS:AAB2);
+                ((undefined4 *)&DS:A96E,0xb000,1,DS:99BA,puVar6,uVar7,crt_text_attr);
       *local_8 = uVar1;
     }
   }
