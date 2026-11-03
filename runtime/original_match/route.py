@@ -264,7 +264,8 @@ class Route:
         mm = match.m
         if (mm.pc(), mm.reg("sp"), mm.reg("bp"), mm.reg("ss"), mm.reg("ds")) != (
                 mm.lin(RUN_MATCH_RETURN), (sp + 4) & 0xFFFF, bp, ss, regs["ds"]):
-            raise GuestError(f"Match did not end at {RUN_MATCH_RETURN} with F1F6's retf 4 (SP {sp + 4:04X}, BP {bp:04X})")
+            raise GuestError(f"Match did not end at {RUN_MATCH_RETURN} with F1F6's retf 4 "
+                             f"(SP {sp + 4:04X}, BP {bp:04X})")
         after = mm.read(0, MEM_SIZE)
         result = match.result()
         self.matches.append(match)
