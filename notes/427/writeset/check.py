@@ -135,6 +135,18 @@ def check(table):
     for site in by_site:
         if site not in covered:
             problems.append(f"row {site}: not a write or call of a scoped routine")
+    for rule in table.get("rules", ()):
+        name = rule.get("name")
+        if not name or not rule.get("rule"):
+            problems.append(f"rule {name!r}: missing its name or text")
+            continue
+        cited = re.findall(r"(seg_[0-9A-F]{4}_\d+\.asm):(\d+)", rule.get("evidence", ""))
+        if not cited:
+            problems.append(f"rule {name!r}: cites no listing line")
+        for file, line in cited:
+            path = CODE / file
+            if not path.exists() or int(line) > len(path.read_text().splitlines()):
+                problems.append(f"rule {name!r}: {file}:{line} is not a listing line")
     return problems
 
 
