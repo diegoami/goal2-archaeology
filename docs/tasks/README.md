@@ -158,5 +158,6 @@ exists.
 - [T106b](T106b.md): Validate near/far free-kick wall layouts and guard controls (#585).
 - [T106c](T106c.md): Audit probe records, budget and mechanism conclusions (#586).
 - [T118a](T118a.md): route_fixture's played-fixture write-set, outside the post-match news (#427).
-- [T118b](T118b.md): the post-match news and sack (000E:4E0E): its writes, draws and rules (#427).
+- [T118b1](T118b1.md): the post-match news's game-state writes: the sack and what it releases (#427).
+- [T118b2](T118b2.md): the post-match news text: its RNG draws, in order, and proof it writes no game state (#427).
 - [T118c](T118c.md): route_fixture's write-set corroborated by a write watch of the original (#427).
