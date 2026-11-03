@@ -119,3 +119,42 @@ class SackWriteSet(unittest.TestCase):
         rng = [(r["site"], r["callee"]) for r in sack()["rows"] if r["class"] == "rng"]
         self.assertEqual(len(rng), 9)
         self.assertTrue(all(c == "214B:06B1" for _, c in rng))
+
+
+def news():
+    return json.loads((HERE / "news.json").read_text())
+
+
+RNG_CALLEES = {"214B:06B1", "214B:06FA", "214B:06D0", "214B:0688"}
+
+
+class NewsWriteSet(unittest.TestCase):
+    """T118b2 (#427): the post-match news's text routines draw on 7B62 and write no game state."""
+
+    def test_the_table_is_complete(self):
+        self.assertEqual(check.check(news()), [])
+        self.assertEqual(len(news()["scope"]), 31)
+
+    def test_deleting_any_row_fails(self):
+        base = news()
+        for i, row in enumerate(base["rows"]):
+            t = copy.deepcopy(base)
+            del t["rows"][i]
+            with self.subTest(site=row["site"]):
+                self.assertTrue(any(row["site"] in p for p in check.check(t)))
+
+    def test_every_call_of_a_random_routine_is_an_rng_row_and_only_those(self):
+        rows = news()["rows"]
+        self.assertEqual({r["site"] for r in rows if r.get("callee") in RNG_CALLEES},
+                         {r["site"] for r in rows if r["class"] == "rng"})
+        self.assertEqual(sum(r["class"] == "rng" for r in rows), 49)
+
+    def test_no_row_writes_game_state(self):
+        """[derived: the seven non-frame stores read one by one, seg_000E_01.asm:516, 538, 609, 1052;
+        seg_000E_03.asm:130; 3AE6; 485A] screen, sound, a display byte or a caller's frame."""
+        state = [r["site"] for r in news()["rows"] if r["class"] in ("game", "managers", "countries", "players", "fixtures")]
+        self.assertEqual(state, [])
+
+    def test_only_the_crowd_animation_draws_in_a_loop(self):
+        looped = {r["site"] for r in news()["rows"] if r["class"] == "rng" and "inside the loop" in r["condition"]}
+        self.assertEqual(looped, {"000E:047B", "000E:0487", "000E:04B2"})
