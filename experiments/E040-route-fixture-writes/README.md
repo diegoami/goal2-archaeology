@@ -84,3 +84,6 @@ Appended by T119c; the protocol above is unchanged, and the records r0001-r0012 
   the managed qualifier (kind 2) to F039's played path: run_match once, the confidence term `6F80` and `6F86` twice
   each (both sides, `[bp-3]` 0 then 1), the news once per managed side, `B7FA` once, and 319B's result rows by its
   result.
+- **The check** (`check_records.py`, T119c): besides rules 1-8 on every record, the records together must hold a
+  competitive managed fixture (kind not 1) whose rows `6F80` and `6F86` were each visited twice; `--report`'s
+  coverage names those records (`confidence_both_sides`).
