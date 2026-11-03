@@ -204,7 +204,7 @@ def fresh_state(players_before):
 class Match:
     def __init__(self, image, fixture, *, managed=None, captain=None, seed=None, players=None, countries=None,
                  substitutions=None, ticks=False, record_draws=False, delay_byte=None, timeout_s=60, ports=None,
-                 prove=None, set_piece=False, engine="original"):
+                 prove=None, set_piece=False, engine="original", tail=True):
         """image: an Image of the original (goal2's savestate bytes through Image.from_savestate, e.g. of
         to_savestate(state, template); or GameState.mem through Image.from_memory_component). On the fixture
         tried, the match depended on the image only through its two teams' records (E033 notes, section 2).
@@ -226,7 +226,9 @@ class Match:
         prove: the proof mode (port/prove.py, T59): None, or N, every call of a ported routine from the main RNG's
         N-th draw on (0: from the start; N > 0 needs record_draws) is run side by side with the original's, and the
         first difference raises ProofError; `prover.summary()` counts the proved calls. A proved match cannot be
-        saved."""
+        saved. tail: False ends the match at run_match's return (000E:6F1D), before route_fixture's post-match
+        player update 0791:B7FA, which the kit then does not call (T119a: route.py runs route_fixture itself, and
+        its own call of B7FA at 000E:6FF8 runs as guest code)."""
         if engine not in ("original", "port"):
             raise ValueError("engine: original or port")
         if engine == "port" and prove is not None:
@@ -274,6 +276,10 @@ class Match:
                      "captain": captain, "seed": seed, "ticks": ticks, "record_draws": record_draws,
                      "delay_byte": delay_byte, "kind": fixture.kind, "substitutions": substitutions}
         if engine == "port":self.opts["engine"] = "port"
+        if not isinstance(tail, bool):
+            raise ValueError("tail: a boolean")
+        if not tail:                   # opts unchanged by default: saves of the default match stay as they were
+            self.opts["tail"] = False
         if not isinstance(set_piece, bool):
             raise ValueError("set_piece: a boolean opt-in")
         if set_piece:
@@ -590,11 +596,12 @@ class Match:
         if self.st["phase"] == "run_match":
             seg, off = self.fixture_ptr
             self.st["fixture_after"] = list(self.m.read(seg * 16 + off, FIXTURE_SIZE))
-            self.st["phase"] = "player_update"
-            self._call(PLAYER_UPDATE, PLAYER_UPDATE_RETURN)
-        else:
-            self.st["phase"] = "done"
-            self._finish()
+            if self.opts.get("tail", True):
+                self.st["phase"] = "player_update"
+                self._call(PLAYER_UPDATE, PLAYER_UPDATE_RETURN)
+                return
+        self.st["phase"] = "done"      # after B7FA, or (tail=False) at run_match's return
+        self._finish()
 
     # -- the hooks -----------------------------------------------------------------------------------------
     def _hooks(self):
