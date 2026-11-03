@@ -74,3 +74,48 @@ class WriteSet(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def sack():
+    return json.loads((HERE / "sack.json").read_text())
+
+
+class SackWriteSet(unittest.TestCase):
+    """T118b1 (#427): post_match_news_and_sack's own routines, the sack score and unmanage_country."""
+
+    def test_the_table_is_complete_and_its_rules_cite_the_listing(self):
+        self.assertEqual(check.check(sack()), [])
+        self.assertEqual(sack()["scope"], ["000E:4E0E", "000E:4DB7", "000E:319B", "000E:0B77", "000E:01FA"])
+
+    def test_deleting_any_row_fails(self):
+        base = sack()
+        for i, row in enumerate(base["rows"]):
+            t = copy.deepcopy(base)
+            del t["rows"][i]
+            with self.subTest(site=row["site"]):
+                self.assertTrue(any(row["site"] in p for p in check.check(t)))
+
+    def test_a_rule_without_a_listing_line_fails(self):
+        for evidence in ("F025", "seg_000E_04.asm:999999"):
+            t = sack()
+            t["rules"][0]["evidence"] = evidence
+            with self.subTest(evidence=evidence):
+                self.assertNotEqual(check.check(t), [])
+
+    def test_the_sack_flag_is_a_store_into_4e0e_s_frame(self):
+        row = next(r for r in sack()["rows"] if r["site"] == "000E:37AC")
+        self.assertEqual((row["op"], row["class"]), ("store", "frame"))
+        self.assertIn("bp-2 := 1", row["target"])
+        self.assertIn("-128..-11", row["condition"])
+
+    def test_the_game_state_the_sack_changes(self):
+        """[confirmed: seg_000E_01.asm:226-356] unmanage_country is 4E0E's only game-state writer in this scope."""
+        state = {r["site"]: r["class"] for r in sack()["rows"]
+                 if r["class"] in ("game", "managers", "countries", "players", "fixtures", "ds-global")}
+        self.assertEqual(state, {"000E:0229": "game", "000E:0231": "managers", "000E:0290": "players",
+                                 "000E:02D8": "players", "000E:02FD": "countries", "000E:037E": "fixtures"})
+
+    def test_319b_draws_nine_times_on_its_paths(self):
+        rng = [(r["site"], r["callee"]) for r in sack()["rows"] if r["class"] == "rng"]
+        self.assertEqual(len(rng), 9)
+        self.assertTrue(all(c == "214B:06B1" for _, c in rng))

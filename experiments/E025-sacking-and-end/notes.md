@@ -11,7 +11,7 @@ diff /tmp/searches.log experiments/E025-sacking-and-end/searches.log   # no outp
 
 ## Reading order (what was read, in order)
 
-1. `named/seg_000E_04.c:388` (`000E:4E0E`): the sack flag looks constant 0 in C. The listing `seg_000E_06.asm:549-725` shows `mov byte ptr [bp - 2], 0` at `:557` and a test of it at `:708` before the call of `000E:01FA` at `:719`.
+1. `named/seg_000E_04.c:389` (`000E:4E0E`): the sack flag looks constant 0 in C. The listing `seg_000E_06.asm:549-725` shows `mov byte ptr [bp - 2], 0` at `:557` and a test of it at `:708` before the call of `000E:01FA` at `:719`.
 2. The nested routines `11D9`, `4DB7`, `26F2` receive `4E0E`'s `bp` (`push bp` before each call). Search "stores through `ss:[di - 2]`" over all code: in segment `000E` only `seg_000E_04.asm:825` (inside `000E:319B`, reached from `4DB7`, whose static link is `4E0E`'s frame) writes 1; `seg_000E_08.asm:1049/1200` belong to the fixture gate `6C21`.
 3. `seg_000E_04.asm:133-825` (`319B`): branch tree on the fixture winner byte `+3` against the side, then `+3 == 2`, then score bytes equal, then `call 0xb77` and the compares at `:756-806`. The pascal strings at `CS:2E94..3118` give the headline texts.
 4. `seg_000E_02.asm:146-196` (`000E:0B77`): the score and its four gates. `1771:59D8` set bytes at `seg_1771_08.asm:735` (`98 01` = {3, 4, 7, 8}; bit i of byte i/8, the same decoding as `CS:80BA` = 0x24 = {2, 5}).
