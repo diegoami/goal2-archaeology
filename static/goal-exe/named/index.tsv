@@ -47,17 +47,17 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 000E:5DAF	news_tour_line	likely	decompiled	seg_000E_04.c	994	1000:5DAF	routines.tsv	
 000E:5E6C	news_failed_to_qualify	likely	decompiled	seg_000E_04.c	1014	1000:5E6C	routines.tsv	
 000E:60CB	announce_stage_to_manager	likely	decompiled	seg_000E_05.c	4	1000:60CB	routines.tsv	
-000E:6685			decompiled	seg_000E_05.c	239	1000:6685	routines.tsv	
-000E:68A4	welcome_new_manager	likely	decompiled	seg_000E_05.c	331	1000:68A4	routines.tsv	
-000E:6970	simulate_fixture	established	decompiled	seg_000E_05.c	375	1000:6970	routines.tsv	
-000E:6C21	maybe_ask_watch_match	established	decompiled	seg_000E_05.c	490	1000:6C21	routines.tsv	
-000E:6CA7	route_fixture	established	decompiled	seg_000E_05.c	516	1000:6CA7	routines.tsv	
-000E:7072	shareware_limit_reached	established	decompiled	seg_000E_05.c	686	1000:7072	routines.tsv	
-000E:70B9	play_round	likely	decompiled	seg_000E_05.c	699	1000:70B9	routines.tsv	
-000E:715E			decompiled	seg_000E_05.c	743	1000:715E	routines.tsv	
-000E:721E	draw_template_if	established	decompiled	seg_000E_05.c	784	1000:721E	routines.tsv	
-000E:724A			decompiled	seg_000E_05.c	798	1000:724A	routines.tsv	
-000E:7439	main_menu_loop	likely	decompiled	seg_000E_05.c	871	1000:7439	routines.tsv	
+000E:6685	news_competition_result	likely	decompiled	seg_000E_05.c	239	1000:6685	routines.tsv	
+000E:68A4	welcome_new_manager	likely	decompiled	seg_000E_05.c	332	1000:68A4	routines.tsv	
+000E:6970	simulate_fixture	established	decompiled	seg_000E_05.c	376	1000:6970	routines.tsv	
+000E:6C21	maybe_ask_watch_match	established	decompiled	seg_000E_05.c	491	1000:6C21	routines.tsv	
+000E:6CA7	route_fixture	established	decompiled	seg_000E_05.c	517	1000:6CA7	routines.tsv	
+000E:7072	shareware_limit_reached	established	decompiled	seg_000E_05.c	688	1000:7072	routines.tsv	
+000E:70B9	play_round	likely	decompiled	seg_000E_05.c	701	1000:70B9	routines.tsv	
+000E:715E			decompiled	seg_000E_05.c	745	1000:715E	routines.tsv	
+000E:721E	draw_template_if	established	decompiled	seg_000E_05.c	786	1000:721E	routines.tsv	
+000E:724A			decompiled	seg_000E_05.c	800	1000:724A	routines.tsv	
+000E:7439	main_menu_loop	likely	decompiled	seg_000E_05.c	873	1000:7439	routines.tsv	
 0791:0000	draw_shootout_score_numbers	likely	decompiled	seg_0791_01.c	4	2000:0000	routines.tsv	
 0791:006C	draw_summary_statistic_bar	likely	decompiled	seg_0791_01.c	38	2000:006C	routines.tsv	
 0791:0106	draw_match_summary	likely	decompiled	seg_0791_01.c	64	2000:0106	routines.tsv	

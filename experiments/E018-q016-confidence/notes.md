@@ -37,7 +37,7 @@ player words. These probe B7FA, not the entire watched fixture route.
 * BA4E applies draw(4)-draw(4) independently to every word in the managed
   pool. It precedes the result term on the watched/managed route, not after
   it: F1F6 calls BA4E, then its caller 000E:6CA7 calls B7FA.
-  `named/seg_0791_11.c:704–704`, `named/seg_000E_05.c:605–640`.
+  `named/seg_0791_11.c:704–704`, `named/seg_000E_05.c:606–640`.
   Pool overlap with squad words therefore matters; clipping each call is
   not equivalent to clipping the sum once.
 
@@ -53,11 +53,11 @@ player words. These probe B7FA, not the entire watched fixture route.
 * Silent quick results: 000E:6970 calls D47E, B7FA, B602, D050 in order.
   B602 then grants each selected goal scorer +1 via B364. This is after
   result clipping and is not restored on this route.
-  `named/seg_000E_05.c:392–406`, `named/seg_0791_09.c:122–116`.
+  `named/seg_000E_05.c:393–406`, `named/seg_0791_09.c:122–116`.
 * Unplayed fixtures: BB2F calls fitness rolling and B364 with
   draw(2)-draw(4), without B71C. `named/seg_0791_09.c:350` onward;
   `code/seg_0791_19.asm:337` onward. The router selects this branch for
-  fixture +2 = 0 on the 6E15 path (`named/seg_000E_05.c:605–612`).
+  fixture +2 = 0 on the 6E15 path (`named/seg_000E_05.c:606–612`).
 
 ## The DS:6ED4..6FF4 lead
 
@@ -131,7 +131,7 @@ B7FA, for each side, when neither country is managed (1771:0B77 false for
 both, B81C-B82F) and fixture +2 is not 1 (B86B-B889,
 `code/seg_0791_19.asm:20–66`; `named/seg_0791_09.c:240–230`); and the
 000E:6E15 route after `run_match`, when its local flag is set and fixture
-+2 is not 1 (`named/seg_000E_05.c:614–624`). 1771:63A4 later folds that
++2 is not 1 (`named/seg_000E_05.c:615–624`). 1771:63A4 later folds that
 byte into the manager byte +1 and clears it (annotation row, F017). This
 is a manager/country quantity, not player confidence; its meaning for
 team morale is T33's question and is not established here.
