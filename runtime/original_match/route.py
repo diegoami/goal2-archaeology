@@ -14,7 +14,8 @@ pointer at 6F16-6F17 leave SP 0x3EC4 at 000E:6F18, its `call far 0791:F1F6`.
 
 At 6F18 the harness stops, snapshots the CPU and plays the match with Match(Image of this memory, the fixture at the
 cursor, tail=False) on a machine of Match's own. Match's writes before play (the fixture, the managed side, the delay
-calibration) must find their bytes there already, and its far call's stack must be the one the `call far` would
+calibration) must find their bytes there already (tail=False keeps the fixture's +1, a competitive fixture's round,
+and +3 as route_fixture left them: T119c), and its far call's stack must be the one the `call far` would
 push (its return address 000E:6F1D, then the fixture pointer already pushed): the harness compares the whole memory
 and raises on any other byte. After the match the bytes it changed are written back (kit writes, in the record), the
 CPU is the snapshot's at 000E:6F1D with SP + 4 (F1F6's `retf 4`; Match's machine must end there, with BP and SS
@@ -39,7 +40,7 @@ Prover can be installed on it (port/prove.py)."""
 from .image import Image, FIXTURES_PTR, FIXTURE_SIZE, GAME_PTR
 from .machine import Machine, GuestError, MEM_SIZE
 from .match import (Match, Fixture, SS_PARAGRAPH, ENTRY_SP, ENTRY_BP, RUN_MATCH_RETURN, DELAY_COUNT,
-                    DELAY_COUNT_VALUE, KEYPRESSED, READKEY, PUSHED_BACK, KEY, SEED, SCREEN_PTR)
+                    DELAY_COUNT_VALUE, KEYPRESSED, READKEY, PUSHED_BACK, KEY, SEED, SCREEN_PTR, TABLE_READS, TABLE_KEY)
 
 ROUTE_FIXTURE = "000E:6CA7"     # route_fixture (static/goal-exe/annotations/routines.tsv; F010, F030, F039)
 CALLER, RETURN_TO = "000E:70D1", "000E:70D4"   # play_round 000E:70B9's call of 6CA7 and its return
@@ -61,6 +62,11 @@ READS = {
     "000E:6A89": "000E:6970 simulate_fixture: a declined fixture's result",
     "000E:6B92": "000E:6970 simulate_fixture: the key its poll at 6B84 found (0xAE, 0xAF the speed, space a pause)",
     MENU_SITE + "<0791:E86E": "0791:E80D ask_watch_match, through 214B:1560 (called at E869): Y, N, Esc or Enter",
+    # 6970's score page for a fixture whose first byte is 0xFE calls show_updated_group_tables 0791:E929 (6A93),
+    # whose table screen reads a key: Match's TABLE_READS and TABLE_KEY, where Match answers Enter [confirmed:
+    # match.py TABLE_READS, TABLE_KEY; E040-r0009, T119b #646; T119c #647]
+    **{MENU_SITE + "<" + s: f"0791:E929's table screen through 214B:1560 (called from {s}): one pass" for s in TABLE_READS},
+    TABLE_KEY: "0791:E929's finals' table 1771:9509, 'hit any key' (its 214B:08DD at 9562)",
 }
 POLLS = {
     "000E:0515": "000E:04F5, the tune: a waiting key ends it before the next note",
@@ -69,7 +75,7 @@ POLLS = {
     "000E:6BF7": "000E:6970 simulate_fixture: its delay loop (a waiting key skips the 50 ms waits)",
 }
 # [designed: owner, 2026-11-03] a key at the first poll, Enter; the watch prompt is declined (N: E80D marks the
-# fixture 0xFE and it is simulated).
+# fixture 0xFE and it is simulated); the table screens are looked at once, Enter, as Match answers them (T119c).
 DEFAULT_KEYS = {**{s: ENTER for s in READS}, **{s: ENTER for s in POLLS}, MENU_SITE + "<0791:E86E": KEY_N}
 
 
