@@ -160,7 +160,8 @@ exists.
 - [T118a](T118a.md): route_fixture's played-fixture write-set, outside the post-match news (#427).
 - [T118b1](T118b1.md): the post-match news's game-state writes: the sack and what it releases (#427).
 - [T118b2](T118b2.md): the post-match news text: its RNG draws, in order, and proof it writes no game state (#427).
-- [T119](T119.md): a route harness: route_fixture under the kit's machine, every write recorded, provable; T118c's write watch folded in (#427).
+- [T119a](T119a.md): a route harness: route_fixture under the kit's machine, every write recorded, provable (#427).
+- [T119b](T119b.md): the route harness's first runs: route_fixture's writes corroborated, T118c folded in (#427).
 - [T120](T120.md): the silent path ported: simulate_fixture, the quick result and its tail, proven (#427).
 - [T121](T121.md): route_fixture ported: the fixture loop, the gate, the watch prompt and the news page 6685 (#427).
 - [T122](T122.md): the post-match news ported: 4E0E, its headline and text routines, the sack, proven (#427).
