@@ -9,7 +9,7 @@
 
 ## Method
 
-Static first (rule 22). The named view was read for the routines the drafts named, then the listing for the conditions the C hides: Turbo Pascal passes the caller's `bp` to a nested routine, which stores into the caller's locals through `ss:[di-2]`, so the sack flag of `000E:4E0E` looks constant 0 in `named/seg_000E_04.c:388` and is set at `seg_000E_04.asm:825`. Every universal below ("only", "never", "no state") was checked against all writers, readers and callees found by the searches named in each bullet, and each states what the search could not see. Paths are `static/goal-exe/...`. A probe of a savestate was not taken (see Limits).
+Static first (rule 22). The named view was read for the routines the drafts named, then the listing for the conditions the C hides: Turbo Pascal passes the caller's `bp` to a nested routine, which stores into the caller's locals through `ss:[di-2]`, so the sack flag of `000E:4E0E` looks constant 0 in `named/seg_000E_04.c:389` and is set at `seg_000E_04.asm:825`. Every universal below ("only", "never", "no state") was checked against all writers, readers and callees found by the searches named in each bullet, and each states what the search could not see. Paths are `static/goal-exe/...`. A probe of a savestate was not taken (see Limits).
 
 ## Answer
 

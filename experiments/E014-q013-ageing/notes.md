@@ -199,7 +199,7 @@ an outfield player with no caps retires from aged 31 (30 < 31), a goalkeeper fro
 managed country the same test drives the menu's offer path `000E:57E5` → `000E:56F3` (the
 retirement news `000E:50D4`, the promise line `000E:544D`, the new player `000E:54F0`), which
 is RNG-selected (`57E5` draws `u214b_random_1_to_n(0x50)` over the pool; `54F0` draws rand(6)
-twice for the age and rand(3) for the young-squad check — named/seg_000E_04.c:646-710) and is
+twice for the age and rand(3) for the young-squad check — named/seg_000E_04.c:647-710) and is
 Q014's subject, not modelled here.
 
 `1771:7E80(player)` (seg_1771_11.asm:871-948, `7E80`-`7F3D`) replaces a retired
