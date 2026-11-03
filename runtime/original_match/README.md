@@ -403,7 +403,10 @@ resumes at 000E:6F1D; the rest (the news 4E0E, the player update B7FA, the curso
 keeps the fixture record's +1 (a competitive fixture's round) and +3 as route_fixture left them (T119c); the default
 is unchanged, writing `FE 00 kind 00 first second`. The key sites route_fixture reaches (`route.READS`,
 `route.POLLS`, the group-table reads of 0791:E929 among them, Enter as `Match` answers them) are answered from the
-policy; one it does not name raises. The machine takes no foreign hook, so a `Prover` installs on it.
+policy; one it does not name raises. The machine takes no foreign hook, so a `Prover` installs on it; a proof with
+ports needs `Route(image, record_writes=False)`, which drops only the all-memory write listener (it reads the pc at
+the ports' stack writes, `214B:0000`, which the Prover refuses), keeps the seed watches, key sites and the 6F18 stop,
+and makes `replay()` refuse the run (T119c).
 
 ## Limits and costs
 
