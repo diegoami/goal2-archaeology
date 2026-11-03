@@ -36,7 +36,9 @@ _on_keypressed); a site the policy does not name raises GuestError. The default 
 poll of a wait finds a key, which stays waiting (every later poll finds it) until a read takes it; a read with no key
 waiting takes the policy's key. So 04F5's tune makes no draw and 0572's crowd animation 045D runs once. A pushed-back
 key (DS:79AE) is read by the guest itself, as in Match. No other hook: the machine has no foreign hook, and a
-Prover can be installed on it (port/prove.py)."""
+Prover can be installed on it (port/prove.py). A proof with ports runs only with Route(..., record_writes=False):
+the write listener reads the pc at the ports' stack writes, which they make as 214B:0000 (port/runtime.py), and the
+Prover refuses the first such push; without the listener the Prover compares every byte itself (T119c, #647)."""
 from .image import Image, FIXTURES_PTR, FIXTURE_SIZE, GAME_PTR
 from .machine import Machine, GuestError, MEM_SIZE
 from .match import (Match, Fixture, SS_PARAGRAPH, ENTRY_SP, ENTRY_BP, RUN_MATCH_RETURN, DELAY_COUNT,
@@ -116,7 +118,11 @@ class Keys:
 
 
 class Route:
-    def __init__(self, image, keys=None, timeout_s=600):
+    def __init__(self, image, keys=None, timeout_s=600, record_writes=True):
+        """record_writes: False drops only the all-memory write listener (the record's ("w", pc, ...) entries), so
+        that a Prover can run on the machine: the listener reads the pc at stack writes, which ports make as
+        214B:0000 (port/runtime.py), and the Prover refuses that; it then checks every byte itself. The seed
+        watches, the key sites and the 6F18 stop stay; replay() refuses such a run (T119c, #647)."""
         problems = image.build_problems()
         if problems:
             raise ValueError("the image does not hold the registered GOAL.EXE: " + "; ".join(problems))
@@ -126,6 +132,7 @@ class Route:
         self.m = Machine(image.memory, image.load)
         self.keys = Keys(DEFAULT_KEYS if keys is None else keys)
         self.timeout_s = timeout_s
+        self.record_writes = bool(record_writes)
         self.record = []
         self.inputs = []
         self.matches = []
@@ -140,7 +147,8 @@ class Route:
 
     def _hooks(self):
         m, rec = self.m, self.record
-        m.on_write(0, MEM_SIZE - 1, lambda a, size, value: rec.append(("w", m.pc(), a, size, value)))
+        if self.record_writes:
+            m.on_write(0, MEM_SIZE - 1, lambda a, size, value: rec.append(("w", m.pc(), a, size, value)))
         for name, off in SEEDS.items():
             self._watch_seed(m, name, off, "route")
         m.at(KEYPRESSED, self._on_poll)
@@ -185,6 +193,9 @@ class Route:
 
     def replay(self, memory):
         """The memory `memory` (the call's start, Route.origin) with every write of the record made on it, in order."""
+        if not self.record_writes:
+            raise ValueError("replay: this Route was made with record_writes=False, so its record holds no guest "
+                             "writes")
         out = bytearray(memory)
         for e in self.record:
             if e[0] == "w":

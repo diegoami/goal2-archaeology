@@ -17,7 +17,11 @@
   22, kind 2, round 6 in its +1), one call with the default policy plays it through Match(tail=False), whose set-up
   writes nothing route_fixture had not left (no inputs), resumes at 000E:6F1D and returns; the confidence term
   B71C/B6CC (000E:6F80, 6F86) runs for both sides; every write is in the record.
-- DefaultFixtureTests (the same state): a default Match still writes its fixture record FE 00 kind 00 first second
+- ProvedRouteTests (T119c, #647; unicorn and the published E006-r0004 state, E040-r0004's, fetched by E040's runner
+  `--fetch`): with Route(record_writes=False) and the ports postmatch, update, quick and setup installed, a Prover
+  on the Route's machine proves every armed call of one call (each port call proved, or nested in a proved one);
+  the record keeps the seeds' steps, the key visits and the 6F18 stop, holds no guest write, and replay() refuses it.
+- DefaultFixtureTests (the same state as CompetitiveRouteTests): a default Match still writes its fixture record FE 00 kind 00 first second
   (the round byte +1 := 0, its memory otherwise the image's but for its declared inputs), and only Match(tail=False)
   keeps +1 and +3.
 """
@@ -221,6 +225,54 @@ class CompetitiveRouteTests(unittest.TestCase):
 
     def test_every_write_is_in_the_record(self):
         self.assertEqual(self.r.replay(self.r.origin), self.r.m.read(0, MEM_SIZE))
+
+
+PROVED = ROOT / ".cache" / "dl" / "f8b22081eeb072e5-e006-1337-r0004.sav"           # E040-r0004's state
+PROVED_SHA = "f8b22081eeb072e5b371a5b36628a745cc359efcfdabf6dc2cdaab4ebc66263c"   # evidence/E006 manifest
+
+
+@unittest.skipUnless(HAVE_UNICORN, "unicorn missing (pip install -r runtime/emul/requirements.txt)")
+@unittest.skipUnless(PROVED.is_file(), f"the published E006-r0004 state {PROVED.relative_to(ROOT)} is absent: "
+                     f"{QUALIFIER_FETCH}")
+class ProvedRouteTests(unittest.TestCase):
+    """The write listener reads the pc at stack writes, which ports make as 214B:0000 (port/runtime.py STACK_AT), and
+    the Prover refuses that; record_writes=False drops only the listener (T119c, T120's probe)."""
+
+    @classmethod
+    def setUpClass(cls):
+        import hashlib
+        from original_match import port
+        from original_match.image import Image
+        from original_match.port.prove import Prover
+        data = PROVED.read_bytes()
+        if hashlib.sha256(data).hexdigest() != PROVED_SHA:
+            raise AssertionError(f"{PROVED} is not the published E006-r0004 state")
+        cls.r = r = R.Route(Image.from_savestate(data), record_writes=False)
+        cls.ports = port.install(r.m, ["postmatch", "update", "quick", "setup"])
+        cls.prover = Prover(r.m, cls.ports)
+        cls.record = r.call()
+
+    def test_every_armed_call_is_proved(self):
+        self.assertEqual(self.r.m.foreign_hooks, 0)
+        self.assertTrue(self.r.m.proving)
+        summary = self.prover.summary()
+        self.assertGreater(sum(v["proved"] for v in summary.values()), 0)
+        self.assertEqual(sum(v["before"] for v in summary.values()), 0)      # armed from the start
+        for routine, n in self.ports.calls.items():
+            v = summary[routine]
+            self.assertEqual(v["proved"] + v["nested"], n, routine)       # every call: proved, or inside a proved one
+        for routine in ("0791:B7FA", "0791:D050", "0791:A3DE", "1771:8757"):   # update, postmatch, setup, quick
+            self.assertGreater(summary[routine]["proved"], 0, routine)
+
+    def test_the_call_runs_and_keeps_its_record_but_the_writes(self):
+        kinds = [e[0] for e in self.record if e[0] in ("stop", "match", "resume", "return")]
+        self.assertEqual(kinds, ["stop", "match", "resume", "return"])
+        self.assertEqual(self.r.m.pc(), self.r.m.lin("000E:70D4"))
+        self.assertFalse(any(e[0] == "w" for e in self.record))
+        self.assertTrue(any(e[0] == "rng" for e in self.record))
+        self.assertTrue(any(e[0] == "key" for e in self.record))
+        with self.assertRaisesRegex(ValueError, "record_writes=False"):
+            self.r.replay(self.r.origin)
 
 
 @unittest.skipUnless(HAVE_UNICORN, "unicorn missing (pip install -r runtime/emul/requirements.txt)")
