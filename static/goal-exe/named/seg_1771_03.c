@@ -412,10 +412,10 @@ void performance_text(undefined1 param_1,undefined1 param_2,int param_3)
     if ((in_match_menu_used == 0) ||
        ((uVar3 = squad_slot_of_player(local_a->country,param_3), 0xb < uVar3 &&
         (cVar2 = u214b_set_test_bit(ppVar4->status,3), cVar2 == '\0')))) {
-      DS:AAB2 = player_name_colour(ppVar4->position,param_3);
+      crt_text_attr = player_name_colour(ppVar4->position,param_3);
     }
     else {
-      DS:AAB2 = 0xf;
+      crt_text_attr = 0xf;
     }
     u214b_write_string_at_attr_var((undefined4 *)&DS:A96E,0xb000,param_1,param_2,0xe86,0xb000)
     ;
@@ -437,7 +437,7 @@ void draw_skill_bars(int param_1,int param_2,int param_3)
   
   uVar3 = (undefined2)((ulong)players >> 0x10);
   ppVar2 = (player *)players;
-  DS:AAB2 = 0x70;
+  crt_text_attr = 0x70;
   bVar1 = ppVar2[param_3].ability;
   local_4 = 1;
   while( true ) {
@@ -446,7 +446,7 @@ void draw_skill_bars(int param_1,int param_2,int param_3)
                                        (uint)*(byte *)((int)(word *)pool_base_table +
                                                       (uint)ppVar2[param_3].club_position * 0xc +
                                                       local_4 + 0xd) + 0x6dcd) * (ulong)(bVar1 + 1)
-                     & 0xffff) / 0x100),DS:AAB2,
+                     & 0xffff) / 0x100),crt_text_attr,
                (int)DS:A96E + (param_2 + local_4) * 0xa0 + param_1 * 2 + -0xa2,
                (int)((ulong)DS:A96E >> 0x10));
     if (local_4 == 0xc) break;
@@ -617,7 +617,7 @@ void draw_tactics_panel(int param_1)
       draw_mark_row(&stack0xfffe);
     }
     else {
-      local_6 = (uint)DS:AAB2;
+      local_6 = (uint)crt_text_attr;
       local_a = *(int *)((undefined1 *)&DS:9A3E + (char)local_10b * 0x28 + local_8 * 2);
       draw_player_name(0x2b,0x10,local_a);
       iVar1 = (uint)((player *)players)[local_a].position * 0x13;
@@ -956,7 +956,7 @@ void __stdcall16far draw_player_screen(int param_1)
           if (cVar1 == '\0') {
             cVar1 = u214b_set_test_bit(((player *)local_a)->status,3);
             if (cVar1 == '\0') {
-              DS:AAB2 = 0xf;
+              crt_text_attr = 0xf;
               iVar3 = squad_slot_of_player(local_a->country,param_1);
               if (iVar3 != 0) {
                 if (match_set_up == 0) {
@@ -997,59 +997,6 @@ void __stdcall16far draw_player_screen(int param_1)
       u214b_write_string_at_set_attr((undefined4 *)&DS:A96E,0xb000,0x3d,10,0x426a,0x7000,4);
     }
     performance_text(0x3c,8,param_1);
-  }
-  return;
-}
-
-
-// ---- 1771:4859  edit_player_name  (f_1771_4859; Ghidra 4000:4859, __stdcall16far; found by routines.tsv)
-// T74 (Python port in runtime/original_match/port/menus.py): edits the nonzero player's displayed name through a 12-character temporary: stores its initial, removes that initial and an optional following space, for a nonempty surname, uppercases its first character and stores up to 10 characters in the name table and sets DS:0C1A; unchanged text leaves the name tables unchanged  [likely; read code/seg_1771_07.asm:6]
-
-void __stdcall16far edit_player_name(int param_1,undefined1 param_2,int param_3)
-
-{
-  undefined1 extraout_AH;
-  int iVar1;
-  undefined1 extraout_AH_00;
-  undefined2 unaff_SS;
-  undefined1 uVar2;
-  undefined1 *puVar3;
-  undefined2 uVar4;
-  char *pcVar5;
-  undefined2 uVar6;
-  undefined1 local_10f [256];
-  char local_f;
-  undefined1 local_e;
-  char local_d;
-  
-  if (param_3 != 0) {
-    puVar3 = local_10f;
-    uVar4 = unaff_SS;
-    player_name(param_3);
-    sys_str_store_max_0644(0xc,&local_f,unaff_SS,puVar3,uVar4);
-    iVar1 = param_1 + 0xc;
-    uVar2 = iVar1 == 0;
-    u214b_edit_string_input
-              (CONCAT11((char)((uint)iVar1 >> 8),param_2),iVar1,
-               CONCAT11(extraout_AH,(undefined1)param_1),CONCAT11(extraout_AH,0xc),&local_f,unaff_SS
-              );
-    pcVar5 = &local_f;
-    puVar3 = local_10f;
-    uVar4 = unaff_SS;
-    uVar6 = unaff_SS;
-    player_name(param_3);
-    sys_str_compare_072F(puVar3,uVar4,pcVar5,uVar6);
-    if (!(bool)uVar2) {
-      *(undefined1 *)((int)DS:9B70 + param_3) = local_e;
-      sys_str_delete_07DB((local_d == ' ') + '\x01',1,&local_f,unaff_SS);
-      if (local_f != '\0') {
-        local_e = sys_upcase_19B2(CONCAT11(extraout_AH_00,local_e));
-        sys_str_store_max_0644
-                  (10,(int)DS:9B6C + param_3 * 0xb,(int)((ulong)DS:9B6C >> 0x10),
-                   &local_f,unaff_SS);
-        DS:0C1A = 1;
-      }
-    }
   }
   return;
 }

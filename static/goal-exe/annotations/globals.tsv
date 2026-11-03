@@ -66,3 +66,4 @@ DS:78C4	hardness_descriptor	byte[17]	hardness descriptor index per value 0..16 i
 DS:78D5	fitness_descriptor	byte[33]	fitness descriptor index per value 0..32 into the labels at DS:6EB4 (TEAM panel and player panel); contiguous with DS:78F6	established	F038
 DS:78F6	energy_descriptor	byte[33]	energy descriptor index per value 0..32 into the labels at DS:6EB4 (TEAM panel and player panel); DS:7917 follows	established	F038
 DS:9B5A	team_characteristics	word[6]	1771:13D0 results, in order morale, fitness, hardness, energy, age, caps (averages over 11 seeded with 6); read only by 1771:157D	established	F038
+DS:AAB2	crt_text_attr	byte	the CRT unit's text attribute: 214B:01A3 and 026D write text with it, 0205 and 02C8 store their attribute argument in it (0223, 02E6); display state only, written by the news text's screen calls	established	F039; read code/seg_214B_01.asm

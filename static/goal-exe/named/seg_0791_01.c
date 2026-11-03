@@ -143,7 +143,7 @@ void __stdcall16far draw_match_summary(char param_1)
       local_a = (int *)CONCAT22(0xb000,(int *)(local_6 * 0x21 + local_4 * 3 + 0x7bd1));
       if (*local_a != 0) {
         draw_player_name(*(undefined1 *)(local_6 + 0x670),local_4 + 0xb,*local_a);
-        DS:AAB2 = 4;
+        crt_text_attr = 4;
         uVar4 = (undefined2)((ulong)local_a >> 0x10);
         if (*(byte *)((int *)local_a + 1) < 0x81) {
           puVar5 = local_10a;

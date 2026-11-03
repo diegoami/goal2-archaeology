@@ -280,7 +280,7 @@ void f_1771_1C85(int param_1,undefined4 param_2)
   
   uStack_f = (undefined2)((ulong)DS:A923 >> 0x10);
   local_11 = (int)DS:A923;
-  DS:AAB2 = 3;
+  crt_text_attr = 3;
   iVar1 = sys_long_mul_0279();
   *(int *)(param_1 + -10) = *(int *)(local_11 + 0x3a) + iVar1;
   sys_str_of_long_12F6(10,&local_d,unaff_SS,2,*(uint *)(param_1 + -10) % 100,0);
@@ -341,7 +341,7 @@ void f_1771_1D5C(int param_1)
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x26f2,0xb000);
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x1af6,0xb000);
   draw_country_name(0x41,0x14,param_1);
-  DS:AAB2 = *(undefined1 *)(local_a0->continent + 0x6905);
+  crt_text_attr = *(byte *)(local_a0->continent + 0x6905);
   local_f = '\0';
   while( true ) {
     local_6 = 1;
@@ -396,7 +396,7 @@ void f_1771_1D5C(int param_1)
                   ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_00,10),
                    CONCAT11(extraout_AH_00,(undefined1)local_a),puVar5,uVar4,uVar2);
       }
-      DS:AAB2 = *(undefined1 *)(local_a0->continent + 0x6905);
+      crt_text_attr = *(byte *)(local_a0->continent + 0x6905);
       puVar5 = local_1a4;
       uVar4 = unaff_SS;
       u214b_number_to_string(((undefined1 *)local_a4)[1],0);
@@ -499,7 +499,7 @@ void f_1771_1D5C(int param_1)
     if (local_f == '\x01') break;
     local_f = local_f + '\x01';
   }
-  DS:AAB2 = 7;
+  crt_text_attr = 7;
   cVar1 = is_managed(param_1);
   if (cVar1 == '\0') {
     local_e = 1;
@@ -555,7 +555,7 @@ void f_1771_1D5C(int param_1)
     if (local_6 == 10) break;
     local_6 = local_6 + 1;
   }
-  DS:AAB2 = 5;
+  crt_text_attr = 5;
   u214b_move_bytes(0x8c,(int)DS:A93B + local_e * 0x8c + -0x8c,
                    (int)((ulong)DS:A93B >> 0x10),local_9c,unaff_SS);
   u214b_move_bytes(0x8c,local_9c,unaff_SS,(int)DS:A937 + local_e * 0x8c + -0x8c,
