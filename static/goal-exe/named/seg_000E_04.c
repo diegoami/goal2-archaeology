@@ -471,7 +471,7 @@ LAB_000E_4F47:
   else {
     iVar3 = CONCAT11(extraout_AH_01,1);
   }
-  f_000E_05F6(iVar3,iVar1,iVar2);
+  news_key_wait(iVar3,iVar1,iVar2);
   if (local_4 != '\0') {
     unmanage_country(((country *)countries)[param_2].manager - 0x80);
   }
@@ -743,7 +743,7 @@ void replace_retiree(int param_1,char param_2,int param_3)
   u214b_fill_bytes(0,0x14,(player *)players + param_3,(int)((ulong)players >> 0x10));
   if (param_2 != '\0') {
     f_000E_544D(param_1);
-    f_000E_05F6((uint)extraout_AH_00 << 8,(uint)extraout_AH_00 << 8,(uint)extraout_AH_00 << 8);
+    news_key_wait((uint)extraout_AH_00 << 8,(uint)extraout_AH_00 << 8,(uint)extraout_AH_00 << 8);
   }
   return;
 }
@@ -949,7 +949,7 @@ void f_000E_5AC5(int param_1)
   format_manager_name(((country *)_local_23)->manager);
   sys_str_concat_06B7(puVar6,uVar4);
   f_000E_075F(0x5abd,0xa000,local_1b,unaff_SS,puVar7,uVar5);
-  f_000E_05F6((uint)extraout_AH << 8,(uint)extraout_AH << 8,(uint)extraout_AH << 8);
+  news_key_wait((uint)extraout_AH << 8,(uint)extraout_AH << 8,(uint)extraout_AH << 8);
   return;
 }
 

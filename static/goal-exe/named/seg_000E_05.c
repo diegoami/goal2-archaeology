@@ -230,7 +230,7 @@ void __stdcall16far announce_stage_to_manager(int param_1)
   else {
     uVar4 = 1;
   }
-  f_000E_05F6((uVar4 >> 8) << 8,(uVar4 >> 8) << 8,uVar4);
+  news_key_wait((uVar4 >> 8) << 8,(uVar4 >> 8) << 8,uVar4);
   *(undefined1 *)(local_2d + 1) = (undefined1)local_19;
   return;
 }
@@ -324,7 +324,7 @@ void news_competition_result(undefined4 param_1)
     uVar2 = f_000E_075F(local_22,unaff_SS,0x6678,0x7000,local_12,unaff_SS);
   }
   uVar2 = uVar2 >> 8;
-  f_000E_05F6(uVar2 << 8,uVar2 << 8,uVar2 << 8);
+  news_key_wait(uVar2 << 8,uVar2 << 8,uVar2 << 8);
   return;
 }
 
@@ -368,7 +368,7 @@ void __stdcall16far welcome_new_manager(int param_1)
   sys_str_store_062A(0x6891,0xa000);
   sys_str_concat_06B7(local_17,unaff_SS);
   f_000E_075F(0x68a3,0xa000,0x6896,0xa000,puVar1,uVar2);
-  f_000E_05F6((uint)extraout_AH << 8,(uint)extraout_AH << 8,(uint)extraout_AH << 8);
+  news_key_wait((uint)extraout_AH << 8,(uint)extraout_AH << 8,(uint)extraout_AH << 8);
   return;
 }
 
