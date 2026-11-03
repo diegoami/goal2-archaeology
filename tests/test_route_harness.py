@@ -12,6 +12,14 @@
   over the start memory gives the memory the call left (every write is in it), each RNG word's steps chain from its
   start value to its end value, the news page's read 000E:0629 is in it, answered from the policy; and a policy
   without 000E:0629 raises there.
+- CompetitiveRouteTests (T119c, #647; unicorn and the published E015-r0009 state 3, `.cache/dl`, fetched by E040's
+  runner `--fetch`; skipped without either): from the manager menu with the managed qualifier 16 v 3 next (fixture
+  22, kind 2, round 6 in its +1), one call with the default policy plays it through Match(tail=False), whose set-up
+  writes nothing route_fixture had not left (no inputs), resumes at 000E:6F1D and returns; the confidence term
+  B71C/B6CC (000E:6F80, 6F86) runs for both sides; every write is in the record.
+- DefaultFixtureTests (the same state): a default Match still writes its fixture record FE 00 kind 00 first second
+  (the round byte +1 := 0, its memory otherwise the image's but for its declared inputs), and only Match(tail=False)
+  keeps +1 and +3.
 """
 import sys
 import unittest
@@ -21,6 +29,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "runtime"))
 from original_match import route as R  # noqa: E402
 from original_match.machine import GuestError, MEM_SIZE  # noqa: E402
+from original_match.match import SS_PARAGRAPH  # noqa: E402
 
 IMAGE = ROOT / ".cache" / "dl" / "e0afff6751747233-e006-1000-r0001.sav"
 IMAGE_SHA = "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d"
@@ -39,6 +48,14 @@ class KeyPolicyTests(unittest.TestCase):
         self.assertEqual(set(R.DEFAULT_KEYS), set(R.READS) | set(R.POLLS))
         self.assertEqual(R.DEFAULT_KEYS["214B:157C<0791:E86E"], R.KEY_N)     # the watch prompt: declined
         self.assertEqual(R.DEFAULT_KEYS["000E:0629"], R.ENTER)
+
+    def test_the_table_reads_are_in_the_default_policy(self):
+        # 6970's score page for a 0xFE fixture reaches 0791:E929's table screen: Match answers it Enter (T119c)
+        from original_match.match import TABLE_READS, TABLE_KEY
+        for caller in TABLE_READS:
+            self.assertEqual(R.DEFAULT_KEYS[R.MENU_SITE + "<" + caller], R.ENTER, caller)
+        self.assertEqual(R.DEFAULT_KEYS[TABLE_KEY], R.ENTER)
+        self.assertEqual(set(R.DEFAULT_KEYS) - set(R.READS) - set(R.POLLS), set())
 
     def test_a_key_at_the_first_poll_waits_for_the_read(self):
         k = R.Keys(R.DEFAULT_KEYS)
@@ -137,6 +154,109 @@ class RouteTests(unittest.TestCase):
         keys = {s: k for s, k in R.DEFAULT_KEYS.items() if s != "000E:0629"}
         with self.assertRaisesRegex(GuestError, "000E:0629 has no answer"):
             R.Route(self.image, keys=keys).call()
+
+
+
+QUALIFIER = ROOT / ".cache" / "dl" / "46bbf5dabaaa9553-snap-0003-20261011T195415Z.sav"
+QUALIFIER_SHA = "46bbf5dabaaa95537b7dd88de00563b9e8594db021fb3d4a75254ed379465bea"   # evidence/E015 manifest
+QUALIFIER_FETCH = "python3 -B experiments/E040-route-fixture-writes/runner.py --fetch"
+CONFIDENCE = ("000E:6F80", "000E:6F86")     # route_fixture's calls of B71C and B6CC, the side [bp-3] 0, then 1
+# (seg_000E_09.asm 6F3B-6F8F: [bp-3] := 0; ... inc; cmp [bp-3], 1; jne)
+
+
+def _qualifier_image():
+    import hashlib
+    from original_match.image import Image
+    data = QUALIFIER.read_bytes()
+    if hashlib.sha256(data).hexdigest() != QUALIFIER_SHA:
+        raise AssertionError(f"{QUALIFIER} is not the published E015-r0009 state 3")
+    return Image.from_savestate(data)
+
+
+@unittest.skipUnless(HAVE_UNICORN, "unicorn missing (pip install -r runtime/emul/requirements.txt)")
+@unittest.skipUnless(QUALIFIER.is_file(), f"the published E015-r0009 state 3 {QUALIFIER.relative_to(ROOT)} is absent: "
+                     f"{QUALIFIER_FETCH}")
+class CompetitiveRouteTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.r = r = R.Route(_qualifier_image())
+        m = r.m
+        cls.base = m.far(0xA92B) + 8 * 21                 # fixture 22 (FIXTURES_PTR, 8 bytes a fixture)
+        cls.before = m.read(cls.base, 8)
+        cls.confidence = []
+
+        def hit(site):
+            def h(replay):
+                if not replay:
+                    cls.confidence.append((site, m.read(m.reg("ss") * 16 + m.reg("bp") - 3, 1)[0]))
+            return h
+        for site in CONFIDENCE:
+            m.at(site, hit(site))
+        cls.record = r.call()
+
+    def test_the_state(self):
+        self.assertEqual(self.before.hex(), "fe06020010000300")    # 16 v 3, kind 2, round 6 in +1
+
+    def test_the_qualifier_plays_through_match_and_resumes(self):
+        kinds = [e[0] for e in self.record if e[0] in ("stop", "match", "resume", "return")]
+        self.assertEqual(kinds, ["stop", "match", "resume", "return"])
+        match = next(e[1] for e in self.record if e[0] == "match")
+        self.assertEqual((match["fixture"], match["first"], match["second"], match["kind"], match["managed"]),
+                         (22, 16, 3, 2, 16))
+        mt = self.r.matches[0]
+        self.assertIs(mt.opts["tail"], False)
+        self.assertEqual(mt.inputs, [])                    # its set-up found every byte as route_fixture left it
+        self.assertEqual(mt.st["phase"], "done")
+        resume = next(e for e in self.record if e[0] == "resume")
+        self.assertEqual(resume[1:], ("000E:6F1D", 0x3EC8))
+        self.assertEqual(self.r.m.pc(), self.r.m.lin("000E:70D4"))
+        self.assertEqual(self.r.m.reg("sp"), 0x3EE2)
+        self.assertEqual(self.r.m.word_at(self.r.m.far(0xA923) + 0x26), 23)
+        after = self.r.m.read(self.base, 8)
+        self.assertEqual(list(after[:2]), match["score"])  # the result: the goals in +0, +1, the winner in +3
+        self.assertEqual(after[3], match["winner"])
+
+    def test_the_confidence_term_runs_for_both_sides(self):
+        self.assertEqual(sorted(self.confidence), sorted([(s, side) for s in CONFIDENCE for side in (0, 1)]))
+
+    def test_every_write_is_in_the_record(self):
+        self.assertEqual(self.r.replay(self.r.origin), self.r.m.read(0, MEM_SIZE))
+
+
+@unittest.skipUnless(HAVE_UNICORN, "unicorn missing (pip install -r runtime/emul/requirements.txt)")
+@unittest.skipUnless(QUALIFIER.is_file(), f"the published E015-r0009 state 3 {QUALIFIER.relative_to(ROOT)} is absent: "
+                     f"{QUALIFIER_FETCH}")
+class DefaultFixtureTests(unittest.TestCase):
+    """_write_fixture also serves goal2's own matches: the default path stays byte for byte (T119c's hazard)."""
+
+    def _set_up(self, **kw):
+        from original_match.match import Match, Fixture
+        image = _qualifier_image()
+        origin = bytes(image.memory[:MEM_SIZE])
+        match = Match(image, Fixture(first=16, second=3, index=22, kind=2), **kw)
+        base = match.m.far(0xA92B) + 8 * 21
+        return match, origin, base
+
+    def test_a_default_match_writes_its_fixture_as_before(self):
+        match, origin, base = self._set_up()
+        legacy = bytes([0xFE, 0, 2, 0]) + (16).to_bytes(2, "little") + (3).to_bytes(2, "little")
+        self.assertEqual(match.m.read(base, 8), legacy)
+        fx = [i for i in match.inputs if i["linear"] == base]
+        self.assertEqual(fx, [{"what": "fixture 22 := 16 v 3, kind 2", "linear": base, "old": "fe06020010000300",
+                               "new": legacy.hex()}])
+        expect = bytearray(origin)                         # the image, with exactly the declared inputs made
+        for i in match.inputs:
+            new = bytes.fromhex(i["new"])
+            expect[i["linear"]:i["linear"] + len(new)] = new
+        now = match.m.read(0, MEM_SIZE)
+        stack = match.m.seg(SS_PARAGRAPH) * 16             # but for the stack segment, where _call pushes its frame
+        self.assertEqual(now[:stack], bytes(expect[:stack]))
+        self.assertEqual(now[stack + 0x4000:], bytes(expect[stack + 0x4000:]))
+
+    def test_only_the_route_mode_keeps_the_round_and_plus_3(self):
+        match, origin, base = self._set_up(tail=False)
+        self.assertEqual(match.m.read(base, 8).hex(), "fe06020010000300")
+        self.assertEqual([i for i in match.inputs if i["linear"] == base], [])
 
 
 if __name__ == "__main__":
