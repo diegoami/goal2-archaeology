@@ -98,8 +98,10 @@ overwritten).
   (`port/stages.py`: stage_end 8208, run_stage 76B1, the builders' helpers 5D02, 5D94, 5E3A, 5E99, 6617) and
   display's 5C94 and 5CCB are installed under a Prover on the route's machine from the start.
 - **Which states reach a round's end** (development runs of the published cases, not recorded, 2026-11-04): only
-  E015-r0007 state 213 (`53b69d3dfb964e77-snap-0213-20261011T142027Z.sav`, the r0010/r0013 case): eleven managed
-  matches, then the silent rest of stage 2, then the round's end (stage 2 to 3, ageing, 6B55, 60CB). Every other
+  E015-r0007 state 213 (`53b69d3dfb964e77-snap-0213-20261011T142027Z.sav`, the r0010/r0013 case) and E015-r0009
+  state 3 (`46bbf5dabaaa9553-snap-0003-20261011T195415Z.sav`, r0011/r0014: the same calendar position, another
+  sitting): eleven managed matches, then the silent rest of stage 2, then the round's end (stage 2 to 3, ageing,
+  6B55, 60CB). In stage 3 the next managed match stops the run (Italy's eleven refused, below). Every other
   case tried stops earlier at a managed match whose first eleven the original refuses ("... has an ineligible
   player in the first team", `Match`'s MatchError at the pre-match menu): E006-r0001, r0004, r0009 after 5, 3 and 3
   matches, E015-r0007 state 26 after 8, and E014-r0006's input (cal3-y1, stage 3) after 2. The harness has no team
