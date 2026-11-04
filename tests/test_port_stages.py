@@ -41,7 +41,7 @@ RET = {"1771:8208": "000E:70EB", "1771:76B1": "000E:70F9",      # play_round 70E
        "1771:5D02": "1771:5DC7", "1771:5D94": "1771:5E54",      # add_fixture 5DC4, add_fixture_with_bonus 5E51
        "1771:5E3A": "1771:6DEE", "1771:5E99": "1771:6B6B",      # 6B55's calls at 6DEB, 6B68 (seg_1771_10.asm)
        "1771:6617": "1771:6E55",                                # 6B55's call at 6E52
-       "1771:5C94": "1771:92F9", "1771:5CCB": "1771:9321"}      # 1771:9028's (port/_display_finals.py)
+       "1771:5C94": "1771:92F9", "1771:5CCB": "1771:9321"}      # 1771:91CE's calls at 92F6, 931E
 
 
 class RegistryTests(unittest.TestCase):
