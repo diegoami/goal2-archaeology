@@ -629,7 +629,7 @@ void update_top_scorers(int param_1,int param_2)
 
 
 // ---- 0791:B602  credit_silent_match_scorers  (f_0791_B602; Ghidra 2000:B602, __stdcall16far; found by routines.tsv)
-// selects silent-result scorers, updates scorer tables and applies +1 confidence through B364 after B7FA result clipping  [established; F019]
+// T120 (ported, proven in the route harness on E040's states; runtime/original_match/port/silent.py): after a silent result (fixture far pointer): F := 1771:5A03; for each side, once per goal in its byte +side: a squad slot DS:0A09[214B:06B1(0x1E)], that squad word's player +0xA (goals) incremented, update_top_scorers B3B7(player, country +0x2C) when F, and B364(player, 1) (+1 confidence); called by 000E:6970 after B7FA  [established; F019; F039; read code/seg_0791_18.asm:896-1004]
 
 void __stdcall16far credit_silent_match_scorers(undefined4 param_1)
 
@@ -877,7 +877,7 @@ void update_pool_player_state(int param_1)
 
 
 // ---- 0791:BB2F  prepare_unplayed_match  (f_0791_BB2F; Ghidra 2000:BB2F, __stdcall16far; found by routines.tsv)
-// prepares a fixture without playing it: match set-up 0791:A4A1, then per player 1771:3558 and 0791:B364, then per team 0791:BC5D when 0B77 is zero for it, else 0791:BA4E (which touches neither +0x2D nor +0xF); it reaches neither match engine by a direct call edge; the fixture router sends a fixture with first byte 0xFE and byte +2 = 0 here instead of 0791:F1F6  [established; F010]
+// T120 (ported, proven in the route harness on an E040 state with a managed fixture made kind 0; runtime/original_match/port/silent.py): prepares a fixture without playing it: match set-up 0791:A4A1, then for both countries (DS:9B34, 9B36) and their 20 squad words 1771:3558 and B364(word, 214B:06B1(2) - 214B:06B1(4), drawn in the order 4 then 2), then per team 0791:BA4E when 1771:0B77 is nonzero for it, else 0791:BC5D (push cs; near call); the fixture's first byte := 0 and DS:0C1E := 0; it reaches neither match engine by a direct call edge; the fixture router sends a fixture whose gate 6C21 returned 1 (first byte 0xFE with a managed side, or a watch prompt answered Y) and byte +2 = 0 here (6ED8-6EF9) instead of 0791:F1F6  [established; F010; F039; read code/seg_0791_19.asm:338-464]
 
 void __stdcall16far prepare_unplayed_match(undefined1 *param_1)
 
@@ -944,36 +944,6 @@ void set_team_tactics(byte param_1,int param_2)
     }
     if (local_4 == 0x14) break;
     local_4 = local_4 + 1;
-  }
-  return;
-}
-
-
-// ---- 0791:BC5D  reset_team_tactics  (f_0791_BC5D; Ghidra 2000:BC5D, __stdcall16far; found by routines.tsv)
-// T71 (runtime/original_match/port/postmatch.py): per country: 1. clears +0xF of all 20 squad words, zero or not; 2. writes R008 (DS:9B7C + country) to +0x2D through 0791:BBFF, so the default set returns and the overrides are re-derived; 3. sorts the squad (1771:52CC, whose unavailable-sorts-last rule applies while 0B77 is nonzero at that moment); 4. sets +6 of slots 1..11 from R011 (DS:9F02 + 20 country + slot); called by 000E:01FA, 000E:6970 and 0791:E80D for both teams with no test of 0B77, and by 0791:BB2F and 0791:F1F6 only for a team 0B77 calls unmanaged (a managed team gets 0791:BA4E)  [established; F010; read decompiled/seg_0791_07.c]
-
-void __stdcall16far reset_team_tactics(int param_1)
-
-{
-  word wVar1;
-  country *pcVar2;
-  undefined2 uVar3;
-  int local_4;
-  
-  uVar3 = (undefined2)((ulong)countries >> 0x10);
-  pcVar2 = (country *)countries;
-  local_4 = 1;
-  while( true ) {
-    wVar1 = pcVar2[param_1].squad[local_4 + -1];
-    ((player *)players)[wVar1].own_tactic_set = 0;
-    if (local_4 == 0x14) break;
-    local_4 = local_4 + 1;
-  }
-  set_team_tactics(CONCAT11((char)(wVar1 * 0x14 >> 8),*(undefined1 *)(param_1 + -0x6484)),param_1);
-  sort_squad_by_position(param_1);
-  for (local_4 = 1;
-      ((player *)players)[pcVar2[param_1].squad[local_4 + -1]].position =
-           *(byte *)(param_1 * 0x14 + local_4 + -0x60fe), local_4 != 0xb; local_4 = local_4 + 1) {
   }
   return;
 }
