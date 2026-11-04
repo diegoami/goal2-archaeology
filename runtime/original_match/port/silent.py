@@ -226,7 +226,7 @@ def credit_silent_match_scorers(mem, variant):
 @PORTS.port("0791:BB2F", ret="retf 4")
 def prepare_unplayed_match(mem, variant):
     """BB2F-BBFC (the fixture [bp+6]): match_setup A4A1; per side (its country DS:9B34 + 2 side): for its 20 squad
-    words 1771:3558 and B364(word, 214B:06B1(4) - 214B:06B1(2)); then BA4E when 1771:0B77 calls it managed, else
+    words 1771:3558 and B364(word, 214B:06B1(2) - 214B:06B1(4), the second draw minus the first); then BA4E when 1771:0B77 calls it managed, else
     BC5D; the fixture's first byte := 0 and DS:0C1E := 0."""
     r = Regs(mem)
     r.enter(8)                                                   # BB2F-BB32

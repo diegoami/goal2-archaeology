@@ -246,6 +246,7 @@ def main(argv=None):
             raise SystemExit(f"--cases: no case {sorted(unknown)}")
         chosen = [c for c in chosen if c[0] in want]
     started = datetime.datetime.now(datetime.timezone.utc)
+    commit = git("rev-parse", "HEAD")                # the code that runs (DIRTY_PATHS clean, or --no-record)
     states, passes = {}, []
     caught = None
     names = {reg.name for reg, _ in loaded}
@@ -299,7 +300,6 @@ def main(argv=None):
         if out.exists():
             raise SystemExit(f"{out} exists: never overwritten")
         import unicorn
-        commit = git("rev-parse", "HEAD")
         record = {
             "schema": "e040-t120-prove/1", "task": "T120", "experiment": "E040",
             "command": "python3 -B experiments/E040-route-fixture-writes/prove.py " + " ".join(argv or sys.argv[1:]),
