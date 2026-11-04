@@ -58,6 +58,7 @@ The stage pages' key reads and polls are answered by the same policy, at sites R
 included) or run_stage 76B1 calls 214B:08DD or 0723 (the closure of calls.tsv's direct calls), and under 60CB only
 05F6 does, so a round's end adds no site."""
 from .image import Image, FIXTURES_PTR, FIXTURE_SIZE, GAME_PTR
+from .route_team import RouteMatch
 from .machine import Machine, GuestError, MEM_SIZE
 from .match import (Match, Fixture, SS_PARAGRAPH, ENTRY_SP, ENTRY_BP, RUN_MATCH_RETURN, DELAY_COUNT,
                     DELAY_COUNT_VALUE, KEYPRESSED, READKEY, PUSHED_BACK, KEY, SEED, SCREEN_PTR, TABLE_READS, TABLE_KEY)
@@ -326,7 +327,7 @@ class Route:
         here[push:push + 4] = int(roff, 16).to_bytes(2, "little") + m.seg(int(rseg, 16)).to_bytes(2, "little")
         image = Image(self.header + bytes(m.read(0, MEM_SIZE)) + self.tail)
         image.tables = self.tables
-        match = Match(image, fixture, tail=False)
+        match = RouteMatch(image, fixture, tail=False)
         for name, off in SEEDS.items():
             self._watch_seed(match.m, name, off, "match")
         before = match.m.read(0, MEM_SIZE)
@@ -344,6 +345,7 @@ class Route:
         after = mm.read(0, MEM_SIZE)
         result = match.result()
         self.matches.append(match)
+        self.record.append(("team", {"fixture": index, "choices": match.team_choices, "keys": match.team_keys}))
         self.record.append(("match", {"fixture": index, "first": fixture.first, "second": fixture.second,
                                       "kind": fixture.kind, "managed": result["managed"], "score": result["score"],
                                       "winner": result["winner"]}))

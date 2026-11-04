@@ -1,0 +1,149 @@
+FFFFFFFF.F
+======================================================================
+FAIL: test_all_three_status_bits_and_signed_energy_are_unavailable (tests.test_route_team_policy.ChoiceTests.test_all_three_status_bits_and_signed_energy_are_unavailable) (status=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_route_team_policy.py", line 34, in test_all_three_status_bits_and_signed_energy_are_unavailable
+    self.assertEqual(self.pick(), [(1, 12)])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [(1, 12), (5, 13), (6, 14)] != [(1, 12)]
+
+First list contains 2 additional elements.
+First extra element 1:
+(5, 13)
+
+- [(1, 12), (5, 13), (6, 14)]
++ [(1, 12)]
+
+======================================================================
+FAIL: test_all_three_status_bits_and_signed_energy_are_unavailable (tests.test_route_team_policy.ChoiceTests.test_all_three_status_bits_and_signed_energy_are_unavailable) (status=32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_route_team_policy.py", line 34, in test_all_three_status_bits_and_signed_energy_are_unavailable
+    self.assertEqual(self.pick(), [(1, 12)])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [(1, 12), (5, 13), (6, 14)] != [(1, 12)]
+
+First list contains 2 additional elements.
+First extra element 1:
+(5, 13)
+
+- [(1, 12), (5, 13), (6, 14)]
++ [(1, 12)]
+
+======================================================================
+FAIL: test_all_three_status_bits_and_signed_energy_are_unavailable (tests.test_route_team_policy.ChoiceTests.test_all_three_status_bits_and_signed_energy_are_unavailable) (status=128)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_route_team_policy.py", line 34, in test_all_three_status_bits_and_signed_energy_are_unavailable
+    self.assertEqual(self.pick(), [(1, 12)])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [(1, 12), (5, 13), (6, 14)] != [(1, 12)]
+
+First list contains 2 additional elements.
+First extra element 1:
+(5, 13)
+
+- [(1, 12), (5, 13), (6, 14)]
++ [(1, 12)]
+
+======================================================================
+FAIL: test_all_three_status_bits_and_signed_energy_are_unavailable (tests.test_route_team_policy.ChoiceTests.test_all_three_status_bits_and_signed_energy_are_unavailable) (energy=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_route_team_policy.py", line 39, in test_all_three_status_bits_and_signed_energy_are_unavailable
+    self.assertEqual(self.pick(), [(1, 12)])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [(1, 12), (5, 13), (6, 14)] != [(1, 12)]
+
+First list contains 2 additional elements.
+First extra element 1:
+(5, 13)
+
+- [(1, 12), (5, 13), (6, 14)]
++ [(1, 12)]
+
+======================================================================
+FAIL: test_all_three_status_bits_and_signed_energy_are_unavailable (tests.test_route_team_policy.ChoiceTests.test_all_three_status_bits_and_signed_energy_are_unavailable) (energy=128)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_route_team_policy.py", line 39, in test_all_three_status_bits_and_signed_energy_are_unavailable
+    self.assertEqual(self.pick(), [(1, 12)])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [(1, 12), (5, 13), (6, 14)] != [(1, 12)]
+
+First list contains 2 additional elements.
+First extra element 1:
+(5, 13)
+
+- [(1, 12), (5, 13), (6, 14)]
++ [(1, 12)]
+
+======================================================================
+FAIL: test_all_three_status_bits_and_signed_energy_are_unavailable (tests.test_route_team_policy.ChoiceTests.test_all_three_status_bits_and_signed_energy_are_unavailable) (energy=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_route_team_policy.py", line 39, in test_all_three_status_bits_and_signed_energy_are_unavailable
+    self.assertEqual(self.pick(), [(1, 12)])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [(1, 12), (5, 13), (6, 14)] != [(1, 12)]
+
+First list contains 2 additional elements.
+First extra element 1:
+(5, 13)
+
+- [(1, 12), (5, 13), (6, 14)]
++ [(1, 12)]
+
+======================================================================
+FAIL: test_empty_slot_replaced_without_trying_to_mark_it (tests.test_route_team_policy.ChoiceTests.test_empty_slot_replaced_without_trying_to_mark_it)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_route_team_policy.py", line 43, in test_empty_slot_replaced_without_trying_to_mark_it
+    self.assertEqual(self.pick(), [(0, 12)])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [(0, 12), (5, 13), (6, 14)] != [(0, 12)]
+
+First list contains 2 additional elements.
+First extra element 1:
+(5, 13)
+
+- [(0, 12), (5, 13), (6, 14)]
++ [(0, 12)]
+
+======================================================================
+FAIL: test_keeps_the_legal_eleven (tests.test_route_team_policy.ChoiceTests.test_keeps_the_legal_eleven)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_route_team_policy.py", line 24, in test_keeps_the_legal_eleven
+    self.assertEqual(self.pick(), [])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [(5, 13), (6, 14)] != []
+
+First list contains 2 additional elements.
+First extra element 0:
+(5, 13)
+
+- [(5, 13), (6, 14)]
++ []
+
+======================================================================
+FAIL: test_replaces_injured_keeper_with_the_first_legal_keeper (tests.test_route_team_policy.ChoiceTests.test_replaces_injured_keeper_with_the_first_legal_keeper)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_route_team_policy.py", line 28, in test_replaces_injured_keeper_with_the_first_legal_keeper
+    self.assertEqual(self.pick(), [(1, 12)])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [(1, 12), (5, 13), (6, 14)] != [(1, 12)]
+
+First list contains 2 additional elements.
+First extra element 1:
+(5, 13)
+
+- [(1, 12), (5, 13), (6, 14)]
++ [(1, 12)]
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.739s
+
+FAILED (failures=9)
