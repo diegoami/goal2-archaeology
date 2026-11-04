@@ -127,5 +127,31 @@ overwritten).
   6B55, 60CB). From state 213, stage 3's first managed match stops the run (Italy's eleven refused, below). Every other
   case tried stops earlier at a managed match whose first eleven the original refuses ("... has an ineligible
   player in the first team", `Match`'s MatchError at the pre-match menu): E006-r0001, r0004, r0009 after 5, 3 and 3
-  matches, E015-r0007 state 26 after 8, and E014-r0006's input (cal3-y1, stage 3) after 2. The harness has no team
-  policy (a design decision; route.py and match.py pick no eleven).
+  matches, E015-r0007 state 26 after 8, and E014-r0006's input (cal3-y1, stage 3) after 2. These are T124a’s pre-T124t limits; T124t adds the explicit harness team policy below.
+
+
+## T124t (#427): the harness picks a legal eleven
+
+[designed: owner, 2026-11-04, goal2 #509] `route_team.py` chooses among the current twenty squad players. A legal
+candidate has positive signed energy and status elements 8, 6 and 3 clear (1771:3216), exactly one keeper and at
+most three of every other position (0791:EA09). It keeps as many current starters as possible, breaking ties by
+the tuple of original squad slots. Outgoing and incoming words are paired in squad order. Every swap is made by
+the original's SELECT TEAM screen (E44F / DEA6), marking the incoming player first to permit an empty outgoing
+slot; the driver reads the live squad after each original sort. The original EA09 still validates the eleven.
+No player or squad bytes are assigned by the policy. Normal Match callers keep their own choices.
+
+The route record's `team` entries hold each fixture's choices and every match key's site, byte and menu context.
+`out/T124t/prove.py --out NAME` starts from the published E015-r0007 state 213, proves stage ports as before, and
+runs four rounds: stage 2's end, stage 3's, then both rounds of stage 4. Append-only `NAME.jsonl` receipts retain
+all choices and keys, round-end stages and proof summaries. `--no-selection` is the old play-only policy, which
+the original refuses when an ineligible starter reaches its pre-match menu.
+
+For bounded batches use `--stop-after-round 1` (then 2 or 3). `--resume --out NAME` checks the state hash and
+source hashes, then the latest completed round's memory checkpoint hash, restores every CPU register/flag and
+the waiting policy key, and starts only the missing rounds.
+Checkpoints under `.cache/t124t/NAME/` contain guest memory and stay local; receipts retain paths and hashes only.
+An interrupted partial round is replayed from the last completed round; existing receipts are never overwritten.
+The initial `continuation-v1` proof predates this resume support and records its source commit explicitly.
+
+The `continuation-final` run predates restoration of CPU context and a waiting key and is retained as provisional
+resume evidence. `continuation-context` includes them. Both run the same harness team policy and key logger.

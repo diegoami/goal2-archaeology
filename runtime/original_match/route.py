@@ -40,6 +40,13 @@ Prover can be installed on it (port/prove.py). A proof with ports runs only with
 the write listener reads the pc at the ports' stack writes, which they make as 214B:0000 (port/runtime.py), and the
 Prover refuses the first such push; without the listener the Prover compares every byte itself (T119c, #647).
 
+T124t's managed eleven [designed: owner, 2026-11-04, goal2 #509]: Route uses RouteMatch (route_team.py), which
+chooses a legal eleven before the match, pressing the original SELECT TEAM screen's keys. The original DEA6 swaps
+and sorts the squad, and EA09 validates it. Choices keep the greatest number of existing starters, then take the
+first squad-slot tuple; the record's ("team", {fixture, choices, keys}) entry preserves every choice and every
+match key (site, byte, menu context). Normal Match callers retain their own team decisions. No status, energy,
+position or squad word is assigned by this policy.
+
 play_round (T124a, #427): Route(image, entry="play_round") calls play_round 000E:70B9 instead, as main_menu_loop
 000E:7439 does at 77BF [confirmed: code/seg_000E_09.asm 77BF-77C2, 70B9-715D, seg_0000_01.asm 00C6; the BP chain of
 the published E011-r0001 state (E011-r0001-halftime.sav): SS:3EDE = 3EEA (route_fixture's saved BP), SS:3EE0 = 70D4,
@@ -58,6 +65,7 @@ The stage pages' key reads and polls are answered by the same policy, at sites R
 included) or run_stage 76B1 calls 214B:08DD or 0723 (the closure of calls.tsv's direct calls), and under 60CB only
 05F6 does, so a round's end adds no site."""
 from .image import Image, FIXTURES_PTR, FIXTURE_SIZE, GAME_PTR
+from .route_team import RouteMatch
 from .machine import Machine, GuestError, MEM_SIZE
 from .match import (Match, Fixture, SS_PARAGRAPH, ENTRY_SP, ENTRY_BP, RUN_MATCH_RETURN, DELAY_COUNT,
                     DELAY_COUNT_VALUE, KEYPRESSED, READKEY, PUSHED_BACK, KEY, SEED, SCREEN_PTR, TABLE_READS, TABLE_KEY)
@@ -326,7 +334,7 @@ class Route:
         here[push:push + 4] = int(roff, 16).to_bytes(2, "little") + m.seg(int(rseg, 16)).to_bytes(2, "little")
         image = Image(self.header + bytes(m.read(0, MEM_SIZE)) + self.tail)
         image.tables = self.tables
-        match = Match(image, fixture, tail=False)
+        match = RouteMatch(image, fixture, tail=False)
         for name, off in SEEDS.items():
             self._watch_seed(match.m, name, off, "match")
         before = match.m.read(0, MEM_SIZE)
@@ -344,6 +352,7 @@ class Route:
         after = mm.read(0, MEM_SIZE)
         result = match.result()
         self.matches.append(match)
+        self.record.append(("team", {"fixture": index, "choices": match.team_choices, "keys": match.team_keys}))
         self.record.append(("match", {"fixture": index, "first": fixture.first, "second": fixture.second,
                                       "kind": fixture.kind, "managed": result["managed"], "score": result["score"],
                                       "winner": result["winner"]}))

@@ -1,0 +1,10 @@
+round 1 stage 2 memory_sha256 a0f52b266db2a94c5a91249bdba1044d66d13a61c0a558287d363bbd56b81206 registers 16 waiting_key None
+round 2 stage 3 memory_sha256 f5ff367a2862a51e56f5feabe292e9a436317d1133199093d1f6600cc3adec78 registers 16 waiting_key 13
+round 3 stage 4 memory_sha256 4c1c7635ecf50d8a1eaed2bcb5fd56e4351f9c320eaacc1a4a013cb01b7190ff registers 16 waiting_key 13
+round 4 stage 4 memory_sha256 3eeb9e4b48bfa95b271c6bbef1cd90628d9a91218048530427e6e5588efed890 registers 16 waiting_key None
+all continuation matches identical to uninterrupted v1: 20
+original-menu swaps: 1
+recorded match keys: 140
+source fingerprint verified: 21959992bc816fdc463e9c3fec57f40bd562f9eb
+complete-context proof: completed; stages [2,3,4,4]; all memory checkpoints verified
+batch times: first 443.1 s; resumed 263.5 s; total 706.6 s
