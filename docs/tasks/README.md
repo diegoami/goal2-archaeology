@@ -168,3 +168,8 @@ exists.
 - [T122](T122.md): the post-match news ported: 4E0E, its headline and text routines, the sack, proven (#427).
 - [T123](T123.md): the sealed route: route_fixture from goal2's state and the tables, without GOAL.EXE; handover (#427).
 - [T124](T124.md): the round's end ported: the stage dispatch, the stage builders and the stage news; split into T124a (harness, stage_end, dispatch, shared helpers), T124b (stages 2 and 5), T124c (3 and 4), T124d (6 to 8) and T124e (60CB, after T122) (#427).
+- [T122a](T122a.md): Shared news primitives, waits and formatting (#427); sequential slice of T122.
+- [T122b](T122b.md): The result column 11D9 (#427); sequential slice of T122.
+- [T122c](T122c.md): The secondary result text 2071 and 26F2 (#427); sequential slice of T122.
+- [T122d](T122d.md): Headlines, the sack and the news outer frame (#427); sequential slice of T122.
+- [T122e](T122e.md): Statistics text and the complete news proof (#427); sequential slice of T122.
