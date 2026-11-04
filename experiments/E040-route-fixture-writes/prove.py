@@ -111,10 +111,10 @@ def without_6970(loaded):
     from original_match.port import Registry
     out = []
     for reg, variant in loaded:
-        if reg.name == "silent":
+        if reg.name in ("silent", "route"):
             copy = Registry(reg.name, reg.doc)
             copy.variants = dict(reg.variants)
-            copy.entries = {a: e for a, e in reg.entries.items() if a != "000E:6970"}
+            copy.entries = {a: e for a, e in reg.entries.items() if a not in ("000E:6970", "000E:6CA7", "000E:6685")}
             reg = copy
         out.append((reg, variant))
     return out
@@ -152,7 +152,8 @@ def run_pass(image_bytes, case, loaded, label):
         inputs.append({"what": why, "linear": a, "old": f"{old:02x}", "new": "00"})
     ahead = fixtures_ahead(image)
     case_by_id = next(c for c in runner.CASES if c[0] == run_id)
-    r = R.Route(image, keys=runner.policy(case_by_id), record_writes=False)
+    r = R.Route(image, keys=runner.policy(case_by_id), record_writes=False,
+                match_entry=any("000E:6CA7" in reg.entries for reg, _ in loaded))
     installed = port.install(r.m, loaded)
     m = r.m
     reseeds = collections.Counter()
@@ -228,6 +229,7 @@ def verdict(passes, loaded):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--out", type=Path, default=OUT, help="record directory (T121: out/T121)")
     ap.add_argument("--ports", required=True, help="port modules (port/), as check.py: M,...|all")
     ap.add_argument("--variant", help="MODULE.NAME: one of a module's variants (a falsifier), which must be caught")
     ap.add_argument("--cases", help="comma-separated case names (run ids, bb2f, silent-kind-0); default: all")
@@ -293,10 +295,10 @@ def main(argv=None):
         for line in problems:
             print("  " + line)
     if not a.no_record:
-        OUT.mkdir(parents=True, exist_ok=True)
+        a.out.mkdir(parents=True, exist_ok=True)
         stamp = started.strftime("%Y%m%dT%H%M%SZ")
         tag = a.ports.replace(",", "+") + (f"-{a.variant}" if a.variant else "")
-        out = OUT / f"prove-{tag}-{stamp}.json"
+        out = a.out / f"prove-{tag}-{stamp}.json"
         if out.exists():
             raise SystemExit(f"{out} exists: never overwritten")
         import unicorn
