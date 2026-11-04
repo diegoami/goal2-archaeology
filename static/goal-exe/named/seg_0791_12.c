@@ -149,7 +149,7 @@ bool __stdcall16far second_team_is_host(undefined4 param_1)
 
 
 // ---- 0791:D47E  quick_result_silent  (f_0791_D47E; Ghidra 2000:D47E, __stdcall16far; found by routines.tsv)
-// a result without display: calls 0791:A3DE (the computer sides' set-up), then 1771:0BC4 and 0791:B19D, in that order; called by 000E:6970  [established; F010; F021]
+// T120 (ported, proven in the route harness on E040's states; runtime/original_match/port/silent.py): a result without display (fixture far pointer): 0791:A3DE (the computer sides' set-up, which reaches the reseed 2648 on every call), 1771:0BC4 for the second country (1, DS:80FC) then the first (0, 0), B19D(0xC) and fixture +0, +1 := DS:9B3C; +3 := 2 for a level score, else 1 when +1 > +0, else 0; when result_needs_winner B15F is 1, B19D(4) again into +0, +1 and +3 := the coin 214B:06FA for a level score, else as before; then +0x12 := 0x7FFF for the first 11 squad players of both countries; called by 000E:6970  [established; F010; F021; F039; read code/seg_0791_21.asm:490-620]
 
 void __stdcall16far quick_result_silent(byte *param_1)
 

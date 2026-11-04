@@ -88,6 +88,29 @@ Appended by T119c; the protocol above is unchanged, and the records r0001-r0012 
   competitive managed fixture (kind not 1) whose rows `6F80` and `6F86` were each visited twice; `--report`'s
   coverage names those records (`confidence_both_sides`).
 
+## T120 (#427): the silent path's ports proved in the route harness
+
+Appended by T120; the protocol above is unchanged, and the records r0001-r0014 stay as they were made.
+- **The ports**: `runtime/original_match/port/silent.py`, module `silent`: simulate_fixture `000E:6970`,
+  quick_result_silent `0791:D47E`, credit_silent_match_scorers `0791:B602` and prepare_unplayed_match `0791:BB2F`,
+  from the listing instruction by instruction (tests/test_port_silent.py visits their branches on synthetic memory).
+- **The proof**, `prove.py --ports silent [--variant silent.NAME]` (its docstring has the design): one call of
+  route_fixture per case by T119a's harness, `Route(image, record_writes=False)`, with the ports installed and a
+  `Prover` on its machine (T119c's ProvedRouteTests): each armed call runs as its port and then as the original, and
+  any difference raises ProofError. Key reads and polls are the harness's, from `runner.policy`, answered once and
+  replayed to the original. The cases: every published state of `runner.CASES` (a state shared by two run ids once),
+  then two declared edits of E040-r0004's state: `bb2f` (fixture 3, the managed friendly, kind := 0: route_fixture
+  calls BB2F at 6EF9) and `silent-kind-0` (fixture 1, the next silent fixture, kind := 0). Each case runs twice:
+  `four` (the module as is: D47E and B602 nested in 6970's proved calls) and `inner` (6970 left to the original, so
+  D47E, B602 and BB2F are each proved on their own). A kit site at the reseed `0791:2648` counts its visits by A3DE's
+  return address and its caller's.
+- **Kind 0** [derived: code/seg_000E_09.asm 6D79-6E10, 6ED8-6EF9, 7013-7014; the states' fixtures]: route_fixture
+  calls BB2F only on its played path (the gate `6C21` returned 1: first byte 0xFE with a managed side, or a watch
+  prompt answered Y) for kind 0. A silent fixture of these calendars has first byte 0xFF, so `silent-kind-0` goes to
+  6970 (6DAE-7014), not BB2F; `bb2f` is the edit that reaches it. No published state has a kind-0 fixture from its
+  cursor to its managed one.
+- **Outputs**: `out/T120/` (the records `prove-*.json`, the logs).
+
 ## T124a (#427): the round's end proved in the harness
 
 Appended by T124a; the protocol above and the records `runs/E040/` are unchanged. T124a adds no run record: its

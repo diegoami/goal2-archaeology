@@ -100,8 +100,8 @@
 ## Alternatives and limits
 
 - Callees are classified, not read, here. Port-owned ones (`F1F6`, `B71C`, `B6CC`, `B7FA`, `8757`, `D050`,
-  `BC5D`, `E929`) are as the port translates them. Unported ones (`D47E`, `B602`, `BB2F`, `E80D`) are U2's to
-  read and port. Screen callees (`5BF6`, `7812`) were read only for their own stores (frame and `DS:AAB2`).
+  `BC5D`, `E929`) are as the port translates them. `D47E`, `B602` and `BB2F` are ported since T120 (`port/silent.py`, proved in
+  the route harness: E040's `out/T120/`); `E80D` is unported, U2's to read and port. Screen callees (`5BF6`, `7812`) were read only for their own stores (frame and `DS:AAB2`).
 - The readers of game +0x13+m, +0x41+m and +0x4E..+0x53 are not read here. `play_round`'s row reads a +0x47
   flag per manager, consistent with +0x41+m for m = 6, but this is not established.
 - The +0x2E reading covers single-manager states only. Several managers give 0x80 + m statically (F007).
@@ -116,5 +116,7 @@
   cannot be reordered without proof. The news does draw: 319B nine times on its paths (T118b1), and the text routines 49 times on their blocks, plus the crowd animation's thousands when a key wait animates (T118b2). static:static/goal-exe/annotations/routines.tsv:3 static:runtime/original_match/port/update.py:404 static:static/goal-exe/annotations/routines.tsv:428
 - **A native tournament continuation must also reproduce the RNG of fixtures no human plays.** Every non-managed
   fixture goes through `D47E` and `B7FA`, and a kind-0xCB or kind-0x67 fixture also through `6685`'s two
-  draws. In the call graph, `E80D`, `BB2F` and `D47E` each reach the set-up reseed `0791:2648`. Whether each call
-  takes it is U2's to establish. static:static/goal-exe/annotations/routines.tsv:595 static:static/goal-exe/code/seg_0791_17.asm:204
+  draws. In the call graph, `E80D`, `BB2F` and `D47E` each reach the set-up reseed `0791:2648`. Each call takes it:
+  `A3DE` calls 2648 at `A43E` with no branch around it, `D47E` calls `A3DE` first, and `BB2F` and `E80D` reach it
+  through `A4A1`. T120's proof counted one visit per `D47E` call (74), one in the `BB2F` case and one at the watch
+  prompt of E040-r0009's state. static:static/goal-exe/annotations/routines.tsv:595 static:static/goal-exe/code/seg_0791_17.asm:204 static:experiments/E040-route-fixture-writes/out/T120/prove-silent-20261104T082559Z.json:1
