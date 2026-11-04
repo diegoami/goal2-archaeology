@@ -285,3 +285,28 @@ class PlayedEntryProof(unittest.TestCase):
         self.assertTrue(result['every_call_proved_or_nested'])
         self.assertEqual(len(result['matches']), 1)
         self.assertTrue(result['returned'])
+
+
+class NewsBranches(Case):
+    def test_optional_heading_requires_nonzero_e_and_count_above_one(self):
+        for enabled, count in ((0, 2), (1, 1), (1, 2)):
+            r = Rig()
+            r.ds16(0xA93F, 0x8000)
+            r.ds16(0xA941, 0)
+            base = FIXTURES_SEG * 16 + FIXTURES_OFF
+            r.mem.memory[base:base + 8] = bytes([1, 0, 203, 0, 3, 0, 4, 0])
+            r.country(4, 0x2C, 1)
+            r.lin16(0x8000 + 0xE, enabled)
+            r.lin16(0x8000 + 0xC, count)
+            r.run('000E:6685', [FIXTURES_OFF, FIXTURES_SEG],
+                  responder({'1771:5C94': 3, '1771:5CCB': 4, '214B:06B1': [1, 1]}))
+            sites = [c[2] for c in r.calls_of('000E:070B')]
+            self.assertEqual(sites, (['000E:6735', '000E:6741', '000E:6768']
+                                     if enabled and count > 1 else []) + ['000E:67D1'])
+
+    def test_world_heading_bypasses_year_and_continent_strings(self):
+        r = Rig()
+        r.lin8(GAME + 0x40, 1)
+        r.run('000E:5978', [3, 2])
+        self.assertEqual(r.targets(), [('000E:070B', '000E:599E')])
+        self.assertEqual(r.args('000E:070B'), [(2, r.mem.seg(0xE), 0x5955)])
