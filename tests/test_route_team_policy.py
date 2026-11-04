@@ -48,6 +48,48 @@ class ChoiceTests(unittest.TestCase):
             self.pick()
 
 
+class KeyLogTests(unittest.TestCase):
+    def test_pushed_back_read_is_recorded_even_without_a_policy_callback(self):
+        from unittest.mock import Mock, patch
+        from original_match.route_team import RouteMatch
+        from original_match.match import Match, PUSHED_BACK, KEY
+        match = RouteMatch.__new__(RouteMatch)
+        match.m = Mock()
+        match.m.rd.side_effect = lambda field, size: 1 if field == PUSHED_BACK else 13
+        match.m.stack_word.side_effect = lambda off: {0: 0x1234, 2: 0x5678}[off]
+        match.m.where.return_value = "0791:1234"
+        match.st = {"menu_context": "pre_match"}
+        match.team_keys = []
+        with patch.object(Match, "_on_readkey") as original:
+            match._on_readkey(False)
+        original.assert_called_once_with(False)
+        self.assertEqual(match.team_keys, [{"site": "0791:1234", "key": 13, "context": "pre_match",
+                                           "source": "pushed-back"}])
+
+
+class CheckpointTests(unittest.TestCase):
+    def test_checkpoint_hash_checked_before_loading_guest_bytes(self):
+        import hashlib
+        import importlib.util
+        import tempfile
+        from unittest.mock import patch
+        path = ROOT / "experiments/E040-route-fixture-writes/out/T124t/prove.py"
+        spec = importlib.util.spec_from_file_location("t124t_prove", path)
+        runner = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(runner)
+        with tempfile.TemporaryDirectory() as tmp:
+            checkpoint = Path(tmp) / "round.mem"
+            checkpoint.write_bytes(b"complete checkpoint")
+            sha = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
+            with patch.object(runner, "Image", return_value="image") as image:
+                self.assertEqual(runner.load_checkpoint(checkpoint, sha), "image")
+                image.assert_called_once_with(b"complete checkpoint")
+                checkpoint.write_bytes(b"truncated")
+                with self.assertRaisesRegex(ValueError, "checkpoint hash mismatch"):
+                    runner.load_checkpoint(checkpoint, sha)
+                self.assertEqual(image.call_count, 1)
+
+
 STATE = ROOT / ".cache/dl/53b69d3dfb964e77-snap-0213-20261011T142027Z.sav"
 try:
     import unicorn

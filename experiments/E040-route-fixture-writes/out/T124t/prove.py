@@ -10,6 +10,7 @@ import argparse
 import datetime
 import hashlib
 import json
+import os
 import subprocess
 import sys
 import time
@@ -69,6 +70,7 @@ def play(out, no_selection=False, resume=False, stop_after_round=4):
         def record(value):
             f.write(json.dumps(value, sort_keys=True) + "\n")
             f.flush()
+            os.fsync(f.fileno())
             print(json.dumps({k: v for k, v in value.items() if k not in ("teams", "matches", "proof")}), flush=True)
         if not resume:
             record({"schema": "t124t/2", "state": STATE, "sha256": sha, "no_selection": no_selection,
@@ -88,12 +90,17 @@ def play(out, no_selection=False, resume=False, stop_after_round=4):
             entries = r.record[before:]
             end = next(e[1] for e in reversed(entries) if e[0] == "round_end")
             reached.append(end["stage"])
-            checkpoint = ROOT / ".cache/t124t" / out.stem / f"round-{number}.mem"
-            checkpoint.parent.mkdir(parents=True, exist_ok=True)
             component = r.header + r.m.read(0, MEM_SIZE) + r.tail
-            with checkpoint.open("xb") as state_file:
-                state_file.write(component)
             checkpoint_sha = hashlib.sha256(component).hexdigest()
+            checkpoint = ROOT / ".cache/t124t" / out.stem / f"round-{number}-{checkpoint_sha[:16]}.mem"
+            checkpoint.parent.mkdir(parents=True, exist_ok=True)
+            if not checkpoint.exists():
+                partial = checkpoint.with_suffix(".partial")
+                with partial.open("wb") as state_file:
+                    state_file.write(component)
+                    state_file.flush()
+                    os.fsync(state_file.fileno())
+                partial.replace(checkpoint)
             # Read back before writing the durable public receipt. Guest bytes stay local, never in git.
             load_checkpoint(checkpoint, checkpoint_sha)
             record({"status": "round", "round": number, "end": end,

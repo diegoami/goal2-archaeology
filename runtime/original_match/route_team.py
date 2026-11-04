@@ -14,7 +14,7 @@ from collections import Counter
 from itertools import combinations
 
 from . import screens as S
-from .match import Match, MatchError, SITE_SELECT, PLAYER_ENERGY, PLAYER_STATUS, PLAYER_POSITION
+from .match import Match, MatchError, SITE_SELECT, PUSHED_BACK, KEY, PLAYER_ENERGY, PLAYER_STATUS, PLAYER_POSITION
 
 
 def choose_eleven(squad, player):
@@ -77,6 +77,14 @@ class RouteMatch(Match):
             self.team_choices.append({"country": self.opts["managed"], "before": squad, "swaps": changes})
             self._menu = PreMatchPlan(self.side, subs=changes)
         return super()._team_menu_key(item)
+
+    def _on_readkey(self, replay):
+        # 08DD consumes a pushed-back byte itself, so Match does not call _key_for for this read.
+        if self.m.rd(PUSHED_BACK, 1):
+            site = self.m.where(self.m.stack_word(2), self.m.stack_word(0))
+            self.team_keys.append({"site": site, "key": self.m.rd(KEY, 1),
+                                   "context": self.st["menu_context"], "source": "pushed-back"})
+        return super()._on_readkey(replay)
 
     def _key_for(self, site):
         if site == SITE_SELECT and self.st["menu_context"] == "pre_match" and isinstance(self._menu, PreMatchPlan):
