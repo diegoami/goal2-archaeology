@@ -101,7 +101,7 @@ overwritten).
   E015-r0007 state 213 (`53b69d3dfb964e77-snap-0213-20261011T142027Z.sav`, the r0010/r0013 case) and E015-r0009
   state 3 (`46bbf5dabaaa9553-snap-0003-20261011T195415Z.sav`, r0011/r0014: the same calendar position, another
   sitting): eleven managed matches, then the silent rest of stage 2, then the round's end (stage 2 to 3, ageing,
-  6B55, 60CB). In stage 3 the next managed match stops the run (Italy's eleven refused, below). Every other
+  6B55, 60CB). From state 213, stage 3's first managed match stops the run (Italy's eleven refused, below). Every other
   case tried stops earlier at a managed match whose first eleven the original refuses ("... has an ineligible
   player in the first team", `Match`'s MatchError at the pre-match menu): E006-r0001, r0004, r0009 after 5, 3 and 3
   matches, E015-r0007 state 26 after 8, and E014-r0006's input (cal3-y1, stage 3) after 2. The harness has no team
