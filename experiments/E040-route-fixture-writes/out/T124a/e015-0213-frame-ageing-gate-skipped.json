@@ -1,0 +1,327 @@
+{
+ "calls": {
+  "1771:5C94": 0,
+  "1771:5CCB": 0,
+  "1771:5D02": 0,
+  "1771:5D94": 0,
+  "1771:5E3A": 0,
+  "1771:5E99": 0,
+  "1771:6617": 0,
+  "1771:76B1": 0,
+  "1771:8208": 1
+ },
+ "code_commit": "7ca599c73562946981181872fc2614a9c7d32f29",
+ "config": "frame",
+ "dirty_tree": false,
+ "elapsed_s": 553.7,
+ "end": {
+  "count": 769,
+  "cursor": 769,
+  "flag_40": 0,
+  "rounds": 1,
+  "season_38": 0,
+  "stage": 3
+ },
+ "installed": [
+  "1771:5C94",
+  "1771:5CCB",
+  "1771:5D02",
+  "1771:5D94",
+  "1771:5E3A",
+  "1771:5E99",
+  "1771:6617",
+  "1771:76B1",
+  "1771:8208"
+ ],
+ "keys": [
+  [
+   "000E:0629",
+   "read",
+   "policy",
+   11
+  ],
+  [
+   "000E:6A89",
+   "read",
+   "policy",
+   6
+  ],
+  [
+   "000E:6B89",
+   "poll",
+   "policy",
+   18
+  ],
+  [
+   "000E:6B89",
+   "poll",
+   "waiting",
+   715
+  ],
+  [
+   "000E:6B92",
+   "read",
+   "waiting",
+   733
+  ],
+  [
+   "000E:6BF7",
+   "poll",
+   "policy",
+   733
+  ],
+  [
+   "000E:6BF7",
+   "poll",
+   "waiting",
+   733
+  ],
+  [
+   "000E:6C4F",
+   "read",
+   "waiting",
+   17
+  ],
+  [
+   "214B:157C<0791:E86E",
+   "read",
+   "policy",
+   6
+  ],
+  [
+   "214B:157C<1771:9022",
+   "read",
+   "policy",
+   6
+  ]
+ ],
+ "matches": [
+  {
+   "first": 16,
+   "fixture": 22,
+   "kind": 2,
+   "managed": 16,
+   "score": [
+    0,
+    2
+   ],
+   "second": 3,
+   "winner": 1
+  },
+  {
+   "first": 16,
+   "fixture": 116,
+   "kind": 1,
+   "managed": 16,
+   "score": [
+    1,
+    2
+   ],
+   "second": 23,
+   "winner": 1
+  },
+  {
+   "first": 16,
+   "fixture": 198,
+   "kind": 1,
+   "managed": 16,
+   "score": [
+    0,
+    1
+   ],
+   "second": 5,
+   "winner": 1
+  },
+  {
+   "first": 6,
+   "fixture": 306,
+   "kind": 1,
+   "managed": 16,
+   "score": [
+    0,
+    1
+   ],
+   "second": 16,
+   "winner": 1
+  },
+  {
+   "first": 16,
+   "fixture": 310,
+   "kind": 2,
+   "managed": 16,
+   "score": [
+    0,
+    1
+   ],
+   "second": 11,
+   "winner": 1
+  },
+  {
+   "first": 31,
+   "fixture": 402,
+   "kind": 1,
+   "managed": 16,
+   "score": [
+    2,
+    0
+   ],
+   "second": 16,
+   "winner": 0
+  },
+  {
+   "first": 16,
+   "fixture": 483,
+   "kind": 1,
+   "managed": 16,
+   "score": [
+    0,
+    2
+   ],
+   "second": 20,
+   "winner": 1
+  },
+  {
+   "first": 15,
+   "fixture": 494,
+   "kind": 2,
+   "managed": 16,
+   "score": [
+    2,
+    0
+   ],
+   "second": 16,
+   "winner": 0
+  },
+  {
+   "first": 3,
+   "fixture": 614,
+   "kind": 2,
+   "managed": 16,
+   "score": [
+    0,
+    0
+   ],
+   "second": 16,
+   "winner": 2
+  },
+  {
+   "first": 16,
+   "fixture": 646,
+   "kind": 2,
+   "managed": 16,
+   "score": [
+    1,
+    2
+   ],
+   "second": 15,
+   "winner": 1
+  },
+  {
+   "first": 11,
+   "fixture": 710,
+   "kind": 2,
+   "managed": 16,
+   "score": [
+    3,
+    1
+   ],
+   "second": 16,
+   "winner": 0
+  }
+ ],
+ "ports": [
+  "stages.ageing-gate-skipped",
+  "display"
+ ],
+ "record_counts": {
+  "k": 24669,
+  "key": 2978,
+  "match": 11,
+  "resume": 11,
+  "return": 11,
+  "rng": 2371584,
+  "round_end": 1,
+  "stop": 11
+ },
+ "round_ends": [],
+ "rounds_asked": 1,
+ "schema": "t124a-prove/1",
+ "sha256": "53b69d3dfb964e777c689d439d3bf434600f8891e391cab5c45fd863787d2a94",
+ "start": {
+  "count": 769,
+  "cursor": 19,
+  "flag_40": 0,
+  "rounds": 1,
+  "season_38": 0,
+  "stage": 2
+ },
+ "started": "2026-11-04T09:03:53+00:00",
+ "state": "53b69d3dfb964e77-snap-0213-20261011T142027Z.sav",
+ "status": "ProofError: 1771:8208 (stages), call #1 from 000E:70EB: written byte #2 differs: the original wrote 0x20 at linear 0x4E6AE, the port wrote 0x00 at linear 0x5D6B6",
+ "summary": {
+  "1771:5C94": {
+   "before": 0,
+   "dead": {},
+   "nested": 0,
+   "proved": 0,
+   "scratch": {}
+  },
+  "1771:5CCB": {
+   "before": 0,
+   "dead": {},
+   "nested": 0,
+   "proved": 0,
+   "scratch": {}
+  },
+  "1771:5D02": {
+   "before": 0,
+   "dead": {},
+   "nested": 0,
+   "proved": 0,
+   "scratch": {}
+  },
+  "1771:5D94": {
+   "before": 0,
+   "dead": {},
+   "nested": 0,
+   "proved": 0,
+   "scratch": {}
+  },
+  "1771:5E3A": {
+   "before": 0,
+   "dead": {},
+   "nested": 0,
+   "proved": 0,
+   "scratch": {}
+  },
+  "1771:5E99": {
+   "before": 0,
+   "dead": {},
+   "nested": 0,
+   "proved": 0,
+   "scratch": {}
+  },
+  "1771:6617": {
+   "before": 0,
+   "dead": {},
+   "nested": 0,
+   "proved": 0,
+   "scratch": {}
+  },
+  "1771:76B1": {
+   "before": 0,
+   "dead": {},
+   "nested": 0,
+   "proved": 0,
+   "scratch": {}
+  },
+  "1771:8208": {
+   "before": 0,
+   "dead": {},
+   "nested": 0,
+   "proved": 0,
+   "scratch": {}
+  }
+ },
+ "variant": "stages.ageing-gate-skipped"
+}
