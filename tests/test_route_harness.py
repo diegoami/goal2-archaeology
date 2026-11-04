@@ -24,6 +24,18 @@
 - DefaultFixtureTests (the same state as CompetitiveRouteTests): a default Match still writes its fixture record FE 00 kind 00 first second
   (the round byte +1 := 0, its memory otherwise the image's but for its declared inputs), and only Match(tail=False)
   keeps +1 and +3.
+- PlayRoundTests (T124a; the E006-r0001 state, as RouteTests): Route(entry="play_round") makes one call of play_round
+  000E:70B9 as main_menu_loop's 77BF does: route_fixture runs in the same frame (the 6F18 stop at SP 0x3EC4, BP
+  0x3EDE), 70B9's own frame holds 7439's BP 0x3FF6 and the return 77C2, [A923]+1 is 1, no round's end (the cursor is
+  not at the count), the call returns to 000E:77C2 with SP 0x3EEE, and every write is in the record; an unknown entry
+  and round() in route_fixture mode are refused.
+- RoundEndTests (T124a; the same state with the cursor +0x26 set to the count +0x28, a synthetic input [designed:
+  T124a]: the round's end's frame with no fixture left to play; the published round's ends are proved by
+  experiments/E040-route-fixture-writes/out/T124a/prove.py): one call reaches 70E6, recorded ("round_end", ...),
+  stage_end advances the stage 2 to 3, run_stage's 6B55 builds stage 3's calendar (the count 769 to 1345, the cursor
+  kept), 60CB's page is answered by the policy at the news page's sites (0515, 05EC, 0629), the call returns to 77C2
+  and every write is in the record; round() returns after that one call; with record_writes=False and port/stages.py
+  (and display's 5C94, 5CCB) installed under a Prover, 8208 and 76B1 are proved and the helpers nested in 76B1's proof.
 """
 import sys
 import unittest
@@ -309,6 +321,115 @@ class DefaultFixtureTests(unittest.TestCase):
         match, origin, base = self._set_up(tail=False)
         self.assertEqual(match.m.read(base, 8).hex(), "fe06020010000300")
         self.assertEqual([i for i in match.inputs if i["linear"] == base], [])
+
+
+class PlayRoundTests(unittest.TestCase):
+    """T124a: the play_round entry, one call on the E006-r0001 state (the friendly 27 v 7 next, cursor 1 of 769)."""
+
+    @classmethod
+    def setUpClass(cls):
+        import hashlib
+        from original_match.image import Image
+        if not (HAVE_UNICORN and IMAGE.is_file()):
+            raise unittest.SkipTest("unicorn or the published E006-r0001 state missing")
+        data = IMAGE.read_bytes()
+        if hashlib.sha256(data).hexdigest() != IMAGE_SHA:
+            raise AssertionError(f"{IMAGE} is not the published E006-r0001 state")
+        cls.image = Image.from_savestate(data)
+        cls.r = r = R.Route(cls.image, entry="play_round")
+        cls.frame = []
+        ss = r.m.seg(SS_PARAGRAPH) * 16
+        r.m.at("000E:70D1", lambda replay: replay or cls.frame.append(
+            (r.m.reg("sp"), r.m.reg("bp"), r.m.word_at(ss + 0x3EEA), r.m.word_at(ss + 0x3EEC),
+             r.m.read(r.m.far(0xA923) + 1, 1)[0])))
+        cls.record = r.call()
+
+    def test_route_fixture_runs_in_its_frame(self):
+        self.assertEqual(self.frame, [(0x3EE2, 0x3EEA, 0x3FF6, 0x77C2, 1)])   # at 70D1: 70B9's SP, BP, frame, +1
+        stop = next(e for e in self.record if e[0] == "stop")
+        self.assertEqual((stop[1], stop[2]["esp"] & 0xFFFF, stop[2]["ebp"] & 0xFFFF), ("000E:6F18", 0x3EC4, 0x3EDE))
+        match = next(e[1] for e in self.record if e[0] == "match")
+        self.assertEqual((match["fixture"], match["first"], match["second"]), (1, 27, 7))
+
+    def test_it_returns_to_main_menu_loop_without_a_rounds_end(self):
+        self.assertEqual([e[0] for e in self.record if e[0] in ("stop", "match", "resume", "round_end", "return")],
+                         ["stop", "match", "resume", "return"])
+        self.assertEqual(self.record[-1], ("return", "000E:77C2"))
+        self.assertEqual(self.r.m.pc(), self.r.m.lin("000E:77C2"))
+        self.assertEqual(self.r.m.reg("sp"), 0x3EEE)
+        self.assertEqual(self.r.m.word_at(self.r.m.far(0xA923) + 0x26), 2)
+
+    def test_every_write_is_in_the_record(self):
+        self.assertEqual(self.r.replay(self.r.origin), self.r.m.read(0, MEM_SIZE))
+
+    def test_the_entry_is_checked(self):
+        with self.assertRaisesRegex(ValueError, "entry 'main'"):
+            R.Route(self.image, entry="main")
+        with self.assertRaisesRegex(ValueError, "round\\(\\)"):
+            R.Route(self.image).round()
+
+
+class RoundEndTests(unittest.TestCase):
+    """T124a: a round's end on the E006-r0001 state with the cursor set to the count (synthetic: see the module doc)."""
+
+    @classmethod
+    def setUpClass(cls):
+        import hashlib
+        from original_match.image import Image
+        if not (HAVE_UNICORN and IMAGE.is_file()):
+            raise unittest.SkipTest("unicorn or the published E006-r0001 state missing")
+        data = IMAGE.read_bytes()
+        if hashlib.sha256(data).hexdigest() != IMAGE_SHA:
+            raise AssertionError(f"{IMAGE} is not the published E006-r0001 state")
+        cls.image = Image.from_savestate(data)
+        cls.r = cls._at_the_end(R.Route(cls.image, entry="play_round"))
+        cls.record = cls.r.round()
+
+    @staticmethod
+    def _at_the_end(r):
+        game = r.m.far(0xA923)
+        r._write("T124a's synthetic input: the cursor +0x26 := the count +0x28", game + 0x26, r.m.read(game + 0x28, 2))
+        return r
+
+    def game(self, m, off, n=1):
+        return m.read(m.far(0xA923) + off, n)
+
+    def test_the_rounds_end_is_reached_and_recorded(self):
+        ends = [e for e in self.record if e[0] == "round_end"]
+        self.assertEqual(ends, [("round_end", {"cursor": 769, "count": 769, "stage": 2, "rounds": 1})])
+        self.assertEqual([e[0] for e in self.record if e[0] in ("stop", "match", "round_end", "return")],
+                         ["round_end", "return"])       # one call: no fixture left, so no match
+        self.assertEqual(self.record[-1], ("return", "000E:77C2"))
+        self.assertEqual(self.r.m.reg("sp"), 0x3EEE)
+
+    def test_the_next_stage_is_built(self):
+        m = self.r.m
+        self.assertEqual(list(self.game(m, 0x3C, 2)), [3, 1])           # stage 3, one round (stage_end)
+        self.assertEqual((m.word_at(m.far(0xA923) + 0x26), m.word_at(m.far(0xA923) + 0x28)), (769, 1345))  # 6B55
+
+    def test_the_stage_page_is_answered_by_the_policy(self):
+        keys = [(e[1], e[2]) for e in self.record if e[0] == "key"]
+        self.assertEqual(keys, [("000E:0515", "poll"), ("000E:05EC", "poll"), ("000E:0629", "read")])
+
+    def test_every_write_is_in_the_record(self):
+        self.assertEqual(self.r.replay(self.r.origin), self.r.m.read(0, MEM_SIZE))
+
+    def test_the_rounds_end_is_proved(self):
+        from original_match import port
+        from original_match.port import stages
+        from original_match.port.prove import Prover
+        r = self._at_the_end(R.Route(self.image, entry="play_round", record_writes=False))
+        ports = port.install(r.m, ["stages", (stages.display_helpers(), None)])
+        prover = Prover(r.m, ports)
+        r.call()
+        self.assertEqual(r.m.read(0, MEM_SIZE), self.r.m.read(0, MEM_SIZE))   # the proved run ends where it did
+        s = prover.summary()
+        for routine in ("1771:8208", "1771:76B1"):
+            self.assertEqual((s[routine]["proved"], s[routine]["before"]), (1, 0), routine)
+        for routine in ("1771:5D02", "1771:5D94", "1771:5E3A", "1771:5E99", "1771:6617"):
+            self.assertEqual(s[routine]["proved"], 0, routine)
+            self.assertGreater(s[routine]["nested"], 0, routine)
+            self.assertEqual(s[routine]["nested"], ports.calls[routine], routine)
 
 
 if __name__ == "__main__":

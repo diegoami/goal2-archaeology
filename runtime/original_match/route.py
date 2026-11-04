@@ -38,7 +38,25 @@ waiting takes the policy's key. So 04F5's tune makes no draw and 0572's crowd an
 key (DS:79AE) is read by the guest itself, as in Match. No other hook: the machine has no foreign hook, and a
 Prover can be installed on it (port/prove.py). A proof with ports runs only with Route(..., record_writes=False):
 the write listener reads the pc at the ports' stack writes, which they make as 214B:0000 (port/runtime.py), and the
-Prover refuses the first such push; without the listener the Prover compares every byte itself (T119c, #647)."""
+Prover refuses the first such push; without the listener the Prover compares every byte itself (T119c, #647).
+
+play_round (T124a, #427): Route(image, entry="play_round") calls play_round 000E:70B9 instead, as main_menu_loop
+000E:7439 does at 77BF [confirmed: code/seg_000E_09.asm 77BF-77C2, 70B9-715D, seg_0000_01.asm 00C6; the BP chain of
+the published E011-r0001 state (E011-r0001-halftime.sav): SS:3EDE = 3EEA (route_fixture's saved BP), SS:3EE0 = 70D4,
+SS:3EEA = 3FF6 (7439's BP), SS:3EEC = 77C2]: its return word 77C2 at SP 0x3EEC and BP 0x3FF6, 7439's. 70B9's
+`push bp; mov bp, sp; sub sp, 8` then makes BP 0x3EEA and SP 0x3EE2 at 70D1, so route_fixture runs in the frame the
+route_fixture mode gives it, and the stop at 6F18 is the same. One call is one play_round: [A923]+1 := 1, one
+route_fixture, and when the cursor +0x26 has reached the count +0x28 (70DE), the round's end: stage_end 1771:8208
+(70E6), shareware_limit_reached 7072 (always 0 in this build, F025), run_stage 1771:76B1 (70F4), and, when the stage
+byte +0x3C is in the set CS:7099 = {2, 3, 5, 7}, announce_stage_to_manager 000E:60CB for each manager whose +0x47 byte
+is clear; it returns to 77C2 with SP 0x3EEE. The record gets ("round_end", {...}) at 70E6, the game record's cursor,
+count, stage and rounds bytes there, and ("return", "000E:77C2"). Route.round() makes play_round calls until one
+reaches the round's end (the last managed fixture of the stage's round, then the silent rest), so it stops there.
+The stage pages' key reads and polls are answered by the same policy, at sites READS and POLLS name already:
+60CB's page waits in the news pages' 05F6 (its call at 000E:6622), which polls at 0515 and 05EC and reads at 0624
+[confirmed: code/seg_000E_08.asm 6622, seg_000E_01.asm 05F6-0624]; nothing under stage_end 1771:8208 (80DA's subtree
+included) or run_stage 76B1 calls 214B:08DD or 0723 (the closure of calls.tsv's direct calls), and under 60CB only
+05F6 does, so a round's end adds no site."""
 from .image import Image, FIXTURES_PTR, FIXTURE_SIZE, GAME_PTR
 from .machine import Machine, GuestError, MEM_SIZE
 from .match import (Match, Fixture, SS_PARAGRAPH, ENTRY_SP, ENTRY_BP, RUN_MATCH_RETURN, DELAY_COUNT,
@@ -52,6 +70,12 @@ MATCH_AT = "000E:6F18"          # route_fixture's `call far 0791:F1F6` (seg_000E
 MATCH_SP = 0x3EC4               # SP at 6F18: BP 0x3EDE - 0x16 - 4
 SPEAKER_SEED = 0x8336           # 0791:94C9's seed (F006; routines.tsv 0791:F3F2 sets it from the BIOS tick)
 SEEDS = {"7B62": SEED, "8336": SPEAKER_SEED}
+PLAY_ROUND = "000E:70B9"        # play_round (routines.tsv; F004)
+ROUND_CALLER, ROUND_RETURN = "000E:77BF", "000E:77C2"   # main_menu_loop 7439's call of 70B9 and its return
+ROUND_SP = 0x3EEC               # the return word's slot: 7439's SP at 77BF (BP 0x3FF6 - 0x108 - 2)
+MENU_BP = 0x3FF6                # 7439's BP (the E011-r0001 state's SS:3EEA), which 70B9 pushes
+ROUND_END = "000E:70E6"         # play_round's `call far 1771:8208`, reached when the cursor +0x26 is the count +0x28
+ENTRIES = ("route_fixture", "play_round")
 MENU_SITE = "214B:157C"         # 214B:1560 reads at 1578 (push cs; call 08DD): its caller names the screen
 ENTER, KEY_N = 0x0D, 0x4E
 
@@ -118,11 +142,13 @@ class Keys:
 
 
 class Route:
-    def __init__(self, image, keys=None, timeout_s=600, record_writes=True):
-        """record_writes: False drops only the all-memory write listener (the record's ("w", pc, ...) entries), so
-        that a Prover can run on the machine: the listener reads the pc at stack writes, which ports make as
-        214B:0000 (port/runtime.py), and the Prover refuses that; it then checks every byte itself. The seed
-        watches, the key sites and the 6F18 stop stay; replay() refuses such a run (T119c, #647)."""
+    def __init__(self, image, keys=None, timeout_s=600, record_writes=True, entry="route_fixture"):
+        """entry: "route_fixture" (one call of 6CA7, as play_round's 70D1 makes it) or "play_round" (one call of 70B9,
+        as main_menu_loop's 77BF makes it: the round's end included). record_writes: False drops only the all-memory
+        write listener (the record's ("w", pc, ...) entries), so that a Prover can run on the machine: the listener
+        reads the pc at stack writes, which ports make as 214B:0000 (port/runtime.py), and the Prover refuses that;
+        it then checks every byte itself. The seed watches, the key sites and the 6F18 stop stay; replay() refuses
+        such a run (T119c, #647)."""
         problems = image.build_problems()
         if problems:
             raise ValueError("the image does not hold the registered GOAL.EXE: " + "; ".join(problems))
@@ -131,6 +157,9 @@ class Route:
         self.origin = bytes(image.memory[:MEM_SIZE])
         self.m = Machine(image.memory, image.load)
         self.keys = Keys(DEFAULT_KEYS if keys is None else keys)
+        if entry not in ENTRIES:
+            raise ValueError(f"entry {entry!r}: one of {', '.join(ENTRIES)}")
+        self.entry = entry
         self.timeout_s = timeout_s
         self.record_writes = bool(record_writes)
         self.record = []
@@ -154,6 +183,17 @@ class Route:
         m.at(KEYPRESSED, self._on_poll)
         m.at(READKEY, self._on_read)
         m.at(MATCH_AT, lambda replay: replay or m.stop("match"))
+        if self.entry == "play_round":
+            m.at(ROUND_END, self._on_round_end)
+
+    def _on_round_end(self, replay):
+        """At 70E6: the round's end, the game record as stage_end finds it."""
+        if replay:
+            return
+        m = self.m
+        game = m.far(GAME_PTR)
+        self.record.append(("round_end", {"cursor": m.word_at(game + 0x26), "count": m.word_at(game + 0x28),
+                                          "stage": m.read(game + 0x3C, 1)[0], "rounds": m.read(game + 0x3D, 1)[0]}))
 
     def _watch_seed(self, m, name, off, where):
         def step(old, new):
@@ -215,7 +255,9 @@ class Route:
     # -- the call ----------------------------------------------------------------------------------------------
     def call(self):
         """One call of route_fixture: from the fixture at the cursor game +0x26, to its return after a fixture with
-        a managed side (played, or prepared for kind 0) or at the end of the calendar. Returns the record."""
+        a managed side (played, or prepared for kind 0) or at the end of the calendar; with entry="play_round", one
+        call of play_round around it (the round's end included when the cursor reaches the count). Returns the
+        record."""
         m = self.m
         delay = m.DS * 16 + DELAY_COUNT          # Match's own input, made first so that its write finds it there
         raw = DELAY_COUNT_VALUE.to_bytes(4, "little")
@@ -224,14 +266,19 @@ class Route:
                                 "old": m.read(delay, 4).hex(), "new": raw.hex()})
             self._write("delay calibration DS:A9FF (Match's input)", delay, raw)
         ss = m.seg(SS_PARAGRAPH)
-        rseg, roff = RETURN_TO.split(":")
-        self._write(f"the call of {ROUTE_FIXTURE} at {CALLER}: its return word", ss * 16 + CALL_SP,
+        if self.entry == "play_round":
+            target, caller, ret, sp, bp = PLAY_ROUND, ROUND_CALLER, ROUND_RETURN, ROUND_SP, MENU_BP
+        else:
+            target, caller, ret, sp, bp = ROUTE_FIXTURE, CALLER, RETURN_TO, CALL_SP, CALLER_BP
+        name = self.entry
+        rseg, roff = ret.split(":")
+        self._write(f"the call of {target} at {caller}: its return word", ss * 16 + sp,
                     int(roff, 16).to_bytes(2, "little"))
-        tseg, toff = ROUTE_FIXTURE.split(":")
-        for name, value in (("ss", ss), ("sp", CALL_SP), ("bp", CALLER_BP), ("ds", m.DS), ("es", m.DS),
-                            ("cs", m.seg(int(tseg, 16))), ("eip", int(toff, 16))):
-            m.set_reg(name, value)
-        end = m.lin(RETURN_TO)
+        tseg, toff = target.split(":")
+        for reg, value in (("ss", ss), ("sp", sp), ("bp", bp), ("ds", m.DS), ("es", m.DS),
+                           ("cs", m.seg(int(tseg, 16))), ("eip", int(toff, 16))):
+            m.set_reg(reg, value)
+        end = m.lin(ret)
         fresh = True
         while True:
             stopped = m.run(end, self.timeout_s, fresh=fresh)
@@ -239,12 +286,23 @@ class Route:
             if stopped is None:
                 break
             if stopped != "match":
-                raise GuestError(f"route_fixture stopped: {stopped}")
+                raise GuestError(f"{name} stopped: {stopped}")
             self._match()
-        if m.reg("sp") != CALL_SP + 2:
-            raise GuestError(f"route_fixture returned with SP {m.reg('sp'):04X}, not {CALL_SP + 2:04X}")
-        self.record.append(("return", RETURN_TO))
+        if m.reg("sp") != sp + 2:
+            raise GuestError(f"{name} returned with SP {m.reg('sp'):04X}, not {sp + 2:04X}")
+        self.record.append(("return", ret))
         return self.record
+
+    def round(self, limit=64):
+        """play_round calls until one reaches the round's end (70E6), at most `limit`; returns the record."""
+        if self.entry != "play_round":
+            raise ValueError('round(): a Route made with entry="play_round"')
+        for _ in range(limit):
+            before = sum(1 for e in self.record if e[0] == "round_end")
+            self.call()
+            if sum(1 for e in self.record if e[0] == "round_end") > before:
+                return self.record
+        raise GuestError(f"no round's end in {limit} calls of {PLAY_ROUND}")
 
     def _match(self):
         """At 6F18: the managed match, by Match(tail=False) on this memory, written back; then on at 6F1D."""

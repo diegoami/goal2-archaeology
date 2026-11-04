@@ -1006,7 +1006,7 @@ undefined2 __stdcall16far fixture_loser(undefined4 param_1)
 
 
 // ---- 1771:5D02  append_country_fixture  (f_1771_5D02; Ghidra 4000:5D02, __stdcall16near; found by routines.tsv)
-// appends fixture number [A923]+0x28 to the country's list of 36 words at DS:A92F + 0x48*country (the list shifts down one word, the newest is last) and raises the country byte +0x3B to the fixture kind; called twice by 5D94  [established; F023; read code/seg_1771_09.asm]
+// T124a (runtime/original_match/port/stages.py, proved against the original in the route harness): a nested procedure of add_fixture 1771:5D94 (it pushes the country, then its own BP; ret 4): shifts the country's list of 36 words at DS:A92F + 0x48*country down one word (214B:003C), stores fixture number [A923]+0x28 as its last word (+0x46), and raises the country byte +0x3B to 5D94's kind (ss:[link + 6]) when it is below it; called twice by 5D94  [established; F023; read code/seg_1771_09.asm]
 
 void append_country_fixture(int param_1,int param_2)
 
@@ -1032,7 +1032,7 @@ void append_country_fixture(int param_1,int param_2)
 
 
 // ---- 1771:5D94  add_fixture  (f_1771_5D94; Ghidra 4000:5D94, __stdcall16near; found by routines.tsv)
-// writes fixture record [A923]+0x28 (DS:A92B + 8n - 8): +0 = 0xFF or 0xFE when either country is managed, +1 group, +2 kind, +4/+6 the two countries (the pushes are B then A, kind, group), then append_country_fixture for both and [A923]+0x28 += 1; +3 is left for the result  [established; F023; read code/seg_1771_09.asm]
+// T124a (runtime/original_match/port/stages.py, proved against the original in the route harness): add_fixture(B, A, kind, group), pushed in that order (ret 8): writes fixture record [A923]+0x28 (DS:A92B + 8n - 8): +6 = B, then append_country_fixture(B), +4 = A, then append_country_fixture(A), +0 = 0xFF, or 0xFE when either country's +0x2E is above 0x80 (managed), +1 = group, +2 = kind; then [A923]+0x28 += 1; +3 is left for the result  [established; F023; read code/seg_1771_09.asm]
 
 void add_fixture(byte param_1,byte param_2,undefined2 param_3,undefined2 param_4)
 
