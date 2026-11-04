@@ -163,3 +163,48 @@ class News(Case):
             self.assertEqual([c[2] for c in r.calls_of("214B:06B1")], ["000E:67EC", "000E:680E"])
             self.assertEqual(len(r.args("000E:075F")), 1)
             self.assertEqual(r.targets()[-1], ("000E:05F6", "000E:6863"))
+
+
+class Watch(Case):
+    def run_watch(self, keys, previous=1):
+        from test_port_silent import FX
+        r = Rig()
+        r.ds16(0xABE, previous)
+        r.ds16(0x9B34, 3)
+        r.ds16(0x9B36, 4)
+        r.ds8(0xC1E, 7)
+        from test_port_update import FXOFF, FXSEG
+        r.lin8(FX, 0xFF)
+        pending = list(keys)
+        def answer(request, mem):
+            if request.target == "214B:1560":
+                r.ds8(0xA976, pending.pop(0))
+            elif request.target == "23E4:19B2":
+                key = request.args[0] & 255
+                return key - 32 if 97 <= key <= 122 else key
+            elif request.target == "214B:1C86":
+                r.ds16(0xABE, 3 - r.u16(mem.DS * 16 + 0xABE))
+            elif request.target == "23E4:08DF":
+                mem.regs["eflags"] = 0 if mem.ds8(0xA976) in (ord('n'), ord('y'), ord('N'), ord('Y'), 13, 27) else 0x40
+            return 0
+        value = r.run("0791:E80D", [FXOFF, FXSEG], answer)
+        return r, value & 255
+
+    def test_no_and_escape_still_set_up_then_reset_both_sides(self):
+        from test_port_silent import FX
+        for key in (ord('N'), ord('n'), 27):
+            r, result = self.run_watch([key])
+            self.assertEqual(result, 0)
+            self.assertEqual(r.targets()[0], ("0791:A4A1", "0791:E81B"))
+            self.assertEqual(r.args("0791:BC5D"), [(3,), (4,)])
+            self.assertEqual(r.mem.memory[FX], 0xFE)
+            self.assertEqual(r.mem.ds8(0xC1E), 0)
+
+    def test_yes_and_enter_keep_the_selection(self):
+        from test_port_silent import FX
+        for keys, previous, result in (([ord('y')], 2, 1), ([13], 1, 1), ([13], 2, 0), ([0xAE, 13], 1, 0),
+                                        ([0xAF, 13], 2, 1), ([ord('x'), ord('Y')], 2, 1)):
+            r, value = self.run_watch(keys, previous)
+            self.assertEqual(value, result)
+            self.assertEqual(len(r.args("214B:1560")), len(keys))
+            self.assertEqual(r.mem.memory[FX], 0xFF if result else 0xFE)
