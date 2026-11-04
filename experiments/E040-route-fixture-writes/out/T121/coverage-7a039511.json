@@ -1,0 +1,102 @@
+{
+  "schema": "e040-t121-coverage/1",
+  "code_commit": "7a0395111d0793d1055e727ab964e92f5a21c1f2",
+  "records": {
+    "prove-route+silent-20261104T201701Z.json": "8e69469f0fbec7bfceb6978d8220d929078f0a014664995f6e7161810ec859a0",
+    "prove-route+silent-20261104T201702Z.json": "6b45c6e7103caadeff652bf3aab848592708ab2cea75794231fc6c19730851ff"
+  },
+  "cases": [
+    "E040-r0001",
+    "E040-r0002",
+    "E040-r0003",
+    "E040-r0004",
+    "E040-r0005",
+    "E040-r0006",
+    "E040-r0007",
+    "E040-r0008",
+    "E040-r0009",
+    "E040-r0010",
+    "E040-r0011",
+    "E040-r0012",
+    "bb2f",
+    "finals-3",
+    "news-cb",
+    "silent-kind-0"
+  ],
+  "passes": 32,
+  "all_completed": true,
+  "every_call_proved_or_nested": true,
+  "outer_6ca7_proofs": 16,
+  "routine_totals": {
+    "000E:038E": {
+      "proved": 15,
+      "nested": 15,
+      "before": 0
+    },
+    "000E:05F6": {
+      "proved": 15,
+      "nested": 15,
+      "before": 0
+    },
+    "000E:062F": {
+      "proved": 15,
+      "nested": 15,
+      "before": 0
+    },
+    "000E:070B": {
+      "proved": 103,
+      "nested": 107,
+      "before": 0
+    },
+    "000E:075F": {
+      "proved": 15,
+      "nested": 15,
+      "before": 0
+    },
+    "000E:6970": {
+      "proved": 0,
+      "nested": 78,
+      "before": 0
+    },
+    "000E:6C21": {
+      "proved": 17,
+      "nested": 17,
+      "before": 0
+    },
+    "000E:6CA7": {
+      "proved": 16,
+      "nested": 0,
+      "before": 0
+    },
+    "0791:B602": {
+      "proved": 78,
+      "nested": 78,
+      "before": 0
+    },
+    "0791:BB2F": {
+      "proved": 1,
+      "nested": 1,
+      "before": 0
+    },
+    "0791:D47E": {
+      "proved": 78,
+      "nested": 78,
+      "before": 0
+    },
+    "0791:E80D": {
+      "proved": 0,
+      "nested": 4,
+      "before": 0
+    },
+    "000E:5978": {
+      "proved": 1,
+      "nested": 1,
+      "before": 0
+    },
+    "000E:6685": {
+      "proved": 0,
+      "nested": 1,
+      "before": 0
+    }
+  }
+}

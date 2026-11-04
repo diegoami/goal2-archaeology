@@ -1,0 +1,233 @@
+{
+ "schema": "e040-t121-prove/1",
+ "task": "T121",
+ "experiment": "E040",
+ "command": "python3 -B experiments/E040-route-fixture-writes/prove.py --ports route,silent --out experiments/E040-route-fixture-writes/out/T121 --cases news-cb --variant route.news-second-draw-dropped",
+ "code_commit": "7a0395111d0793d1055e727ab964e92f5a21c1f2",
+ "ports": [
+  "silent",
+  "route.news-second-draw-dropped"
+ ],
+ "variant": "route.news-second-draw-dropped",
+ "runtime": {
+  "unicorn": "2.1.4",
+  "python": "3.14.4",
+  "route.py": "554312ab78a10635a39837c0b02cf7b3e3fb33b553ff36766dff67fffd729df8",
+  "silent.py": "8eb759b7290d343019ad3eda863b75a6ccdf0486bc9d99567fd4ff4ab9e0a996",
+  "prove.py": "14e9ffaee6b35d02b722ba60ba276d37170e3a1231bcbd0c8bdb4d49327cc7c4",
+  "port_modules": {
+   "silent": "8eb759b7290d343019ad3eda863b75a6ccdf0486bc9d99567fd4ff4ab9e0a996",
+   "route": "265571c26de4b00fc1ca78bfde598034e125afe0f9488181c4b201574c65af75"
+  }
+ },
+ "states": {
+  "f8b22081eeb072e5-e006-1337-r0004.sav": {
+   "sha256": "f8b22081eeb072e5b371a5b36628a745cc359efcfdabf6dc2cdaab4ebc66263c",
+   "verified_against": "its evidence manifest (runner.expected)"
+  }
+ },
+ "edits_declared": {
+  "bb2f": {
+   "case": "E040-r0004",
+   "fixture": 3,
+   "kind_from": 1,
+   "kind_to": 0,
+   "what": "fixture 3 (the managed friendly 7 v 27, first byte 0xFE) kind byte +2 := 0 (from 1): route_fixture calls 0791:BB2F for it at 6EF9"
+  },
+  "news-cb": {
+   "case": "E040-r0004",
+   "fixture": 1,
+   "kind_from": 1,
+   "kind_to": 203,
+   "what": "T121 synthetic: fixture 1 kind 1 -> 203 (competition news); count := 2, so only this fixture runs"
+  },
+  "finals-3": {
+   "case": "E040-r0010",
+   "fixture": 22,
+   "kind_from": 2,
+   "kind_to": 3,
+   "what": "T121 synthetic: managed fixture 22 kind 2 -> 3 (finals mark)"
+  },
+  "silent-kind-0": {
+   "case": "E040-r0004",
+   "fixture": 1,
+   "kind_from": 1,
+   "kind_to": 0,
+   "what": "fixture 1 (18 v 10, the next silent fixture, first byte 0xFF) kind byte +2 := 0 (from 1): the Done-when's input; route_fixture sends it to 6970 (6DAE-7014), not BB2F"
+  }
+ },
+ "bb2f_in_published_states": null,
+ "passes": [
+  {
+   "case": "news-cb",
+   "pass": "four",
+   "status": "differs",
+   "error": "000E:6CA7 (route), call #1 from 000E:70D4: ported call #12 inside: the original's call of 000E:075F from 000E:683E returned, the port's run's of 000E:075F from 000E:6857",
+   "inputs": [
+    {
+     "what": "T121 synthetic: fixture 1 kind 1 -> 203 (competition news); count := 2, so only this fixture runs",
+     "linear": 383816,
+     "old": "01",
+     "new": "cb"
+    },
+    {
+     "what": "T121 synthetic calendar end after fixture 1",
+     "linear": 382622,
+     "old": "0103",
+     "new": "0200"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 203,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    }
+   ],
+   "ports": [
+    "silent",
+    "route.news-second-draw-dropped"
+   ],
+   "calls": {
+    "000E:038E": 1,
+    "000E:05F6": 1,
+    "000E:062F": 1,
+    "000E:070B": 3,
+    "000E:075F": 1,
+    "000E:5978": 1,
+    "000E:6685": 1,
+    "000E:6970": 1,
+    "000E:6C21": 1,
+    "000E:6CA7": 1,
+    "0791:B602": 1,
+    "0791:BB2F": 0,
+    "0791:D47E": 1,
+    "0791:E80D": 1
+   },
+   "proof": {
+    "000E:038E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:05F6": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:062F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:070B": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:075F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:5978": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6685": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6970": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6C21": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:E80D": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": false,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to A4AF, its caller to E81B": 1,
+    "A3DE returning to D495, its caller to 69CA": 1
+   },
+   "pages_6970": {
+    "score_page_6A84": 1,
+    "results_list_6B84": 0
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6A89": 1,
+    "214B:157C<0791:E86E": 1,
+    "214B:157C<1771:9022": 1
+   },
+   "matches": [],
+   "returned": false,
+   "elapsed_s": 6.9
+  }
+ ],
+ "caught": {
+  "case": "news-cb",
+  "error": "000E:6CA7 (route), call #1 from 000E:70D4: ported call #12 inside: the original's call of 000E:075F from 000E:683E returned, the port's run's of 000E:075F from 000E:6857"
+ },
+ "problems": [],
+ "started": "20261104T201856Z",
+ "ended": "20261104T201903Z"
+}

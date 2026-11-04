@@ -150,8 +150,11 @@ class Keys:
 
 
 class Route:
-    def __init__(self, image, keys=None, timeout_s=600, record_writes=True, entry="route_fixture"):
-        """entry: "route_fixture" (one call of 6CA7, as play_round's 70D1 makes it) or "play_round" (one call of 70B9,
+    def __init__(self, image, keys=None, timeout_s=600, record_writes=True, entry="route_fixture", match_entry=False):
+        """match_entry: stop at the real F1F6 entry with its already-pushed far-call
+        frame (T121); required when proving a translated route_fixture. Both the
+        original and port then stop at that same site. The default keeps 6F18.
+        entry: "route_fixture" (one call of 6CA7, as play_round's 70D1 makes it) or "play_round" (one call of 70B9,
         as main_menu_loop's 77BF makes it: the round's end included). record_writes: False drops only the all-memory
         write listener (the record's ("w", pc, ...) entries), so that a Prover can run on the machine: the listener
         reads the pc at stack writes, which ports make as 214B:0000 (port/runtime.py), and the Prover refuses that;
@@ -168,6 +171,7 @@ class Route:
         if entry not in ENTRIES:
             raise ValueError(f"entry {entry!r}: one of {', '.join(ENTRIES)}")
         self.entry = entry
+        self.match_entry = bool(match_entry)
         self.timeout_s = timeout_s
         self.record_writes = bool(record_writes)
         self.record = []
@@ -190,7 +194,14 @@ class Route:
             self._watch_seed(m, name, off, "route")
         m.at(KEYPRESSED, self._on_poll)
         m.at(READKEY, self._on_read)
-        m.at(MATCH_AT, lambda replay: replay or m.stop("match"))
+        # [derived: T121] A translated 6CA7 calls F1F6 directly via guest.Call;
+        # hook its entry in both proof runs so they visit the same real site.
+        if self.match_entry:
+            # The whole handoff is the answer of this real guest site. A Prover
+            # can replay its writes/registers on the original's F1F6 visit.
+            m.at("0791:F1F6", lambda replay: None if replay else self._match())
+        else:
+            m.at(MATCH_AT, lambda replay: replay or m.stop("match"))
         if self.entry == "play_round":
             m.at(ROUND_END, self._on_round_end)
 
@@ -287,11 +298,15 @@ class Route:
                            ("cs", m.seg(int(tseg, 16))), ("eip", int(toff, 16))):
             m.set_reg(reg, value)
         end = m.lin(ret)
+        if self.match_entry:
+            # Unicorn's until address stops before hooks there. Let the prover
+            # finish the outer 6CA7 call at its return hook before stopping.
+            m.at(ret, lambda replay: m.stop("route-return"))
         fresh = True
         while True:
-            stopped = m.run(end, self.timeout_s, fresh=fresh)
+            stopped = m.run(end + int(self.match_entry), self.timeout_s, fresh=fresh)
             fresh = True
-            if stopped is None:
+            if stopped is None or stopped == "route-return":
                 break
             if stopped != "match":
                 raise GuestError(f"{name} stopped: {stopped}")
@@ -317,11 +332,13 @@ class Route:
         m = self.m
         regs = {r: m.reg(r) for r in ("eax", "ebx", "ecx", "edx", "esi", "edi", "ebp", "esp", "eflags", "cs",
                                        "ds", "es", "ss", "fs", "gs")}
-        self.record.append(("stop", MATCH_AT, dict(regs)))
+        self.record.append(("stop", "0791:F1F6" if self.match_entry else MATCH_AT, dict(regs)))
         ss, sp, bp = regs["ss"], regs["esp"] & 0xFFFF, regs["ebp"] & 0xFFFF
-        if (ss, sp, bp) != (m.seg(SS_PARAGRAPH), MATCH_SP, ENTRY_BP):
+        expected_sp = MATCH_SP - 4 if self.match_entry else MATCH_SP
+        after_sp = sp + (8 if self.match_entry else 4)
+        if (ss, sp, bp) != (m.seg(SS_PARAGRAPH), expected_sp, ENTRY_BP):
             raise GuestError(f"at {MATCH_AT}: SS:SP {ss:04X}:{sp:04X} BP {bp:04X}, not Match's frame "
-                             f"{m.seg(SS_PARAGRAPH):04X}:{MATCH_SP:04X} BP {ENTRY_BP:04X}")
+                             f"{m.seg(SS_PARAGRAPH):04X}:{expected_sp:04X} BP {ENTRY_BP:04X}")
         game = m.far(GAME_PTR)
         index = m.word_at(game + 0x26)
         fx = m.read(m.far(FIXTURES_PTR) + FIXTURE_SIZE * (index - 1), FIXTURE_SIZE)
@@ -331,7 +348,8 @@ class Route:
         # what the `call far` at 6F18 pushes: its return address 000E:6F1D (offset, then segment) at SP - 4
         rseg, roff = RUN_MATCH_RETURN.split(":")
         push = ss * 16 + sp - 4
-        here[push:push + 4] = int(roff, 16).to_bytes(2, "little") + m.seg(int(rseg, 16)).to_bytes(2, "little")
+        if not self.match_entry:
+            here[push:push + 4] = int(roff, 16).to_bytes(2, "little") + m.seg(int(rseg, 16)).to_bytes(2, "little")
         image = Image(self.header + bytes(m.read(0, MEM_SIZE)) + self.tail)
         image.tables = self.tables
         match = RouteMatch(image, fixture, tail=False)
@@ -346,9 +364,9 @@ class Route:
             pass
         mm = match.m
         if (mm.pc(), mm.reg("sp"), mm.reg("bp"), mm.reg("ss"), mm.reg("ds")) != (
-                mm.lin(RUN_MATCH_RETURN), (sp + 4) & 0xFFFF, bp, ss, regs["ds"]):
+                mm.lin(RUN_MATCH_RETURN), after_sp & 0xFFFF, bp, ss, regs["ds"]):
             raise GuestError(f"Match did not end at {RUN_MATCH_RETURN} with F1F6's retf 4 "
-                             f"(SP {sp + 4:04X}, BP {bp:04X})")
+                             f"(SP {after_sp:04X}, BP {bp:04X})")
         after = mm.read(0, MEM_SIZE)
         result = match.result()
         self.matches.append(match)
@@ -361,9 +379,10 @@ class Route:
             self._write("match", a, after[a:b])
         for r, v in regs.items():
             m.set_reg(r, v)
+        m.set_reg("cs", m.seg(int(rseg, 16)))
         m.set_reg("eip", int(roff, 16))
-        m.set_reg("sp", (sp + 4) & 0xFFFF)
-        self.record.append(("resume", RUN_MATCH_RETURN, (sp + 4) & 0xFFFF))
+        m.set_reg("sp", after_sp & 0xFFFF)
+        self.record.append(("resume", RUN_MATCH_RETURN, after_sp & 0xFFFF))
 
 
 def _runs(a, b, chunk=256):

@@ -58,6 +58,8 @@ SCORE_PAGE, RESULTS = "000E:6A89", "000E:6B89"      # 6970's key read after the 
 EDITS = {
     "bb2f": ("E040-r0004", 3, 1, "fixture 3 (the managed friendly 7 v 27, first byte 0xFE) kind byte +2 := 0 "
                                  "(from 1): route_fixture calls 0791:BB2F for it at 6EF9"),
+    "news-cb": ("E040-r0004", 1, 1, "T121 synthetic: fixture 1 kind 1 -> 203 (competition news); count := 2, so only this fixture runs"),
+    "finals-3": ("E040-r0010", 22, 2, "T121 synthetic: managed fixture 22 kind 2 -> 3 (finals mark)"),
     "silent-kind-0": ("E040-r0004", 1, 1, "fixture 1 (18 v 10, the next silent fixture, first byte 0xFF) kind byte "
                                           "+2 := 0 (from 1): the Done-when's input; route_fixture sends it to 6970 "
                                           "(6DAE-7014), not BB2F"),
@@ -107,14 +109,14 @@ def port_specs(ports, variant):
 
 
 def without_6970(loaded):
-    """The same ports, silent's 000E:6970 left out (a copy of its registry)."""
+    """Copy the registries without outer 6970/6CA7/6685, so their callees prove individually."""
     from original_match.port import Registry
     out = []
     for reg, variant in loaded:
-        if reg.name == "silent":
+        if reg.name in ("silent", "route"):
             copy = Registry(reg.name, reg.doc)
             copy.variants = dict(reg.variants)
-            copy.entries = {a: e for a, e in reg.entries.items() if a != "000E:6970"}
+            copy.entries = {a: e for a, e in reg.entries.items() if a not in ("000E:6970", "000E:6CA7", "000E:6685")}
             reg = copy
         out.append((reg, variant))
     return out
@@ -148,11 +150,18 @@ def run_pass(image_bytes, case, loaded, label):
         a = image.far(0xA92B) + 8 * (index - 1) + 2
         if image.memory[a] != old:
             raise SystemExit(f"{name}: fixture {index}'s kind byte is {image.memory[a]}, not {old}")
-        image.memory[a] = 0
-        inputs.append({"what": why, "linear": a, "old": f"{old:02x}", "new": "00"})
+        new = 203 if name == "news-cb" else 3 if name == "finals-3" else 0
+        image.memory[a] = new
+        inputs.append({"what": why, "linear": a, "old": f"{old:02x}", "new": f"{new:02x}"})
+        if name == "news-cb":
+            count = image.far(0xA923) + 0x28
+            before = bytes(image.memory[count:count + 2])
+            image.memory[count:count + 2] = (2).to_bytes(2, "little")
+            inputs.append({"what": "T121 synthetic calendar end after fixture 1", "linear": count, "old": before.hex(), "new": "0200"})
     ahead = fixtures_ahead(image)
     case_by_id = next(c for c in runner.CASES if c[0] == run_id)
-    r = R.Route(image, keys=runner.policy(case_by_id), record_writes=False)
+    r = R.Route(image, keys=runner.policy(case_by_id), record_writes=False,
+                match_entry=any("000E:6CA7" in reg.entries for reg, _ in loaded))
     installed = port.install(r.m, loaded)
     m = r.m
     reseeds = collections.Counter()
@@ -204,6 +213,8 @@ def verdict(passes, loaded):
         if p["status"] != "completed":
             problems.append(f"{tag}: {p['status']}: {p['error']}")
             continue
+        if "route" in names and p["pass"] == "four" and p["proof"].get("000E:6CA7", {}).get("proved") != 1:
+            problems.append(f"{tag}: outer 6CA7 proof did not finish exactly once")
         if not p["every_call_proved_or_nested"]:
             problems.append(f"{tag}: a call neither proved nor nested: {p['calls']} {p['proof']}")
         if p["before_armed"]:
@@ -211,7 +222,7 @@ def verdict(passes, loaded):
         if "silent" not in names:
             continue
         bb2f = p["calls"].get("0791:BB2F", 0)
-        if (p["case"] == "bb2f") != (bb2f > 0):
+        if p["case"] not in ("news-cb", "finals-3") and (p["case"] == "bb2f") != (bb2f > 0):
             problems.append(f"{tag}: BB2F called {bb2f} times")
         if not p["inputs"] and any(f["kind"] == 0 for f in p["fixtures_ahead"]):
             problems.append(f"{tag}: a published state with a kind-0 fixture ahead: {p['fixtures_ahead']}")
@@ -228,11 +239,13 @@ def verdict(passes, loaded):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--out", type=Path, default=OUT, help="record directory (T121: out/T121)")
     ap.add_argument("--ports", required=True, help="port modules (port/), as check.py: M,...|all")
     ap.add_argument("--variant", help="MODULE.NAME: one of a module's variants (a falsifier), which must be caught")
     ap.add_argument("--cases", help="comma-separated case names (run ids, bb2f, silent-kind-0); default: all")
     ap.add_argument("--no-record", action="store_true", help="write no record (a development run)")
     a = ap.parse_args(argv)
+    a.out = a.out.resolve()
     loaded = port_specs(a.ports, a.variant)
     from original_match import port
     dirty = git("status", "--porcelain", "--", *DIRTY_PATHS)
@@ -293,24 +306,27 @@ def main(argv=None):
         for line in problems:
             print("  " + line)
     if not a.no_record:
-        OUT.mkdir(parents=True, exist_ok=True)
+        a.out.mkdir(parents=True, exist_ok=True)
         stamp = started.strftime("%Y%m%dT%H%M%SZ")
         tag = a.ports.replace(",", "+") + (f"-{a.variant}" if a.variant else "")
-        out = OUT / f"prove-{tag}-{stamp}.json"
+        out = a.out / f"prove-{tag}-{stamp}.json"
         if out.exists():
             raise SystemExit(f"{out} exists: never overwritten")
         import unicorn
         record = {
-            "schema": "e040-t120-prove/1", "task": "T120", "experiment": "E040",
+            "schema": "e040-t121-prove/1" if "route" in names else "e040-t120-prove/1",
+            "task": "T121" if "route" in names else "T120", "experiment": "E040",
             "command": "python3 -B experiments/E040-route-fixture-writes/prove.py " + " ".join(argv or sys.argv[1:]),
             "code_commit": commit, "ports": port.spec_names(loaded), "variant": a.variant,
             "runtime": {"unicorn": unicorn.__version__, "python": platform.python_version(),
                         "route.py": sha256_file(ROOT / "runtime/original_match/route.py"),
                         "silent.py": sha256_file(ROOT / "runtime/original_match/port/silent.py"),
-                        "prove.py": sha256_file(Path(__file__))},
+                        "prove.py": sha256_file(Path(__file__)),
+                        "port_modules": {reg.name: sha256_file(ROOT / "runtime/original_match/port" / (reg.name + ".py"))
+                                         for reg, _ in loaded}},
             "states": {k: {"sha256": v, "verified_against": "its evidence manifest (runner.expected)"}
                        for k, v in states.items()},
-            "edits_declared": {name: {"case": run_id, "fixture": index, "kind_from": old, "kind_to": 0, "what": what}
+            "edits_declared": {name: {"case": run_id, "fixture": index, "kind_from": old, "kind_to": 203 if name == "news-cb" else 3 if name == "finals-3" else 0, "what": what}
                                for name, (run_id, index, old, what) in EDITS.items()},
             "bb2f_in_published_states": "none: no published case calls 0791:BB2F (calls per pass below), and no "
                                         "fixture from a published state's cursor to its managed one has kind 0 "

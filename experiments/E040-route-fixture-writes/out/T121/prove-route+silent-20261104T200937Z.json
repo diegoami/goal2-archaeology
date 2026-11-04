@@ -1,0 +1,629 @@
+{
+ "schema": "e040-t120-prove/1",
+ "task": "T120",
+ "experiment": "E040",
+ "command": "python3 -B experiments/E040-route-fixture-writes/prove.py --ports route,silent --cases bb2f,news-cb --out experiments/E040-route-fixture-writes/out/T121",
+ "code_commit": "7a4f6d957df7c1c1ac4fafb22a37d8c0f9e7076a",
+ "ports": [
+  "route",
+  "silent"
+ ],
+ "variant": null,
+ "runtime": {
+  "unicorn": "2.1.4",
+  "python": "3.14.4",
+  "route.py": "554312ab78a10635a39837c0b02cf7b3e3fb33b553ff36766dff67fffd729df8",
+  "silent.py": "8eb759b7290d343019ad3eda863b75a6ccdf0486bc9d99567fd4ff4ab9e0a996",
+  "prove.py": "2c5aa7358c677c2d87da0f6f8db0e619e10ef112d40f8112e8e02068bb7e9979"
+ },
+ "states": {
+  "f8b22081eeb072e5-e006-1337-r0004.sav": {
+   "sha256": "f8b22081eeb072e5b371a5b36628a745cc359efcfdabf6dc2cdaab4ebc66263c",
+   "verified_against": "its evidence manifest (runner.expected)"
+  }
+ },
+ "edits_declared": {
+  "bb2f": {
+   "case": "E040-r0004",
+   "fixture": 3,
+   "kind_from": 1,
+   "kind_to": 0,
+   "what": "fixture 3 (the managed friendly 7 v 27, first byte 0xFE) kind byte +2 := 0 (from 1): route_fixture calls 0791:BB2F for it at 6EF9"
+  },
+  "news-cb": {
+   "case": "E040-r0004",
+   "fixture": 1,
+   "kind_from": 1,
+   "kind_to": 203,
+   "what": "T121 synthetic: fixture 1 kind 1 -> 203 (competition news); count := 2, so only this fixture runs"
+  },
+  "finals-3": {
+   "case": "E040-r0010",
+   "fixture": 22,
+   "kind_from": 2,
+   "kind_to": 3,
+   "what": "T121 synthetic: managed fixture 22 kind 2 -> 3 (finals mark)"
+  },
+  "silent-kind-0": {
+   "case": "E040-r0004",
+   "fixture": 1,
+   "kind_from": 1,
+   "kind_to": 0,
+   "what": "fixture 1 (18 v 10, the next silent fixture, first byte 0xFF) kind byte +2 := 0 (from 1): the Done-when's input; route_fixture sends it to 6970 (6DAE-7014), not BB2F"
+  }
+ },
+ "bb2f_in_published_states": "none: no published case calls 0791:BB2F (calls per pass below), and no fixture from a published state's cursor to its managed one has kind 0 (fixtures_ahead)",
+ "passes": [
+  {
+   "case": "bb2f",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [
+    {
+     "what": "fixture 3 (the managed friendly 7 v 27, first byte 0xFE) kind byte +2 := 0 (from 1): route_fixture calls 0791:BB2F for it at 6EF9",
+     "linear": 383832,
+     "old": "01",
+     "new": "00"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      13,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 254,
+     "kind": 0,
+     "countries": [
+      7,
+      27
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "route",
+    "silent"
+   ],
+   "calls": {
+    "000E:038E": 0,
+    "000E:05F6": 0,
+    "000E:062F": 0,
+    "000E:070B": 0,
+    "000E:075F": 0,
+    "000E:5978": 0,
+    "000E:6685": 0,
+    "000E:6970": 2,
+    "000E:6C21": 1,
+    "000E:6CA7": 1,
+    "0791:B602": 2,
+    "0791:BB2F": 1,
+    "0791:D47E": 2,
+    "0791:E80D": 0
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6C21": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6CA7": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 1
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 2,
+    "A3DE returning to A4AF, its caller to BB3D": 1
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 2
+   },
+   "key_visits": {
+    "000E:6B89": 2,
+    "000E:6B92": 2,
+    "000E:6BF7": 4,
+    "000E:6C4F": 1
+   },
+   "matches": [],
+   "returned": true,
+   "elapsed_s": 4.1
+  },
+  {
+   "case": "bb2f",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "inputs": [
+    {
+     "what": "fixture 3 (the managed friendly 7 v 27, first byte 0xFE) kind byte +2 := 0 (from 1): route_fixture calls 0791:BB2F for it at 6EF9",
+     "linear": 383832,
+     "old": "01",
+     "new": "00"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      13,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 254,
+     "kind": 0,
+     "countries": [
+      7,
+      27
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "route",
+    "silent"
+   ],
+   "calls": {
+    "000E:038E": 0,
+    "000E:05F6": 0,
+    "000E:062F": 0,
+    "000E:070B": 0,
+    "000E:075F": 0,
+    "000E:5978": 0,
+    "000E:6C21": 1,
+    "0791:B602": 2,
+    "0791:BB2F": 1,
+    "0791:D47E": 2,
+    "0791:E80D": 0
+   },
+   "proof": {
+    "000E:6C21": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:B602": {
+     "proved": 2,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 2
+     }
+    },
+    "0791:BB2F": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 2,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 2,
+    "A3DE returning to A4AF, its caller to BB3D": 1
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 2
+   },
+   "key_visits": {
+    "000E:6B89": 2,
+    "000E:6B92": 2,
+    "000E:6BF7": 4,
+    "000E:6C4F": 1
+   },
+   "matches": [],
+   "returned": true,
+   "elapsed_s": 2.6
+  },
+  {
+   "case": "news-cb",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [
+    {
+     "what": "T121 synthetic: fixture 1 kind 1 -> 203 (competition news); count := 2, so only this fixture runs",
+     "linear": 383816,
+     "old": "01",
+     "new": "cb"
+    },
+    {
+     "what": "T121 synthetic calendar end after fixture 1",
+     "linear": 382622,
+     "old": "0103",
+     "new": "0200"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 203,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    }
+   ],
+   "ports": [
+    "route",
+    "silent"
+   ],
+   "calls": {
+    "000E:038E": 1,
+    "000E:05F6": 1,
+    "000E:062F": 1,
+    "000E:070B": 3,
+    "000E:075F": 1,
+    "000E:5978": 1,
+    "000E:6685": 1,
+    "000E:6970": 1,
+    "000E:6C21": 1,
+    "000E:6CA7": 1,
+    "0791:B602": 1,
+    "0791:BB2F": 0,
+    "0791:D47E": 1,
+    "0791:E80D": 1
+   },
+   "proof": {
+    "000E:038E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:05F6": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:062F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:070B": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:075F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:5978": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6685": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6970": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6C21": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6CA7": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:E80D": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to A4AF, its caller to E81B": 1,
+    "A3DE returning to D495, its caller to 69CA": 1
+   },
+   "pages_6970": {
+    "score_page_6A84": 1,
+    "results_list_6B84": 0
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6A89": 1,
+    "214B:157C<0791:E86E": 1,
+    "214B:157C<1771:9022": 1
+   },
+   "matches": [],
+   "returned": true,
+   "elapsed_s": 3.7
+  },
+  {
+   "case": "news-cb",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "inputs": [
+    {
+     "what": "T121 synthetic: fixture 1 kind 1 -> 203 (competition news); count := 2, so only this fixture runs",
+     "linear": 383816,
+     "old": "01",
+     "new": "cb"
+    },
+    {
+     "what": "T121 synthetic calendar end after fixture 1",
+     "linear": 382622,
+     "old": "0103",
+     "new": "0200"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 203,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    }
+   ],
+   "ports": [
+    "route",
+    "silent"
+   ],
+   "calls": {
+    "000E:038E": 1,
+    "000E:05F6": 1,
+    "000E:062F": 1,
+    "000E:070B": 3,
+    "000E:075F": 1,
+    "000E:5978": 1,
+    "000E:6C21": 1,
+    "0791:B602": 1,
+    "0791:BB2F": 0,
+    "0791:D47E": 1,
+    "0791:E80D": 1
+   },
+   "proof": {
+    "000E:038E": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:05F6": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:062F": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:070B": {
+     "proved": 1,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:075F": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:5978": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6C21": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:B602": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 1
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 1
+     }
+    },
+    "0791:E80D": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to A4AF, its caller to E81B": 1,
+    "A3DE returning to D495, its caller to 69CA": 1
+   },
+   "pages_6970": {
+    "score_page_6A84": 1,
+    "results_list_6B84": 0
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6A89": 1,
+    "214B:157C<0791:E86E": 1,
+    "214B:157C<1771:9022": 1
+   },
+   "matches": [],
+   "returned": true,
+   "elapsed_s": 2.6
+  }
+ ],
+ "caught": null,
+ "problems": [],
+ "started": "20261104T200937Z",
+ "ended": "20261104T200950Z"
+}
