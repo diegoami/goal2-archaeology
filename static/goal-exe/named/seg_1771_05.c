@@ -2,7 +2,7 @@
 // Headings give listing addresses (SEGMENT:OFFSET, as in ../code/). DS:XXXX is the data segment 2581. A segment number written in the code (a far pointer's segment, a far call's) is Ghidra's: listing=Ghidra 0000=0000, 000E=1000, 0791=2000, 16D6=3000, 1771=4000, 2138=5000, 2139=6000, 214B=7000, 235C=8000, 2382=9000, 23E4=A000, 2581=B000.
 
 // ---- 1771:5E3A  add_fixture_with_bonus  (f_1771_5E3A; Ghidra 4000:5E3A, __stdcall16near; found by routines.tsv)
-// adds a fixture through 1771:5D94 and, when its third argument is not 1, adds 200 to both countries' +0x2F (5E79, 5E8D); called by the stage routines 6B55, 6E59, 71B2, 74BE  [likely; F017; read code/seg_1771_09.asm]
+// T124a (runtime/original_match/port/stages.py, proved against the original in the route harness): add_fixture_with_bonus(Y, X, kind, group, P), pushed in that order (ret 0xA): add_fixture with X as the second side +6 and Y as +4 when X == P, else with Y as +6 and X as +4; then, unless the kind is 1, adds 200 to both countries' +0x2F (5E79, 5E8D); called by the stage routines 6B55, 6E59, 71B2, 74BE  [likely; F017; read code/seg_1771_09.asm]
 
 void add_fixture_with_bonus(int param_1,undefined2 param_2,int param_3,int param_4,int param_5)
 
@@ -26,7 +26,7 @@ void add_fixture_with_bonus(int param_1,undefined2 param_2,int param_3,int param
 
 
 // ---- 1771:5E99  set_manager_groups  (f_1771_5E99; Ghidra 4000:5E99, __stdcall16near; found by routines.tsv)
-// sets the byte [A923]+1+m to the argument for every manager m = 1..[A923]+0 (the manager's group in the stage; 0 = none)  [likely; F023; read code/seg_1771_09.asm]
+// T124a (runtime/original_match/port/stages.py, proved against the original in the route harness): sets the byte [A923]+1+m to the byte argument for every manager m = 1..[A923]+0 (the manager's group in the stage; 0 = none); ret 2  [likely; F023; read code/seg_1771_09.asm]
 
 void set_manager_groups(byte param_1)
 
@@ -340,7 +340,7 @@ void __cdecl16near recompute_country_ranks(void)
 
 
 // ---- 1771:6617  mark_group_fixtures_managed  (f_1771_6617; Ghidra 4000:6617, __stdcall16near; found by routines.tsv)
-// for each manager with a group in [A923]+1+m: sets byte 0 = 0xFE on every fixture of the group's round list (12 rounds for param 0 = stages 2/5, 6 for param 1 = stages 3/7), continent of the managed country, or continent 1 for the World Cup  [likely; F023; read code/seg_1771_09.asm]
+// T124a (runtime/original_match/port/stages.py, proved against the original in the route harness): for each manager m with a group g = [A923]+1+m: c = 1 when the parameter and [A923]+0x40 are both nonzero (the World Cup), else the continent +0x2C of m's country; for k = 1..DS:1104[param] (12 rounds for param 0 = stages 2/5, 6 for param 1 = stages 3/7) the fixture numbered by the word at [A933] + 0xE00*[A923]+0x40 + 0x700*param + 0x1C0*c + 0x38*g + 2k - 0x1DA gets byte 0 = 0xFE; ret 2  [likely; F023; read code/seg_1771_09.asm]
 
 void mark_group_fixtures_managed(char param_1)
 
@@ -956,7 +956,7 @@ void __cdecl16near stage_world_cup_knockout(void)
 
 
 // ---- 1771:76B1  run_stage  (f_1771_76B1; Ghidra 4000:76B1, __cdecl16far; found by routines.tsv)
-// dispatches on the stage byte [DS:A923]+0x3C: 2 or 5 to 1771:6730, 3..8 to other routines  [likely; F004; read decompiled/seg_1771_04.c]
+// T124a (runtime/original_match/port/stages.py, proved against the original in the route harness): dispatches on the stage byte [A923]+0x3C by near calls: 2 and 5 to stage_qualifying 1771:6730, 3 to 6B55, 4 to 6E59, 6 to 7090, 7 to 71B2, 8 to 74BE; any other byte calls none; retf  [likely; F004; read code/seg_1771_11.asm]
 
 void __cdecl16far run_stage(void)
 
@@ -981,51 +981,6 @@ void __cdecl16far run_stage(void)
   }
   else if (cVar1 == '\b') {
     stage_world_cup_knockout();
-  }
-  return;
-}
-
-
-// ---- 1771:76FA  draw_fixture_score  (f_1771_76FA; Ghidra 4000:76FA, __stdcall16far; found by routines.tsv)
-// Draws the CS:76F8 score marker; only nonzero fixture kind and score byte0 below FE produce score strings from bytes1/0 and the flag-dependent DS:AAB2 colour  [likely; read code/seg_1771_11.asm:50]
-
-void __stdcall16far draw_fixture_score(uint param_1,undefined1 param_2,byte *param_3)
-
-{
-  undefined1 extraout_AH;
-  undefined1 extraout_AH_00;
-  byte *pbVar1;
-  undefined2 uVar2;
-  undefined2 unaff_SS;
-  undefined1 *puVar3;
-  undefined2 uVar4;
-  undefined1 local_106 [256];
-  byte *local_6;
-  
-  local_6 = param_3;
-  u214b_write_string_at_fwd_set_attr
-            ((undefined4 *)&DS:A96E,0xb000,param_1 & 0xff,param_2,
-             (char *)s_electrified_b000_76f5 + 3,0x4000,5);
-  uVar2 = (undefined2)((ulong)local_6 >> 0x10);
-  pbVar1 = (byte *)local_6;
-  if ((pbVar1[2] != 0) && (*local_6 < 0xfe)) {
-    if (pbVar1[3] == 2) {
-      crt_text_attr = 6;
-    }
-    else {
-      crt_text_attr = ((undefined1 *)&DS:1108)[pbVar1[3] == 1];
-    }
-    puVar3 = local_106;
-    uVar4 = unaff_SS;
-    u214b_number_to_string(pbVar1[1],0);
-    u214b_write_string_at_attr_var
-              ((undefined4 *)&DS:A96E,0xb000,param_1 - 1,CONCAT11(extraout_AH,param_2),puVar3,
-               uVar4);
-    puVar3 = local_106;
-    u214b_number_to_string(*local_6,0);
-    u214b_write_string_at_fwd
-              ((undefined4 *)&DS:A96E,0xb000,param_1 + 1,CONCAT11(extraout_AH_00,param_2),
-               puVar3,unaff_SS);
   }
   return;
 }

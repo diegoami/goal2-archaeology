@@ -699,7 +699,7 @@ undefined1 __cdecl16near shareware_limit_reached(void)
 
 
 // ---- 000E:70B9  play_round  (f_000E_70B9; Ghidra 1000:70B9, __cdecl16near; found by routines.tsv)
-// item 6's action when the last manager continues: sets [DS:A923]+1 = 1, plays fixtures through 000E:6CA7; when the fixture index +0x26 reaches the count +0x28, calls 1771:8208 and the stage dispatch 1771:76B1 (000E:7072 always returns 0), then, if the stage byte +0x3C is in the set at CS:7099, 000E:60CB for each manager whose +0x47 flag is clear  [likely; F004; read decompiled/seg_000E_05.c]
+// item 6's action when the last manager continues, called by main_menu_loop 000E:7439 at 77BF (7439's BP 0x3FF6): [A923]+1 := 1, one call of route_fixture 000E:6CA7 (70D1); when the cursor +0x26 then equals the count +0x28 (70DE), the round's end: stage_end 1771:8208 (70E6), 000E:7072 (always 0, so run_stage follows), run_stage 1771:76B1 (70F4), and, when the stage byte +0x3C is in the set CS:7099 = {2, 3, 5, 7}, 000E:60CB(the manager's country) for each manager m = 1..[A923]+0 whose byte [A923]+0x47+m is 0; T124a's play_round entry of the route harness (runtime/original_match/route.py)  [likely; F004; read code/seg_000E_09.asm]
 
 void __cdecl16near play_round(void)
 
