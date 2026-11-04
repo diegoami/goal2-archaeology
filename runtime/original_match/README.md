@@ -408,6 +408,16 @@ ports needs `Route(image, record_writes=False)`, which drops only the all-memory
 the ports' stack writes, `214B:0000`, which the Prover refuses), keeps the seed watches, key sites and the 6F18 stop,
 and makes `replay()` refuse the run (T119c).
 
+`Route(image, entry="play_round")` (T124a) calls play_round 000E:70B9 instead, as main_menu_loop's 77BF does (its
+return 77C2 at SP 0x3EEC, 7439's BP 0x3FF6): one call is one route_fixture in the same frame and, when the cursor
+then reaches the count, the round's end (stage_end 1771:8208, run_stage 1771:76B1, and announce_stage_to_manager
+000E:60CB per manager when the new stage is 2, 3, 5 or 7), recorded as `("round_end", {...})` at 70E6.
+`r.round()` makes play_round calls until one reaches the round's end. 60CB's page waits at the news page's sites,
+which the policy answers already. The managed matches still go through `Match`, so a run stops with `MatchError`
+when the original refuses the managed first eleven (an injured or banned player in it): the harness picks no team.
+The round's end's ports are `port/stages.py`; `experiments/E040-route-fixture-writes/out/T124a/prove.py` proves them
+in this harness.
+
 ## Limits and costs
 
 A kind no builder writes (4 included) is refused with a `ValueError`. Not run, because route_fixture runs them
