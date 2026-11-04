@@ -87,3 +87,20 @@ Appended by T119c; the protocol above is unchanged, and the records r0001-r0012 
 - **The check** (`check_records.py`, T119c): besides rules 1-8 on every record, the records together must hold a
   competitive managed fixture (kind not 1) whose rows `6F80` and `6F86` were each visited twice; `--report`'s
   coverage names those records (`confidence_both_sides`).
+
+## T124a (#427): the round's end proved in the harness
+
+Appended by T124a; the protocol above and the records `runs/E040/` are unchanged. T124a adds no run record: its
+outputs are proofs of ports, under `out/T124a/` (the runner `out/T124a/prove.py`, one JSON per run, never
+overwritten).
+- **The harness**: `Route(image, entry="play_round")` calls play_round 000E:70B9 as main_menu_loop's 77BF does;
+  `Route.round()` repeats it until one call reaches the round's end at 70E6 (route.py). The ports of the round's end
+  (`port/stages.py`: stage_end 8208, run_stage 76B1, the builders' helpers 5D02, 5D94, 5E3A, 5E99, 6617) and
+  display's 5C94 and 5CCB are installed under a Prover on the route's machine from the start.
+- **Which states reach a round's end** (development runs of the published cases, not recorded, 2026-11-04): only
+  E015-r0007 state 213 (`53b69d3dfb964e77-snap-0213-20261011T142027Z.sav`, the r0010/r0013 case): eleven managed
+  matches, then the silent rest of stage 2, then the round's end (stage 2 to 3, ageing, 6B55, 60CB). Every other
+  case tried stops earlier at a managed match whose first eleven the original refuses ("... has an ineligible
+  player in the first team", `Match`'s MatchError at the pre-match menu): E006-r0001, r0004, r0009 after 5, 3 and 3
+  matches, E015-r0007 state 26 after 8, and E014-r0006's input (cal3-y1, stage 3) after 2. The harness has no team
+  policy (a design decision; route.py and match.py pick no eleven).
