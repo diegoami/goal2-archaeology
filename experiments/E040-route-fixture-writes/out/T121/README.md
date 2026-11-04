@@ -19,7 +19,9 @@ tools/heavy.sh t121-proof -- python3 -B experiments/E040-route-fixture-writes/pr
 installed, the inner pass also omits `6CA7` and `6685`, so the original wrappers
 call the individual ports. Every call must be proved or nested; the outer pass
 must finish exactly one `6CA7` proof before the harness returns. The unit test
-also proves E80D alone with the original 6C21.
+also proves E80D alone with the original 6C21. A separate original-backed
+E80D leaf test answers both Y and N through the Route key policy, using the
+call frame transcribed from 6C21 (SP3EB2, BP3EC0, return 000E:6C71).
 
 The existing `bb2f` and `silent-kind-0` inputs remain. Two additional declared
 synthetic cases reach the task's branches without claiming them as published

@@ -310,3 +310,43 @@ class NewsBranches(Case):
         r.run('000E:5978', [3, 2])
         self.assertEqual(r.targets(), [('000E:070B', '000E:599E')])
         self.assertEqual(r.args('000E:070B'), [(2, r.mem.seg(0xE), 0x5955)])
+
+
+class ExactWatchAnswers(unittest.TestCase):
+    def test_original_watch_prompt_accepts_yes_and_no_after_real_setup(self):
+        try:
+            import unicorn
+        except ImportError:
+            self.skipTest('unicorn missing')
+        from original_match import route as R
+        from original_match.image import Image
+        from original_match.port.prove import Prover
+        runner = ExactProof.runner(self)
+        case = next(c for c in runner.cases() if c[0] == 'E040-r0004')
+        path = runner.DL / case[2]
+        if not path.is_file():
+            self.skipTest('published E040 state missing; runner.py --fetch')
+        self.assertEqual(runner.sha256_file(path), runner.runner.expected(case[2]))
+        for answer in (ord('Y'), ord('N')):
+            image = Image.from_savestate(path.read_bytes())
+            policy = dict(R.DEFAULT_KEYS)
+            site = R.MENU_SITE + '<0791:E86E'
+            policy[site] = answer
+            route = R.Route(image, keys=policy, record_writes=False)
+            m = route.m
+            installed = port.install(m, ['route'])
+            prover = Prover(m, installed)
+            # [derived: seg_000E_09.asm 6CAA/6DA5-6DA7/6C24/6C6A-6C6C]
+            # The real call frame from 6C21: route BP3EDE, locals16; two
+            # near-call argument words + return + savedBP + locals6, then
+            # the fixture pointer and far return -> E80D entry SP3EB2.
+            m.set_reg('bp', 0x3EC0)
+            fxoff, fxseg = m.rd(0xA92B, 2), m.rd(0xA92D, 2)
+            end = m.far_call('0791:E80D', [fxseg, fxoff], '000E:6C71', m.seg(0x3052), 0x3EB2)
+            m.at('000E:6C71', lambda replay: m.stop('watch-return'))
+            self.assertEqual(m.run(end + 1, fresh=True), 'watch-return')
+            self.assertEqual(prover.summary()['0791:E80D']['proved'], 1)
+            self.assertEqual(m.reg('sp'), 0x3EBA)
+            self.assertEqual(m.reg('ax') & 255, int(answer == ord('Y')))
+            self.assertEqual(m.read(m.far(0xA92B), 1), bytes([0xFF if answer == ord('Y') else 0xFE]))
+            self.assertEqual([(e[1], e[3]) for e in route.record if e[0] == 'key'], [(site, answer)])
