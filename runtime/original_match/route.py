@@ -52,8 +52,11 @@ byte +0x3C is in the set CS:7099 = {2, 3, 5, 7}, announce_stage_to_manager 000E:
 is clear; it returns to 77C2 with SP 0x3EEE. The record gets ("round_end", {...}) at 70E6, the game record's cursor,
 count, stage and rounds bytes there, and ("return", "000E:77C2"). Route.round() makes play_round calls until one
 reaches the round's end (the last managed fixture of the stage's round, then the silent rest), so it stops there.
-The stage pages' key reads and polls (60CB's, the builders' none) are answered by the same policy: their sites are
-READS' and POLLS' (60CB's pages wait in 05F6 at 0624, as the news pages do)."""
+The stage pages' key reads and polls are answered by the same policy, at sites READS and POLLS name already:
+60CB's page waits in the news pages' 05F6 (its call at 000E:6622), which polls at 0515 and 05EC and reads at 0624
+[confirmed: code/seg_000E_08.asm 6622, seg_000E_01.asm 05F6-0624]; nothing under stage_end 1771:8208 (80DA's subtree
+included) or run_stage 76B1 calls 214B:08DD or 0723 (the closure of calls.tsv's direct calls), and under 60CB only
+05F6 does, so a round's end adds no site."""
 from .image import Image, FIXTURES_PTR, FIXTURE_SIZE, GAME_PTR
 from .machine import Machine, GuestError, MEM_SIZE
 from .match import (Match, Fixture, SS_PARAGRAPH, ENTRY_SP, ENTRY_BP, RUN_MATCH_RETURN, DELAY_COUNT,
