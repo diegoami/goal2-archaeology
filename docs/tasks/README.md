@@ -173,3 +173,4 @@ exists.
 - [T122c](T122c.md): The secondary result text 2071 and 26F2 (#427); sequential slice of T122.
 - [T122d](T122d.md): Headlines, the sack and the news outer frame (#427); sequential slice of T122.
 - [T122e](T122e.md): Statistics text and the complete news proof (#427); sequential slice of T122.
+- [T124f](T124f.md): in-season ageing, retirement and replacement required before T123; year rollover deferred (#427).
