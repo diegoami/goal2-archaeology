@@ -228,7 +228,8 @@ class Match:
         first difference raises ProofError; `prover.summary()` counts the proved calls. A proved match cannot be
         saved. tail: False ends the match at run_match's return (000E:6F1D), before route_fixture's post-match
         player update 0791:B7FA, which the kit then does not call (T119a: route.py runs route_fixture itself, and
-        its own call of B7FA at 000E:6FF8 runs as guest code)."""
+        its own call of B7FA at 000E:6FF8 runs as guest code); and the fixture record keeps route_fixture's +1 (a
+        competitive fixture's round) and +3 (T119c, _write_fixture)."""
         if engine not in ("original", "port"):
             raise ValueError("engine: original or port")
         if engine == "port" and prove is not None:
@@ -287,7 +288,7 @@ class Match:
         self.side = (0 if managed == fixture.first else 1) if managed in (fixture.first, fixture.second) else None
         if captain is not None and (self.side is None or captain not in self._squad(managed)[:11]):
             raise ValueError(f"captain {captain} is not in the managed eleven")
-        self._write_fixture(index, fixture)
+        self._write_fixture(index, fixture, route=not tail)
         self._declare("delay calibration dword DS:A9FF", self.m.DS * 16 + DELAY_COUNT,
                       DELAY_COUNT_VALUE.to_bytes(4, "little"))
         self.st = fresh_state(self._players_now([fixture.first, fixture.second]))
@@ -390,12 +391,18 @@ class Match:
             if other != managed and self._manager_byte(other) > 0x80:
                 raise ValueError(f"country {other} is another human manager's: two managed sides are not supported")
 
-    def _write_fixture(self, index, fixture):
+    def _write_fixture(self, index, fixture, route=False):
+        """The fixture record `FE 00 kind 00 first second` and the cursor. route (tail=False, T119c, #647): the
+        record's +1 and +3 are kept as route_fixture left them (+1 a competitive fixture's round number, 1..8, 0 in
+        a friendly [confirmed: E040-r0010, r0011; T119b #646]); the default match writes them 0 as before."""
         count = self.m.rd_far(GAME_PTR, 0x28)
         if not 1 <= index <= count:
             raise ValueError(f"fixture index {index} outside the calendar 1..{count}")
         rec = bytes([0xFE, 0, fixture.kind, 0]) + fixture.first.to_bytes(2, "little") + fixture.second.to_bytes(2, "little")
         base = self.m.far(FIXTURES_PTR) + FIXTURE_SIZE * (index - 1)
+        if route:
+            old = self.m.read(base, 4)
+            rec = rec[:1] + old[1:2] + rec[2:3] + old[3:4] + rec[4:]
         self._declare(f"fixture {index} := {fixture.first} v {fixture.second}, kind {fixture.kind}", base, rec)
         self._declare("fixture index [A923]+0x26 (route_fixture's; the set-up seeds from it, 0791:2648)",
                       self.m.far(GAME_PTR) + 0x26, index.to_bytes(2, "little"))

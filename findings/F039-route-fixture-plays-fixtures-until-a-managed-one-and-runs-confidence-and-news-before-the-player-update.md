@@ -1,8 +1,9 @@
 # F039 route_fixture plays fixtures until a managed one, and runs confidence and news before the player update
 
-- **Status**: corroborated (T119b, E040) for what the runs cover: route_fixture's writes, phases, reach and draws on
-  ten calls, each a managed friendly (three defeats, six wins, a draw) after 0 to 17 silent fixtures (64 in all, one
-  with first byte 0xFE); proposed for the rest (below, "What the runs do not cover").
+- **Status**: corroborated (T119b, T119c, E040) for what the runs cover: route_fixture's writes, phases, reach and
+  draws on twelve calls, ten a managed friendly (three defeats, six wins, a draw) and two the managed qualifier
+  16 v 3 (kind 2, a defeat), each after 0 to 17 silent fixtures (70 in all, one with first byte 0xFE); proposed for
+  the rest (below, "What the runs do not cover").
 - **Question**: #427 / T118a, narrowed to the write-set by goal2's route (b) (goal2 #527, #509). For one call of
   route_fixture `000E:6CA7`: which writes and RNG steps happen, in what order, under what conditions. That covers
   its gate `6C21`, the silent path `6970` and the news page `6685`. The post-match news `4E0E`: its game-state writes and the sack (T118b1, below); its text's draws (T118b2, below).
@@ -42,21 +43,22 @@
 - **The text routines write no game state.** Their stores are frame locals, except seven, each read: an attribute byte of the video buffer `[A96A]` (the animation's colour); `DS:7968` and `DS:7966` (the tune and the speaker); `DS:0022`, written and read only inside `2071`; a caller's string length (`094A`); and a caller's frame flag (`3A5E`, `47E6`). Their string operations write frame temporaries or a string argument. static:static/goal-exe/code/seg_000E_01.asm:516 static:static/goal-exe/code/seg_000E_01.asm:538 static:static/goal-exe/code/seg_000E_01.asm:609 static:static/goal-exe/code/seg_000E_01.asm:1052 static:static/goal-exe/code/seg_000E_03.asm:130 static:static/goal-exe/code/seg_000E_03.asm:161
 - **The key wait `05F6` can run the crowd animation, which draws 1,000 to 1,500 times per call.** `05F6(f1, f2, f3)` shows the back buffer. If any flag is set it calls `0572`, then reads a key. `0572` plays up to three tune parts (`04F5`, 16 notes each, each note one `045D` call, stopping at a waiting key). It then calls `045D` again until a key is waiting, at least once. `045D` runs 50 × 10 seats with `06B1(5)` and `06B1(0x50)`, plus `06B1(15)` when the seat's video byte is below 7. So the number of draws depends on the page's bytes and on when the key comes. `4E0E` sets a flag when its side won a kind in {0x67, 0xCB}, or on the `DS:A943` test; `6685`'s wait `05F6(0,0,0)` does not animate. static:static/goal-exe/code/seg_000E_01.asm:469 static:static/goal-exe/code/seg_000E_01.asm:504 static:static/goal-exe/code/seg_000E_01.asm:551 static:static/goal-exe/code/seg_000E_01.asm:626 static:static/goal-exe/code/seg_000E_01.asm:651
 
-## Corroboration (T119b, E040)
+## Corroboration (T119b, T119c, E040)
 
 - **Method.** Static first: the three tables are the answer, and the runs only corroborate them (rules 19, 22). The
   route harness (T119a, `runtime/original_match/route.py`) runs one call of `6CA7` per published state at the manager
-  menu, with its default key policy (a key at the first poll, Enter; N at the watch prompt) and the managed match by
-  `Match(tail=False)`. The runner adds code hooks at every basic-block leader, store and call site and call return of
+  menu, with its default key policy (a key at the first poll, Enter; N at the watch prompt; Enter at the group-table
+  reads, T119c) and the managed match by `Match(tail=False)`, which keeps the fixture's +1 (a competitive fixture's
+  round) and +3 as route_fixture left them (T119c). The runner adds code hooks at every basic-block leader, store and call site and call return of
   the 39 scoped routines, read from the raw listings, and gives each recorded write the chain of scoped calls it
   happened in. `experiments/E040-route-fixture-writes/runner.py --check` holds the committed records against the
-  tables (its README states the eight rules). E040-r0001 E040-r0003 E040-r0009 E040-r0012
-- **Every write lies in a row its class admits, in its phase.** 2,952,719 guest writes in ten calls, and the match's
-  write-back (197,005 bytes, under `6F18`, port-owned). Frame rows write only the stack. Game, country, player,
+  tables (its README states the eight rules). E040-r0001 E040-r0003 E040-r0009 E040-r0012 E040-r0013
+- **Every write lies in a row its class admits, in its phase.** 3,238,231 guest writes in twelve calls, and the
+  match's write-back (225,563 bytes, under `6F18`, port-owned). Frame rows write only the stack. Game, country, player,
   manager and fixture writes come only from rows of those classes or from port-owned and unread subtree calls. Screen
   rows write only the text pages and the text attribute (next item). A sack.json or news.json row is reached only
   under `6FD8`. The record replayed over the start memory gives the memory each call left. E040-r0001 E040-r0003
-  E040-r0009 E040-r0012
+  E040-r0009 E040-r0012 E040-r0013 E040-r0014
 - **The text attribute `DS:AAB2` is a display variable the screen rows' callees write.** `214B:0205` and `02C8`
   store their attribute argument in the CRT unit's TextAttr, which `01A3` and `026D` write text with. The screen
   rows' callees wrote it 2,982 times: `02C8` (news.json `069A`, `0754`, `07CA`; writeset.json `6B6A`), `0791:0712`,
@@ -69,25 +71,31 @@
 - **The phases run in F039's order, and each row is visited as often as its basic block.** Every call's
   route_fixture-scope visits read pre-match, then per fixture the routing (and the gate), then the silent path or the
   played path (`run_match`, the news, the player update, the cursor, the tables). In every block a call entered, every
-  row was visited as often as the block's leader ran. No other row was visited. That is 81 of writeset.json's 134
-  rows, 69 of sack.json's 185 and 258 of news.json's 672. E040-r0001 E040-r0009 E040-r0012
-- **The draws match in count and order.** Each visit of an rng row stepped `DS:7B62` once (84 visits: 75 news text,
-  nine 319B), in the order of the visits. No pure, frame, screen or prompt row stepped `7B62` or `8336`. On the route
-  the other `7B62` steps were made inside `B7FA` (5,824), `D47E` (21,388), `B602` (129) and `E80D` (261, the one watch
-  prompt). `8336` stepped only in the match. No crowd animation ran: no managed side won a kind in {0x67, 0xCB}.
-  E040-r0003 E040-r0009 E040-r0012
+  row was visited as often as the block's leader ran. No other row was visited. That is 85 of writeset.json's 134
+  rows, 71 of sack.json's 185 and 264 of news.json's 672. E040-r0001 E040-r0009 E040-r0012 E040-r0013
+- **The draws match in count and order.** Each visit of an rng row stepped `DS:7B62` once (102 visits: 91 news
+  text, 11 319B), in the order of the visits. No pure, frame, screen or prompt row stepped `7B62` or `8336`. On the
+  route the other `7B62` steps were made inside `B7FA` (6,472), `D47E` (23,412), `B602` (139) and `E80D` (261, the
+  one watch prompt). `8336` stepped only in the match. No crowd animation ran: no managed side won a kind in
+  {0x67, 0xCB}. E040-r0003 E040-r0009 E040-r0012 E040-r0013
 - **The fixtures' paths are F039's.** Each managed friendly went through `6F18`, `4E0E` once, `B7FA` once and no
-  confidence term (kind 1). Each unmanaged fixture went through `6970`, with the score page (`6A84`, `E929`) exactly
+  confidence term (kind 1). The managed qualifier (kind 2) went through `6F18`, then the confidence term for both
+  sides: `6F80` (`B71C`) and `6F86` (`B6CC`) twice each, `[bp-3]` 0 then 1 (tests/test_route_harness.py), `B6CC`'s
+  two writes in the managers record `[A91F]` and no draw by either; then `4E0E` once and `B7FA` once. Its result
+  (0-2, a defeat of side 0) is in fixture +0, +1 and +3 = 1 after the call. Each unmanaged fixture went through `6970`, with the score page (`6A84`, `E929`) exactly
   for its first byte 0xFE. 319B's win, draw and defeat rows followed the managed side's result. No sack ran: every
-  state's season word +0x38 is 0, so `0B77` returns 0. E040-r0001 E040-r0003 E040-r0009
-- **What the runs do not cover.** These stay proposed. A managed non-friendly: in these calendars every non-friendly
-  carries its round number in fixture +1 (0 in friendlies). `Match`'s fixture builder writes +1 := 0, so the harness
-  refuses the call at `6F18` (E040-r0010, E040-r0011, the E015 qualifier). So neither the confidence term (`B71C`,
-  `B6CC`) nor kinds 3 and 7 are corroborated. Also uncovered: a sack (no published state has a season word of 2 or
+  state's season word +0x38 is 0, so `0B77` returns 0. E040-r0001 E040-r0003 E040-r0009 E040-r0013 E040-r0014
+- **The route harness's first records of the qualifier were its limit, not the original's.** Every non-friendly of
+  these calendars carries its round number in fixture +1 (1..8; 0 in friendlies). T119b's `Match` wrote +1 := 0, so
+  the harness refused the call at `6F18` (E040-r0010, E040-r0011). `Match(tail=False)` keeps +1 and +3 since T119c,
+  and its set-up then writes nothing route_fixture had not left there. E040-r0010 E040-r0013
+- **What the runs do not cover.** These stay proposed. The confidence term is corroborated for one kind-2 qualifier,
+  a defeat, only: kinds 3 and 7, and a managed win or draw of a non-friendly, are not covered. Also uncovered: a sack (no published state has a season word of 2 or
   more), kind 0 (`BB2F`), `6685` and the crowd animation (no kind 0x67 or 0xCB), the gates `6DC6` and `6E0B`, the
   results page's keys 0xAE, 0xAF and space, and `6BFF` (the key at the first poll skips every wait). Several
-  managers are not covered either. The 0xFE silent fixture's group-table reads (`1771:9022` and the like) are not in
-  `route.DEFAULT_KEYS`; E040-r0009 answers them Enter, as `Match` does. E040-r0009 E040-r0010
+  managers are not covered either. The 0xFE silent fixture's group-table reads (`1771:9022` and the like) were not
+  in T119b's `route.DEFAULT_KEYS`; E040-r0009 answers them Enter, as `Match` does, and since T119c the default policy
+  does too. E040-r0009 E040-r0013
 
 ## Alternatives and limits
 
@@ -97,7 +105,7 @@
 - The readers of game +0x13+m, +0x41+m and +0x4E..+0x53 are not read here. `play_round`'s row reads a +0x47
   flag per manager, consistent with +0x41+m for m = 6, but this is not established.
 - The +0x2E reading covers single-manager states only. Several managers give 0x80 + m statically (F007).
-- The corroboration (T119b, E040, below) covers managed friendlies and silent fixtures only; what it leaves is listed there.
+- The corroboration (T119b, T119c, E040, below) covers managed friendlies, one managed qualifier (kind 2) and silent fixtures only; what it leaves is listed there.
 
 ## Inferences
 

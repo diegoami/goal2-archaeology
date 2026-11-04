@@ -14,7 +14,8 @@ pointer at 6F16-6F17 leave SP 0x3EC4 at 000E:6F18, its `call far 0791:F1F6`.
 
 At 6F18 the harness stops, snapshots the CPU and plays the match with Match(Image of this memory, the fixture at the
 cursor, tail=False) on a machine of Match's own. Match's writes before play (the fixture, the managed side, the delay
-calibration) must find their bytes there already, and its far call's stack must be the one the `call far` would
+calibration) must find their bytes there already (tail=False keeps the fixture's +1, a competitive fixture's round,
+and +3 as route_fixture left them: T119c), and its far call's stack must be the one the `call far` would
 push (its return address 000E:6F1D, then the fixture pointer already pushed): the harness compares the whole memory
 and raises on any other byte. After the match the bytes it changed are written back (kit writes, in the record), the
 CPU is the snapshot's at 000E:6F1D with SP + 4 (F1F6's `retf 4`; Match's machine must end there, with BP and SS
@@ -35,11 +36,13 @@ _on_keypressed); a site the policy does not name raises GuestError. The default 
 poll of a wait finds a key, which stays waiting (every later poll finds it) until a read takes it; a read with no key
 waiting takes the policy's key. So 04F5's tune makes no draw and 0572's crowd animation 045D runs once. A pushed-back
 key (DS:79AE) is read by the guest itself, as in Match. No other hook: the machine has no foreign hook, and a
-Prover can be installed on it (port/prove.py)."""
+Prover can be installed on it (port/prove.py). A proof with ports runs only with Route(..., record_writes=False):
+the write listener reads the pc at the ports' stack writes, which they make as 214B:0000 (port/runtime.py), and the
+Prover refuses the first such push; without the listener the Prover compares every byte itself (T119c, #647)."""
 from .image import Image, FIXTURES_PTR, FIXTURE_SIZE, GAME_PTR
 from .machine import Machine, GuestError, MEM_SIZE
 from .match import (Match, Fixture, SS_PARAGRAPH, ENTRY_SP, ENTRY_BP, RUN_MATCH_RETURN, DELAY_COUNT,
-                    DELAY_COUNT_VALUE, KEYPRESSED, READKEY, PUSHED_BACK, KEY, SEED, SCREEN_PTR)
+                    DELAY_COUNT_VALUE, KEYPRESSED, READKEY, PUSHED_BACK, KEY, SEED, SCREEN_PTR, TABLE_READS, TABLE_KEY)
 
 ROUTE_FIXTURE = "000E:6CA7"     # route_fixture (static/goal-exe/annotations/routines.tsv; F010, F030, F039)
 CALLER, RETURN_TO = "000E:70D1", "000E:70D4"   # play_round 000E:70B9's call of 6CA7 and its return
@@ -61,6 +64,11 @@ READS = {
     "000E:6A89": "000E:6970 simulate_fixture: a declined fixture's result",
     "000E:6B92": "000E:6970 simulate_fixture: the key its poll at 6B84 found (0xAE, 0xAF the speed, space a pause)",
     MENU_SITE + "<0791:E86E": "0791:E80D ask_watch_match, through 214B:1560 (called at E869): Y, N, Esc or Enter",
+    # 6970's score page for a fixture whose first byte is 0xFE calls show_updated_group_tables 0791:E929 (6A93),
+    # whose table screen reads a key: Match's TABLE_READS and TABLE_KEY, where Match answers Enter [confirmed:
+    # match.py TABLE_READS, TABLE_KEY; E040-r0009, T119b #646; T119c #647]
+    **{MENU_SITE + "<" + s: f"0791:E929's table screen through 214B:1560 (called from {s}): one pass" for s in TABLE_READS},
+    TABLE_KEY: "0791:E929's finals' table 1771:9509, 'hit any key' (its 214B:08DD at 9562)",
 }
 POLLS = {
     "000E:0515": "000E:04F5, the tune: a waiting key ends it before the next note",
@@ -69,7 +77,7 @@ POLLS = {
     "000E:6BF7": "000E:6970 simulate_fixture: its delay loop (a waiting key skips the 50 ms waits)",
 }
 # [designed: owner, 2026-11-03] a key at the first poll, Enter; the watch prompt is declined (N: E80D marks the
-# fixture 0xFE and it is simulated).
+# fixture 0xFE and it is simulated); the table screens are looked at once, Enter, as Match answers them (T119c).
 DEFAULT_KEYS = {**{s: ENTER for s in READS}, **{s: ENTER for s in POLLS}, MENU_SITE + "<0791:E86E": KEY_N}
 
 
@@ -110,7 +118,11 @@ class Keys:
 
 
 class Route:
-    def __init__(self, image, keys=None, timeout_s=600):
+    def __init__(self, image, keys=None, timeout_s=600, record_writes=True):
+        """record_writes: False drops only the all-memory write listener (the record's ("w", pc, ...) entries), so
+        that a Prover can run on the machine: the listener reads the pc at stack writes, which ports make as
+        214B:0000 (port/runtime.py), and the Prover refuses that; it then checks every byte itself. The seed
+        watches, the key sites and the 6F18 stop stay; replay() refuses such a run (T119c, #647)."""
         problems = image.build_problems()
         if problems:
             raise ValueError("the image does not hold the registered GOAL.EXE: " + "; ".join(problems))
@@ -120,6 +132,7 @@ class Route:
         self.m = Machine(image.memory, image.load)
         self.keys = Keys(DEFAULT_KEYS if keys is None else keys)
         self.timeout_s = timeout_s
+        self.record_writes = bool(record_writes)
         self.record = []
         self.inputs = []
         self.matches = []
@@ -134,7 +147,8 @@ class Route:
 
     def _hooks(self):
         m, rec = self.m, self.record
-        m.on_write(0, MEM_SIZE - 1, lambda a, size, value: rec.append(("w", m.pc(), a, size, value)))
+        if self.record_writes:
+            m.on_write(0, MEM_SIZE - 1, lambda a, size, value: rec.append(("w", m.pc(), a, size, value)))
         for name, off in SEEDS.items():
             self._watch_seed(m, name, off, "route")
         m.at(KEYPRESSED, self._on_poll)
@@ -179,6 +193,9 @@ class Route:
 
     def replay(self, memory):
         """The memory `memory` (the call's start, Route.origin) with every write of the record made on it, in order."""
+        if not self.record_writes:
+            raise ValueError("replay: this Route was made with record_writes=False, so its record holds no guest "
+                             "writes")
         out = bytearray(memory)
         for e in self.record:
             if e[0] == "w":

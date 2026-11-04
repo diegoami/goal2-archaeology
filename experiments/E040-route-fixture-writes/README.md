@@ -69,3 +69,21 @@ append-only. A changed design is a new experiment, or `v2/`.
 - **Limits known before the runs**: no published state reaches a season word +0x38 of 2 or more, so no sack can
   run; none reaches the finals' kinds 0x67 or 0xCB (6685, the crowd animation's win flag) or kind 0; the cases'
   managed sides are single managers.
+
+## T119c (#647): the harness corrected for competitive fixtures
+
+Appended by T119c; the protocol above is unchanged, and the records r0001-r0012 stay as they were made.
+- **The correction**: `Match(tail=False)` (the route mode) keeps the fixture record's +1 (the round) and +3 as
+  route_fixture left them, and writes only what it writes for a friendly (`match.py` `_write_fixture`, `route=not
+  tail`); a default `Match` still writes `FE 00 kind 00 first second`. `route.DEFAULT_KEYS` names the group-table
+  reads `214B:157C<1771:9022`, `<1771:91BE` and `1771:9567`, Enter, as `Match` answers them (route.py `READS`).
+  So the first harness limit above holds for r0010 and r0011 only, which keep their expected abort; the second
+  ("default+tables") adds nothing to the default policy since.
+- **The new cases**: E040-r0013 and E040-r0014 rerun r0010's and r0011's states (E015-r0007 state 213, E015-r0009
+  state 3) with the corrected harness and the default policy, expected to complete. The check's rule 8 then holds
+  the managed qualifier (kind 2) to F039's played path: run_match once, the confidence term `6F80` and `6F86` twice
+  each (both sides, `[bp-3]` 0 then 1), the news once per managed side, `B7FA` once, and 319B's result rows by its
+  result.
+- **The check** (`check_records.py`, T119c): besides rules 1-8 on every record, the records together must hold a
+  competitive managed fixture (kind not 1) whose rows `6F80` and `6F86` were each visited twice; `--report`'s
+  coverage names those records (`confidence_both_sides`).

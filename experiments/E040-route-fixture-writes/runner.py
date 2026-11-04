@@ -75,6 +75,14 @@ CASES = [
      LIMIT_ROUND_BYTE),
     ("E040-r0012", "e014-stage3", "E014", "291d0eb3b0dcec34-e014-cal3-y1.sav",
      "E014-r0006's input (cal3-y1): stage 3, cursor 769 of 1345, country 7 managed", "default", "completed"),
+    # T119c (#647): r0010's and r0011's states again, Match(tail=False) keeping the fixture's +1 (the round) and +3
+    # and route.DEFAULT_KEYS naming the table reads (README.md, "T119c")
+    ("E040-r0013", "e015-qualifier", "E015", "53b69d3dfb964e77-snap-0213-20261011T142027Z.sav",
+     "E015-r0007 state 213: manager menu; silent friendlies 19-21, the managed qualifier 16 v 3 (fixture 22, kind 2, "
+     "round 6 in +1); T119c's harness", "default", "completed"),
+    ("E040-r0014", "e015-qualifier", "E015", "46bbf5dabaaa9553-snap-0003-20261011T195415Z.sav",
+     "E015-r0009 state 3: the same calendar position as r0013, another sitting (seed word 0); T119c's harness",
+     "default", "completed"),
 ]
 
 # Far pointers to the records the writes are sorted into, with their allocated sizes (globals.tsv, F007, F011, F023;
@@ -236,8 +244,9 @@ class Observer:
 
 # 6970's score page for a 0xFE fixture calls show_updated_group_tables 0791:E929, whose table screen reads a key
 # through 214B:1560 from 1771:9022 or 91BE, or through 08DD at 1771:9562 (the finals' table) [confirmed: match.py
-# TABLE_READS, TABLE_KEY, where Match answers Enter: "the competition's table, looked at: one pass"]. route.py's
-# DEFAULT_KEYS does not name these sites; the cases that reach them answer them as Match does (README.md).
+# TABLE_READS, TABLE_KEY, where Match answers Enter: "the competition's table, looked at: one pass"]. T119b's
+# route.py DEFAULT_KEYS did not name these sites, so its cases that reach them answer them as Match does (README.md);
+# since T119c (#647) DEFAULT_KEYS names them, Enter, and "default+tables" adds nothing to it.
 TABLE_SITES = ("214B:157C<1771:9022", "214B:157C<1771:91BE", "1771:9567")
 
 
@@ -526,7 +535,7 @@ def run_case(case, model):
             {"level": "I1", "what": "every write, RNG step and key visit recorded by the route harness (T119a), and code "
                                     "hooks at the scoped routines' leaders, store and call sites and return addresses"},
             {"level": "I3", "what": "the key policy route.DEFAULT_KEYS (a key at the first poll, Enter; N at the watch "
-                                    "prompt)" + (", and Enter at the group-table reads " + ", ".join(TABLE_SITES) +
+                                    "prompt; Enter at the group-table reads, T119c)" + (", and Enter at the group-table reads " + ", ".join(TABLE_SITES) +
                                                  " (as Match answers them)" if case[5] == "default+tables" else "") +
                                     "; the managed match played by Match(tail=False) and written back"}],
         "start_state": {"id": asset, "sha256": actual,

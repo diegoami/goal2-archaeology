@@ -250,7 +250,8 @@ def check_record(rec, rows, model, tabs):
                     p.append(f"{tag}: B7FA called {c[UPDATE]} times")
             s = 1 if managed[1] else 0
             result = "win" if a[3] == s else "draw" if a[3] == 2 else "loss"
-            entry.update(result=result, goals=[a[0], a[1]], side=s, confidence=c[CONFIDENCE[0]])
+            entry.update(result=result, goals=[a[0], a[1]], side=s, confidence=c[CONFIDENCE[0]],
+                         confidence_rows={x: c[x] for x in CONFIDENCE})
             cov["managed"] = entry
             p += check_headline(rid, tag, result, a, rows, visits)
             if leaders.get(SACK_ENTRY, 0) and not (obs["head"]["season_word_38"] >= 2 and kind != 1):
@@ -326,13 +327,23 @@ def check_all(report=False):
         "rows_not_visited": {name: sorted(r["site"] for r in t["rows"] if r["site"] not in visited)
                              for name, t in tabs.items()},
     }
+    # T119c (#647): the records must hold a competitive managed fixture whose confidence rows ran for both sides,
+    # twice each: route_fixture's loop 6F3B-6F8F calls B71C and B6CC once per side [bp-3] = 0, 1 (F039)
+    competitive = [x["run"] for x in summary["managed"]
+                   if x["kind"] != 1 and all(n == 2 for n in x.get("confidence_rows", {}).values())
+                   and set(x.get("confidence_rows", {})) == set(CONFIDENCE)]
+    summary["confidence_both_sides"] = competitive
+    if not competitive:
+        problems.append("no record holds a competitive managed fixture with the confidence rows 6F80, 6F86 visited "
+                        "for both sides")
     for line in problems:
         print(line)
     m = summary["managed"]
     print(f"E040: {summary['records']} records; managed {[(x['run'], x['kind'], x['result']) for x in m]}; "
           f"silent fixtures {summary['silent_fixtures']} ({summary['silent_fe']} with 0xFE); watch prompts "
           f"{summary['watch_prompts']}; crowd animation calls {summary['crowd_animation_calls']}; sack "
-          f"{summary['sack']}; 6685 {summary['6685']}; unplayed {summary['unplayed']}")
+          f"{summary['sack']}; 6685 {summary['6685']}; unplayed {summary['unplayed']}; confidence term (6F80, 6F86, "
+          f"both sides) in {competitive}")
     print("rows visited: " + "; ".join(f"{n} {v['visited']}/{v['rows']}" for n, v in by_table.items()))
     if report:
         E.OUT.mkdir(parents=True, exist_ok=True)
