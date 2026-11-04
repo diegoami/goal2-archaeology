@@ -9,7 +9,8 @@ the builders' shared helpers 5D02, 5D94, 5E3A, 5E99, 6617, each proved against t
   callers, with a Prover on the machine: every call is proved (the port and the original write the same bytes in the
   same order and return the same AX, DX, SP, BP), including stage_end's paths (a round left: only the rounds byte;
   stage 3 to 4: no ageing, two rounds; stage 7 to 8: four rounds; stage 8 wrapping to 2: yearly_ageing 80DA runs) and
-  run_stage at every stage byte 0..9 (each builder, run as the original's, with the helpers nested in the proof).
+  run_stage at every stage byte 0..9 (each builder, run as the original's, with the helpers nested in the proof:
+  display's 5C94 and 5CCB inside 6E59, 71B2 and 74BE).
   The stage and rounds bytes are set on the state for these calls [designed: T124a]: synthetic inputs of the
   routines, not states the game reaches (the round's ends the published states reach are proved in the route
   harness: experiments/E040-route-fixture-writes/out/T124a/prove.py, tests/test_route_harness.py RoundEndTests).
@@ -155,6 +156,7 @@ class DirectProofTests(_Calls):
         self.assertEqual(len(aged), 1)                    # the port's run's visit (the original's is replayed)
 
     def test_run_stage_dispatches_every_stage_byte(self):
+        nested = {}
         for stage in range(10):
             with self.subTest(stage=stage):
                 ran = set()
@@ -162,13 +164,20 @@ class DirectProofTests(_Calls):
                 def hooks(m):
                     for b, _ in ST.BUILDERS.values():
                         m.at(b, lambda replay, b=b: replay or ran.add(b))
-                m, p = self.call("1771:76B1", game={0x3C: stage}, before=hooks)
+                m, p = self.call("1771:76B1", specs=("stages", (ST.display_helpers(), None)),
+                                 game={0x3C: stage}, before=hooks)
                 s = self.proved(p, "1771:76B1")
                 self.assertEqual(ran, {ST.BUILDERS[stage][0]} if stage in ST.BUILDERS else set())
-                for helper in ("1771:5D02", "1771:5D94", "1771:5E3A", "1771:5E99", "1771:6617"):
+                for helper in ("1771:5D02", "1771:5D94", "1771:5E3A", "1771:5E99", "1771:6617",
+                               *ST.HELPERS_FROM_DISPLAY):
                     self.assertEqual(s[helper]["proved"], 0)              # inside 76B1's proof: nested
                 if stage in ST.BUILDERS:
                     self.assertGreater(s["1771:5D94"]["nested"], 0)
+                nested[stage] = {a: v["nested"] for a, v in s.items() if v["nested"]}
+        # 5C94 and 5CCB, which the published round's end does not reach, are nested in 6E59's, 71B2's and 74BE's
+        for stage, helpers in ((4, ST.HELPERS_FROM_DISPLAY), (7, ("1771:5C94",)), (8, ST.HELPERS_FROM_DISPLAY)):
+            for helper in helpers:
+                self.assertGreater(nested[stage].get(helper, 0), 0, (stage, helper))
 
     def test_the_helpers_on_their_own(self):
         cases = [("1771:5D94", (7, 27, 2, 3)), ("1771:5D94", (12, 27, 1, 0)), ("1771:5E3A", (12, 27, 3, 2, 27)),
