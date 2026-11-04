@@ -269,3 +269,19 @@ class ExactProof(Case):
         result = self.prove('news-cb', variant='route.news-second-draw-dropped')
         self.assertEqual(result['status'], 'differs')
         self.assertIn('000E:6CA7', result['error'])
+
+
+class PlayedEntryProof(unittest.TestCase):
+    runner = ExactProof.runner
+    prove = ExactProof.prove
+
+    def test_translated_caller_hands_over_the_real_frame_and_returns_to_its_segment(self):
+        # The site reads every register and the complete memory image. Prover
+        # compares those reads and replays all returned writes/registers: a
+        # fabricated call frame, scratch flags or wrong return CS cannot pass.
+        result = self.prove('E040-r0010')
+        self.assertEqual(result['status'], 'completed', result['error'])
+        self.assertEqual(result['proof']['000E:6CA7']['proved'], 1)
+        self.assertTrue(result['every_call_proved_or_nested'])
+        self.assertEqual(len(result['matches']), 1)
+        self.assertTrue(result['returned'])

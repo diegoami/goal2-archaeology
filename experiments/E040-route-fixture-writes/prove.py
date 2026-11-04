@@ -109,7 +109,7 @@ def port_specs(ports, variant):
 
 
 def without_6970(loaded):
-    """The same ports, silent's 000E:6970 left out (a copy of its registry)."""
+    """Copy the registries without outer 6970/6CA7/6685, so their callees prove individually."""
     from original_match.port import Registry
     out = []
     for reg, variant in loaded:
@@ -314,13 +314,16 @@ def main(argv=None):
             raise SystemExit(f"{out} exists: never overwritten")
         import unicorn
         record = {
-            "schema": "e040-t120-prove/1", "task": "T120", "experiment": "E040",
+            "schema": "e040-t121-prove/1" if "route" in names else "e040-t120-prove/1",
+            "task": "T121" if "route" in names else "T120", "experiment": "E040",
             "command": "python3 -B experiments/E040-route-fixture-writes/prove.py " + " ".join(argv or sys.argv[1:]),
             "code_commit": commit, "ports": port.spec_names(loaded), "variant": a.variant,
             "runtime": {"unicorn": unicorn.__version__, "python": platform.python_version(),
                         "route.py": sha256_file(ROOT / "runtime/original_match/route.py"),
                         "silent.py": sha256_file(ROOT / "runtime/original_match/port/silent.py"),
-                        "prove.py": sha256_file(Path(__file__))},
+                        "prove.py": sha256_file(Path(__file__)),
+                        "port_modules": {reg.name: sha256_file(ROOT / "runtime/original_match/port" / (reg.name + ".py"))
+                                         for reg, _ in loaded}},
             "states": {k: {"sha256": v, "verified_against": "its evidence manifest (runner.expected)"}
                        for k, v in states.items()},
             "edits_declared": {name: {"case": run_id, "fixture": index, "kind_from": old, "kind_to": 203 if name == "news-cb" else 3 if name == "finals-3" else 0, "what": what}
