@@ -370,6 +370,7 @@ class Route:
             self._write("match", a, after[a:b])
         for r, v in regs.items():
             m.set_reg(r, v)
+        m.set_reg("cs", m.seg(int(rseg, 16)))
         m.set_reg("eip", int(roff, 16))
         m.set_reg("sp", after_sp & 0xFFFF)
         self.record.append(("resume", RUN_MATCH_RETURN, after_sp & 0xFFFF))

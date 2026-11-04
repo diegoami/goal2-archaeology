@@ -58,6 +58,8 @@ SCORE_PAGE, RESULTS = "000E:6A89", "000E:6B89"      # 6970's key read after the 
 EDITS = {
     "bb2f": ("E040-r0004", 3, 1, "fixture 3 (the managed friendly 7 v 27, first byte 0xFE) kind byte +2 := 0 "
                                  "(from 1): route_fixture calls 0791:BB2F for it at 6EF9"),
+    "news-cb": ("E040-r0004", 1, 1, "T121 synthetic: fixture 1 kind 1 -> 203 (competition news); count := 2, so only this fixture runs"),
+    "finals-3": ("E040-r0010", 22, 2, "T121 synthetic: managed fixture 22 kind 2 -> 3 (finals mark)"),
     "silent-kind-0": ("E040-r0004", 1, 1, "fixture 1 (18 v 10, the next silent fixture, first byte 0xFF) kind byte "
                                           "+2 := 0 (from 1): the Done-when's input; route_fixture sends it to 6970 "
                                           "(6DAE-7014), not BB2F"),
@@ -148,8 +150,14 @@ def run_pass(image_bytes, case, loaded, label):
         a = image.far(0xA92B) + 8 * (index - 1) + 2
         if image.memory[a] != old:
             raise SystemExit(f"{name}: fixture {index}'s kind byte is {image.memory[a]}, not {old}")
-        image.memory[a] = 0
-        inputs.append({"what": why, "linear": a, "old": f"{old:02x}", "new": "00"})
+        new = 203 if name == "news-cb" else 3 if name == "finals-3" else 0
+        image.memory[a] = new
+        inputs.append({"what": why, "linear": a, "old": f"{old:02x}", "new": f"{new:02x}"})
+        if name == "news-cb":
+            count = image.far(0xA923) + 0x28
+            before = bytes(image.memory[count:count + 2])
+            image.memory[count:count + 2] = (2).to_bytes(2, "little")
+            inputs.append({"what": "T121 synthetic calendar end after fixture 1", "linear": count, "old": before.hex(), "new": "0200"})
     ahead = fixtures_ahead(image)
     case_by_id = next(c for c in runner.CASES if c[0] == run_id)
     r = R.Route(image, keys=runner.policy(case_by_id), record_writes=False,
@@ -205,6 +213,8 @@ def verdict(passes, loaded):
         if p["status"] != "completed":
             problems.append(f"{tag}: {p['status']}: {p['error']}")
             continue
+        if "route" in names and p["pass"] == "four" and p["proof"].get("000E:6CA7", {}).get("proved") != 1:
+            problems.append(f"{tag}: outer 6CA7 proof did not finish exactly once")
         if not p["every_call_proved_or_nested"]:
             problems.append(f"{tag}: a call neither proved nor nested: {p['calls']} {p['proof']}")
         if p["before_armed"]:
@@ -212,7 +222,7 @@ def verdict(passes, loaded):
         if "silent" not in names:
             continue
         bb2f = p["calls"].get("0791:BB2F", 0)
-        if (p["case"] == "bb2f") != (bb2f > 0):
+        if p["case"] not in ("news-cb", "finals-3") and (p["case"] == "bb2f") != (bb2f > 0):
             problems.append(f"{tag}: BB2F called {bb2f} times")
         if not p["inputs"] and any(f["kind"] == 0 for f in p["fixtures_ahead"]):
             problems.append(f"{tag}: a published state with a kind-0 fixture ahead: {p['fixtures_ahead']}")
@@ -312,7 +322,7 @@ def main(argv=None):
                         "prove.py": sha256_file(Path(__file__))},
             "states": {k: {"sha256": v, "verified_against": "its evidence manifest (runner.expected)"}
                        for k, v in states.items()},
-            "edits_declared": {name: {"case": run_id, "fixture": index, "kind_from": old, "kind_to": 0, "what": what}
+            "edits_declared": {name: {"case": run_id, "fixture": index, "kind_from": old, "kind_to": 203 if name == "news-cb" else 3 if name == "finals-3" else 0, "what": what}
                                for name, (run_id, index, old, what) in EDITS.items()},
             "bb2f_in_published_states": "none: no published case calls 0791:BB2F (calls per pass below), and no "
                                         "fixture from a published state's cursor to its managed one has kind 0 "

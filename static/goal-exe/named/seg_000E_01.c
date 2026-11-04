@@ -139,9 +139,10 @@ void unmanage_country(int param_1)
 }
 
 
-// ---- 000E:038E  f_000E_038E  (f_000E_038E; Ghidra 1000:038E, __cdecl16near; found by routines.tsv)
+// ---- 000E:038E  news_background  (f_000E_038E; Ghidra 1000:038E, __cdecl16near; found by routines.tsv)
+// unpacks DS:4ED8, 5796 and 14A6 into the back buffer [A96E], in that order; T121 port/route.py  [likely; read code/seg_000E_01.asm]
 
-void __cdecl16near f_000E_038E(void)
+void __cdecl16near news_background(void)
 
 {
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x4ed8,0xb000);
@@ -278,7 +279,7 @@ void news_celebration(int param_1)
 
 
 // ---- 000E:05F6  news_key_wait  (f_000E_05F6; Ghidra 1000:05F6, __stdcall16near; found by routines.tsv)
-// the news pages' key wait (f1, f2, f3): copies [A96E] to [A96A] (4000 bytes); when any flag is nonzero calls news_celebration 000E:0572; then reads a key (214B:08DD); ret 6  [likely; F039; read code/seg_000E_01.asm]
+// T121 (port/route.py): the news pages' key wait (f1, f2, f3): copies [A96E] to [A96A] (4000 bytes); when any flag is nonzero calls news_celebration 000E:0572; then reads a key (214B:08DD); ret 6  [likely; F039; read code/seg_000E_01.asm]
 
 void news_key_wait(char param_1,char param_2,char param_3)
 
@@ -293,9 +294,10 @@ void news_key_wait(char param_1,char param_2,char param_3)
 }
 
 
-// ---- 000E:062F  f_000E_062F  (f_000E_062F; Ghidra 1000:062F, __stdcall16near; found by routines.tsv)
+// ---- 000E:062F  news_left_column  (f_000E_062F; Ghidra 1000:062F, __stdcall16near; found by routines.tsv)
+// copies three strings to 20-character frame locals; centres each nonempty line to 18 characters with 03C4, uppercases it and draws at column 5, rows 11-13; the first line always draws and sets attribute 0x70; T121 port/route.py  [likely; read code/seg_000E_01.asm]
 
-void f_000E_062F(undefined4 param_1,undefined4 param_2,undefined4 param_3)
+void news_left_column(undefined4 param_1,undefined4 param_2,undefined4 param_3)
 
 {
   undefined1 extraout_AH;
@@ -352,9 +354,10 @@ void f_000E_062F(undefined4 param_1,undefined4 param_2,undefined4 param_3)
 }
 
 
-// ---- 000E:070B  f_000E_070B  (f_000E_070B; Ghidra 1000:070B, __stdcall16near; found by routines.tsv)
+// ---- 000E:070B  news_heading  (f_000E_070B; Ghidra 1000:070B, __stdcall16near; found by routines.tsv)
+// copies a string to a 20-character local, centres it to 20 with 03C4, uppercases it and draws at row argument plus 8, column 31, attribute 0x17; T121 port/route.py  [likely; read code/seg_000E_01.asm]
 
-void f_000E_070B(undefined4 param_1,int param_2)
+void news_heading(undefined4 param_1,int param_2)
 
 {
   undefined1 extraout_AH;
@@ -381,9 +384,10 @@ void f_000E_070B(undefined4 param_1,int param_2)
 }
 
 
-// ---- 000E:075F  f_000E_075F  (f_000E_075F; Ghidra 1000:075F, __stdcall16near; found by routines.tsv)
+// ---- 000E:075F  news_right_column  (f_000E_075F; Ghidra 1000:075F, __stdcall16near; found by routines.tsv)
+// copies three strings to 20-character frame locals; centres each nonempty line to 18 characters with 03C4, uppercases it and draws at column 59, rows 11-13; the first line always draws and sets attribute 0x20; T121 port/route.py  [likely; read code/seg_000E_01.asm]
 
-void f_000E_075F(undefined4 param_1,undefined4 param_2,undefined4 param_3)
+void news_right_column(undefined4 param_1,undefined4 param_2,undefined4 param_3)
 
 {
   undefined1 extraout_AH;
@@ -454,17 +458,17 @@ void f_000E_0868(undefined4 param_1,undefined4 param_2,int param_3)
   sys_str_store_max_0644(0x14,local_2c,unaff_SS,(int)param_1,(int)((ulong)param_1 >> 0x10));
   iVar1 = u214b_random_1_to_n(3);
   if (iVar1 == 1) {
-    f_000E_070B(0x83b,0x7000,param_3);
+    news_heading(0x83b,0x7000,param_3);
   }
   else if (iVar1 == 2) {
-    f_000E_070B(0x84b,0x7000,param_3);
+    news_heading(0x84b,0x7000,param_3);
   }
   else if (iVar1 == 3) {
-    f_000E_070B(0x858,0x7000,param_3);
+    news_heading(0x858,0x7000,param_3);
   }
-  f_000E_070B(local_17,unaff_SS,param_3 + 1);
+  news_heading(local_17,unaff_SS,param_3 + 1);
   if (local_2c[0] != '\0') {
-    f_000E_070B(local_2c,unaff_SS,param_3 + 2);
+    news_heading(local_2c,unaff_SS,param_3 + 2);
   }
   return;
 }
@@ -650,7 +654,7 @@ void f_000E_0C3A(int param_1)
     uVar4 = 0xc07;
     puVar3 = local_102;
     f_000E_094A(*(undefined2 *)(param_1 + 4),puVar3);
-    f_000E_062F(0xc0e,0x7000,puVar3,unaff_SS,uVar4,uVar5);
+    news_left_column(0xc0e,0x7000,puVar3,unaff_SS,uVar4,uVar5);
   }
   else if (iVar1 == 2) {
     uVar6 = 0x7000;
@@ -661,14 +665,14 @@ void f_000E_0C3A(int param_1)
     puVar2 = local_102;
     f_000E_094A(*(undefined2 *)(param_1 + 4),puVar2);
     sys_str_concat_06B7(puVar2,unaff_SS);
-    f_000E_062F(0xc2c,0xa000,puVar3,uVar4,uVar5,uVar6);
+    news_left_column(0xc2c,0xa000,puVar3,uVar4,uVar5,uVar6);
   }
   else if (iVar1 == 3) {
     uVar5 = 0x7000;
     uVar4 = 0xc2d;
     puVar3 = local_102;
     f_000E_094A(*(undefined2 *)(param_1 + 4),puVar3);
-    f_000E_062F(0xc2c,0x7000,puVar3,unaff_SS,uVar4,uVar5);
+    news_left_column(0xc2c,0x7000,puVar3,unaff_SS,uVar4,uVar5);
   }
   return;
 }

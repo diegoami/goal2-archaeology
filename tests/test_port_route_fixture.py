@@ -208,3 +208,64 @@ class Watch(Case):
             self.assertEqual(value, result)
             self.assertEqual(len(r.args("214B:1560")), len(keys))
             self.assertEqual(r.mem.memory[FX], 0xFF if result else 0xFE)
+
+
+class ExactProof(Case):
+    """Short original-backed proofs: no match simulation, no substituted original mechanism."""
+    def runner(self):
+        import importlib.util
+        root = Path(__file__).resolve().parents[1]
+        file = root / 'experiments/E040-route-fixture-writes/prove.py'
+        spec = importlib.util.spec_from_file_location('t121_prove', file)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    def prove(self, name, variant=None, inner=False, leaves=False):
+        try:
+            import unicorn
+        except ImportError:
+            self.skipTest('unicorn missing')
+        runner = self.runner()
+        case = next(c for c in runner.cases() if c[0] == name)
+        state = runner.DL / case[2]
+        if not state.is_file():
+            self.skipTest('published E040 state missing; runner.py --fetch')
+        self.assertEqual(runner.sha256_file(state), runner.runner.expected(case[2]))
+        loaded = runner.port_specs('route,silent', variant)
+        if inner:
+            loaded = runner.without_6970(loaded)
+        if leaves:
+            narrowed = []
+            for reg, variant in loaded:
+                copy = port.Registry(reg.name, reg.doc)
+                copy.variants = dict(reg.variants)
+                copy.entries = {a: e for a, e in reg.entries.items() if a != '000E:6C21'}
+                narrowed.append((copy, variant))
+            loaded = narrowed
+        return runner.run_pass(state.read_bytes(), case, loaded, 'inner' if inner else 'four')
+
+    def test_the_outer_router_proof_finishes_before_the_harness_returns(self):
+        result = self.prove('bb2f')
+        self.assertEqual(result['status'], 'completed', result['error'])
+        self.assertEqual(result['proof']['000E:6CA7']['proved'], 1)
+        self.assertTrue(result['every_call_proved_or_nested'])
+        self.assertEqual(result['before_armed'], 0)
+
+    def test_news_and_watch_calls_prove_on_their_own(self):
+        result = self.prove('news-cb', inner=True)
+        self.assertEqual(result['status'], 'completed', result['error'])
+        for routine in ('000E:6C21', '0791:E80D', '000E:038E', '000E:05F6',
+                        '000E:062F', '000E:070B', '000E:075F', '000E:5978'):
+            if routine == '0791:E80D':
+                leaf = self.prove('news-cb', inner=True, leaves=True)
+                self.assertEqual(leaf['status'], 'completed', leaf['error'])
+                self.assertGreater(leaf['proof'][routine]['proved'], 0, routine)
+            else:
+                self.assertGreater(result['proof'][routine]['proved'], 0, routine)
+        self.assertTrue(result['every_call_proved_or_nested'])
+
+    def test_the_changed_second_news_draw_is_caught(self):
+        result = self.prove('news-cb', variant='route.news-second-draw-dropped')
+        self.assertEqual(result['status'], 'differs')
+        self.assertIn('000E:6CA7', result['error'])

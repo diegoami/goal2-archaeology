@@ -19,7 +19,7 @@ from .silent import save_ptr, country_of, _ds_far, _fixture_at_cursor
 PORTS = Registry("route", "route_fixture 6CA7, gate 6C21, watch E80D, competition news 6685 and helpers (T121)")
 PORTS.variant("finals-mark-dropped", "6E75: the kinds 3/7 finals mark stored as zero")
 PORTS.variant("confidence-managed-only", "6F44: wrongly omit confidence for the unmanaged side")
-PORTS.variant("news-draw-2", "6805: the second news draw uses 2 instead of 3")
+PORTS.variant("news-second-draw-dropped", "6809: omit the second mandatory news draw")
 M16 = 0xFFFF
 
 
@@ -567,8 +567,9 @@ def news_competition_result(mem, variant):
     phrase = r.di
     r.di = 0x6658
     r = yield from near(mem, r, 0x062F, mem.DS, phrase, r.ss, winner, mem.seg(0xE), r.di, ret=0x6805)
-    r.ax = 2 if variant == "news-draw-2" else 3
-    r = yield from far(mem, r, "214B:06B1", r.ax, ret=0x680E)
+    r.ax = 3
+    if variant != "news-second-draw-dropped":
+        r = yield from far(mem, r, "214B:06B1", r.ax, ret=0x680E)
     if r.ax == 1:
         r.di = 0x6663
         r = yield from near(mem, r, 0x075F, r.ss, loser, mem.seg(0xE), 0x6659, mem.seg(0xE), r.di, ret=0x6825)

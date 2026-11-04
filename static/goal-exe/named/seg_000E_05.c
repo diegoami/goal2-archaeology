@@ -43,7 +43,7 @@ void __stdcall16far announce_stage_to_manager(int param_1)
   local_31 = (country *)countries + param_1;
   local_19 = (uint)*(byte *)(local_2d + 1);
   *(char *)(local_2d + 1) = local_31->manager + 0x80;
-  f_000E_038E();
+  news_background();
   if (*(char *)(local_2d + 0x40) == '\0') {
     local_21 = *(int *)(local_2d + (uint)local_31->continent * 2 + 0x2c);
   }
@@ -52,7 +52,7 @@ void __stdcall16far announce_stage_to_manager(int param_1)
   }
   local_23 = (uint)*(byte *)(local_2d + *(char *)(local_2d + 0x40) * 6 +
                              (uint)*(byte *)(local_2d + 1) + 7);
-  f_000E_070B((int)DS:9B68 + param_1 * 0x10,(int)((ulong)DS:9B68 >> 0x10),1);
+  news_heading((int)DS:9B68 + param_1 * 0x10,(int)((ulong)DS:9B68 >> 0x10),1);
   if (*(char *)(local_2d + (uint)*(byte *)(local_2d + 1) + 1) == '\0') {
     news_failed_to_qualify(&stack0xfffe);
   }
@@ -86,16 +86,16 @@ void __stdcall16far announce_stage_to_manager(int param_1)
     if ((cVar1 == '\0') || (local_21 != param_1)) {
       cVar1 = stage_uses_finals_table();
       if (cVar1 == '\0') {
-        f_000E_070B(0x5fe9,0x4000,1);
-        f_000E_070B(0x601a,0x4000,2);
+        news_heading(0x5fe9,0x4000,1);
+        news_heading(0x601a,0x4000,2);
         local_1b = 3;
       }
       else {
-        f_000E_070B(0x5ffe,0x4000,2);
-        f_000E_070B(0x600c,0x4000,3);
+        news_heading(0x5ffe,0x4000,2);
+        news_heading(0x600c,0x4000,3);
         local_1b = 4;
       }
-      f_000E_5978(param_1,local_1b);
+      news_championship_heading(param_1,local_1b);
       cVar1 = stage_uses_finals_table();
       if (cVar1 != '\0') {
         iVar2 = (local_1b + 2) - (uint)*(byte *)(local_2d + 0x40);
@@ -104,13 +104,13 @@ void __stdcall16far announce_stage_to_manager(int param_1)
         sys_str_store_062A(0x602d,0x4000);
         sys_str_concat_06B7((int)DS:9B68 + local_21 * 0x10,(int)((ulong)DS:9B68 >> 0x10)
                            );
-        f_000E_070B(puVar9,uVar6,iVar2);
+        news_heading(puVar9,uVar6,iVar2);
       }
     }
     else {
-      f_000E_070B(0x5fde,0x4000,2);
-      f_000E_5978(param_1,3);
-      f_000E_070B(0x5fe9,0x4000,8);
+      news_heading(0x5fde,0x4000,2);
+      news_championship_heading(param_1,3);
+      news_heading(0x5fe9,0x4000,8);
     }
     cVar1 = u214b_random_coin_flip();
     if (cVar1 == '\0') {
@@ -125,28 +125,28 @@ void __stdcall16far announce_stage_to_manager(int param_1)
     sys_str_store_062A((int)DS:9B68 + param_1 * 0x10,(int)((ulong)DS:9B68 >> 0x10));
     sys_str_concat_06B7(0x603b,0xa000);
     sys_str_concat_06B7(local_17,unaff_SS);
-    f_000E_070B(puVar9,uVar6,uVar11);
+    news_heading(puVar9,uVar6,uVar11);
     uVar11 = 10;
     puVar9 = local_131;
     uVar6 = unaff_SS;
     sys_str_store_062A((int)DS:9B68 + aiStack_2b[1] * 0x10,(int)((ulong)DS:9B68 >> 0x10)
                       );
     sys_str_concat_06B7(0x603d,0xa000);
-    f_000E_070B(puVar9,uVar6,uVar11);
+    news_heading(puVar9,uVar6,uVar11);
     uVar11 = 0xb;
     puVar9 = local_131;
     uVar6 = unaff_SS;
     sys_str_store_062A((int)DS:9B68 + aiStack_2b[2] * 0x10,(int)((ulong)DS:9B68 >> 0x10)
                       );
     sys_str_concat_06B7(0x603d,0xa000);
-    f_000E_070B(puVar9,uVar6,uVar11);
+    news_heading(puVar9,uVar6,uVar11);
     uVar11 = 0xc;
     puVar9 = local_131;
     uVar6 = unaff_SS;
     sys_str_store_062A(0x603f,0xa000);
     sys_str_concat_06B7((int)DS:9B68 + aiStack_2b[3] * 0x10,
                         (int)((ulong)DS:9B68 >> 0x10));
-    f_000E_070B(puVar9,uVar6,uVar11);
+    news_heading(puVar9,uVar6,uVar11);
     cVar1 = stage_uses_finals_table();
     if ((cVar1 == '\0') || (local_21 != param_1)) {
       local_1b = 0;
@@ -166,15 +166,15 @@ void __stdcall16far announce_stage_to_manager(int param_1)
         uVar6 = (undefined2)((ulong)DS:9B68 >> 0x10);
         if (((int)uVar4 >> 0xf < 1) &&
            (((int)uVar4 < 0 && (int)uVar4 >> 0xf < 1 || (uVar4 <= local_1b)))) {
-          f_000E_062F(0x6053,0x4000,(int)DS:9B68 + param_1 * 0x10,uVar6,0x608f,0x4000);
+          news_left_column(0x6053,0x4000,(int)DS:9B68 + param_1 * 0x10,uVar6,0x608f,0x4000);
         }
         else {
-          f_000E_062F(0x6053,0x4000,0x607d,0x4000,(int)DS:9B68 + param_1 * 0x10,uVar6);
+          news_left_column(0x6053,0x4000,0x607d,0x4000,(int)DS:9B68 + param_1 * 0x10,uVar6);
         }
       }
       else {
-        f_000E_062F(0x6053,0x4000,0x606c,0x4000,(int)DS:9B68 + param_1 * 0x10,
-                    (int)((ulong)DS:9B68 >> 0x10));
+        news_left_column(0x6053,0x4000,0x606c,0x4000,(int)DS:9B68 + param_1 * 0x10,
+                         (int)((ulong)DS:9B68 >> 0x10));
       }
       local_1b = param_1;
       local_1f = 1;
@@ -209,16 +209,16 @@ void __stdcall16far announce_stage_to_manager(int param_1)
         puVar7 = local_231;
         sys_char_to_str_075A(*(byte *)(local_2d + (uint)*(byte *)(local_2d + 1) + 1) + 0x40);
         sys_str_concat_06B7(puVar7,unaff_SS);
-        f_000E_075F(puVar8,uVar6,puVar9,uVar11,puVar10,uVar12);
+        news_right_column(puVar8,uVar6,puVar9,uVar11,puVar10,uVar12);
       }
     }
     else {
-      f_000E_062F(0x6053,0x4000,(int)DS:9B68 + param_1 * 0x10,
-                  (int)((ulong)DS:9B68 >> 0x10),0x6044,0x4000);
+      news_left_column(0x6053,0x4000,(int)DS:9B68 + param_1 * 0x10,
+                       (int)((ulong)DS:9B68 >> 0x10),0x6044,0x4000);
       cVar1 = news_tour_line(&stack0xfffe);
       if (cVar1 == '\0') {
-        f_000E_075F(0x6062,0x4000,0x6054,0x4000,(int)DS:9B68 + param_1 * 0x10,
-                    (int)((ulong)DS:9B68 >> 0x10));
+        news_right_column(0x6062,0x4000,0x6054,0x4000,(int)DS:9B68 + param_1 * 0x10,
+                          (int)((ulong)DS:9B68 >> 0x10));
       }
     }
   }
@@ -237,7 +237,7 @@ void __stdcall16far announce_stage_to_manager(int param_1)
 
 
 // ---- 000E:6685  news_competition_result  (f_000E_6685; Ghidra 1000:6685, __stdcall16near; found by routines.tsv)
-// the news page route_fixture (000E:6CA7, at 7063) shows after a completed fixture of kind 0xCB, or 0x67 with the second side's continent managed, when no managed side played it (a silent fixture, or one played with no managed side): a heading from the 0x60-byte record [A93F] + 0x60 * (the second side's continent, or 5 when game +0x40 is nonzero) - 0x60 when its +0xE is nonzero and +0xC > 1; the winner's and loser's names from [9B68] + 16 * side (1771:5C94, 5CCB); always two draws 214B:06B1(3) on DS:7B62, the first picking the string DS:006A + 16r, the second one of three line forms; the helpers 038E, 062F, 070B, 075F and 5978; then the key wait 05F6(0, 0, 0); ret 4  [likely; F039; read code/seg_000E_08.asm]
+// T121 (port/route.py): the news page route_fixture (000E:6CA7, at 7063) shows after a completed fixture of kind 0xCB, or 0x67 with the second side's continent managed, when no managed side played it (a silent fixture, or one played with no managed side): a heading from the 0x60-byte record [A93F] + 0x60 * (the second side's continent, or 5 when game +0x40 is nonzero) - 0x60 when its +0xE is nonzero and +0xC > 1; the winner's and loser's names from [9B68] + 16 * side (1771:5C94, 5CCB); always two draws 214B:06B1(3) on DS:7B62, the first picking the string DS:006A + 16r, the second one of three line forms; the helpers 038E, 062F, 070B, 075F and 5978; then the key wait 05F6(0, 0, 0); ret 4  [likely; F039; read code/seg_000E_08.asm]
 
 void news_competition_result(undefined4 param_1)
 
@@ -267,7 +267,7 @@ void news_competition_result(undefined4 param_1)
   iVar1 = (int)param_1;
   local_2c = iVar1;
   uStack_2a = uVar4;
-  f_000E_038E();
+  news_background();
   if (*(char *)(local_28 + 0x40) == '\0') {
     local_24 = (uint)((country *)countries)[*(int *)(local_2c + 6)].continent;
   }
@@ -285,14 +285,14 @@ void news_competition_result(undefined4 param_1)
     sys_str_concat_06B7(0x6635,0xa000);
     sys_str_concat_06B7((undefined1 *)local_30 + 1,(int)((ulong)local_30 >> 0x10));
     sys_str_concat_06B7(0x6637,0xa000);
-    f_000E_070B(puVar6,uVar5,uVar7);
-    f_000E_070B(0x663b,0xa000,5);
+    news_heading(puVar6,uVar5,uVar7);
+    news_heading(0x663b,0xa000,5);
     uVar7 = 6;
     puVar6 = local_130;
     uVar5 = unaff_SS;
     u214b_number_to_string(*(undefined2 *)((undefined1 *)local_30 + 0xc),0);
     sys_str_concat_06B7(0x664b,0x7000);
-    f_000E_070B(puVar6,uVar5,uVar7);
+    news_heading(puVar6,uVar5,uVar7);
   }
   iVar3 = fixture_winner(iVar1,uVar4);
   sys_str_store_max_0644
@@ -307,21 +307,21 @@ void news_competition_result(undefined4 param_1)
   uVar5 = unaff_SS;
   sys_str_store_062A(local_12,unaff_SS);
   sys_str_concat_06B7(0x6652,0xa000);
-  f_000E_070B(puVar6,uVar5,uVar7);
+  news_heading(puVar6,uVar5,uVar7);
   uVar5 = 2;
   uVar4 = fixture_winner(iVar1,uVar4);
-  f_000E_5978(uVar4,uVar5);
+  news_championship_heading(uVar4,uVar5);
   iVar1 = u214b_random_1_to_n(3);
-  f_000E_062F(0x6658,0x7000,local_12,unaff_SS,iVar1 * 0x10 + 0x6a,0xb000);
+  news_left_column(0x6658,0x7000,local_12,unaff_SS,iVar1 * 0x10 + 0x6a,0xb000);
   uVar2 = u214b_random_1_to_n(3);
   if (uVar2 == 1) {
-    uVar2 = f_000E_075F(0x6663,0x7000,0x6659,0x7000,local_22,unaff_SS);
+    uVar2 = news_right_column(0x6663,0x7000,0x6659,0x7000,local_22,unaff_SS);
   }
   else if (uVar2 == 2) {
-    uVar2 = f_000E_075F(local_12,unaff_SS,0x666c,0x7000,local_22,unaff_SS);
+    uVar2 = news_right_column(local_12,unaff_SS,0x666c,0x7000,local_22,unaff_SS);
   }
   else if (uVar2 == 3) {
-    uVar2 = f_000E_075F(local_22,unaff_SS,0x6678,0x7000,local_12,unaff_SS);
+    uVar2 = news_right_column(local_22,unaff_SS,0x6678,0x7000,local_12,unaff_SS);
   }
   uVar2 = uVar2 >> 8;
   news_key_wait(uVar2 << 8,uVar2 << 8,uVar2 << 8);
@@ -346,10 +346,10 @@ void __stdcall16far welcome_new_manager(int param_1)
   undefined1 local_117 [256];
   undefined1 local_17 [21];
   
-  f_000E_038E();
-  f_000E_070B((int)DS:9B68 + param_1 * 0x10,(int)((ulong)DS:9B68 >> 0x10),1);
-  f_000E_070B(0x6869,0x1000,2);
-  f_000E_070B(0x6877,0x1000,3);
+  news_background();
+  news_heading((int)DS:9B68 + param_1 * 0x10,(int)((ulong)DS:9B68 >> 0x10),1);
+  news_heading(0x6869,0x1000,2);
+  news_heading(0x6877,0x1000,3);
   puVar1 = local_117;
   uVar2 = unaff_SS;
   format_manager_name(((country *)countries)[param_1].manager);
@@ -362,12 +362,12 @@ void __stdcall16far welcome_new_manager(int param_1)
   uVar2 = unaff_SS;
   sys_str_store_062A(local_17,unaff_SS);
   sys_str_concat_06B7(0x688e,0xa000);
-  f_000E_062F(puVar1,uVar2,uVar3,uVar4,uVar5,uVar6);
+  news_left_column(puVar1,uVar2,uVar3,uVar4,uVar5,uVar6);
   puVar1 = local_117;
   uVar2 = unaff_SS;
   sys_str_store_062A(0x6891,0xa000);
   sys_str_concat_06B7(local_17,unaff_SS);
-  f_000E_075F(0x68a3,0xa000,0x6896,0xa000,puVar1,uVar2);
+  news_right_column(0x68a3,0xa000,0x6896,0xa000,puVar1,uVar2);
   news_key_wait((uint)extraout_AH << 8,(uint)extraout_AH << 8,(uint)extraout_AH << 8);
   return;
 }
@@ -489,7 +489,7 @@ void simulate_fixture(int param_1)
 
 
 // ---- 000E:6C21  maybe_ask_watch_match  (f_000E_6C21; Ghidra 1000:6C21, __stdcall16near; found by routines.tsv)
-// the fixture router's gate: returns 1 without calling 0791:E80D when its flag argument is 0, else returns what E80D (ask_watch_match) returns  [established; F010]
+// T121 (port/route.py): the fixture router's gate: returns 1 without calling 0791:E80D when its flag argument is 0, else returns what E80D (ask_watch_match) returns  [established; F010]
 
 undefined2 maybe_ask_watch_match(int param_1,char param_2)
 
@@ -515,7 +515,7 @@ undefined2 maybe_ask_watch_match(int param_1,char param_2)
 
 
 // ---- 000E:6CA7  route_fixture  (f_000E_6CA7; Ghidra 1000:6CA7, __cdecl16near; found by routines.tsv)
-// routes one fixture by its first byte: 0xFE goes to the gate 000E:6C21 with flag 1 only when both teams are unmanaged (1771:0B77), and on a returned 1 to 000E:6E15, where fixture byte +2 = 0 calls 0791:BB2F and otherwise 0791:F1F6; any other first byte, or a 0 from the gate, goes to 000E:6DAE, where membership in the set at 0x695A, or in the set at 0x697A with a nonzero continent flag, can call the gate with flag 1 (and 6E15 on a 1), and otherwise the fixture goes to 000E:6970; so a fixture with a managed team and first byte 0xFE never reaches E80D or 6970; the managed-team test is only on the 0xFE path (seg_000E_09.asm:140-153), the kind-set paths call the gate with flag 1 and test no team (seg_000E_09.asm:163-171, 191-201) (F030); one call loops over the fixtures from the cursor (+0x26): it returns after a fixture it played or prepared with a managed side, or when the cursor reaches +0x28 (1771:8757 then return); on the played path kinds 3 and 7 (CS:6C87) set game +0x13+m := 1 and +0x41+m := 0 per managed side; after run_match: B71C/B6CC for both sides when a side is managed and kind is not 1, then 4E0E per managed side, then B7FA, the cursor and 8757; the 695A test has no first-byte test (6DAE)  [established; F010; F030; F039]
+// T121 (port/route.py): routes one fixture by its first byte: 0xFE goes to the gate 000E:6C21 with flag 1 only when both teams are unmanaged (1771:0B77), and on a returned 1 to 000E:6E15, where fixture byte +2 = 0 calls 0791:BB2F and otherwise 0791:F1F6; any other first byte, or a 0 from the gate, goes to 000E:6DAE, where membership in the set at 0x695A, or in the set at 0x697A with a nonzero continent flag, can call the gate with flag 1 (and 6E15 on a 1), and otherwise the fixture goes to 000E:6970; so a fixture with a managed team and first byte 0xFE never reaches E80D or 6970; the managed-team test is only on the 0xFE path (seg_000E_09.asm:140-153), the kind-set paths call the gate with flag 1 and test no team (seg_000E_09.asm:163-171, 191-201) (F030); one call loops over the fixtures from the cursor (+0x26): it returns after a fixture it played or prepared with a managed side, or when the cursor reaches +0x28 (1771:8757 then return); on the played path kinds 3 and 7 (CS:6C87) set game +0x13+m := 1 and +0x41+m := 0 per managed side; after run_match: B71C/B6CC for both sides when a side is managed and kind is not 1, then 4E0E per managed side, then B7FA, the cursor and 8757; the 695A test has no first-byte test (6DAE)  [established; F010; F030; F039]
 
 void __cdecl16near route_fixture(void)
 
