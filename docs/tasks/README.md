@@ -167,4 +167,4 @@ exists.
 - [T121](T121.md): route_fixture ported: the fixture loop, the gate, the watch prompt and the news page 6685 (#427).
 - [T122](T122.md): the post-match news ported: 4E0E, its headline and text routines, the sack, proven (#427).
 - [T123](T123.md): the sealed route: route_fixture from goal2's state and the tables, without GOAL.EXE; handover (#427).
-- [T124](T124.md): the round's end ported: the stage dispatch, the stage builders and the stage news; split per builder before dispatch (#427).
+- [T124](T124.md): the round's end ported: the stage dispatch, the stage builders and the stage news; split into T124a (harness, stage_end, dispatch, shared helpers), T124b (stages 2 and 5), T124c (3 and 4), T124d (6 to 8) and T124e (60CB, after T122) (#427).
