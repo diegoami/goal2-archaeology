@@ -12,7 +12,7 @@ from . import Registry
 from .contests import ss8, ss16, pop
 from .geometry import cbw, mul
 from .restarts import _end
-from .runtime import Regs
+from .runtime import Regs, add_flags
 from .setup import guest, farg, member, rb, rw, w8, w16
 from .silent import save_ptr, country_of, _ds_far, _fixture_at_cursor
 
@@ -192,6 +192,9 @@ def route_fixture(mem, variant):
                 r = yield from far(mem, r, "0791:BB2F", *now, ret=0x6EFE)
             else:
                 now = _fixture_at_cursor(mem, r, game)
+                # 6F12 add di,0xFFF8 is the last flag-setting instruction
+                # before the real F1F6 entry, whose handoff snapshots EFLAGS.
+                r.arith(add_flags((r.di + 8) & M16, 0xFFF8))
                 r = yield from far(mem, r, "0791:F1F6", *now, ret=0x6F1D)
                 if managed:
                     now = _fixture_at_cursor(mem, r, game)

@@ -245,6 +245,7 @@ def main(argv=None):
     ap.add_argument("--cases", help="comma-separated case names (run ids, bb2f, silent-kind-0); default: all")
     ap.add_argument("--no-record", action="store_true", help="write no record (a development run)")
     a = ap.parse_args(argv)
+    a.out = a.out.resolve()
     loaded = port_specs(a.ports, a.variant)
     from original_match import port
     dirty = git("status", "--porcelain", "--", *DIRTY_PATHS)
