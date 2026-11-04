@@ -53,7 +53,8 @@ class WriteSet(unittest.TestCase):
 
     def test_an_unported_callee_cannot_be_port_owned(self):
         t = table()
-        row = next(r for r in t["rows"] if r.get("callee") == "0791:BB2F")
+        # any callee no port registers: a fixed one (0791:BB2F) stopped falsifying when T120 ported it
+        row = next(r for r in t["rows"] if r.get("callee") and r["callee"] not in check.ported())
         row["class"] = "port-owned"
         self.assertTrue(any("not a registered port" in p for p in check.check(t)))
 

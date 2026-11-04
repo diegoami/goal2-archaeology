@@ -22,6 +22,11 @@ from original_match.port import guest  # noqa: E402
 from original_match.port.runtime import Regs  # noqa: E402
 
 RECEIPT = ROOT / "experiments/E036-match-port/out/T117/taps-before-v1.json"
+# The port modules the receipt was recorded with. Match.result() lists every installed module and each of its
+# routines' calls, zero included, so a module added later changes the digest without changing the match.
+RECEIPT_PORTS = ["attributes", "ball", "contests", "discipline", "display", "duels", "entrypoints", "frame",
+                 "geometry", "menus", "motion", "pilot", "positioning", "postmatch", "quick", "rare", "real",
+                 "restarts", "runtime", "selection", "setup", "takers", "update"]
 
 
 class Before:
@@ -221,7 +226,14 @@ class Drive(unittest.TestCase):
         digest = lambda value: hashlib.sha256(json.dumps(value, sort_keys=True, default=repr).encode()).hexdigest()
         self.assertEqual(len(events), before["events"])
         self.assertEqual(digest(events), before["events_sha256"])
-        self.assertEqual(digest(m.result()), before["result_sha256"])
+        result = m.result()
+        from original_match import port
+        added = [name for name in result["ports"]["names"] if name not in RECEIPT_PORTS]
+        for reg, _ in port.load(added):                    # a later module makes no call in this drive
+            for address in reg.entries:
+                self.assertEqual(result["ports"]["calls"].pop(address), 0, f"{reg.name} {address}")
+        result["ports"]["names"] = [name for name in result["ports"]["names"] if name in RECEIPT_PORTS]
+        self.assertEqual(digest(result), before["result_sha256"])
         self.assertEqual(hashlib.sha256(m.m.read(0, 0x110000)).hexdigest(), before["memory_sha256"])
 
 

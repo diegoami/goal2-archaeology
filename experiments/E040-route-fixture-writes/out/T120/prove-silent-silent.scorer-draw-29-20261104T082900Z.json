@@ -1,0 +1,373 @@
+{
+ "schema": "e040-t120-prove/1",
+ "task": "T120",
+ "experiment": "E040",
+ "command": "python3 -B experiments/E040-route-fixture-writes/prove.py --ports silent --variant silent.scorer-draw-29",
+ "code_commit": "e7d9662f4df7b2e04320f7eddb86749a5b18066a",
+ "ports": [
+  "silent.scorer-draw-29"
+ ],
+ "variant": "silent.scorer-draw-29",
+ "runtime": {
+  "unicorn": "2.1.4",
+  "python": "3.14.4",
+  "route.py": "5d85a655bcdb960827beaadb0f1b8ba1d908823fdc4794c8ff38f02f10e7f15c",
+  "silent.py": "8eb759b7290d343019ad3eda863b75a6ccdf0486bc9d99567fd4ff4ab9e0a996",
+  "prove.py": "4d5c0bb2097584f7ed848c48c71ac1f4672482ddc21378d4c09ab997adab572d"
+ },
+ "states": {
+  "e0afff6751747233-e006-1000-r0001.sav": {
+   "sha256": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d",
+   "verified_against": "its evidence manifest (runner.expected)"
+  },
+  "e548627d333fb1b8-e006-1001-r0002.sav": {
+   "sha256": "e548627d333fb1b8c6096bea30dedb94c80cb8ce9c9326a47555a07a1925dda9",
+   "verified_against": "its evidence manifest (runner.expected)"
+  },
+  "cb78606bc5c54674-e006-1002-r0003.sav": {
+   "sha256": "cb78606bc5c54674e898571e623dad8006969ad343508140175d9a552c6eabd3",
+   "verified_against": "its evidence manifest (runner.expected)"
+  }
+ },
+ "edits_declared": {
+  "bb2f": {
+   "case": "E040-r0004",
+   "fixture": 3,
+   "kind_from": 1,
+   "kind_to": 0,
+   "what": "fixture 3 (the managed friendly 7 v 27, first byte 0xFE) kind byte +2 := 0 (from 1): route_fixture calls 0791:BB2F for it at 6EF9"
+  },
+  "silent-kind-0": {
+   "case": "E040-r0004",
+   "fixture": 1,
+   "kind_from": 1,
+   "kind_to": 0,
+   "what": "fixture 1 (18 v 10, the next silent fixture, first byte 0xFF) kind byte +2 := 0 (from 1): the Done-when's input; route_fixture sends it to 6970 (6DAE-7014), not BB2F"
+  }
+ },
+ "bb2f_in_published_states": null,
+ "passes": [
+  {
+   "case": "E040-r0001",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      27,
+      7
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent.scorer-draw-29"
+   ],
+   "calls": {
+    "000E:6970": 0,
+    "0791:B602": 0,
+    "0791:BB2F": 0,
+    "0791:D47E": 0
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {},
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 0
+   },
+   "key_visits": {
+    "000E:0629": 1
+   },
+   "matches": [
+    {
+     "fixture": 1,
+     "first": 27,
+     "second": 7,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      2,
+      0
+     ],
+     "winner": 0
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 30.8
+  },
+  {
+   "case": "E040-r0002",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      9,
+      7
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent.scorer-draw-29"
+   ],
+   "calls": {
+    "000E:6970": 0,
+    "0791:B602": 0,
+    "0791:BB2F": 0,
+    "0791:D47E": 0
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {},
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 0
+   },
+   "key_visits": {
+    "000E:0629": 1
+   },
+   "matches": [
+    {
+     "fixture": 1,
+     "first": 9,
+     "second": 7,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      2,
+      0
+     ],
+     "winner": 0
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 33.8
+  },
+  {
+   "case": "E040-r0003",
+   "pass": "four",
+   "status": "differs",
+   "error": "000E:6970 (silent), call #2 from 000E:7017: written byte #2137 differs: the original wrote 0x01 at linear 0x4EE73, the port wrote 0x01 at linear 0x4EE5F",
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      9,
+      30
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      6,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      21,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 4,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      1,
+      18
+     ],
+     "managed": false
+    },
+    {
+     "index": 5,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      30,
+      18
+     ],
+     "managed": false
+    },
+    {
+     "index": 6,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      5,
+      15
+     ],
+     "managed": false
+    },
+    {
+     "index": 7,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      12,
+      22
+     ],
+     "managed": false
+    },
+    {
+     "index": 8,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      31,
+      7
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent.scorer-draw-29"
+   ],
+   "calls": {
+    "000E:6970": 2,
+    "0791:B602": 2,
+    "0791:BB2F": 0,
+    "0791:D47E": 2
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 1
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": false,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 2
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 2
+   },
+   "key_visits": {
+    "000E:6B89": 2,
+    "000E:6B92": 2,
+    "000E:6BF7": 4
+   },
+   "matches": [],
+   "returned": false,
+   "elapsed_s": 3.2
+  }
+ ],
+ "caught": {
+  "case": "E040-r0003",
+  "error": "000E:6970 (silent), call #2 from 000E:7017: written byte #2137 differs: the original wrote 0x01 at linear 0x4EE73, the port wrote 0x01 at linear 0x4EE5F"
+ },
+ "problems": [],
+ "started": "20261104T082900Z",
+ "ended": "20261104T083009Z"
+}

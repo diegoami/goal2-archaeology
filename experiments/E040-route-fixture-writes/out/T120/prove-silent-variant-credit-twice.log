@@ -1,0 +1,6 @@
+E040-r0001     four  completed 000E:6970=0 0791:B602=0 0791:BB2F=0 0791:D47E=0 2648=0 pages=0/0 34.8s
+E040-r0002     four  completed 000E:6970=0 0791:B602=0 0791:BB2F=0 0791:D47E=0 2648=0 pages=0/0 34.2s
+E040-r0003     four  differs   000E:6970=1 0791:B602=1 0791:BB2F=0 0791:D47E=1 2648=1 pages=0/1 1.5s
+  000E:6970 (silent), call #1 from 000E:7017: written byte #2102 differs: the original wrote 0x01 at linear 0x4F2E7, the port wrote 0x02 at linear 0x4F2E7
+silent.credit-twice: caught on E040-r0003
+record: experiments/E040-route-fixture-writes/out/T120/prove-silent-silent.credit-twice-20261104T082749Z.json

@@ -1,0 +1,4013 @@
+{
+ "schema": "e040-t120-prove/1",
+ "task": "T120",
+ "experiment": "E040",
+ "command": "python3 -B experiments/E040-route-fixture-writes/prove.py --ports silent",
+ "code_commit": "e7d9662f4df7b2e04320f7eddb86749a5b18066a",
+ "ports": [
+  "silent"
+ ],
+ "variant": null,
+ "runtime": {
+  "unicorn": "2.1.4",
+  "python": "3.14.4",
+  "route.py": "5d85a655bcdb960827beaadb0f1b8ba1d908823fdc4794c8ff38f02f10e7f15c",
+  "silent.py": "8eb759b7290d343019ad3eda863b75a6ccdf0486bc9d99567fd4ff4ab9e0a996",
+  "prove.py": "4d5c0bb2097584f7ed848c48c71ac1f4672482ddc21378d4c09ab997adab572d"
+ },
+ "states": {
+  "e0afff6751747233-e006-1000-r0001.sav": {
+   "sha256": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d",
+   "verified_against": "its evidence manifest (runner.expected)"
+  },
+  "e548627d333fb1b8-e006-1001-r0002.sav": {
+   "sha256": "e548627d333fb1b8c6096bea30dedb94c80cb8ce9c9326a47555a07a1925dda9",
+   "verified_against": "its evidence manifest (runner.expected)"
+  },
+  "cb78606bc5c54674-e006-1002-r0003.sav": {
+   "sha256": "cb78606bc5c54674e898571e623dad8006969ad343508140175d9a552c6eabd3",
+   "verified_against": "its evidence manifest (runner.expected)"
+  },
+  "f8b22081eeb072e5-e006-1337-r0004.sav": {
+   "sha256": "f8b22081eeb072e5b371a5b36628a745cc359efcfdabf6dc2cdaab4ebc66263c",
+   "verified_against": "its evidence manifest (runner.expected)"
+  },
+  "3453dbc1663430b5-e006-2358-r0006.sav": {
+   "sha256": "3453dbc1663430b53504128a34b82043a9a8faea00e801969e22f2678b2d3daf",
+   "verified_against": "its evidence manifest (runner.expected)"
+  },
+  "c6b4796bbd02b1ab-e006-0000-r0007.sav": {
+   "sha256": "c6b4796bbd02b1ab826ae0084b28a89711ec14b722a318c55ff6fc94be8f7854",
+   "verified_against": "its evidence manifest (runner.expected)"
+  },
+  "b9f1fe3925f4b8b3-e006-1200-r0009.sav": {
+   "sha256": "b9f1fe3925f4b8b302a2e256ba17131f4115d044714b0b33bf45b2e0575f7a2b",
+   "verified_against": "its evidence manifest (runner.expected)"
+  },
+  "5a4bd63023af6b7c-e006-1745-r0010.sav": {
+   "sha256": "5a4bd63023af6b7c87cc6136d8021135e332e41650f2973fcf217662076181f5",
+   "verified_against": "its evidence manifest (runner.expected)"
+  },
+  "71eefbea6e9db696-snap-0026-20261011T141040Z.sav": {
+   "sha256": "71eefbea6e9db696b507ba03c6be67e287bfe22cb7bafb8d4e330fe394459ea5",
+   "verified_against": "its evidence manifest (runner.expected)"
+  },
+  "53b69d3dfb964e77-snap-0213-20261011T142027Z.sav": {
+   "sha256": "53b69d3dfb964e777c689d439d3bf434600f8891e391cab5c45fd863787d2a94",
+   "verified_against": "its evidence manifest (runner.expected)"
+  },
+  "46bbf5dabaaa9553-snap-0003-20261011T195415Z.sav": {
+   "sha256": "46bbf5dabaaa95537b7dd88de00563b9e8594db021fb3d4a75254ed379465bea",
+   "verified_against": "its evidence manifest (runner.expected)"
+  },
+  "291d0eb3b0dcec34-e014-cal3-y1.sav": {
+   "sha256": "291d0eb3b0dcec348c0e166703f8033f795e2b4f1bc0dd4cd67f0888b8622b99",
+   "verified_against": "its evidence manifest (runner.expected)"
+  }
+ },
+ "edits_declared": {
+  "bb2f": {
+   "case": "E040-r0004",
+   "fixture": 3,
+   "kind_from": 1,
+   "kind_to": 0,
+   "what": "fixture 3 (the managed friendly 7 v 27, first byte 0xFE) kind byte +2 := 0 (from 1): route_fixture calls 0791:BB2F for it at 6EF9"
+  },
+  "silent-kind-0": {
+   "case": "E040-r0004",
+   "fixture": 1,
+   "kind_from": 1,
+   "kind_to": 0,
+   "what": "fixture 1 (18 v 10, the next silent fixture, first byte 0xFF) kind byte +2 := 0 (from 1): the Done-when's input; route_fixture sends it to 6970 (6DAE-7014), not BB2F"
+  }
+ },
+ "bb2f_in_published_states": "none: no published case calls 0791:BB2F (calls per pass below), and no fixture from a published state's cursor to its managed one has kind 0 (fixtures_ahead)",
+ "passes": [
+  {
+   "case": "E040-r0001",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      27,
+      7
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "000E:6970": 0,
+    "0791:B602": 0,
+    "0791:BB2F": 0,
+    "0791:D47E": 0
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {},
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 0
+   },
+   "key_visits": {
+    "000E:0629": 1
+   },
+   "matches": [
+    {
+     "fixture": 1,
+     "first": 27,
+     "second": 7,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      2,
+      0
+     ],
+     "winner": 0
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 35.3
+  },
+  {
+   "case": "E040-r0001",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      27,
+      7
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "0791:B602": 0,
+    "0791:BB2F": 0,
+    "0791:D47E": 0
+   },
+   "proof": {
+    "0791:B602": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {},
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 0
+   },
+   "key_visits": {
+    "000E:0629": 1
+   },
+   "matches": [
+    {
+     "fixture": 1,
+     "first": 27,
+     "second": 7,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      2,
+      0
+     ],
+     "winner": 0
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 32.5
+  },
+  {
+   "case": "E040-r0002",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      9,
+      7
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "000E:6970": 0,
+    "0791:B602": 0,
+    "0791:BB2F": 0,
+    "0791:D47E": 0
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {},
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 0
+   },
+   "key_visits": {
+    "000E:0629": 1
+   },
+   "matches": [
+    {
+     "fixture": 1,
+     "first": 9,
+     "second": 7,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      2,
+      0
+     ],
+     "winner": 0
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 32.2
+  },
+  {
+   "case": "E040-r0002",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      9,
+      7
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "0791:B602": 0,
+    "0791:BB2F": 0,
+    "0791:D47E": 0
+   },
+   "proof": {
+    "0791:B602": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {},
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 0
+   },
+   "key_visits": {
+    "000E:0629": 1
+   },
+   "matches": [
+    {
+     "fixture": 1,
+     "first": 9,
+     "second": 7,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      2,
+      0
+     ],
+     "winner": 0
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 36.6
+  },
+  {
+   "case": "E040-r0003",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      9,
+      30
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      6,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      21,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 4,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      1,
+      18
+     ],
+     "managed": false
+    },
+    {
+     "index": 5,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      30,
+      18
+     ],
+     "managed": false
+    },
+    {
+     "index": 6,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      5,
+      15
+     ],
+     "managed": false
+    },
+    {
+     "index": 7,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      12,
+      22
+     ],
+     "managed": false
+    },
+    {
+     "index": 8,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      31,
+      7
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "000E:6970": 7,
+    "0791:B602": 7,
+    "0791:BB2F": 0,
+    "0791:D47E": 7
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 7,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 7
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 7,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 7,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 7
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 7
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 7,
+    "000E:6B92": 7,
+    "000E:6BF7": 14,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 8,
+     "first": 31,
+     "second": 7,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      1,
+      2
+     ],
+     "winner": 1
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 47.1
+  },
+  {
+   "case": "E040-r0003",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      9,
+      30
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      6,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      21,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 4,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      1,
+      18
+     ],
+     "managed": false
+    },
+    {
+     "index": 5,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      30,
+      18
+     ],
+     "managed": false
+    },
+    {
+     "index": 6,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      5,
+      15
+     ],
+     "managed": false
+    },
+    {
+     "index": 7,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      12,
+      22
+     ],
+     "managed": false
+    },
+    {
+     "index": 8,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      31,
+      7
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "0791:B602": 7,
+    "0791:BB2F": 0,
+    "0791:D47E": 7
+   },
+   "proof": {
+    "0791:B602": {
+     "proved": 7,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 7
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 7,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 7
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 7
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 7,
+    "000E:6B92": 7,
+    "000E:6BF7": 14,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 8,
+     "first": 31,
+     "second": 7,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      1,
+      2
+     ],
+     "winner": 1
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 38.1
+  },
+  {
+   "case": "E040-r0004",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      13,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      7,
+      27
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "000E:6970": 2,
+    "0791:B602": 2,
+    "0791:BB2F": 0,
+    "0791:D47E": 2
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 2,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 2
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 2
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 2
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 2,
+    "000E:6B92": 2,
+    "000E:6BF7": 4,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 3,
+     "first": 7,
+     "second": 27,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      3,
+      2
+     ],
+     "winner": 0
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 38.6
+  },
+  {
+   "case": "E040-r0004",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      13,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      7,
+      27
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "0791:B602": 2,
+    "0791:BB2F": 0,
+    "0791:D47E": 2
+   },
+   "proof": {
+    "0791:B602": {
+     "proved": 2,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 2
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 2,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 2
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 2
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 2,
+    "000E:6B92": 2,
+    "000E:6BF7": 4,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 3,
+     "first": 7,
+     "second": 27,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      3,
+      2
+     ],
+     "winner": 0
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 40.3
+  },
+  {
+   "case": "E040-r0005",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      6,
+      15
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      14,
+      30
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      17,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 4,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      7,
+      22
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "000E:6970": 3,
+    "0791:B602": 3,
+    "0791:BB2F": 0,
+    "0791:D47E": 3
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 3,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 3
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 3
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 3
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 3,
+    "000E:6B92": 3,
+    "000E:6BF7": 6,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 4,
+     "first": 7,
+     "second": 22,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      0,
+      1
+     ],
+     "winner": 1
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 40.3
+  },
+  {
+   "case": "E040-r0005",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      6,
+      15
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      14,
+      30
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      17,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 4,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      7,
+      22
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "0791:B602": 3,
+    "0791:BB2F": 0,
+    "0791:D47E": 3
+   },
+   "proof": {
+    "0791:B602": {
+     "proved": 3,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 3
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 3,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 3
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 3
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 3,
+    "000E:6B92": 3,
+    "000E:6BF7": 6,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 4,
+     "first": 7,
+     "second": 22,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      0,
+      1
+     ],
+     "winner": 1
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 37.2
+  },
+  {
+   "case": "E040-r0006",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      6,
+      23
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      26,
+      14
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      17,
+      1
+     ],
+     "managed": false
+    },
+    {
+     "index": 4,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      12,
+      30
+     ],
+     "managed": false
+    },
+    {
+     "index": 5,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      23,
+      30
+     ],
+     "managed": false
+    },
+    {
+     "index": 6,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      27,
+      15
+     ],
+     "managed": false
+    },
+    {
+     "index": 7,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      28,
+      21
+     ],
+     "managed": false
+    },
+    {
+     "index": 8,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      13,
+      7
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "000E:6970": 7,
+    "0791:B602": 7,
+    "0791:BB2F": 0,
+    "0791:D47E": 7
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 7,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 7
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 7,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 7,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 7
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 7
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 7,
+    "000E:6B92": 7,
+    "000E:6BF7": 14,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 8,
+     "first": 13,
+     "second": 7,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      0,
+      3
+     ],
+     "winner": 1
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 51.7
+  },
+  {
+   "case": "E040-r0006",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      6,
+      23
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      26,
+      14
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      17,
+      1
+     ],
+     "managed": false
+    },
+    {
+     "index": 4,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      12,
+      30
+     ],
+     "managed": false
+    },
+    {
+     "index": 5,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      23,
+      30
+     ],
+     "managed": false
+    },
+    {
+     "index": 6,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      27,
+      15
+     ],
+     "managed": false
+    },
+    {
+     "index": 7,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      28,
+      21
+     ],
+     "managed": false
+    },
+    {
+     "index": 8,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      13,
+      7
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "0791:B602": 7,
+    "0791:BB2F": 0,
+    "0791:D47E": 7
+   },
+   "proof": {
+    "0791:B602": {
+     "proved": 7,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 7
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 7,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 7
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 7
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 7,
+    "000E:6B92": 7,
+    "000E:6BF7": 14,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 8,
+     "first": 13,
+     "second": 7,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      0,
+      3
+     ],
+     "winner": 1
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 44.1
+  },
+  {
+   "case": "E040-r0007",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      29,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      4,
+      13
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      20,
+      12
+     ],
+     "managed": false
+    },
+    {
+     "index": 4,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      6,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 5,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      10,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 6,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      8,
+      7
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "000E:6970": 5,
+    "0791:B602": 5,
+    "0791:BB2F": 0,
+    "0791:D47E": 5
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 5,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 5
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 5,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 5,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 5
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 5
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 5,
+    "000E:6B92": 5,
+    "000E:6BF7": 10,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 6,
+     "first": 8,
+     "second": 7,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      0,
+      3
+     ],
+     "winner": 1
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 44.0
+  },
+  {
+   "case": "E040-r0007",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      29,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      4,
+      13
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      20,
+      12
+     ],
+     "managed": false
+    },
+    {
+     "index": 4,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      6,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 5,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      10,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 6,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      8,
+      7
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "0791:B602": 5,
+    "0791:BB2F": 0,
+    "0791:D47E": 5
+   },
+   "proof": {
+    "0791:B602": {
+     "proved": 5,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 4
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 5,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 5
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 5
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 5,
+    "000E:6B92": 5,
+    "000E:6BF7": 10,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 6,
+     "first": 8,
+     "second": 7,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      0,
+      3
+     ],
+     "winner": 1
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 37.4
+  },
+  {
+   "case": "E040-r0008",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      18,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      27,
+      19
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      6,
+      1
+     ],
+     "managed": false
+    },
+    {
+     "index": 4,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      4,
+      12
+     ],
+     "managed": false
+    },
+    {
+     "index": 5,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      32,
+      12
+     ],
+     "managed": false
+    },
+    {
+     "index": 6,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      15,
+      28
+     ],
+     "managed": false
+    },
+    {
+     "index": 7,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      25,
+      22
+     ],
+     "managed": false
+    },
+    {
+     "index": 8,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      31,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 9,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      13,
+      7
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "000E:6970": 8,
+    "0791:B602": 8,
+    "0791:BB2F": 0,
+    "0791:D47E": 8
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 8,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 8
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 8,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 8,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 8
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 8
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 8,
+    "000E:6B92": 8,
+    "000E:6BF7": 16,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 9,
+     "first": 13,
+     "second": 7,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      0,
+      3
+     ],
+     "winner": 1
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 49.9
+  },
+  {
+   "case": "E040-r0008",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      18,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      27,
+      19
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      6,
+      1
+     ],
+     "managed": false
+    },
+    {
+     "index": 4,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      4,
+      12
+     ],
+     "managed": false
+    },
+    {
+     "index": 5,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      32,
+      12
+     ],
+     "managed": false
+    },
+    {
+     "index": 6,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      15,
+      28
+     ],
+     "managed": false
+    },
+    {
+     "index": 7,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      25,
+      22
+     ],
+     "managed": false
+    },
+    {
+     "index": 8,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      31,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 9,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      13,
+      7
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "0791:B602": 8,
+    "0791:BB2F": 0,
+    "0791:D47E": 8
+   },
+   "proof": {
+    "0791:B602": {
+     "proved": 8,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 6
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 8,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 8
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 8
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 8,
+    "000E:6B92": 8,
+    "000E:6BF7": 16,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 9,
+     "first": 13,
+     "second": 7,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      0,
+      3
+     ],
+     "winner": 1
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 48.6
+  },
+  {
+   "case": "E040-r0009",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      20,
+      6
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      28,
+      19
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      4,
+      18
+     ],
+     "managed": false
+    },
+    {
+     "index": 4,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      2,
+      7
+     ],
+     "managed": false
+    },
+    {
+     "index": 5,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      6,
+      7
+     ],
+     "managed": false
+    },
+    {
+     "index": 6,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      31,
+      5
+     ],
+     "managed": false
+    },
+    {
+     "index": 7,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      14,
+      13
+     ],
+     "managed": false
+    },
+    {
+     "index": 8,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      1,
+      12
+     ],
+     "managed": false
+    },
+    {
+     "index": 9,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      30,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 10,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      13,
+      12
+     ],
+     "managed": false
+    },
+    {
+     "index": 11,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      20,
+      28
+     ],
+     "managed": false
+    },
+    {
+     "index": 12,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      31,
+      30
+     ],
+     "managed": false
+    },
+    {
+     "index": 13,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      23,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 14,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      26,
+      9
+     ],
+     "managed": false
+    },
+    {
+     "index": 15,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      17,
+      8
+     ],
+     "managed": false
+    },
+    {
+     "index": 16,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      27,
+      21
+     ],
+     "managed": false
+    },
+    {
+     "index": 17,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      9,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 18,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      29,
+      16
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "000E:6970": 17,
+    "0791:B602": 17,
+    "0791:BB2F": 0,
+    "0791:D47E": 17
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 17,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 17
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 17,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 17,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 17,
+    "A3DE returning to A4AF, its caller to E81B": 1
+   },
+   "pages_6970": {
+    "score_page_6A84": 1,
+    "results_list_6B84": 16
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6A89": 1,
+    "000E:6B89": 16,
+    "000E:6B92": 16,
+    "000E:6BF7": 32,
+    "000E:6C4F": 2,
+    "214B:157C<0791:E86E": 1,
+    "214B:157C<1771:9022": 1
+   },
+   "matches": [
+    {
+     "fixture": 18,
+     "first": 29,
+     "second": 16,
+     "kind": 1,
+     "managed": 16,
+     "score": [
+      0,
+      0
+     ],
+     "winner": 2
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 90.4
+  },
+  {
+   "case": "E040-r0009",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      20,
+      6
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      28,
+      19
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      4,
+      18
+     ],
+     "managed": false
+    },
+    {
+     "index": 4,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      2,
+      7
+     ],
+     "managed": false
+    },
+    {
+     "index": 5,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      6,
+      7
+     ],
+     "managed": false
+    },
+    {
+     "index": 6,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      31,
+      5
+     ],
+     "managed": false
+    },
+    {
+     "index": 7,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      14,
+      13
+     ],
+     "managed": false
+    },
+    {
+     "index": 8,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      1,
+      12
+     ],
+     "managed": false
+    },
+    {
+     "index": 9,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      30,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 10,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      13,
+      12
+     ],
+     "managed": false
+    },
+    {
+     "index": 11,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      20,
+      28
+     ],
+     "managed": false
+    },
+    {
+     "index": 12,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      31,
+      30
+     ],
+     "managed": false
+    },
+    {
+     "index": 13,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      23,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 14,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      26,
+      9
+     ],
+     "managed": false
+    },
+    {
+     "index": 15,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      17,
+      8
+     ],
+     "managed": false
+    },
+    {
+     "index": 16,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      27,
+      21
+     ],
+     "managed": false
+    },
+    {
+     "index": 17,
+     "first_byte": 255,
+     "kind": 2,
+     "countries": [
+      9,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 18,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      29,
+      16
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "0791:B602": 17,
+    "0791:BB2F": 0,
+    "0791:D47E": 17
+   },
+   "proof": {
+    "0791:B602": {
+     "proved": 17,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 13
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 17,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 17,
+    "A3DE returning to A4AF, its caller to E81B": 1
+   },
+   "pages_6970": {
+    "score_page_6A84": 1,
+    "results_list_6B84": 16
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6A89": 1,
+    "000E:6B89": 16,
+    "000E:6B92": 16,
+    "000E:6BF7": 32,
+    "000E:6C4F": 2,
+    "214B:157C<0791:E86E": 1,
+    "214B:157C<1771:9022": 1
+   },
+   "matches": [
+    {
+     "fixture": 18,
+     "first": 29,
+     "second": 16,
+     "kind": 1,
+     "managed": 16,
+     "score": [
+      0,
+      0
+     ],
+     "winner": 2
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 69.6
+  },
+  {
+   "case": "E040-r0010",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 19,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      25,
+      3
+     ],
+     "managed": false
+    },
+    {
+     "index": 20,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      24,
+      15
+     ],
+     "managed": false
+    },
+    {
+     "index": 21,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      22,
+      11
+     ],
+     "managed": false
+    },
+    {
+     "index": 22,
+     "first_byte": 254,
+     "kind": 2,
+     "countries": [
+      16,
+      3
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "000E:6970": 3,
+    "0791:B602": 3,
+    "0791:BB2F": 0,
+    "0791:D47E": 3
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 3,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 3
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 3
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 3
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 3,
+    "000E:6B92": 3,
+    "000E:6BF7": 6,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 22,
+     "first": 16,
+     "second": 3,
+     "kind": 2,
+     "managed": 16,
+     "score": [
+      0,
+      2
+     ],
+     "winner": 1
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 55.1
+  },
+  {
+   "case": "E040-r0010",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 19,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      25,
+      3
+     ],
+     "managed": false
+    },
+    {
+     "index": 20,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      24,
+      15
+     ],
+     "managed": false
+    },
+    {
+     "index": 21,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      22,
+      11
+     ],
+     "managed": false
+    },
+    {
+     "index": 22,
+     "first_byte": 254,
+     "kind": 2,
+     "countries": [
+      16,
+      3
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "0791:B602": 3,
+    "0791:BB2F": 0,
+    "0791:D47E": 3
+   },
+   "proof": {
+    "0791:B602": {
+     "proved": 3,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 3
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 3,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 3
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 3
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 3,
+    "000E:6B92": 3,
+    "000E:6BF7": 6,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 22,
+     "first": 16,
+     "second": 3,
+     "kind": 2,
+     "managed": 16,
+     "score": [
+      0,
+      2
+     ],
+     "winner": 1
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 49.4
+  },
+  {
+   "case": "E040-r0011",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 19,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      25,
+      3
+     ],
+     "managed": false
+    },
+    {
+     "index": 20,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      24,
+      15
+     ],
+     "managed": false
+    },
+    {
+     "index": 21,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      22,
+      11
+     ],
+     "managed": false
+    },
+    {
+     "index": 22,
+     "first_byte": 254,
+     "kind": 2,
+     "countries": [
+      16,
+      3
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "000E:6970": 3,
+    "0791:B602": 3,
+    "0791:BB2F": 0,
+    "0791:D47E": 3
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 3,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 3
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 3
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 3
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 3,
+    "000E:6B92": 3,
+    "000E:6BF7": 6,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 22,
+     "first": 16,
+     "second": 3,
+     "kind": 2,
+     "managed": 16,
+     "score": [
+      0,
+      2
+     ],
+     "winner": 1
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 51.9
+  },
+  {
+   "case": "E040-r0011",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 19,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      25,
+      3
+     ],
+     "managed": false
+    },
+    {
+     "index": 20,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      24,
+      15
+     ],
+     "managed": false
+    },
+    {
+     "index": 21,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      22,
+      11
+     ],
+     "managed": false
+    },
+    {
+     "index": 22,
+     "first_byte": 254,
+     "kind": 2,
+     "countries": [
+      16,
+      3
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "0791:B602": 3,
+    "0791:BB2F": 0,
+    "0791:D47E": 3
+   },
+   "proof": {
+    "0791:B602": {
+     "proved": 3,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 3
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 3,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 3
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 3
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 3,
+    "000E:6B92": 3,
+    "000E:6BF7": 6,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 22,
+     "first": 16,
+     "second": 3,
+     "kind": 2,
+     "managed": 16,
+     "score": [
+      0,
+      2
+     ],
+     "winner": 1
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 45.0
+  },
+  {
+   "case": "E040-r0012",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 769,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      16,
+      3
+     ],
+     "managed": false
+    },
+    {
+     "index": 770,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      27,
+      9
+     ],
+     "managed": false
+    },
+    {
+     "index": 771,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      6,
+      25
+     ],
+     "managed": false
+    },
+    {
+     "index": 772,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      13,
+      8
+     ],
+     "managed": false
+    },
+    {
+     "index": 773,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      20,
+      28
+     ],
+     "managed": false
+    },
+    {
+     "index": 774,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      31,
+      12
+     ],
+     "managed": false
+    },
+    {
+     "index": 775,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      11,
+      23
+     ],
+     "managed": false
+    },
+    {
+     "index": 776,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      30,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 777,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      26,
+      24
+     ],
+     "managed": false
+    },
+    {
+     "index": 778,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      15,
+      14
+     ],
+     "managed": false
+    },
+    {
+     "index": 779,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      22,
+      29
+     ],
+     "managed": false
+    },
+    {
+     "index": 780,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      10,
+      21
+     ],
+     "managed": false
+    },
+    {
+     "index": 781,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      17,
+      5
+     ],
+     "managed": false
+    },
+    {
+     "index": 782,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      1,
+      19
+     ],
+     "managed": false
+    },
+    {
+     "index": 783,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      18,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 784,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      7,
+      2
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "000E:6970": 15,
+    "0791:B602": 15,
+    "0791:BB2F": 0,
+    "0791:D47E": 15
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 15,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 15
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 15,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 15,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 15
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 15
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 15,
+    "000E:6B92": 15,
+    "000E:6BF7": 30,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 784,
+     "first": 7,
+     "second": 2,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      2,
+      0
+     ],
+     "winner": 0
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 66.1
+  },
+  {
+   "case": "E040-r0012",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 769,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      16,
+      3
+     ],
+     "managed": false
+    },
+    {
+     "index": 770,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      27,
+      9
+     ],
+     "managed": false
+    },
+    {
+     "index": 771,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      6,
+      25
+     ],
+     "managed": false
+    },
+    {
+     "index": 772,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      13,
+      8
+     ],
+     "managed": false
+    },
+    {
+     "index": 773,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      20,
+      28
+     ],
+     "managed": false
+    },
+    {
+     "index": 774,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      31,
+      12
+     ],
+     "managed": false
+    },
+    {
+     "index": 775,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      11,
+      23
+     ],
+     "managed": false
+    },
+    {
+     "index": 776,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      30,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 777,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      26,
+      24
+     ],
+     "managed": false
+    },
+    {
+     "index": 778,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      15,
+      14
+     ],
+     "managed": false
+    },
+    {
+     "index": 779,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      22,
+      29
+     ],
+     "managed": false
+    },
+    {
+     "index": 780,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      10,
+      21
+     ],
+     "managed": false
+    },
+    {
+     "index": 781,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      17,
+      5
+     ],
+     "managed": false
+    },
+    {
+     "index": 782,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      1,
+      19
+     ],
+     "managed": false
+    },
+    {
+     "index": 783,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      18,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 784,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      7,
+      2
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "0791:B602": 15,
+    "0791:BB2F": 0,
+    "0791:D47E": 15
+   },
+   "proof": {
+    "0791:B602": {
+     "proved": 15,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 15
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 15,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 15
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 15
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 15,
+    "000E:6B92": 15,
+    "000E:6BF7": 30,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 784,
+     "first": 7,
+     "second": 2,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      2,
+      0
+     ],
+     "winner": 0
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 49.1
+  },
+  {
+   "case": "bb2f",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [
+    {
+     "what": "fixture 3 (the managed friendly 7 v 27, first byte 0xFE) kind byte +2 := 0 (from 1): route_fixture calls 0791:BB2F for it at 6EF9",
+     "linear": 383832,
+     "old": "01",
+     "new": "00"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      13,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 254,
+     "kind": 0,
+     "countries": [
+      7,
+      27
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "000E:6970": 2,
+    "0791:B602": 2,
+    "0791:BB2F": 1,
+    "0791:D47E": 2
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 2,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 2
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 2,
+    "A3DE returning to A4AF, its caller to BB3D": 1
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 2
+   },
+   "key_visits": {
+    "000E:6B89": 2,
+    "000E:6B92": 2,
+    "000E:6BF7": 4,
+    "000E:6C4F": 1
+   },
+   "matches": [],
+   "returned": true,
+   "elapsed_s": 5.1
+  },
+  {
+   "case": "bb2f",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "inputs": [
+    {
+     "what": "fixture 3 (the managed friendly 7 v 27, first byte 0xFE) kind byte +2 := 0 (from 1): route_fixture calls 0791:BB2F for it at 6EF9",
+     "linear": 383832,
+     "old": "01",
+     "new": "00"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      13,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 254,
+     "kind": 0,
+     "countries": [
+      7,
+      27
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "0791:B602": 2,
+    "0791:BB2F": 1,
+    "0791:D47E": 2
+   },
+   "proof": {
+    "0791:B602": {
+     "proved": 2,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 2
+     }
+    },
+    "0791:BB2F": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 2,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 2,
+    "A3DE returning to A4AF, its caller to BB3D": 1
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 2
+   },
+   "key_visits": {
+    "000E:6B89": 2,
+    "000E:6B92": 2,
+    "000E:6BF7": 4,
+    "000E:6C4F": 1
+   },
+   "matches": [],
+   "returned": true,
+   "elapsed_s": 3.7
+  },
+  {
+   "case": "silent-kind-0",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "inputs": [
+    {
+     "what": "fixture 1 (18 v 10, the next silent fixture, first byte 0xFF) kind byte +2 := 0 (from 1): the Done-when's input; route_fixture sends it to 6970 (6DAE-7014), not BB2F",
+     "linear": 383816,
+     "old": "01",
+     "new": "00"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 0,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      13,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      7,
+      27
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "000E:6970": 2,
+    "0791:B602": 2,
+    "0791:BB2F": 0,
+    "0791:D47E": 2
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 2,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 2
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 2
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 2
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 2,
+    "000E:6B92": 2,
+    "000E:6BF7": 4,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 3,
+     "first": 7,
+     "second": 27,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      3,
+      2
+     ],
+     "winner": 0
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 34.0
+  },
+  {
+   "case": "silent-kind-0",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "inputs": [
+    {
+     "what": "fixture 1 (18 v 10, the next silent fixture, first byte 0xFF) kind byte +2 := 0 (from 1): the Done-when's input; route_fixture sends it to 6970 (6DAE-7014), not BB2F",
+     "linear": 383816,
+     "old": "01",
+     "new": "00"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 0,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      13,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      7,
+      27
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "silent"
+   ],
+   "calls": {
+    "0791:B602": 2,
+    "0791:BB2F": 0,
+    "0791:D47E": 2
+   },
+   "proof": {
+    "0791:B602": {
+     "proved": 2,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 2
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 2,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 2
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 2
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 2,
+    "000E:6B92": 2,
+    "000E:6BF7": 4,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 3,
+     "first": 7,
+     "second": 27,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      3,
+      2
+     ],
+     "winner": 0
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 36.2
+  }
+ ],
+ "caught": null,
+ "problems": [],
+ "started": "20261104T082559Z",
+ "ended": "20261104T084611Z"
+}
