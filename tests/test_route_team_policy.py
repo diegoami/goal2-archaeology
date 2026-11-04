@@ -129,6 +129,66 @@ class OriginalMenuTests(unittest.TestCase):
         self.assertTrue(any(k["site"] == "0791:E61F" for k in match.team_keys))
         self.assertTrue(all(0 <= k["key"] <= 255 for k in match.team_keys))
 
+    def test_checkpoint_restores_cpu_context_and_waiting_key(self):
+        import importlib.util
+        from original_match import route as R
+        from original_match.image import Image
+        from original_match.machine import REGS
+        path = ROOT / "experiments/E040-route-fixture-writes/out/T124t/prove.py"
+        spec = importlib.util.spec_from_file_location("t124t_checkpoint", path)
+        runner = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(runner)
+        source = R.Route(Image.from_savestate(STATE.read_bytes()), entry="play_round", record_writes=False)
+        source.m.set_reg("EAX", 0x12345678)
+        source.m.set_reg("EFLAGS", 0x246)
+        source.keys.waiting = 13
+        context = runner.checkpoint_context(source)
+        resumed = R.Route(Image.from_savestate(STATE.read_bytes()), entry="play_round", record_writes=False)
+        self.assertNotEqual(source.m.reg("EAX"), resumed.m.reg("EAX"))
+        self.assertIsNone(resumed.keys.waiting)
+        runner.restore_context(resumed, context)
+        self.assertEqual({reg: resumed.m.reg(reg) for reg in REGS}, context["regs"])
+        self.assertEqual(resumed.keys.waiting, 13)
+
+    def test_following_round_matches_after_context_restore(self):
+        import importlib.util
+        from original_match import route as R, port
+        from original_match.image import Image
+        from original_match.machine import MEM_SIZE
+        from original_match.port.prove import Prover
+        path = ROOT / "experiments/E040-route-fixture-writes/out/T124t/prove.py"
+        spec = importlib.util.spec_from_file_location("t124t_resume_round", path)
+        runner = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(runner)
+        route = R.Route(Image.from_savestate(STATE.read_bytes()), entry="play_round", record_writes=False)
+        installed = port.install(route.m, ["stages"])
+        prover = Prover(route.m, installed)
+        def skip_fixtures(r):
+            # Synthetic input: only the stage builder/round boundary, not another long match batch.
+            game = r.m.far(R.GAME_PTR)
+            r.m.write(game + 0x26, r.m.read(game + 0x28, 2))
+        skip_fixtures(route)
+        route.round()
+        context = runner.checkpoint_context(route, prover)
+        component = route.header + route.m.read(0, MEM_SIZE) + route.tail
+        resumed = R.Route(Image(component), entry="play_round", record_writes=False)
+        runner.restore_context(resumed, context)
+        resumed_installed = port.install(resumed.m, ["stages"])
+        resumed_prover = Prover(resumed.m, resumed_installed)
+        for r in (route, resumed):
+            skip_fixtures(r)
+            r.round()
+        self.assertEqual(route.m.read(0, MEM_SIZE), resumed.m.read(0, MEM_SIZE))
+        self.assertEqual(runner.checkpoint_context(route, prover), runner.checkpoint_context(resumed, resumed_prover))
+        route.m.frames.append(object())
+        with self.assertRaisesRegex(ValueError, "no live port or proof frame"):
+            runner.checkpoint_context(route, prover)
+        route.m.frames.pop()
+        prover.state = object()
+        with self.assertRaisesRegex(ValueError, "no live port or proof frame"):
+            runner.checkpoint_context(route, prover)
+        prover.state = None
+
     def test_original_swaps_injured_keeper_and_validates(self):
         match, swaps, validations = self.make()
         self.accepted(match)

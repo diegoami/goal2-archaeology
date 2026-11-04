@@ -147,7 +147,11 @@ all choices and keys, round-end stages and proof summaries. `--no-selection` is 
 the original refuses when an ineligible starter reaches its pre-match menu.
 
 For bounded batches use `--stop-after-round 1` (then 2 or 3). `--resume --out NAME` checks the state hash and
-source hashes, then the latest completed round's memory checkpoint hash, and starts only the missing rounds.
+source hashes, then the latest completed round's memory checkpoint hash, restores every CPU register/flag and
+the waiting policy key, and starts only the missing rounds.
 Checkpoints under `.cache/t124t/NAME/` contain guest memory and stay local; receipts retain paths and hashes only.
 An interrupted partial round is replayed from the last completed round; existing receipts are never overwritten.
 The initial `continuation-v1` proof predates this resume support and records its source commit explicitly.
+
+The `continuation-final` run predates restoration of CPU context and a waiting key and is retained as provisional
+resume evidence. `continuation-context` includes them. Both run the same harness team policy and key logger.

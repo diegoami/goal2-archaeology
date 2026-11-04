@@ -22,7 +22,7 @@ sys.path.insert(0, str(ROOT / "runtime"))
 sys.path.insert(0, str(HERE.parent.parent))
 from original_match import route as R, port, route_team
 from original_match.image import Image
-from original_match.machine import MEM_SIZE
+from original_match.machine import MEM_SIZE, REGS
 from original_match.port.prove import Prover
 from runner import expected
 
@@ -40,6 +40,21 @@ def load_checkpoint(path, sha):
     if hashlib.sha256(data).hexdigest() != sha:
         raise ValueError(f"checkpoint hash mismatch: {path}")
     return Image(data)
+
+
+def checkpoint_context(route, prover=None):
+    if route.m.running or route.m.frames or route.m.muted or (prover is not None and
+            (prover.state is not None or prover._visit is not None)):
+        raise ValueError("checkpoint requires a returned round with no live port or proof frame")
+    return {"regs": {r: route.m.reg(r) for r in REGS}, "waiting_key": route.keys.waiting}
+
+
+def restore_context(route, context):
+    if set(context["regs"]) != set(REGS):
+        raise ValueError("checkpoint does not hold every machine register")
+    for name, value in context["regs"].items():
+        route.m.set_reg(name, value)
+    route.keys.waiting = context["waiting_key"]
 
 
 def play(out, no_selection=False, resume=False, stop_after_round=4):
@@ -63,6 +78,8 @@ def play(out, no_selection=False, resume=False, stop_after_round=4):
             checkpoint = previous[-1]["checkpoint"]
             image = load_checkpoint(ROOT / checkpoint["path"], checkpoint["sha256"])
     r = R.Route(image, entry="play_round", record_writes=False)
+    if previous:
+        restore_context(r, previous[-1]["checkpoint"]["context"])
     inst = port.install(r.m, ["stages"])
     prover = Prover(r.m, inst)
     start = time.monotonic()
@@ -73,7 +90,7 @@ def play(out, no_selection=False, resume=False, stop_after_round=4):
             os.fsync(f.fileno())
             print(json.dumps({k: v for k, v in value.items() if k not in ("teams", "matches", "proof")}), flush=True)
         if not resume:
-            record({"schema": "t124t/2", "state": STATE, "sha256": sha, "no_selection": no_selection,
+            record({"schema": "t124t/3", "state": STATE, "sha256": sha, "no_selection": no_selection,
                 "code_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
                 "source_hashes": source_hashes(),
                 "started": datetime.datetime.now(datetime.timezone.utc).isoformat()})
@@ -105,7 +122,8 @@ def play(out, no_selection=False, resume=False, stop_after_round=4):
             load_checkpoint(checkpoint, checkpoint_sha)
             record({"status": "round", "round": number, "end": end,
                     "elapsed_s": round(time.monotonic() - start, 1),
-                    "checkpoint": {"path": str(checkpoint.relative_to(ROOT)), "sha256": checkpoint_sha},
+                    "checkpoint": {"path": str(checkpoint.relative_to(ROOT)), "sha256": checkpoint_sha,
+                                   "context": checkpoint_context(r, prover)},
                     "matches": [e[1] for e in entries if e[0] == "match"],
                     "teams": [e[1] for e in entries if e[0] == "team"], "proof": prover.summary()})
             if number == stop_after_round and number < 4:
