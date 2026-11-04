@@ -174,3 +174,5 @@ exists.
 - [T122d](T122d.md): Headlines, the sack and the news outer frame (#427); sequential slice of T122.
 - [T122e](T122e.md): Statistics text and the complete news proof (#427); sequential slice of T122.
 - [T124f](T124f.md): in-season ageing, retirement and replacement required before T123; year rollover deferred (#427).
+- [T124b1](T124b1.md): Rankings and the qualifying builder’s shared updates (#427); sequential slice of T124b.
+- [T124b2](T124b2.md): Qualifying calendar, draw order and the reference seed service (#427); sequential slice of T124b.
