@@ -40,6 +40,13 @@ Prover can be installed on it (port/prove.py). A proof with ports runs only with
 the write listener reads the pc at the ports' stack writes, which they make as 214B:0000 (port/runtime.py), and the
 Prover refuses the first such push; without the listener the Prover compares every byte itself (T119c, #647).
 
+T124t's managed eleven [designed: owner, 2026-11-04, goal2 #509]: Route uses RouteMatch (route_team.py), which
+chooses a legal eleven before the match, pressing the original SELECT TEAM screen's keys. The original DEA6 swaps
+and sorts the squad, and EA09 validates it. Choices keep the greatest number of existing starters, then take the
+first squad-slot tuple; the record's ("team", {fixture, choices, keys}) entry preserves every choice and every
+match key (site, byte, menu context). Normal Match callers retain their own team decisions. No status, energy,
+position or squad word is assigned by this policy.
+
 play_round (T124a, #427): Route(image, entry="play_round") calls play_round 000E:70B9 instead, as main_menu_loop
 000E:7439 does at 77BF [confirmed: code/seg_000E_09.asm 77BF-77C2, 70B9-715D, seg_0000_01.asm 00C6; the BP chain of
 the published E011-r0001 state (E011-r0001-halftime.sav): SS:3EDE = 3EEA (route_fixture's saved BP), SS:3EE0 = 70D4,
