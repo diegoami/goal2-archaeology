@@ -48,5 +48,79 @@ class ChoiceTests(unittest.TestCase):
             self.pick()
 
 
+STATE = ROOT / ".cache/dl/53b69d3dfb964e77-snap-0213-20261011T142027Z.sav"
+try:
+    import unicorn
+    HAVE_UNICORN = True
+except ImportError:
+    HAVE_UNICORN = False
+
+
+@unittest.skipUnless(HAVE_UNICORN and STATE.is_file(), "unicorn and E015-r0007 state 213 required (E040 runner --fetch)")
+class OriginalMenuTests(unittest.TestCase):
+    """Synthetic unavailable starters on a published state; every swap and EA09 validation is original code."""
+    def make(self, empty=False, multiple=False):
+        import hashlib
+        from original_match.image import Image, PLAYERS_PTR, PLAYER_SIZE
+        from original_match.match import Fixture, PLAY_MATCH
+        from original_match.route_team import RouteMatch
+        data = STATE.read_bytes()
+        self.assertEqual(hashlib.sha256(data).hexdigest(),
+                         "53b69d3dfb964e777c689d439d3bf434600f8891e391cab5c45fd863787d2a94")
+        match = RouteMatch(Image.from_savestate(data), Fixture(first=16, second=3, index=22, kind=2))
+        squad = match._squad(16)
+        if empty:
+            match.m.write(match._country(16), b"\0\0")
+        else:
+            for word in squad[:3] if multiple else squad[:1]:
+                match.m.write(match.m.far(PLAYERS_PTR) + PLAYER_SIZE * word + 14, b"\0")
+        swaps, validations = [], []
+        match.m.at("0791:DEA6", lambda replay: replay or swaps.append(match.m.rd(0x0C1B)))
+        match.m.at("0791:EA09", lambda replay: replay or validations.append(1))
+        match.m.at(PLAY_MATCH, lambda replay: replay or match.m.stop("menu-accepted"))
+        return match, swaps, validations
+
+    def accepted(self, match):
+        self.assertEqual(match.m.run(match.end_lin, 120, fresh=True), "menu-accepted")
+        self.assertEqual(choose_eleven(match._squad(16), match._player), [])
+        self.assertTrue(match.team_keys)
+        self.assertTrue(any(k["site"] == "0791:E61F" for k in match.team_keys))
+        self.assertTrue(all(0 <= k["key"] <= 255 for k in match.team_keys))
+
+    def test_original_swaps_injured_keeper_and_validates(self):
+        match, swaps, validations = self.make()
+        self.accepted(match)
+        self.assertEqual(len(swaps), 2)
+        self.assertTrue(validations)
+        self.assertNotIn(301, match._squad(16)[:11])
+        self.assertIn(312, match._squad(16)[:11])
+
+    def test_empty_starter_is_replaced_by_marking_incoming_first(self):
+        match, swaps, validations = self.make(empty=True)
+        self.accepted(match)
+        self.assertEqual(len(swaps), 2)
+        self.assertTrue(validations)
+        self.assertGreater(swaps[0], 11)
+        self.assertLessEqual(swaps[1], 11)
+        self.assertNotIn(0, match._squad(16)[:11])
+
+    def test_reads_live_squad_after_original_sorts_between_swaps(self):
+        match, swaps, validations = self.make(multiple=True)
+        self.accepted(match)
+        self.assertEqual(len(swaps), 6)
+        self.assertTrue(validations)
+        self.assertTrue({301, 302, 314}.isdisjoint(match._squad(16)[:11]))
+
+    def test_falsifier_play_without_selection_is_refused_by_original(self):
+        from unittest.mock import patch
+        from original_match.match import MatchError
+        match, swaps, validations = self.make()
+        with patch("original_match.route_team.choose_eleven", return_value=[]):
+            with self.assertRaisesRegex(MatchError, "ineligible player"):
+                match.m.run(match.end_lin, 120, fresh=True)
+        self.assertFalse(swaps)
+        self.assertTrue(validations)
+
+
 if __name__ == "__main__":
     unittest.main()
