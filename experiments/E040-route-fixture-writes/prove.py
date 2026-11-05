@@ -105,6 +105,18 @@ def port_specs(ports, variant):
             raise SystemExit(f"--variant {variant!r}: MODULE.NAME")
         names = [s for s in names if s != variant.split(".")[0]] + [variant]
     loaded = port.load(names)
+    if any(reg.name == "news" for reg, _ in loaded):
+        # T122a reuses the established manager-name port, with no display stubs.
+        # Union with an explicit display registry rather than replacing it.
+        from original_match.port import display
+        old = next((reg for reg, _ in loaded if reg.name == "display"), None)
+        copy = port.Registry("display", "T122a: existing manager-name port 1771:0947")
+        copy.entries = dict(old.entries) if old is not None else {}
+        copy.entries["1771:0947"] = display.PORTS.entries["1771:0947"]
+        copy.variants = dict(display.PORTS.variants)
+        loaded = [(copy if reg.name == "display" else reg, v) for reg, v in loaded]
+        if old is None:
+            loaded.append((copy, None))
     return loaded
 
 
@@ -314,8 +326,8 @@ def main(argv=None):
             raise SystemExit(f"{out} exists: never overwritten")
         import unicorn
         record = {
-            "schema": "e040-t121-prove/1" if "route" in names else "e040-t120-prove/1",
-            "task": "T121" if "route" in names else "T120", "experiment": "E040",
+            "schema": "e040-t122a-prove/1" if "news" in names else "e040-t121-prove/1" if "route" in names else "e040-t120-prove/1",
+            "task": "T122a" if "news" in names else "T121" if "route" in names else "T120", "experiment": "E040",
             "command": "python3 -B experiments/E040-route-fixture-writes/prove.py " + " ".join(argv or sys.argv[1:]),
             "code_commit": commit, "ports": port.spec_names(loaded), "variant": a.variant,
             "runtime": {"unicorn": unicorn.__version__, "python": platform.python_version(),
@@ -332,6 +344,11 @@ def main(argv=None):
                                         "fixture from a published state's cursor to its managed one has kind 0 "
                                         "(fixtures_ahead)" if a.variant is None else None,
             "passes": passes, "caught": caught, "problems": problems,
+            "coverage": {address: {
+                "calls": sum(p["calls"].get(address, 0) for p in passes),
+                "proved": sum(p["proof"].get(address, {}).get("proved", 0) for p in passes),
+                "nested": sum(p["proof"].get(address, {}).get("nested", 0) for p in passes),
+            } for reg, _ in loaded if reg.name == "news" for address in sorted(reg.entries)},
             "started": stamp, "ended": datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ"),
         }
         out.write_text(json.dumps(record, indent=1) + "\n")
