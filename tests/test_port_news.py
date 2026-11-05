@@ -572,3 +572,39 @@ print('self-contained pure reader OK')
         self.assertEqual(captured.record,plain.record)
         self.assertEqual(captured.news_history[0].waiting_key,13);self.assertEqual(captured.news_history[0].pushed_back,True)
         self.assertEqual(captured.news_history[0].key_code,0x50)
+
+    def complete_news_recipe(self):
+        import importlib.util
+        path=Path(__file__).resolve().parents[1]/'experiments/E040-route-fixture-writes/out/T122e/prove_complete_news.py'
+        spec=importlib.util.spec_from_file_location('t122e_complete_recipe',path);module=importlib.util.module_from_spec(spec)
+        try:spec.loader.exec_module(module)
+        except ImportError as exc:
+            if exc.name=='unicorn':self.skipTest('unicorn missing')
+            raise
+        source=next(c for c in module.d.runner.CASES if c[0]=='E040-r0004');asset=module.ROOT/'.cache/dl'/source[3]
+        if not asset.is_file():self.skipTest('published E040 state missing')
+        import hashlib
+        data=asset.read_bytes();self.assertEqual(hashlib.sha256(data).hexdigest(),module.d.runner.expected(source[3]))
+        return module,data
+
+    def test_actual_original_and_ported_recorded_pages_both_sides_survive_first_sack(self):
+        from original_match.news import NewsPageMemory,news_pages
+        import hashlib,json
+        module,data=self.complete_news_recipe()
+        for name in ('route-fragment-0','route-fragment-1'):
+            case=next(c for c in module.cases() if c[0]==name);record=module.prove(data,case)
+            self.assertEqual(record['status'],'completed',record['error'])
+            comparison=record['page_comparison'];self.assertEqual(comparison['ported_pages'],2);self.assertEqual(comparison['original_pages'],2)
+            self.assertTrue(all(comparison['cells_equal_each']+comparison['metadata_equal_each']))
+            self.assertTrue(comparison['first_page_retained_after_second']);self.assertTrue(comparison['first_manager_frozen_before_release'])
+            for receipt in record['news_history']:
+                raw=(module.ROOT/receipt['private_cells']).read_bytes();self.assertEqual(hashlib.sha256(raw).hexdigest(),receipt['cells_sha256'])
+                decoded=news_pages(NewsPageMemory(cells=raw));digest=hashlib.sha256(json.dumps(decoded,ensure_ascii=False,separators=(',',':')).encode()).hexdigest()
+                self.assertEqual(digest,receipt['text_sha256']);self.assertEqual(len(decoded[0]),25);self.assertTrue(all(len(row)==80 for row in decoded[0]))
+
+    def test_actual_queued_key_skips_notes_but_crowd_and_conditional_draw_are_reached(self):
+        module,data=self.complete_news_recipe();case=next(c for c in module.cases() if c[0]=='crowd-positive')
+        record=module.prove(data,case)
+        self.assertEqual(record['status'],'completed',record['error']);self.assertTrue(record['positive_crowd_arming_check'])
+        self.assertGreaterEqual(record['calls']['000E:045D'],1);self.assertGreater(record['actual_crowd_conditional_third_draws'],0)
+        self.assertEqual(record['note_calls'],0);self.assertEqual(record['news_history'][0]['waiting_key'],13)

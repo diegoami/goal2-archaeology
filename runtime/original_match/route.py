@@ -218,7 +218,7 @@ class Route:
         on two real entries remains two snapshots. No key-policy method is called.
         """
         m=self.m
-        if replay or m.muted:
+        if not self.capture_news or replay or m.muted:
             return
         ret=m.stack_word(0)
         country=side=manager=None
