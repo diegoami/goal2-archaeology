@@ -1,0 +1,1900 @@
+{
+ "schema": "e040-t122c-coverage/1",
+ "task": "T122c",
+ "acceptance_source_commit": "d1ab927130fe7f35fac70bc0351007d90c6a3441",
+ "accepted_receipts": [
+  {
+   "path": "corpus-a/prove-news+route+silent-20261105T155822Z.json",
+   "sha256": "00893a588e71e35a497428b7207ad8728b021e39d5a0dfbf173a079d8e65a05f",
+   "code_commit": "d1ab927130fe7f35fac70bc0351007d90c6a3441"
+  },
+  {
+   "path": "corpus-b/prove-news+route+silent-20261105T155822Z.json",
+   "sha256": "32085017a2c96265b475effa681df2bd956451b32f6d2f89b6adeadef3d04412",
+   "code_commit": "d1ab927130fe7f35fac70bc0351007d90c6a3441"
+  },
+  {
+   "path": "corpus-c/prove-news+route+silent-20261105T155822Z.json",
+   "sha256": "e7c2b16b3c8e0194014dd0fc2727576639a2bab95aec513a313f1297ec57ba83",
+   "code_commit": "d1ab927130fe7f35fac70bc0351007d90c6a3441"
+  },
+  {
+   "path": "synthetic/synthetic-normal-20261105T155928Z.json",
+   "sha256": "0743f93bd31a3854a0115172755d9869657e77d6e9f0537bc56d8e0950a68b4e",
+   "code_commit": "d1ab927130fe7f35fac70bc0351007d90c6a3441"
+  },
+  {
+   "path": "falsifiers/synthetic-secondary-draw-dropped-20261105T160128Z.json",
+   "sha256": "5760407a897cac7bc16605708ea7de9a3f0cd5e07dbf708a5e91c560bb133ebf",
+   "code_commit": "d1ab927130fe7f35fac70bc0351007d90c6a3441"
+  },
+  {
+   "path": "falsifiers/synthetic-secondary-text-byte-flipped-20261105T160138Z.json",
+   "sha256": "abce50647d57642bc381f7e4103ad2a8feee45100c1ce6fac6e6f5ef147b26bc",
+   "code_commit": "d1ab927130fe7f35fac70bc0351007d90c6a3441"
+  },
+  {
+   "path": "transcription-completeness.json",
+   "sha256": "c5fe786e95bfc2e79815af15933f0b9408a893b810ea8268a1a7ee8ac77d7530",
+   "code_commit": "d1ab927130fe7f35fac70bc0351007d90c6a3441"
+  }
+ ],
+ "counts": {
+  "unique_published_states": 12,
+  "declared_route_edits": 4,
+  "route_passes": 32,
+  "finalized_outer_6CA7_proofs": 16,
+  "standalone_frames": 234,
+  "standalone_by_routine": {
+   "000E:2071": 68,
+   "000E:26F2": 166
+  },
+  "standalone_categories": {
+   "isolated-column-branch": 130,
+   "role-population-stress": 100,
+   "wrapped-index-stress": 4
+  },
+  "pool_gate_controls_in_isolated_column_category": 4,
+  "caught_falsifiers": 2
+ },
+ "coverage": {
+  "000E:2071": {
+   "published_route": {
+    "calls": 24,
+    "proved": 0,
+    "nested": 24
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 0,
+    "nested": 4
+   },
+   "standalone": {
+    "calls": 68,
+    "proved": 68
+   }
+  },
+  "000E:26F2": {
+   "published_route": {
+    "calls": 24,
+    "proved": 12,
+    "nested": 12
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 2,
+    "nested": 2
+   },
+   "standalone": {
+    "calls": 166,
+    "proved": 166
+   }
+  }
+ },
+ "actual_decision_values": {
+  "214B:06B1": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16
+  ],
+  "000E:2071": [
+   0,
+   1
+  ],
+  "1771:3216": [
+   0,
+   1
+  ],
+  "1771:377E": [
+   0,
+   10,
+   20,
+   30
+  ],
+  "000E:0B77": [
+   -11,
+   -10,
+   0
+  ],
+  "1771:5C60": [
+   0,
+   1,
+   3
+  ],
+  "214B:06FA": [
+   0,
+   1
+  ]
+ },
+ "actual_rng_choices_by_bound": {
+  "3": [
+   1,
+   2,
+   3
+  ],
+  "4": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "6": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "10": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "14": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14
+  ],
+  "16": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16
+  ]
+ },
+ "direct_recommendation_profiles": [
+  {
+   "case": "pool-2071-0-gate",
+   "mode": "gate",
+   "side": 0,
+   "recommendation_result": [
+    0
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": []
+  },
+  {
+   "case": "pool-2071-0-no-role",
+   "mode": "no-role",
+   "side": 0,
+   "recommendation_result": [
+    0
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": []
+  },
+  {
+   "case": "pool-2071-0-unavailable-squad",
+   "mode": "unavailable-squad",
+   "side": 0,
+   "recommendation_result": [
+    0
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": []
+  },
+  {
+   "case": "pool-2071-0-equal",
+   "mode": "equal",
+   "side": 0,
+   "recommendation_result": [
+    0
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:222E": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": []
+  },
+  {
+   "case": "pool-2071-0-improve",
+   "mode": "improve",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:22EA": 1,
+    "000E:2307": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    7
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "pool-2071-0-ties",
+   "mode": "ties",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:22EA": 1,
+    "000E:2307": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    7
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "pool-2071-0-pool-unavailable",
+   "mode": "pool-unavailable",
+   "side": 0,
+   "recommendation_result": [
+    0
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:222E": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": []
+  },
+  {
+   "case": "pool-2071-0-pool-mismatch",
+   "mode": "pool-mismatch",
+   "side": 0,
+   "recommendation_result": [
+    0
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:222E": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": []
+  },
+  {
+   "case": "pool-2071-0-pool-first-unavailable",
+   "mode": "pool-first-unavailable",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:22EA": 1,
+    "000E:2307": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    7
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2617,
+   "expected_pool": 2617
+  },
+  {
+   "case": "pool-2071-0-wrap",
+   "mode": "wrap",
+   "side": 0,
+   "recommendation_result": [
+    0
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:222E": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": []
+  },
+  {
+   "case": "pool-2071-1-gate",
+   "mode": "gate",
+   "side": 1,
+   "recommendation_result": [
+    0
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": []
+  },
+  {
+   "case": "pool-2071-1-no-role",
+   "mode": "no-role",
+   "side": 1,
+   "recommendation_result": [
+    0
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": []
+  },
+  {
+   "case": "pool-2071-1-unavailable-squad",
+   "mode": "unavailable-squad",
+   "side": 1,
+   "recommendation_result": [
+    0
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": []
+  },
+  {
+   "case": "pool-2071-1-equal",
+   "mode": "equal",
+   "side": 1,
+   "recommendation_result": [
+    0
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:222E": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": []
+  },
+  {
+   "case": "pool-2071-1-improve",
+   "mode": "improve",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:22EA": 1,
+    "000E:2307": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    7
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "pool-2071-1-ties",
+   "mode": "ties",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:22EA": 1,
+    "000E:2307": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    7
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "pool-2071-1-pool-unavailable",
+   "mode": "pool-unavailable",
+   "side": 1,
+   "recommendation_result": [
+    0
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:222E": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": []
+  },
+  {
+   "case": "pool-2071-1-pool-mismatch",
+   "mode": "pool-mismatch",
+   "side": 1,
+   "recommendation_result": [
+    0
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:222E": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": []
+  },
+  {
+   "case": "pool-2071-1-pool-first-unavailable",
+   "mode": "pool-first-unavailable",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:22EA": 1,
+    "000E:2307": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    7
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2617,
+   "expected_pool": 2617
+  },
+  {
+   "case": "pool-2071-1-wrap",
+   "mode": "wrap",
+   "side": 1,
+   "recommendation_result": [
+    0
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:222E": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": []
+  },
+  {
+   "case": "role-0-0",
+   "mode": "improve",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:22EA": 1,
+    "000E:2307": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    7
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "role-1-0",
+   "mode": "improve",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:22EA": 1,
+    "000E:2307": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    7
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "role-0-1",
+   "mode": "improve",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 1,
+   "role_expected": 1,
+   "recommendation_draws": [
+    3
+   ]
+  },
+  {
+   "case": "role-1-1",
+   "mode": "improve",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 1,
+   "role_expected": 1,
+   "recommendation_draws": [
+    3
+   ]
+  },
+  {
+   "case": "role-0-2",
+   "mode": "improve",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:22EA": 1,
+    "000E:2307": 1
+   },
+   "role_after": 2,
+   "role_expected": 2,
+   "recommendation_draws": [
+    7
+   ]
+  },
+  {
+   "case": "role-1-2",
+   "mode": "improve",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:22EA": 1,
+    "000E:2307": 1
+   },
+   "role_after": 2,
+   "role_expected": 2,
+   "recommendation_draws": [
+    7
+   ]
+  },
+  {
+   "case": "role-0-3",
+   "mode": "improve",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:234E": 1
+   },
+   "role_after": 3,
+   "role_expected": 3,
+   "recommendation_draws": [
+    9
+   ]
+  },
+  {
+   "case": "role-1-3",
+   "mode": "improve",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:234E": 1
+   },
+   "role_after": 3,
+   "role_expected": 3,
+   "recommendation_draws": [
+    9
+   ]
+  },
+  {
+   "case": "role-0-4",
+   "mode": "improve",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 4,
+   "role_expected": 4,
+   "recommendation_draws": [
+    2
+   ]
+  },
+  {
+   "case": "role-1-4",
+   "mode": "improve",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 4,
+   "role_expected": 4,
+   "recommendation_draws": [
+    2
+   ]
+  },
+  {
+   "case": "role-0-5",
+   "mode": "improve",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 5,
+   "role_expected": 5,
+   "recommendation_draws": [
+    5
+   ]
+  },
+  {
+   "case": "role-1-5",
+   "mode": "improve",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 5,
+   "role_expected": 5,
+   "recommendation_draws": [
+    5
+   ]
+  },
+  {
+   "case": "role-0-6",
+   "mode": "improve",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 6,
+   "role_expected": 6,
+   "recommendation_draws": [
+    1
+   ]
+  },
+  {
+   "case": "role-1-6",
+   "mode": "improve",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 6,
+   "role_expected": 6,
+   "recommendation_draws": [
+    1
+   ]
+  },
+  {
+   "case": "role-0-7",
+   "mode": "improve",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 7,
+   "role_expected": 7,
+   "recommendation_draws": [
+    3
+   ]
+  },
+  {
+   "case": "role-1-7",
+   "mode": "improve",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 7,
+   "role_expected": 7,
+   "recommendation_draws": [
+    3
+   ]
+  },
+  {
+   "case": "role-0-8",
+   "mode": "improve",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:2370": 1
+   },
+   "role_after": 8,
+   "role_expected": 8,
+   "recommendation_draws": [
+    10
+   ]
+  },
+  {
+   "case": "role-1-8",
+   "mode": "improve",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:2370": 1
+   },
+   "role_after": 8,
+   "role_expected": 8,
+   "recommendation_draws": [
+    10
+   ]
+  },
+  {
+   "case": "role-0-9",
+   "mode": "improve",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:2370": 1
+   },
+   "role_after": 9,
+   "role_expected": 9,
+   "recommendation_draws": [
+    10
+   ]
+  },
+  {
+   "case": "role-1-9",
+   "mode": "improve",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:2370": 1
+   },
+   "role_after": 9,
+   "role_expected": 9,
+   "recommendation_draws": [
+    10
+   ]
+  },
+  {
+   "case": "role-0-10",
+   "mode": "improve",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 10,
+   "role_expected": 10,
+   "recommendation_draws": [
+    3
+   ]
+  },
+  {
+   "case": "role-1-10",
+   "mode": "improve",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 10,
+   "role_expected": 10,
+   "recommendation_draws": [
+    3
+   ]
+  },
+  {
+   "case": "role-0-11",
+   "mode": "improve",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:234E": 1
+   },
+   "role_after": 11,
+   "role_expected": 11,
+   "recommendation_draws": [
+    9
+   ]
+  },
+  {
+   "case": "role-1-11",
+   "mode": "improve",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:234E": 1
+   },
+   "role_after": 11,
+   "role_expected": 11,
+   "recommendation_draws": [
+    9
+   ]
+  },
+  {
+   "case": "role-0-12",
+   "mode": "improve",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 12,
+   "role_expected": 12,
+   "recommendation_draws": [
+    1
+   ]
+  },
+  {
+   "case": "role-1-12",
+   "mode": "improve",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 12,
+   "role_expected": 12,
+   "recommendation_draws": [
+    1
+   ]
+  },
+  {
+   "case": "role-0-13",
+   "mode": "improve",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 13,
+   "role_expected": 13,
+   "recommendation_draws": [
+    4
+   ]
+  },
+  {
+   "case": "role-1-13",
+   "mode": "improve",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 13,
+   "role_expected": 13,
+   "recommendation_draws": [
+    4
+   ]
+  },
+  {
+   "case": "recommend-text-2071-0-1",
+   "mode": "ties",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    1
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-1-1",
+   "mode": "ties",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    1
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-0-2",
+   "mode": "ties",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    2
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-1-2",
+   "mode": "ties",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    2
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-0-3",
+   "mode": "ties",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    3
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-1-3",
+   "mode": "ties",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    3
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-0-4",
+   "mode": "ties",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    4
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-1-4",
+   "mode": "ties",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    4
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-0-5",
+   "mode": "ties",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    5
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-1-5",
+   "mode": "ties",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:226A": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    5
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-0-6",
+   "mode": "ties",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:22A4": 1,
+    "000E:22CC": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    6
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-1-6",
+   "mode": "ties",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:22A4": 1,
+    "000E:22CC": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    6
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-0-7",
+   "mode": "ties",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:22EA": 1,
+    "000E:2307": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    7
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-1-7",
+   "mode": "ties",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:22EA": 1,
+    "000E:2307": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    7
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-0-8",
+   "mode": "ties",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:2331": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    8
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-1-8",
+   "mode": "ties",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:2331": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    8
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-0-9",
+   "mode": "ties",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:234E": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    9
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-1-9",
+   "mode": "ties",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:234E": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    9
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-0-10",
+   "mode": "ties",
+   "side": 0,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:2370": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    10
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  },
+  {
+   "case": "recommend-text-2071-1-10",
+   "mode": "ties",
+   "side": 1,
+   "recommendation_result": [
+    1
+   ],
+   "direct_calls_by_return": {
+    "000E:209D": 1,
+    "000E:210F": 20,
+    "000E:2126": 20,
+    "000E:213E": 1,
+    "000E:21DE": 80,
+    "000E:21F6": 1,
+    "000E:222E": 1,
+    "000E:223F": 1,
+    "000E:2370": 1
+   },
+   "role_after": 0,
+   "role_expected": 0,
+   "recommendation_draws": [
+    10
+   ],
+   "weak_player": 121,
+   "expected_weak": 121,
+   "pool_player": 2564,
+   "expected_pool": 2564
+  }
+ ],
+ "runtime_source": {
+  "path": "runtime/original_match/port/news.py",
+  "sha256": "f5c124810813353cbd59d27f54985bd60e6d1618ec1297e466b58e2664e6509b",
+  "fixed_source_commit": "47e4cc8966b99fe2bbf92043873e1678083b53aa",
+  "unchanged_in_all_accepted_proofs": true
+ },
+ "current_source_hashes": {
+  "tests/test_port_news.py": "1ce17361cd42bd328758a73fbc8339db115465bc1df322d75c174db55a7646f9",
+  "experiments/E040-route-fixture-writes/prove.py": "359bbd6e6005d9b3ba7876c62f4af6e7dc08fe51b124d8bb8b1fe211656bbcc3",
+  "experiments/E040-route-fixture-writes/out/T122c/prove_secondary.py": "14b3bb183f63dc687cb2dab09752ed4ef6fab1ee574d62a7ff0dba7f596e2452",
+  "experiments/E040-route-fixture-writes/out/T122c/generate_secondary.py": "dd3bfe26709f819e040654d94f68eff765e9543fda56185ae56e03fcb7f632ac"
+ },
+ "diagnostic_receipts": [
+  {
+   "path": "dev/prove-news+route+silent-20261105T153858Z.json",
+   "sha256": "cd1a2c2a23d449408f890e86617d21fb6695a4c89dc1979eb1457813f98cffdd",
+   "reason": "first one-case development proof; same runtime source, superseded by complete accepted corpus"
+  }
+ ],
+ "checks": {
+  "required_secondary": "final-secondary-tests.log",
+  "cumulative": "t122c-final-focused.log",
+  "annotations": "final-annotations.log",
+  "fail_before": "fail-before-eight.log"
+ },
+ "limits": [
+  "Only the12published source states are natural evidence. All standalone inputs are isolated function-domain probes, not complete natural-calendar states.",
+  "The100role-population stress frames intentionally assign controlled positions/strength/status fields; no legal lineup or product auto-selection policy is claimed.",
+  "The4wrapped-index frames deliberately change the manager pool-base word toFFF0 and prove the original unsigned wrapped-end skip.",
+  "The130isolated-column frames include4pool-gate controls; they must not be added again when summing234.",
+  "The pool caller retains no extra availability filter. Its original strength callee still applies its own availability rule.",
+  "Full unit-suite validation is left to CI and required before merge."
+ ]
+}

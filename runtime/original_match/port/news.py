@@ -1,4 +1,4 @@
-"""T122a/b: shared post-match news primitives and result column.
+"""T122a–c: shared post-match news primitives and result text.
 
 [confirmed: F012/F025/F039; upstream7032ce40; named/seg_000E_01..04.c,
 then code/seg_000E_01.asm 03C4-0A52, _02.asm 0A53-0CCC/11D9-1F4C, _03.asm 1F4D-2013,
@@ -17,11 +17,13 @@ from .setup import farg, rb, rw, w8
 from .silent import _ds_far, country_of, save_ptr
 from .route import near, far
 
-PORTS = Registry('news', 'shared news formatting, waits, ratings and result-column text (T122a/b)')
+PORTS = Registry('news', 'shared news formatting, waits, ratings and result text (T122a–c)')
 PORTS.variant('crowd-draw-dropped', '045D: omit the conditional third RNG draw at04B2')
 PORTS.variant('centering-width-minus-one', '03C4: center to width minus one')
 PORTS.variant('result-draw-dropped', '11D9: omit a direct result-column RNG draw')
 PORTS.variant('result-text-inverted', '11D9 at1213: exchange winning and non-winning text branches')
+PORTS.variant('secondary-draw-dropped', '26F2: omit one direct result-column RNG draw')
+PORTS.variant('secondary-text-byte-flipped', '26F2 at274D: flip one country-name buffer byte')
 M16 = 0xffff
 
 
@@ -2156,5 +2158,1247 @@ def _result_at_1e55(mem, r, variant):
 
 
 def _result_at_1ec5(mem, r, variant):
+    yield from ()
+    return r
+
+
+# T122c [confirmed: F039; code/seg_000E_03.asm 2071-2389/26F2-2E1E].
+# The two real recommendation loops are explicit below. Only their acyclic
+# bodies/tails and the secondary column's acyclic branches are factored.
+def _secondary_call(mem, r, variant, target, words, ret, far):
+    if variant == 'secondary-draw-dropped' and target == '214B:06B1' and 0x26F2 < ret < 0x2E1F:
+        for _ in range(words):
+            pop(mem, r)
+        r.ax = 1
+        return r
+    r = yield from _result_call(mem, r, variant, target, words, ret, far)
+    if variant == 'secondary-text-byte-flipped' and ret == 0x274D:
+        off, seg = ss16(mem, r, r.sp), ss16(mem, r, r.sp + 2)
+        p = mem.addr(seg, off)
+        if mem.u8(p):
+            mem.w8(p + 1, mem.u8(p + 1) ^ 1, '000E:274D')
+    return r
+
+
+@PORTS.port('000E:2071', ret='ret 2')
+def recommend_pool_player(mem, variant):
+    """Original 20-slot minimum and 80-slot pool maximum, with strict ties.
+
+    Both candidate improvements make the original second strength call.
+    Pool candidates have no additional availability check in this caller.
+    """
+    r = Regs(mem)
+    r.enter(0x312)
+    r.di = ss16(mem, r, r.bp + 4)  # 2078
+    r.di = ss16(mem, r, r.di + 4)  # 207B
+    r.ax = ss16(mem, r, r.di + 8)  # 207F
+    r.dx = 0xbf  # 2083
+    mul(r, r.dx)  # 2086
+    r.es, r.di = mem.ds16((0xa917 + 2) & M16), mem.ds16((0xa917) & M16)  # 2088
+    r.di = r.di + r.ax  # 208C
+    r.local16(-0xd, r.di)  # 208E
+    r.local16(-0xb, r.es)  # 2091
+    r.ax = 0xe  # 2094
+    r.push(r.ax)  # 2097
+    r = yield from _secondary_call(mem, r, variant, '214B:06B1', 1, 0x209D, far=True)  # 2098
+    r.ax = r.ax - 1  # 209D
+    mem.wds8(0x22, r.al, '000E:209E')  # 209E
+    r.local8(-1, 0)  # 20A1
+    r.es, r.di = ss16(mem, r, r.bp - 0xd + 2), ss16(mem, r, r.bp - 0xd)  # 20A5
+    r.al = mem.u8(mem.addr(r.es, r.di + 0x2e))  # 20A8
+    r.ah = 0  # 20AC
+    r.ax = r.ax - 0x80  # 20AE
+    r.es, r.di = mem.ds16((0xa923 + 2) & M16), mem.ds16((0xa923) & M16)  # 20B1
+    r.di = r.di + r.ax  # 20B5
+    _left, _right = mem.u8(mem.addr(r.es, r.di + 0x13)), 0  # 20B7
+    if _left == _right:  # 20BC
+        r.local16(-3, 0xffff)  # 20C1
+        r.local16(-5, 1)  # 20C6
+        while True:  # 20D0; back edge 2158 -> 20CD
+            r = yield from _secondary_squad_20d0(mem, r, variant)
+            _left, _right = ss16(mem, r, r.bp - 5), 0x14  # 2152
+            if _left == _right:  # 2156
+                break
+            r.local16(-5, ss16(mem, r, r.bp - 5) + 1)  # 20CD
+        _left, _right = ss16(mem, r, r.bp - 3), 0xffff  # 215B
+        if _left < _right:  # 215F
+            r.es, r.di = ss16(mem, r, r.bp - 0xd + 2), ss16(mem, r, r.bp - 0xd)  # 2164
+            r.al = mem.u8(mem.addr(r.es, r.di + 0x2e))  # 2167
+            r.ah = 0  # 216B
+            r.ax = r.ax - 0x80  # 216D
+            r.di = r.ax  # 2170
+            r.di = r.di << 1  # 2172
+            r.ax = mem.ds16((r.di + 0x6d18) & M16)  # 2174
+            r.ax = r.ax + 0x4f  # 2178
+            r.local16(-0xf, r.ax)  # 217B
+            r.es, r.di = ss16(mem, r, r.bp - 0xd + 2), ss16(mem, r, r.bp - 0xd)  # 217E
+            r.al = mem.u8(mem.addr(r.es, r.di + 0x2e))  # 2181
+            r.ah = 0  # 2185
+            r.ax = r.ax - 0x80  # 2187
+            r.di = r.ax  # 218A
+            r.di = r.di << 1  # 218C
+            r.ax = mem.ds16((r.di + 0x6d18) & M16)  # 218E
+            _left, _right = r.ax, ss16(mem, r, r.bp - 0xf)  # 2192
+            if _left <= _right:  # 2195 (JA skips the pool loop)
+                r.local16(-5, r.ax)  # 2197
+                while True:  # 219F; back edge 2210 -> 219C
+                    r = yield from _secondary_pool_219f(mem, r, variant)
+                    r.ax = ss16(mem, r, r.bp - 5)  # 220A
+                    _left, _right = r.ax, ss16(mem, r, r.bp - 0xf)  # 220D
+                    if _left == _right:  # 2210
+                        break
+                    r.local16(-5, ss16(mem, r, r.bp - 5) + 1)  # 219C
+            r.ax = ss16(mem, r, r.bp - 7)  # 2212
+            r.dx = 0x14  # 2215
+            mul(r, r.dx)  # 2218
+            r.es, r.di = mem.ds16((0xa91b + 2) & M16), mem.ds16((0xa91b) & M16)  # 221A
+            r.di = r.di + r.ax  # 221E
+            r.local16(-0x11, r.di)  # 2220
+            r.local16(-0xf, r.es)  # 2223
+            r.push(ss16(mem, r, r.bp - 7))  # 2226
+            r = yield from _secondary_call(mem, r, variant, '1771:377E', 1, 0x222E, far=True)  # 2229
+            _left, _right = r.ax, ss16(mem, r, r.bp - 3)  # 222E
+            if _left < _right:  # 2231
+                r.ax = 0xa  # 2236
+                r.push(r.ax)  # 2239
+                r = yield from _secondary_call(mem, r, variant, '214B:06B1', 1, 0x223F, far=True)  # 223A
+                r = yield from _secondary_recommend_223f(mem, r, variant)
+    r.al = ss8(mem, r, r.bp - 1)  # 2381
+    return _end(r, value=True)
+
+
+def _secondary_squad_20d0(mem, r, variant):
+    r.ax = ss16(mem, r, r.bp - 5)  # 20D0
+    r.ax = r.ax << 1  # 20D3
+    r.es, r.di = ss16(mem, r, r.bp - 0xd + 2), ss16(mem, r, r.bp - 0xd)  # 20D5
+    r.di = r.di + r.ax  # 20D8
+    r.ax = mem.u16(mem.addr(r.es, r.di - 2))  # 20DA
+    r.dx = 0x14  # 20DE
+    mul(r, r.dx)  # 20E1
+    r.es, r.di = mem.ds16((0xa91b + 2) & M16), mem.ds16((0xa91b) & M16)  # 20E3
+    r.di = r.di + r.ax  # 20E7
+    r.local16(-0x11, r.di)  # 20E9
+    r.local16(-0xf, r.es)  # 20EC
+    r.es, r.di = ss16(mem, r, r.bp - 0x11 + 2), ss16(mem, r, r.bp - 0x11)  # 20EF
+    r.al = mem.u8(mem.addr(r.es, r.di + 6))  # 20F2
+    _left, _right = r.al, mem.ds8((0x22) & M16)  # 20F6
+    if _left != _right:  # 20FA
+        pass
+    else:
+        r.ax = ss16(mem, r, r.bp - 5)  # 20FC
+        r.ax = r.ax << 1  # 20FF
+        r.es, r.di = ss16(mem, r, r.bp - 0xd + 2), ss16(mem, r, r.bp - 0xd)  # 2101
+        r.di = r.di + r.ax  # 2104
+        r.push(mem.u16(mem.addr(r.es, r.di - 2)))  # 2106
+        r = yield from _secondary_call(mem, r, variant, '1771:3216', 1, 0x210F, far=True)  # 210A
+        _left, _right = r.al, 0  # 210F
+        if _left != _right:  # 2111
+            pass
+        else:
+            r.ax = ss16(mem, r, r.bp - 5)  # 2113
+            r.ax = r.ax << 1  # 2116
+            r.es, r.di = ss16(mem, r, r.bp - 0xd + 2), ss16(mem, r, r.bp - 0xd)  # 2118
+            r.di = r.di + r.ax  # 211B
+            r.push(mem.u16(mem.addr(r.es, r.di - 2)))  # 211D
+            r = yield from _secondary_call(mem, r, variant, '1771:377E', 1, 0x2126, far=True)  # 2121
+            _left, _right = r.ax, ss16(mem, r, r.bp - 3)  # 2126
+            if _left >= _right:  # 2129
+                pass
+            else:
+                r.ax = ss16(mem, r, r.bp - 5)  # 212B
+                r.ax = r.ax << 1  # 212E
+                r.es, r.di = ss16(mem, r, r.bp - 0xd + 2), ss16(mem, r, r.bp - 0xd)  # 2130
+                r.di = r.di + r.ax  # 2133
+                r.push(mem.u16(mem.addr(r.es, r.di - 2)))  # 2135
+                r = yield from _secondary_call(mem, r, variant, '1771:377E', 1, 0x213E, far=True)  # 2139
+                r.local16(-3, r.ax)  # 213E
+                r.ax = ss16(mem, r, r.bp - 5)  # 2141
+                r.ax = r.ax << 1  # 2144
+                r.es, r.di = ss16(mem, r, r.bp - 0xd + 2), ss16(mem, r, r.bp - 0xd)  # 2146
+                r.di = r.di + r.ax  # 2149
+                r.ax = mem.u16(mem.addr(r.es, r.di - 2))  # 214B
+                r.local16(-7, r.ax)  # 214F
+    return r
+
+
+def _secondary_pool_219f(mem, r, variant):
+    r.ax = ss16(mem, r, r.bp - 5)  # 219F
+    r.ax = r.ax << 1  # 21A2
+    r.es, r.di = mem.ds16((0xa927 + 2) & M16), mem.ds16((0xa927) & M16)  # 21A4
+    r.di = r.di + r.ax  # 21A8
+    r.ax = mem.u16(mem.addr(r.es, r.di))  # 21AA
+    r.dx = 0x14  # 21AD
+    mul(r, r.dx)  # 21B0
+    r.es, r.di = mem.ds16((0xa91b + 2) & M16), mem.ds16((0xa91b) & M16)  # 21B2
+    r.di = r.di + r.ax  # 21B6
+    r.local16(-0x13, r.di)  # 21B8
+    r.local16(-0x11, r.es)  # 21BB
+    r.es, r.di = ss16(mem, r, r.bp - 0x13 + 2), ss16(mem, r, r.bp - 0x13)  # 21BE
+    r.al = mem.u8(mem.addr(r.es, r.di + 7))  # 21C1
+    _left, _right = r.al, mem.ds8((0x22) & M16)  # 21C5
+    if _left != _right:  # 21C9
+        pass
+    else:
+        r.ax = ss16(mem, r, r.bp - 5)  # 21CB
+        r.ax = r.ax << 1  # 21CE
+        r.es, r.di = mem.ds16((0xa927 + 2) & M16), mem.ds16((0xa927) & M16)  # 21D0
+        r.di = r.di + r.ax  # 21D4
+        r.push(mem.u16(mem.addr(r.es, r.di)))  # 21D6
+        r = yield from _secondary_call(mem, r, variant, '1771:377E', 1, 0x21DE, far=True)  # 21D9
+        _left, _right = r.ax, ss16(mem, r, r.bp - 3)  # 21DE
+        if _left <= _right:  # 21E1
+            pass
+        else:
+            r.ax = ss16(mem, r, r.bp - 5)  # 21E3
+            r.ax = r.ax << 1  # 21E6
+            r.es, r.di = mem.ds16((0xa927 + 2) & M16), mem.ds16((0xa927) & M16)  # 21E8
+            r.di = r.di + r.ax  # 21EC
+            r.push(mem.u16(mem.addr(r.es, r.di)))  # 21EE
+            r = yield from _secondary_call(mem, r, variant, '1771:377E', 1, 0x21F6, far=True)  # 21F1
+            r.local16(-3, r.ax)  # 21F6
+            r.ax = ss16(mem, r, r.bp - 5)  # 21F9
+            r.ax = r.ax << 1  # 21FC
+            r.es, r.di = mem.ds16((0xa927 + 2) & M16), mem.ds16((0xa927) & M16)  # 21FE
+            r.di = r.di + r.ax  # 2202
+            r.ax = mem.u16(mem.addr(r.es, r.di))  # 2204
+            r.local16(-9, r.ax)  # 2207
+    return r
+
+
+def _secondary_recommend_223f(mem, r, variant):
+    r.local16(-3, r.ax)  # 223F
+    r.ax = ss16(mem, r, r.bp - 3)  # 2242
+    _left, _right = r.ax, 1  # 2245
+    if _left < _right:  # 2248
+        return (yield from _secondary_recommend_228c(mem, r, variant))
+    else:
+        _left, _right = r.ax, 5  # 224A
+        if _left > _right:  # 224D
+            return (yield from _secondary_recommend_228c(mem, r, variant))
+        else:
+            r.di = ss16(mem, r, r.bp - 3)  # 224F
+            r.cx = (r.cx & 0xff00) | ((4) & 255)  # 2252
+            r.di = r.di << (r.cx & 255)  # 2254
+            r.di = r.di + 0x14  # 2256
+            r.push(mem.DS)  # 225A
+            r.push(r.di)  # 225B
+            r.di = r.bp - 0x111  # 225C
+            r.push(r.ss)  # 2260
+            r.push(r.di)  # 2261
+            r.push(ss16(mem, r, r.bp - 9))  # 2262
+            r = yield from _secondary_call(mem, r, variant, '1771:2E93', 1, 0x226A, far=True)  # 2265
+            r.di = 0x2014  # 226A
+            r.push(mem.seg(0xE))  # 226D
+            r.push(r.di)  # 226E
+            r = yield from _secondary_call(mem, r, variant, '23E4:06B7', 2, 0x2274, far=True)  # 226F
+            r.al = mem.ds8((0x22) & M16)  # 2274
+            r.ah = 0  # 2277
+            r.dx = 0x13  # 2279
+            mul(r, r.dx)  # 227C
+            r.di = r.ax  # 227E
+            r.di = r.di + 0x69b6  # 2280
+            r.push(mem.DS)  # 2284
+            r.push(r.di)  # 2285
+            r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2289, far=False)  # 2286
+    return (yield from _secondary_recommend_237d(mem, r, variant))
+    return r
+
+
+def _secondary_recommend_228c(mem, r, variant):
+    _left, _right = r.ax, 6  # 228C
+    if _left != _right:  # 228F
+        _left, _right = r.ax, 7  # 22D7
+        if _left != _right:  # 22DA
+            _left, _right = r.ax, 8  # 230C
+            if _left != _right:  # 230F
+                _left, _right = r.ax, 9  # 233B
+                if _left != _right:  # 233E
+                    _left, _right = r.ax, 0xa  # 235D
+                    if _left != _right:  # 2360
+                        pass
+                    else:
+                        r.di = r.bp - 0x111  # 2362
+                        r.push(r.ss)  # 2366
+                        r.push(r.di)  # 2367
+                        r.push(ss16(mem, r, r.bp - 9))  # 2368
+                        r = yield from _secondary_call(mem, r, variant, '1771:2E93', 1, 0x2370, far=True)  # 236B
+                        r.di = 0x205c  # 2370
+                        r.push(mem.seg(0xE))  # 2373
+                        r.push(r.di)  # 2374
+                        r.di = 0x2065  # 2375
+                        r.push(mem.seg(0xE))  # 2378
+                        r.push(r.di)  # 2379
+                        r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x237D, far=False)  # 237A
+                else:
+                    r.di = r.bp - 0x111  # 2340
+                    r.push(r.ss)  # 2344
+                    r.push(r.di)  # 2345
+                    r.push(ss16(mem, r, r.bp - 9))  # 2346
+                    r = yield from _secondary_call(mem, r, variant, '1771:2E93', 1, 0x234E, far=True)  # 2349
+                    r.di = 0x204c  # 234E
+                    r.push(mem.seg(0xE))  # 2351
+                    r.push(r.di)  # 2352
+                    r.di = 0x2055  # 2353
+                    r.push(mem.seg(0xE))  # 2356
+                    r.push(r.di)  # 2357
+                    r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x235B, far=False)  # 2358
+            else:
+                r.al = mem.ds8((0x22) & M16)  # 2311
+                r.ah = 0  # 2314
+                r.dx = 0x13  # 2316
+                mul(r, r.dx)  # 2319
+                r.di = r.ax  # 231B
+                r.di = r.di + 0x69b6  # 231D
+                r.push(mem.DS)  # 2321
+                r.push(r.di)  # 2322
+                r.di = r.bp - 0x111  # 2323
+                r.push(r.ss)  # 2327
+                r.push(r.di)  # 2328
+                r.push(ss16(mem, r, r.bp - 7))  # 2329
+                r = yield from _secondary_call(mem, r, variant, '1771:2E93', 1, 0x2331, far=True)  # 232C
+                r.di = 0x2042  # 2331
+                r.push(mem.seg(0xE))  # 2334
+                r.push(r.di)  # 2335
+                r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2339, far=False)  # 2336
+        else:
+            r.di = r.bp - 0x111  # 22DC
+            r.push(r.ss)  # 22E0
+            r.push(r.di)  # 22E1
+            r.push(ss16(mem, r, r.bp - 9))  # 22E2
+            r = yield from _secondary_call(mem, r, variant, '1771:2E93', 1, 0x22EA, far=True)  # 22E5
+            r.di = 0x202d  # 22EA
+            r.push(mem.seg(0xE))  # 22ED
+            r.push(r.di)  # 22EE
+            r = yield from _secondary_call(mem, r, variant, '23E4:06B7', 2, 0x22F4, far=True)  # 22EF
+            r.di = 0x2031  # 22F4
+            r.push(mem.seg(0xE))  # 22F7
+            r.push(r.di)  # 22F8
+            r.di = r.bp - 0x211  # 22F9
+            r.push(r.ss)  # 22FD
+            r.push(r.di)  # 22FE
+            r.push(ss16(mem, r, r.bp - 7))  # 22FF
+            r = yield from _secondary_call(mem, r, variant, '1771:2E93', 1, 0x2307, far=True)  # 2302
+            r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x230A, far=False)  # 2307
+    else:
+        r.di = 0x2018  # 2291
+        r.push(mem.seg(0xE))  # 2294
+        r.push(r.di)  # 2295
+        r.di = r.bp - 0x111  # 2296
+        r.push(r.ss)  # 229A
+        r.push(r.di)  # 229B
+        r.push(ss16(mem, r, r.bp - 7))  # 229C
+        r = yield from _secondary_call(mem, r, variant, '1771:2E93', 1, 0x22A4, far=True)  # 229F
+        r.di = 0x2023  # 22A4
+        r.push(mem.seg(0xE))  # 22A7
+        r.push(r.di)  # 22A8
+        r = yield from _secondary_call(mem, r, variant, '23E4:06B7', 2, 0x22AE, far=True)  # 22A9
+        r.di = r.bp - 0x311  # 22AE
+        r.push(r.ss)  # 22B2
+        r.push(r.di)  # 22B3
+        r.di = 0x2028  # 22B4
+        r.push(mem.seg(0xE))  # 22B7
+        r.push(r.di)  # 22B8
+        r = yield from _secondary_call(mem, r, variant, '23E4:062A', 2, 0x22BE, far=True)  # 22B9
+        r.di = r.bp - 0x211  # 22BE
+        r.push(r.ss)  # 22C2
+        r.push(r.di)  # 22C3
+        r.push(ss16(mem, r, r.bp - 9))  # 22C4
+        r = yield from _secondary_call(mem, r, variant, '1771:2E93', 1, 0x22CC, far=True)  # 22C7
+        r = yield from _secondary_call(mem, r, variant, '23E4:06B7', 2, 0x22D1, far=True)  # 22CC
+        r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x22D4, far=False)  # 22D1
+    return (yield from _secondary_recommend_237d(mem, r, variant))
+    return r
+
+
+def _secondary_recommend_237d(mem, r, variant):
+    yield from ()
+    r.local8(-1, 1)  # 237D
+    return r
+
+
+@PORTS.port('000E:26F2', ret='ret 2')
+def secondary_result_column(mem, variant):
+    """Original right-column branch tree; recommendation 2071 remains a real call."""
+    r = Regs(mem)
+    r.enter(0x308)
+    r = yield from _secondary_column_26f9(mem, r, variant)
+    return _end(r)
+
+
+def _secondary_column_26f9(mem, r, variant):
+    r.di = ss16(mem, r, r.bp + 4)  # 26F9
+    r.es, r.di = ss16(mem, r, r.di + 4 + 2), ss16(mem, r, r.di + 4)  # 26FC
+    r.local16(-4, r.di)  # 2700
+    r.local16(-2, r.es)  # 2703
+    r.di = ss16(mem, r, r.bp + 4)  # 2706
+    r.ax = ss16(mem, r, r.di + 8)  # 2709
+    r.dx = 0xbf  # 270D
+    mul(r, r.dx)  # 2710
+    r.es, r.di = mem.ds16((0xa917 + 2) & M16), mem.ds16((0xa917) & M16)  # 2712
+    r.di = r.di + r.ax  # 2716
+    r.local16(-8, r.di)  # 2718
+    r.local16(-6, r.es)  # 271B
+    r.es, r.di = ss16(mem, r, r.bp - 4 + 2), ss16(mem, r, r.bp - 4)  # 271E
+    r.al = mem.u8(mem.addr(r.es, r.di + 3))  # 2721
+    r.di = ss16(mem, r, r.bp + 4)  # 2725
+    _left, _right = r.al, ss8(mem, r, r.di - 1)  # 2728
+    if _left == _right:  # 272C
+        r.es, r.di = ss16(mem, r, r.bp - 4 + 2), ss16(mem, r, r.bp - 4)  # 2731
+        r.al = mem.u8(mem.addr(r.es, r.di + 2))  # 2734
+        _left, _right = r.al, 0xcb  # 2738
+        if _left != _right:  # 273A
+            _left, _right = r.al, 0x67  # 2774
+            if _left != _right:  # 2776
+                _left, _right = r.al, 0xc9  # 2794
+                if _left == _right:  # 2796
+                    return (yield from _secondary_column_279c(mem, r, variant))
+                else:
+                    _left, _right = r.al, 0x65  # 2798
+                    if _left != _right:  # 279A
+                        r.push(r.bp)  # 27C9
+                        r = yield from _secondary_call(mem, r, variant, '000E:2071', 1, 0x27CD, far=False)  # 27CA
+                        _left, _right = r.al, 0  # 27CD
+                        if _left == _right:  # 27CF
+                            r.es, r.di = ss16(mem, r, r.bp - 8 + 2), ss16(mem, r, r.bp - 8)  # 27D4
+                            r.al = mem.u8(mem.addr(r.es, r.di + 0xac))  # 27D7
+                            _left, _right = r.al, 1  # 27DC
+                            if _left == _right:  # 27DE
+                                r.ax = 4  # 27E3
+                                r.push(r.ax)  # 27E6
+                                r = yield from _secondary_call(mem, r, variant, '214B:06B1', 1, 0x27EC, far=True)  # 27E7
+                                _left, _right = r.ax, 1  # 27EC
+                                if _left != _right:  # 27EF
+                                    _left, _right = r.ax, 2  # 280C
+                                    if _left != _right:  # 280F
+                                        _left, _right = r.ax, 3  # 2836
+                                        if _left != _right:  # 2839
+                                            _left, _right = r.ax, 4  # 2860
+                                            if _left != _right:  # 2863
+                                                pass
+                                            else:
+                                                r.di = r.bp - 0x108  # 2865
+                                                r.push(r.ss)  # 2869
+                                                r.push(r.di)  # 286A
+                                                r.push(ss16(mem, r, r.bp + 4))  # 286B
+                                                r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2871, far=False)  # 286E
+                                                r.di = 0x240b  # 2871
+                                                r.push(mem.seg(0xE))  # 2874
+                                                r.push(r.di)  # 2875
+                                                r.di = 0x2415  # 2876
+                                                r.push(mem.seg(0xE))  # 2879
+                                                r.push(r.di)  # 287A
+                                                r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x287E, far=False)  # 287B
+                                        else:
+                                            r.di = 0x23ff  # 283B
+                                            r.push(mem.seg(0xE))  # 283E
+                                            r.push(r.di)  # 283F
+                                            r.di = r.bp - 0x108  # 2840
+                                            r.push(r.ss)  # 2844
+                                            r.push(r.di)  # 2845
+                                            r.push(ss16(mem, r, r.bp + 4))  # 2846
+                                            r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x284C, far=False)  # 2849
+                                            r.di = 0x23fc  # 284C
+                                            r.push(mem.seg(0xE))  # 284F
+                                            r.push(r.di)  # 2850
+                                            r = yield from _secondary_call(mem, r, variant, '23E4:06B7', 2, 0x2856, far=True)  # 2851
+                                            r.di = 0x23fe  # 2856
+                                            r.push(mem.seg(0xE))  # 2859
+                                            r.push(r.di)  # 285A
+                                            r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x285E, far=False)  # 285B
+                                    else:
+                                        r.di = 0x23ee  # 2811
+                                        r.push(mem.seg(0xE))  # 2814
+                                        r.push(r.di)  # 2815
+                                        r.di = r.bp - 0x108  # 2816
+                                        r.push(r.ss)  # 281A
+                                        r.push(r.di)  # 281B
+                                        r.push(ss16(mem, r, r.bp + 4))  # 281C
+                                        r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2822, far=False)  # 281F
+                                        r.di = 0x23fc  # 2822
+                                        r.push(mem.seg(0xE))  # 2825
+                                        r.push(r.di)  # 2826
+                                        r = yield from _secondary_call(mem, r, variant, '23E4:06B7', 2, 0x282C, far=True)  # 2827
+                                        r.di = 0x23fe  # 282C
+                                        r.push(mem.seg(0xE))  # 282F
+                                        r.push(r.di)  # 2830
+                                        r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2834, far=False)  # 2831
+                                else:
+                                    r.di = 0x23d4  # 27F1
+                                    r.push(mem.seg(0xE))  # 27F4
+                                    r.push(r.di)  # 27F5
+                                    r.di = 0x23e4  # 27F6
+                                    r.push(mem.seg(0xE))  # 27F9
+                                    r.push(r.di)  # 27FA
+                                    r.di = r.bp - 0x108  # 27FB
+                                    r.push(r.ss)  # 27FF
+                                    r.push(r.di)  # 2800
+                                    r.push(ss16(mem, r, r.bp + 4))  # 2801
+                                    r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2807, far=False)  # 2804
+                                    r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x280A, far=False)  # 2807
+                                return (yield from _secondary_column_287e(mem, r, variant))
+                            else:
+                                _left, _right = r.al, 2  # 2881
+                                if _left != _right:  # 2883
+                                    _left, _right = r.al, 3  # 28BE
+                                    if _left != _right:  # 28C0
+                                        _left, _right = r.al, 4  # 28DE
+                                        if _left != _right:  # 28E0
+                                            _left, _right = r.al, 5  # 28FE
+                                            if _left != _right:  # 2900
+                                                _left, _right = r.al, 6  # 291E
+                                                if _left != _right:  # 2920
+                                                    _left, _right = r.al, 7  # 293E
+                                                    if _left != _right:  # 2940
+                                                        r.ax = 0x10  # 295E
+                                                        r.push(r.ax)  # 2961
+                                                        r = yield from _secondary_call(mem, r, variant, '214B:06B1', 1, 0x2967, far=True)  # 2962
+                                                        _left, _right = r.ax, 1  # 2967
+                                                        if _left != _right:  # 296A
+                                                            _left, _right = r.ax, 2  # 2988
+                                                            if _left != _right:  # 298B
+                                                                _left, _right = r.ax, 3  # 29A9
+                                                                if _left != _right:  # 29AC
+                                                                    _left, _right = r.ax, 4  # 29CA
+                                                                    if _left != _right:  # 29CD
+                                                                        _left, _right = r.ax, 5  # 29EB
+                                                                        if _left != _right:  # 29EE
+                                                                            _left, _right = r.ax, 6  # 2A0C
+                                                                            if _left != _right:  # 2A0F
+                                                                                _left, _right = r.ax, 7  # 2A2D
+                                                                                if s16(_left) < s16(_right):  # 2A30
+                                                                                    return (yield from _secondary_column_2a6a(mem, r, variant))
+                                                                                else:
+                                                                                    _left, _right = r.ax, 9  # 2A32
+                                                                                    if s16(_left) > s16(_right):  # 2A35
+                                                                                        return (yield from _secondary_column_2a6a(mem, r, variant))
+                                                                                    else:
+                                                                                        r.di = r.bp - 0x108  # 2A37
+                                                                                        r.push(r.ss)  # 2A3B
+                                                                                        r.push(r.di)  # 2A3C
+                                                                                        r.es, r.di = ss16(mem, r, r.bp - 8 + 2), ss16(mem, r, r.bp - 8)  # 2A3D
+                                                                                        r.al = mem.u8(mem.addr(r.es, r.di + 0xac))  # 2A40
+                                                                                        r.ah = 0  # 2A45
+                                                                                        r.dx = 0  # 2A47
+                                                                                        r.push(r.dx)  # 2A49
+                                                                                        r.push(r.ax)  # 2A4A
+                                                                                        r = yield from _secondary_call(mem, r, variant, '214B:09DA', 2, 0x2A50, far=True)  # 2A4B
+                                                                                        r.di = 0x2500  # 2A50
+                                                                                        r.push(mem.seg(0xE))  # 2A53
+                                                                                        r.push(r.di)  # 2A54
+                                                                                        r = yield from _secondary_call(mem, r, variant, '23E4:06B7', 2, 0x2A5A, far=True)  # 2A55
+                                                                                        r.di = 0x2506  # 2A5A
+                                                                                        r.push(mem.seg(0xE))  # 2A5D
+                                                                                        r.push(r.di)  # 2A5E
+                                                                                        r.di = 0x23fe  # 2A5F
+                                                                                        r.push(mem.seg(0xE))  # 2A62
+                                                                                        r.push(r.di)  # 2A63
+                                                                                        r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2A67, far=False)  # 2A64
+                                                                            else:
+                                                                                r.di = 0x24f4  # 2A11
+                                                                                r.push(mem.seg(0xE))  # 2A14
+                                                                                r.push(r.di)  # 2A15
+                                                                                r.di = r.bp - 0x108  # 2A16
+                                                                                r.push(r.ss)  # 2A1A
+                                                                                r.push(r.di)  # 2A1B
+                                                                                r.push(ss16(mem, r, r.bp + 4))  # 2A1C
+                                                                                r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2A22, far=False)  # 2A1F
+                                                                                r.di = 0x23fe  # 2A22
+                                                                                r.push(mem.seg(0xE))  # 2A25
+                                                                                r.push(r.di)  # 2A26
+                                                                                r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2A2A, far=False)  # 2A27
+                                                                        else:
+                                                                            r.di = r.bp - 0x108  # 29F0
+                                                                            r.push(r.ss)  # 29F4
+                                                                            r.push(r.di)  # 29F5
+                                                                            r.push(ss16(mem, r, r.bp + 4))  # 29F6
+                                                                            r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x29FC, far=False)  # 29F9
+                                                                            r.di = 0x24dd  # 29FC
+                                                                            r.push(mem.seg(0xE))  # 29FF
+                                                                            r.push(r.di)  # 2A00
+                                                                            r.di = 0x24e9  # 2A01
+                                                                            r.push(mem.seg(0xE))  # 2A04
+                                                                            r.push(r.di)  # 2A05
+                                                                            r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2A09, far=False)  # 2A06
+                                                                    else:
+                                                                        r.di = 0x2439  # 29CF
+                                                                        r.push(mem.seg(0xE))  # 29D2
+                                                                        r.push(r.di)  # 29D3
+                                                                        r.di = r.bp - 0x108  # 29D4
+                                                                        r.push(r.ss)  # 29D8
+                                                                        r.push(r.di)  # 29D9
+                                                                        r.push(ss16(mem, r, r.bp + 4))  # 29DA
+                                                                        r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x29E0, far=False)  # 29DD
+                                                                        r.di = 0x23fe  # 29E0
+                                                                        r.push(mem.seg(0xE))  # 29E3
+                                                                        r.push(r.di)  # 29E4
+                                                                        r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x29E8, far=False)  # 29E5
+                                                                else:
+                                                                    r.di = r.bp - 0x108  # 29AE
+                                                                    r.push(r.ss)  # 29B2
+                                                                    r.push(r.di)  # 29B3
+                                                                    r.push(ss16(mem, r, r.bp + 4))  # 29B4
+                                                                    r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x29BA, far=False)  # 29B7
+                                                                    r.di = 0x24d2  # 29BA
+                                                                    r.push(mem.seg(0xE))  # 29BD
+                                                                    r.push(r.di)  # 29BE
+                                                                    r.di = 0x23fe  # 29BF
+                                                                    r.push(mem.seg(0xE))  # 29C2
+                                                                    r.push(r.di)  # 29C3
+                                                                    r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x29C7, far=False)  # 29C4
+                                                            else:
+                                                                r.di = 0x24b6  # 298D
+                                                                r.push(mem.seg(0xE))  # 2990
+                                                                r.push(r.di)  # 2991
+                                                                r.di = r.bp - 0x108  # 2992
+                                                                r.push(r.ss)  # 2996
+                                                                r.push(r.di)  # 2997
+                                                                r.push(ss16(mem, r, r.bp + 4))  # 2998
+                                                                r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x299E, far=False)  # 299B
+                                                                r.di = 0x24c0  # 299E
+                                                                r.push(mem.seg(0xE))  # 29A1
+                                                                r.push(r.di)  # 29A2
+                                                                r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x29A6, far=False)  # 29A3
+                                                        else:
+                                                            r.di = r.bp - 0x108  # 296C
+                                                            r.push(r.ss)  # 2970
+                                                            r.push(r.di)  # 2971
+                                                            r.push(ss16(mem, r, r.bp + 4))  # 2972
+                                                            r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2978, far=False)  # 2975
+                                                            r.di = 0x24a0  # 2978
+                                                            r.push(mem.seg(0xE))  # 297B
+                                                            r.push(r.di)  # 297C
+                                                            r.di = 0x24ae  # 297D
+                                                            r.push(mem.seg(0xE))  # 2980
+                                                            r.push(r.di)  # 2981
+                                                            r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2985, far=False)  # 2982
+                                                    else:
+                                                        r.di = r.bp - 0x108  # 2942
+                                                        r.push(r.ss)  # 2946
+                                                        r.push(r.di)  # 2947
+                                                        r.push(ss16(mem, r, r.bp + 4))  # 2948
+                                                        r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x294E, far=False)  # 294B
+                                                        r.di = 0x248a  # 294E
+                                                        r.push(mem.seg(0xE))  # 2951
+                                                        r.push(r.di)  # 2952
+                                                        r.di = 0x249a  # 2953
+                                                        r.push(mem.seg(0xE))  # 2956
+                                                        r.push(r.di)  # 2957
+                                                        r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x295B, far=False)  # 2958
+                                                else:
+                                                    r.di = r.bp - 0x108  # 2922
+                                                    r.push(r.ss)  # 2926
+                                                    r.push(r.di)  # 2927
+                                                    r.push(ss16(mem, r, r.bp + 4))  # 2928
+                                                    r = yield from _secondary_call(mem, r, variant, '000E:0B4D', 1, 0x292E, far=False)  # 292B
+                                                    r.di = 0x2479  # 292E
+                                                    r.push(mem.seg(0xE))  # 2931
+                                                    r.push(r.di)  # 2932
+                                                    r.di = 0x23fe  # 2933
+                                                    r.push(mem.seg(0xE))  # 2936
+                                                    r.push(r.di)  # 2937
+                                                    r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x293B, far=False)  # 2938
+                                            else:
+                                                r.di = r.bp - 0x108  # 2902
+                                                r.push(r.ss)  # 2906
+                                                r.push(r.di)  # 2907
+                                                r.push(ss16(mem, r, r.bp + 4))  # 2908
+                                                r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x290E, far=False)  # 290B
+                                                r.di = 0x245e  # 290E
+                                                r.push(mem.seg(0xE))  # 2911
+                                                r.push(r.di)  # 2912
+                                                r.di = 0x246c  # 2913
+                                                r.push(mem.seg(0xE))  # 2916
+                                                r.push(r.di)  # 2917
+                                                r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x291B, far=False)  # 2918
+                                        else:
+                                            r.di = 0x2444  # 28E2
+                                            r.push(mem.seg(0xE))  # 28E5
+                                            r.push(r.di)  # 28E6
+                                            r.di = 0x2457  # 28E7
+                                            r.push(mem.seg(0xE))  # 28EA
+                                            r.push(r.di)  # 28EB
+                                            r.di = r.bp - 0x108  # 28EC
+                                            r.push(r.ss)  # 28F0
+                                            r.push(r.di)  # 28F1
+                                            r.push(ss16(mem, r, r.bp + 4))  # 28F2
+                                            r = yield from _secondary_call(mem, r, variant, '000E:0B4D', 1, 0x28F8, far=False)  # 28F5
+                                            r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x28FB, far=False)  # 28F8
+                                    else:
+                                        r.di = 0x2439  # 28C2
+                                        r.push(mem.seg(0xE))  # 28C5
+                                        r.push(r.di)  # 28C6
+                                        r.di = r.bp - 0x108  # 28C7
+                                        r.push(r.ss)  # 28CB
+                                        r.push(r.di)  # 28CC
+                                        r.push(ss16(mem, r, r.bp + 4))  # 28CD
+                                        r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x28D3, far=False)  # 28D0
+                                        r.di = 0x23fe  # 28D3
+                                        r.push(mem.seg(0xE))  # 28D6
+                                        r.push(r.di)  # 28D7
+                                        r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x28DB, far=False)  # 28D8
+                                else:
+                                    r = yield from _secondary_call(mem, r, variant, '214B:06FA', 0, 0x288A, far=True)  # 2885
+                                    _left, _right = r.al, 0  # 288A
+                                    if _left == _right:  # 288C
+                                        r.di = 0x242b  # 28A9
+                                        r.push(mem.seg(0xE))  # 28AC
+                                        r.push(r.di)  # 28AD
+                                        r.di = 0x23fe  # 28AE
+                                        r.push(mem.seg(0xE))  # 28B1
+                                        r.push(r.di)  # 28B2
+                                        r.di = 0x23fe  # 28B3
+                                        r.push(mem.seg(0xE))  # 28B6
+                                        r.push(r.di)  # 28B7
+                                        r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x28BB, far=False)  # 28B8
+                                    else:
+                                        r.di = 0x2423  # 288E
+                                        r.push(mem.seg(0xE))  # 2891
+                                        r.push(r.di)  # 2892
+                                        r.di = r.bp - 0x108  # 2893
+                                        r.push(r.ss)  # 2897
+                                        r.push(r.di)  # 2898
+                                        r.push(ss16(mem, r, r.bp + 4))  # 2899
+                                        r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x289F, far=False)  # 289C
+                                        r.di = 0x23fe  # 289F
+                                        r.push(mem.seg(0xE))  # 28A2
+                                        r.push(r.di)  # 28A3
+                                        r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x28A7, far=False)  # 28A4
+                                    return (yield from _secondary_column_28bb(mem, r, variant))
+                        else:
+                            pass
+                    else:
+                        return (yield from _secondary_column_279c(mem, r, variant))
+            else:
+                r.di = r.bp - 0x108  # 2778
+                r.push(r.ss)  # 277C
+                r.push(r.di)  # 277D
+                r.push(ss16(mem, r, r.bp + 4))  # 277E
+                r = yield from _secondary_call(mem, r, variant, '000E:0B4D', 1, 0x2784, far=False)  # 2781
+                r.di = 0x23a1  # 2784
+                r.push(mem.seg(0xE))  # 2787
+                r.push(r.di)  # 2788
+                r.di = 0x23b3  # 2789
+                r.push(mem.seg(0xE))  # 278C
+                r.push(r.di)  # 278D
+                r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2791, far=False)  # 278E
+        else:
+            r.di = 0x238a  # 273C
+            r.push(mem.seg(0xE))  # 273F
+            r.push(r.di)  # 2740
+            r.di = r.bp - 0x108  # 2741
+            r.push(r.ss)  # 2745
+            r.push(r.di)  # 2746
+            r.push(ss16(mem, r, r.bp + 4))  # 2747
+            r = yield from _secondary_call(mem, r, variant, '000E:0B4D', 1, 0x274D, far=False)  # 274A
+            r.di = r.bp - 0x308  # 274D
+            r.push(r.ss)  # 2751
+            r.push(r.di)  # 2752
+            r.di = 0x239c  # 2753
+            r.push(mem.seg(0xE))  # 2756
+            r.push(r.di)  # 2757
+            r = yield from _secondary_call(mem, r, variant, '23E4:062A', 2, 0x275D, far=True)  # 2758
+            r.di = r.bp - 0x208  # 275D
+            r.push(r.ss)  # 2761
+            r.push(r.di)  # 2762
+            r.push(ss16(mem, r, r.bp + 4))  # 2763
+            r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2769, far=False)  # 2766
+            r = yield from _secondary_call(mem, r, variant, '23E4:06B7', 2, 0x276E, far=True)  # 2769
+            r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2771, far=False)  # 276E
+        return (yield from _secondary_column_2af2(mem, r, variant))
+    else:
+        r.push(ss16(mem, r, r.bp + 4))  # 2AF5
+        r = yield from _secondary_call(mem, r, variant, '000E:0B77', 1, 0x2AFB, far=False)  # 2AF8
+        _left, _right = r.ax, 0xfff6  # 2AFB
+        if s16(_left) >= s16(_right):  # 2AFE
+            r.push(r.bp)  # 2B26
+            r = yield from _secondary_call(mem, r, variant, '000E:2071', 1, 0x2B2A, far=False)  # 2B27
+            _left, _right = r.al, 0  # 2B2A
+            if _left == _right:  # 2B2C
+                r.di = ss16(mem, r, r.bp + 4)  # 2B31
+                r.es, r.di = ss16(mem, r, r.di + 4 + 2), ss16(mem, r, r.di + 4)  # 2B34
+                r.push(r.es)  # 2B38
+                r.push(r.di)  # 2B39
+                r = yield from _secondary_call(mem, r, variant, '1771:5C60', 2, 0x2B3F, far=True)  # 2B3A
+                _left, _right = r.ax, 1  # 2B3F
+                if _left > _right:  # 2B42
+                    r.ax = 6  # 2B47
+                    r.push(r.ax)  # 2B4A
+                    r = yield from _secondary_call(mem, r, variant, '214B:06B1', 1, 0x2B50, far=True)  # 2B4B
+                    _left, _right = r.ax, 1  # 2B50
+                    if _left != _right:  # 2B53
+                        _left, _right = r.ax, 2  # 2B71
+                        if _left != _right:  # 2B74
+                            _left, _right = r.ax, 3  # 2B91
+                            if _left != _right:  # 2B94
+                                _left, _right = r.ax, 4  # 2BB1
+                                if _left != _right:  # 2BB4
+                                    _left, _right = r.ax, 5  # 2BD8
+                                    if _left != _right:  # 2BDB
+                                        _left, _right = r.ax, 6  # 2BF1
+                                        if _left != _right:  # 2BF4
+                                            pass
+                                        else:
+                                            r.di = r.bp - 0x108  # 2BF6
+                                            r.push(r.ss)  # 2BFA
+                                            r.push(r.di)  # 2BFB
+                                            r.push(ss16(mem, r, r.bp + 4))  # 2BFC
+                                            r = yield from _secondary_call(mem, r, variant, '000E:0B4D', 1, 0x2C02, far=False)  # 2BFF
+                                            r.di = 0x25e2  # 2C02
+                                            r.push(mem.seg(0xE))  # 2C05
+                                            r.push(r.di)  # 2C06
+                                            r.di = 0x25f2  # 2C07
+                                            r.push(mem.seg(0xE))  # 2C0A
+                                            r.push(r.di)  # 2C0B
+                                            r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2C0F, far=False)  # 2C0C
+                                    else:
+                                        r.di = 0x25c3  # 2BDD
+                                        r.push(mem.seg(0xE))  # 2BE0
+                                        r.push(r.di)  # 2BE1
+                                        r.di = 0x25d1  # 2BE2
+                                        r.push(mem.seg(0xE))  # 2BE5
+                                        r.push(r.di)  # 2BE6
+                                        r.di = 0x23fe  # 2BE7
+                                        r.push(mem.seg(0xE))  # 2BEA
+                                        r.push(r.di)  # 2BEB
+                                        r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2BEF, far=False)  # 2BEC
+                                else:
+                                    r.di = r.bp - 0x108  # 2BB6
+                                    r.push(r.ss)  # 2BBA
+                                    r.push(r.di)  # 2BBB
+                                    r.push(ss16(mem, r, r.bp + 4))  # 2BBC
+                                    r = yield from _secondary_call(mem, r, variant, '000E:0B4D', 1, 0x2BC2, far=False)  # 2BBF
+                                    r.di = 0x25b4  # 2BC2
+                                    r.push(mem.seg(0xE))  # 2BC5
+                                    r.push(r.di)  # 2BC6
+                                    r.di = r.bp - 0x208  # 2BC7
+                                    r.push(r.ss)  # 2BCB
+                                    r.push(r.di)  # 2BCC
+                                    r.push(ss16(mem, r, r.bp + 4))  # 2BCD
+                                    r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2BD3, far=False)  # 2BD0
+                                    r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2BD6, far=False)  # 2BD3
+                            else:
+                                r.di = 0x259c  # 2B96
+                                r.push(mem.seg(0xE))  # 2B99
+                                r.push(r.di)  # 2B9A
+                                r.di = 0x25ad  # 2B9B
+                                r.push(mem.seg(0xE))  # 2B9E
+                                r.push(r.di)  # 2B9F
+                                r.di = r.bp - 0x108  # 2BA0
+                                r.push(r.ss)  # 2BA4
+                                r.push(r.di)  # 2BA5
+                                r.push(ss16(mem, r, r.bp + 4))  # 2BA6
+                                r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2BAC, far=False)  # 2BA9
+                                r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2BAF, far=False)  # 2BAC
+                        else:
+                            r.di = r.bp - 0x108  # 2B76
+                            r.push(r.ss)  # 2B7A
+                            r.push(r.di)  # 2B7B
+                            r.push(ss16(mem, r, r.bp + 4))  # 2B7C
+                            r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2B82, far=False)  # 2B7F
+                            r.di = 0x2579  # 2B82
+                            r.push(mem.seg(0xE))  # 2B85
+                            r.push(r.di)  # 2B86
+                            r.di = 0x2589  # 2B87
+                            r.push(mem.seg(0xE))  # 2B8A
+                            r.push(r.di)  # 2B8B
+                            r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2B8F, far=False)  # 2B8C
+                    else:
+                        r.di = r.bp - 0x108  # 2B55
+                        r.push(r.ss)  # 2B59
+                        r.push(r.di)  # 2B5A
+                        r.push(ss16(mem, r, r.bp + 4))  # 2B5B
+                        r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2B61, far=False)  # 2B5E
+                        r.di = 0x2565  # 2B61
+                        r.push(mem.seg(0xE))  # 2B64
+                        r.push(r.di)  # 2B65
+                        r.di = 0x2572  # 2B66
+                        r.push(mem.seg(0xE))  # 2B69
+                        r.push(r.di)  # 2B6A
+                        r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2B6E, far=False)  # 2B6B
+                    return (yield from _secondary_column_2c0f(mem, r, variant))
+                else:
+                    r.di = ss16(mem, r, r.bp + 4)  # 2C12
+                    r.al = ss8(mem, r, r.di - 1)  # 2C15
+                    cbw(r)  # 2C19
+                    r.dx = 0xa  # 2C1A
+                    mul(r, r.dx)  # 2C1D
+                    r.di = r.ax  # 2C1F
+                    r.al = mem.ds8((r.di + 0x7b7e) & M16)  # 2C21
+                    r.ah = 0  # 2C25
+                    r.cx = r.ax  # 2C27
+                    r.di = ss16(mem, r, r.bp + 4)  # 2C29
+                    r.al = ss8(mem, r, r.di - 1)  # 2C2C
+                    cbw(r)  # 2C30
+                    r.dx = 0xa  # 2C31
+                    mul(r, r.dx)  # 2C34
+                    r.di = r.ax  # 2C36
+                    r.al = mem.ds8((r.di + 0x7b81) & M16)  # 2C38
+                    r.ah = 0  # 2C3C
+                    r.ax = r.ax + r.cx  # 2C3E
+                    _left, _right = r.ax, 8  # 2C40
+                    if s16(_left) >= s16(_right):  # 2C43
+                        r.di = ss16(mem, r, r.bp + 4)  # 2CAF
+                        r.al = ss8(mem, r, r.di - 1)  # 2CB2
+                        cbw(r)  # 2CB6
+                        r.dx = 0xa  # 2CB7
+                        mul(r, r.dx)  # 2CBA
+                        r.di = r.ax  # 2CBC
+                        r.dx = (r.dx & 0xff00) | ((mem.ds8((r.di + 0x7b83) & M16)) & 255)  # 2CBE
+                        r.di = ss16(mem, r, r.bp + 4)  # 2CC2
+                        _left, _right = ss8(mem, r, r.di - 1), 0  # 2CC5
+                        if _left == _right:  # 2CCA
+                            r.al = 1  # 2CD0
+                        else:
+                            r.al = 0  # 2CCC
+                        return (yield from _secondary_column_2cd2(mem, r, variant))
+                    else:
+                        r.ax = 3  # 2C45
+                        r.push(r.ax)  # 2C48
+                        r = yield from _secondary_call(mem, r, variant, '214B:06B1', 1, 0x2C4E, far=True)  # 2C49
+                        _left, _right = r.ax, 1  # 2C4E
+                        if _left != _right:  # 2C51
+                            _left, _right = r.ax, 2  # 2C6E
+                            if _left != _right:  # 2C71
+                                _left, _right = r.ax, 3  # 2C8E
+                                if _left != _right:  # 2C91
+                                    pass
+                                else:
+                                    r.di = r.bp - 0x108  # 2C93
+                                    r.push(r.ss)  # 2C97
+                                    r.push(r.di)  # 2C98
+                                    r.push(ss16(mem, r, r.bp + 4))  # 2C99
+                                    r = yield from _secondary_call(mem, r, variant, '000E:0B4D', 1, 0x2C9F, far=False)  # 2C9C
+                                    r.di = 0x262b  # 2C9F
+                                    r.push(mem.seg(0xE))  # 2CA2
+                                    r.push(r.di)  # 2CA3
+                                    r.di = 0x2639  # 2CA4
+                                    r.push(mem.seg(0xE))  # 2CA7
+                                    r.push(r.di)  # 2CA8
+                                    r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2CAC, far=False)  # 2CA9
+                            else:
+                                r.di = r.bp - 0x108  # 2C73
+                                r.push(r.ss)  # 2C77
+                                r.push(r.di)  # 2C78
+                                r.push(ss16(mem, r, r.bp + 4))  # 2C79
+                                r = yield from _secondary_call(mem, r, variant, '000E:0B4D', 1, 0x2C7F, far=False)  # 2C7C
+                                r.di = 0x2617  # 2C7F
+                                r.push(mem.seg(0xE))  # 2C82
+                                r.push(r.di)  # 2C83
+                                r.di = 0x2621  # 2C84
+                                r.push(mem.seg(0xE))  # 2C87
+                                r.push(r.di)  # 2C88
+                                r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2C8C, far=False)  # 2C89
+                        else:
+                            r.di = r.bp - 0x108  # 2C53
+                            r.push(r.ss)  # 2C57
+                            r.push(r.di)  # 2C58
+                            r.push(ss16(mem, r, r.bp + 4))  # 2C59
+                            r = yield from _secondary_call(mem, r, variant, '000E:0B4D', 1, 0x2C5F, far=False)  # 2C5C
+                            r.di = 0x2600  # 2C5F
+                            r.push(mem.seg(0xE))  # 2C62
+                            r.push(r.di)  # 2C63
+                            r.di = 0x2608  # 2C64
+                            r.push(mem.seg(0xE))  # 2C67
+                            r.push(r.di)  # 2C68
+                            r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2C6C, far=False)  # 2C69
+                        return (yield from _secondary_column_2cac(mem, r, variant))
+            else:
+                pass
+        else:
+            r.di = 0x2552  # 2B00
+            r.push(mem.seg(0xE))  # 2B03
+            r.push(r.di)  # 2B04
+            r.di = r.bp - 0x108  # 2B05
+            r.push(r.ss)  # 2B09
+            r.push(r.di)  # 2B0A
+            r.push(ss16(mem, r, r.bp + 4))  # 2B0B
+            r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2B11, far=False)  # 2B0E
+            r.di = 0x2563  # 2B11
+            r.push(mem.seg(0xE))  # 2B14
+            r.push(r.di)  # 2B15
+            r = yield from _secondary_call(mem, r, variant, '23E4:06B7', 2, 0x2B1B, far=True)  # 2B16
+            r.di = 0x23fe  # 2B1B
+            r.push(mem.seg(0xE))  # 2B1E
+            r.push(r.di)  # 2B1F
+            r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2B23, far=False)  # 2B20
+    return r
+
+
+def _secondary_column_279c(mem, r, variant):
+    r.di = r.bp - 0x108  # 279C
+    r.push(r.ss)  # 27A0
+    r.push(r.di)  # 27A1
+    r.push(ss16(mem, r, r.bp + 4))  # 27A2
+    r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x27A8, far=False)  # 27A5
+    r.di = 0x23c0  # 27A8
+    r.push(mem.seg(0xE))  # 27AB
+    r.push(r.di)  # 27AC
+    r = yield from _secondary_call(mem, r, variant, '23E4:06B7', 2, 0x27B2, far=True)  # 27AD
+    r.di = r.bp - 0x208  # 27B2
+    r.push(r.ss)  # 27B6
+    r.push(r.di)  # 27B7
+    r.push(ss16(mem, r, r.bp + 4))  # 27B8
+    r = yield from _secondary_call(mem, r, variant, '000E:0B4D', 1, 0x27BE, far=False)  # 27BB
+    r.di = 0x23c7  # 27BE
+    r.push(mem.seg(0xE))  # 27C1
+    r.push(r.di)  # 27C2
+    r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x27C6, far=False)  # 27C3
+    return (yield from _secondary_column_2af2(mem, r, variant))
+    return r
+
+
+def _secondary_column_287e(mem, r, variant):
+    return (yield from _secondary_column_2af2(mem, r, variant))
+    return r
+
+
+def _secondary_column_28bb(mem, r, variant):
+    return (yield from _secondary_column_2af2(mem, r, variant))
+    return r
+
+
+def _secondary_column_2a6a(mem, r, variant):
+    _left, _right = r.ax, 0xa  # 2A6A
+    if s16(_left) < s16(_right):  # 2A6D
+        return (yield from _secondary_column_2aa6(mem, r, variant))
+    else:
+        _left, _right = r.ax, 0xd  # 2A6F
+        if s16(_left) > s16(_right):  # 2A72
+            return (yield from _secondary_column_2aa6(mem, r, variant))
+        else:
+            r.di = r.bp - 0x108  # 2A74
+            r.push(r.ss)  # 2A78
+            r.push(r.di)  # 2A79
+            r.es, r.di = ss16(mem, r, r.bp - 8 + 2), ss16(mem, r, r.bp - 8)  # 2A7A
+            r.al = mem.u8(mem.addr(r.es, r.di + 0xac))  # 2A7D
+            r.ah = 0  # 2A82
+            r.dx = 0  # 2A84
+            r.push(r.dx)  # 2A86
+            r.push(r.ax)  # 2A87
+            r = yield from _secondary_call(mem, r, variant, '214B:09DA', 2, 0x2A8D, far=True)  # 2A88
+            r.di = 0x2517  # 2A8D
+            r.push(mem.seg(0xE))  # 2A90
+            r.push(r.di)  # 2A91
+            r = yield from _secondary_call(mem, r, variant, '23E4:06B7', 2, 0x2A97, far=True)  # 2A92
+            r.di = 0x2524  # 2A97
+            r.push(mem.seg(0xE))  # 2A9A
+            r.push(r.di)  # 2A9B
+            r.di = 0x2530  # 2A9C
+            r.push(mem.seg(0xE))  # 2A9F
+            r.push(r.di)  # 2AA0
+            r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2AA4, far=False)  # 2AA1
+    return (yield from _secondary_column_2af2(mem, r, variant))
+    return r
+
+
+def _secondary_column_2aa6(mem, r, variant):
+    r.di = r.bp - 0x108  # 2AA6
+    r.push(r.ss)  # 2AAA
+    r.push(r.di)  # 2AAB
+    r.es, r.di = ss16(mem, r, r.bp - 8 + 2), ss16(mem, r, r.bp - 8)  # 2AAC
+    r.al = mem.u8(mem.addr(r.es, r.di + 0xac))  # 2AAF
+    r.ah = 0  # 2AB4
+    r.dx = 0  # 2AB6
+    r.push(r.dx)  # 2AB8
+    r.push(r.ax)  # 2AB9
+    r = yield from _secondary_call(mem, r, variant, '214B:09DA', 2, 0x2ABF, far=True)  # 2ABA
+    r.di = 0x2537  # 2ABF
+    r.push(mem.seg(0xE))  # 2AC2
+    r.push(r.di)  # 2AC3
+    r = yield from _secondary_call(mem, r, variant, '23E4:06B7', 2, 0x2AC9, far=True)  # 2AC4
+    r.di = r.bp - 0x308  # 2AC9
+    r.push(r.ss)  # 2ACD
+    r.push(r.di)  # 2ACE
+    r.di = 0x2547  # 2ACF
+    r.push(mem.seg(0xE))  # 2AD2
+    r.push(r.di)  # 2AD3
+    r = yield from _secondary_call(mem, r, variant, '23E4:062A', 2, 0x2AD9, far=True)  # 2AD4
+    r.di = r.bp - 0x208  # 2AD9
+    r.push(r.ss)  # 2ADD
+    r.push(r.di)  # 2ADE
+    r.push(ss16(mem, r, r.bp + 4))  # 2ADF
+    r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2AE5, far=False)  # 2AE2
+    r = yield from _secondary_call(mem, r, variant, '23E4:06B7', 2, 0x2AEA, far=True)  # 2AE5
+    r.di = 0x23fe  # 2AEA
+    r.push(mem.seg(0xE))  # 2AED
+    r.push(r.di)  # 2AEE
+    r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2AF2, far=False)  # 2AEF
+    return (yield from _secondary_column_2af2(mem, r, variant))
+    return r
+
+
+def _secondary_column_2af2(mem, r, variant):
+    yield from ()
+    return r
+
+
+def _secondary_column_2c0f(mem, r, variant):
+    yield from ()
+    return r
+
+
+def _secondary_column_2cac(mem, r, variant):
+    yield from ()
+    return r
+
+
+def _secondary_column_2cd2(mem, r, variant):
+    cbw(r)  # 2CD2
+    r.es, r.di = ss16(mem, r, r.bp - 4 + 2), ss16(mem, r, r.bp - 4)  # 2CD3
+    r.di = r.di + r.ax  # 2CD6
+    r.al = mem.u8(mem.addr(r.es, r.di))  # 2CD8
+    _left, _right = r.al, (r.dx & 255)  # 2CDB
+    if _left <= _right:  # 2CDD
+        r.ax = 6  # 2D49
+        r.push(r.ax)  # 2D4C
+        r = yield from _secondary_call(mem, r, variant, '214B:06B1', 1, 0x2D52, far=True)  # 2D4D
+        _left, _right = r.ax, 1  # 2D52
+        if _left != _right:  # 2D55
+            _left, _right = r.ax, 2  # 2D73
+            if _left != _right:  # 2D76
+                _left, _right = r.ax, 3  # 2D94
+                if _left != _right:  # 2D97
+                    _left, _right = r.ax, 4  # 2DB4
+                    if _left != _right:  # 2DB7
+                        _left, _right = r.ax, 5  # 2DDB
+                        if _left != _right:  # 2DDE
+                            _left, _right = r.ax, 6  # 2DFB
+                            if _left != _right:  # 2DFE
+                                pass
+                            else:
+                                r.di = 0x26dc  # 2E00
+                                r.push(mem.seg(0xE))  # 2E03
+                                r.push(r.di)  # 2E04
+                                r.di = 0x26e7  # 2E05
+                                r.push(mem.seg(0xE))  # 2E08
+                                r.push(r.di)  # 2E09
+                                r.di = r.bp - 0x108  # 2E0A
+                                r.push(r.ss)  # 2E0E
+                                r.push(r.di)  # 2E0F
+                                r.push(ss16(mem, r, r.bp + 4))  # 2E10
+                                r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2E16, far=False)  # 2E13
+                                r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2E19, far=False)  # 2E16
+                        else:
+                            r.di = 0x26c2  # 2DE0
+                            r.push(mem.seg(0xE))  # 2DE3
+                            r.push(r.di)  # 2DE4
+                            r.di = 0x26d4  # 2DE5
+                            r.push(mem.seg(0xE))  # 2DE8
+                            r.push(r.di)  # 2DE9
+                            r.di = r.bp - 0x108  # 2DEA
+                            r.push(r.ss)  # 2DEE
+                            r.push(r.di)  # 2DEF
+                            r.push(ss16(mem, r, r.bp + 4))  # 2DF0
+                            r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2DF6, far=False)  # 2DF3
+                            r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2DF9, far=False)  # 2DF6
+                    else:
+                        r.di = r.bp - 0x108  # 2DB9
+                        r.push(r.ss)  # 2DBD
+                        r.push(r.di)  # 2DBE
+                        r.push(ss16(mem, r, r.bp + 4))  # 2DBF
+                        r = yield from _secondary_call(mem, r, variant, '000E:0B4D', 1, 0x2DC5, far=False)  # 2DC2
+                        r.di = 0x26b3  # 2DC5
+                        r.push(mem.seg(0xE))  # 2DC8
+                        r.push(r.di)  # 2DC9
+                        r.di = r.bp - 0x208  # 2DCA
+                        r.push(r.ss)  # 2DCE
+                        r.push(r.di)  # 2DCF
+                        r.push(ss16(mem, r, r.bp + 4))  # 2DD0
+                        r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2DD6, far=False)  # 2DD3
+                        r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2DD9, far=False)  # 2DD6
+                else:
+                    r.di = 0x26a8  # 2D99
+                    r.push(mem.seg(0xE))  # 2D9C
+                    r.push(r.di)  # 2D9D
+                    r.di = 0x23e4  # 2D9E
+                    r.push(mem.seg(0xE))  # 2DA1
+                    r.push(r.di)  # 2DA2
+                    r.di = r.bp - 0x108  # 2DA3
+                    r.push(r.ss)  # 2DA7
+                    r.push(r.di)  # 2DA8
+                    r.push(ss16(mem, r, r.bp + 4))  # 2DA9
+                    r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2DAF, far=False)  # 2DAC
+                    r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2DB2, far=False)  # 2DAF
+            else:
+                r.di = 0x2694  # 2D78
+                r.push(mem.seg(0xE))  # 2D7B
+                r.push(r.di)  # 2D7C
+                r.di = r.bp - 0x108  # 2D7D
+                r.push(r.ss)  # 2D81
+                r.push(r.di)  # 2D82
+                r.push(ss16(mem, r, r.bp + 4))  # 2D83
+                r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2D89, far=False)  # 2D86
+                r.di = 0x23fe  # 2D89
+                r.push(mem.seg(0xE))  # 2D8C
+                r.push(r.di)  # 2D8D
+                r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2D91, far=False)  # 2D8E
+        else:
+            r.di = 0x2683  # 2D57
+            r.push(mem.seg(0xE))  # 2D5A
+            r.push(r.di)  # 2D5B
+            r.di = r.bp - 0x108  # 2D5C
+            r.push(r.ss)  # 2D60
+            r.push(r.di)  # 2D61
+            r.push(ss16(mem, r, r.bp + 4))  # 2D62
+            r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2D68, far=False)  # 2D65
+            r.di = 0x23fe  # 2D68
+            r.push(mem.seg(0xE))  # 2D6B
+            r.push(r.di)  # 2D6C
+            r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2D70, far=False)  # 2D6D
+    else:
+        r.ax = 3  # 2CDF
+        r.push(r.ax)  # 2CE2
+        r = yield from _secondary_call(mem, r, variant, '214B:06B1', 1, 0x2CE8, far=True)  # 2CE3
+        _left, _right = r.ax, 1  # 2CE8
+        if _left != _right:  # 2CEB
+            _left, _right = r.ax, 2  # 2D08
+            if _left != _right:  # 2D0B
+                _left, _right = r.ax, 3  # 2D28
+                if _left != _right:  # 2D2B
+                    pass
+                else:
+                    r.di = 0x2662  # 2D2D
+                    r.push(mem.seg(0xE))  # 2D30
+                    r.push(r.di)  # 2D31
+                    r.di = 0x2673  # 2D32
+                    r.push(mem.seg(0xE))  # 2D35
+                    r.push(r.di)  # 2D36
+                    r.di = r.bp - 0x108  # 2D37
+                    r.push(r.ss)  # 2D3B
+                    r.push(r.di)  # 2D3C
+                    r.push(ss16(mem, r, r.bp + 4))  # 2D3D
+                    r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2D43, far=False)  # 2D40
+                    r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2D46, far=False)  # 2D43
+            else:
+                r.di = 0x2651  # 2D0D
+                r.push(mem.seg(0xE))  # 2D10
+                r.push(r.di)  # 2D11
+                r.di = r.bp - 0x108  # 2D12
+                r.push(r.ss)  # 2D16
+                r.push(r.di)  # 2D17
+                r.push(ss16(mem, r, r.bp + 4))  # 2D18
+                r = yield from _secondary_call(mem, r, variant, '000E:0ACB', 1, 0x2D1E, far=False)  # 2D1B
+                r.di = 0x23fe  # 2D1E
+                r.push(mem.seg(0xE))  # 2D21
+                r.push(r.di)  # 2D22
+                r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2D26, far=False)  # 2D23
+        else:
+            r.di = r.bp - 0x108  # 2CED
+            r.push(r.ss)  # 2CF1
+            r.push(r.di)  # 2CF2
+            r.push(ss16(mem, r, r.bp + 4))  # 2CF3
+            r = yield from _secondary_call(mem, r, variant, '000E:0B4D', 1, 0x2CF9, far=False)  # 2CF6
+            r.di = 0x263f  # 2CF9
+            r.push(mem.seg(0xE))  # 2CFC
+            r.push(r.di)  # 2CFD
+            r.di = 0x23fe  # 2CFE
+            r.push(mem.seg(0xE))  # 2D01
+            r.push(r.di)  # 2D02
+            r = yield from _secondary_call(mem, r, variant, '000E:075F', 6, 0x2D06, far=False)  # 2D03
+        return (yield from _secondary_column_2d46(mem, r, variant))
+    return r
+
+
+def _secondary_column_2d46(mem, r, variant):
     yield from ()
     return r
