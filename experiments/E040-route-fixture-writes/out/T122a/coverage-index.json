@@ -1,0 +1,433 @@
+{
+ "schema": "e040-t122a-coverage/1",
+ "task": "T122a",
+ "acceptance_code_commit": "af95d10073eb3315878de99d0b37b1d4c2e7e1d7",
+ "accepted_receipts": [
+  {
+   "path": "corpus-a/prove-news+route+silent-20261105T091515Z.json",
+   "sha256": "41c79f393b78610878292437d2dc3d15257a42faac6f6d398d993065bae633de",
+   "code_commit": "83eb9ddfce382bc433f17d320c6b1311a10f8a66"
+  },
+  {
+   "path": "corpus-b/prove-news+route+silent-20261105T091541Z.json",
+   "sha256": "ee87b3fbec5e9c80591c18de2473e8fc8f44d945fe3d80409228f6bb181376a2",
+   "code_commit": "23189106d2a279d9b4977053dd95a478c4b4bafd"
+  },
+  {
+   "path": "prove-news+route+silent-20261105T090714Z.json",
+   "sha256": "f6af10c2147b4087a548978d57ade9936ec53bc4e03aec585948e72177ee09ad",
+   "code_commit": "322b6443071df4d769dfa010d7a67bc287deb600"
+  },
+  {
+   "path": "synthetic-normal-20261105T090837Z.json",
+   "sha256": "479b3619b8d6c7aa34773ab5d003155087ad9ca152ad66fb08c60229e1fc7f75",
+   "code_commit": "52521370e7ea970400e70dc434ae1bde0bfda6b7"
+  },
+  {
+   "path": "synthetic-centering-width-minus-one-20261105T090917Z.json",
+   "sha256": "5268c000cd43db8969a4a176356f292072ed0cc4a7f7eb526b913abe3002584a",
+   "code_commit": "83eb9ddfce382bc433f17d320c6b1311a10f8a66"
+  },
+  {
+   "path": "synthetic-crowd-draw-dropped-20261105T090917Z.json",
+   "sha256": "2cc6f2992af82bb2da1d078bf13a3376ff9c97ff80049e9f0617786398b0d23a",
+   "code_commit": "83eb9ddfce382bc433f17d320c6b1311a10f8a66"
+  }
+ ],
+ "counts": {
+  "unique_published_states": 12,
+  "declared_route_edits": 4,
+  "outer_and_inner_route_passes": 32,
+  "outer_6CA7_proofs": 16,
+  "standalone_synthetic_frames": 40,
+  "standalone_routines": 20,
+  "caught_falsifiers": 2
+ },
+ "coverage": {
+  "000E:03C4": {
+   "published_route": {
+    "calls": 294,
+    "proved": 0,
+    "nested": 294
+   },
+   "declared_route_edits": {
+    "calls": 66,
+    "proved": 0,
+    "nested": 66
+   },
+   "standalone_synthetic": {
+    "calls": 2,
+    "proved": 2
+   }
+  },
+  "000E:045D": {
+   "published_route": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "declared_route_edits": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "standalone_synthetic": {
+    "calls": 2,
+    "proved": 2
+   }
+  },
+  "000E:04F5": {
+   "published_route": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "declared_route_edits": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "standalone_synthetic": {
+    "calls": 3,
+    "proved": 3
+   }
+  },
+  "000E:0572": {
+   "published_route": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "declared_route_edits": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "standalone_synthetic": {
+    "calls": 4,
+    "proved": 4
+   }
+  },
+  "000E:0868": {
+   "published_route": {
+    "calls": 20,
+    "proved": 0,
+    "nested": 20
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 0,
+    "nested": 4
+   },
+   "standalone_synthetic": {
+    "calls": 1,
+    "proved": 1
+   }
+  },
+  "000E:08F9": {
+   "published_route": {
+    "calls": 8,
+    "proved": 4,
+    "nested": 4
+   },
+   "declared_route_edits": {
+    "calls": 2,
+    "proved": 1,
+    "nested": 1
+   },
+   "standalone_synthetic": {
+    "calls": 1,
+    "proved": 1
+   }
+  },
+  "000E:094A": {
+   "published_route": {
+    "calls": 2,
+    "proved": 0,
+    "nested": 2
+   },
+   "declared_route_edits": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "standalone_synthetic": {
+    "calls": 2,
+    "proved": 2
+   }
+  },
+  "000E:09DB": {
+   "published_route": {
+    "calls": 40,
+    "proved": 20,
+    "nested": 20
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 2,
+    "nested": 2
+   },
+   "standalone_synthetic": {
+    "calls": 2,
+    "proved": 2
+   }
+  },
+  "000E:0A53": {
+   "published_route": {
+    "calls": 10,
+    "proved": 5,
+    "nested": 5
+   },
+   "declared_route_edits": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "standalone_synthetic": {
+    "calls": 2,
+    "proved": 2
+   }
+  },
+  "000E:0ACB": {
+   "published_route": {
+    "calls": 28,
+    "proved": 14,
+    "nested": 14
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 2,
+    "nested": 2
+   },
+   "standalone_synthetic": {
+    "calls": 1,
+    "proved": 1
+   }
+  },
+  "000E:0B0A": {
+   "published_route": {
+    "calls": 2,
+    "proved": 1,
+    "nested": 1
+   },
+   "declared_route_edits": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "standalone_synthetic": {
+    "calls": 2,
+    "proved": 2
+   }
+  },
+  "000E:0B4D": {
+   "published_route": {
+    "calls": 32,
+    "proved": 16,
+    "nested": 16
+   },
+   "declared_route_edits": {
+    "calls": 8,
+    "proved": 4,
+    "nested": 4
+   },
+   "standalone_synthetic": {
+    "calls": 1,
+    "proved": 1
+   }
+  },
+  "000E:0B77": {
+   "published_route": {
+    "calls": 64,
+    "proved": 32,
+    "nested": 32
+   },
+   "declared_route_edits": {
+    "calls": 8,
+    "proved": 4,
+    "nested": 4
+   },
+   "standalone_synthetic": {
+    "calls": 6,
+    "proved": 6
+   }
+  },
+  "000E:0C3A": {
+   "published_route": {
+    "calls": 2,
+    "proved": 1,
+    "nested": 1
+   },
+   "declared_route_edits": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "standalone_synthetic": {
+    "calls": 1,
+    "proved": 1
+   }
+  },
+  "000E:1F4D": {
+   "published_route": {
+    "calls": 16,
+    "proved": 8,
+    "nested": 8
+   },
+   "declared_route_edits": {
+    "calls": 2,
+    "proved": 1,
+    "nested": 1
+   },
+   "standalone_synthetic": {
+    "calls": 2,
+    "proved": 2
+   }
+  },
+  "000E:2E1F": {
+   "published_route": {
+    "calls": 24,
+    "proved": 12,
+    "nested": 12
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 2,
+    "nested": 2
+   },
+   "standalone_synthetic": {
+    "calls": 1,
+    "proved": 1
+   }
+  },
+  "000E:3A5E": {
+   "published_route": {
+    "calls": 18,
+    "proved": 9,
+    "nested": 9
+   },
+   "declared_route_edits": {
+    "calls": 2,
+    "proved": 1,
+    "nested": 1
+   },
+   "standalone_synthetic": {
+    "calls": 1,
+    "proved": 1
+   }
+  },
+  "000E:4045": {
+   "published_route": {
+    "calls": 20,
+    "proved": 10,
+    "nested": 10
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 2,
+    "nested": 2
+   },
+   "standalone_synthetic": {
+    "calls": 1,
+    "proved": 1
+   }
+  },
+  "000E:47E6": {
+   "published_route": {
+    "calls": 6,
+    "proved": 3,
+    "nested": 3
+   },
+   "declared_route_edits": {
+    "calls": 2,
+    "proved": 1,
+    "nested": 1
+   },
+   "standalone_synthetic": {
+    "calls": 1,
+    "proved": 1
+   }
+  },
+  "000E:4865": {
+   "published_route": {
+    "calls": 24,
+    "proved": 12,
+    "nested": 12
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 2,
+    "nested": 2
+   },
+   "standalone_synthetic": {
+    "calls": 4,
+    "proved": 4
+   }
+  }
+ },
+ "zero_calls_in_published_route": [
+  "000E:045D",
+  "000E:04F5",
+  "000E:0572"
+ ],
+ "final_source": {
+  "path": "runtime/original_match/port/news.py",
+  "sha256": "ff8331fc694bae59db67a6cd34804feb33302e00cd7714006fd72f05723e0507",
+  "tested_commit": "52521370e7ea970400e70dc434ae1bde0bfda6b7",
+  "tested_sha256": "a2d1d93c7426c6d238e9cb998122eb651fe8ad5874578a4d325839e28e6f9b27",
+  "executable_ast_sha256": "cc1031c994949023f2c2c7192560a9abe040dd85ce34fac66e37d9f32df9e9a0",
+  "change": "Only module-docstring listing citation for2E1F changed from seg_000E_03.asm to seg_000E_04.asm; AST excluding that module docstring is identical. Original tested source recoverable at tested_commit."
+ },
+ "diagnostics": [
+  {
+   "path": "diagnostic-t122a-corpus-a.log",
+   "sha256": "f97d49cc06a59cd9dc69ac66dda314f63e24d45871ef37a0c23c3d22c29ce079",
+   "acceptance": false
+  },
+  {
+   "path": "diagnostic-t122a-corpus-b.log",
+   "sha256": "16139c2512afc37a8a500b811704f7f86b1f5829ac184c6fa1ca77155af5b56a",
+   "acceptance": false
+  },
+  {
+   "path": "diagnostic-t122a-dev-d444.log",
+   "sha256": "943334bd9ef2094c38ac86434e0b255e6ab19282a42afe41cc9893b2dccacdc9",
+   "acceptance": false
+  },
+  {
+   "path": "diagnostic-t122a-falsifiers.log",
+   "sha256": "f1cff58293893f043b11d4046bfb8c3cbb8dc9aad88971f289f9c9eeb3e6665c",
+   "acceptance": false
+  },
+  {
+   "path": "diagnostic-t122a-focused-eight.log",
+   "sha256": "f059c9dc601dd9f4a95f500a188e3cfcfc5f486a7b34b159f699ae5a44634ceb",
+   "acceptance": false
+  },
+  {
+   "path": "diagnostic-t122a-named.log",
+   "sha256": "e4d0ef9233708493cf731f8d2921477ef8ee2148e6806068ce012125f92ac351",
+   "acceptance": false
+  },
+  {
+   "path": "diagnostic-t122a-synthetic-dev.log",
+   "sha256": "81dc745a8db8de1ad07b101f6594095c2b1ba5bb8dc943d6c75a51077554b2e3",
+   "acceptance": false
+  },
+  {
+   "path": "diagnostic-t122a-synthetic-v2.log",
+   "sha256": "522dd917dec21b41da16e1a88b795b3e6224f7da61292fb1ce781abe13949ca9",
+   "acceptance": false
+  }
+ ],
+ "fail_before": {
+  "path": "fail-before-all-eight.log",
+  "meaning": "All8 Shared tests fail on archived origin/main7032ce40 without the news module; all8 pass at final source."
+ },
+ "limitations": [
+  "Synthetic frames are explicitly authored inputs, not natural fixture coverage.",
+  "Tune-one-note/all-notes synthetic policies exercise non-default branches; the route retains owner-approved first-key-poll policy.",
+  "Full unit suite left to CI; CI required before merge.",
+  "No news-page history reader or outer-news/stage port is claimed by T122a."
+ ]
+}
