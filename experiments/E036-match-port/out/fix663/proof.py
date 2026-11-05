@@ -42,6 +42,7 @@ for e in m.events():
     if done<2: m.answer(substitutions=[pairs[done]],edit_only=True)
     else: m.answer()
 result=m.result()
+if a.engine=='original': (ROOT/'.cache'/('fix663-'+a.mode+'.mem')).write_bytes(m.m.read(0,0x110000))
 for off,on in pairs:
     assert sum(e['off']==off and e['on']==on and e['team']==m.side for e in result['substitutions'])==1
 receipt=dict(engine=a.engine,mode=a.mode,elapsed_s=time.monotonic()-started,completed=True,pairs=pairs,

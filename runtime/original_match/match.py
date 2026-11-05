@@ -754,11 +754,35 @@ class Match:
             return S.ENTER
         if site == TABLE_KEY and st["full_time"]:
             return S.ENTER
+        if site == SITE_SELECT and self.st.get("editing_select"):
+            answer = self.st["answer"]
+            if answer is None:
+                self._decide(self.st["menu_context"], substitutions_now=True, edited=True)
+                return None
+            self.st["editing_select"] = False
+            if answer.get("tactics"):
+                # Team tactics need the parent menu; keep the answer for that menu.
+                self.st["editing_menu"] = True
+                return S.ESC
+            self.st["answer"] = None
+            self._extras(answer)
+            self._menu = self._new_plan(answer)
+            self._menu.steps = ["select", "play"]
+            self._menu.in_screen = "select"
         if site == SITE_SELECT and self._menu is not None:
-            return self._menu.select_key({
+            key = self._menu.select_key({
                 "cursor": m.rd(S.SELECT_CURSOR), "squad": self._squad(self.opts["managed"]),
                 "allowed": m.rd(S.SUBS_ALLOWED, 1), "request": m.rd(S.SUBS_REQUEST, 1),
                 "subs_left": m.rd(S.SUBS_LEFT + self.side, 1), "position": lambda p: self._player(p, PLAYER_POSITION)})
+            if key == S.ESC and getattr(self._menu, "edit_only", False):
+                # Keep SELECT TEAM open between edits: leaving/reentering it runs original
+                # housekeeping again. The next answer continues at this same key read.
+                self._close_plan(self._menu)
+                self._menu = None
+                st["editing_select"] = True
+                self._decide(st["menu_context"], substitutions_now=True, edited=True)
+                return None
+            return key
         if site == SITE_MENU:
             bp = m.reg("bp")                                  # 214B:1560's frame (its far return above it)
             caller = m.where(m.frame_word(bp, 4), m.frame_word(bp, 2))
