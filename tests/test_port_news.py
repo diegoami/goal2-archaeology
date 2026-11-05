@@ -91,3 +91,33 @@ class Shared(Case):
                     if address.endswith('09DB'): want=signed(second)>signed(first+2-int(side==1))
                     else: want=signed(second+2+int(side==1))>signed(first)
                     self.assertEqual(got & 255,int(want))
+
+    def test_all_twenty_routines_match_the_original_on_declared_frames(self):
+        # Every routine also proves independently, beyond route's nested calls.
+        # The synthetic driver declares all memory edits and verifies its asset.
+        port._module_registry('news')
+        import importlib.util
+        path=Path(__file__).resolve().parents[1]/'experiments/E040-route-fixture-writes/out/T122a/prove_shared.py'
+        spec=importlib.util.spec_from_file_location('t122a_shared_proof',path)
+        module=importlib.util.module_from_spec(spec)
+        try:
+            spec.loader.exec_module(module)
+        except ImportError as exc:
+            if exc.name=='unicorn': self.skipTest('unicorn missing')
+            raise
+        case=next(c for c in module.runner.CASES if c[0]=='E040-r0004')
+        asset=module.ROOT/'.cache/dl'/case[3]
+        if not asset.is_file(): self.skipTest('published E040 state missing; runner.py --fetch')
+        import hashlib
+        data=asset.read_bytes()
+        self.assertEqual(hashlib.sha256(data).hexdigest(),module.runner.expected(case[3]))
+        visited=set()
+        for case in module.cases():
+            if case[1] in visited: continue
+            visited.add(case[1])
+            with self.subTest(routine=case[1]):
+                result=module.prove(data,case)
+                self.assertEqual(result['status'],'completed',result['error'])
+                self.assertEqual(result['proof'][case[1]]['proved'],1)
+                self.assertEqual(result['proof'][case[1]]['before'],0)
+        self.assertEqual(len(visited),20)

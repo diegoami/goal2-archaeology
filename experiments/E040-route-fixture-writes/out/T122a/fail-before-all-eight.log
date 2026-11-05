@@ -1,0 +1,108 @@
+EEEEEEEE
+======================================================================
+ERROR: test_all_twenty_routines_match_the_original_on_declared_frames (tests.test_port_news.Shared.test_all_twenty_routines_match_the_original_on_declared_frames)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t122a-fail-before-v2/tests/test_port_news.py", line 98, in test_all_twenty_routines_match_the_original_on_declared_frames
+    port._module_registry('news')
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/tmp/t122a-fail-before-v2/runtime/original_match/port/__init__.py", line 83, in _module_registry
+    raise ValueError(f"no port module {name!r} (there are: {', '.join(available()) or 'none'})")
+ValueError: no port module 'news' (there are: attributes, ball, contests, discipline, display, duels, entrypoints, frame, geometry, menus, motion, pilot, positioning, postmatch, quick, rare, real, restarts, route, runtime, selection, setup, silent, stages, takers, update)
+
+======================================================================
+ERROR: test_celebration_still_animates_once_before_the_first_poll (tests.test_port_news.Shared.test_celebration_still_animates_once_before_the_first_poll)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t122a-fail-before-v2/tests/test_port_news.py", line 61, in test_celebration_still_animates_once_before_the_first_poll
+    r.run('000E:0572',[0x2800],responder({'214B:0723':1}))
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t122a-fail-before-v2/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/tmp/t122a-fail-before-v2/runtime/original_match/port/__init__.py", line 83, in _module_registry
+    raise ValueError(f"no port module {name!r} (there are: {', '.join(available()) or 'none'})")
+ValueError: no port module 'news' (there are: attributes, ball, contests, discipline, display, duels, entrypoints, frame, geometry, menus, motion, pilot, positioning, postmatch, quick, rare, real, restarts, route, runtime, selection, setup, silent, stages, takers, update)
+
+======================================================================
+ERROR: test_crowd_uses_two_draws_per_seat_and_a_conditional_third (tests.test_port_news.Shared.test_crowd_uses_two_draws_per_seat_and_a_conditional_third)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t122a-fail-before-v2/tests/test_port_news.py", line 49, in test_crowd_uses_two_draws_per_seat_and_a_conditional_third
+    r.run('000E:045D',[0x2800,2],responder({'214B:06B1':1}))
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t122a-fail-before-v2/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/tmp/t122a-fail-before-v2/runtime/original_match/port/__init__.py", line 83, in _module_registry
+    raise ValueError(f"no port module {name!r} (there are: {', '.join(available()) or 'none'})")
+ValueError: no port module 'news' (there are: attributes, ball, contests, discipline, display, duels, entrypoints, frame, geometry, menus, motion, pilot, positioning, postmatch, quick, rare, real, restarts, route, runtime, selection, setup, silent, stages, takers, update)
+
+======================================================================
+ERROR: test_discipline_thresholds_read_the_grandparent_side (tests.test_port_news.Shared.test_discipline_thresholds_read_the_grandparent_side)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t122a-fail-before-v2/tests/test_port_news.py", line 81, in test_discipline_thresholds_read_the_grandparent_side
+    self.assertEqual(r.run('000E:4865',[0x2800]) & 255,want)
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t122a-fail-before-v2/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/tmp/t122a-fail-before-v2/runtime/original_match/port/__init__.py", line 83, in _module_registry
+    raise ValueError(f"no port module {name!r} (there are: {', '.join(available()) or 'none'})")
+ValueError: no port module 'news' (there are: attributes, ball, contests, discipline, display, duels, entrypoints, frame, geometry, menus, motion, pilot, positioning, postmatch, quick, rare, real, restarts, route, runtime, selection, setup, silent, stages, takers, update)
+
+======================================================================
+ERROR: test_first_key_poll_stops_the_tune_before_any_note (tests.test_port_news.Shared.test_first_key_poll_stops_the_tune_before_any_note)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t122a-fail-before-v2/tests/test_port_news.py", line 55, in test_first_key_poll_stops_the_tune_before_any_note
+    r=Rig(); r.run('000E:04F5',[0x2800,8],responder({'214B:0723':1}))
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t122a-fail-before-v2/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/tmp/t122a-fail-before-v2/runtime/original_match/port/__init__.py", line 83, in _module_registry
+    raise ValueError(f"no port module {name!r} (there are: {', '.join(available()) or 'none'})")
+ValueError: no port module 'news' (there are: attributes, ball, contests, discipline, display, duels, entrypoints, frame, geometry, menus, motion, pilot, positioning, postmatch, quick, rare, real, restarts, route, runtime, selection, setup, silent, stages, takers, update)
+
+======================================================================
+ERROR: test_rating_comparisons_keep_home_advantage_and_signed_words (tests.test_port_news.Shared.test_rating_comparisons_keep_home_advantage_and_signed_words)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t122a-fail-before-v2/tests/test_port_news.py", line 89, in test_rating_comparisons_keep_home_advantage_and_signed_words
+    got=r.run(address,[0x2800],responder({'1771:10E7':[first,second]}))
+  File "/tmp/t122a-fail-before-v2/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/tmp/t122a-fail-before-v2/runtime/original_match/port/__init__.py", line 83, in _module_registry
+    raise ValueError(f"no port module {name!r} (there are: {', '.join(available()) or 'none'})")
+ValueError: no port module 'news' (there are: attributes, ball, contests, discipline, display, duels, entrypoints, frame, geometry, menus, motion, pilot, positioning, postmatch, quick, rare, real, restarts, route, runtime, selection, setup, silent, stages, takers, update)
+
+======================================================================
+ERROR: test_sack_score_unsigned_year_and_all_exemptions (tests.test_port_news.Shared.test_sack_score_unsigned_year_and_all_exemptions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t122a-fail-before-v2/tests/test_port_news.py", line 74, in test_sack_score_unsigned_year_and_all_exemptions
+    got=r.run('000E:0B77',[0x2800],responder({'1771:59D8':finals}))
+  File "/tmp/t122a-fail-before-v2/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/tmp/t122a-fail-before-v2/runtime/original_match/port/__init__.py", line 83, in _module_registry
+    raise ValueError(f"no port module {name!r} (there are: {', '.join(available()) or 'none'})")
+ValueError: no port module 'news' (there are: attributes, ball, contests, discipline, display, duels, entrypoints, frame, geometry, menus, motion, pilot, positioning, postmatch, quick, rare, real, restarts, route, runtime, selection, setup, silent, stages, takers, update)
+
+======================================================================
+ERROR: test_twenty_original_routines_and_returns (tests.test_port_news.Shared.test_twenty_original_routines_and_returns)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t122a-fail-before-v2/tests/test_port_news.py", line 39, in test_twenty_original_routines_and_returns
+    reg = port._module_registry('news')
+  File "/tmp/t122a-fail-before-v2/runtime/original_match/port/__init__.py", line 83, in _module_registry
+    raise ValueError(f"no port module {name!r} (there are: {', '.join(available()) or 'none'})")
+ValueError: no port module 'news' (there are: attributes, ball, contests, discipline, display, duels, entrypoints, frame, geometry, menus, motion, pilot, positioning, postmatch, quick, rare, real, restarts, route, runtime, selection, setup, silent, stages, takers, update)
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.009s
+
+FAILED (errors=8)
