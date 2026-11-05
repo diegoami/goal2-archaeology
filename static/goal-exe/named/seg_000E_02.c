@@ -695,9 +695,10 @@ undefined2 news_own_stats_ahead(int param_1)
 }
 
 
-// ---- 000E:2071  f_000E_2071  (f_000E_2071; Ghidra 1000:2071, __stdcall16near; found by routines.tsv)
+// ---- 000E:2071  news_pool_recommendation  (f_000E_2071; Ghidra 1000:2071, __stdcall16near; found by routines.tsv)
+// T122c (port/news.py): always draw role1..14 and store DS0022; unless manager flag+13 set, scan20 squad slots for strict available current-position minimum, then80 pool indices for strict club-position maximum; second strength call on each improvement, no extra pool availability filter; draw10 and right-column text only for a strict improvement; returns AL flag  [likely; F039; read code/seg_000E_03.asm]
 
-undefined1 f_000E_2071(int param_1)
+undefined1 news_pool_recommendation(int param_1)
 
 {
   char cVar1;

@@ -297,3 +297,26 @@ class SecondaryText(Case):
         self.assertEqual(r.args('000E:2071'),[])
         self.assertEqual(r.args('214B:06B1'),[])
         self.assertEqual(len(r.args('000E:075F')),1)
+
+    def test_original_backed_loop_and_column_frames(self):
+        port._module_registry('news').entries['000E:2071']
+        import importlib.util
+        path=Path(__file__).resolve().parents[1]/'experiments/E040-route-fixture-writes/out/T122c/prove_secondary.py'
+        spec=importlib.util.spec_from_file_location('t122c_secondary_proof',path);module=importlib.util.module_from_spec(spec)
+        try:spec.loader.exec_module(module)
+        except ImportError as exc:
+            if exc.name=='unicorn':self.skipTest('unicorn missing')
+            raise
+        state=next(c for c in module.runner.CASES if c[0]=='E040-r0004');asset=module.ROOT/'.cache/dl'/state[3]
+        if not asset.is_file():self.skipTest('published E040 state missing; runner.py --fetch')
+        import hashlib
+        data=asset.read_bytes();self.assertEqual(hashlib.sha256(data).hexdigest(),module.runner.expected(state[3]))
+        names={'pool-2071-0-ties','pool-2071-1-pool-unavailable','pool-2071-0-wrap','pool-2071-0-pool-first-unavailable',
+               'pool-26F2-0-ties','column-streak-1-1-4','column-sack-0--11','recommend-text-2071-0-10'}
+        chosen=[c for c in module.cases() if c[0] in names];self.assertEqual(len(chosen),len(names))
+        for case in chosen:
+            with self.subTest(case=case[0]):
+                result=module.prove(data,case)
+                self.assertEqual(result['status'],'completed',result['error'])
+                self.assertEqual(result['proof'][case[1]]['proved'],1)
+                self.assertEqual(result['proof'][case[1]]['before'],0)
