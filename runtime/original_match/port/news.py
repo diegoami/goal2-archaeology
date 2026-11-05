@@ -17,7 +17,7 @@ from .setup import farg, rb, rw, w8
 from .silent import _ds_far, country_of, save_ptr
 from .route import near, far
 
-PORTS = Registry('news', 'shared news formatting, waits, ratings and text helpers (T122a)')
+PORTS = Registry('news', 'shared news formatting, waits, ratings and result-column text (T122a/b)')
 PORTS.variant('crowd-draw-dropped', '045D: omit the conditional third RNG draw at04B2')
 PORTS.variant('centering-width-minus-one', '03C4: center to width minus one')
 PORTS.variant('result-draw-dropped', '11D9: omit a direct result-column RNG draw')
@@ -1722,6 +1722,7 @@ def _result_at_1b8d(mem, r, variant):
             r = yield from _result_call(mem, r, variant, '000E:062F', 6, 0x1C05, far=False)  # 1C02
     else:
         r.es, r.di = ss16(mem, r, r.bp - 8 + 2), ss16(mem, r, r.bp - 8)  # 1B98
+        _left, _right = mem.u8(mem.addr(r.es, r.di + 0xb8)), 3  # 1B9B
         if _left <= _right:  # 1BA1
             r.di = r.bp - 0x108  # 1BCB
             r.push(r.ss)  # 1BCF

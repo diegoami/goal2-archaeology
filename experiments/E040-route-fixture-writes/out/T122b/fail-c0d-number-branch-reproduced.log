@@ -1,0 +1,18 @@
+Runtime source: c0d67a2a4449; new driver/test hashes recorded in final coverage index.
+F
+======================================================================
+FAIL: test_original_backed_result_families (tests.test_port_news.ResultColumn.test_original_backed_result_families) (case='sack-1--6-4')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t122b-c0d-repro/tests/test_port_news.py", line 191, in test_original_backed_result_families
+    self.assertEqual(result['status'],'completed',result['error'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'differs' != 'completed'
+- differs
++ completed
+ : 000E:11D9 (news), call #1 from 000E:7080: written byte #15 differs: the original wrote 0x20 at linear 0x3CDA6 (DS:F366), the port wrote 0x42 at linear 0x3CDA6 (DS:F366)
+
+----------------------------------------------------------------------
+Ran 1 test in 0.664s
+
+FAILED (failures=1)

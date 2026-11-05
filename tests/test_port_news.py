@@ -168,3 +168,26 @@ class ResultColumn(Case):
             self.assertEqual(len(r.args('000E:0B77')),1)
             self.assertEqual(len(r.args('000E:062F')),1)
             self.assertEqual(bool(r.args('214B:06B1')),score in (-256,-5))
+
+    def test_original_backed_result_families(self):
+        port._module_registry('news').entries['000E:11D9']
+        import importlib.util
+        path=Path(__file__).resolve().parents[1]/'experiments/E040-route-fixture-writes/out/T122b/prove_column.py'
+        spec=importlib.util.spec_from_file_location('t122b_column_proof',path);module=importlib.util.module_from_spec(spec)
+        try:spec.loader.exec_module(module)
+        except ImportError as exc:
+            if exc.name=='unicorn':self.skipTest('unicorn missing')
+            raise
+        state=next(c for c in module.runner.CASES if c[0]=='E040-r0004');asset=module.ROOT/'.cache/dl'/state[3]
+        if not asset.is_file():self.skipTest('published E040 state missing; runner.py --fetch')
+        import hashlib
+        data=asset.read_bytes();self.assertEqual(hashlib.sha256(data).hexdigest(),module.runner.expected(state[3]))
+        names={'special-0-203-win','special-0-203-loss','ordinary-0-win-1-balanced-0','ordinary-0-draw-0-strong-6',
+               'ordinary-1-loss-3-weak-11','sack-1--6-4','red-0-win-1'}
+        chosen=[c for c in module.cases() if c[0] in names];self.assertEqual(len(chosen),len(names))
+        for case in chosen:
+            with self.subTest(case=case[0]):
+                result=module.prove(data,case)
+                self.assertEqual(result['status'],'completed',result['error'])
+                self.assertEqual(result['proof']['000E:11D9']['proved'],1)
+                self.assertEqual(result['proof']['000E:11D9']['before'],0)
