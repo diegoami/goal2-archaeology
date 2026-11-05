@@ -183,7 +183,8 @@ class ResultColumn(Case):
         import hashlib
         data=asset.read_bytes();self.assertEqual(hashlib.sha256(data).hexdigest(),module.runner.expected(state[3]))
         names={'special-0-203-win','special-0-203-loss','ordinary-0-win-1-balanced-0','ordinary-0-draw-0-strong-6',
-               'ordinary-1-loss-3-weak-11','sack-1--6-4','red-0-win-1'}
+               'ordinary-1-loss-3-weak-11','sack-1--6-4','red-0-win-1','confidence-1-q-minus-2-1-0',
+               'confidence-0-q-minus-3-1-6','confidence-0-q-minus-3-3-7'}
         chosen=[c for c in module.cases() if c[0] in names];self.assertEqual(len(chosen),len(names))
         for case in chosen:
             with self.subTest(case=case[0]):

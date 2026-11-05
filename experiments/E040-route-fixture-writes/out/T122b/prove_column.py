@@ -54,6 +54,13 @@ def cases():
         for result in ('win','loss'):
             for margin in (0,1,3):
                 add(f'red-{side}-{result}-{margin}',side=side,kind=2,result=result,margin=margin,red_cards=[1])
+    for side in (0,1):
+        for rating in ('q-minus-1','q-minus-2','q-minus-3'):
+            for margin in (1,3,6):
+                for seed in (0,1,6,7,11,16):
+                    add(f'confidence-{side}-{rating}-{margin}-{seed}',side=side,kind=2,result='win',margin=margin,rating=rating,seed=seed)
+    for seed in (0,1,6,7,11,16):
+        add(f'confidence-1-q-minus-6-stress-1-{seed}',side=1,kind=2,result='win',margin=1,rating='q-minus-6-stress',seed=seed)
     return out
 
 
@@ -115,10 +122,20 @@ def prove(data,case,variant=None):
     if 'confidence' in edits:
         write(m.far(0xA91F)+3*manager+2,bytes([edits['confidence']&255]),'signed manager confidence byte '+str(edits['confidence']))
     rating=edits.get('rating','balanced')
-    ranks={'balanced':(16,16),'strong':(1,255),'weak':(255,1)}[rating]
+    ranking_records={
+        'balanced':((16,64,1),(16,64,1)),
+        'strong':((1,64,1),(255,64,1)),
+        'weak':((255,64,1),(1,64,1)),
+        # Original10E7 ratings produce B71C's pre-margin quotient -1/-2/-3.
+        'q-minus-1':((1,64,1),(32,64,1)),
+        'q-minus-2':((1,1,1),(32,64,1)),
+        'q-minus-3':((1,1,1),(32,128,1)),
+        # Explicit scalar-byte stress beyond a normal regional ranking.
+        'q-minus-6-stress':((1,1,1),(72,128,1)),
+    }[rating]
     for which,c in enumerate((country,countries[1-side])):
         base=m.far(0xA917)+0xBF*c
-        write(base+0x2A,bytes([ranks[which],64,1]),'ranking/world-ranking/continent fields for '+rating+' rating family')
+        write(base+0x2A,bytes(ranking_records[which]),'ranking/world-ranking/continent fields for '+rating+' rating family')
     write(m.far(0xA978),edits.get('seed',0).to_bytes(2,'little'),'declared original RNG seed')
     for k in (0,1):
         write(m.DS*16+0x7B7E+10*k,bytes([goals[k],0,0,0,0,0,0,0,int(bool(edits.get('red_cards')) and k==side),0]),'coherent bounded match-stat row')
@@ -150,7 +167,7 @@ def prove(data,case,variant=None):
         if reason!='synthetic-return':raise RuntimeError('unexpected stop '+str(reason))
     except ProofError as exc: status,error='differs',str(exc)
     except Exception as exc:status,error='aborted',type(exc).__name__+': '+str(exc)
-    return {'case':name,'routine':address,'synthetic':True,'authored_inputs':edits,'category':'rank-byte-stress' if edits.get('rating') in ('strong','weak') else 'declared-ordinary','fixture_index':index,'country':country,'side':side,'inputs':declared,'status':status,'error':error,'calls':installed.calls,'proof':prover.summary(),'decision_calls':decisions}
+    return {'case':name,'routine':address,'synthetic':True,'authored_inputs':edits,'category':'rank-byte-stress' if edits.get('rating') in ('strong','weak','q-minus-6-stress') else 'declared-ordinary','fixture_index':index,'country':country,'side':side,'inputs':declared,'status':status,'error':error,'calls':installed.calls,'proof':prover.summary(),'decision_calls':decisions}
 
 
 def main():
