@@ -1,0 +1,18 @@
+heavy: T122e-corpus-b: waiting for a slot (0 ahead)
+heavy: T122e-corpus-b: got slot 2 after 14 s
+E040-r0006     four  completed 000E:6970=7 0791:B602=7 0791:BB2F=0 0791:D47E=7 2648=7 pages=0/7 38.0s
+E040-r0006     inner completed 0791:B602=7 0791:BB2F=0 0791:D47E=7 2648=7 pages=0/7 41.7s
+E040-r0007     four  completed 000E:6970=5 0791:B602=5 0791:BB2F=0 0791:D47E=5 2648=5 pages=0/5 40.7s
+E040-r0007     inner completed 0791:B602=5 0791:BB2F=0 0791:D47E=5 2648=5 pages=0/5 30.3s
+E040-r0008     four  completed 000E:6970=8 0791:B602=8 0791:BB2F=0 0791:D47E=8 2648=8 pages=0/8 35.1s
+E040-r0008     inner completed 0791:B602=8 0791:BB2F=0 0791:D47E=8 2648=8 pages=0/8 54.0s
+E040-r0009     four  completed 000E:6970=17 0791:B602=17 0791:BB2F=0 0791:D47E=17 2648=18 pages=1/16 64.5s
+E040-r0009     inner completed 0791:B602=17 0791:BB2F=0 0791:D47E=17 2648=18 pages=1/16 35.7s
+E040-r0010     four  completed 000E:6970=3 0791:B602=3 0791:BB2F=0 0791:D47E=3 2648=3 pages=0/3 25.2s
+E040-r0010     inner completed 0791:B602=3 0791:BB2F=0 0791:D47E=3 2648=3 pages=0/3 24.8s
+000E:6970: 0 of 40 calls proved on their own
+0791:D47E: 40 of 40 calls proved on their own
+0791:B602: 40 of 40 calls proved on their own
+0791:BB2F: 0 of 0 calls proved on their own
+proof: holds
+record: experiments/E040-route-fixture-writes/out/T122e/corpus-b-v1/prove-news+route+silent-20261105T233601Z.json
