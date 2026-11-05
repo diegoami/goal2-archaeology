@@ -39,7 +39,7 @@ class Shared(Case):
         reg = port._module_registry('news')
         expected = {a: 'ret 2' for a in '08F9 094A 09DB 0A53 0ACB 0B0A 0B4D 0B77 0C3A 1F4D 4865 0572'.split()}
         expected.update({'03C4':'ret 6', '045D':'ret 4', '04F5':'ret 4', '0868':'ret 0xa',
-                         '2E1F':'ret 0xe', '3A5E':'ret 6', '4045':'ret 0xa', '47E6':'ret 0xa'})
+                         '2E1F':'ret 0xe', '3A5E':'ret 6', '4045':'ret 0xa', '47E6':'ret 0xa', '11D9':'ret 2'})
         self.assertEqual({a: e.ret for a,e in reg.entries.items()}, {'000E:'+a:r for a,r in expected.items()})
 
     def test_crowd_uses_two_draws_per_seat_and_a_conditional_third(self):
@@ -121,3 +121,50 @@ class Shared(Case):
                 self.assertEqual(result['proof'][case[1]]['proved'],1)
                 self.assertEqual(result['proof'][case[1]]['before'],0)
         self.assertEqual(len(visited),20)
+
+
+class ResultColumn(Case):
+    def frame(self,kind=2,winner=0,side=0):
+        r=Rig();parent=0x2800
+        r.lin16(parent+4,FXOFF);r.lin16(parent+6,FXSEG);r.lin16(parent+8,3)
+        r.lin8(parent-1,side);r.fixture(kind,3,4);r.lin8(FXSEG*16+FXOFF+3,winner)
+        return r,parent
+
+    def test_port_has_original_near_return_and_no_other_new_owner(self):
+        entry=port._module_registry('news').entries['000E:11D9']
+        self.assertEqual(entry.ret,'ret 2')
+        self.assertFalse(entry.far)
+
+    def test_winning_and_losing_world_final_render_different_three_line_columns(self):
+        for winner,want in ((0,[0x0CCF,0x0CE4]),(1,[0x0FDB,0x0FE3,0x0FEB])):
+            r,parent=self.frame(kind=0xCB,winner=winner)
+            r.run('000E:11D9',[parent])
+            self.assertEqual(len(r.args('000E:062F')),1)
+            constants=[value for value in r.args('000E:062F')[0] if value in want]
+            self.assertEqual(constants,want)
+            self.assertEqual(len(r.args('000E:0ACB')),int(winner==0))
+            self.assertEqual(r.args('214B:06B1'),[])
+
+    def test_confidence_choice_draw_has_original_bound_and_return_site(self):
+        for choice in (1,2):
+            r,parent=self.frame()
+            r.run('000E:11D9',[parent],responder({'1771:5C60':1,'0791:B71C':0xfffb,'214B:06B1':choice}))
+            self.assertEqual(r.args('214B:06B1'),[(2,)])
+            self.assertEqual(r.calls_of('214B:06B1')[0][2],'000E:139B')
+            self.assertEqual(len(r.args('000E:0ACB')),int(choice==1))
+            self.assertEqual(len(r.args('000E:0B4D')),int(choice==2))
+            self.assertEqual(len(r.args('000E:062F')),1)
+
+    def test_red_card_branch_uses_the_current_column_frame(self):
+        r,parent=self.frame();r.ds8(0x7B86,1)
+        r.run('000E:11D9',[parent],responder({'1771:5C60':2}))
+        self.assertEqual(r.args('000E:0C3A'),[(0x2ffe,)])
+        self.assertEqual(r.args('0791:B71C'),[])
+
+    def test_all_sack_bands_use_the_original_signed_boundaries(self):
+        for score in (-256,-255,-11,-10,-8,-7,-6,-5):
+            r,parent=self.frame(winner=1)
+            r.run('000E:11D9',[parent],responder({'1771:5C60':2,'000E:0B77':score&65535,'214B:06B1':1}))
+            self.assertEqual(len(r.args('000E:0B77')),1)
+            self.assertEqual(len(r.args('000E:062F')),1)
+            self.assertEqual(bool(r.args('214B:06B1')),score in (-256,-5))

@@ -275,6 +275,7 @@ def main(argv=None):
     states, passes = {}, []
     caught = None
     names = {reg.name for reg, _ in loaded}
+    news_task = "T122b" if any("000E:11D9" in reg.entries for reg, _ in loaded) else "T122a"
     for case in chosen:
         asset = case[2]
         path = DL / asset
@@ -326,8 +327,8 @@ def main(argv=None):
             raise SystemExit(f"{out} exists: never overwritten")
         import unicorn
         record = {
-            "schema": "e040-t122a-prove/1" if "news" in names else "e040-t121-prove/1" if "route" in names else "e040-t120-prove/1",
-            "task": "T122a" if "news" in names else "T121" if "route" in names else "T120", "experiment": "E040",
+            "schema": "e040-" + news_task.lower() + "-prove/1" if "news" in names else "e040-t121-prove/1" if "route" in names else "e040-t120-prove/1",
+            "task": news_task if "news" in names else "T121" if "route" in names else "T120", "experiment": "E040",
             "command": "python3 -B experiments/E040-route-fixture-writes/prove.py " + " ".join(argv or sys.argv[1:]),
             "code_commit": commit, "ports": port.spec_names(loaded), "variant": a.variant,
             "runtime": {"unicorn": unicorn.__version__, "python": platform.python_version(),

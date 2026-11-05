@@ -1,0 +1,62 @@
+EEEEE
+======================================================================
+ERROR: test_all_sack_bands_use_the_original_signed_boundaries (tests.test_port_news.ResultColumn.test_all_sack_bands_use_the_original_signed_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 167, in test_all_sack_bands_use_the_original_signed_boundaries
+    r.run('000E:11D9',[parent],responder({'1771:5C60':2,'000E:0B77':score&65535,'214B:06B1':1}))
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:11D9'
+
+======================================================================
+ERROR: test_confidence_choice_draw_has_original_bound_and_return_site (tests.test_port_news.ResultColumn.test_confidence_choice_draw_has_original_bound_and_return_site)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 151, in test_confidence_choice_draw_has_original_bound_and_return_site
+    r.run('000E:11D9',[parent],responder({'1771:5C60':1,'0791:B71C':0xfffb,'214B:06B1':choice}))
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:11D9'
+
+======================================================================
+ERROR: test_port_has_original_near_return_and_no_other_new_owner (tests.test_port_news.ResultColumn.test_port_has_original_near_return_and_no_other_new_owner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 134, in test_port_has_original_near_return_and_no_other_new_owner
+    entry=port._module_registry('news').entries['000E:11D9']
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '000E:11D9'
+
+======================================================================
+ERROR: test_red_card_branch_uses_the_current_column_frame (tests.test_port_news.ResultColumn.test_red_card_branch_uses_the_current_column_frame)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 160, in test_red_card_branch_uses_the_current_column_frame
+    r.run('000E:11D9',[parent],responder({'1771:5C60':2}))
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:11D9'
+
+======================================================================
+ERROR: test_winning_and_losing_world_final_render_different_three_line_columns (tests.test_port_news.ResultColumn.test_winning_and_losing_world_final_render_different_three_line_columns)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 141, in test_winning_and_losing_world_final_render_different_three_line_columns
+    r.run('000E:11D9',[parent])
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:11D9'
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.026s
+
+FAILED (errors=5)
