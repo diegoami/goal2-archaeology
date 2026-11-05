@@ -69,7 +69,10 @@ class SpeakerABI(unittest.TestCase):
                             original = Machine(bytearray(baseline), image.load)
                             candidate = PortMachine(baseline, image.load)
                             port.install(candidate, ['display'])
+                            inputs = []
+                            original.at('214B:1E85', lambda replay: inputs.append(original.reg('al')))
                             expected = run(original, mute, ax, flags, same_segment)
+                            self.assertEqual(inputs, [] if mute else [0], 'reference IN61 supplies zero')
                             actual = run(candidate, mute, ax, flags, same_segment)
                             self.assertEqual(actual, expected)
                             self.assertEqual(digest(candidate), digest(original), 'complete memory, including dead frame')
