@@ -192,3 +192,27 @@ class ResultColumn(Case):
                 self.assertEqual(result['status'],'completed',result['error'])
                 self.assertEqual(result['proof']['000E:11D9']['proved'],1)
                 self.assertEqual(result['proof']['000E:11D9']['before'],0)
+
+
+    def test_actual_finals_gate_preserves_nonzero_confidence_unless_exempt(self):
+        port._module_registry('news').entries['000E:11D9']
+        import importlib.util
+        path=Path(__file__).resolve().parents[1]/'experiments/E040-route-fixture-writes/out/T122b/prove_column.py'
+        spec=importlib.util.spec_from_file_location('t122b_real_gate_proof',path);module=importlib.util.module_from_spec(spec)
+        try:spec.loader.exec_module(module)
+        except ImportError as exc:
+            if exc.name=='unicorn':self.skipTest('unicorn missing')
+            raise
+        state=next(c for c in module.runner.CASES if c[0]=='E040-r0004');asset=module.ROOT/'.cache/dl'/state[3]
+        if not asset.is_file():self.skipTest('published E040 state missing; runner.py --fetch')
+        import hashlib
+        data=asset.read_bytes();self.assertEqual(hashlib.sha256(data).hexdigest(),module.runner.expected(state[3]))
+        chosen=[c for c in module.cases() if c[0].startswith('finals-')];self.assertEqual(len(chosen),24)
+        for case in chosen:
+            with self.subTest(case=case[0]):
+                result=module.prove(data,case)
+                self.assertEqual(result['status'],'completed',result['error'])
+                self.assertEqual(result['proof'][case[1]]['proved'],1)
+                gate=result['gate_check'];self.assertIsNotNone(gate)
+                self.assertEqual(gate['observed_59D8'],[gate['expected_59D8']])
+                self.assertEqual(gate['observed_0B77'],[gate['expected_0B77']])

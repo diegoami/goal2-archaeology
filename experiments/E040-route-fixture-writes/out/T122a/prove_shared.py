@@ -112,7 +112,7 @@ def prove(data,case,variant=None):
         assert country in managed and manager>=0x80, (country,manager)
         write(game+0x38,edits['year'].to_bytes(2,'little'),'year word')
         write(fx+2,bytes([edits['kind']]),'fixture kind')
-        write(game,bytes([3 if edits['finals'] else 1]),'stage for original59D8')
+        write(game+0x3C,bytes([3 if edits['finals'] else 2]),'actual stage byte +3C for original59D8')
         write(game+manager-0x7F,bytes([edits['group']]),'manager group')
         write(cbase+0xBE,bytes([edits['exempt']]),'country sack exemption')
     if 'discipline' in edits:

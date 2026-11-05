@@ -61,6 +61,12 @@ def cases():
                     add(f'confidence-{side}-{rating}-{margin}-{seed}',side=side,kind=2,result='win',margin=margin,rating=rating,seed=seed)
     for seed in (0,1,6,7,11,16):
         add(f'confidence-1-q-minus-6-stress-1-{seed}',side=1,kind=2,result='win',margin=1,rating='q-minus-6-stress',seed=seed)
+    for routine in ('0B77','11D9'):
+        for side in (0,1):
+            for stage in (2,3,7):
+                for group in (0,1):
+                    edits={'side':side,'kind':2,'result':'loss','margin':2,'year':2,'confidence':-11,'stage':stage,'group':group,'actual_gate':True}
+                    out.append((f'finals-{routine}-{side}-{stage}-{group}','000E:'+routine,('PARENT',),edits))
     return out
 
 
@@ -116,7 +122,8 @@ def prove(data,case,variant=None):
     game=m.far(0xA923);cbase=m.far(0xA917)+0xBF*country
     manager=m.read(cbase+0x2E,1)[0];assert manager>=0x80
     write(game+0x38,edits.get('year',1).to_bytes(2,'little'),'year word')
-    write(game,bytes([1]),'stage1 avoids finals-table exemption')
+    write(game+0x3C,bytes([edits.get('stage',2)]),'actual stage byte +3C for original59D8')
+    write(game+manager-0x7F,bytes([edits.get('group',0)]),'active manager finals group')
     write(cbase+0xBE,bytes([0]),'no sack exemption')
     write(cbase+0xB8,bytes([edits.get('winless',0)]),'country winless counter')
     if 'confidence' in edits:
@@ -148,14 +155,17 @@ def prove(data,case,variant=None):
     reg=port._module_registry('news');copy=port.Registry('news',reg.doc);copy.entries={address:reg.entries[address]};copy.variants=reg.variants
     installed=port.install(m,[(copy,variant)])
     decisions=[]
+    decision_returns=dict(DECISION_RETURNS)
+    decision_returns[0x0BB3]='far 1771:59D8'
+    if address=='000E:0B77':decision_returns[0x7080]='0xb77'
     def capture(ret):
         def visit(replay):
             if not replay:
                 value=m.reg('ax')
-                decisions.append({'return':f'000E:{ret:04X}','target':DECISION_RETURNS[ret],
+                decisions.append({'return':f'000E:{ret:04X}','target':decision_returns[ret],
                                   'ax':value,'al':value&255,'signed_ax':(value+32768)%65536-32768})
         return visit
-    for ret in DECISION_RETURNS:m.at(f'000E:{ret:04X}',capture(ret))
+    for ret in decision_returns:m.at(f'000E:{ret:04X}',capture(ret))
     prover=Prover(m,installed)
     words=[0x7080]+list(reversed([params.get(w,w) for w in args]))
     for i,value in enumerate(words): word(sp+2*i,value,'near-call stack')
@@ -167,7 +177,16 @@ def prove(data,case,variant=None):
         if reason!='synthetic-return':raise RuntimeError('unexpected stop '+str(reason))
     except ProofError as exc: status,error='differs',str(exc)
     except Exception as exc:status,error='aborted',type(exc).__name__+': '+str(exc)
-    return {'case':name,'routine':address,'synthetic':True,'authored_inputs':edits,'category':'rank-byte-stress' if edits.get('rating') in ('strong','weak','q-minus-6-stress') else 'declared-ordinary','fixture_index':index,'country':country,'side':side,'inputs':declared,'status':status,'error':error,'calls':installed.calls,'proof':prover.summary(),'decision_calls':decisions}
+    gate_check=None
+    if edits.get('actual_gate') and status=='completed':
+        gates=[d['al'] for d in decisions if d['target']=='far 1771:59D8']
+        scores=[d['signed_ax'] for d in decisions if d['target']=='0xb77']
+        expected_gate=int(edits['stage'] in (3,7))
+        expected_score=0 if expected_gate and edits['group'] else -11
+        gate_check={'stage':edits['stage'],'group':edits['group'],'confidence':-11,'observed_59D8':gates,'observed_0B77':scores,'expected_59D8':expected_gate,'expected_0B77':expected_score}
+        if gates!=[expected_gate] or scores!=[expected_score]:
+            status,error='invalid-gate-coverage',str(gate_check)
+    return {'case':name,'routine':address,'synthetic':True,'authored_inputs':edits,'category':'declared-finals-gate' if edits.get('actual_gate') else 'rank-byte-stress' if edits.get('rating') in ('strong','weak','q-minus-6-stress') else 'declared-ordinary','fixture_index':index,'country':country,'side':side,'inputs':declared,'status':status,'error':error,'calls':installed.calls,'proof':prover.summary(),'decision_calls':decisions,'gate_check':gate_check}
 
 
 def main():

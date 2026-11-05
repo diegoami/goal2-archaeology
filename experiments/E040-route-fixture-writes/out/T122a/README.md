@@ -16,3 +16,5 @@ Both falsifiers must be caught: omitted conditional crowd RNG draw; center width
 Synthetic memory edits are described by the reproducible driver and their before/after hashes. Private original-memory and video bytes are not exported. A comment-only listing citation correction in the final runtime is documented by the index's equal executable-AST hash; the exact original tested file remains recoverable at its recorded commit.
 
 This slice does not claim the outer news port, the news-page history reader, a stage transition or sealed season completion; those stay with the later task contracts.
+
+T122b fixture correction: the historical standalone recipe wrote its declared finals-stage input to game+0 (manager count), whereas original59D8 reads game+3C. The40original-backed equality proofs remain valid for their actual inputs, but those receipts did not establish the intended positive finals-group exemption. The helper recipe is corrected without changing historical JSON. T122b's paired0B77/11D9 supplement verifies actual stages2/3/7, group0/1and nonzero confidence-11, recording59D8and0B77results explicitly.
