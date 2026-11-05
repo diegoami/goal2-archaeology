@@ -416,3 +416,31 @@ class HeadlineSack(Case):
     def test_zero_prefix_scan_reaches_real_nonzero_sentinel_beyond_36(self):
         r,_=self.unmanage_frame(prefix=16);r.run('000E:01FA',[1])
         self.assertEqual(r.u16(0x2FFE-2),37);self.assertEqual(r.mem.memory[0x50008],0xFE)
+
+    def test_original_backed_sack_release_both_sides_and_real_route_continuation(self):
+        port._module_registry('news').entries['000E:4E0E']
+        import importlib.util
+        path=Path(__file__).resolve().parents[1]/'experiments/E040-route-fixture-writes/out/T122d/prove_headlines.py'
+        spec=importlib.util.spec_from_file_location('t122d_actual_sack',path);module=importlib.util.module_from_spec(spec)
+        try:spec.loader.exec_module(module)
+        except ImportError as exc:
+            if exc.name=='unicorn':self.skipTest('unicorn missing')
+            raise
+        state=next(c for c in module.runner.CASES if c[0]=='E040-r0004');asset=module.ROOT/'.cache/dl'/state[3]
+        if not asset.is_file():self.skipTest('published E040 state missing; runner.py --fetch')
+        import hashlib
+        data=asset.read_bytes();self.assertEqual(hashlib.sha256(data).hexdigest(),module.runner.expected(state[3]))
+        names={'band-0--11','band-1--10','outer-band-0--11','outer-band-1--11','outer-exempt-0-continent-group',
+               'outer-shootout-1','unmanage-1-16-0','unmanage-2-2-1','route-fragment-0','route-fragment-1'}
+        selected=[c for c in module.cases() if c[0] in names];self.assertEqual(len(selected),len(names))
+        for case in selected:
+            with self.subTest(case=case[0]):
+                result=module.prove(data,case)
+                self.assertEqual(result['status'],'completed',result['error'])
+                for address,n in result['calls'].items():
+                    self.assertEqual(result['proof'][address]['proved']+result['proof'][address]['nested'],n)
+                    self.assertEqual(result['proof'][address]['before'],0)
+                if case[1]=='route-fragment':
+                    self.assertEqual(len(result['checks']['news_order']),2)
+                    self.assertEqual(result['checks']['wait_order'],result['checks']['news_order'])
+                    self.assertEqual(result['checks']['released'],result['checks']['news_order'][:1])
