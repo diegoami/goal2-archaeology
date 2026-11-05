@@ -44,7 +44,7 @@ class Assistant(unittest.TestCase):
         return m.reg('ax')
 
     def test_sacked_retains_next_fixture_for_both_managers(self):
-        for manager in (0,1):
+        for manager in (1,2):
             m,w=self.machine(manager);w(0x50147+manager,1,1)
             self.assertEqual(self.invoke(m,'1771:55FC')&255,0)
             self.assertEqual(m.rd(0x9B43),0xABCD)
@@ -67,10 +67,12 @@ class Assistant(unittest.TestCase):
         self.assertEqual(self.invoke(m,'0791:DB38',(7,))&255,1)
 
     def test_ordered_strict_improvements_and_current_position(self):
-        for manager in (0,1):
+        for manager in (1,2):
             m,w=self.machine(manager)
+            pool=0x56000+2*(80*(manager-1)+1)
+            w(m.DS*16+0x6D18+2*manager,80*(manager-1)+1)
             for i in range(20):w(0x52000+7*191+2*i,1+i)
-            for i in range(80):w(0x56000+2*i,21+i)
+            for i in range(80):w(pool+2*i,21+i)
             for p in range(1,101):
                 for k,v in ((4,80),(6,2),(7,9),(14,50)):w(0x54000+20*p+k,v,1)
             # All ties retain incumbents; then pool word21 improves slot1, 22 improves again.
@@ -79,8 +81,8 @@ class Assistant(unittest.TestCase):
             self.invoke(m,'0791:DC7E')
             self.assertEqual(m.word_at(0x52000+7*191),22)
             self.assertEqual(m.word_at(0x52000+7*191+2),21)
-            self.assertEqual(m.word_at(0x56000),1)
-            self.assertEqual(m.word_at(0x56002),2)
+            self.assertEqual(m.word_at(pool),1)
+            self.assertEqual(m.word_at(pool+2),2)
             self.assertEqual(m.assistant_ports.calls['1771:377E'],6320)
             self.assertEqual(m.assistant_ports.calls['214B:007B'],3)
 

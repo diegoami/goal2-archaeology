@@ -1,0 +1,16 @@
+{
+  "status": "interrupted-nonacceptance",
+  "command_pid": 376493,
+  "wrapper_pid": 376487,
+  "reason": "Owner/main authorized termination of this obsolete synthetic0/1 calibration only; per-strength Prover site instrumentation was costly. Real manager1/2 final runs follow on a frozen committed fixture, with independent original call tracing.",
+  "authorization": "main session message 2026-11-05",
+  "at": "2026-11-05T19:56:04.081355+00:00",
+  "files": {
+    "results.jsonl": "6dd10d8706e797d5722c28ac4495f8b62c0a369bb0cb696a3a7c327956840e35",
+    "run.log": "bb82b291984409f9415517be3f7d716fd6097497f7bdaa1ac39b2a9c1a0c8b66"
+  },
+  "source_hashes": {
+    "experiments/E040-route-fixture-writes/out/T125/prove.py": "128656021e0945d7f6fc67570d3f3cbcfe698c60f237a1dc57fa1378cc1bdcf8",
+    "runtime/original_match/port/assistant.py": "32fe1f315f1a8cce5375b2cc9fdc07ec78a5461a0e275c99ebd06f9cad5db514"
+  }
+}

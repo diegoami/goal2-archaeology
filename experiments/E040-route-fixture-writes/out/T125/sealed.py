@@ -20,7 +20,18 @@ def fields(image):
       'pool':[word(poolseg*16+((pooloff+2*((base+i)&65535))&65535)) for i in range(80)],
       'next_fixture':word(ds+0x9B43),'rng':{hex(o):word(ds+o) for o in (0x7B62,0x8336)},
       'records':{name:hashlib.sha256(m[far(ptr):far(ptr)+size]).hexdigest() for name,ptr,size in
-        [('players',0xA91B,3061*20),('countries',0xA917,129*191),('pool',0xA927,160),('fixtures',0xA92B,36*8),('game',0xA923,0x68)]}}
+        [('players',0xA91B,3061*20),('countries',0xA917,129*191),('managers',0xA91F,0x195),('pool',0xA927,0x3C2),('fixtures',0xA92B,0x4B48),('country_lists',0xA92F,0x2448),('game',0xA923,0x10E)]}}
+
+def normalized(state):
+    # Compare the entire state including tables deltas, except dead stack scratch.
+    import base64,zlib
+    data=bytearray(zlib.decompress(base64.b64decode(state['memory'])))
+    stack=(state['load']+0x3052)*16+0x2000
+    data[stack:stack+0x1004]=bytes(0x1004)
+    return digest({**state,'memory':hashlib.sha256(data).hexdigest()})
+
+def table_hash(t):
+    return digest({'ds':hashlib.sha256(t.ds).hexdigest(),'code_data':[[off,hashlib.sha256(raw).hexdigest()] for off,raw in t.code_data],'sha256':t.sha256})
 
 def child():
     import builtins,io,os,importlib.abc
@@ -45,11 +56,13 @@ def child():
     from original_match.image import Image
     from original_match.port.tables import load
     tables=load(ROOT/'static/goal-exe/tables');state=json.load(sys.stdin);before=digest(state)
+    table_before=table_hash(tables)
     result=assistant.recommend(state,tables)
+    assert table_hash(tables)==table_before
     assert digest(state)==before
     result_state=result.pop('state');after=Image.from_state(result_state,tables)
     print(json.dumps({'fields':fields(after),'result':result,'input_state_sha256':before,
-      'output_state_sha256':digest(result_state),'copy_isolated':True,'unicorn_denied':denied,'exe_denied':exe_denied},sort_keys=True))
+      'output_state_sha256':digest(result_state),'normalized_state_sha256':normalized(result_state),'tables_sha256':table_before,'tables_unchanged':True,'copy_isolated':True,'unicorn_denied':denied,'exe_denied':exe_denied},sort_keys=True))
 
 def parent(out):
     import subprocess
@@ -57,7 +70,7 @@ def parent(out):
     from original_match.image import Image
     from original_match.port.tables import load
     tables=load(ROOT/'static/goal-exe/tables');source,sha=prove.image()
-    for manager in (0,1):
+    for manager in (1,2):
       for case in ('improve','ties','nomatch','weaker','unavailable','wrap','finals','tour','sacked','none','next'):
         m=prove.prepare(source,manager,case)
         view=Image.__new__(Image);view.memory=bytearray(m.read(0,len(source.memory))) if len(source.memory)<=0x110000 else bytearray(source.memory)
@@ -78,6 +91,7 @@ def parent(out):
         assert sealed['result']['refusal']==refusal
         assert sealed['result']['allowed']==(refusal is None)
         assert not difference,difference
+        assert sealed['normalized_state_sha256']==normalized(view.state(tables)), 'nonstack complete state differs'
         if refusal:
             for k in ('squad','pool'):assert sealed['fields'][k]==before[k]
         rec={'manager':manager,'case':case,'asset_sha256':sha,'status':'passed','original_messages':decisions,
