@@ -12,13 +12,14 @@ p=argparse.ArgumentParser()
 p.add_argument('--engine',choices=('original','port'),required=True)
 p.add_argument('--mode',choices=('incremental','batch'),required=True)
 p.add_argument('--out',type=Path,required=True)
+p.add_argument('--refusal',action='store_true')
 a=p.parse_args()
 raw=(ROOT/'.cache/dl/e0afff6751747233-e006-1000-r0001.sav').read_bytes()
 image_hash=hashlib.sha256(raw).hexdigest()
 assert image_hash=='e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d'
 m=Match(Image.from_savestate(raw),Fixture(7,19,index=21),managed=7,seed=0x1234,delay_byte=0,
         record_draws=True,engine=a.engine,ports=['all'] if a.engine=='port' else [],timeout_s=600)
-events=[]; snapshots=[]; pairs=[]; original_left=None; stopped_minute=None; started=time.monotonic()
+events=[]; snapshots=[]; pairs=[]; original_left=None; stopped_minute=None; refusal_sent=False; started=time.monotonic()
 for e in m.events():
     events.append((e.kind,e.minute,e.score,copy.deepcopy(e.data)))
     if e.kind!='decision': continue
@@ -31,16 +32,27 @@ for e in m.events():
     if a.mode=='batch': raise AssertionError('unexpected repeat half-time decision')
     made=[event for event in events if event[0]=='substitution' and event[3]['team']==m.side]
     done=len(snapshots)
-    assert len(made)==done,(done,made)
-    assert d['substitutions_left']==original_left-done
+    made_count=min(done,2)
+    assert len(made)==made_count,(done,made)
+    assert d['substitutions_left']==original_left-made_count
     assert not d.get('requested')
     assert e.minute==stopped_minute,e
-    for off,on in pairs[:done]:
+    for off,on in pairs[:made_count]:
         assert off in d['bench'] and on in d['eleven']
         assert sum(event[3]['off']==off and event[3]['on']==on for event in made)==1
     snapshots.append(dict(minute=e.minute,eleven=d['eleven'],bench=d['bench'],left=d['substitutions_left'],made=done))
     if done<2: m.answer(substitutions=[pairs[done]],edit_only=True)
-    else: m.answer()
+    elif a.refusal and not refusal_sent:
+        refusal_sent=True
+        # Previously withdrawn players cannot return: the original must refuse this operation.
+        m.answer(substitutions=[(pairs[0][1],pairs[0][0])],edit_only=True)
+    else:
+        if a.refusal:
+            refused=[event for event in events if event[0]=='refused' and event[3].get('job')=='sub']
+            assert len(refused)==1,refused
+            assert refused[0][3]['player']==pairs[0][1]
+            assert refused[0][3]['target']==pairs[0][0]
+        m.answer()
 result=m.result()
 if a.engine=='original': (ROOT/'.cache'/('fix663-'+a.mode+'.mem')).write_bytes(m.m.read(0,0x110000))
 for off,on in pairs:

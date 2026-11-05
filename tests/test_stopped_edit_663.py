@@ -6,7 +6,7 @@ import sys
 from types import SimpleNamespace
 import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'runtime'))
-from original_match.match import Match
+from original_match.match import Match, SITE_SELECT
 from original_match import screens as S
 
 class StoppedEdit(unittest.TestCase):
@@ -67,5 +67,18 @@ class StoppedEdit(unittest.TestCase):
         self.assertIsNone(m.st['answer'])
         self.assertEqual(len(m.closed),1)
         self.assertEqual(len(m.decisions),1)
+
+    def test_completed_pair_holds_select_without_escape_and_continue_does_not_repeat_it(self):
+        m=self.match()
+        m._menu=SimpleNamespace(edit_only=True,select_key=lambda state:S.ESC)
+        self.assertIsNone(m._key_for(SITE_SELECT))
+        self.assertTrue(m.st['editing_select'])
+        self.assertEqual(len(m.closed),1)
+        m.st['answer']={'substitutions':[]}
+        m._new_plan=lambda answer: SimpleNamespace(edit_only=False,select_key=lambda state:S.ESC)
+        self.assertEqual(m._key_for(SITE_SELECT),S.ESC)
+        self.assertFalse(m.st['editing_select'])
+        self.assertEqual(len(m.closed),1)
+        self.assertIsNone(m.st['answer'])
 
 if __name__ == '__main__': unittest.main()
