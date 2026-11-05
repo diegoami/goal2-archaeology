@@ -37,7 +37,7 @@ void f_000E_11D9(int param_1)
       uVar7 = 0x1000;
       uVar6 = 0xccf;
       puVar5 = local_10a;
-      f_000E_0ACB(param_1,puVar5);
+      news_manager_name(param_1,puVar5);
       sys_str_concat_06B7(0xce0,0x1000);
       news_left_column(0xce4,0xa000,puVar5,unaff_SS,uVar6,uVar7);
     }
@@ -50,10 +50,10 @@ void f_000E_11D9(int param_1)
     else if (cVar1 == 'e') {
       puVar5 = local_10a;
       uVar6 = unaff_SS;
-      f_000E_0B4D(param_1,puVar5);
+      news_own_country_name(param_1,puVar5);
       sys_str_concat_06B7(0xd23,0x1000);
       puVar9 = local_20a;
-      f_000E_0B4D(param_1,puVar9);
+      news_own_country_name(param_1,puVar9);
       sys_str_concat_06B7(0xd26,0xa000);
       news_left_column(0xd0a,0xa000,puVar9,unaff_SS,puVar5,uVar6);
     }
@@ -62,7 +62,7 @@ void f_000E_11D9(int param_1)
     }
     else if (cVar1 == '\b') {
       puVar5 = local_10a;
-      f_000E_0B4D(param_1,puVar5);
+      news_own_country_name(param_1,puVar5);
       news_left_column(0xd0a,0x1000,0xd35,0x1000,puVar5,unaff_SS);
     }
     else {
@@ -70,22 +70,22 @@ void f_000E_11D9(int param_1)
                         ((int)*(undefined4 *)(param_1 + 4),
                          (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
       if ((uVar3 < 3) && (((char *)match_stats + 8)[*(char *)(param_1 + -1) * 10] != '\0')) {
-        f_000E_0C3A(&stack0xfffe);
+        news_red_card_headline(&stack0xfffe);
       }
       else {
         iVar2 = fixture_absolute_margin
                           ((int)*(undefined4 *)(param_1 + 4),
                            (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
         if (iVar2 == 0) {
-          cVar1 = f_000E_09DB(param_1);
+          cVar1 = news_opponent_outclassed(param_1);
           if (cVar1 == '\0') {
             puVar5 = local_10a;
-            f_000E_0B4D(param_1,puVar5);
+            news_own_country_name(param_1,puVar5);
             news_left_column(0xd62,0x4000,0xd57,0x4000,puVar5,unaff_SS);
           }
           else {
             puVar5 = local_10a;
-            f_000E_0B0A(param_1,puVar5);
+            news_opponent_name(param_1,puVar5);
             news_left_column(0xd4b,0x4000,0xd40,0x4000,puVar5,unaff_SS);
           }
         }
@@ -106,18 +106,18 @@ void f_000E_11D9(int param_1)
                   uVar6 = unaff_SS;
                   sys_str_store_062A(0xdcc,0x7000);
                   puVar9 = local_10a;
-                  f_000E_0B4D(param_1,puVar9);
+                  news_own_country_name(param_1,puVar9);
                   sys_str_concat_06B7(puVar9,unaff_SS);
                   news_left_column(puVar5,uVar6,uVar7,uVar8,uVar12,uVar11);
                 }
                 else if (iVar2 == 2) {
                   puVar5 = local_10a;
-                  f_000E_0B4D(param_1,puVar5);
+                  news_own_country_name(param_1,puVar5);
                   news_left_column(0xd0a,0x7000,0xdd0,0x7000,puVar5,unaff_SS);
                 }
                 else if (iVar2 == 3) {
                   puVar5 = local_10a;
-                  f_000E_0B4D(param_1,puVar5);
+                  news_own_country_name(param_1,puVar5);
                   news_left_column(0xd0a,0x7000,0xdd9,0x7000,puVar5,unaff_SS);
                 }
               }
@@ -129,12 +129,12 @@ void f_000E_11D9(int param_1)
                   iVar2 = u214b_random_1_to_n(4);
                   if (iVar2 == 1) {
                     puVar5 = local_10a;
-                    f_000E_0B4D(param_1,puVar5);
+                    news_own_country_name(param_1,puVar5);
                     news_left_column(0xdf1,0x7000,0xde6,0x7000,puVar5,unaff_SS);
                   }
                   else if (iVar2 == 2) {
                     puVar5 = local_10a;
-                    f_000E_0B4D(param_1,puVar5);
+                    news_own_country_name(param_1,puVar5);
                     sys_str_concat_06B7(0xdf6,0x7000);
                     news_left_column(0xd0a,0xa000,0xdfa,0xa000,puVar5,unaff_SS);
                   }
@@ -145,7 +145,7 @@ void f_000E_11D9(int param_1)
                     uVar6 = unaff_SS;
                     sys_str_store_062A(0xe1a,0x7000);
                     puVar9 = local_10a;
-                    f_000E_0B4D(param_1,puVar9);
+                    news_own_country_name(param_1,puVar9);
                     sys_str_concat_06B7(puVar9,unaff_SS);
                     news_left_column(0xd0a,0xa000,puVar5,uVar6,uVar7,uVar8);
                   }
@@ -161,22 +161,22 @@ void f_000E_11D9(int param_1)
                     uVar7 = 0x7000;
                     uVar6 = 0xe41;
                     puVar5 = local_10a;
-                    f_000E_0ACB(param_1,puVar5);
+                    news_manager_name(param_1,puVar5);
                     news_left_column(puVar5,unaff_SS,uVar6,uVar7,uVar8,uVar12);
                   }
                   else if (iVar2 == 2) {
                     puVar5 = local_10a;
-                    f_000E_0B4D(param_1,puVar5);
+                    news_own_country_name(param_1,puVar5);
                     news_left_column(0xe57,0x7000,0xe4b,0x7000,puVar5,unaff_SS);
                   }
                   else if (iVar2 == 3) {
                     puVar5 = local_10a;
-                    f_000E_0B4D(param_1,puVar5);
+                    news_own_country_name(param_1,puVar5);
                     news_left_column(0xe68,0x7000,0xe61,0x7000,puVar5,unaff_SS);
                   }
                   else if (iVar2 == 4) {
                     puVar5 = local_10a;
-                    f_000E_0B4D(param_1,puVar5);
+                    news_own_country_name(param_1,puVar5);
                     news_left_column(0xe7e,0x7000,0xe71,0x7000,puVar5,unaff_SS);
                   }
                 }
@@ -185,12 +185,12 @@ void f_000E_11D9(int param_1)
                 iVar2 = u214b_random_1_to_n(5);
                 if (iVar2 == 1) {
                   puVar5 = local_10a;
-                  f_000E_0B4D(param_1,puVar5);
+                  news_own_country_name(param_1,puVar5);
                   news_left_column(0xd0a,0x7000,0xe85,0x7000,puVar5,unaff_SS);
                 }
                 else if (iVar2 == 2) {
                   puVar5 = local_10a;
-                  f_000E_0ACB(param_1,puVar5);
+                  news_manager_name(param_1,puVar5);
                   news_left_column(0xd0a,0x7000,0xe92,0x7000,puVar5,unaff_SS);
                 }
                 else if (iVar2 == 3) {
@@ -202,13 +202,13 @@ void f_000E_11D9(int param_1)
                   uVar6 = unaff_SS;
                   sys_str_store_062A(0xdcc,0x7000);
                   puVar9 = local_10a;
-                  f_000E_0B4D(param_1,puVar9);
+                  news_own_country_name(param_1,puVar9);
                   sys_str_concat_06B7(puVar9,unaff_SS);
                   news_left_column(puVar5,uVar6,uVar7,uVar8,uVar12,uVar11);
                 }
                 else if (iVar2 == 4) {
                   puVar5 = local_10a;
-                  f_000E_0B4D(param_1,puVar5);
+                  news_own_country_name(param_1,puVar5);
                   news_left_column(0xd0a,0x7000,0xea6,0x7000,puVar5,unaff_SS);
                 }
                 else if (iVar2 == 5) {
@@ -217,7 +217,7 @@ void f_000E_11D9(int param_1)
                   uVar7 = 0x7000;
                   uVar6 = 0xec1;
                   puVar5 = local_10a;
-                  f_000E_0B4D(param_1,puVar5);
+                  news_own_country_name(param_1,puVar5);
                   news_left_column(puVar5,unaff_SS,uVar6,uVar7,uVar8,uVar12);
                 }
               }
@@ -225,22 +225,22 @@ void f_000E_11D9(int param_1)
                 iVar2 = u214b_random_1_to_n(4);
                 if (iVar2 == 1) {
                   puVar5 = local_10a;
-                  f_000E_0B4D(param_1,puVar5);
+                  news_own_country_name(param_1,puVar5);
                   news_left_column(0xed9,0x7000,0xecb,0x7000,puVar5,unaff_SS);
                 }
                 else if (iVar2 == 2) {
                   puVar5 = local_10a;
-                  f_000E_0B4D(param_1,puVar5);
+                  news_own_country_name(param_1,puVar5);
                   news_left_column(0xd0a,0x7000,0xede,0x7000,puVar5,unaff_SS);
                 }
                 else if (iVar2 == 3) {
                   puVar5 = local_10a;
-                  f_000E_0B4D(param_1,puVar5);
+                  news_own_country_name(param_1,puVar5);
                   news_left_column(0xd0a,0x7000,0xeed,0x7000,puVar5,unaff_SS);
                 }
                 else if (iVar2 == 4) {
                   puVar5 = local_10a;
-                  f_000E_0B4D(param_1,puVar5);
+                  news_own_country_name(param_1,puVar5);
                   news_left_column(0xd0a,0x7000,0xef7,0x7000,puVar5,unaff_SS);
                 }
               }
@@ -248,7 +248,7 @@ void f_000E_11D9(int param_1)
                 iVar2 = u214b_random_1_to_n(5);
                 if (iVar2 == 1) {
                   puVar5 = local_10a;
-                  f_000E_0B4D(param_1,puVar5);
+                  news_own_country_name(param_1,puVar5);
                   news_left_column(0xd0a,0x7000,0xf06,0x7000,puVar5,unaff_SS);
                 }
                 else if (iVar2 == 2) {
@@ -258,7 +258,7 @@ void f_000E_11D9(int param_1)
                   uVar6 = unaff_SS;
                   sys_str_store_062A(0xf21,0x7000);
                   puVar9 = local_10a;
-                  f_000E_0B4D(param_1,puVar9);
+                  news_own_country_name(param_1,puVar9);
                   sys_str_concat_06B7(puVar9,unaff_SS);
                   news_left_column(0xd0a,0xa000,puVar5,uVar6,uVar7,uVar8);
                 }
@@ -268,17 +268,17 @@ void f_000E_11D9(int param_1)
                   uVar7 = 0x7000;
                   uVar6 = 0xf33;
                   puVar5 = local_10a;
-                  f_000E_0ACB(param_1,puVar5);
+                  news_manager_name(param_1,puVar5);
                   news_left_column(puVar5,unaff_SS,uVar6,uVar7,uVar8,uVar12);
                 }
                 else if (iVar2 == 4) {
                   puVar5 = local_10a;
-                  f_000E_0B4D(param_1,puVar5);
+                  news_own_country_name(param_1,puVar5);
                   news_left_column(0xd0a,0x7000,0xf3d,0x7000,puVar5,unaff_SS);
                 }
                 else if (iVar2 == 5) {
                   puVar5 = local_10a;
-                  f_000E_0B4D(param_1,puVar5);
+                  news_own_country_name(param_1,puVar5);
                   news_left_column(0xd0a,0x7000,0xf46,0x7000,puVar5,unaff_SS);
                 }
               }
@@ -288,12 +288,12 @@ void f_000E_11D9(int param_1)
                     cVar1 = u214b_random_coin_flip();
                     if (cVar1 == '\0') {
                       puVar5 = local_10a;
-                      f_000E_0ACB(param_1,puVar5);
+                      news_manager_name(param_1,puVar5);
                       news_left_column(0xd0a,0x7000,0xfcc,0x7000,puVar5,unaff_SS);
                     }
                     else {
                       puVar5 = local_10a;
-                      f_000E_0B4D(param_1,puVar5);
+                      news_own_country_name(param_1,puVar5);
                       news_left_column(0xd0a,0x7000,0xfc2,0x7000,puVar5,unaff_SS);
                     }
                   }
@@ -311,7 +311,7 @@ void f_000E_11D9(int param_1)
                       uVar6 = unaff_SS;
                       sys_str_store_062A(0xe1a,0xa000);
                       puVar4 = local_20a;
-                      f_000E_0B4D(param_1,puVar4);
+                      news_own_country_name(param_1,puVar4);
                       sys_str_concat_06B7(puVar4,unaff_SS);
                       news_left_column(0xd0a,0xa000,puVar9,uVar6,puVar5,uVar7);
                     }
@@ -323,21 +323,21 @@ void f_000E_11D9(int param_1)
                 if (iVar2 == 1) {
                   puVar5 = local_10a;
                   uVar6 = unaff_SS;
-                  f_000E_0B4D(param_1,puVar5);
+                  news_own_country_name(param_1,puVar5);
                   uVar8 = 0x7000;
                   uVar7 = 0xf57;
                   puVar9 = local_20a;
-                  f_000E_0B0A(param_1,puVar9);
+                  news_opponent_name(param_1,puVar9);
                   news_left_column(puVar9,unaff_SS,uVar7,uVar8,puVar5,uVar6);
                 }
                 else if (iVar2 == 2) {
                   puVar5 = local_10a;
-                  f_000E_0B4D(param_1,puVar5);
+                  news_own_country_name(param_1,puVar5);
                   news_left_column(0xd0a,0x7000,0xf5f,0x7000,puVar5,unaff_SS);
                 }
                 else if (iVar2 == 3) {
                   puVar5 = local_10a;
-                  f_000E_0B4D(param_1,puVar5);
+                  news_own_country_name(param_1,puVar5);
                   news_left_column(0xd0a,0x7000,0xf70,0x7000,puVar5,unaff_SS);
                 }
                 else if (iVar2 == 4) {
@@ -352,17 +352,17 @@ void f_000E_11D9(int param_1)
               iVar2 = u214b_random_1_to_n(3);
               if (iVar2 == 1) {
                 puVar5 = local_10a;
-                f_000E_0B4D(param_1,puVar5);
+                news_own_country_name(param_1,puVar5);
                 news_left_column(0xd0a,0x7000,0xd8b,0x7000,puVar5,unaff_SS);
               }
               else if (iVar2 == 2) {
                 puVar5 = local_10a;
-                f_000E_0B4D(param_1,puVar5);
+                news_own_country_name(param_1,puVar5);
                 news_left_column(0xd9f,0x7000,0xd97,0x7000,puVar5,unaff_SS);
               }
               else if (iVar2 == 3) {
                 puVar5 = local_10a;
-                f_000E_0B4D(param_1,puVar5);
+                news_own_country_name(param_1,puVar5);
                 news_left_column(0xd0a,0x7000,0xda8,0x7000,puVar5,unaff_SS);
               }
             }
@@ -371,12 +371,12 @@ void f_000E_11D9(int param_1)
             iVar2 = u214b_random_1_to_n(2);
             if (iVar2 == 1) {
               puVar5 = local_10a;
-              f_000E_0ACB(param_1,puVar5);
+              news_manager_name(param_1,puVar5);
               news_left_column(0xd0a,0x7000,0xd73,0x7000,puVar5,unaff_SS);
             }
             else if (iVar2 == 2) {
               puVar5 = local_10a;
-              f_000E_0B4D(param_1,puVar5);
+              news_own_country_name(param_1,puVar5);
               news_left_column(0xd0a,0x7000,0xd7e,0x7000,puVar5,unaff_SS);
             }
           }
@@ -395,7 +395,7 @@ void f_000E_11D9(int param_1)
       uVar7 = 0x1000;
       uVar6 = 0xfff;
       puVar5 = local_10a;
-      f_000E_0ACB(param_1,puVar5);
+      news_manager_name(param_1,puVar5);
       sys_str_concat_06B7(0xd26,0x1000);
       news_left_column(puVar5,unaff_SS,uVar6,uVar7,uVar8,uVar12);
     }
@@ -404,7 +404,7 @@ void f_000E_11D9(int param_1)
     }
     else if (cVar1 == 'e') {
       puVar5 = local_10a;
-      f_000E_0B4D(param_1,puVar5);
+      news_own_country_name(param_1,puVar5);
       news_left_column(0xd0a,0x1000,0x1021,0x1000,puVar5,unaff_SS);
     }
     else {
@@ -412,19 +412,19 @@ void f_000E_11D9(int param_1)
                         ((int)*(undefined4 *)(param_1 + 4),
                          (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
       if (iVar2 == 0) {
-        cVar1 = f_000E_09DB(param_1);
+        cVar1 = news_opponent_outclassed(param_1);
         if (cVar1 == '\0') {
-          cVar1 = f_000E_0A53(param_1);
+          cVar1 = news_own_side_competitive(param_1);
           if (cVar1 == '\0') {
             iVar2 = u214b_random_1_to_n(2);
             if (iVar2 == 1) {
               puVar5 = local_10a;
-              f_000E_0B4D(param_1,puVar5);
+              news_own_country_name(param_1,puVar5);
               news_left_column(0xd0a,0x7000,0x1040,0x7000,puVar5,unaff_SS);
             }
             else if (iVar2 == 2) {
               puVar5 = local_10a;
-              f_000E_0B4D(param_1,puVar5);
+              news_own_country_name(param_1,puVar5);
               news_left_column(0xd0a,0x7000,0x1048,0x7000,puVar5,unaff_SS);
             }
           }
@@ -432,12 +432,12 @@ void f_000E_11D9(int param_1)
             iVar2 = u214b_random_1_to_n(2);
             if (iVar2 == 1) {
               puVar5 = local_10a;
-              f_000E_0B4D(param_1,puVar5);
+              news_own_country_name(param_1,puVar5);
               news_left_column(0xd0a,0x7000,0xdd0,0x7000,puVar5,unaff_SS);
             }
             else if (iVar2 == 2) {
               puVar5 = local_10a;
-              f_000E_0B4D(param_1,puVar5);
+              news_own_country_name(param_1,puVar5);
               news_left_column(0xd0a,0x7000,0x1038,0x7000,puVar5,unaff_SS);
             }
           }
@@ -446,14 +446,14 @@ void f_000E_11D9(int param_1)
           iVar2 = u214b_random_1_to_n(2);
           if (iVar2 == 1) {
             puVar5 = local_10a;
-            f_000E_0B4D(param_1,puVar5);
+            news_own_country_name(param_1,puVar5);
             news_left_column(0xd9f,0x7000,0xd97,0x7000,puVar5,unaff_SS);
           }
           else if (iVar2 == 2) {
             uVar7 = 0x7000;
             uVar6 = 0x102a;
             puVar5 = local_10a;
-            f_000E_0B4D(param_1,puVar5);
+            news_own_country_name(param_1,puVar5);
             news_left_column(0xd0a,0x7000,puVar5,unaff_SS,uVar6,uVar7);
           }
         }
@@ -463,14 +463,14 @@ void f_000E_11D9(int param_1)
                           ((int)*(undefined4 *)(param_1 + 4),
                            (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
         if ((uVar3 < 3) && (((char *)match_stats + 8)[*(char *)(param_1 + -1) * 10] != '\0')) {
-          f_000E_0C3A(&stack0xfffe);
+          news_red_card_headline(&stack0xfffe);
         }
         else {
           iVar2 = manager_sack_score(param_1);
           if (iVar2 == -6) {
             if ((byte)local_a->field_0xb8 < 4) {
               puVar5 = local_10a;
-              f_000E_0ACB(param_1,puVar5);
+              news_manager_name(param_1,puVar5);
               news_left_column(0x1075,0x4000,0x1069,0x4000,puVar5,unaff_SS);
             }
             else {
@@ -481,7 +481,7 @@ void f_000E_11D9(int param_1)
           }
           else if (iVar2 == -7) {
             puVar5 = local_10a;
-            f_000E_0ACB(param_1,puVar5);
+            news_manager_name(param_1,puVar5);
             news_left_column(0x108c,0x4000,0x1082,0x4000,puVar5,unaff_SS);
           }
           else if ((iVar2 < -10) || (-8 < iVar2)) {
@@ -490,26 +490,26 @@ void f_000E_11D9(int param_1)
                                 ((int)*(undefined4 *)(param_1 + 4),
                                  (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
               if (uVar3 < 3) {
-                cVar1 = f_000E_09DB(param_1);
+                cVar1 = news_opponent_outclassed(param_1);
                 if (cVar1 == '\0') {
-                  cVar1 = f_000E_0A53(param_1);
+                  cVar1 = news_own_side_competitive(param_1);
                   if (cVar1 == '\0') {
                     iVar2 = u214b_random_1_to_n(3);
                     if (iVar2 == 1) {
                       uVar7 = 0x7000;
                       uVar6 = 0x114f;
                       puVar5 = local_10a;
-                      f_000E_0B4D(param_1,puVar5);
+                      news_own_country_name(param_1,puVar5);
                       news_left_column(0x1155,0x7000,puVar5,unaff_SS,uVar6,uVar7);
                     }
                     else if (iVar2 == 2) {
                       puVar5 = local_10a;
-                      f_000E_0B4D(param_1,puVar5);
+                      news_own_country_name(param_1,puVar5);
                       news_left_column(0xd0a,0x7000,0x1165,0x7000,puVar5,unaff_SS);
                     }
                     else if (iVar2 == 3) {
                       puVar5 = local_10a;
-                      f_000E_0B4D(param_1,puVar5);
+                      news_own_country_name(param_1,puVar5);
                       news_left_column(0x117b,0x7000,0x1170,0x7000,puVar5,unaff_SS);
                     }
                   }
@@ -521,24 +521,24 @@ void f_000E_11D9(int param_1)
                       uVar7 = 0x7000;
                       uVar6 = 0x1115;
                       puVar5 = local_10a;
-                      f_000E_0B4D(param_1,puVar5);
+                      news_own_country_name(param_1,puVar5);
                       news_left_column(puVar5,unaff_SS,uVar6,uVar7,pcVar10,uVar8);
                     }
                     else if (iVar2 == 2) {
                       puVar5 = local_10a;
-                      f_000E_0B4D(param_1,puVar5);
+                      news_own_country_name(param_1,puVar5);
                       news_left_column(0xd0a,0x7000,0x1124,0x7000,puVar5,unaff_SS);
                     }
                     else if (iVar2 == 3) {
                       uVar7 = 0x7000;
                       uVar6 = 0x112f;
                       puVar5 = local_10a;
-                      f_000E_0B4D(param_1,puVar5);
+                      news_own_country_name(param_1,puVar5);
                       news_left_column(0xd0a,0x7000,puVar5,unaff_SS,uVar6,uVar7);
                     }
                     else if (iVar2 == 4) {
                       puVar5 = local_10a;
-                      f_000E_0B4D(param_1,puVar5);
+                      news_own_country_name(param_1,puVar5);
                       news_left_column(0xd0a,0x7000,0x1140,0x7000,puVar5,unaff_SS);
                     }
                   }
@@ -551,7 +551,7 @@ void f_000E_11D9(int param_1)
                     uVar7 = 0x7000;
                     uVar6 = 0x10d7;
                     puVar5 = local_10a;
-                    f_000E_0B4D(param_1,puVar5);
+                    news_own_country_name(param_1,puVar5);
                     news_left_column(puVar5,unaff_SS,uVar6,uVar7,puVar9,uVar8);
                   }
                   else if (iVar2 == 2) {
@@ -559,49 +559,49 @@ void f_000E_11D9(int param_1)
                   }
                   else if (iVar2 == 3) {
                     puVar5 = local_10a;
-                    f_000E_0ACB(param_1,puVar5);
+                    news_manager_name(param_1,puVar5);
                     news_left_column(0xd0a,0x7000,0x10f0,0x7000,puVar5,unaff_SS);
                   }
                   else if (iVar2 == 4) {
                     uVar7 = 0x7000;
                     uVar6 = 0x10ff;
                     puVar5 = local_10a;
-                    f_000E_0B4D(param_1,puVar5);
+                    news_own_country_name(param_1,puVar5);
                     news_left_column(0xd0a,0x7000,puVar5,unaff_SS,uVar6,uVar7);
                   }
                 }
               }
               else {
-                cVar1 = f_000E_09DB(param_1);
+                cVar1 = news_opponent_outclassed(param_1);
                 if (cVar1 == '\0') {
-                  cVar1 = f_000E_0A53(param_1);
+                  cVar1 = news_own_side_competitive(param_1);
                   if (cVar1 == '\0') {
                     iVar2 = u214b_random_1_to_n(2);
                     if (iVar2 == 1) {
                       puVar5 = local_10a;
                       uVar7 = unaff_SS;
-                      f_000E_0B4D(param_1,puVar5);
+                      news_own_country_name(param_1,puVar5);
                       uVar12 = 0x7000;
                       uVar8 = 0x11c6;
                       puVar9 = local_30a;
                       uVar6 = unaff_SS;
                       sys_str_store_062A(0xdcc,0x7000);
                       puVar4 = local_20a;
-                      f_000E_0B0A(param_1,puVar4);
+                      news_opponent_name(param_1,puVar4);
                       sys_str_concat_06B7(puVar4,unaff_SS);
                       news_left_column(puVar9,uVar6,uVar8,uVar12,puVar5,uVar7);
                     }
                     else if (iVar2 == 2) {
                       puVar5 = local_10a;
                       uVar7 = unaff_SS;
-                      f_000E_0B4D(param_1,puVar5);
+                      news_own_country_name(param_1,puVar5);
                       uVar12 = 0x7000;
                       uVar8 = 0x11cf;
                       puVar9 = local_30a;
                       uVar6 = unaff_SS;
                       sys_str_store_062A(0xdcc,0x7000);
                       puVar4 = local_20a;
-                      f_000E_0B0A(param_1,puVar4);
+                      news_opponent_name(param_1,puVar4);
                       sys_str_concat_06B7(puVar4,unaff_SS);
                       news_left_column(puVar9,uVar6,uVar8,uVar12,puVar5,uVar7);
                     }
@@ -611,14 +611,14 @@ void f_000E_11D9(int param_1)
                     if (iVar2 == 1) {
                       puVar5 = local_10a;
                       uVar7 = unaff_SS;
-                      f_000E_0B4D(param_1,puVar5);
+                      news_own_country_name(param_1,puVar5);
                       uVar12 = 0x7000;
                       uVar8 = 0x11a6;
                       puVar9 = local_30a;
                       uVar6 = unaff_SS;
                       sys_str_store_062A(0x11b2,0x7000);
                       puVar4 = local_20a;
-                      f_000E_0B0A(param_1,puVar4);
+                      news_opponent_name(param_1,puVar4);
                       sys_str_concat_06B7(puVar4,unaff_SS);
                       news_left_column(puVar9,uVar6,uVar8,uVar12,puVar5,uVar7);
                     }
@@ -626,7 +626,7 @@ void f_000E_11D9(int param_1)
                       uVar7 = 0x7000;
                       uVar6 = 0x11b6;
                       puVar5 = local_10a;
-                      f_000E_0ACB(param_1,puVar5);
+                      news_manager_name(param_1,puVar5);
                       news_left_column(0xd0a,0x7000,puVar5,unaff_SS,uVar6,uVar7);
                     }
                   }
@@ -636,11 +636,11 @@ void f_000E_11D9(int param_1)
                   if (iVar2 == 1) {
                     puVar5 = local_10a;
                     uVar6 = unaff_SS;
-                    f_000E_0B4D(param_1,puVar5);
+                    news_own_country_name(param_1,puVar5);
                     uVar8 = 0x7000;
                     uVar7 = 0x1182;
                     puVar9 = local_20a;
-                    f_000E_0ACB(param_1,puVar9);
+                    news_manager_name(param_1,puVar9);
                     news_left_column(puVar9,unaff_SS,uVar7,uVar8,puVar5,uVar6);
                   }
                   else if (iVar2 == 2) {
@@ -653,7 +653,7 @@ void f_000E_11D9(int param_1)
               uVar7 = 0x4000;
               uVar6 = 0x10af;
               puVar5 = local_10a;
-              f_000E_0ACB(param_1,puVar5);
+              news_manager_name(param_1,puVar5);
               sys_str_concat_06B7(0x10b7,0x4000);
               news_left_column(0x10bc,0xa000,puVar5,unaff_SS,uVar6,uVar7);
             }
@@ -664,7 +664,7 @@ void f_000E_11D9(int param_1)
             uVar7 = 0x4000;
             uVar6 = 0x10a3;
             puVar5 = local_10a;
-            f_000E_0ACB(param_1,puVar5);
+            news_manager_name(param_1,puVar5);
             news_left_column(puVar5,unaff_SS,uVar6,uVar7,uVar8,uVar12);
           }
         }
@@ -675,9 +675,10 @@ void f_000E_11D9(int param_1)
 }
 
 
-// ---- 000E:1F4D  f_000E_1F4D  (f_000E_1F4D; Ghidra 1000:1F4D, __stdcall16near; found by routines.tsv)
+// ---- 000E:1F4D  news_own_stats_ahead  (f_000E_1F4D; Ghidra 1000:1F4D, __stdcall16near; found by routines.tsv)
+// T122a (port/news.py): compares signed own stats0+4+opponent5 > opponent0+4+own5; side comes from caller frame  [likely; F039; read code/seg_000E_02.asm]
 
-undefined2 f_000E_1F4D(int param_1)
+undefined2 news_own_stats_ahead(int param_1)
 
 {
   uint uVar1;

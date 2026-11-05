@@ -152,9 +152,10 @@ void __cdecl16near news_background(void)
 }
 
 
-// ---- 000E:03C4  f_000E_03C4  (f_000E_03C4; Ghidra 1000:03C4, __stdcall16near; found by routines.tsv)
+// ---- 000E:03C4  news_center_text  (f_000E_03C4; Ghidra 1000:03C4, __stdcall16near; found by routines.tsv)
+// T122a (port/news.py): centres a Pascal string by alternating leading and trailing spaces to the requested width; source and hidden result copied with limit80; ret6  [likely; F039; read code/seg_000E_01.asm]
 
-void f_000E_03C4(uint param_1,undefined4 param_2,undefined4 param_3)
+void news_center_text(uint param_1,undefined4 param_2,undefined4 param_3)
 
 {
   undefined2 unaff_SS;
@@ -217,7 +218,7 @@ void crowd_animation(undefined2 param_1,int param_2)
 
 
 // ---- 000E:04F5  play_tune_part  (f_000E_04F5; Ghidra 1000:04F5, __stdcall16near; found by routines.tsv)
-// one tune part of the news celebration: DS:7968 := the part argument, speaker on (214B:1E75); then up to 16 notes from the table at DS:0000 + 2k, each stopped before it when a key is waiting (214B:0723): play the note (214B:1EF1) and call crowd_animation 000E:045D with the caller's argument; speaker off (1E8D); ret 4  [likely; F039; read code/seg_000E_01.asm]
+// one tune part of the news celebration: DS:7968 := the part argument, speaker on (214B:1E75); then up to 16 notes from the table at DS:0000 + 2k, each stopped before it when a key is waiting (214B:0723): play the note (214B:1EF1) and call crowd_animation 000E:045D with the caller's argument; speaker off (1E8D) only after all16 notes; first key-poll hit skips it; ret 4  [likely; F039; read code/seg_000E_01.asm]
 
 void play_tune_part(undefined2 param_1,undefined1 param_2)
 
@@ -324,7 +325,7 @@ void news_left_column(undefined4 param_1,undefined4 param_2,undefined4 param_3)
   puVar2 = local_141;
   uVar3 = unaff_SS;
   uVar5 = unaff_SS;
-  f_000E_03C4(0x12,local_17,unaff_SS);
+  news_center_text(0x12,local_17,unaff_SS);
   u214b_upcase_string(puVar2,uVar3);
   u214b_write_string_at_fwd_set_attr
             ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_00,5),
@@ -334,7 +335,7 @@ void news_left_column(undefined4 param_1,undefined4 param_2,undefined4 param_3)
     puVar2 = local_141;
     uVar3 = unaff_SS;
     uVar5 = unaff_SS;
-    f_000E_03C4(0x12,local_2c,unaff_SS);
+    news_center_text(0x12,local_2c,unaff_SS);
     u214b_upcase_string(puVar2,uVar3);
     u214b_write_string_at_fwd
               ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_01,5),
@@ -344,7 +345,7 @@ void news_left_column(undefined4 param_1,undefined4 param_2,undefined4 param_3)
     puVar4 = local_241;
     puVar2 = local_141;
     uVar3 = unaff_SS;
-    f_000E_03C4(0x12,local_41,unaff_SS);
+    news_center_text(0x12,local_41,unaff_SS);
     u214b_upcase_string(puVar2,unaff_SS);
     u214b_write_string_at_fwd
               ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_02,5),
@@ -375,7 +376,7 @@ void news_heading(undefined4 param_1,int param_2)
   puVar3 = local_217;
   puVar2 = local_117;
   uVar4 = unaff_SS;
-  f_000E_03C4(0x14,local_17,unaff_SS);
+  news_center_text(0x14,local_17,unaff_SS);
   u214b_upcase_string(puVar2,unaff_SS);
   u214b_write_string_at_fwd_set_attr
             ((undefined4 *)&DS:A96E,0xb000,CONCAT11((char)((uint)(param_2 + 8) >> 8),0x1f),
@@ -414,7 +415,7 @@ void news_right_column(undefined4 param_1,undefined4 param_2,undefined4 param_3)
   puVar2 = local_141;
   uVar3 = unaff_SS;
   uVar5 = unaff_SS;
-  f_000E_03C4(0x12,local_17,unaff_SS);
+  news_center_text(0x12,local_17,unaff_SS);
   u214b_upcase_string(puVar2,uVar3);
   u214b_write_string_at_fwd_set_attr
             ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_00,0x3b),
@@ -424,7 +425,7 @@ void news_right_column(undefined4 param_1,undefined4 param_2,undefined4 param_3)
     puVar2 = local_141;
     uVar3 = unaff_SS;
     uVar5 = unaff_SS;
-    f_000E_03C4(0x12,local_2c,unaff_SS);
+    news_center_text(0x12,local_2c,unaff_SS);
     u214b_upcase_string(puVar2,uVar3);
     u214b_write_string_at_fwd
               ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_01,0x3b),
@@ -434,7 +435,7 @@ void news_right_column(undefined4 param_1,undefined4 param_2,undefined4 param_3)
     puVar4 = local_241;
     puVar2 = local_141;
     uVar3 = unaff_SS;
-    f_000E_03C4(0x12,local_41,unaff_SS);
+    news_center_text(0x12,local_41,unaff_SS);
     u214b_upcase_string(puVar2,unaff_SS);
     u214b_write_string_at_fwd
               ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_02,0x3b),
@@ -444,9 +445,10 @@ void news_right_column(undefined4 param_1,undefined4 param_2,undefined4 param_3)
 }
 
 
-// ---- 000E:0868  f_000E_0868  (f_000E_0868; Ghidra 1000:0868, __stdcall16near; found by routines.tsv)
+// ---- 000E:0868  news_manager_quote  (f_000E_0868; Ghidra 1000:0868, __stdcall16near; found by routines.tsv)
+// T122a (port/news.py): copies two20-character lines; draws random1..3 introductory heading at row argument, first line at row+1, optional second at row+2  [likely; F039; read code/seg_000E_01.asm]
 
-void f_000E_0868(undefined4 param_1,undefined4 param_2,int param_3)
+void news_manager_quote(undefined4 param_1,undefined4 param_2,int param_3)
 
 {
   int iVar1;
@@ -474,9 +476,10 @@ void f_000E_0868(undefined4 param_1,undefined4 param_2,int param_3)
 }
 
 
-// ---- 000E:08F9  f_000E_08F9  (f_000E_08F9; Ghidra 1000:08F9, __stdcall16near; found by routines.tsv)
+// ---- 000E:08F9  news_selected_player_name  (f_000E_08F9; Ghidra 1000:08F9, __stdcall16near; found by routines.tsv)
+// T122a (port/news.py): copies selected squad-slot surname from [9B6C] to hidden result with limit15; country and slot read from caller frame  [likely; F039; read code/seg_000E_01.asm]
 
-void f_000E_08F9(int param_1,undefined4 param_2)
+void news_selected_player_name(int param_1,undefined4 param_2)
 
 {
   undefined2 unaff_SS;
@@ -490,9 +493,10 @@ void f_000E_08F9(int param_1,undefined4 param_2)
 }
 
 
-// ---- 000E:094A  f_000E_094A  (f_000E_094A; Ghidra 1000:094A, __stdcall16near; found by routines.tsv)
+// ---- 000E:094A  news_sent_off_player_name  (f_000E_094A; Ghidra 1000:094A, __stdcall16near; found by routines.tsv)
+// T122a (port/news.py): clears hidden result then scans all20 squad slots; each status bit6 overwrites result with its surname; last sent-off player wins  [likely; F039; read code/seg_000E_01.asm]
 
-void f_000E_094A(int param_1,undefined1 *param_2)
+void news_sent_off_player_name(int param_1,undefined1 *param_2)
 
 {
   int iVar1;
@@ -522,9 +526,10 @@ void f_000E_094A(int param_1,undefined1 *param_2)
 }
 
 
-// ---- 000E:09DB  f_000E_09DB  (f_000E_09DB; Ghidra 1000:09DB, __stdcall16near; found by routines.tsv)
+// ---- 000E:09DB  news_opponent_outclassed  (f_000E_09DB; Ghidra 1000:09DB, __stdcall16near; found by routines.tsv)
+// T122a (port/news.py): compares signed country_rating(own) > country_rating(other)+2-(side==1), preserving AX high byte  [likely; F039; read code/seg_000E_01.asm]
 
-bool f_000E_09DB(int param_1)
+bool news_opponent_outclassed(int param_1)
 
 {
   char cVar1;
@@ -542,9 +547,10 @@ bool f_000E_09DB(int param_1)
 }
 
 
-// ---- 000E:0A53  f_000E_0A53  (f_000E_0A53; Ghidra 1000:0A53, __stdcall16near; found by routines.tsv)
+// ---- 000E:0A53  news_own_side_competitive  (f_000E_0A53; Ghidra 1000:0A53, __stdcall16near; found by routines.tsv)
+// T122a (port/news.py): compares signed country_rating(own)+2+(side==1) > country_rating(other), preserving AX high byte  [likely; F039; read code/seg_000E_02.asm]
 
-undefined2 f_000E_0A53(int param_1)
+undefined2 news_own_side_competitive(int param_1)
 
 {
   int iVar1;
@@ -561,9 +567,10 @@ undefined2 f_000E_0A53(int param_1)
 }
 
 
-// ---- 000E:0ACB  f_000E_0ACB  (f_000E_0ACB; Ghidra 1000:0ACB, __stdcall16near; found by routines.tsv)
+// ---- 000E:0ACB  news_manager_name  (f_000E_0ACB; Ghidra 1000:0ACB, __stdcall16near; found by routines.tsv)
+// T122a (port/news.py): uses original1771:0947 on country manager byte and copies its hidden string result with limit15  [likely; F039; read code/seg_000E_02.asm]
 
-void f_000E_0ACB(int param_1,undefined4 param_2)
+void news_manager_name(int param_1,undefined4 param_2)
 
 {
   undefined2 unaff_SS;
@@ -577,9 +584,10 @@ void f_000E_0ACB(int param_1,undefined4 param_2)
 }
 
 
-// ---- 000E:0B0A  f_000E_0B0A  (f_000E_0B0A; Ghidra 1000:0B0A, __stdcall16near; found by routines.tsv)
+// ---- 000E:0B0A  news_opponent_name  (f_000E_0B0A; Ghidra 1000:0B0A, __stdcall16near; found by routines.tsv)
+// T122a (port/news.py): copies opposing fixture country name from [9B68], limit15; opposing side is caller side==0  [likely; F039; read code/seg_000E_02.asm]
 
-void f_000E_0B0A(int param_1,undefined4 param_2)
+void news_opponent_name(int param_1,undefined4 param_2)
 
 {
   undefined2 unaff_SS;
@@ -593,9 +601,10 @@ void f_000E_0B0A(int param_1,undefined4 param_2)
 }
 
 
-// ---- 000E:0B4D  f_000E_0B4D  (f_000E_0B4D; Ghidra 1000:0B4D, __stdcall16near; found by routines.tsv)
+// ---- 000E:0B4D  news_own_country_name  (f_000E_0B4D; Ghidra 1000:0B4D, __stdcall16near; found by routines.tsv)
+// T122a (port/news.py): copies caller country name from [9B68], limit15  [likely; F039; read code/seg_000E_02.asm]
 
-void f_000E_0B4D(int param_1,undefined4 param_2)
+void news_own_country_name(int param_1,undefined4 param_2)
 
 {
   undefined2 unaff_SS;
@@ -633,9 +642,10 @@ int manager_sack_score(int param_1)
 }
 
 
-// ---- 000E:0C3A  f_000E_0C3A  (f_000E_0C3A; Ghidra 1000:0C3A, __stdcall16near; found by routines.tsv)
+// ---- 000E:0C3A  news_red_card_headline  (f_000E_0C3A; Ghidra 1000:0C3A, __stdcall16near; found by routines.tsv)
+// T122a (port/news.py): draws random1..3 then renders one red-card headline using094A and062F; branch2 prefixes surname by the original concatenation  [likely; F039; read code/seg_000E_02.asm]
 
-void f_000E_0C3A(int param_1)
+void news_red_card_headline(int param_1)
 
 {
   int iVar1;
@@ -653,7 +663,7 @@ void f_000E_0C3A(int param_1)
     uVar5 = 0x7000;
     uVar4 = 0xc07;
     puVar3 = local_102;
-    f_000E_094A(*(undefined2 *)(param_1 + 4),puVar3);
+    news_sent_off_player_name(*(undefined2 *)(param_1 + 4),puVar3);
     news_left_column(0xc0e,0x7000,puVar3,unaff_SS,uVar4,uVar5);
   }
   else if (iVar1 == 2) {
@@ -663,7 +673,7 @@ void f_000E_0C3A(int param_1)
     uVar4 = unaff_SS;
     sys_str_store_062A(0xc27,0x7000);
     puVar2 = local_102;
-    f_000E_094A(*(undefined2 *)(param_1 + 4),puVar2);
+    news_sent_off_player_name(*(undefined2 *)(param_1 + 4),puVar2);
     sys_str_concat_06B7(puVar2,unaff_SS);
     news_left_column(0xc2c,0xa000,puVar3,uVar4,uVar5,uVar6);
   }
@@ -671,7 +681,7 @@ void f_000E_0C3A(int param_1)
     uVar5 = 0x7000;
     uVar4 = 0xc2d;
     puVar3 = local_102;
-    f_000E_094A(*(undefined2 *)(param_1 + 4),puVar3);
+    news_sent_off_player_name(*(undefined2 *)(param_1 + 4),puVar3);
     news_left_column(0xc2c,0x7000,puVar3,unaff_SS,uVar4,uVar5);
   }
   return;

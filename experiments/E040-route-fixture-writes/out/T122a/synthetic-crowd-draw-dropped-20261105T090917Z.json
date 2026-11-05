@@ -1,0 +1,149 @@
+{
+ "schema": "e040-t122a-synthetic/1",
+ "task": "T122a",
+ "code_commit": "83eb9ddfce382bc433f17d320c6b1311a10f8a66",
+ "source_state": {
+  "asset": "f8b22081eeb072e5-e006-1337-r0004.sav",
+  "sha256": "f8b22081eeb072e5b371a5b36628a745cc359efcfdabf6dc2cdaab4ebc66263c"
+ },
+ "variant": "crowd-draw-dropped",
+ "caught": true,
+ "passes": [
+  {
+   "case": "crowd-char-6",
+   "routine": "000E:045D",
+   "synthetic": true,
+   "fixture_index": 3,
+   "country": 7,
+   "side": 0,
+   "inputs": [
+    {
+     "linear": 248404,
+     "old_sha256": "86cf384458ee22739ac999ee7bd0a0004976a437010d593e1b3b1e72e0f2ccb8",
+     "new_sha256": "87afe6086fe4571e37657e76281301f189c75ebae1d2eaafb56d578067a1d95e",
+     "why": "wrapper parent link"
+    },
+    {
+     "linear": 248660,
+     "old_sha256": "8a24b8e4d0edc6fbdf1b43ec704da3e6196c0874670365cb64943762dec15c7e",
+     "new_sha256": "b563a5e69628743929eddec0ccfeb0745c39577e12a72e84915edd6633cb97f2",
+     "why": "outer parent link"
+    },
+    {
+     "linear": 248148,
+     "old_sha256": "9675bd5849a071e70ef26a019f6d48f26897d06a8d8e86d602fed03f9c93ab0b",
+     "new_sha256": "d57e9d4f5842134f140032eaf38b5333638e8c4b145fcf86a23d48d3e9acc0f8",
+     "why": "published managed fixture offset"
+    },
+    {
+     "linear": 248150,
+     "old_sha256": "463cd86bbe21e323ec5b5ec2255080519318e99d2750c4f5fa173fc01427f78c",
+     "new_sha256": "55e801776f3aaacd8d5c8e28a25c68c968eb3b6a2146290711f7c823a02f45d0",
+     "why": "published managed fixture segment"
+    },
+    {
+     "linear": 230463,
+     "old_sha256": "05f4d037636da31329eb897d0b347d87f157db7220bbb630464a1997c1c7d949",
+     "new_sha256": "447e12701a0d03cf90a4ad7f02f1a045b35d284e26fe520440edb116d76bf700",
+     "why": "same delay calibration as Route.call()"
+    },
+    {
+     "linear": 248152,
+     "old_sha256": "a90648cc7894b37e690d6b58d5226d995aae8869a79d3edc2136e6dfdc108dda",
+     "new_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd",
+     "why": "news country"
+    },
+    {
+     "linear": 248138,
+     "old_sha256": "3da5c199770b6698291ece54d9da2d5168b04db7638739527d8bb69881e15985",
+     "new_sha256": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+     "why": "selected squad slot"
+    },
+    {
+     "linear": 248143,
+     "old_sha256": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+     "new_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+     "why": "selected fixture side"
+    },
+    {
+     "linear": 248406,
+     "old_sha256": "c55bd639d8c368e737cdc6bb17522f91dbe1f51682d2433f4caa962e6ca77513",
+     "new_sha256": "2921a11f25dadaa24aa79a548e4e81508c2e5e56af2d833d65e2bcce448ce2f5",
+     "why": "quote row argument"
+    },
+    {
+     "linear": 248912,
+     "old_sha256": "e56af15ef355a26298ef700377ed61b852f2a200cace575566bcfd8191c7a3d8",
+     "new_sha256": "f60a218951da4f3a0ee41f97d5766f71f0174edf55d69b8f62eb0b280ad219d6",
+     "why": "synthetic Pascal text"
+    },
+    {
+     "linear": 248148,
+     "old_sha256": "7cb7c4547cf2653590d7a9ace60cc623d25148adfbc88a89aeb0ef88da7839ba",
+     "new_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+     "why": "celebration flag"
+    },
+    {
+     "linear": 248150,
+     "old_sha256": "27952171c7fcdf0ddc765ab4f4e1c537cb29e5e533d57b3456257ee785c81711",
+     "new_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+     "why": "celebration flag"
+    },
+    {
+     "linear": 248148,
+     "old_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+     "new_sha256": "d57e9d4f5842134f140032eaf38b5333638e8c4b145fcf86a23d48d3e9acc0f8",
+     "why": "published managed fixture offset"
+    },
+    {
+     "linear": 248150,
+     "old_sha256": "85114c2b8aed5b3060379940ef850adc12d88f4158c52f16ebc6326abe1d073a",
+     "new_sha256": "55e801776f3aaacd8d5c8e28a25c68c968eb3b6a2146290711f7c823a02f45d0",
+     "why": "published managed fixture segment"
+    },
+    {
+     "linear": 753664,
+     "old_sha256": "68c5f18d405dd0fb9bb038be9c3c8f56a524921d4abf748060e06567331dfbbd",
+     "new_sha256": "37e7546ff6ccc90b45861a1f337db29268dd274cfe9de00ec38f669ba7033651",
+     "why": "controlled video character/attribute cells"
+    },
+    {
+     "linear": 245840,
+     "old_sha256": "4ceca809daaa8c33df211456d77e68524f803d33c89fd079711926eaa80b2034",
+     "new_sha256": "1d469117e72c5c2d3444ec7a0379fc404ca0fadadb107a6b200abc81ee0edf20",
+     "why": "near-call stack"
+    },
+    {
+     "linear": 245842,
+     "old_sha256": "4ceca809daaa8c33df211456d77e68524f803d33c89fd079711926eaa80b2034",
+     "new_sha256": "87afe6086fe4571e37657e76281301f189c75ebae1d2eaafb56d578067a1d95e",
+     "why": "near-call stack"
+    },
+    {
+     "linear": 245844,
+     "old_sha256": "cba2008e1a60539e786a064920734eb1faadbffb517419e0f82f03379512b885",
+     "new_sha256": "99be5efb88ca2013bd8e4eb035fd42d5245468fe9afa70d8ba9c1c419a48c4e8",
+     "why": "near-call stack"
+    }
+   ],
+   "status": "differs",
+   "error": "000E:045D (news), call #1 from 000E:7080: written byte #4 differs: the original wrote 0xD4 at linear 0x355A2 (DS:7B62), the port wrote 0x01 at linear 0xB805F",
+   "calls": {
+    "000E:045D": 1
+   },
+   "proof": {
+    "000E:045D": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   }
+  }
+ ],
+ "source_hashes": {
+  "experiments/E040-route-fixture-writes/out/T122a/prove_shared.py": "50684eb0a5c18c6aafb4f3dc73b5a6bc2c25de1450fb7db91086c1aea7fe4c2b",
+  "runtime/original_match/port/news.py": "a2d1d93c7426c6d238e9cb998122eb651fe8ad5874578a4d325839e28e6f9b27"
+ }
+}
