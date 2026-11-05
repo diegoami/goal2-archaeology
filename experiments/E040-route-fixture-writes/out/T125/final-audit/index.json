@@ -1,0 +1,95 @@
+{
+  "checked_at_commit": "d430aeea085ffae83ccf61e3da6c37a84f480a5c",
+  "excluded_stack": {
+    "end_exclusive": "3000",
+    "segment": "load+3052",
+    "start_inclusive": "2000",
+    "why": "Existing reused helper ports inline frames differently; these returned-call scratch bytes below entry SP are dead. The five new routines independently match even dead frames in raw mode."
+  },
+  "falsifiers": {
+    "next-write-omitted": [
+      "ProofError: 1771:55FC (assistant), call #1 from 0791:E788: the original writes more: byte #0, 0x02 at linear 0x37583 (DS:9B43) (2 bytes by the original, 0 by the port)",
+      "ProofError: 1771:55FC (assistant), call #1 from 0791:E788: the original writes more: byte #0, 0x02 at linear 0x37583 (DS:9B43) (2 bytes by the original, 0 by the port)"
+    ],
+    "swap-omitted": [
+      "ProofError: 0791:DC7E (assistant), call #1 from 0791:E788: the original writes more: byte #2, 0x15 at linear 0x70539 (14 bytes by the original, 2 by the port)",
+      "ProofError: 0791:DC7E (assistant), call #1 from 0791:E788: the original writes more: byte #2, 0x15 at linear 0x70539 (14 bytes by the original, 2 by the port)"
+    ],
+    "ties-replace": [
+      "ProofError: 0791:DC7E (assistant), call #1 from 0791:E788: the port writes more: byte #2, 0x15 at linear 0x70539 (2 bytes by the original, 12802 by the port)",
+      "ProofError: 0791:DC7E (assistant), call #1 from 0791:E788: the port writes more: byte #2, 0x15 at linear 0x70539 (2 bytes by the original, 12802 by the port)"
+    ]
+  },
+  "normalization_controls": {
+    "above": {
+      "address": 243536,
+      "base_sha256": "a083049a0c0844d265da05572f6c6b6de5e34198c0b36eaceb1fdbcb32b398b8",
+      "changed_sha256": "98d1c9c55e57024a47fb5abc088bf3acdd5ae9fbc7d55ae485c0e21f978ef202",
+      "detected": true
+    },
+    "below": {
+      "address": 239439,
+      "base_sha256": "a083049a0c0844d265da05572f6c6b6de5e34198c0b36eaceb1fdbcb32b398b8",
+      "changed_sha256": "6b2db499a33c80ad2df57512172fa78c0f25943ed585a2b907225628e886dde5",
+      "detected": true
+    },
+    "inside-first": {
+      "address": 239440,
+      "base_sha256": "a083049a0c0844d265da05572f6c6b6de5e34198c0b36eaceb1fdbcb32b398b8",
+      "changed_sha256": "a083049a0c0844d265da05572f6c6b6de5e34198c0b36eaceb1fdbcb32b398b8",
+      "detected": false
+    },
+    "inside-last": {
+      "address": 243535,
+      "base_sha256": "a083049a0c0844d265da05572f6c6b6de5e34198c0b36eaceb1fdbcb32b398b8",
+      "changed_sha256": "a083049a0c0844d265da05572f6c6b6de5e34198c0b36eaceb1fdbcb32b398b8",
+      "detected": false
+    },
+    "manager": {
+      "address": 426371,
+      "base_sha256": "a083049a0c0844d265da05572f6c6b6de5e34198c0b36eaceb1fdbcb32b398b8",
+      "changed_sha256": "7ddb3c081e943520de27c5cd603407a0b899510de76683d0423a40669d57e46d",
+      "detected": true
+    },
+    "rng": {
+      "address": 218530,
+      "base_sha256": "a083049a0c0844d265da05572f6c6b6de5e34198c0b36eaceb1fdbcb32b398b8",
+      "changed_sha256": "56da7f08e215a02c163aefdee698407a63094bb200202730377739e37b9fdc64",
+      "detected": true
+    }
+  },
+  "raw_cases": 48,
+  "raw_scope": "Five port bodies versus original callees: ordered live writes through Prover; independent raw-original complete memory including dead frames and ALL REGS equality. Raw driver and port-module source hashes must match. Recorded facade hash is informational: raw nonclosure mode does not import/run the facade.",
+  "raw_source_commit": "49115eec86c6",
+  "real_managers": [
+    1,
+    2
+  ],
+  "receipt_sha256": {
+    "experiments/E040-route-fixture-writes/out/T125/real-v1/next-write-omitted.jsonl": "d5fbd532139e4f3cd1946fce391288c076d76f009dd8b0bb40cfd9f7d610bc0d",
+    "experiments/E040-route-fixture-writes/out/T125/real-v1/next-write-omitted.log": "be45c6a46f4f99fc5509a960d245c76de4e5996b368a04f39c464c5ca8f1bbbc",
+    "experiments/E040-route-fixture-writes/out/T125/real-v1/raw.jsonl": "e3efd3ca00114d7e273f7c317c338625a8cec1c8370f5d4c059e0a8ac813c916",
+    "experiments/E040-route-fixture-writes/out/T125/real-v1/raw.log": "c8e04d05016d954b3333681db0dcf1591e57f85b5c0cca37486b40a468e44790",
+    "experiments/E040-route-fixture-writes/out/T125/real-v1/sealed.jsonl": "36a7b0299385837d5e74f2d12e8aea573663bf6df7ad71c8b9161f3e64506055",
+    "experiments/E040-route-fixture-writes/out/T125/real-v1/sealed.log": "cb348ac5a3ed109ec4f05a4437bca7a03e00fe00214827df4aa2be2ed0cd72a4",
+    "experiments/E040-route-fixture-writes/out/T125/real-v1/swap-omitted.jsonl": "ece5db0256ab31f4826ad6a6dbaf3548b8028b454636488db85f8aed1aa0c98e",
+    "experiments/E040-route-fixture-writes/out/T125/real-v1/swap-omitted.log": "bce1245c08a2ebdfc0fdd079eb49a4daf9a896947a615d6b3737c5c8b9cac5d9",
+    "experiments/E040-route-fixture-writes/out/T125/real-v1/ties-replace.jsonl": "e2050a2ba7b9071cbafbedcb2fc4810accdcee226bcb26a70aa71284acda9a95",
+    "experiments/E040-route-fixture-writes/out/T125/real-v1/ties-replace.log": "69f47bc969c47a1d6e9a7b3ed705ba5ef7a8c7ca28b6ae0d2c396109ab22c201",
+    "experiments/E040-route-fixture-writes/out/T125/real-v1/unit.log": "4513a757b9a6c97625e7dd3fe2aecae19d22a8871b433d75fb091d76a4917794",
+    "experiments/E040-route-fixture-writes/out/T125/real-v2/sealed.jsonl": "040e1906e4fb86b9831d31e8ed3dd96dd9360668ef59b2a8ee9c9f1f4fa79f94",
+    "experiments/E040-route-fixture-writes/out/T125/real-v2/sealed.log": "cb348ac5a3ed109ec4f05a4437bca7a03e00fe00214827df4aa2be2ed0cd72a4",
+    "experiments/E040-route-fixture-writes/out/T125/real-v2/unit.log": "c2295aff6808140cde775fbf7a79a62ad9fc78ef945298cf8152c97779bd3d70"
+  },
+  "schema": "t125-index/1",
+  "sealed_cases": 22,
+  "sealed_scope": "Independent original versus facade: all allocated countries/players/managers/pool/fixtures/lists/game records; ordered squad/pool, both RNG words and 9B43. Entire state including table deltas/metadata also matches after excluding ONLY SS:2000..2FFF dead stack locals below the entry SP3000. Positive import/file denials, full input/output state hashes, state-copy and table purity. No full manager-menu/E44F/52CC preparation claim.",
+  "sources": {
+    "experiments/E040-route-fixture-writes/out/T125/prove.py": "0d6e078871f0283a3a7efba5361f7c492d3341c447aa99dfdc93b71f786d9f2b",
+    "experiments/E040-route-fixture-writes/out/T125/sealed.py": "8be29d5bcd6a02f94d3bf4388f3e7be7075c4fea711e631613d2f51ebb333edf",
+    "experiments/E040-route-fixture-writes/out/T125/verify.py": "4061cb67d99949149ec19a75364ee8efdd2e21fcfcafaab612c732e121588efe",
+    "runtime/original_match/assistant.py": "d0b7dbd6f9773abf1ace0411b34978f842d9c9077082202c8c244f1764794f0e",
+    "runtime/original_match/port/assistant.py": "32fe1f315f1a8cce5375b2cc9fdc07ec78a5461a0e275c99ebd06f9cad5db514",
+    "tests/test_port_assistant.py": "07cf27f39b1e295c3184edfdbabe08060356c5f774b1afd9c50e5f47bc181ef1"
+  }
+}

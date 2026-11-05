@@ -17,3 +17,21 @@ Calibration correction: batches through `final-raw`/`final-sealed` used syntheti
 Final proof families: `real-v1/raw.jsonl` is the 48-case original oracle on real manager slots 1/2 and normal bases 1/81 (explicit wrapped-base stress excepted). Its unchanged `prove.py` and port module are the source dependencies; it compares complete memory including all dead frames and ALL machine registers independently, plus Prover's complete ordered live writes. Independent unported-original strength calls/returns and swap arguments retain actual call order and decisions. The raw driver's recorded facade hash is informational: nonclosure mode never executes that facade.
 
 After these raw proofs completed, the copied-state facade's key adapter was corrected to preserve AX like Match's existing key service; `key-boundary-red/unit.log` proves the new ABI test failed on the prior adapter. The original five port bodies and raw driver did not change. `real-v2` is the final facade family. It compares entire canonical state (memory, metadata, initialised/code-data deltas) except **SS:2000 inclusive through SS:3000 exclusive**, dead helper stack locals strictly below entry SP3000. Reused helper ports inline frames differently; selection/player/manager/game/fixture/pool/list records, screen bytes, RNG and 9B43 are outside that exception and must match. Independent raw comparisons of the five new routines also include those dead frames. `verify.py` falsifies the normalized comparison immediately below/above both bounds, on a manager record and on RNG; it also checks inside-bound mutations are the only ignored controls. No full E44F/52CC/UI-path parity is asserted.
+
+## Acceptance receipts and consumer API
+
+`final-audit/index.json` records source and receipt hashes, 48 raw cases, 22 final sealed cases, all six comparison/swap/9B43 falsifiers and all six normalization controls. Raw dependency freeze: `49115eec86c6`; final facade/test/normalization freeze: `d430aeea085f`. Later evidence-only commits do not change those executable sources. `real-v2/unit.log` passes all nine focused tests; `baseline-v4/unit-red.log` runs that exact final test module against the untouched `472177a7` runtime and fails on the missing module. `final-audit/annotations.log` passes the annotation check. The named view was regenerated with the pinned Ghidra/JDK (`annotations-v2/regenerate.log`); the three reported decompiler failures are the unchanged baseline functions, and the generator exits zero.
+
+Public call: `original_match.assistant.recommend(state, tables, *, key=13)`. Input is `original_match.state/2` plus loaded `port.tables.Tables`. Output fields: copied `state`, original `allowed` and `refusal` (`None`, `finals`, `tour`), `manager`, `country`, ordered 20-word `squad`, ordered 80-word `pool`, `next_fixture`, nonzero routine `calls`, and acknowledgment `keys`. Input state and every table field are unchanged. It uses only real registered ports. Positive denial is tested in fresh child processes, for both a Unicorn import and an actual attempted GOAL.EXE read. Normal-state proof contexts are real manager slots 1 and 2 with normal pool bases 1 and 81; record values are explicitly synthetic branch fixtures over the hash-verified published original image, not a claim of whole-career coverage. Numeric wrap stress is separate. The operation retains the incoming selection order; legal-eleven policy and full menu/SELECT TEAM preparation are caller responsibilities.
+
+Reproduce without overwriting any receipt:
+
+```sh
+tools/heavy.sh t125-unit -- python3 -B -m unittest tests.test_port_assistant -v
+tools/heavy.sh t125-raw -- python3 -B experiments/E040-route-fixture-writes/out/T125/prove.py --out /tmp/NEW-t125-raw.jsonl
+tools/heavy.sh t125-sealed -- python3 -B experiments/E040-route-fixture-writes/out/T125/sealed.py --out /tmp/NEW-t125-sealed.jsonl
+tools/heavy.sh t125-audit -- python3 -B experiments/E040-route-fixture-writes/out/T125/verify.py --out /tmp/NEW-t125-index.json
+python3 tools/static/check_annotations.py
+```
+
+The audit checks the committed accepted receipt families. New measurements belong in a new tracked T125 batch directory; `/tmp/NEW-*` above illustrates exclusive output naming only. Full suites and gates remain CI's work.
