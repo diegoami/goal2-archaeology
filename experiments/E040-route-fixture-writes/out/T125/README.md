@@ -35,3 +35,15 @@ python3 tools/static/check_annotations.py
 ```
 
 The audit checks the committed accepted receipt families. New measurements belong in a new tracked T125 batch directory; `/tmp/NEW-*` above illustrates exclusive output naming only. Full suites and gates remain CI's work.
+
+## Native published-record supplement
+
+`published-v1/index.json` supplements the immutable `final-audit/index.json`; both are acceptance pointers. The earlier 48/22 matrices are **synthetic isolated-function-domain inputs**, including zero affiliation and controlled homogeneous positions; they do not represent valid whole-career populations.
+
+`published.py` separately probes three hash-verified published states, keeping their entire native players/countries/pools/manager mapping and all other record arrays intact. It declares only C1E/C1F clearing for prepared SELECT TEAM; both flags were already clear in all three sources, so **zero input bytes actually changed** and the active manager was never changed. Source and prepared image hashes are identical, each full allocated record-array hash is retained, and only aggregate affiliation/current-position/energy counts are emitted. The isolated call frame remains the declared `prove.call` frame. This establishes native record/strength-condition coverage, not a natural calendar or the full E44F/52CC/menu-to-Ins journey.
+
+- Published E006 `c6b4796bbd02b1ab-...r0007.sav`, manager 1/country 7: 500 actual strength calls, 19 swaps.
+- Published E015 `53b69d3dfb964e77-...0213...sav`, manager 1/country 16: 516 strength calls, 27 swaps.
+- Published E006 `b9f1fe3925f4b8b3-...r0009.sav`, manager 1/country 7: 500 strength calls, 19 swaps.
+
+Each raw-original/port comparison proves ordered live/caller-visible writes and matches complete memory (final dead frames included) and ALLREGS. Each independently sealed child matches full allocated records, ordered selection, RNG/9B43 and the complete canonical state outside the same strictly bounded dead-helper-frame exception. Player records remain unchanged. Positive Unicorn/GOAL.EXE denial, state-copy isolation and every table-field purity check pass. `verify_published.py` verifies these receipts and all prior dependency hashes without rewriting the original index. The native probe changes no runtime source; the nine focused unit tests remain applicable on their unchanged source hashes.
