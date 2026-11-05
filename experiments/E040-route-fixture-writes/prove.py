@@ -275,7 +275,7 @@ def main(argv=None):
     states, passes = {}, []
     caught = None
     names = {reg.name for reg, _ in loaded}
-    news_task = "T122b" if any("000E:11D9" in reg.entries for reg, _ in loaded) else "T122a"
+    news_task = "T122c" if any("000E:26F2" in reg.entries for reg, _ in loaded) else "T122b" if any("000E:11D9" in reg.entries for reg, _ in loaded) else "T122a"
     for case in chosen:
         asset = case[2]
         path = DL / asset

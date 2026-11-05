@@ -39,7 +39,7 @@ class Shared(Case):
         reg = port._module_registry('news')
         expected = {a: 'ret 2' for a in '08F9 094A 09DB 0A53 0ACB 0B0A 0B4D 0B77 0C3A 1F4D 4865 0572'.split()}
         expected.update({'03C4':'ret 6', '045D':'ret 4', '04F5':'ret 4', '0868':'ret 0xa',
-                         '2E1F':'ret 0xe', '3A5E':'ret 6', '4045':'ret 0xa', '47E6':'ret 0xa', '11D9':'ret 2'})
+                         '2E1F':'ret 0xe', '3A5E':'ret 6', '4045':'ret 0xa', '47E6':'ret 0xa', '11D9':'ret 2', '2071':'ret 2', '26F2':'ret 2'})
         self.assertEqual({a: e.ret for a,e in reg.entries.items()}, {'000E:'+a:r for a,r in expected.items()})
 
     def test_crowd_uses_two_draws_per_seat_and_a_conditional_third(self):
@@ -216,3 +216,84 @@ class ResultColumn(Case):
                 gate=result['gate_check'];self.assertIsNotNone(gate)
                 self.assertEqual(gate['observed_59D8'],[gate['expected_59D8']])
                 self.assertEqual(gate['observed_0B77'],[gate['expected_0B77']])
+
+
+class SecondaryText(Case):
+    def recommendation_frame(self):
+        r=Rig();wrapper=0x2800;parent=0x2900
+        r.lin16(wrapper+4,parent);r.lin16(parent+8,3);r.country(3,0x2E,0x81)
+        return r,wrapper,parent
+
+    def column_frame(self,winner=0):
+        r,parent,_=self.recommendation_frame();r.lin16(parent+4,FXOFF);r.lin16(parent+6,FXSEG)
+        r.lin16(parent+8,3);r.lin8(parent-1,0);r.fixture(2,3,4);r.lin8(FXSEG*16+FXOFF+3,winner)
+        return r,parent
+
+    def test_both_original_near_returns(self):
+        reg=port._module_registry('news')
+        for a in ('000E:2071','000E:26F2'):
+            self.assertEqual(reg.entries[a].ret,'ret 2');self.assertFalse(reg.entries[a].far)
+
+    def test_role_draw_and_global_write_precede_the_manager_gate(self):
+        r,parent,_=self.recommendation_frame();r.lin8(GAME+0x14,1)
+        result=r.run('000E:2071',[parent],responder({'214B:06B1':8}))
+        self.assertEqual(result & 255,0);self.assertEqual(r.mem.ds8(0x22),7)
+        self.assertEqual(r.args('214B:06B1'),[(14,)])
+        self.assertEqual(r.args('1771:3216'),[]);self.assertEqual(r.args('1771:377E'),[])
+
+    def test_no_matching_role_still_visits_all_twenty_squad_slots(self):
+        r,parent,_=self.recommendation_frame();r.squad(3,list(range(100,120)))
+        for word in range(100,120):r.player(word,6,1)
+        result=r.run('000E:2071',[parent],responder({'214B:06B1':1}))
+        self.assertEqual(result & 255,0);self.assertEqual(r.u16(0x2FFE-5),20)
+        self.assertEqual(r.args('1771:3216'),[]);self.assertEqual(r.args('1771:377E'),[])
+
+    def test_unavailable_squad_players_are_not_strength_candidates(self):
+        r,parent,_=self.recommendation_frame();r.squad(3,list(range(100,120)))
+        result=r.run('000E:2071',[parent],responder({'214B:06B1':1,'1771:3216':1}))
+        self.assertEqual(result & 255,0);self.assertEqual(len(r.args('1771:3216')),20)
+        self.assertEqual(r.args('1771:377E'),[])
+
+    def pool_frame(self):
+        r,parent,_=self.recommendation_frame();r.squad(3,list(range(100,120)))
+        r.ds16(0x6D18+2,5);r.ds16(0xA927,0x100);r.ds16(0xA929,0x5200)
+        for index,word in enumerate(range(300,380),5):r.lin16(0x52100+2*index,word)
+        for word in range(100,120):r.player(word,6,0)
+        for word in range(300,380):r.player(word,7,0)
+        return r,parent
+
+    def test_strict_ties_keep_first_and_both_loops_keep_original_call_counts(self):
+        r,parent=self.pool_frame()
+        def strength(req,mem):
+            w=req.args[0]
+            if w in (100,101):return 10
+            if w in (300,301):return 30
+            return 20
+        result=r.run('000E:2071',[parent],responder({'214B:06B1':[1,1],'1771:3216':0,'1771:377E':strength}))
+        self.assertEqual(result & 255,1)
+        self.assertEqual(len(r.args('1771:3216')),20)
+        self.assertEqual(len(r.args('1771:377E')),103)
+        self.assertEqual(r.args('214B:06B1'),[(14,),(10,)])
+        self.assertEqual(r.args('1771:2E93'),[(300,)])
+        self.assertEqual(len(r.args('000E:075F')),1)
+        self.assertEqual(r.u16(0x2FFE-7),100);self.assertEqual(r.u16(0x2FFE-9),300)
+
+    def test_no_improvement_has_no_second_draw_or_text(self):
+        r,parent=self.pool_frame()
+        result=r.run('000E:2071',[parent],responder({'214B:06B1':1,'1771:3216':0,'1771:377E':10}))
+        self.assertEqual(result & 255,0);self.assertEqual(r.args('214B:06B1'),[(14,)])
+        self.assertEqual(r.args('000E:075F'),[])
+        self.assertEqual(len(r.args('1771:377E')),102)
+        self.assertTrue(all((word,) in r.args('1771:377E') for word in range(300,380)))
+
+    def test_winning_streak_draw_and_severe_sack_bypass_have_original_order(self):
+        r,parent=self.column_frame();r.country(3,0xAC,1)
+        r.run('000E:26F2',[parent],responder({'000E:2071':0,'214B:06B1':1}))
+        self.assertEqual(r.args('000E:2071'),[(0x2FFE,)])
+        self.assertEqual(r.args('214B:06B1'),[(4,)])
+        self.assertEqual(len(r.args('000E:075F')),1)
+        r,parent=self.column_frame(winner=1)
+        r.run('000E:26F2',[parent],responder({'000E:0B77':0xFFF5}))
+        self.assertEqual(r.args('000E:2071'),[])
+        self.assertEqual(r.args('214B:06B1'),[])
+        self.assertEqual(len(r.args('000E:075F')),1)
