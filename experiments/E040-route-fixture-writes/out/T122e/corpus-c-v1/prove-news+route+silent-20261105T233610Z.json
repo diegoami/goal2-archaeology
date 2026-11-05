@@ -1,0 +1,4350 @@
+{
+ "schema": "e040-t122e-prove/1",
+ "task": "T122e",
+ "experiment": "E040",
+ "command": "python3 -B experiments/E040-route-fixture-writes/prove.py --ports news,route,silent --cases E040-r0011,E040-r0012,bb2f,news-cb,finals-3,silent-kind-0 --out experiments/E040-route-fixture-writes/out/T122e/corpus-c-v1",
+ "code_commit": "0dcb6ccb5765739b64b9da9aa1bc45db3371440d",
+ "ports": [
+  "news",
+  "route",
+  "silent",
+  "display"
+ ],
+ "variant": null,
+ "runtime": {
+  "unicorn": "2.1.4",
+  "python": "3.14.4",
+  "route.py": "b30afbac2b86436bd3306114af4a7b315c432b9dd49c66a4e6a00728eb39981f",
+  "news.py": "dde07e302270d1360e6cbc46511ace0502044419a427949801f1d42cb31fc97c",
+  "silent.py": "8eb759b7290d343019ad3eda863b75a6ccdf0486bc9d99567fd4ff4ab9e0a996",
+  "prove.py": "e68e244d03aa2c333c8f0d82fd2f5a4d1c0684711a244e8112e1b2d4a864c236",
+  "port_modules": {
+   "news": "c8aec06208f0ef2bf2591b8b8a74aff1e4e161b774e45da8225dec6bd159fc4e",
+   "route": "265571c26de4b00fc1ca78bfde598034e125afe0f9488181c4b201574c65af75",
+   "silent": "8eb759b7290d343019ad3eda863b75a6ccdf0486bc9d99567fd4ff4ab9e0a996",
+   "display": "33b298ead7c58815b9463a39f14e0ba862c81a3af02d53cd5f6184b0f4d8da5e"
+  }
+ },
+ "states": {
+  "46bbf5dabaaa9553-snap-0003-20261011T195415Z.sav": {
+   "sha256": "46bbf5dabaaa95537b7dd88de00563b9e8594db021fb3d4a75254ed379465bea",
+   "verified_against": "its evidence manifest (runner.expected)"
+  },
+  "291d0eb3b0dcec34-e014-cal3-y1.sav": {
+   "sha256": "291d0eb3b0dcec348c0e166703f8033f795e2b4f1bc0dd4cd67f0888b8622b99",
+   "verified_against": "its evidence manifest (runner.expected)"
+  },
+  "f8b22081eeb072e5-e006-1337-r0004.sav": {
+   "sha256": "f8b22081eeb072e5b371a5b36628a745cc359efcfdabf6dc2cdaab4ebc66263c",
+   "verified_against": "its evidence manifest (runner.expected)"
+  },
+  "53b69d3dfb964e77-snap-0213-20261011T142027Z.sav": {
+   "sha256": "53b69d3dfb964e777c689d439d3bf434600f8891e391cab5c45fd863787d2a94",
+   "verified_against": "its evidence manifest (runner.expected)"
+  }
+ },
+ "edits_declared": {
+  "bb2f": {
+   "case": "E040-r0004",
+   "fixture": 3,
+   "kind_from": 1,
+   "kind_to": 0,
+   "what": "fixture 3 (the managed friendly 7 v 27, first byte 0xFE) kind byte +2 := 0 (from 1): route_fixture calls 0791:BB2F for it at 6EF9"
+  },
+  "news-cb": {
+   "case": "E040-r0004",
+   "fixture": 1,
+   "kind_from": 1,
+   "kind_to": 203,
+   "what": "T121 synthetic: fixture 1 kind 1 -> 203 (competition news); count := 2, so only this fixture runs"
+  },
+  "finals-3": {
+   "case": "E040-r0010",
+   "fixture": 22,
+   "kind_from": 2,
+   "kind_to": 3,
+   "what": "T121 synthetic: managed fixture 22 kind 2 -> 3 (finals mark)"
+  },
+  "silent-kind-0": {
+   "case": "E040-r0004",
+   "fixture": 1,
+   "kind_from": 1,
+   "kind_to": 0,
+   "what": "fixture 1 (18 v 10, the next silent fixture, first byte 0xFF) kind byte +2 := 0 (from 1): the Done-when's input; route_fixture sends it to 6970 (6DAE-7014), not BB2F"
+  }
+ },
+ "bb2f_in_published_states": "none: no published case calls 0791:BB2F (calls per pass below), and no fixture from a published state's cursor to its managed one has kind 0 (fixtures_ahead)",
+ "passes": [
+  {
+   "case": "E040-r0011",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "news_history": [
+    {
+     "ordinal": 0,
+     "cells_sha256": "a5ad835ff2484f5c5756c80c10fbf13a18dd255f86b491ce9315e808a816f47c",
+     "text_sha256": "a4e02a5f79fb9979c0906ad06fb08cc6d5b2a2554362e363bcdf49a6d4d2e8f4",
+     "private_cells": ".cache/t122e-news-pages/a5ad835ff2484f5c5756c80c10fbf13a18dd255f86b491ce9315e808a816f47c.cells",
+     "buffer_address": 247632,
+     "return_address": "000E:4F72",
+     "country": 16,
+     "side": 0,
+     "manager": 129,
+     "flags_words": [
+      0,
+      0,
+      8192
+     ],
+     "waiting_key": null,
+     "pushed_back": false,
+     "key_code": 13,
+     "seed_words": [
+      23086,
+      55861
+     ],
+     "page_count": 1,
+     "line_counts": [
+      25
+     ],
+     "columns": [
+      [
+       80
+      ]
+     ]
+    }
+   ],
+   "news_page_comparison": "actual05F6 Kit reads compare all4000 A96E bytes in original Prover replay; no duplicate muted capture",
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 19,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      25,
+      3
+     ],
+     "managed": false
+    },
+    {
+     "index": 20,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      24,
+      15
+     ],
+     "managed": false
+    },
+    {
+     "index": 21,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      22,
+      11
+     ],
+     "managed": false
+    },
+    {
+     "index": 22,
+     "first_byte": 254,
+     "kind": 2,
+     "countries": [
+      16,
+      3
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "news",
+    "route",
+    "silent",
+    "display"
+   ],
+   "calls": {
+    "000E:01FA": 0,
+    "000E:038E": 1,
+    "000E:03C4": 12,
+    "000E:045D": 0,
+    "000E:04F5": 0,
+    "000E:0572": 0,
+    "000E:05F6": 1,
+    "000E:062F": 1,
+    "000E:070B": 7,
+    "000E:075F": 1,
+    "000E:0868": 1,
+    "000E:08F9": 0,
+    "000E:094A": 0,
+    "000E:09DB": 4,
+    "000E:0A53": 0,
+    "000E:0ACB": 3,
+    "000E:0B0A": 0,
+    "000E:0B4D": 0,
+    "000E:0B77": 5,
+    "000E:0C3A": 0,
+    "000E:11D9": 1,
+    "000E:1F4D": 1,
+    "000E:2071": 1,
+    "000E:26F2": 1,
+    "000E:2E1F": 1,
+    "000E:319B": 1,
+    "000E:3A5E": 1,
+    "000E:3CC8": 1,
+    "000E:4045": 1,
+    "000E:4440": 1,
+    "000E:47E6": 0,
+    "000E:4865": 1,
+    "000E:4A87": 1,
+    "000E:4DB7": 1,
+    "000E:4E0E": 1,
+    "000E:5978": 0,
+    "000E:6685": 0,
+    "000E:6970": 3,
+    "000E:6C21": 1,
+    "000E:6CA7": 1,
+    "0791:B602": 3,
+    "0791:BB2F": 0,
+    "0791:D47E": 3,
+    "0791:E80D": 0,
+    "1771:0947": 3
+   },
+   "proof": {
+    "000E:038E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:03C4": {
+     "proved": 0,
+     "nested": 12,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:05F6": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:062F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:070B": {
+     "proved": 0,
+     "nested": 7,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:075F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0868": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:09DB": {
+     "proved": 0,
+     "nested": 4,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0ACB": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0B77": {
+     "proved": 0,
+     "nested": 5,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:11D9": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:1F4D": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:2071": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:26F2": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:2E1F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:319B": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:3A5E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:3CC8": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4045": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4440": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4865": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4A87": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4DB7": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4E0E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6970": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6C21": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6CA7": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 1
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "1771:0947": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 3
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 3
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 3,
+    "000E:6B92": 3,
+    "000E:6BF7": 6,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 22,
+     "first": 16,
+     "second": 3,
+     "kind": 2,
+     "managed": 16,
+     "score": [
+      0,
+      2
+     ],
+     "winner": 1
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 33.2
+  },
+  {
+   "case": "E040-r0011",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "news_history": [
+    {
+     "ordinal": 0,
+     "cells_sha256": "a5ad835ff2484f5c5756c80c10fbf13a18dd255f86b491ce9315e808a816f47c",
+     "text_sha256": "a4e02a5f79fb9979c0906ad06fb08cc6d5b2a2554362e363bcdf49a6d4d2e8f4",
+     "private_cells": ".cache/t122e-news-pages/a5ad835ff2484f5c5756c80c10fbf13a18dd255f86b491ce9315e808a816f47c.cells",
+     "buffer_address": 247632,
+     "return_address": "000E:4F72",
+     "country": 16,
+     "side": 0,
+     "manager": 129,
+     "flags_words": [
+      0,
+      0,
+      8192
+     ],
+     "waiting_key": null,
+     "pushed_back": false,
+     "key_code": 13,
+     "seed_words": [
+      23086,
+      55861
+     ],
+     "page_count": 1,
+     "line_counts": [
+      25
+     ],
+     "columns": [
+      [
+       80
+      ]
+     ]
+    }
+   ],
+   "news_page_comparison": "actual05F6 Kit reads compare all4000 A96E bytes in original Prover replay; no duplicate muted capture",
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 19,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      25,
+      3
+     ],
+     "managed": false
+    },
+    {
+     "index": 20,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      24,
+      15
+     ],
+     "managed": false
+    },
+    {
+     "index": 21,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      22,
+      11
+     ],
+     "managed": false
+    },
+    {
+     "index": 22,
+     "first_byte": 254,
+     "kind": 2,
+     "countries": [
+      16,
+      3
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "news",
+    "route",
+    "silent",
+    "display"
+   ],
+   "calls": {
+    "000E:01FA": 0,
+    "000E:038E": 1,
+    "000E:03C4": 12,
+    "000E:045D": 0,
+    "000E:04F5": 0,
+    "000E:0572": 0,
+    "000E:05F6": 1,
+    "000E:062F": 1,
+    "000E:070B": 7,
+    "000E:075F": 1,
+    "000E:0868": 1,
+    "000E:08F9": 0,
+    "000E:094A": 0,
+    "000E:09DB": 4,
+    "000E:0A53": 0,
+    "000E:0ACB": 3,
+    "000E:0B0A": 0,
+    "000E:0B4D": 0,
+    "000E:0B77": 5,
+    "000E:0C3A": 0,
+    "000E:11D9": 1,
+    "000E:1F4D": 1,
+    "000E:2071": 1,
+    "000E:26F2": 1,
+    "000E:2E1F": 1,
+    "000E:319B": 1,
+    "000E:3A5E": 1,
+    "000E:3CC8": 1,
+    "000E:4045": 1,
+    "000E:4440": 1,
+    "000E:47E6": 0,
+    "000E:4865": 1,
+    "000E:4A87": 1,
+    "000E:4DB7": 1,
+    "000E:4E0E": 1,
+    "000E:5978": 0,
+    "000E:6C21": 1,
+    "0791:B602": 3,
+    "0791:BB2F": 0,
+    "0791:D47E": 3,
+    "0791:E80D": 0,
+    "1771:0947": 3
+   },
+   "proof": {
+    "000E:038E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:03C4": {
+     "proved": 0,
+     "nested": 12,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:05F6": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:062F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:070B": {
+     "proved": 0,
+     "nested": 7,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:075F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0868": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:09DB": {
+     "proved": 0,
+     "nested": 4,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0ACB": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0B77": {
+     "proved": 0,
+     "nested": 5,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:11D9": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:1F4D": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:2071": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:26F2": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:2E1F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:319B": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:3A5E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:3CC8": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4045": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4440": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4865": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4A87": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4DB7": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4E0E": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6C21": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:B602": {
+     "proved": 3,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 3
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 3,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "1771:0947": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 3
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 3
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 3,
+    "000E:6B92": 3,
+    "000E:6BF7": 6,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 22,
+     "first": 16,
+     "second": 3,
+     "kind": 2,
+     "managed": 16,
+     "score": [
+      0,
+      2
+     ],
+     "winner": 1
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 45.0
+  },
+  {
+   "case": "E040-r0012",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "news_history": [
+    {
+     "ordinal": 0,
+     "cells_sha256": "6a34437ed572369891e096435cc2652b60024f56f4eb77f9f117dfb9c32f9579",
+     "text_sha256": "f3999302c14cd30145a95729c23a01323d2de968a9d8703ca6e06f818dfc0b43",
+     "private_cells": ".cache/t122e-news-pages/6a34437ed572369891e096435cc2652b60024f56f4eb77f9f117dfb9c32f9579.cells",
+     "buffer_address": 247632,
+     "return_address": "000E:4F72",
+     "country": 7,
+     "side": 0,
+     "manager": 129,
+     "flags_words": [
+      0,
+      0,
+      8192
+     ],
+     "waiting_key": null,
+     "pushed_back": false,
+     "key_code": 13,
+     "seed_words": [
+      38626,
+      4053
+     ],
+     "page_count": 1,
+     "line_counts": [
+      25
+     ],
+     "columns": [
+      [
+       80
+      ]
+     ]
+    }
+   ],
+   "news_page_comparison": "actual05F6 Kit reads compare all4000 A96E bytes in original Prover replay; no duplicate muted capture",
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 769,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      16,
+      3
+     ],
+     "managed": false
+    },
+    {
+     "index": 770,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      27,
+      9
+     ],
+     "managed": false
+    },
+    {
+     "index": 771,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      6,
+      25
+     ],
+     "managed": false
+    },
+    {
+     "index": 772,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      13,
+      8
+     ],
+     "managed": false
+    },
+    {
+     "index": 773,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      20,
+      28
+     ],
+     "managed": false
+    },
+    {
+     "index": 774,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      31,
+      12
+     ],
+     "managed": false
+    },
+    {
+     "index": 775,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      11,
+      23
+     ],
+     "managed": false
+    },
+    {
+     "index": 776,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      30,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 777,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      26,
+      24
+     ],
+     "managed": false
+    },
+    {
+     "index": 778,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      15,
+      14
+     ],
+     "managed": false
+    },
+    {
+     "index": 779,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      22,
+      29
+     ],
+     "managed": false
+    },
+    {
+     "index": 780,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      10,
+      21
+     ],
+     "managed": false
+    },
+    {
+     "index": 781,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      17,
+      5
+     ],
+     "managed": false
+    },
+    {
+     "index": 782,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      1,
+      19
+     ],
+     "managed": false
+    },
+    {
+     "index": 783,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      18,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 784,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      7,
+      2
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "news",
+    "route",
+    "silent",
+    "display"
+   ],
+   "calls": {
+    "000E:01FA": 0,
+    "000E:038E": 1,
+    "000E:03C4": 12,
+    "000E:045D": 0,
+    "000E:04F5": 0,
+    "000E:0572": 0,
+    "000E:05F6": 1,
+    "000E:062F": 1,
+    "000E:070B": 8,
+    "000E:075F": 1,
+    "000E:0868": 1,
+    "000E:08F9": 1,
+    "000E:094A": 0,
+    "000E:09DB": 0,
+    "000E:0A53": 0,
+    "000E:0ACB": 1,
+    "000E:0B0A": 1,
+    "000E:0B4D": 1,
+    "000E:0B77": 1,
+    "000E:0C3A": 0,
+    "000E:11D9": 1,
+    "000E:1F4D": 0,
+    "000E:2071": 1,
+    "000E:26F2": 1,
+    "000E:2E1F": 1,
+    "000E:319B": 1,
+    "000E:3A5E": 1,
+    "000E:3CC8": 1,
+    "000E:4045": 1,
+    "000E:4440": 1,
+    "000E:47E6": 0,
+    "000E:4865": 1,
+    "000E:4A87": 1,
+    "000E:4DB7": 1,
+    "000E:4E0E": 1,
+    "000E:5978": 0,
+    "000E:6685": 0,
+    "000E:6970": 15,
+    "000E:6C21": 1,
+    "000E:6CA7": 1,
+    "0791:B602": 15,
+    "0791:BB2F": 0,
+    "0791:D47E": 15,
+    "0791:E80D": 0,
+    "1771:0947": 1
+   },
+   "proof": {
+    "000E:038E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:03C4": {
+     "proved": 0,
+     "nested": 12,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:05F6": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:062F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:070B": {
+     "proved": 0,
+     "nested": 8,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:075F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0868": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:08F9": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0ACB": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0B0A": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0B4D": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0B77": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:11D9": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:2071": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:26F2": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:2E1F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:319B": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:3A5E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:3CC8": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4045": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4440": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4865": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4A87": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4DB7": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4E0E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6970": {
+     "proved": 0,
+     "nested": 15,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6C21": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6CA7": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 1
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 15,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 15,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "1771:0947": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 15
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 15
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 15,
+    "000E:6B92": 15,
+    "000E:6BF7": 30,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 784,
+     "first": 7,
+     "second": 2,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      2,
+      0
+     ],
+     "winner": 0
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 57.0
+  },
+  {
+   "case": "E040-r0012",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "news_history": [
+    {
+     "ordinal": 0,
+     "cells_sha256": "6a34437ed572369891e096435cc2652b60024f56f4eb77f9f117dfb9c32f9579",
+     "text_sha256": "f3999302c14cd30145a95729c23a01323d2de968a9d8703ca6e06f818dfc0b43",
+     "private_cells": ".cache/t122e-news-pages/6a34437ed572369891e096435cc2652b60024f56f4eb77f9f117dfb9c32f9579.cells",
+     "buffer_address": 247632,
+     "return_address": "000E:4F72",
+     "country": 7,
+     "side": 0,
+     "manager": 129,
+     "flags_words": [
+      0,
+      0,
+      8192
+     ],
+     "waiting_key": null,
+     "pushed_back": false,
+     "key_code": 13,
+     "seed_words": [
+      38626,
+      4053
+     ],
+     "page_count": 1,
+     "line_counts": [
+      25
+     ],
+     "columns": [
+      [
+       80
+      ]
+     ]
+    }
+   ],
+   "news_page_comparison": "actual05F6 Kit reads compare all4000 A96E bytes in original Prover replay; no duplicate muted capture",
+   "inputs": [],
+   "fixtures_ahead": [
+    {
+     "index": 769,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      16,
+      3
+     ],
+     "managed": false
+    },
+    {
+     "index": 770,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      27,
+      9
+     ],
+     "managed": false
+    },
+    {
+     "index": 771,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      6,
+      25
+     ],
+     "managed": false
+    },
+    {
+     "index": 772,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      13,
+      8
+     ],
+     "managed": false
+    },
+    {
+     "index": 773,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      20,
+      28
+     ],
+     "managed": false
+    },
+    {
+     "index": 774,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      31,
+      12
+     ],
+     "managed": false
+    },
+    {
+     "index": 775,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      11,
+      23
+     ],
+     "managed": false
+    },
+    {
+     "index": 776,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      30,
+      32
+     ],
+     "managed": false
+    },
+    {
+     "index": 777,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      26,
+      24
+     ],
+     "managed": false
+    },
+    {
+     "index": 778,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      15,
+      14
+     ],
+     "managed": false
+    },
+    {
+     "index": 779,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      22,
+      29
+     ],
+     "managed": false
+    },
+    {
+     "index": 780,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      10,
+      21
+     ],
+     "managed": false
+    },
+    {
+     "index": 781,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      17,
+      5
+     ],
+     "managed": false
+    },
+    {
+     "index": 782,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      1,
+      19
+     ],
+     "managed": false
+    },
+    {
+     "index": 783,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      18,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 784,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      7,
+      2
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "news",
+    "route",
+    "silent",
+    "display"
+   ],
+   "calls": {
+    "000E:01FA": 0,
+    "000E:038E": 1,
+    "000E:03C4": 12,
+    "000E:045D": 0,
+    "000E:04F5": 0,
+    "000E:0572": 0,
+    "000E:05F6": 1,
+    "000E:062F": 1,
+    "000E:070B": 8,
+    "000E:075F": 1,
+    "000E:0868": 1,
+    "000E:08F9": 1,
+    "000E:094A": 0,
+    "000E:09DB": 0,
+    "000E:0A53": 0,
+    "000E:0ACB": 1,
+    "000E:0B0A": 1,
+    "000E:0B4D": 1,
+    "000E:0B77": 1,
+    "000E:0C3A": 0,
+    "000E:11D9": 1,
+    "000E:1F4D": 0,
+    "000E:2071": 1,
+    "000E:26F2": 1,
+    "000E:2E1F": 1,
+    "000E:319B": 1,
+    "000E:3A5E": 1,
+    "000E:3CC8": 1,
+    "000E:4045": 1,
+    "000E:4440": 1,
+    "000E:47E6": 0,
+    "000E:4865": 1,
+    "000E:4A87": 1,
+    "000E:4DB7": 1,
+    "000E:4E0E": 1,
+    "000E:5978": 0,
+    "000E:6C21": 1,
+    "0791:B602": 15,
+    "0791:BB2F": 0,
+    "0791:D47E": 15,
+    "0791:E80D": 0,
+    "1771:0947": 1
+   },
+   "proof": {
+    "000E:038E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:03C4": {
+     "proved": 0,
+     "nested": 12,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:05F6": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:062F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:070B": {
+     "proved": 0,
+     "nested": 8,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:075F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0868": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:08F9": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0ACB": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0B0A": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0B4D": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0B77": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:11D9": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:2071": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:26F2": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:2E1F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:319B": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:3A5E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:3CC8": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4045": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4440": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4865": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4A87": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4DB7": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4E0E": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6C21": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:B602": {
+     "proved": 15,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 15
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 15,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "1771:0947": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 15
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 15
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 15,
+    "000E:6B92": 15,
+    "000E:6BF7": 30,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 784,
+     "first": 7,
+     "second": 2,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      2,
+      0
+     ],
+     "winner": 0
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 33.2
+  },
+  {
+   "case": "bb2f",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "news_history": [],
+   "news_page_comparison": "actual05F6 Kit reads compare all4000 A96E bytes in original Prover replay; no duplicate muted capture",
+   "inputs": [
+    {
+     "what": "fixture 3 (the managed friendly 7 v 27, first byte 0xFE) kind byte +2 := 0 (from 1): route_fixture calls 0791:BB2F for it at 6EF9",
+     "linear": 383832,
+     "old": "01",
+     "new": "00"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      13,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 254,
+     "kind": 0,
+     "countries": [
+      7,
+      27
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "news",
+    "route",
+    "silent",
+    "display"
+   ],
+   "calls": {
+    "000E:01FA": 0,
+    "000E:038E": 0,
+    "000E:03C4": 0,
+    "000E:045D": 0,
+    "000E:04F5": 0,
+    "000E:0572": 0,
+    "000E:05F6": 0,
+    "000E:062F": 0,
+    "000E:070B": 0,
+    "000E:075F": 0,
+    "000E:0868": 0,
+    "000E:08F9": 0,
+    "000E:094A": 0,
+    "000E:09DB": 0,
+    "000E:0A53": 0,
+    "000E:0ACB": 0,
+    "000E:0B0A": 0,
+    "000E:0B4D": 0,
+    "000E:0B77": 0,
+    "000E:0C3A": 0,
+    "000E:11D9": 0,
+    "000E:1F4D": 0,
+    "000E:2071": 0,
+    "000E:26F2": 0,
+    "000E:2E1F": 0,
+    "000E:319B": 0,
+    "000E:3A5E": 0,
+    "000E:3CC8": 0,
+    "000E:4045": 0,
+    "000E:4440": 0,
+    "000E:47E6": 0,
+    "000E:4865": 0,
+    "000E:4A87": 0,
+    "000E:4DB7": 0,
+    "000E:4E0E": 0,
+    "000E:5978": 0,
+    "000E:6685": 0,
+    "000E:6970": 2,
+    "000E:6C21": 1,
+    "000E:6CA7": 1,
+    "0791:B602": 2,
+    "0791:BB2F": 1,
+    "0791:D47E": 2,
+    "0791:E80D": 0,
+    "1771:0947": 0
+   },
+   "proof": {
+    "000E:6970": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6C21": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6CA7": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 1
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 2,
+    "A3DE returning to A4AF, its caller to BB3D": 1
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 2
+   },
+   "key_visits": {
+    "000E:6B89": 2,
+    "000E:6B92": 2,
+    "000E:6BF7": 4,
+    "000E:6C4F": 1
+   },
+   "matches": [],
+   "returned": true,
+   "elapsed_s": 3.0
+  },
+  {
+   "case": "bb2f",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "news_history": [],
+   "news_page_comparison": "actual05F6 Kit reads compare all4000 A96E bytes in original Prover replay; no duplicate muted capture",
+   "inputs": [
+    {
+     "what": "fixture 3 (the managed friendly 7 v 27, first byte 0xFE) kind byte +2 := 0 (from 1): route_fixture calls 0791:BB2F for it at 6EF9",
+     "linear": 383832,
+     "old": "01",
+     "new": "00"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      13,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 254,
+     "kind": 0,
+     "countries": [
+      7,
+      27
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "news",
+    "route",
+    "silent",
+    "display"
+   ],
+   "calls": {
+    "000E:01FA": 0,
+    "000E:038E": 0,
+    "000E:03C4": 0,
+    "000E:045D": 0,
+    "000E:04F5": 0,
+    "000E:0572": 0,
+    "000E:05F6": 0,
+    "000E:062F": 0,
+    "000E:070B": 0,
+    "000E:075F": 0,
+    "000E:0868": 0,
+    "000E:08F9": 0,
+    "000E:094A": 0,
+    "000E:09DB": 0,
+    "000E:0A53": 0,
+    "000E:0ACB": 0,
+    "000E:0B0A": 0,
+    "000E:0B4D": 0,
+    "000E:0B77": 0,
+    "000E:0C3A": 0,
+    "000E:11D9": 0,
+    "000E:1F4D": 0,
+    "000E:2071": 0,
+    "000E:26F2": 0,
+    "000E:2E1F": 0,
+    "000E:319B": 0,
+    "000E:3A5E": 0,
+    "000E:3CC8": 0,
+    "000E:4045": 0,
+    "000E:4440": 0,
+    "000E:47E6": 0,
+    "000E:4865": 0,
+    "000E:4A87": 0,
+    "000E:4DB7": 0,
+    "000E:4E0E": 0,
+    "000E:5978": 0,
+    "000E:6C21": 1,
+    "0791:B602": 2,
+    "0791:BB2F": 1,
+    "0791:D47E": 2,
+    "0791:E80D": 0,
+    "1771:0947": 0
+   },
+   "proof": {
+    "000E:6C21": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:B602": {
+     "proved": 2,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 2
+     }
+    },
+    "0791:BB2F": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 2,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 2,
+    "A3DE returning to A4AF, its caller to BB3D": 1
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 2
+   },
+   "key_visits": {
+    "000E:6B89": 2,
+    "000E:6B92": 2,
+    "000E:6BF7": 4,
+    "000E:6C4F": 1
+   },
+   "matches": [],
+   "returned": true,
+   "elapsed_s": 1.9
+  },
+  {
+   "case": "news-cb",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "news_history": [
+    {
+     "ordinal": 0,
+     "cells_sha256": "8e8bcf17056fe5b223268de7d7834f4d8b23f21b9e552f6179bd353bc5bf4184",
+     "text_sha256": "e5ca5f979eb519bb1f01cbf71b562826333d3aceae80e4ae4460a3f8f97c0d27",
+     "private_cells": ".cache/t122e-news-pages/8e8bcf17056fe5b223268de7d7834f4d8b23f21b9e552f6179bd353bc5bf4184.cells",
+     "buffer_address": 247632,
+     "return_address": "000E:6863",
+     "country": null,
+     "side": null,
+     "manager": null,
+     "flags_words": [
+      8192,
+      8192,
+      8192
+     ],
+     "waiting_key": null,
+     "pushed_back": false,
+     "key_code": 13,
+     "seed_words": [
+      39531,
+      40519
+     ],
+     "page_count": 1,
+     "line_counts": [
+      25
+     ],
+     "columns": [
+      [
+       80
+      ]
+     ]
+    }
+   ],
+   "news_page_comparison": "actual05F6 Kit reads compare all4000 A96E bytes in original Prover replay; no duplicate muted capture",
+   "inputs": [
+    {
+     "what": "T121 synthetic: fixture 1 kind 1 -> 203 (competition news); count := 2, so only this fixture runs",
+     "linear": 383816,
+     "old": "01",
+     "new": "cb"
+    },
+    {
+     "what": "T121 synthetic calendar end after fixture 1",
+     "linear": 382622,
+     "old": "0103",
+     "new": "0200"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 203,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    }
+   ],
+   "ports": [
+    "news",
+    "route",
+    "silent",
+    "display"
+   ],
+   "calls": {
+    "000E:01FA": 0,
+    "000E:038E": 1,
+    "000E:03C4": 8,
+    "000E:045D": 0,
+    "000E:04F5": 0,
+    "000E:0572": 0,
+    "000E:05F6": 1,
+    "000E:062F": 1,
+    "000E:070B": 3,
+    "000E:075F": 1,
+    "000E:0868": 0,
+    "000E:08F9": 0,
+    "000E:094A": 0,
+    "000E:09DB": 0,
+    "000E:0A53": 0,
+    "000E:0ACB": 0,
+    "000E:0B0A": 0,
+    "000E:0B4D": 0,
+    "000E:0B77": 0,
+    "000E:0C3A": 0,
+    "000E:11D9": 0,
+    "000E:1F4D": 0,
+    "000E:2071": 0,
+    "000E:26F2": 0,
+    "000E:2E1F": 0,
+    "000E:319B": 0,
+    "000E:3A5E": 0,
+    "000E:3CC8": 0,
+    "000E:4045": 0,
+    "000E:4440": 0,
+    "000E:47E6": 0,
+    "000E:4865": 0,
+    "000E:4A87": 0,
+    "000E:4DB7": 0,
+    "000E:4E0E": 0,
+    "000E:5978": 1,
+    "000E:6685": 1,
+    "000E:6970": 1,
+    "000E:6C21": 1,
+    "000E:6CA7": 1,
+    "0791:B602": 1,
+    "0791:BB2F": 0,
+    "0791:D47E": 1,
+    "0791:E80D": 1,
+    "1771:0947": 0
+   },
+   "proof": {
+    "000E:038E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:03C4": {
+     "proved": 0,
+     "nested": 8,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:05F6": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:062F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:070B": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:075F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:5978": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6685": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6970": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6C21": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6CA7": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:E80D": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to A4AF, its caller to E81B": 1,
+    "A3DE returning to D495, its caller to 69CA": 1
+   },
+   "pages_6970": {
+    "score_page_6A84": 1,
+    "results_list_6B84": 0
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6A89": 1,
+    "214B:157C<0791:E86E": 1,
+    "214B:157C<1771:9022": 1
+   },
+   "matches": [],
+   "returned": true,
+   "elapsed_s": 2.8
+  },
+  {
+   "case": "news-cb",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "news_history": [
+    {
+     "ordinal": 0,
+     "cells_sha256": "8e8bcf17056fe5b223268de7d7834f4d8b23f21b9e552f6179bd353bc5bf4184",
+     "text_sha256": "e5ca5f979eb519bb1f01cbf71b562826333d3aceae80e4ae4460a3f8f97c0d27",
+     "private_cells": ".cache/t122e-news-pages/8e8bcf17056fe5b223268de7d7834f4d8b23f21b9e552f6179bd353bc5bf4184.cells",
+     "buffer_address": 247632,
+     "return_address": "000E:6863",
+     "country": null,
+     "side": null,
+     "manager": null,
+     "flags_words": [
+      8192,
+      8192,
+      8192
+     ],
+     "waiting_key": null,
+     "pushed_back": false,
+     "key_code": 13,
+     "seed_words": [
+      39531,
+      40519
+     ],
+     "page_count": 1,
+     "line_counts": [
+      25
+     ],
+     "columns": [
+      [
+       80
+      ]
+     ]
+    }
+   ],
+   "news_page_comparison": "actual05F6 Kit reads compare all4000 A96E bytes in original Prover replay; no duplicate muted capture",
+   "inputs": [
+    {
+     "what": "T121 synthetic: fixture 1 kind 1 -> 203 (competition news); count := 2, so only this fixture runs",
+     "linear": 383816,
+     "old": "01",
+     "new": "cb"
+    },
+    {
+     "what": "T121 synthetic calendar end after fixture 1",
+     "linear": 382622,
+     "old": "0103",
+     "new": "0200"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 203,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    }
+   ],
+   "ports": [
+    "news",
+    "route",
+    "silent",
+    "display"
+   ],
+   "calls": {
+    "000E:01FA": 0,
+    "000E:038E": 1,
+    "000E:03C4": 8,
+    "000E:045D": 0,
+    "000E:04F5": 0,
+    "000E:0572": 0,
+    "000E:05F6": 1,
+    "000E:062F": 1,
+    "000E:070B": 3,
+    "000E:075F": 1,
+    "000E:0868": 0,
+    "000E:08F9": 0,
+    "000E:094A": 0,
+    "000E:09DB": 0,
+    "000E:0A53": 0,
+    "000E:0ACB": 0,
+    "000E:0B0A": 0,
+    "000E:0B4D": 0,
+    "000E:0B77": 0,
+    "000E:0C3A": 0,
+    "000E:11D9": 0,
+    "000E:1F4D": 0,
+    "000E:2071": 0,
+    "000E:26F2": 0,
+    "000E:2E1F": 0,
+    "000E:319B": 0,
+    "000E:3A5E": 0,
+    "000E:3CC8": 0,
+    "000E:4045": 0,
+    "000E:4440": 0,
+    "000E:47E6": 0,
+    "000E:4865": 0,
+    "000E:4A87": 0,
+    "000E:4DB7": 0,
+    "000E:4E0E": 0,
+    "000E:5978": 1,
+    "000E:6C21": 1,
+    "0791:B602": 1,
+    "0791:BB2F": 0,
+    "0791:D47E": 1,
+    "0791:E80D": 1,
+    "1771:0947": 0
+   },
+   "proof": {
+    "000E:038E": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:03C4": {
+     "proved": 0,
+     "nested": 8,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:05F6": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:062F": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:070B": {
+     "proved": 1,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:075F": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:5978": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6C21": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:B602": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 1
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 1
+     }
+    },
+    "0791:E80D": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to A4AF, its caller to E81B": 1,
+    "A3DE returning to D495, its caller to 69CA": 1
+   },
+   "pages_6970": {
+    "score_page_6A84": 1,
+    "results_list_6B84": 0
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6A89": 1,
+    "214B:157C<0791:E86E": 1,
+    "214B:157C<1771:9022": 1
+   },
+   "matches": [],
+   "returned": true,
+   "elapsed_s": 2.0
+  },
+  {
+   "case": "finals-3",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "news_history": [
+    {
+     "ordinal": 0,
+     "cells_sha256": "9400fd9df1a5b3ccc1bb9acd2ba37db9ce5ec28df32ee751f01780b41399b1f4",
+     "text_sha256": "8ae1920273324db4ad17a18063cfe4a347f1ec8b0a88b0390a01e1808acd16c1",
+     "private_cells": ".cache/t122e-news-pages/9400fd9df1a5b3ccc1bb9acd2ba37db9ce5ec28df32ee751f01780b41399b1f4.cells",
+     "buffer_address": 247632,
+     "return_address": "000E:4F72",
+     "country": 16,
+     "side": 0,
+     "manager": 129,
+     "flags_words": [
+      0,
+      0,
+      8192
+     ],
+     "waiting_key": null,
+     "pushed_back": false,
+     "key_code": 13,
+     "seed_words": [
+      55720,
+      19595
+     ],
+     "page_count": 1,
+     "line_counts": [
+      25
+     ],
+     "columns": [
+      [
+       80
+      ]
+     ]
+    }
+   ],
+   "news_page_comparison": "actual05F6 Kit reads compare all4000 A96E bytes in original Prover replay; no duplicate muted capture",
+   "inputs": [
+    {
+     "what": "T121 synthetic: managed fixture 22 kind 2 -> 3 (finals mark)",
+     "linear": 383984,
+     "old": "02",
+     "new": "03"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 19,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      25,
+      3
+     ],
+     "managed": false
+    },
+    {
+     "index": 20,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      24,
+      15
+     ],
+     "managed": false
+    },
+    {
+     "index": 21,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      22,
+      11
+     ],
+     "managed": false
+    },
+    {
+     "index": 22,
+     "first_byte": 254,
+     "kind": 3,
+     "countries": [
+      16,
+      3
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "news",
+    "route",
+    "silent",
+    "display"
+   ],
+   "calls": {
+    "000E:01FA": 0,
+    "000E:038E": 1,
+    "000E:03C4": 13,
+    "000E:045D": 0,
+    "000E:04F5": 0,
+    "000E:0572": 0,
+    "000E:05F6": 1,
+    "000E:062F": 1,
+    "000E:070B": 7,
+    "000E:075F": 1,
+    "000E:0868": 1,
+    "000E:08F9": 0,
+    "000E:094A": 0,
+    "000E:09DB": 2,
+    "000E:0A53": 0,
+    "000E:0ACB": 1,
+    "000E:0B0A": 0,
+    "000E:0B4D": 3,
+    "000E:0B77": 3,
+    "000E:0C3A": 0,
+    "000E:11D9": 1,
+    "000E:1F4D": 1,
+    "000E:2071": 1,
+    "000E:26F2": 1,
+    "000E:2E1F": 1,
+    "000E:319B": 1,
+    "000E:3A5E": 0,
+    "000E:3CC8": 1,
+    "000E:4045": 1,
+    "000E:4440": 1,
+    "000E:47E6": 1,
+    "000E:4865": 1,
+    "000E:4A87": 1,
+    "000E:4DB7": 1,
+    "000E:4E0E": 1,
+    "000E:5978": 0,
+    "000E:6685": 0,
+    "000E:6970": 3,
+    "000E:6C21": 1,
+    "000E:6CA7": 1,
+    "0791:B602": 3,
+    "0791:BB2F": 0,
+    "0791:D47E": 3,
+    "0791:E80D": 0,
+    "1771:0947": 1
+   },
+   "proof": {
+    "000E:038E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:03C4": {
+     "proved": 0,
+     "nested": 13,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:05F6": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:062F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:070B": {
+     "proved": 0,
+     "nested": 7,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:075F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0868": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:09DB": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0ACB": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0B4D": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0B77": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:11D9": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:1F4D": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:2071": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:26F2": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:2E1F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:319B": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:3CC8": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4045": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4440": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:47E6": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4865": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4A87": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4DB7": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4E0E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6970": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6C21": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6CA7": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 1
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "1771:0947": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 3
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 3
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 3,
+    "000E:6B92": 3,
+    "000E:6BF7": 6,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 22,
+     "first": 16,
+     "second": 3,
+     "kind": 3,
+     "managed": 16,
+     "score": [
+      1,
+      1
+     ],
+     "winner": 2
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 55.3
+  },
+  {
+   "case": "finals-3",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "news_history": [
+    {
+     "ordinal": 0,
+     "cells_sha256": "9400fd9df1a5b3ccc1bb9acd2ba37db9ce5ec28df32ee751f01780b41399b1f4",
+     "text_sha256": "8ae1920273324db4ad17a18063cfe4a347f1ec8b0a88b0390a01e1808acd16c1",
+     "private_cells": ".cache/t122e-news-pages/9400fd9df1a5b3ccc1bb9acd2ba37db9ce5ec28df32ee751f01780b41399b1f4.cells",
+     "buffer_address": 247632,
+     "return_address": "000E:4F72",
+     "country": 16,
+     "side": 0,
+     "manager": 129,
+     "flags_words": [
+      0,
+      0,
+      8192
+     ],
+     "waiting_key": null,
+     "pushed_back": false,
+     "key_code": 13,
+     "seed_words": [
+      55720,
+      19595
+     ],
+     "page_count": 1,
+     "line_counts": [
+      25
+     ],
+     "columns": [
+      [
+       80
+      ]
+     ]
+    }
+   ],
+   "news_page_comparison": "actual05F6 Kit reads compare all4000 A96E bytes in original Prover replay; no duplicate muted capture",
+   "inputs": [
+    {
+     "what": "T121 synthetic: managed fixture 22 kind 2 -> 3 (finals mark)",
+     "linear": 383984,
+     "old": "02",
+     "new": "03"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 19,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      25,
+      3
+     ],
+     "managed": false
+    },
+    {
+     "index": 20,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      24,
+      15
+     ],
+     "managed": false
+    },
+    {
+     "index": 21,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      22,
+      11
+     ],
+     "managed": false
+    },
+    {
+     "index": 22,
+     "first_byte": 254,
+     "kind": 3,
+     "countries": [
+      16,
+      3
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "news",
+    "route",
+    "silent",
+    "display"
+   ],
+   "calls": {
+    "000E:01FA": 0,
+    "000E:038E": 1,
+    "000E:03C4": 13,
+    "000E:045D": 0,
+    "000E:04F5": 0,
+    "000E:0572": 0,
+    "000E:05F6": 1,
+    "000E:062F": 1,
+    "000E:070B": 7,
+    "000E:075F": 1,
+    "000E:0868": 1,
+    "000E:08F9": 0,
+    "000E:094A": 0,
+    "000E:09DB": 2,
+    "000E:0A53": 0,
+    "000E:0ACB": 1,
+    "000E:0B0A": 0,
+    "000E:0B4D": 3,
+    "000E:0B77": 3,
+    "000E:0C3A": 0,
+    "000E:11D9": 1,
+    "000E:1F4D": 1,
+    "000E:2071": 1,
+    "000E:26F2": 1,
+    "000E:2E1F": 1,
+    "000E:319B": 1,
+    "000E:3A5E": 0,
+    "000E:3CC8": 1,
+    "000E:4045": 1,
+    "000E:4440": 1,
+    "000E:47E6": 1,
+    "000E:4865": 1,
+    "000E:4A87": 1,
+    "000E:4DB7": 1,
+    "000E:4E0E": 1,
+    "000E:5978": 0,
+    "000E:6C21": 1,
+    "0791:B602": 3,
+    "0791:BB2F": 0,
+    "0791:D47E": 3,
+    "0791:E80D": 0,
+    "1771:0947": 1
+   },
+   "proof": {
+    "000E:038E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:03C4": {
+     "proved": 0,
+     "nested": 13,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:05F6": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:062F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:070B": {
+     "proved": 0,
+     "nested": 7,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:075F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0868": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:09DB": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0ACB": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0B4D": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0B77": {
+     "proved": 0,
+     "nested": 3,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:11D9": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:1F4D": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:2071": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:26F2": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:2E1F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:319B": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:3CC8": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4045": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4440": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:47E6": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4865": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4A87": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4DB7": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4E0E": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6C21": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:B602": {
+     "proved": 3,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 3
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 3,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "1771:0947": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 3
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 3
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 3,
+    "000E:6B92": 3,
+    "000E:6BF7": 6,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 22,
+     "first": 16,
+     "second": 3,
+     "kind": 3,
+     "managed": 16,
+     "score": [
+      1,
+      1
+     ],
+     "winner": 2
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 35.8
+  },
+  {
+   "case": "silent-kind-0",
+   "pass": "four",
+   "status": "completed",
+   "error": null,
+   "news_history": [
+    {
+     "ordinal": 0,
+     "cells_sha256": "77fc4d412aa67aa4336abab4014167b9fdcdab5135d77631b0554dc07f7201fa",
+     "text_sha256": "da4508dc2ecda84aca78bb96a6229e24d222b71b50ecce01679ca609f2a97073",
+     "private_cells": ".cache/t122e-news-pages/77fc4d412aa67aa4336abab4014167b9fdcdab5135d77631b0554dc07f7201fa.cells",
+     "buffer_address": 247632,
+     "return_address": "000E:4F72",
+     "country": 7,
+     "side": 0,
+     "manager": 129,
+     "flags_words": [
+      0,
+      0,
+      8192
+     ],
+     "waiting_key": null,
+     "pushed_back": false,
+     "key_code": 13,
+     "seed_words": [
+      11753,
+      22334
+     ],
+     "page_count": 1,
+     "line_counts": [
+      25
+     ],
+     "columns": [
+      [
+       80
+      ]
+     ]
+    }
+   ],
+   "news_page_comparison": "actual05F6 Kit reads compare all4000 A96E bytes in original Prover replay; no duplicate muted capture",
+   "inputs": [
+    {
+     "what": "fixture 1 (18 v 10, the next silent fixture, first byte 0xFF) kind byte +2 := 0 (from 1): the Done-when's input; route_fixture sends it to 6970 (6DAE-7014), not BB2F",
+     "linear": 383816,
+     "old": "01",
+     "new": "00"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 0,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      13,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      7,
+      27
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "news",
+    "route",
+    "silent",
+    "display"
+   ],
+   "calls": {
+    "000E:01FA": 0,
+    "000E:038E": 1,
+    "000E:03C4": 12,
+    "000E:045D": 0,
+    "000E:04F5": 0,
+    "000E:0572": 0,
+    "000E:05F6": 1,
+    "000E:062F": 1,
+    "000E:070B": 7,
+    "000E:075F": 1,
+    "000E:0868": 1,
+    "000E:08F9": 1,
+    "000E:094A": 0,
+    "000E:09DB": 0,
+    "000E:0A53": 0,
+    "000E:0ACB": 1,
+    "000E:0B0A": 0,
+    "000E:0B4D": 1,
+    "000E:0B77": 1,
+    "000E:0C3A": 0,
+    "000E:11D9": 1,
+    "000E:1F4D": 0,
+    "000E:2071": 1,
+    "000E:26F2": 1,
+    "000E:2E1F": 1,
+    "000E:319B": 1,
+    "000E:3A5E": 1,
+    "000E:3CC8": 1,
+    "000E:4045": 1,
+    "000E:4440": 1,
+    "000E:47E6": 0,
+    "000E:4865": 1,
+    "000E:4A87": 1,
+    "000E:4DB7": 1,
+    "000E:4E0E": 1,
+    "000E:5978": 0,
+    "000E:6685": 0,
+    "000E:6970": 2,
+    "000E:6C21": 1,
+    "000E:6CA7": 1,
+    "0791:B602": 2,
+    "0791:BB2F": 0,
+    "0791:D47E": 2,
+    "0791:E80D": 0,
+    "1771:0947": 1
+   },
+   "proof": {
+    "000E:038E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:03C4": {
+     "proved": 0,
+     "nested": 12,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:05F6": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:062F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:070B": {
+     "proved": 0,
+     "nested": 7,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:075F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0868": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:08F9": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0ACB": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0B4D": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0B77": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:11D9": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:2071": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:26F2": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:2E1F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:319B": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:3A5E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:3CC8": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4045": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4440": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4865": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4A87": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4DB7": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4E0E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6970": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6C21": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6CA7": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 1
+     }
+    },
+    "0791:B602": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 0,
+     "nested": 2,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "1771:0947": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 2
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 2
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 2,
+    "000E:6B92": 2,
+    "000E:6BF7": 4,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 3,
+     "first": 7,
+     "second": 27,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      3,
+      2
+     ],
+     "winner": 0
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 30.6
+  },
+  {
+   "case": "silent-kind-0",
+   "pass": "inner",
+   "status": "completed",
+   "error": null,
+   "news_history": [
+    {
+     "ordinal": 0,
+     "cells_sha256": "77fc4d412aa67aa4336abab4014167b9fdcdab5135d77631b0554dc07f7201fa",
+     "text_sha256": "da4508dc2ecda84aca78bb96a6229e24d222b71b50ecce01679ca609f2a97073",
+     "private_cells": ".cache/t122e-news-pages/77fc4d412aa67aa4336abab4014167b9fdcdab5135d77631b0554dc07f7201fa.cells",
+     "buffer_address": 247632,
+     "return_address": "000E:4F72",
+     "country": 7,
+     "side": 0,
+     "manager": 129,
+     "flags_words": [
+      0,
+      0,
+      8192
+     ],
+     "waiting_key": null,
+     "pushed_back": false,
+     "key_code": 13,
+     "seed_words": [
+      11753,
+      22334
+     ],
+     "page_count": 1,
+     "line_counts": [
+      25
+     ],
+     "columns": [
+      [
+       80
+      ]
+     ]
+    }
+   ],
+   "news_page_comparison": "actual05F6 Kit reads compare all4000 A96E bytes in original Prover replay; no duplicate muted capture",
+   "inputs": [
+    {
+     "what": "fixture 1 (18 v 10, the next silent fixture, first byte 0xFF) kind byte +2 := 0 (from 1): the Done-when's input; route_fixture sends it to 6970 (6DAE-7014), not BB2F",
+     "linear": 383816,
+     "old": "01",
+     "new": "00"
+    }
+   ],
+   "fixtures_ahead": [
+    {
+     "index": 1,
+     "first_byte": 255,
+     "kind": 0,
+     "countries": [
+      18,
+      10
+     ],
+     "managed": false
+    },
+    {
+     "index": 2,
+     "first_byte": 255,
+     "kind": 1,
+     "countries": [
+      13,
+      4
+     ],
+     "managed": false
+    },
+    {
+     "index": 3,
+     "first_byte": 254,
+     "kind": 1,
+     "countries": [
+      7,
+      27
+     ],
+     "managed": true
+    }
+   ],
+   "ports": [
+    "news",
+    "route",
+    "silent",
+    "display"
+   ],
+   "calls": {
+    "000E:01FA": 0,
+    "000E:038E": 1,
+    "000E:03C4": 12,
+    "000E:045D": 0,
+    "000E:04F5": 0,
+    "000E:0572": 0,
+    "000E:05F6": 1,
+    "000E:062F": 1,
+    "000E:070B": 7,
+    "000E:075F": 1,
+    "000E:0868": 1,
+    "000E:08F9": 1,
+    "000E:094A": 0,
+    "000E:09DB": 0,
+    "000E:0A53": 0,
+    "000E:0ACB": 1,
+    "000E:0B0A": 0,
+    "000E:0B4D": 1,
+    "000E:0B77": 1,
+    "000E:0C3A": 0,
+    "000E:11D9": 1,
+    "000E:1F4D": 0,
+    "000E:2071": 1,
+    "000E:26F2": 1,
+    "000E:2E1F": 1,
+    "000E:319B": 1,
+    "000E:3A5E": 1,
+    "000E:3CC8": 1,
+    "000E:4045": 1,
+    "000E:4440": 1,
+    "000E:47E6": 0,
+    "000E:4865": 1,
+    "000E:4A87": 1,
+    "000E:4DB7": 1,
+    "000E:4E0E": 1,
+    "000E:5978": 0,
+    "000E:6C21": 1,
+    "0791:B602": 2,
+    "0791:BB2F": 0,
+    "0791:D47E": 2,
+    "0791:E80D": 0,
+    "1771:0947": 1
+   },
+   "proof": {
+    "000E:038E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:03C4": {
+     "proved": 0,
+     "nested": 12,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:05F6": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:062F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:070B": {
+     "proved": 0,
+     "nested": 7,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:075F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0868": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:08F9": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0ACB": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0B4D": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:0B77": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:11D9": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:2071": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:26F2": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:2E1F": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:319B": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:3A5E": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:3CC8": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4045": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4440": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4865": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4A87": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4DB7": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:4E0E": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "000E:6C21": {
+     "proved": 1,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:B602": {
+     "proved": 2,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {
+      "FLAGS": 2
+     }
+    },
+    "0791:BB2F": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "0791:D47E": {
+     "proved": 2,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    },
+    "1771:0947": {
+     "proved": 0,
+     "nested": 1,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "every_call_proved_or_nested": true,
+   "before_armed": 0,
+   "reseed_2648": {
+    "A3DE returning to D495, its caller to 69CA": 2
+   },
+   "pages_6970": {
+    "score_page_6A84": 0,
+    "results_list_6B84": 2
+   },
+   "key_visits": {
+    "000E:0629": 1,
+    "000E:6B89": 2,
+    "000E:6B92": 2,
+    "000E:6BF7": 4,
+    "000E:6C4F": 1
+   },
+   "matches": [
+    {
+     "fixture": 3,
+     "first": 7,
+     "second": 27,
+     "kind": 1,
+     "managed": 7,
+     "score": [
+      3,
+      2
+     ],
+     "winner": 0
+    }
+   ],
+   "returned": true,
+   "elapsed_s": 27.9
+  }
+ ],
+ "caught": null,
+ "problems": [],
+ "coverage": {
+  "000E:01FA": {
+   "calls": 0,
+   "proved": 0,
+   "nested": 0
+  },
+  "000E:03C4": {
+   "calls": 114,
+   "proved": 0,
+   "nested": 114
+  },
+  "000E:045D": {
+   "calls": 0,
+   "proved": 0,
+   "nested": 0
+  },
+  "000E:04F5": {
+   "calls": 0,
+   "proved": 0,
+   "nested": 0
+  },
+  "000E:0572": {
+   "calls": 0,
+   "proved": 0,
+   "nested": 0
+  },
+  "000E:0868": {
+   "calls": 8,
+   "proved": 0,
+   "nested": 8
+  },
+  "000E:08F9": {
+   "calls": 4,
+   "proved": 0,
+   "nested": 4
+  },
+  "000E:094A": {
+   "calls": 0,
+   "proved": 0,
+   "nested": 0
+  },
+  "000E:09DB": {
+   "calls": 12,
+   "proved": 0,
+   "nested": 12
+  },
+  "000E:0A53": {
+   "calls": 0,
+   "proved": 0,
+   "nested": 0
+  },
+  "000E:0ACB": {
+   "calls": 12,
+   "proved": 0,
+   "nested": 12
+  },
+  "000E:0B0A": {
+   "calls": 2,
+   "proved": 0,
+   "nested": 2
+  },
+  "000E:0B4D": {
+   "calls": 10,
+   "proved": 0,
+   "nested": 10
+  },
+  "000E:0B77": {
+   "calls": 20,
+   "proved": 0,
+   "nested": 20
+  },
+  "000E:0C3A": {
+   "calls": 0,
+   "proved": 0,
+   "nested": 0
+  },
+  "000E:11D9": {
+   "calls": 8,
+   "proved": 0,
+   "nested": 8
+  },
+  "000E:1F4D": {
+   "calls": 4,
+   "proved": 0,
+   "nested": 4
+  },
+  "000E:2071": {
+   "calls": 8,
+   "proved": 0,
+   "nested": 8
+  },
+  "000E:26F2": {
+   "calls": 8,
+   "proved": 0,
+   "nested": 8
+  },
+  "000E:2E1F": {
+   "calls": 8,
+   "proved": 0,
+   "nested": 8
+  },
+  "000E:319B": {
+   "calls": 8,
+   "proved": 0,
+   "nested": 8
+  },
+  "000E:3A5E": {
+   "calls": 6,
+   "proved": 0,
+   "nested": 6
+  },
+  "000E:3CC8": {
+   "calls": 8,
+   "proved": 0,
+   "nested": 8
+  },
+  "000E:4045": {
+   "calls": 8,
+   "proved": 0,
+   "nested": 8
+  },
+  "000E:4440": {
+   "calls": 8,
+   "proved": 0,
+   "nested": 8
+  },
+  "000E:47E6": {
+   "calls": 2,
+   "proved": 0,
+   "nested": 2
+  },
+  "000E:4865": {
+   "calls": 8,
+   "proved": 0,
+   "nested": 8
+  },
+  "000E:4A87": {
+   "calls": 8,
+   "proved": 0,
+   "nested": 8
+  },
+  "000E:4DB7": {
+   "calls": 8,
+   "proved": 0,
+   "nested": 8
+  },
+  "000E:4E0E": {
+   "calls": 8,
+   "proved": 4,
+   "nested": 4
+  }
+ },
+ "started": "20261105T233610Z",
+ "ended": "20261105T234139Z"
+}
