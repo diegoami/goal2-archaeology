@@ -450,7 +450,7 @@ void post_match_news_and_sack(undefined4 param_1,int param_2)
   news_background();
   news_result_column(&stack0xfffe);
   news_headline_pages(&stack0xfffe);
-  f_000E_26F2(&stack0xfffe);
+  news_secondary_result_column(&stack0xfffe);
   iVar2 = (uint)extraout_AH << 8;
   uVar7 = (undefined2)((ulong)DS:A923 >> 0x10);
   iVar1 = *(char *)((int)DS:A923 + 0x40) * 6;

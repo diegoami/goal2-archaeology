@@ -1,0 +1,81 @@
+EEEEEEE
+======================================================================
+ERROR: test_both_original_near_returns (tests.test_port_news.SecondaryText.test_both_original_near_returns)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 235, in test_both_original_near_returns
+    self.assertEqual(reg.entries[a].ret,'ret 2');self.assertFalse(reg.entries[a].far)
+                     ~~~~~~~~~~~^^^
+KeyError: '000E:2071'
+
+======================================================================
+ERROR: test_no_improvement_has_no_second_draw_or_text (tests.test_port_news.SecondaryText.test_no_improvement_has_no_second_draw_or_text)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 283, in test_no_improvement_has_no_second_draw_or_text
+    result=r.run('000E:2071',[parent],responder({'214B:06B1':1,'1771:3216':0,'1771:377E':10}))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:2071'
+
+======================================================================
+ERROR: test_no_matching_role_still_visits_all_twenty_squad_slots (tests.test_port_news.SecondaryText.test_no_matching_role_still_visits_all_twenty_squad_slots)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 247, in test_no_matching_role_still_visits_all_twenty_squad_slots
+    result=r.run('000E:2071',[parent],responder({'214B:06B1':1}))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:2071'
+
+======================================================================
+ERROR: test_role_draw_and_global_write_precede_the_manager_gate (tests.test_port_news.SecondaryText.test_role_draw_and_global_write_precede_the_manager_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 239, in test_role_draw_and_global_write_precede_the_manager_gate
+    result=r.run('000E:2071',[parent],responder({'214B:06B1':8}))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:2071'
+
+======================================================================
+ERROR: test_strict_ties_keep_first_and_both_loops_keep_original_call_counts (tests.test_port_news.SecondaryText.test_strict_ties_keep_first_and_both_loops_keep_original_call_counts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 272, in test_strict_ties_keep_first_and_both_loops_keep_original_call_counts
+    result=r.run('000E:2071',[parent],responder({'214B:06B1':[1,1],'1771:3216':0,'1771:377E':strength}))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:2071'
+
+======================================================================
+ERROR: test_unavailable_squad_players_are_not_strength_candidates (tests.test_port_news.SecondaryText.test_unavailable_squad_players_are_not_strength_candidates)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 253, in test_unavailable_squad_players_are_not_strength_candidates
+    result=r.run('000E:2071',[parent],responder({'214B:06B1':1,'1771:3216':1}))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:2071'
+
+======================================================================
+ERROR: test_winning_streak_draw_and_severe_sack_bypass_have_original_order (tests.test_port_news.SecondaryText.test_winning_streak_draw_and_severe_sack_bypass_have_original_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 291, in test_winning_streak_draw_and_severe_sack_bypass_have_original_order
+    r.run('000E:26F2',[parent],responder({'000E:2071':0,'214B:06B1':1}))
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:26F2'
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.016s
+
+FAILED (errors=7)
