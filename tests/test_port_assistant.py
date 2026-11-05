@@ -28,7 +28,7 @@ class Assistant(unittest.TestCase):
         w(0x50101,manager,1);w(0x51000+3*(0x80+manager),7,1)
         w(0x50126,1)
         w(ds+0x9B43,0xABCD)
-        port.install(m,['assistant','runtime','update','attributes','pilot','menus','display'])
+        port.install(m,['assistant','runtime','update','attributes','pilot','menus','display','entrypoints'])
         return m,w
 
     def invoke(self,m,target,args=()):
@@ -79,8 +79,8 @@ class Assistant(unittest.TestCase):
             self.invoke(m,'0791:DC7E')
             self.assertEqual(m.word_at(0x52000+7*191),22)
             self.assertEqual(m.word_at(0x52000+7*191+2),21)
-            self.assertEqual(m.word_at(0x56000),2)
-            self.assertEqual(m.word_at(0x56002),1)
+            self.assertEqual(m.word_at(0x56000),1)
+            self.assertEqual(m.word_at(0x56002),2)
 
     def test_wrapped_pool_upper_bound_skips_scan(self):
         m,w=self.machine();w(m.DS*16+0x6D18,0xFFF0)
