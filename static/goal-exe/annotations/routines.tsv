@@ -655,9 +655,10 @@ address	name	purpose	confidence	basis
 000E:0B0A	news_opponent_name	T122a (port/news.py): copies opposing fixture country name from [9B68], limit15; opposing side is caller side==0	likely	F039; read code/seg_000E_02.asm
 000E:0B4D	news_own_country_name	T122a (port/news.py): copies caller country name from [9B68], limit15	likely	F039; read code/seg_000E_02.asm
 000E:0C3A	news_red_card_headline	T122a (port/news.py): draws random1..3 then renders one red-card headline using094A and062F; branch2 prefixes surname by the original concatenation	likely	F039; read code/seg_000E_02.asm
-000E:1F4D	news_own_stats_ahead	T122a (port/news.py): compares signed own stats0+4+opponent5 > opponent0+4+own5; side comes from caller frame	likely	F039; read code/seg_000E_02.asm
+000E:1F4D	news_own_stats_ahead	T122a (port/news.py): compares signed own stats0+4+opponent5 > opponent0+4+own5; side comes from caller frame	likely	F039; read code/seg_000E_03.asm
 000E:2E1F	news_result_headings	T122a (port/news.py): copies three20-character strings and draws first at heading row1, optional others at rows2/3	likely	F039; read code/seg_000E_04.asm
 000E:3A5E	news_fan_quote	T122a (port/news.py): draws random1..2 introduction at row6, quoted text at7, writes caller frame byte-1:=1; retains unreachable third draw branch	likely	F039; read code/seg_000E_05.asm
 000E:4045	news_manager_quote_at_row	T122a (port/news.py): copies two20-character lines and calls0868 using caller frame word+6 as row	likely	F039; read code/seg_000E_05.asm
 000E:47E6	news_board_quote	T122a (port/news.py): coin-flip introductory heading at10, first line at11 and optional second at12; writes caller frame byte-1:=1	likely	F039; read code/seg_000E_06.asm
 000E:4865	news_excessive_fouls	T122a (port/news.py): follows two caller links for side; true for stat6>10 or stat8>1 or stat7>2; leaves multiply DX intact	likely	F039; read code/seg_000E_06.asm
+000E:11D9	news_result_column	T122b (port/news.py): three-line managed-side result column, special fixture-kind text, winner versus side, margin, signed confidence/rating and sack-score bands; preserves original nested caller frames and Pascal string temporaries	likely	F039; read code/seg_000E_02.asm

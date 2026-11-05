@@ -1,0 +1,17 @@
+Runtime source: c0d67a2a4449; driver and test from subsequent branch-fix proof.
+E
+======================================================================
+ERROR: test_original_backed_result_families (tests.test_port_news.ResultColumn.test_original_backed_result_families)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t122b-c0d-repro/tests/test_port_news.py", line 184, in test_original_backed_result_families
+    data=asset.read_bytes();self.assertEqual(hashlib.sha256(data).hexdigest(),module.runner.expected(state[3]))
+                                                                              ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/tmp/t122b-c0d-repro/experiments/E040-route-fixture-writes/runner.py", line 210, in expected
+    raise ValueError(f"{asset}: no evidence manifest names it")
+ValueError: f8b22081eeb072e5-e006-1337-r0004.sav: no evidence manifest names it
+
+----------------------------------------------------------------------
+Ran 1 test in 0.083s
+
+FAILED (errors=1)

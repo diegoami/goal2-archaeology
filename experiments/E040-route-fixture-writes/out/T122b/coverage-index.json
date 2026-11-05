@@ -1,0 +1,6794 @@
+{
+ "schema": "e040-t122b-coverage/1",
+ "task": "T122b",
+ "acceptance_source_commit": "2162cfa069dc674805c57e7ca70b1c4ab83fd982",
+ "accepted_receipts": [
+  {
+   "path": "corpus-a/prove-news+route+silent-20261105T123454Z.json",
+   "sha256": "bbf5787b4e6df290f4aae83b9f0049e9e545e7529d5a627e12be26f64d0c2585",
+   "code_commit": "e23fec3516973a15f289fd42e9fb529cf9f5fb03"
+  },
+  {
+   "path": "corpus-b/prove-news+route+silent-20261105T123454Z.json",
+   "sha256": "dc16f366a4fdd382876c3a1f0828ce67a0931c9735f375479a6f67ab182d6960",
+   "code_commit": "e23fec3516973a15f289fd42e9fb529cf9f5fb03"
+  },
+  {
+   "path": "corpus-c/prove-news+route+silent-20261105T123454Z.json",
+   "sha256": "53f1527c29bfae1672dec0ba9709031bfbcb72e11c05cbff33234aebf7232563",
+   "code_commit": "e23fec3516973a15f289fd42e9fb529cf9f5fb03"
+  },
+  {
+   "path": "final/frames/synthetic-normal-20261105T124841Z.json",
+   "sha256": "db4da15a4bf21bc3cb6c8eea4a796ca614a11b9f3b43926b5b36336328d4abc4",
+   "code_commit": "046aac739a75dda6fa7c5a4e5ffa661cb4fef847"
+  },
+  {
+   "path": "final/falsifiers/synthetic-result-draw-dropped-20261105T124809Z.json",
+   "sha256": "2540cb698d90bc03b124136c6c37ccf64ff644997e26af8f48cbea36fba619a6",
+   "code_commit": "046aac739a75dda6fa7c5a4e5ffa661cb4fef847"
+  },
+  {
+   "path": "final/falsifiers/synthetic-result-text-inverted-20261105T124810Z.json",
+   "sha256": "dabdd094cb22b96104224d5aff2f0c53d564af14ede6ca4663630c42e2c18be8",
+   "code_commit": "046aac739a75dda6fa7c5a4e5ffa661cb4fef847"
+  },
+  {
+   "path": "transcription-completeness.json",
+   "sha256": "f04a464af8f7645fb3e0ba4b0b4c6316e983f0ef3aab75620c4e3529fde0e258",
+   "code_commit": "e23fec3516973a15f289fd42e9fb529cf9f5fb03"
+  }
+ ],
+ "counts": {
+  "unique_published_states": 12,
+  "declared_route_edits": 4,
+  "route_passes": 32,
+  "finalized_outer_6CA7_proofs": 16,
+  "standalone_frames": 530,
+  "standalone_categories": {
+   "isolated-kind-stage-counterfactual": 96,
+   "declared-local-branch": 232,
+   "rank-byte-stress": 174,
+   "raw-result-stress": 4,
+   "isolated-finals-gate": 24
+  },
+  "standalone_by_routine": {
+   "000E:11D9": 518,
+   "000E:0B77": 12
+  },
+  "caught_falsifiers": 2,
+  "total_numeric_rank_stress_including_counterfactuals": 222
+ },
+ "recorded_categories": {
+  "declared-ordinary": 284,
+  "rank-byte-stress": 222,
+  "declared-finals-gate": 24
+ },
+ "category_refinements": [
+  {
+   "case": "special-0-203-win",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 203,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0xcb is built at stage [8] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-0-203-loss",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 203,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0xcb is built at stage [8] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-0-103-win",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 103,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x67 is built at stage [4] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-0-103-loss",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 103,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x67 is built at stage [4] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-0-201-win",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 201,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0xc9 is built at stage [8] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-0-201-loss",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 201,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0xc9 is built at stage [8] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-0-101-win",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 101,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x65 is built at stage [4] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-0-101-loss",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 101,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x65 is built at stage [4] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-0-200-win",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 200,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0xc8 is built at stage [8] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-0-200-loss",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 200,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0xc8 is built at stage [8] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-0-8-win",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 8,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x8 is built at stage [8] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-0-8-loss",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 8,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x8 is built at stage [8] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "ordinary-0-win-0-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-0-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-win-1-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-1-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-1-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-1-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-1-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-1-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-1-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-1-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-1-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-1-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-1-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-1-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-1-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-1-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-1-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-1-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-1-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-1-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-3-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-3-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-3-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-3-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-3-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-3-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-3-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-3-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-3-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-3-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-3-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-3-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-3-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-3-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-3-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-3-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-3-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-3-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-6-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-6-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-6-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-6-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-6-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-6-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-win-6-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-6-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-6-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-6-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-6-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-6-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-6-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-6-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-6-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-6-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-6-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-win-6-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-0-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-0-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-0-loss-1-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-1-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-1-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-1-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-1-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-1-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-1-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-1-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-1-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-1-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-1-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-1-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-1-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-1-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-1-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-1-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-1-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-1-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-3-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-3-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-3-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-3-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-3-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-3-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-3-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-3-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-3-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-3-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-3-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-3-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-3-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-3-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-3-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-3-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-3-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-3-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-6-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-6-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-6-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-6-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-6-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-6-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-loss-6-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-6-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-6-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-6-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-6-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-6-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-6-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-6-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-6-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-6-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-6-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-loss-6-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-draw-0-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-draw-0-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-draw-0-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-draw-0-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-draw-0-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-draw-0-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-0-draw-0-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-draw-0-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-draw-0-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-draw-0-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-draw-0-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-draw-0-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-draw-0-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-draw-0-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-draw-0-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-draw-0-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-draw-0-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-0-draw-0-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "sack-0--128-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-0--128-4",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-0--11-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-0--11-4",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-0--10-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-0--10-4",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-0--8-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-0--8-4",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-0--7-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-0--7-4",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-0--6-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-0--6-4",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-0--5-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-0--5-4",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-0-0-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-0-0-4",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "red-0-win-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "raw-result-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind2 decided zero-margin result; raw function-input stress only"
+  },
+  {
+   "case": "red-0-win-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "red-0-win-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "red-0-loss-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "raw-result-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind2 decided zero-margin result; raw function-input stress only"
+  },
+  {
+   "case": "red-0-loss-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "red-0-loss-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "special-1-203-win",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 203,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0xcb is built at stage [8] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-1-203-loss",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 203,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0xcb is built at stage [8] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-1-103-win",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 103,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x67 is built at stage [4] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-1-103-loss",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 103,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x67 is built at stage [4] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-1-201-win",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 201,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0xc9 is built at stage [8] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-1-201-loss",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 201,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0xc9 is built at stage [8] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-1-101-win",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 101,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x65 is built at stage [4] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-1-101-loss",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 101,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x65 is built at stage [4] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-1-200-win",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 200,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0xc8 is built at stage [8] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-1-200-loss",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 200,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0xc8 is built at stage [8] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-1-8-win",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 8,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x8 is built at stage [8] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "special-1-8-loss",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 8,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x8 is built at stage [8] per F023, while authored probe stage is 2"
+  },
+  {
+   "case": "ordinary-1-win-0-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-0-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-win-1-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-1-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-1-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-1-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-1-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-1-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-1-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-1-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-1-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-1-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-1-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-1-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-1-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-1-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-1-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-1-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-1-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-1-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-3-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-3-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-3-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-3-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-3-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-3-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-3-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-3-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-3-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-3-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-3-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-3-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-3-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-3-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-3-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-3-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-3-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-3-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-6-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-6-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-6-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-6-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-6-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-6-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-win-6-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-6-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-6-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-6-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-6-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-6-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-6-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-6-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-6-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-6-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-6-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-win-6-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-0-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-0-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "isolated-kind-stage-counterfactual",
+   "kind": 102,
+   "stage": 3,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "kind 0x66 is built at stage [4] per F023, while authored probe stage is 3"
+  },
+  {
+   "case": "ordinary-1-loss-1-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-1-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-1-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-1-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-1-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-1-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-1-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-1-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-1-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-1-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-1-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-1-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-1-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-1-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-1-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-1-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-1-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-1-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-3-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-3-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-3-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-3-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-3-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-3-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-3-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-3-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-3-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-3-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-3-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-3-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-3-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-3-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-3-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-3-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-3-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-3-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-6-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-6-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-6-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-6-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-6-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-6-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-loss-6-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-6-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-6-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-6-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-6-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-6-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-6-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-6-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-6-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-6-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-6-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-loss-6-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-draw-0-balanced-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-draw-0-balanced-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-draw-0-balanced-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-draw-0-balanced-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-draw-0-balanced-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-draw-0-balanced-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "ordinary-1-draw-0-strong-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-draw-0-strong-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-draw-0-strong-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-draw-0-strong-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-draw-0-strong-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-draw-0-strong-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-draw-0-weak-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-draw-0-weak-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-draw-0-weak-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-draw-0-weak-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-draw-0-weak-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "ordinary-1-draw-0-weak-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "sack-1--128-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-1--128-4",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-1--11-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-1--11-4",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-1--10-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-1--10-4",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-1--8-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-1--8-4",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-1--7-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-1--7-4",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-1--6-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-1--6-4",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-1--5-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-1--5-4",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-1-0-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "sack-1-0-4",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "red-1-win-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "raw-result-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind2 decided zero-margin result; raw function-input stress only"
+  },
+  {
+   "case": "red-1-win-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "red-1-win-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "red-1-loss-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "raw-result-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "kind2 decided zero-margin result; raw function-input stress only"
+  },
+  {
+   "case": "red-1-loss-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "red-1-loss-3",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-1-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-1-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-1-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-1-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-1-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-1-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-3-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-3-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-3-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-3-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-3-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-3-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-6-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-6-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-6-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-6-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-6-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-1-6-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-1-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-1-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-1-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-1-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-1-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-1-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-3-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-3-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-3-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-3-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-3-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-3-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-6-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-6-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-6-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-6-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-6-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-2-6-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-1-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-1-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-1-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-1-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-1-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-1-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-3-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-3-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-3-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-3-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-3-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-3-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-6-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-6-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-6-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-6-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-6-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-0-q-minus-3-6-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-1-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-1-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-1-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-1-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-1-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-1-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-3-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-3-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-3-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-3-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-3-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-3-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-6-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-6-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-6-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-6-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-6-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-1-6-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-1-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-1-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-1-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-1-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-1-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-1-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-3-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-3-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-3-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-3-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-3-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-3-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-6-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-6-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-6-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-6-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-6-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-2-6-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-1-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-1-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-1-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-1-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-1-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-1-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-3-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-3-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-3-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-3-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-3-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-3-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-6-0",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-6-1",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-6-6",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-6-7",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-6-11",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-3-6-16",
+   "recorded_category": "declared-ordinary",
+   "final_category": "declared-local-branch",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "isolated authored branch values; no complete-calendar admissibility claim"
+  },
+  {
+   "case": "confidence-1-q-minus-6-stress-1-0",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "confidence-1-q-minus-6-stress-1-1",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "confidence-1-q-minus-6-stress-1-6",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "confidence-1-q-minus-6-stress-1-7",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "confidence-1-q-minus-6-stress-1-11",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "confidence-1-q-minus-6-stress-1-16",
+   "recorded_category": "rank-byte-stress",
+   "final_category": "rank-byte-stress",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": true,
+   "calendar_validated": false,
+   "reason": "authored ranking-byte stress"
+  },
+  {
+   "case": "finals-0B77-0-2-0",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-0B77-0-2-1",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-0B77-0-3-0",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 3,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-0B77-0-3-1",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 3,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-0B77-0-7-0",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 7,
+   "stage": 7,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-0B77-0-7-1",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 7,
+   "stage": 7,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-0B77-1-2-0",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-0B77-1-2-1",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-0B77-1-3-0",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 3,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-0B77-1-3-1",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 3,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-0B77-1-7-0",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 7,
+   "stage": 7,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-0B77-1-7-1",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 7,
+   "stage": 7,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-11D9-0-2-0",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-11D9-0-2-1",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-11D9-0-3-0",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 3,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-11D9-0-3-1",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 3,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-11D9-0-7-0",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 7,
+   "stage": 7,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-11D9-0-7-1",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 7,
+   "stage": 7,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-11D9-1-2-0",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-11D9-1-2-1",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 2,
+   "stage": 2,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-11D9-1-3-0",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 3,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-11D9-1-3-1",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 3,
+   "stage": 3,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-11D9-1-7-0",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 7,
+   "stage": 7,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  },
+  {
+   "case": "finals-11D9-1-7-1",
+   "recorded_category": "declared-finals-gate",
+   "final_category": "isolated-finals-gate",
+   "kind": 7,
+   "stage": 7,
+   "numeric_rank_stress": false,
+   "calendar_validated": false,
+   "reason": "paired actual predicate probe, not a complete natural-calendar state"
+  }
+ ],
+ "coverage": {
+  "000E:03C4": {
+   "published_route": {
+    "calls": 294,
+    "proved": 0,
+    "nested": 294
+   },
+   "declared_route_edits": {
+    "calls": 66,
+    "proved": 0,
+    "nested": 66
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:045D": {
+   "published_route": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "declared_route_edits": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:04F5": {
+   "published_route": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "declared_route_edits": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:0572": {
+   "published_route": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "declared_route_edits": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:0868": {
+   "published_route": {
+    "calls": 20,
+    "proved": 0,
+    "nested": 20
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 0,
+    "nested": 4
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:08F9": {
+   "published_route": {
+    "calls": 8,
+    "proved": 4,
+    "nested": 4
+   },
+   "declared_route_edits": {
+    "calls": 2,
+    "proved": 1,
+    "nested": 1
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:094A": {
+   "published_route": {
+    "calls": 2,
+    "proved": 0,
+    "nested": 2
+   },
+   "declared_route_edits": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:09DB": {
+   "published_route": {
+    "calls": 40,
+    "proved": 15,
+    "nested": 25
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 1,
+    "nested": 3
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:0A53": {
+   "published_route": {
+    "calls": 10,
+    "proved": 4,
+    "nested": 6
+   },
+   "declared_route_edits": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:0ACB": {
+   "published_route": {
+    "calls": 28,
+    "proved": 12,
+    "nested": 16
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 2,
+    "nested": 2
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:0B0A": {
+   "published_route": {
+    "calls": 2,
+    "proved": 1,
+    "nested": 1
+   },
+   "declared_route_edits": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:0B4D": {
+   "published_route": {
+    "calls": 32,
+    "proved": 7,
+    "nested": 25
+   },
+   "declared_route_edits": {
+    "calls": 8,
+    "proved": 2,
+    "nested": 6
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:0B77": {
+   "published_route": {
+    "calls": 64,
+    "proved": 28,
+    "nested": 36
+   },
+   "declared_route_edits": {
+    "calls": 8,
+    "proved": 4,
+    "nested": 4
+   },
+   "standalone": {
+    "calls": 12,
+    "proved": 12
+   }
+  },
+  "000E:0C3A": {
+   "published_route": {
+    "calls": 2,
+    "proved": 0,
+    "nested": 2
+   },
+   "declared_route_edits": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:11D9": {
+   "published_route": {
+    "calls": 24,
+    "proved": 12,
+    "nested": 12
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 2,
+    "nested": 2
+   },
+   "standalone": {
+    "calls": 518,
+    "proved": 518
+   }
+  },
+  "000E:1F4D": {
+   "published_route": {
+    "calls": 16,
+    "proved": 8,
+    "nested": 8
+   },
+   "declared_route_edits": {
+    "calls": 2,
+    "proved": 1,
+    "nested": 1
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:2E1F": {
+   "published_route": {
+    "calls": 24,
+    "proved": 12,
+    "nested": 12
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 2,
+    "nested": 2
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:3A5E": {
+   "published_route": {
+    "calls": 18,
+    "proved": 9,
+    "nested": 9
+   },
+   "declared_route_edits": {
+    "calls": 2,
+    "proved": 1,
+    "nested": 1
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:4045": {
+   "published_route": {
+    "calls": 20,
+    "proved": 10,
+    "nested": 10
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 2,
+    "nested": 2
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:47E6": {
+   "published_route": {
+    "calls": 6,
+    "proved": 3,
+    "nested": 3
+   },
+   "declared_route_edits": {
+    "calls": 2,
+    "proved": 1,
+    "nested": 1
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  },
+  "000E:4865": {
+   "published_route": {
+    "calls": 24,
+    "proved": 12,
+    "nested": 12
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 2,
+    "nested": 2
+   },
+   "standalone": {
+    "calls": 0,
+    "proved": 0
+   }
+  }
+ },
+ "owned_routine": "000E:11D9",
+ "actual_decision_values": {
+  "far 1771:5C60": [
+   0,
+   1,
+   2,
+   3,
+   6
+  ],
+  "0x9db": [
+   0,
+   1
+  ],
+  "far 0791:B71C": [
+   -28,
+   -24,
+   -18,
+   -14,
+   -12,
+   -9,
+   -5,
+   -4,
+   -2,
+   -1,
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   8,
+   10,
+   12,
+   16,
+   18,
+   21,
+   32,
+   36,
+   42
+  ],
+  "far 214B:06B1": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "far 214B:06FA": [
+   0,
+   1
+  ],
+  "0xa53": [
+   0,
+   1
+  ],
+  "0xb77": [
+   -128,
+   -11,
+   -10,
+   -8,
+   -7,
+   -6,
+   -5,
+   0
+  ],
+  "far 1771:59D8": [
+   0,
+   1
+  ]
+ },
+ "actual_by_return_site": [
+  {
+   "target": "0x9db",
+   "return": "000E:1337",
+   "values": [
+    0,
+    1
+   ]
+  },
+  {
+   "target": "0x9db",
+   "return": "000E:1A72",
+   "values": [
+    0,
+    1
+   ]
+  },
+  {
+   "target": "0x9db",
+   "return": "000E:1C7A",
+   "values": [
+    0,
+    1
+   ]
+  },
+  {
+   "target": "0x9db",
+   "return": "000E:1E0A",
+   "values": [
+    0,
+    1
+   ]
+  },
+  {
+   "target": "0xa53",
+   "return": "000E:1AC6",
+   "values": [
+    0,
+    1
+   ]
+  },
+  {
+   "target": "0xa53",
+   "return": "000E:1D0A",
+   "values": [
+    0,
+    1
+   ]
+  },
+  {
+   "target": "0xa53",
+   "return": "000E:1E5E",
+   "values": [
+    0,
+    1
+   ]
+  },
+  {
+   "target": "0xb77",
+   "return": "000E:1B93",
+   "values": [
+    -128,
+    -11,
+    -10,
+    -8,
+    -7,
+    -6,
+    -5,
+    0
+   ]
+  },
+  {
+   "target": "0xb77",
+   "return": "000E:7080",
+   "values": [
+    -11,
+    0
+   ]
+  },
+  {
+   "target": "far 0791:B71C",
+   "return": "000E:1388",
+   "values": [
+    -28,
+    -24,
+    -18,
+    -14,
+    -12,
+    -9,
+    -5,
+    -4,
+    -2,
+    -1,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    10,
+    12,
+    16,
+    18,
+    21,
+    32,
+    36,
+    42
+   ]
+  },
+  {
+   "target": "far 1771:59D8",
+   "return": "000E:0BB3",
+   "values": [
+    0,
+    1
+   ]
+  },
+  {
+   "target": "far 1771:5C60",
+   "return": "000E:12FD",
+   "values": [
+    0,
+    1,
+    3,
+    6
+   ]
+  },
+  {
+   "target": "far 1771:5C60",
+   "return": "000E:132D",
+   "values": [
+    0,
+    1,
+    3,
+    6
+   ]
+  },
+  {
+   "target": "far 1771:5C60",
+   "return": "000E:14ED",
+   "values": [
+    1,
+    3
+   ]
+  },
+  {
+   "target": "far 1771:5C60",
+   "return": "000E:1A65",
+   "values": [
+    0,
+    1,
+    2,
+    3,
+    6
+   ]
+  },
+  {
+   "target": "far 1771:5C60",
+   "return": "000E:1B6B",
+   "values": [
+    1,
+    2,
+    3,
+    6
+   ]
+  },
+  {
+   "target": "far 1771:5C60",
+   "return": "000E:1C6C",
+   "values": [
+    1,
+    2,
+    3,
+    6
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:139B",
+   "values": [
+    1,
+    2
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:13EF",
+   "values": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:1461",
+   "values": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:14FE",
+   "values": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:15A0",
+   "values": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:1632",
+   "values": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:16FA",
+   "values": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:178C",
+   "values": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:185C",
+   "values": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:1A7F",
+   "values": [
+    1,
+    2
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:1AD3",
+   "values": [
+    1,
+    2
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:1B1C",
+   "values": [
+    1,
+    2
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:1C8A",
+   "values": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:1D1A",
+   "values": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:1DA3",
+   "values": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:1E17",
+   "values": [
+    1,
+    2
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:1E6B",
+   "values": [
+    1,
+    2
+   ]
+  },
+  {
+   "target": "far 214B:06B1",
+   "return": "000E:1ED1",
+   "values": [
+    1,
+    2
+   ]
+  },
+  {
+   "target": "far 214B:06FA",
+   "return": "000E:191E",
+   "values": [
+    0,
+    1
+   ]
+  },
+  {
+   "target": "far 214B:06FA",
+   "return": "000E:1991",
+   "values": [
+    0,
+    1
+   ]
+  }
+ ],
+ "confidence_windows": {
+  "-255..-5": [
+   -28,
+   -24,
+   -18,
+   -14,
+   -12,
+   -9,
+   -5
+  ],
+  "-4..-2": [
+   -4,
+   -2
+  ],
+  "-1": [
+   -1
+  ],
+  "0": [
+   0
+  ],
+  "1": [
+   1
+  ],
+  "2": [
+   2
+  ],
+  "3": [
+   3
+  ],
+  "4..6": [
+   4,
+   5,
+   6
+  ],
+  "7..255": [
+   8,
+   10,
+   12,
+   16,
+   18,
+   21,
+   32,
+   36,
+   42
+  ]
+ },
+ "actual_finals_gate": [
+  {
+   "case": "finals-0B77-0-2-0",
+   "routine": "000E:0B77",
+   "side": 0,
+   "country": 7,
+   "kind": 2,
+   "stage": 2,
+   "group": 0,
+   "confidence": -11,
+   "observed_59D8": [
+    0
+   ],
+   "observed_0B77": [
+    -11
+   ],
+   "expected_59D8": 0,
+   "expected_0B77": -11
+  },
+  {
+   "case": "finals-0B77-0-2-1",
+   "routine": "000E:0B77",
+   "side": 0,
+   "country": 7,
+   "kind": 2,
+   "stage": 2,
+   "group": 1,
+   "confidence": -11,
+   "observed_59D8": [
+    0
+   ],
+   "observed_0B77": [
+    -11
+   ],
+   "expected_59D8": 0,
+   "expected_0B77": -11
+  },
+  {
+   "case": "finals-0B77-0-3-0",
+   "routine": "000E:0B77",
+   "side": 0,
+   "country": 7,
+   "kind": 3,
+   "stage": 3,
+   "group": 0,
+   "confidence": -11,
+   "observed_59D8": [
+    1
+   ],
+   "observed_0B77": [
+    -11
+   ],
+   "expected_59D8": 1,
+   "expected_0B77": -11
+  },
+  {
+   "case": "finals-0B77-0-3-1",
+   "routine": "000E:0B77",
+   "side": 0,
+   "country": 7,
+   "kind": 3,
+   "stage": 3,
+   "group": 1,
+   "confidence": -11,
+   "observed_59D8": [
+    1
+   ],
+   "observed_0B77": [
+    0
+   ],
+   "expected_59D8": 1,
+   "expected_0B77": 0
+  },
+  {
+   "case": "finals-0B77-0-7-0",
+   "routine": "000E:0B77",
+   "side": 0,
+   "country": 7,
+   "kind": 7,
+   "stage": 7,
+   "group": 0,
+   "confidence": -11,
+   "observed_59D8": [
+    1
+   ],
+   "observed_0B77": [
+    -11
+   ],
+   "expected_59D8": 1,
+   "expected_0B77": -11
+  },
+  {
+   "case": "finals-0B77-0-7-1",
+   "routine": "000E:0B77",
+   "side": 0,
+   "country": 7,
+   "kind": 7,
+   "stage": 7,
+   "group": 1,
+   "confidence": -11,
+   "observed_59D8": [
+    1
+   ],
+   "observed_0B77": [
+    0
+   ],
+   "expected_59D8": 1,
+   "expected_0B77": 0
+  },
+  {
+   "case": "finals-0B77-1-2-0",
+   "routine": "000E:0B77",
+   "side": 1,
+   "country": 7,
+   "kind": 2,
+   "stage": 2,
+   "group": 0,
+   "confidence": -11,
+   "observed_59D8": [
+    0
+   ],
+   "observed_0B77": [
+    -11
+   ],
+   "expected_59D8": 0,
+   "expected_0B77": -11
+  },
+  {
+   "case": "finals-0B77-1-2-1",
+   "routine": "000E:0B77",
+   "side": 1,
+   "country": 7,
+   "kind": 2,
+   "stage": 2,
+   "group": 1,
+   "confidence": -11,
+   "observed_59D8": [
+    0
+   ],
+   "observed_0B77": [
+    -11
+   ],
+   "expected_59D8": 0,
+   "expected_0B77": -11
+  },
+  {
+   "case": "finals-0B77-1-3-0",
+   "routine": "000E:0B77",
+   "side": 1,
+   "country": 7,
+   "kind": 3,
+   "stage": 3,
+   "group": 0,
+   "confidence": -11,
+   "observed_59D8": [
+    1
+   ],
+   "observed_0B77": [
+    -11
+   ],
+   "expected_59D8": 1,
+   "expected_0B77": -11
+  },
+  {
+   "case": "finals-0B77-1-3-1",
+   "routine": "000E:0B77",
+   "side": 1,
+   "country": 7,
+   "kind": 3,
+   "stage": 3,
+   "group": 1,
+   "confidence": -11,
+   "observed_59D8": [
+    1
+   ],
+   "observed_0B77": [
+    0
+   ],
+   "expected_59D8": 1,
+   "expected_0B77": 0
+  },
+  {
+   "case": "finals-0B77-1-7-0",
+   "routine": "000E:0B77",
+   "side": 1,
+   "country": 7,
+   "kind": 7,
+   "stage": 7,
+   "group": 0,
+   "confidence": -11,
+   "observed_59D8": [
+    1
+   ],
+   "observed_0B77": [
+    -11
+   ],
+   "expected_59D8": 1,
+   "expected_0B77": -11
+  },
+  {
+   "case": "finals-0B77-1-7-1",
+   "routine": "000E:0B77",
+   "side": 1,
+   "country": 7,
+   "kind": 7,
+   "stage": 7,
+   "group": 1,
+   "confidence": -11,
+   "observed_59D8": [
+    1
+   ],
+   "observed_0B77": [
+    0
+   ],
+   "expected_59D8": 1,
+   "expected_0B77": 0
+  },
+  {
+   "case": "finals-11D9-0-2-0",
+   "routine": "000E:11D9",
+   "side": 0,
+   "country": 7,
+   "kind": 2,
+   "stage": 2,
+   "group": 0,
+   "confidence": -11,
+   "observed_59D8": [
+    0
+   ],
+   "observed_0B77": [
+    -11
+   ],
+   "expected_59D8": 0,
+   "expected_0B77": -11
+  },
+  {
+   "case": "finals-11D9-0-2-1",
+   "routine": "000E:11D9",
+   "side": 0,
+   "country": 7,
+   "kind": 2,
+   "stage": 2,
+   "group": 1,
+   "confidence": -11,
+   "observed_59D8": [
+    0
+   ],
+   "observed_0B77": [
+    -11
+   ],
+   "expected_59D8": 0,
+   "expected_0B77": -11
+  },
+  {
+   "case": "finals-11D9-0-3-0",
+   "routine": "000E:11D9",
+   "side": 0,
+   "country": 7,
+   "kind": 3,
+   "stage": 3,
+   "group": 0,
+   "confidence": -11,
+   "observed_59D8": [
+    1
+   ],
+   "observed_0B77": [
+    -11
+   ],
+   "expected_59D8": 1,
+   "expected_0B77": -11
+  },
+  {
+   "case": "finals-11D9-0-3-1",
+   "routine": "000E:11D9",
+   "side": 0,
+   "country": 7,
+   "kind": 3,
+   "stage": 3,
+   "group": 1,
+   "confidence": -11,
+   "observed_59D8": [
+    1
+   ],
+   "observed_0B77": [
+    0
+   ],
+   "expected_59D8": 1,
+   "expected_0B77": 0
+  },
+  {
+   "case": "finals-11D9-0-7-0",
+   "routine": "000E:11D9",
+   "side": 0,
+   "country": 7,
+   "kind": 7,
+   "stage": 7,
+   "group": 0,
+   "confidence": -11,
+   "observed_59D8": [
+    1
+   ],
+   "observed_0B77": [
+    -11
+   ],
+   "expected_59D8": 1,
+   "expected_0B77": -11
+  },
+  {
+   "case": "finals-11D9-0-7-1",
+   "routine": "000E:11D9",
+   "side": 0,
+   "country": 7,
+   "kind": 7,
+   "stage": 7,
+   "group": 1,
+   "confidence": -11,
+   "observed_59D8": [
+    1
+   ],
+   "observed_0B77": [
+    0
+   ],
+   "expected_59D8": 1,
+   "expected_0B77": 0
+  },
+  {
+   "case": "finals-11D9-1-2-0",
+   "routine": "000E:11D9",
+   "side": 1,
+   "country": 7,
+   "kind": 2,
+   "stage": 2,
+   "group": 0,
+   "confidence": -11,
+   "observed_59D8": [
+    0
+   ],
+   "observed_0B77": [
+    -11
+   ],
+   "expected_59D8": 0,
+   "expected_0B77": -11
+  },
+  {
+   "case": "finals-11D9-1-2-1",
+   "routine": "000E:11D9",
+   "side": 1,
+   "country": 7,
+   "kind": 2,
+   "stage": 2,
+   "group": 1,
+   "confidence": -11,
+   "observed_59D8": [
+    0
+   ],
+   "observed_0B77": [
+    -11
+   ],
+   "expected_59D8": 0,
+   "expected_0B77": -11
+  },
+  {
+   "case": "finals-11D9-1-3-0",
+   "routine": "000E:11D9",
+   "side": 1,
+   "country": 7,
+   "kind": 3,
+   "stage": 3,
+   "group": 0,
+   "confidence": -11,
+   "observed_59D8": [
+    1
+   ],
+   "observed_0B77": [
+    -11
+   ],
+   "expected_59D8": 1,
+   "expected_0B77": -11
+  },
+  {
+   "case": "finals-11D9-1-3-1",
+   "routine": "000E:11D9",
+   "side": 1,
+   "country": 7,
+   "kind": 3,
+   "stage": 3,
+   "group": 1,
+   "confidence": -11,
+   "observed_59D8": [
+    1
+   ],
+   "observed_0B77": [
+    0
+   ],
+   "expected_59D8": 1,
+   "expected_0B77": 0
+  },
+  {
+   "case": "finals-11D9-1-7-0",
+   "routine": "000E:11D9",
+   "side": 1,
+   "country": 7,
+   "kind": 7,
+   "stage": 7,
+   "group": 0,
+   "confidence": -11,
+   "observed_59D8": [
+    1
+   ],
+   "observed_0B77": [
+    -11
+   ],
+   "expected_59D8": 1,
+   "expected_0B77": -11
+  },
+  {
+   "case": "finals-11D9-1-7-1",
+   "routine": "000E:11D9",
+   "side": 1,
+   "country": 7,
+   "kind": 7,
+   "stage": 7,
+   "group": 1,
+   "confidence": -11,
+   "observed_59D8": [
+    1
+   ],
+   "observed_0B77": [
+    0
+   ],
+   "expected_59D8": 1,
+   "expected_0B77": 0
+  }
+ ],
+ "runtime_source": {
+  "path": "runtime/original_match/port/news.py",
+  "sha256": "8673983916ad6c01c96287ed1809c271f3f89206e9deada45a2b625465a8ebb2",
+  "fixed_source_commit": "e23fec3516973a15f289fd42e9fb529cf9f5fb03",
+  "unchanged_in_all_accepted_runtime_proofs": true
+ },
+ "source_hashes": {
+  "tests/test_port_news.py": "43a48eeaca3f607d5acfd6e49d3195eb1874dad53d3a06881d3f961be5bf166d",
+  "experiments/E040-route-fixture-writes/out/T122b/prove_column.py": "8dc1a6ab8b5d6ce1d64ad6d137fd603b4992d357b03bce022341f2b64b9b7891",
+  "experiments/E040-route-fixture-writes/out/T122a/prove_shared.py": "e088a64209056a76d4e7ce453bfafb4ec99dafc5740a49ff4950a8800f29f5c7"
+ },
+ "superseded_receipts": [
+  {
+   "path": "confidence/synthetic-normal-20261105T123844Z.json",
+   "sha256": "c150c2bcea801ee81a9d26613ca65b194794a4221d469c737b791783903e257b",
+   "acceptance": false,
+   "reason": "pre-correction recipe used manager-count byte as declared stage and/or kind2 zero-margin decided result; equality remains measured but input semantics are not final acceptance"
+  },
+  {
+   "path": "corrected/falsifiers/synthetic-result-draw-dropped-20261105T124619Z.json",
+   "sha256": "d3f8b132f32e95e522379243dd2670182190e516900249e04d3b5bbd8f5ec2af",
+   "acceptance": false,
+   "reason": "stage field fixed, but still had kind2 zero-margin decided results and isolated finals gates with kind2; replaced by final admissible recipe"
+  },
+  {
+   "path": "corrected/falsifiers/synthetic-result-text-inverted-20261105T124620Z.json",
+   "sha256": "dac8a59b58856ed935c09714a5b02aa0ba93dd9fcde83681e39a43106ee39787",
+   "acceptance": false,
+   "reason": "stage field fixed, but still had kind2 zero-margin decided results and isolated finals gates with kind2; replaced by final admissible recipe"
+  },
+  {
+   "path": "corrected/frames/synthetic-normal-20261105T124651Z.json",
+   "sha256": "053aa5235a0bbe61d9fba6493501f00c97c8229545c1d14bd2d103efbe852952",
+   "acceptance": false,
+   "reason": "stage field fixed, but still had kind2 zero-margin decided results and isolated finals gates with kind2; replaced by final admissible recipe"
+  },
+  {
+   "path": "dev/prove-news+route+silent-20261105T122456Z.json",
+   "sha256": "bb75a2d550e1a5ab4b4073399415d4c58e9a0c649967dfc11cafb31ef6e3a6d8",
+   "acceptance": false,
+   "reason": "initial c0 port source omitted CMP1B9B; replaced by fixed-source corpus"
+  },
+  {
+   "path": "falsifiers/synthetic-result-draw-dropped-20261105T123619Z.json",
+   "sha256": "6e7a118f7f966cc13dfb63e974a7659a20da4861619290436cdf55711c6853da",
+   "acceptance": false,
+   "reason": "pre-correction recipe used manager-count byte as declared stage and/or kind2 zero-margin decided result; equality remains measured but input semantics are not final acceptance"
+  },
+  {
+   "path": "falsifiers/synthetic-result-text-inverted-20261105T123626Z.json",
+   "sha256": "60614e8a7dab0ed0d67a41d1691a5acdd002d840e378710933ca6a5850a1eb01",
+   "acceptance": false,
+   "reason": "pre-correction recipe used manager-count byte as declared stage and/or kind2 zero-margin decided result; equality remains measured but input semantics are not final acceptance"
+  },
+  {
+   "path": "synthetic/synthetic-normal-20261105T123529Z.json",
+   "sha256": "6088dbcae631fb16bece5fe0939db040cfffc18b5cbb53de8f37f995f49f83b1",
+   "acceptance": false,
+   "reason": "pre-correction recipe used manager-count byte as declared stage and/or kind2 zero-margin decided result; equality remains measured but input semantics are not final acceptance"
+  }
+ ],
+ "checks": {
+  "required_result_column": "final-result-column-v2.log",
+  "cumulative": "t122b-final-focused-v2.log",
+  "annotations": "final-annotations-v2.log",
+  "fail_before": "fail-before-seven.log",
+  "missing_cmp_regression": "fail-c0d-number-branch-reproduced.log"
+ },
+ "limits": [
+  "Authored frames are not natural-calendar completion claims.",
+  "Regional-ranking bytes255/72 and four explicitly indexed kind2 decided-zero red-card counter inputs are raw arithmetic/result stress, separated from ordinary declared frames.",
+  "Actual signed-byte sack results are recorded; unit-only-256 boundary stress is not claimed original-backed.",
+  "Historical T122a finals recipe wrote the wrong field; equality remains valid for its actual input, but positive gate coverage comes from this corrected nonzero-confidence supplement.",
+  "Full unit suite is left to CI and must pass before merge.",
+  "96frames are explicit kind-stage counterfactuals:72kind0x66probes at authoredstage3 (actualbuilderstage4/class0) and24special-kind probes atstage2 (actualbuilderstage4or8). Forty-eight of these96also carry ranking-byte stress; total rankstress222 is overlapping, not added to530."
+ ],
+ "kind_stage_counterfactual_cases": [
+  "special-0-203-win",
+  "special-0-203-loss",
+  "special-0-103-win",
+  "special-0-103-loss",
+  "special-0-201-win",
+  "special-0-201-loss",
+  "special-0-101-win",
+  "special-0-101-loss",
+  "special-0-200-win",
+  "special-0-200-loss",
+  "special-0-8-win",
+  "special-0-8-loss",
+  "ordinary-0-win-0-balanced-0",
+  "ordinary-0-win-0-balanced-1",
+  "ordinary-0-win-0-balanced-6",
+  "ordinary-0-win-0-balanced-7",
+  "ordinary-0-win-0-balanced-11",
+  "ordinary-0-win-0-balanced-16",
+  "ordinary-0-win-0-strong-0",
+  "ordinary-0-win-0-strong-1",
+  "ordinary-0-win-0-strong-6",
+  "ordinary-0-win-0-strong-7",
+  "ordinary-0-win-0-strong-11",
+  "ordinary-0-win-0-strong-16",
+  "ordinary-0-win-0-weak-0",
+  "ordinary-0-win-0-weak-1",
+  "ordinary-0-win-0-weak-6",
+  "ordinary-0-win-0-weak-7",
+  "ordinary-0-win-0-weak-11",
+  "ordinary-0-win-0-weak-16",
+  "ordinary-0-loss-0-balanced-0",
+  "ordinary-0-loss-0-balanced-1",
+  "ordinary-0-loss-0-balanced-6",
+  "ordinary-0-loss-0-balanced-7",
+  "ordinary-0-loss-0-balanced-11",
+  "ordinary-0-loss-0-balanced-16",
+  "ordinary-0-loss-0-strong-0",
+  "ordinary-0-loss-0-strong-1",
+  "ordinary-0-loss-0-strong-6",
+  "ordinary-0-loss-0-strong-7",
+  "ordinary-0-loss-0-strong-11",
+  "ordinary-0-loss-0-strong-16",
+  "ordinary-0-loss-0-weak-0",
+  "ordinary-0-loss-0-weak-1",
+  "ordinary-0-loss-0-weak-6",
+  "ordinary-0-loss-0-weak-7",
+  "ordinary-0-loss-0-weak-11",
+  "ordinary-0-loss-0-weak-16",
+  "special-1-203-win",
+  "special-1-203-loss",
+  "special-1-103-win",
+  "special-1-103-loss",
+  "special-1-201-win",
+  "special-1-201-loss",
+  "special-1-101-win",
+  "special-1-101-loss",
+  "special-1-200-win",
+  "special-1-200-loss",
+  "special-1-8-win",
+  "special-1-8-loss",
+  "ordinary-1-win-0-balanced-0",
+  "ordinary-1-win-0-balanced-1",
+  "ordinary-1-win-0-balanced-6",
+  "ordinary-1-win-0-balanced-7",
+  "ordinary-1-win-0-balanced-11",
+  "ordinary-1-win-0-balanced-16",
+  "ordinary-1-win-0-strong-0",
+  "ordinary-1-win-0-strong-1",
+  "ordinary-1-win-0-strong-6",
+  "ordinary-1-win-0-strong-7",
+  "ordinary-1-win-0-strong-11",
+  "ordinary-1-win-0-strong-16",
+  "ordinary-1-win-0-weak-0",
+  "ordinary-1-win-0-weak-1",
+  "ordinary-1-win-0-weak-6",
+  "ordinary-1-win-0-weak-7",
+  "ordinary-1-win-0-weak-11",
+  "ordinary-1-win-0-weak-16",
+  "ordinary-1-loss-0-balanced-0",
+  "ordinary-1-loss-0-balanced-1",
+  "ordinary-1-loss-0-balanced-6",
+  "ordinary-1-loss-0-balanced-7",
+  "ordinary-1-loss-0-balanced-11",
+  "ordinary-1-loss-0-balanced-16",
+  "ordinary-1-loss-0-strong-0",
+  "ordinary-1-loss-0-strong-1",
+  "ordinary-1-loss-0-strong-6",
+  "ordinary-1-loss-0-strong-7",
+  "ordinary-1-loss-0-strong-11",
+  "ordinary-1-loss-0-strong-16",
+  "ordinary-1-loss-0-weak-0",
+  "ordinary-1-loss-0-weak-1",
+  "ordinary-1-loss-0-weak-6",
+  "ordinary-1-loss-0-weak-7",
+  "ordinary-1-loss-0-weak-11",
+  "ordinary-1-loss-0-weak-16"
+ ],
+ "calendar_scope": "Only the12publishedsource states are natural evidence. Every standalone frame is an isolated authored routine input; none is certified as a complete natural-calendar state. Local result/kind consistency is distinct from competition-stage/year/class validity."
+}
