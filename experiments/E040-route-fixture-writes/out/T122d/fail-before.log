@@ -1,0 +1,102 @@
+EEEEEEEE
+======================================================================
+ERROR: test_actual_signed_bands_and_injected_lower_bound_are_preserved (tests.test_port_news.HeadlineSack.test_actual_signed_bands_and_injected_lower_bound_are_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 342, in test_actual_signed_bands_and_injected_lower_bound_are_preserved
+    r.run('000E:319B',[pages],responder({'000E:0B77':score&65535,'1771:5C60':1,'214B:06B1':1}))
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:319B'
+
+======================================================================
+ERROR: test_equal_goal_shootout_bypasses_sack_score (tests.test_port_news.HeadlineSack.test_equal_goal_shootout_bypasses_sack_score)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 349, in test_equal_goal_shootout_bypasses_sack_score
+    r.run('000E:319B',[pages],responder({'000E:0B77':0xfff5,'214B:06B1':1}))
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:319B'
+
+======================================================================
+ERROR: test_four_exact_original_returns (tests.test_port_news.HeadlineSack.test_four_exact_original_returns)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 336, in test_four_exact_original_returns
+    self.assertEqual(reg.entries['000E:'+a].ret,ret)
+                     ~~~~~~~~~~~^^^^^^^^^^^
+KeyError: '000E:319B'
+
+======================================================================
+ERROR: test_full_flag_words_and_wait_before_unmanage (tests.test_port_news.HeadlineSack.test_full_flag_words_and_wait_before_unmanage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 381, in test_full_flag_words_and_wait_before_unmanage
+    r=self.outer((1,0),slots=(1,),sack=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 371, in outer
+    r.run('000E:4E0E',[FXOFF,FXSEG,country],answer)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:4E0E'
+
+======================================================================
+ERROR: test_goal_histogram_zero_and_first_strict_maximum (tests.test_port_news.HeadlineSack.test_goal_histogram_zero_and_first_strict_maximum)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 375, in test_goal_histogram_zero_and_first_strict_maximum
+    r=self.outer((0,1));self.assertEqual(r.u16(0x2FFE-6),0);self.assertEqual(r.args('1771:3A82'),[])
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 371, in outer
+    r.run('000E:4E0E',[FXOFF,FXSEG,country],answer)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:4E0E'
+
+======================================================================
+ERROR: test_statistics_dispatch_order_and_rows (tests.test_port_news.HeadlineSack.test_statistics_dispatch_order_and_rows)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 355, in test_statistics_dispatch_order_and_rows
+    r=Rig();r.run('000E:4DB7',[0x2800],responder({'000E:3CC8':first,'000E:4A87':second}))
+            ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:4DB7'
+
+======================================================================
+ERROR: test_unmanage_flags_precede_real_reset_and_roster_is_read_after_reset (tests.test_port_news.HeadlineSack.test_unmanage_flags_precede_real_reset_and_roster_is_read_after_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 408, in test_unmanage_flags_precede_real_reset_and_roster_is_read_after_reset
+    r.run('000E:01FA',[1],reset)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:01FA'
+
+======================================================================
+ERROR: test_zero_prefix_scan_reaches_real_nonzero_sentinel_beyond_36 (tests.test_port_news.HeadlineSack.test_zero_prefix_scan_reaches_real_nonzero_sentinel_beyond_36)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 417, in test_zero_prefix_scan_reaches_real_nonzero_sentinel_beyond_36
+    r,_=self.unmanage_frame(prefix=16);r.run('000E:01FA',[1])
+                                       ~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:01FA'
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.179s
+
+FAILED (errors=8)

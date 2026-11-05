@@ -39,7 +39,7 @@ class Shared(Case):
         reg = port._module_registry('news')
         expected = {a: 'ret 2' for a in '08F9 094A 09DB 0A53 0ACB 0B0A 0B4D 0B77 0C3A 1F4D 4865 0572'.split()}
         expected.update({'03C4':'ret 6', '045D':'ret 4', '04F5':'ret 4', '0868':'ret 0xa',
-                         '2E1F':'ret 0xe', '3A5E':'ret 6', '4045':'ret 0xa', '47E6':'ret 0xa', '11D9':'ret 2', '2071':'ret 2', '26F2':'ret 2'})
+                         '2E1F':'ret 0xe', '3A5E':'ret 6', '4045':'ret 0xa', '47E6':'ret 0xa', '11D9':'ret 2', '2071':'ret 2', '26F2':'ret 2', '319B':'ret 2', '01FA':'ret 2', '4DB7':'ret 2', '4E0E':'ret 6'})
         self.assertEqual({a: e.ret for a,e in reg.entries.items()}, {'000E:'+a:r for a,r in expected.items()})
 
     def test_crowd_uses_two_draws_per_seat_and_a_conditional_third(self):
@@ -320,3 +320,99 @@ class SecondaryText(Case):
                 self.assertEqual(result['status'],'completed',result['error'])
                 self.assertEqual(result['proof'][case[1]]['proved'],1)
                 self.assertEqual(result['proof'][case[1]]['before'],0)
+
+
+class HeadlineSack(Case):
+    def headline_frame(self,score=-11,goals=(0,1),kind=2,side=0):
+        r=Rig();news=0x2800;pages=0x2900;country=3 if side==0 else 4
+        r.lin16(pages+4,news);r.lin16(news+4,FXOFF);r.lin16(news+6,FXSEG);r.lin16(news+8,country)
+        r.lin8(news-1,side);r.lin8(news-2,0);r.lin16(news-6,1);r.lin8(news-0x1b+1,1)
+        r.fixture(kind,3,4);r.lin8(FXSEG*16+FXOFF,goals[0]);r.lin8(FXSEG*16+FXOFF+1,goals[1]);r.lin8(FXSEG*16+FXOFF+3,1-side)
+        return r,pages,news
+
+    def test_four_exact_original_returns(self):
+        reg=port._module_registry('news')
+        for a,ret in (('319B','ret 2'),('01FA','ret 2'),('4DB7','ret 2'),('4E0E','ret 6')):
+            self.assertEqual(reg.entries['000E:'+a].ret,ret)
+
+    def test_actual_signed_bands_and_injected_lower_bound_are_preserved(self):
+        # -255/-256 are explicit returned-value stress, not signed-byte manager states.
+        for score in (-256,-255,-128,-11,-10,-8,-7,-6,-5):
+            r,pages,news=self.headline_frame()
+            r.run('000E:319B',[pages],responder({'000E:0B77':score&65535,'1771:5C60':1,'214B:06B1':1}))
+            self.assertEqual(r.mem.memory[news-2],int(-255<=score<=-11),score)
+            self.assertEqual(len(r.args('000E:0B77')),1)
+            self.assertEqual(len(r.args('000E:2E1F')),1)
+
+    def test_equal_goal_shootout_bypasses_sack_score(self):
+        r,pages,news=self.headline_frame(goals=(1,1),kind=0x66)
+        r.run('000E:319B',[pages],responder({'000E:0B77':0xfff5,'214B:06B1':1}))
+        self.assertEqual(r.args('000E:0B77'),[]);self.assertEqual(r.mem.memory[news-2],0)
+        self.assertIn(0x306E,r.args('000E:2E1F')[0]);self.assertIn(0x3080,r.args('000E:2E1F')[0])
+
+    def test_statistics_dispatch_order_and_rows(self):
+        for first,second,want,row in ((0,0,['319B','3CC8','4440','4A87'],6),(1,0,['319B','3CC8','4A87','4440'],10),(1,1,['319B','3CC8','4A87'],None)):
+            r=Rig();r.run('000E:4DB7',[0x2800],responder({'000E:3CC8':first,'000E:4A87':second}))
+            self.assertEqual([a.split(':')[1] for a,_ in r.targets()],want)
+            self.assertEqual(r.args('000E:4440'),[(row,0x2FFE)] if row else [])
+
+    def outer(self,goals,slots=(),side=0,sack=False):
+        r=Rig();country=3 if side==0 else 4;r.fixture(0x67,3,4)
+        fx=FXSEG*16+FXOFF;r.lin8(fx,goals[0]);r.lin8(fx+1,goals[1]);r.lin8(fx+3,side)
+        r.country(country,0x2E,0x81);pending=list(slots);members=iter((0xC0DE,0xD0AD))
+        def answer(req,mem):
+            if req.target=='214B:0018':
+                seg,off,count,value=req.args;mem.memory[seg*16+off:seg*16+off+count]=bytes([value&255])*count
+            if req.target=='1771:3A82':return pending.pop(0)
+            if req.target=='000E:4DB7' and sack:r.lin8(req.args[0]-2,1)
+            if req.target=='000E:26F2':return 0xABCD
+            if req.target=='23E4:08DF':mem.regs['eflags']=0;return next(members)
+            return 0
+        r.run('000E:4E0E',[FXOFF,FXSEG,country],answer)
+        return r
+
+    def test_goal_histogram_zero_and_first_strict_maximum(self):
+        r=self.outer((0,1));self.assertEqual(r.u16(0x2FFE-6),0);self.assertEqual(r.args('1771:3A82'),[])
+        r=self.outer((4,0),slots=(2,4,2,4));self.assertEqual(r.u16(0x2FFE-6),2)
+        self.assertEqual(r.mem.memory[0x2FFE-0x1b+2],2);self.assertEqual(r.mem.memory[0x2FFE-0x1b+4],2)
+        self.assertEqual(len(r.args('1771:3A82')),4)
+
+    def test_full_flag_words_and_wait_before_unmanage(self):
+        r=self.outer((1,0),slots=(1,),sack=True)
+        self.assertEqual(r.args('000E:05F6'),[(0xAB00,0xC001,0xD001)])
+        order=[a for a,_ in r.targets()];self.assertLess(order.index('000E:05F6'),order.index('000E:01FA'))
+        self.assertEqual(r.args('000E:01FA'),[(1,)])
+
+    def unmanage_frame(self,prefix=1):
+        r=Rig();r.ds16(0xA91F,0x100);r.ds16(0xA921,0x5100);manager=0x51100+3*0x81
+        r.lin8(manager,3);r.country(3,0x2E,0x81);r.squad(3,list(range(100,120)))
+        for i,w in enumerate(range(100,120)):r.player(w,6,0x20);r.player(w,7,i%14)
+        r.ds16(0xA927,0x100);r.ds16(0xA929,0x5200);r.ds16(0x6D18+2,1)
+        for i,w in enumerate(range(300,380),1):r.lin16(0x52100+2*i,w);r.player(w,0,3)
+        r.ds16(0xA92F,0x100);r.ds16(0xA931,0x5400);listing=0x54100+3*0x48
+        for slot in range(21,37):r.lin16(listing+2*(slot-1),0 if slot<21+prefix else 1)
+        if prefix>=16:r.lin16(listing+2*36,1)
+        r.lin8(0x50008,0xFE)
+        return r,manager
+
+    def test_unmanage_flags_precede_real_reset_and_roster_is_read_after_reset(self):
+        r,manager=self.unmanage_frame();seen=[]
+        def reset(req,mem):
+            if req.target=='0791:BC5D':
+                self.assertEqual(r.mem.memory[GAME+0x48],1);self.assertEqual(r.mem.memory[manager+1],1)
+                from test_port_update import SQSEG,SQOFF
+                base=SQSEG*16+SQOFF+3*0xBF
+                self.assertEqual(r.mem.memory[base+0x2E],0x81)
+                words=list(range(100,120));words[0],words[11]=words[11],words[0];r.squad(3,words);r.player(111,6,3);seen.extend(words[11:])
+            return 0
+        r.run('000E:01FA',[1],reset)
+        self.assertEqual(len(seen),9)
+        from test_port_update import PSEG,POFF,SQSEG,SQOFF
+        for word in seen:self.assertEqual(r.mem.memory[PSEG*16+POFF+20*word+6],r.mem.memory[PSEG*16+POFF+20*word+7])
+        self.assertEqual(r.mem.memory[PSEG*16+POFF+20*111+6],3)
+        self.assertTrue(all(r.mem.memory[PSEG*16+POFF+20*w]==0 for w in range(300,380)))
+        self.assertEqual(r.mem.memory[SQSEG*16+SQOFF+3*0xBF+0x2E],3);self.assertEqual(r.mem.memory[0x50008],0xFF)
+
+    def test_zero_prefix_scan_reaches_real_nonzero_sentinel_beyond_36(self):
+        r,_=self.unmanage_frame(prefix=16);r.run('000E:01FA',[1])
+        self.assertEqual(r.u16(0x2FFE-2),37);self.assertEqual(r.mem.memory[0x50008],0xFE)
