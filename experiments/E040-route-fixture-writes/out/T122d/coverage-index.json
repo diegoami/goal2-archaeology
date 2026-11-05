@@ -1,0 +1,4992 @@
+{
+ "schema": "e040-t122d-coverage/1",
+ "task": "T122d",
+ "acceptance_source_commit": "113169a0bf7a3500d94fa6336dbef8c3719c9b34",
+ "accepted_receipts": [
+  {
+   "path": "corpus-a/prove-news+route+silent-20261105T203230Z.json",
+   "sha256": "eefab59a27bcd829ee699145ec0f0157435f0170bcb9f69ff15118c5142f3243",
+   "code_commit": "aec381ed4738c4f53d620a8921c7cca7c81ebbd5"
+  },
+  {
+   "path": "corpus-b/prove-news+route+silent-20261105T203230Z.json",
+   "sha256": "742c5180452f04845d6c9757c5191502248c01bdb3b553f2611f3e8eec38bd2a",
+   "code_commit": "aec381ed4738c4f53d620a8921c7cca7c81ebbd5"
+  },
+  {
+   "path": "corpus-c/prove-news+route+silent-20261105T203230Z.json",
+   "sha256": "85ac6b67c6692adfb9dd85ef1a90c70fcfbe6fd49b10e214a53ad877e84573c5",
+   "code_commit": "aec381ed4738c4f53d620a8921c7cca7c81ebbd5"
+  },
+  {
+   "path": "functions/function-normal-20261105T203418Z.json",
+   "sha256": "5fad89af15ae73c8968b8e8a8258aae09c3646fd7683f523bba41961fb3bd5fc",
+   "code_commit": "aec381ed4738c4f53d620a8921c7cca7c81ebbd5"
+  },
+  {
+   "path": "draw-supplement/function-normal-20261105T203813Z.json",
+   "sha256": "5b9a039dc93e8ccfe5293170a30c90f76f527f1500017458b4b3c92713eb480d",
+   "code_commit": "113169a0bf7a3500d94fa6336dbef8c3719c9b34"
+  },
+  {
+   "path": "falsifiers/function-headline-draw-dropped-20261105T203814Z.json",
+   "sha256": "e7a14cc5af11218e00c836d7b55fc44d0f4dc2c67cbc63976922d7b50c7e8805",
+   "code_commit": "113169a0bf7a3500d94fa6336dbef8c3719c9b34"
+  },
+  {
+   "path": "falsifiers-active/function-unmanage-manager-write-dropped-20261105T204325Z.json",
+   "sha256": "ccd9b50e11829ab423f7c0bd6a37d584c6edcf1ce7deb46676628b212c70db6d",
+   "code_commit": "113169a0bf7a3500d94fa6336dbef8c3719c9b34"
+  },
+  {
+   "path": "falsifiers-active/function-sack-threshold-minus-one-20261105T204324Z.json",
+   "sha256": "5e520caaada77324b1695f0a1d7e31cbc7ddd46c330f0ebe914615c8af2eb46f",
+   "code_commit": "113169a0bf7a3500d94fa6336dbef8c3719c9b34"
+  },
+  {
+   "path": "transcription-completeness.json",
+   "sha256": "faf52de7a79ab5bc3e2f869abfb3ad9601f912f7614ba7088db7d6c676b76823",
+   "code_commit": "aec381ed4738c4f53d620a8921c7cca7c81ebbd5"
+  },
+  {
+   "path": "main-call-audit-113169a0.json",
+   "sha256": "a02508154eb8d5f28ba48557d1808da7d124c69972bae7dc7aeacf4ebb03be36",
+   "code_commit": "113169a0bf7a3500d94fa6336dbef8c3719c9b34"
+  }
+ ],
+ "counts": {
+  "unique_published_states": 12,
+  "declared_route_edits": 4,
+  "route_passes": 32,
+  "finalized_outer_6CA7_proofs": 16,
+  "function_domain_inputs": 266,
+  "function_by_entry": {
+   "319B": 174,
+   "4E0E": 44,
+   "4DB7": 32,
+   "01FA": 14,
+   "route-fragment": 2
+  },
+  "function_categories": {
+   "isolated-headline-news-frame": 250,
+   "isolated-unmanage-stress": 14,
+   "declared-original-route-fragment": 2
+  },
+  "bounded_original_news_loop_fragments": 2,
+  "required_caught_mutations": 3,
+  "headline_rng_sites": 9
+ },
+ "coverage": {
+  "000E:01FA": {
+   "published_route": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "declared_route_edits": {
+    "calls": 0,
+    "proved": 0,
+    "nested": 0
+   },
+   "function_frames": {
+    "calls": 16,
+    "proved": 14,
+    "nested": 2
+   }
+  },
+  "000E:319B": {
+   "published_route": {
+    "calls": 24,
+    "proved": 0,
+    "nested": 24
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 0,
+    "nested": 4
+   },
+   "function_frames": {
+    "calls": 178,
+    "proved": 174,
+    "nested": 4
+   }
+  },
+  "000E:4DB7": {
+   "published_route": {
+    "calls": 24,
+    "proved": 0,
+    "nested": 24
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 0,
+    "nested": 4
+   },
+   "function_frames": {
+    "calls": 36,
+    "proved": 32,
+    "nested": 4
+   }
+  },
+  "000E:4E0E": {
+   "published_route": {
+    "calls": 24,
+    "proved": 12,
+    "nested": 12
+   },
+   "declared_route_edits": {
+    "calls": 4,
+    "proved": 2,
+    "nested": 2
+   },
+   "function_frames": {
+    "calls": 48,
+    "proved": 48,
+    "nested": 0
+   }
+  }
+ },
+ "actual_decision_values": {
+  "000E:0B77": [
+   -128,
+   -11,
+   -10,
+   -8,
+   -7,
+   -6,
+   -5,
+   0
+  ],
+  "000E:3CC8": [
+   0,
+   1
+  ],
+  "000E:4A87": [
+   0,
+   1
+  ],
+  "000E:1F4D": [
+   0,
+   1
+  ],
+  "000E:09DB": [
+   0,
+   1
+  ],
+  "000E:0A53": [
+   0,
+   1
+  ],
+  "214B:06B1": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "1771:3A82": [
+   0,
+   1,
+   2,
+   4
+  ],
+  "1771:5C60": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "1771:0B77": [
+   1
+  ]
+ },
+ "actual_raw_ax_values": {
+  "000E:0B77": [
+   0,
+   65408,
+   65525,
+   65526,
+   65528,
+   65529,
+   65530,
+   65531
+  ],
+  "000E:3CC8": [
+   0,
+   5889
+  ],
+  "000E:4A87": [
+   0,
+   5889
+  ],
+  "000E:1F4D": [
+   0,
+   1
+  ],
+  "000E:09DB": [
+   0,
+   1
+  ],
+  "000E:0A53": [
+   0,
+   1
+  ],
+  "214B:06B1": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "1771:3A82": [
+   0,
+   1,
+   2,
+   4
+  ],
+  "1771:5C60": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "1771:0B77": [
+   1281,
+   5121
+  ]
+ },
+ "decision_value_widths": {
+  "000E:0B77": "AX signed16 (real sign-extended manager confidence)",
+  "000E:3CC8": "AL unsigned8 boolean; raw AX retained, AH preserved and compared",
+  "000E:4A87": "AL unsigned8 boolean; raw AX retained, AH preserved and compared",
+  "000E:1F4D": "AL unsigned8 boolean; raw AX retained, AH preserved and compared",
+  "000E:09DB": "AL unsigned8 boolean; raw AX retained, AH preserved and compared",
+  "000E:0A53": "AL unsigned8 boolean; raw AX retained, AH preserved and compared",
+  "214B:06B1": "AX unsigned16",
+  "1771:3A82": "AX unsigned16",
+  "1771:5C60": "AX unsigned16",
+  "1771:0B77": "AL unsigned8 boolean; raw AX retained, AH preserved and compared"
+ },
+ "headline_rng_choices_by_return": {
+  "000E:336B": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:3409": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:34AE": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:3645": [
+   1,
+   2
+  ],
+  "000E:3698": [
+   1,
+   2
+  ],
+  "000E:37CE": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:387A": [
+   1,
+   2,
+   3
+  ],
+  "000E:3901": [
+   1,
+   2,
+   3
+  ],
+  "000E:397A": [
+   1,
+   2,
+   3,
+   4
+  ]
+ },
+ "route_fragments": [
+  {
+   "case": "route-fragment-0",
+   "start": "000E:6F91",
+   "stop_before": "000E:6FE1",
+   "complete_6CA7_proof": false,
+   "checks": {
+    "actual_original_ownership_results": [
+     1,
+     1
+    ],
+    "news_order": [
+     7,
+     27
+    ],
+    "wait_order": [
+     7,
+     27
+    ],
+    "released": [
+     7
+    ],
+    "expected_order": [
+     7,
+     27
+    ],
+    "second_manager_after": 130
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28635,
+     "ss": 14453,
+     "sp": 16064,
+     "caller_bp": 16094
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 1,
+     "expected_sack_flag": 1,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    },
+    {
+     "event": "unmanage-entry",
+     "manager_index": 1,
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1,
+     "return_ip": 20371
+    },
+    {
+     "event": "reset-entry",
+     "country": 7,
+     "manager": 129,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 7,
+     "manager": 129,
+     "roster": [
+      121,
+      122,
+      124,
+      123,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      140,
+      139
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 7,
+     "new_manager": 7,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 7,
+     "expected_future_fe": 7
+    },
+    {
+     "event": "news-entry",
+     "country": 27,
+     "manager": 130,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28635,
+     "ss": 14453,
+     "sp": 16064,
+     "caller_bp": 16094
+    },
+    {
+     "event": "wait-entry",
+     "country": 27,
+     "manager": 130,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "expected_histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 1
+    },
+    {
+     "event": "wait-return",
+     "country": 27,
+     "manager": 130,
+     "key_reads": 2
+    }
+   ]
+  },
+  {
+   "case": "route-fragment-1",
+   "start": "000E:6F91",
+   "stop_before": "000E:6FE1",
+   "complete_6CA7_proof": false,
+   "checks": {
+    "actual_original_ownership_results": [
+     1,
+     1
+    ],
+    "news_order": [
+     27,
+     7
+    ],
+    "wait_order": [
+     27,
+     7
+    ],
+    "released": [
+     27
+    ],
+    "expected_order": [
+     27,
+     7
+    ],
+    "second_manager_after": 129
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 27,
+     "manager": 130,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28635,
+     "ss": 14453,
+     "sp": 16064,
+     "caller_bp": 16094
+    },
+    {
+     "event": "wait-entry",
+     "country": 27,
+     "manager": 130,
+     "sack_flag": 1,
+     "expected_sack_flag": 1,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 27,
+     "manager": 130,
+     "key_reads": 1
+    },
+    {
+     "event": "unmanage-entry",
+     "manager_index": 2,
+     "country": 27,
+     "manager": 130,
+     "key_reads": 1,
+     "return_ip": 20371
+    },
+    {
+     "event": "reset-entry",
+     "country": 27,
+     "manager": 130,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      521,
+      522,
+      523,
+      524,
+      525,
+      526,
+      527,
+      528,
+      529,
+      530,
+      531,
+      532,
+      533,
+      534,
+      535,
+      536,
+      537,
+      538,
+      539,
+      540
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 27,
+     "manager": 130,
+     "roster": [
+      521,
+      523,
+      522,
+      524,
+      525,
+      526,
+      527,
+      528,
+      529,
+      530,
+      531,
+      532,
+      534,
+      533,
+      535,
+      536,
+      537,
+      538,
+      539,
+      540
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 27,
+     "new_manager": 27,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 7,
+     "expected_future_fe": 7
+    },
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28635,
+     "ss": 14453,
+     "sp": 16064,
+     "caller_bp": 16094
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "expected_histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 1
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 2
+    }
+   ]
+  }
+ ],
+ "real_sack_and_release_profiles": [
+  {
+   "case": "outer-band-0--128",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "score": -128
+   },
+   "checks": {
+    "headline_real_scores": [
+     -128
+    ],
+    "expected_headline_real_scores": [
+     -128
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 1,
+     "expected_sack_flag": 1,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    },
+    {
+     "event": "unmanage-entry",
+     "manager_index": 1,
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1,
+     "return_ip": 20371
+    },
+    {
+     "event": "reset-entry",
+     "country": 7,
+     "manager": 129,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 7,
+     "manager": 129,
+     "roster": [
+      121,
+      122,
+      124,
+      123,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      140,
+      139
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 7,
+     "new_manager": 7,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 7,
+     "expected_future_fe": 7
+    }
+   ]
+  },
+  {
+   "case": "outer-band-0--11",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "score": -11
+   },
+   "checks": {
+    "headline_real_scores": [
+     -11
+    ],
+    "expected_headline_real_scores": [
+     -11
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 1,
+     "expected_sack_flag": 1,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    },
+    {
+     "event": "unmanage-entry",
+     "manager_index": 1,
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1,
+     "return_ip": 20371
+    },
+    {
+     "event": "reset-entry",
+     "country": 7,
+     "manager": 129,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 7,
+     "manager": 129,
+     "roster": [
+      121,
+      122,
+      124,
+      123,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      140,
+      139
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 7,
+     "new_manager": 7,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 7,
+     "expected_future_fe": 7
+    }
+   ]
+  },
+  {
+   "case": "outer-band-0--10",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "score": -10
+   },
+   "checks": {
+    "headline_real_scores": [
+     -10
+    ],
+    "expected_headline_real_scores": [
+     -10
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-band-0--8",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "score": -8
+   },
+   "checks": {
+    "headline_real_scores": [
+     -8
+    ],
+    "expected_headline_real_scores": [
+     -8
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-band-0--7",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "score": -7
+   },
+   "checks": {
+    "headline_real_scores": [
+     -7
+    ],
+    "expected_headline_real_scores": [
+     -7
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-band-0--6",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "score": -6
+   },
+   "checks": {
+    "headline_real_scores": [
+     -6
+    ],
+    "expected_headline_real_scores": [
+     -6
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-band-0--5",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "score": -5
+   },
+   "checks": {
+    "headline_real_scores": [
+     -5
+    ],
+    "expected_headline_real_scores": [
+     -5
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-exempt-0-year",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "score": -11,
+    "year": 1
+   },
+   "checks": {
+    "headline_real_scores": [
+     0
+    ],
+    "expected_headline_real_scores": [
+     0
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-exempt-0-friendly",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "score": -11,
+    "kind": 1
+   },
+   "checks": {
+    "headline_real_scores": [
+     0
+    ],
+    "expected_headline_real_scores": [
+     0
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-exempt-0-continent-group",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "score": -11,
+    "kind": 3,
+    "stage": 3,
+    "group": 1
+   },
+   "checks": {
+    "headline_real_scores": [
+     0
+    ],
+    "expected_headline_real_scores": [
+     0
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-exempt-0-world-group",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "score": -11,
+    "kind": 7,
+    "stage": 7,
+    "group": 1
+   },
+   "checks": {
+    "headline_real_scores": [
+     0
+    ],
+    "expected_headline_real_scores": [
+     0
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-exempt-0-country-exempt",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "score": -11,
+    "exempt": 1
+   },
+   "checks": {
+    "headline_real_scores": [
+     0
+    ],
+    "expected_headline_real_scores": [
+     0
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-shootout-0",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "score": -11,
+    "kind": 102,
+    "goals": [
+     1,
+     1
+    ],
+    "winner": 1,
+    "slots": [
+     1
+    ]
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "expected_histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-hist-0-0-0",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "result": "loss",
+    "slots": [],
+    "score": -5
+   },
+   "checks": {
+    "headline_real_scores": [
+     -5
+    ],
+    "expected_headline_real_scores": [
+     -5
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-hist-0-1-1",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "result": "win",
+    "slots": [
+     1
+    ],
+    "score": -5
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "expected_histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-hist-0-4-2",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "result": "win",
+    "slots": [
+     2,
+     4,
+     2,
+     4
+    ],
+    "score": -5
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "4f2c6add943a55448721d87130f43ed8d47fbb78a1adacdec435050a03d59b46",
+     "expected_histogram_sha256": "4f2c6add943a55448721d87130f43ed8d47fbb78a1adacdec435050a03d59b46",
+     "top_slot": 2,
+     "expected_top": 2,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-hist-0-2-0",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "result": "win",
+    "slots": [
+     0,
+     0
+    ],
+    "score": -5
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "5128c57db27840ce9edbb49b70453386227c78f9c9fc5f17a40af4df55f46f9c",
+     "expected_histogram_sha256": "5128c57db27840ce9edbb49b70453386227c78f9c9fc5f17a40af4df55f46f9c",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-winner-flag-0-103",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "result": "win",
+    "kind": 103,
+    "slots": [
+     1
+    ]
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      1,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      1,
+      0,
+      0
+     ],
+     "histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "expected_histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-winner-flag-0-203",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "result": "win",
+    "kind": 203,
+    "slots": [
+     1
+    ]
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      1,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      1,
+      0,
+      0
+     ],
+     "histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "expected_histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-threshold-0-below-1",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "result": "win",
+    "slots": [
+     1
+    ],
+    "threshold": "below",
+    "member": true
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      1,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      1,
+      0
+     ],
+     "histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "expected_histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-threshold-0-below-0",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "result": "win",
+    "slots": [
+     1
+    ],
+    "threshold": "below",
+    "member": false
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "expected_histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-threshold-0-equal-1",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "side": 0,
+    "result": "win",
+    "slots": [
+     1
+    ],
+    "threshold": "equal",
+    "member": true
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "expected_histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-band-1--128",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "score": -128
+   },
+   "checks": {
+    "headline_real_scores": [
+     -128
+    ],
+    "expected_headline_real_scores": [
+     -128
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 1,
+     "expected_sack_flag": 1,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    },
+    {
+     "event": "unmanage-entry",
+     "manager_index": 1,
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1,
+     "return_ip": 20371
+    },
+    {
+     "event": "reset-entry",
+     "country": 7,
+     "manager": 129,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 7,
+     "manager": 129,
+     "roster": [
+      121,
+      122,
+      124,
+      123,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      140,
+      139
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 7,
+     "new_manager": 7,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 7,
+     "expected_future_fe": 7
+    }
+   ]
+  },
+  {
+   "case": "outer-band-1--11",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "score": -11
+   },
+   "checks": {
+    "headline_real_scores": [
+     -11
+    ],
+    "expected_headline_real_scores": [
+     -11
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 1,
+     "expected_sack_flag": 1,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    },
+    {
+     "event": "unmanage-entry",
+     "manager_index": 1,
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1,
+     "return_ip": 20371
+    },
+    {
+     "event": "reset-entry",
+     "country": 7,
+     "manager": 129,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 7,
+     "manager": 129,
+     "roster": [
+      121,
+      122,
+      124,
+      123,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      140,
+      139
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 7,
+     "new_manager": 7,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 7,
+     "expected_future_fe": 7
+    }
+   ]
+  },
+  {
+   "case": "outer-band-1--10",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "score": -10
+   },
+   "checks": {
+    "headline_real_scores": [
+     -10
+    ],
+    "expected_headline_real_scores": [
+     -10
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-band-1--8",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "score": -8
+   },
+   "checks": {
+    "headline_real_scores": [
+     -8
+    ],
+    "expected_headline_real_scores": [
+     -8
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-band-1--7",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "score": -7
+   },
+   "checks": {
+    "headline_real_scores": [
+     -7
+    ],
+    "expected_headline_real_scores": [
+     -7
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-band-1--6",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "score": -6
+   },
+   "checks": {
+    "headline_real_scores": [
+     -6
+    ],
+    "expected_headline_real_scores": [
+     -6
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-band-1--5",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "score": -5
+   },
+   "checks": {
+    "headline_real_scores": [
+     -5
+    ],
+    "expected_headline_real_scores": [
+     -5
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-exempt-1-year",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "score": -11,
+    "year": 1
+   },
+   "checks": {
+    "headline_real_scores": [
+     0
+    ],
+    "expected_headline_real_scores": [
+     0
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-exempt-1-friendly",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "score": -11,
+    "kind": 1
+   },
+   "checks": {
+    "headline_real_scores": [
+     0
+    ],
+    "expected_headline_real_scores": [
+     0
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-exempt-1-continent-group",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "score": -11,
+    "kind": 3,
+    "stage": 3,
+    "group": 1
+   },
+   "checks": {
+    "headline_real_scores": [
+     0
+    ],
+    "expected_headline_real_scores": [
+     0
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-exempt-1-world-group",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "score": -11,
+    "kind": 7,
+    "stage": 7,
+    "group": 1
+   },
+   "checks": {
+    "headline_real_scores": [
+     0
+    ],
+    "expected_headline_real_scores": [
+     0
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-exempt-1-country-exempt",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "score": -11,
+    "exempt": 1
+   },
+   "checks": {
+    "headline_real_scores": [
+     0
+    ],
+    "expected_headline_real_scores": [
+     0
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-shootout-1",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "score": -11,
+    "kind": 102,
+    "goals": [
+     1,
+     1
+    ],
+    "winner": 0,
+    "slots": [
+     1
+    ]
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "expected_histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-hist-1-0-0",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "result": "loss",
+    "slots": [],
+    "score": -5
+   },
+   "checks": {
+    "headline_real_scores": [
+     -5
+    ],
+    "expected_headline_real_scores": [
+     -5
+    ]
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "expected_histogram_sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2",
+     "top_slot": 0,
+     "expected_top": 0,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-hist-1-1-1",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "result": "win",
+    "slots": [
+     1
+    ],
+    "score": -5
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "expected_histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-hist-1-4-2",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "result": "win",
+    "slots": [
+     2,
+     4,
+     2,
+     4
+    ],
+    "score": -5
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "4f2c6add943a55448721d87130f43ed8d47fbb78a1adacdec435050a03d59b46",
+     "expected_histogram_sha256": "4f2c6add943a55448721d87130f43ed8d47fbb78a1adacdec435050a03d59b46",
+     "top_slot": 2,
+     "expected_top": 2,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-hist-1-2-0",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "result": "win",
+    "slots": [
+     0,
+     0
+    ],
+    "score": -5
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "5128c57db27840ce9edbb49b70453386227c78f9c9fc5f17a40af4df55f46f9c",
+     "expected_histogram_sha256": "5128c57db27840ce9edbb49b70453386227c78f9c9fc5f17a40af4df55f46f9c",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-winner-flag-1-103",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "result": "win",
+    "kind": 103,
+    "slots": [
+     1
+    ]
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      1,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      1,
+      0,
+      0
+     ],
+     "histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "expected_histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-winner-flag-1-203",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "result": "win",
+    "kind": 203,
+    "slots": [
+     1
+    ]
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      1,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      1,
+      0,
+      0
+     ],
+     "histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "expected_histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-threshold-1-below-1",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "result": "win",
+    "slots": [
+     1
+    ],
+    "threshold": "below",
+    "member": true
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      1,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      1,
+      0
+     ],
+     "histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "expected_histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-threshold-1-below-0",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "result": "win",
+    "slots": [
+     1
+    ],
+    "threshold": "below",
+    "member": false
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "expected_histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "outer-threshold-1-equal-1",
+   "entry": "4E0E",
+   "country": 7,
+   "manager": 129,
+   "side": 1,
+   "authored_inputs": {
+    "side": 1,
+    "result": "win",
+    "slots": [
+     1
+    ],
+    "threshold": "equal",
+    "member": true
+   },
+   "checks": {
+    "headline_real_scores": [],
+    "expected_headline_real_scores": []
+   },
+   "timeline": [
+    {
+     "event": "news-entry",
+     "country": 7,
+     "manager": 129,
+     "fxoff": 22,
+     "fxseg": 23988,
+     "return_ip": 28800,
+     "ss": 14453,
+     "sp": 14592,
+     "caller_bp": 16128
+    },
+    {
+     "event": "wait-entry",
+     "country": 7,
+     "manager": 129,
+     "sack_flag": 0,
+     "expected_sack_flag": 0,
+     "words_f1_f2_f3": [
+      0,
+      0,
+      8192
+     ],
+     "expected_low_bytes": [
+      0,
+      0,
+      0
+     ],
+     "histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "expected_histogram_sha256": "77a3a7d54c92236d443ecc4c0660a2d0a4940cf0389cdba792874a20bf6e87b6",
+     "top_slot": 1,
+     "expected_top": 1,
+     "key_reads": 0
+    },
+    {
+     "event": "wait-return",
+     "country": 7,
+     "manager": 129,
+     "key_reads": 1
+    }
+   ]
+  },
+  {
+   "case": "unmanage-1-0-0",
+   "entry": "01FA",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "two": true,
+    "side": 0,
+    "prefix": 0,
+    "reverse": false
+   },
+   "checks": {},
+   "timeline": [
+    {
+     "event": "unmanage-entry",
+     "manager_index": 1,
+     "country": 7,
+     "manager": 129,
+     "key_reads": 0,
+     "return_ip": 28800
+    },
+    {
+     "event": "reset-entry",
+     "country": 7,
+     "manager": 129,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 7,
+     "manager": 129,
+     "roster": [
+      121,
+      122,
+      124,
+      123,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      140,
+      139
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 7,
+     "new_manager": 7,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 8,
+     "expected_future_fe": 8
+    }
+   ]
+  },
+  {
+   "case": "unmanage-1-0-1",
+   "entry": "01FA",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "two": true,
+    "side": 0,
+    "prefix": 0,
+    "reverse": true
+   },
+   "checks": {
+    "actual_reset_changed_roster_order": [
+     true
+    ]
+   },
+   "timeline": [
+    {
+     "event": "unmanage-entry",
+     "manager_index": 1,
+     "country": 7,
+     "manager": 129,
+     "key_reads": 0,
+     "return_ip": 28800
+    },
+    {
+     "event": "reset-entry",
+     "country": 7,
+     "manager": 129,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      140,
+      139,
+      138,
+      137,
+      136,
+      135,
+      134,
+      133,
+      132,
+      131,
+      130,
+      129,
+      128,
+      127,
+      126,
+      125,
+      124,
+      123,
+      122,
+      121
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 7,
+     "manager": 129,
+     "roster": [
+      132,
+      133,
+      134,
+      135,
+      136,
+      130,
+      137,
+      138,
+      131,
+      139,
+      140,
+      121,
+      122,
+      124,
+      123,
+      125,
+      126,
+      127,
+      128,
+      129
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 7,
+     "new_manager": 7,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 8,
+     "expected_future_fe": 8
+    }
+   ]
+  },
+  {
+   "case": "unmanage-1-2-0",
+   "entry": "01FA",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "two": true,
+    "side": 0,
+    "prefix": 2,
+    "reverse": false
+   },
+   "checks": {},
+   "timeline": [
+    {
+     "event": "unmanage-entry",
+     "manager_index": 1,
+     "country": 7,
+     "manager": 129,
+     "key_reads": 0,
+     "return_ip": 28800
+    },
+    {
+     "event": "reset-entry",
+     "country": 7,
+     "manager": 129,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 7,
+     "manager": 129,
+     "roster": [
+      121,
+      122,
+      124,
+      123,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      140,
+      139
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 7,
+     "new_manager": 7,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 7,
+     "expected_future_fe": 7
+    }
+   ]
+  },
+  {
+   "case": "unmanage-1-2-1",
+   "entry": "01FA",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "two": true,
+    "side": 0,
+    "prefix": 2,
+    "reverse": true
+   },
+   "checks": {
+    "actual_reset_changed_roster_order": [
+     true
+    ]
+   },
+   "timeline": [
+    {
+     "event": "unmanage-entry",
+     "manager_index": 1,
+     "country": 7,
+     "manager": 129,
+     "key_reads": 0,
+     "return_ip": 28800
+    },
+    {
+     "event": "reset-entry",
+     "country": 7,
+     "manager": 129,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      140,
+      139,
+      138,
+      137,
+      136,
+      135,
+      134,
+      133,
+      132,
+      131,
+      130,
+      129,
+      128,
+      127,
+      126,
+      125,
+      124,
+      123,
+      122,
+      121
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 7,
+     "manager": 129,
+     "roster": [
+      132,
+      133,
+      134,
+      135,
+      136,
+      130,
+      137,
+      138,
+      131,
+      139,
+      140,
+      121,
+      122,
+      124,
+      123,
+      125,
+      126,
+      127,
+      128,
+      129
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 7,
+     "new_manager": 7,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 7,
+     "expected_future_fe": 7
+    }
+   ]
+  },
+  {
+   "case": "unmanage-1-16-0",
+   "entry": "01FA",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "two": true,
+    "side": 0,
+    "prefix": 16,
+    "reverse": false
+   },
+   "checks": {},
+   "timeline": [
+    {
+     "event": "unmanage-entry",
+     "manager_index": 1,
+     "country": 7,
+     "manager": 129,
+     "key_reads": 0,
+     "return_ip": 28800
+    },
+    {
+     "event": "reset-entry",
+     "country": 7,
+     "manager": 129,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 7,
+     "manager": 129,
+     "roster": [
+      121,
+      122,
+      124,
+      123,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      140,
+      139
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 7,
+     "new_manager": 7,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 0,
+     "expected_future_fe": 0
+    }
+   ]
+  },
+  {
+   "case": "unmanage-1-16-1",
+   "entry": "01FA",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "two": true,
+    "side": 0,
+    "prefix": 16,
+    "reverse": true
+   },
+   "checks": {
+    "actual_reset_changed_roster_order": [
+     true
+    ]
+   },
+   "timeline": [
+    {
+     "event": "unmanage-entry",
+     "manager_index": 1,
+     "country": 7,
+     "manager": 129,
+     "key_reads": 0,
+     "return_ip": 28800
+    },
+    {
+     "event": "reset-entry",
+     "country": 7,
+     "manager": 129,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      140,
+      139,
+      138,
+      137,
+      136,
+      135,
+      134,
+      133,
+      132,
+      131,
+      130,
+      129,
+      128,
+      127,
+      126,
+      125,
+      124,
+      123,
+      122,
+      121
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 7,
+     "manager": 129,
+     "roster": [
+      132,
+      133,
+      134,
+      135,
+      136,
+      130,
+      137,
+      138,
+      131,
+      139,
+      140,
+      121,
+      122,
+      124,
+      123,
+      125,
+      126,
+      127,
+      128,
+      129
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 7,
+     "new_manager": 7,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 0,
+     "expected_future_fe": 0
+    }
+   ]
+  },
+  {
+   "case": "unmanage-wrap-1",
+   "entry": "01FA",
+   "country": 7,
+   "manager": 129,
+   "side": 0,
+   "authored_inputs": {
+    "two": true,
+    "side": 0,
+    "wrap": true
+   },
+   "checks": {},
+   "timeline": [
+    {
+     "event": "unmanage-entry",
+     "manager_index": 1,
+     "country": 7,
+     "manager": 129,
+     "key_reads": 0,
+     "return_ip": 28800
+    },
+    {
+     "event": "reset-entry",
+     "country": 7,
+     "manager": 129,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 7,
+     "manager": 129,
+     "roster": [
+      121,
+      122,
+      124,
+      123,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      140,
+      139
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 7,
+     "new_manager": 7,
+     "pool_zero": 0,
+     "expected_pool_zero": 0,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 7,
+     "expected_future_fe": 7
+    }
+   ]
+  },
+  {
+   "case": "unmanage-2-0-0",
+   "entry": "01FA",
+   "country": 27,
+   "manager": 130,
+   "side": 1,
+   "authored_inputs": {
+    "two": true,
+    "side": 1,
+    "prefix": 0,
+    "reverse": false
+   },
+   "checks": {},
+   "timeline": [
+    {
+     "event": "unmanage-entry",
+     "manager_index": 2,
+     "country": 27,
+     "manager": 130,
+     "key_reads": 0,
+     "return_ip": 28800
+    },
+    {
+     "event": "reset-entry",
+     "country": 27,
+     "manager": 130,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      521,
+      522,
+      523,
+      524,
+      525,
+      526,
+      527,
+      528,
+      529,
+      530,
+      531,
+      532,
+      533,
+      534,
+      535,
+      536,
+      537,
+      538,
+      539,
+      540
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 27,
+     "manager": 130,
+     "roster": [
+      521,
+      523,
+      522,
+      524,
+      525,
+      526,
+      527,
+      528,
+      529,
+      530,
+      531,
+      532,
+      534,
+      533,
+      535,
+      536,
+      537,
+      538,
+      539,
+      540
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 27,
+     "new_manager": 27,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 8,
+     "expected_future_fe": 8
+    }
+   ]
+  },
+  {
+   "case": "unmanage-2-0-1",
+   "entry": "01FA",
+   "country": 27,
+   "manager": 130,
+   "side": 1,
+   "authored_inputs": {
+    "two": true,
+    "side": 1,
+    "prefix": 0,
+    "reverse": true
+   },
+   "checks": {
+    "actual_reset_changed_roster_order": [
+     true
+    ]
+   },
+   "timeline": [
+    {
+     "event": "unmanage-entry",
+     "manager_index": 2,
+     "country": 27,
+     "manager": 130,
+     "key_reads": 0,
+     "return_ip": 28800
+    },
+    {
+     "event": "reset-entry",
+     "country": 27,
+     "manager": 130,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      540,
+      539,
+      538,
+      537,
+      536,
+      535,
+      534,
+      533,
+      532,
+      531,
+      530,
+      529,
+      528,
+      527,
+      526,
+      525,
+      524,
+      523,
+      522,
+      521
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 27,
+     "manager": 130,
+     "roster": [
+      532,
+      534,
+      533,
+      535,
+      536,
+      537,
+      530,
+      538,
+      539,
+      531,
+      540,
+      521,
+      523,
+      522,
+      524,
+      525,
+      526,
+      527,
+      528,
+      529
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 27,
+     "new_manager": 27,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 8,
+     "expected_future_fe": 8
+    }
+   ]
+  },
+  {
+   "case": "unmanage-2-2-0",
+   "entry": "01FA",
+   "country": 27,
+   "manager": 130,
+   "side": 1,
+   "authored_inputs": {
+    "two": true,
+    "side": 1,
+    "prefix": 2,
+    "reverse": false
+   },
+   "checks": {},
+   "timeline": [
+    {
+     "event": "unmanage-entry",
+     "manager_index": 2,
+     "country": 27,
+     "manager": 130,
+     "key_reads": 0,
+     "return_ip": 28800
+    },
+    {
+     "event": "reset-entry",
+     "country": 27,
+     "manager": 130,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      521,
+      522,
+      523,
+      524,
+      525,
+      526,
+      527,
+      528,
+      529,
+      530,
+      531,
+      532,
+      533,
+      534,
+      535,
+      536,
+      537,
+      538,
+      539,
+      540
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 27,
+     "manager": 130,
+     "roster": [
+      521,
+      523,
+      522,
+      524,
+      525,
+      526,
+      527,
+      528,
+      529,
+      530,
+      531,
+      532,
+      534,
+      533,
+      535,
+      536,
+      537,
+      538,
+      539,
+      540
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 27,
+     "new_manager": 27,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 7,
+     "expected_future_fe": 7
+    }
+   ]
+  },
+  {
+   "case": "unmanage-2-2-1",
+   "entry": "01FA",
+   "country": 27,
+   "manager": 130,
+   "side": 1,
+   "authored_inputs": {
+    "two": true,
+    "side": 1,
+    "prefix": 2,
+    "reverse": true
+   },
+   "checks": {
+    "actual_reset_changed_roster_order": [
+     true
+    ]
+   },
+   "timeline": [
+    {
+     "event": "unmanage-entry",
+     "manager_index": 2,
+     "country": 27,
+     "manager": 130,
+     "key_reads": 0,
+     "return_ip": 28800
+    },
+    {
+     "event": "reset-entry",
+     "country": 27,
+     "manager": 130,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      540,
+      539,
+      538,
+      537,
+      536,
+      535,
+      534,
+      533,
+      532,
+      531,
+      530,
+      529,
+      528,
+      527,
+      526,
+      525,
+      524,
+      523,
+      522,
+      521
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 27,
+     "manager": 130,
+     "roster": [
+      532,
+      534,
+      533,
+      535,
+      536,
+      537,
+      530,
+      538,
+      539,
+      531,
+      540,
+      521,
+      523,
+      522,
+      524,
+      525,
+      526,
+      527,
+      528,
+      529
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 27,
+     "new_manager": 27,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 7,
+     "expected_future_fe": 7
+    }
+   ]
+  },
+  {
+   "case": "unmanage-2-16-0",
+   "entry": "01FA",
+   "country": 27,
+   "manager": 130,
+   "side": 1,
+   "authored_inputs": {
+    "two": true,
+    "side": 1,
+    "prefix": 16,
+    "reverse": false
+   },
+   "checks": {},
+   "timeline": [
+    {
+     "event": "unmanage-entry",
+     "manager_index": 2,
+     "country": 27,
+     "manager": 130,
+     "key_reads": 0,
+     "return_ip": 28800
+    },
+    {
+     "event": "reset-entry",
+     "country": 27,
+     "manager": 130,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      521,
+      522,
+      523,
+      524,
+      525,
+      526,
+      527,
+      528,
+      529,
+      530,
+      531,
+      532,
+      533,
+      534,
+      535,
+      536,
+      537,
+      538,
+      539,
+      540
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 27,
+     "manager": 130,
+     "roster": [
+      521,
+      523,
+      522,
+      524,
+      525,
+      526,
+      527,
+      528,
+      529,
+      530,
+      531,
+      532,
+      534,
+      533,
+      535,
+      536,
+      537,
+      538,
+      539,
+      540
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 27,
+     "new_manager": 27,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 0,
+     "expected_future_fe": 0
+    }
+   ]
+  },
+  {
+   "case": "unmanage-2-16-1",
+   "entry": "01FA",
+   "country": 27,
+   "manager": 130,
+   "side": 1,
+   "authored_inputs": {
+    "two": true,
+    "side": 1,
+    "prefix": 16,
+    "reverse": true
+   },
+   "checks": {
+    "actual_reset_changed_roster_order": [
+     true
+    ]
+   },
+   "timeline": [
+    {
+     "event": "unmanage-entry",
+     "manager_index": 2,
+     "country": 27,
+     "manager": 130,
+     "key_reads": 0,
+     "return_ip": 28800
+    },
+    {
+     "event": "reset-entry",
+     "country": 27,
+     "manager": 130,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      540,
+      539,
+      538,
+      537,
+      536,
+      535,
+      534,
+      533,
+      532,
+      531,
+      530,
+      529,
+      528,
+      527,
+      526,
+      525,
+      524,
+      523,
+      522,
+      521
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 27,
+     "manager": 130,
+     "roster": [
+      532,
+      534,
+      533,
+      535,
+      536,
+      537,
+      530,
+      538,
+      539,
+      531,
+      540,
+      521,
+      523,
+      522,
+      524,
+      525,
+      526,
+      527,
+      528,
+      529
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 27,
+     "new_manager": 27,
+     "pool_zero": 80,
+     "expected_pool_zero": 80,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 0,
+     "expected_future_fe": 0
+    }
+   ]
+  },
+  {
+   "case": "unmanage-wrap-2",
+   "entry": "01FA",
+   "country": 27,
+   "manager": 130,
+   "side": 1,
+   "authored_inputs": {
+    "two": true,
+    "side": 1,
+    "wrap": true
+   },
+   "checks": {},
+   "timeline": [
+    {
+     "event": "unmanage-entry",
+     "manager_index": 2,
+     "country": 27,
+     "manager": 130,
+     "key_reads": 0,
+     "return_ip": 28800
+    },
+    {
+     "event": "reset-entry",
+     "country": 27,
+     "manager": 130,
+     "release_flag": 1,
+     "record_flag": 1,
+     "roster": [
+      521,
+      522,
+      523,
+      524,
+      525,
+      526,
+      527,
+      528,
+      529,
+      530,
+      531,
+      532,
+      533,
+      534,
+      535,
+      536,
+      537,
+      538,
+      539,
+      540
+     ]
+    },
+    {
+     "event": "reset-return",
+     "country": 27,
+     "manager": 130,
+     "roster": [
+      521,
+      523,
+      522,
+      524,
+      525,
+      526,
+      527,
+      528,
+      529,
+      530,
+      531,
+      532,
+      534,
+      533,
+      535,
+      536,
+      537,
+      538,
+      539,
+      540
+     ]
+    },
+    {
+     "event": "release-write",
+     "country": 27,
+     "new_manager": 27,
+     "pool_zero": 0,
+     "expected_pool_zero": 0,
+     "post_reset_bench_restored": 9,
+     "future_fe_still_before_changes": 7,
+     "expected_future_fe": 7
+    }
+   ]
+  }
+ ],
+ "runtime_source": {
+  "path": "runtime/original_match/port/news.py",
+  "sha256": "5f03775ab6c639031581c15424b30c12a338f535bc302b87f5aba3f71e466c40",
+  "fixed_source_commit": "58c94c30aee21af3142477a54f2589c2c0ff229d",
+  "unchanged_in_all_accepted_runtime_proofs": true
+ },
+ "current_source_hashes": {
+  "tests/test_port_news.py": "0af0268e15438828707149f1917acb932034dedfa4b092c0867acb270f1c69e3",
+  "experiments/E040-route-fixture-writes/prove.py": "78497a0f3225bd7490df47292a2e9165eb0912d79aa81fe78659ca26f949b704",
+  "experiments/E040-route-fixture-writes/out/T122d/prove_headlines.py": "a1f2ecdf000da693b976b9d6eceeefb21935c0e12e6a7905a56c5e6ba65ed134",
+  "experiments/E040-route-fixture-writes/out/T122d/generate_headlines.py": "7ee468c9204839a8451a23dfc34c7aace475d0bee6a75c79dc8121a615338222",
+  "experiments/E040-route-fixture-writes/out/T122d/main_call_audit.py": "bad678581d9f8195c98908f95c9955de861a78edf6752c45c28ed89c4cf54469"
+ },
+ "diagnostic_receipts": [
+  {
+   "path": "dev/prove-news+route+silent-20261105T201047Z.json",
+   "sha256": "5d454da64ea52e46d61d75e59215d99001a3f7db8ed5e0c44835405c8b48269d",
+   "acceptance": false,
+   "reason": "one-case development proof superseded by full corpus"
+  },
+  {
+   "path": "falsifiers/function-sack-threshold-minus-one-20261105T203849Z.json",
+   "sha256": "13bb6ffb5d92c005ff055ca4613a3ab318c6a7e3c393b04a20df8bd3f3ba59ad",
+   "acceptance": false,
+   "reason": "threshold mutation requested on4E0E-only registry, so319B remained original and mutation was not armed; corrected active route-fragment mutation is accepted"
+  }
+ ],
+ "checks": {
+  "required_headline_sack": "final-headline-tests.log",
+  "cumulative": "t122d-final-focused.log",
+  "annotations": "final-annotations.log",
+  "fail_before": "fail-before-nine.log"
+ },
+ "limits": [
+  "Only the12published source states are natural evidence. All function frames and two-manager continuations are declared isolated function-domain inputs, not full natural-calendar/career states.",
+  "The two actual original news-loop fragments start after confidence at6F91 and stop beforeB7FA at6FE1; no match is fabricated or claimed simulated, and no complete6CA7proof is claimed for them. Full entry proof remains the32separate route passes.",
+  "Two-manager map/name/pool buffers are private authored setup copied/extended in guest memory; before/after hashes only are exported, with actual manager slots1/2(manager bytes81/82).",
+  "Real confidence proof inputs are signed-byte values. Unit-only injected-255/-256returns test the exact signed lower bound but are not original-backed manager states.",
+  "The future-list zero-prefix scan is intentionally unbounded; each declared input supplies an actual nonzero entry or slot37sentinel. Pool-wrap cases are explicit arithmetic stress.",
+  "Statistics3CC8/4440/4A87 remain original untilT122e; no stubs or duplicate owners installed.",
+  "Full unit-suite validation is left to CI and required before merge."
+ ]
+}

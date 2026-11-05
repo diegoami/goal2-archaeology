@@ -371,7 +371,7 @@ undefined1 f_000E_4A87(int param_1)
 
 
 // ---- 000E:4DB7  news_headline_pages  (f_000E_4DB7; Ghidra 1000:4DB7, __stdcall16near; found by routines.tsv)
-// the headline pages of 000E:4E0E (its parent BP as argument): calls result_headline_and_sack 000E:319B, then 000E:3CC8; when 3CC8 returns nonzero 000E:4A87 and, if that returns 0, 000E:4440(10); when 3CC8 returns 0, 000E:4440(6) and then 4A87; ret 2  [likely; F039; read code/seg_000E_06.asm]
+// T122d (port/news.py): 319B then original3CC8, 4A87/4440 in branch-dependent order, preserving caller BP and row6/10  [likely; F039; read code/seg_000E_06.asm]
 
 void news_headline_pages(void)
 
@@ -395,7 +395,7 @@ void news_headline_pages(void)
 
 
 // ---- 000E:4E0E  post_match_news_and_sack  (f_000E_4E0E; Ghidra 1000:4E0E, __stdcall16near; found by routines.tsv)
-// after a played fixture of a human side: builds the result news pages (11D9, 4DB7 via 319B, 26F2) and waits for a key (05F6); if 319B set the local flag (the sack branch) calls unmanage_country for that manager; called by route_fixture (000E:6CA7) once per human side; its own stores are frame locals: the side s (1 when the country is the second side), a goal tally per squad slot from the scorer list DS:7BD1 + 0x21 s + 3k (1771:3A82) and the top slot; the key wait 05F6 gets two flags (s won a kind in CS:4DEE = {0x67, 0xCB}; kind in DS:A943 with a per-manager byte below it)  [established; F025; read code/seg_000E_06.asm; F039]
+// T122d (port/news.py): 21-byte scorer histogram via3A82, first strict maximum1..20 only if own goals>0; calls038E/11D9/4DB7/26F2 then actual05F6 with whole flag words; only after wait releases manager if nested319B set outer sack flag  [established; F025; read code/seg_000E_06.asm; F039]
 
 void post_match_news_and_sack(undefined4 param_1,int param_2)
 

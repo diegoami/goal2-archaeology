@@ -403,7 +403,7 @@ void news_result_headings
 
 
 // ---- 000E:319B  result_headline_and_sack  (f_000E_319B; Ghidra 1000:319B, __stdcall16near; found by routines.tsv)
-// the headline for a managed side's result chosen by the fixture winner byte +3 against the side; on a defeat that is not a shoot-out it reads manager_sack_score: -7/-6 THINGS LOOK GRIM, -10..-8 YOUR JOB IS ON THE LINE, <= -11 IS SACKED!!!! and sets 000E:4E0E's sack flag (store at 37AC)  [established; F025; read code/seg_000E_04.asm]
+// T122d (port/news.py): headline through nested parent BP; draw/shootout paths separate; real sack score -7/-6 and -10..-8 warnings, signed[-255,-11] sack band writes4E0E flag at37AC  [established; F025; F039; read code/seg_000E_04.asm]
 
 void result_headline_and_sack(int param_1)
 

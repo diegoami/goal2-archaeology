@@ -84,7 +84,7 @@ void __cdecl16near f_000E_0000(void)
 
 
 // ---- 000E:01FA  unmanage_country  (f_000E_01FA; Ghidra 1000:01FA, __stdcall16near; found by routines.tsv)
-// the reset when a manager's country is released (a manager's sacking: its only caller is the sack branch of 000E:4E0E): before any test it writes 1 to two bytes of manager m's records, then calls reset_team_tactics (0791:BC5D) for m's country while it is still managed (so 52CC sorts with the managed rule); then it copies +7 to +6 for slots 12..20, clears byte 0 of the manager's 80 extra players, writes the country's own number to +0x2E, after which 0B77 no longer reports it managed, and turns the country's fixtures with first byte 0xFE into 0xFF  [established; F010; F025; read code/seg_000E_06.asm]
+// T122d (port/news.py): writes game/manager flags before BC5D while still managed; reads squad after reset, restores slots12..20 club position, clears all80 pool country bytes, releases country manager, then scans actual nonzero future-list sentinel and changes FE fixtures to FF  [established; F010; F025; F039; read code/seg_000E_01.asm; read code/seg_000E_06.asm]
 
 void unmanage_country(int param_1)
 

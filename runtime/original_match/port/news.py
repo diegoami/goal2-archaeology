@@ -1,4 +1,4 @@
-"""T122a–c: shared post-match news primitives and result text.
+"""T122a–d: post-match news, headlines and the sack.
 
 [confirmed: F012/F025/F039; upstream7032ce40; named/seg_000E_01..04.c,
 then code/seg_000E_01.asm 03C4-0A52, _02.asm 0A53-0CCC/11D9-1F4C, _03.asm 1F4D-2013,
@@ -17,13 +17,16 @@ from .setup import farg, rb, rw, w8
 from .silent import _ds_far, country_of, save_ptr
 from .route import near, far
 
-PORTS = Registry('news', 'shared news formatting, waits, ratings and result text (T122a–c)')
+PORTS = Registry('news', 'shared news formatting, waits, ratings and result text, headlines and sack (T122a–d)')
 PORTS.variant('crowd-draw-dropped', '045D: omit the conditional third RNG draw at04B2')
 PORTS.variant('centering-width-minus-one', '03C4: center to width minus one')
 PORTS.variant('result-draw-dropped', '11D9: omit a direct result-column RNG draw')
 PORTS.variant('result-text-inverted', '11D9 at1213: exchange winning and non-winning text branches')
 PORTS.variant('secondary-draw-dropped', '26F2: omit one direct result-column RNG draw')
 PORTS.variant('secondary-text-byte-flipped', '26F2 at274D: flip one country-name buffer byte')
+PORTS.variant('headline-draw-dropped', '319B: omit a direct headline RNG draw')
+PORTS.variant('sack-threshold-minus-one', '319B at3782: change -11 upper sack bound to -12')
+PORTS.variant('unmanage-manager-write-dropped', '01FA at02FD: omit country-manager reset')
 M16 = 0xffff
 
 
@@ -3401,4 +3404,1473 @@ def _secondary_column_2cd2(mem, r, variant):
 
 def _secondary_column_2d46(mem, r, variant):
     yield from ()
+    return r
+
+
+# T122d [confirmed: F025/F039; code/seg_000E_01.asm01FA-038D,
+# _04.asm319B-3A31 and _06.asm4DB7-4F98]. Fixed Python, no runtime decoder.
+def _headline_call(mem, r, variant, target, words, ret, far):
+    if variant == 'headline-draw-dropped' and target == '214B:06B1' and 0x319B < ret < 0x3A32:
+        for _ in range(words):
+            pop(mem, r)
+        r.ax = 1
+        return r
+    return (yield from _result_call(mem, r, variant, target, words, ret, far))
+
+
+def _headline_store(mem, r, variant, seg, off, width, value, at):
+    r.flush()
+    if variant == 'unmanage-manager-write-dropped' and at == '000E:02FD':
+        return
+    if width == 8:
+        mem.w8(mem.addr(seg, off), value & 255, at)
+    else:
+        mem.w16(mem.addr(seg, off), value & M16, at)
+
+
+@PORTS.port('000E:01FA', ret='ret 2')
+def unmanage_country(mem, variant):
+    """Original ordered flags/reset, post-reset roster reads, pool clear and future fixtures.
+
+    The zero-prefix scan is intentionally unbounded, as the original is.
+    """
+    r = Regs(mem)
+    r.enter(0x14)
+    r.es, r.di = mem.ds16((0xa923 + 2) & M16), mem.ds16((0xa923) & M16)  # 0200
+    r.local16(- 8, r.di)  # 0204
+    r.local16(- 6, r.es)  # 0207
+    r.ax = ss16(mem, r, r.bp + 4)  # 020A
+    r.ax = r.ax + 0x80  # 020D
+    r.dx = 3  # 0210
+    mul(r, r.dx)  # 0213
+    r.es, r.di = mem.ds16((0xa91f + 2) & M16), mem.ds16((0xa91f) & M16)  # 0215
+    r.di = r.di + r.ax  # 0219
+    r.local16(- 0xc, r.di)  # 021B
+    r.local16(- 0xa, r.es)  # 021E
+    r.ax = ss16(mem, r, r.bp + 4)  # 0221
+    r.es, r.di = ss16(mem, r, r.bp - 8 + 2), ss16(mem, r, r.bp - 8)  # 0224
+    r.di = r.di + r.ax  # 0227
+    _headline_store(mem, r, variant, r.es, r.di + 0x47, 8, 1, '000E:0229')  # 0229
+    r.es, r.di = ss16(mem, r, r.bp - 0xc + 2), ss16(mem, r, r.bp - 0xc)  # 022E
+    _headline_store(mem, r, variant, r.es, r.di + 1, 8, 1, '000E:0231')  # 0231
+    r.es, r.di = ss16(mem, r, r.bp - 0xc + 2), ss16(mem, r, r.bp - 0xc)  # 0236
+    r.al = mem.u8(mem.addr(r.es, r.di))  # 0239
+    r.ah = 0  # 023C
+    r.push(r.ax)  # 023E
+    r = yield from _headline_call(mem, r, variant, '0791:BC5D', 1, 0x0244, far=True)  # 023F
+    r.local16(- 4, 0xc)  # 0244
+    while True:  # 024E; original back edge 0298 -> 024B
+        r.es, r.di = ss16(mem, r, r.bp - 0xc + 2), ss16(mem, r, r.bp - 0xc)  # 024E
+        r.al = mem.u8(mem.addr(r.es, r.di))  # 0251
+        r.ah = 0  # 0254
+        r.dx = 0xbf  # 0256
+        mul(r, r.dx)  # 0259
+        r.es, r.di = mem.ds16((0xa917 + 2) & M16), mem.ds16((0xa917) & M16)  # 025B
+        r.di = r.di + r.ax  # 025F
+        r.local16(- 0x10, r.di)  # 0261
+        r.local16(- 0xe, r.es)  # 0264
+        r.ax = ss16(mem, r, r.bp - 4)  # 0267
+        r.ax = r.ax << 1  # 026A
+        r.es, r.di = ss16(mem, r, r.bp - 0x10 + 2), ss16(mem, r, r.bp - 0x10)  # 026C
+        r.di = r.di + r.ax  # 026F
+        r.ax = mem.u16(mem.addr(r.es, r.di - 2))  # 0271
+        r.dx = 0x14  # 0275
+        mul(r, r.dx)  # 0278
+        r.es, r.di = mem.ds16((0xa91b + 2) & M16), mem.ds16((0xa91b) & M16)  # 027A
+        r.di = r.di + r.ax  # 027E
+        r.local16(- 0x14, r.di)  # 0280
+        r.local16(- 0x12, r.es)  # 0283
+        r.es, r.di = ss16(mem, r, r.bp - 0x14 + 2), ss16(mem, r, r.bp - 0x14)  # 0286
+        r.al = mem.u8(mem.addr(r.es, r.di + 7))  # 0289
+        r.es, r.di = ss16(mem, r, r.bp - 0x14 + 2), ss16(mem, r, r.bp - 0x14)  # 028D
+        _headline_store(mem, r, variant, r.es, r.di + 6, 8, r.al, '000E:0290')  # 0290
+        _left, _right = ss16(mem, r, r.bp - 4), 0x14  # 0294
+        if _left == _right:  # 0298
+            break
+        r.local16(- 4, ss16(mem, r, r.bp - 4) + 1)  # 024B
+    r.di = ss16(mem, r, r.bp + 4)  # 029A
+    r.di = r.di << 1  # 029D
+    r.ax = mem.ds16((r.di + 0x6d18) & M16)  # 029F
+    r.ax = r.ax + 0x4f  # 02A3
+    r.local16(- 0xe, r.ax)  # 02A6
+    r.di = ss16(mem, r, r.bp + 4)  # 02A9
+    r.di = r.di << 1  # 02AC
+    r.ax = mem.ds16((r.di + 0x6d18) & M16)  # 02AE
+    _left, _right = r.ax, ss16(mem, r, r.bp - 0xe)  # 02B2
+    if _left <= _right:  # 02B5
+        r.local16(- 4, r.ax)  # 02B7
+        while True:  # 02BF; original back edge 02E2 -> 02BC
+            r.ax = ss16(mem, r, r.bp - 4)  # 02BF
+            r.ax = r.ax << 1  # 02C2
+            r.es, r.di = mem.ds16((0xa927 + 2) & M16), mem.ds16((0xa927) & M16)  # 02C4
+            r.di = r.di + r.ax  # 02C8
+            r.ax = mem.u16(mem.addr(r.es, r.di))  # 02CA
+            r.dx = 0x14  # 02CD
+            mul(r, r.dx)  # 02D0
+            r.es, r.di = mem.ds16((0xa91b + 2) & M16), mem.ds16((0xa91b) & M16)  # 02D2
+            r.di = r.di + r.ax  # 02D6
+            _headline_store(mem, r, variant, r.es, r.di, 8, 0, '000E:02D8')  # 02D8
+            r.ax = ss16(mem, r, r.bp - 4)  # 02DC
+            _left, _right = r.ax, ss16(mem, r, r.bp - 0xe)  # 02DF
+            if _left == _right:  # 02E2
+                break
+            r.local16(- 4, ss16(mem, r, r.bp - 4) + 1)  # 02BC
+    r.es, r.di = ss16(mem, r, r.bp - 0xc + 2), ss16(mem, r, r.bp - 0xc)  # 02E4
+    r.cx = (r.cx & 0xff00) | ((mem.u8(mem.addr(r.es, r.di))) & 255)  # 02E7
+    r.es, r.di = ss16(mem, r, r.bp - 0xc + 2), ss16(mem, r, r.bp - 0xc)  # 02EA
+    r.al = mem.u8(mem.addr(r.es, r.di))  # 02ED
+    r.ah = 0  # 02F0
+    r.dx = 0xbf  # 02F2
+    mul(r, r.dx)  # 02F5
+    r.es, r.di = mem.ds16((0xa917 + 2) & M16), mem.ds16((0xa917) & M16)  # 02F7
+    r.di = r.di + r.ax  # 02FB
+    _headline_store(mem, r, variant, r.es, r.di + 0x2e, 8, (r.cx & 255), '000E:02FD')  # 02FD
+    r.local16(- 2, 0x15)  # 0301
+    while True:  # 0306; zero-prefix scan has no invented bound
+        r.ax = ss16(mem, r, r.bp - 2)  # 0306
+        r.ax = r.ax << 1  # 0309
+        r.cx = r.ax  # 030B
+        r.es, r.di = ss16(mem, r, r.bp - 0xc + 2), ss16(mem, r, r.bp - 0xc)  # 030D
+        r.al = mem.u8(mem.addr(r.es, r.di))  # 0310
+        r.ah = 0  # 0313
+        r.dx = 0x48  # 0315
+        mul(r, r.dx)  # 0318
+        r.es, r.di = mem.ds16((0xa92f + 2) & M16), mem.ds16((0xa92f) & M16)  # 031A
+        r.di = r.di + r.ax  # 031E
+        r.di = r.di + r.cx  # 0320
+        _left, _right = mem.u16(mem.addr(r.es, r.di - 2)), 0  # 0322
+        if _left != _right:  # 0327
+            break
+        r.local16(- 2, ss16(mem, r, r.bp - 2) + 1)  # 0329
+    r.ax = ss16(mem, r, r.bp - 2)  # 032E
+    _left, _right = r.ax, 0x24  # 0331
+    if _left <= _right:  # 0334
+        r.local16(- 4, r.ax)  # 0336
+        while True:  # 033E; original back edge 0386 -> 033B
+            r = yield from _unmanage_fixtures_033e(mem, r, variant)
+            _left, _right = ss16(mem, r, r.bp - 4), 0x24  # 0382
+            if _left == _right:  # 0386
+                break
+            r.local16(- 4, ss16(mem, r, r.bp - 4) + 1)  # 033B
+    return _end(r)
+
+
+def _unmanage_fixtures_033e(mem, r, variant):
+    yield from ()
+    r.ax = ss16(mem, r, r.bp - 4)  # 033E
+    r.ax = r.ax << 1  # 0341
+    r.cx = r.ax  # 0343
+    r.es, r.di = ss16(mem, r, r.bp - 0xc + 2), ss16(mem, r, r.bp - 0xc)  # 0345
+    r.al = mem.u8(mem.addr(r.es, r.di))  # 0348
+    r.ah = 0  # 034B
+    r.dx = 0x48  # 034D
+    mul(r, r.dx)  # 0350
+    r.es, r.di = mem.ds16((0xa92f + 2) & M16), mem.ds16((0xa92f) & M16)  # 0352
+    r.di = r.di + r.ax  # 0356
+    r.di = r.di + r.cx  # 0358
+    r.ax = mem.u16(mem.addr(r.es, r.di - 2))  # 035A
+    r.cx = (r.cx & 0xff00) | ((3) & 255)  # 035E
+    r.ax = r.ax << (r.cx & 255)  # 0360
+    r.es, r.di = mem.ds16((0xa92b + 2) & M16), mem.ds16((0xa92b) & M16)  # 0362
+    r.di = r.di + r.ax  # 0366
+    r.di = r.di + 0xfff8  # 0368
+    r.local16(- 0x10, r.di)  # 036C
+    r.local16(- 0xe, r.es)  # 036F
+    r.es, r.di = ss16(mem, r, r.bp - 0x10 + 2), ss16(mem, r, r.bp - 0x10)  # 0372
+    _left, _right = mem.u8(mem.addr(r.es, r.di)), 0xfe  # 0375
+    if _left != _right:  # 0379
+        pass
+    else:
+        r.es, r.di = ss16(mem, r, r.bp - 0x10 + 2), ss16(mem, r, r.bp - 0x10)  # 037B
+        _headline_store(mem, r, variant, r.es, r.di, 8, 0xff, '000E:037E')  # 037E
+    return r
+
+
+@PORTS.port('000E:319B', ret='ret 2')
+def result_headline_and_sack(mem, variant):
+    """Original nested-parent headline, signed[-255,-11] sack band and real outer flag."""
+    r = Regs(mem)
+    r.enter(0x308)
+    r = yield from _headline_31a2(mem, r, variant)
+    return _end(r)
+
+
+def _headline_31a2(mem, r, variant):
+    r.di = ss16(mem, r, r.bp + 4)  # 31A2
+    r.di = ss16(mem, r, r.di + 4)  # 31A5
+    r.es, r.di = ss16(mem, r, r.di + 4 + 2), ss16(mem, r, r.di + 4)  # 31A9
+    r.local16(- 4, r.di)  # 31AD
+    r.local16(- 2, r.es)  # 31B0
+    r.di = ss16(mem, r, r.bp + 4)  # 31B3
+    r.di = ss16(mem, r, r.di + 4)  # 31B6
+    r.ax = ss16(mem, r, r.di + 8)  # 31BA
+    r.dx = 0xbf  # 31BE
+    mul(r, r.dx)  # 31C1
+    r.es, r.di = mem.ds16((0xa917 + 2) & M16), mem.ds16((0xa917) & M16)  # 31C3
+    r.di = r.di + r.ax  # 31C7
+    r.local16(- 8, r.di)  # 31C9
+    r.local16(- 6, r.es)  # 31CC
+    r.es, r.di = ss16(mem, r, r.bp - 4 + 2), ss16(mem, r, r.bp - 4)  # 31CF
+    r.al = mem.u8(mem.addr(r.es, r.di + 3))  # 31D2
+    r.di = ss16(mem, r, r.bp + 4)  # 31D6
+    r.di = ss16(mem, r, r.di + 4)  # 31D9
+    _left, _right = r.al, ss8(mem, r, r.di - 1)  # 31DD
+    if _left == _right:  # 31E1
+        r.es, r.di = ss16(mem, r, r.bp - 4 + 2), ss16(mem, r, r.bp - 4)  # 31E6
+        r.al = mem.u8(mem.addr(r.es, r.di + 2))  # 31E9
+        _left, _right = r.al, 0xcb  # 31ED
+        if _left != _right:  # 31EF
+            _left, _right = r.al, 0x67  # 3212
+            if _left != _right:  # 3214
+                _left, _right = r.al, 0xc9  # 3251
+                if _left != _right:  # 3253
+                    _left, _right = r.al, 0x65  # 3276
+                    if _left != _right:  # 3278
+                        _left, _right = r.al, 0xc8  # 32B6
+                        if _left != _right:  # 32B8
+                            r.di = ss16(mem, r, r.bp + 4)  # 32DB
+                            r.di = ss16(mem, r, r.di + 4)  # 32DE
+                            r.es, r.di = ss16(mem, r, r.di + 4 + 2), ss16(mem, r, r.di + 4)  # 32E2
+                            r.push(r.es)  # 32E6
+                            r.push(r.di)  # 32E7
+                            r = yield from _headline_call(mem, r, variant, '1771:5C60', 2, 0x32ED, far=True)  # 32E8
+                            _left, _right = r.ax, 0  # 32ED
+                            if _left != _right:  # 32EF
+                                r.di = ss16(mem, r, r.bp + 4)  # 3332
+                                r.di = ss16(mem, r, r.di + 4)  # 3335
+                                r.ax = ss16(mem, r, r.di - 6)  # 3339
+                                r.di = ss16(mem, r, r.bp + 4)  # 333D
+                                r.di = ss16(mem, r, r.di + 4)  # 3340
+                                r.di = r.di + r.ax  # 3344
+                                r.al = ss8(mem, r, r.di - 0x1b)  # 3346
+                                _left, _right = r.al, 1  # 334A
+                                if _left == _right:  # 334C
+                                    r.di = ss16(mem, r, r.bp + 4)  # 3351
+                                    r.push(ss16(mem, r, r.di + 4))  # 3354
+                                    r = yield from _headline_call(mem, r, variant, '000E:1F4D', 1, 0x335B, far=False)  # 3358
+                                    _left, _right = r.al, 0  # 335B
+                                    if _left != _right:  # 335D
+                                        r.ax = 4  # 3362
+                                        r.push(r.ax)  # 3365
+                                        r = yield from _headline_call(mem, r, variant, '214B:06B1', 1, 0x336B, far=True)  # 3366
+                                        _left, _right = r.ax, 1  # 336B
+                                        if _left != _right:  # 336E
+                                            _left, _right = r.ax, 2  # 3390
+                                            if _left != _right:  # 3393
+                                                _left, _right = r.ax, 3  # 33B5
+                                                if _left != _right:  # 33B8
+                                                    _left, _right = r.ax, 4  # 33DA
+                                                    if _left != _right:  # 33DD
+                                                        pass
+                                                    else:
+                                                        r.di = r.bp - 0x108  # 33DF
+                                                        r.push(r.ss)  # 33E3
+                                                        r.push(r.di)  # 33E4
+                                                        r.di = ss16(mem, r, r.bp + 4)  # 33E5
+                                                        r.push(ss16(mem, r, r.di + 4))  # 33E8
+                                                        r = yield from _headline_call(mem, r, variant, '000E:0ACB', 1, 0x33EF, far=False)  # 33EC
+                                                        r.di = 0x2f45  # 33EF
+                                                        r.push(mem.seg(0xE))  # 33F2
+                                                        r.push(r.di)  # 33F3
+                                                        r.di = 0x2ea6  # 33F4
+                                                        r.push(mem.seg(0xE))  # 33F7
+                                                        r.push(r.di)  # 33F8
+                                                        r.push(r.bp)  # 33F9
+                                                        r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x33FD, far=False)  # 33FA
+                                                else:
+                                                    r.di = r.bp - 0x108  # 33BA
+                                                    r.push(r.ss)  # 33BE
+                                                    r.push(r.di)  # 33BF
+                                                    r.di = ss16(mem, r, r.bp + 4)  # 33C0
+                                                    r.push(ss16(mem, r, r.di + 4))  # 33C3
+                                                    r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x33CA, far=False)  # 33C7
+                                                    r.di = 0x2f2f  # 33CA
+                                                    r.push(mem.seg(0xE))  # 33CD
+                                                    r.push(r.di)  # 33CE
+                                                    r.di = 0x2f39  # 33CF
+                                                    r.push(mem.seg(0xE))  # 33D2
+                                                    r.push(r.di)  # 33D3
+                                                    r.push(r.bp)  # 33D4
+                                                    r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x33D8, far=False)  # 33D5
+                                            else:
+                                                r.di = r.bp - 0x108  # 3395
+                                                r.push(r.ss)  # 3399
+                                                r.push(r.di)  # 339A
+                                                r.di = ss16(mem, r, r.bp + 4)  # 339B
+                                                r.push(ss16(mem, r, r.di + 4))  # 339E
+                                                r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x33A5, far=False)  # 33A2
+                                                r.di = 0x2f23  # 33A5
+                                                r.push(mem.seg(0xE))  # 33A8
+                                                r.push(r.di)  # 33A9
+                                                r.di = 0x2ea6  # 33AA
+                                                r.push(mem.seg(0xE))  # 33AD
+                                                r.push(r.di)  # 33AE
+                                                r.push(r.bp)  # 33AF
+                                                r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x33B3, far=False)  # 33B0
+                                        else:
+                                            r.di = 0x2f06  # 3370
+                                            r.push(mem.seg(0xE))  # 3373
+                                            r.push(r.di)  # 3374
+                                            r.di = 0x2f17  # 3375
+                                            r.push(mem.seg(0xE))  # 3378
+                                            r.push(r.di)  # 3379
+                                            r.di = r.bp - 0x108  # 337A
+                                            r.push(r.ss)  # 337E
+                                            r.push(r.di)  # 337F
+                                            r.di = ss16(mem, r, r.bp + 4)  # 3380
+                                            r.push(ss16(mem, r, r.di + 4))  # 3383
+                                            r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x338A, far=False)  # 3387
+                                            r.push(r.bp)  # 338A
+                                            r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x338E, far=False)  # 338B
+                                        return (yield from _headline_33fd(mem, r, variant))
+                                    else:
+                                        r.ax = 4  # 3400
+                                        r.push(r.ax)  # 3403
+                                        r = yield from _headline_call(mem, r, variant, '214B:06B1', 1, 0x3409, far=True)  # 3404
+                                        _left, _right = r.ax, 1  # 3409
+                                        if _left != _right:  # 340C
+                                            _left, _right = r.ax, 2  # 342E
+                                            if _left != _right:  # 3431
+                                                _left, _right = r.ax, 3  # 3453
+                                                if _left != _right:  # 3456
+                                                    _left, _right = r.ax, 4  # 3478
+                                                    if _left != _right:  # 347B
+                                                        pass
+                                                    else:
+                                                        r.di = r.bp - 0x108  # 347D
+                                                        r.push(r.ss)  # 3481
+                                                        r.push(r.di)  # 3482
+                                                        r.di = ss16(mem, r, r.bp + 4)  # 3483
+                                                        r.push(ss16(mem, r, r.di + 4))  # 3486
+                                                        r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x348D, far=False)  # 348A
+                                                        r.di = 0x2f97  # 348D
+                                                        r.push(mem.seg(0xE))  # 3490
+                                                        r.push(r.di)  # 3491
+                                                        r.di = 0x2fa0  # 3492
+                                                        r.push(mem.seg(0xE))  # 3495
+                                                        r.push(r.di)  # 3496
+                                                        r.push(r.bp)  # 3497
+                                                        r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x349B, far=False)  # 3498
+                                                else:
+                                                    r.di = 0x2f7f  # 3458
+                                                    r.push(mem.seg(0xE))  # 345B
+                                                    r.push(r.di)  # 345C
+                                                    r.di = r.bp - 0x108  # 345D
+                                                    r.push(r.ss)  # 3461
+                                                    r.push(r.di)  # 3462
+                                                    r.di = ss16(mem, r, r.bp + 4)  # 3463
+                                                    r.push(ss16(mem, r, r.di + 4))  # 3466
+                                                    r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x346D, far=False)  # 346A
+                                                    r.di = 0x2f8a  # 346D
+                                                    r.push(mem.seg(0xE))  # 3470
+                                                    r.push(r.di)  # 3471
+                                                    r.push(r.bp)  # 3472
+                                                    r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x3476, far=False)  # 3473
+                                            else:
+                                                r.di = r.bp - 0x108  # 3433
+                                                r.push(r.ss)  # 3437
+                                                r.push(r.di)  # 3438
+                                                r.di = ss16(mem, r, r.bp + 4)  # 3439
+                                                r.push(ss16(mem, r, r.di + 4))  # 343C
+                                                r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x3443, far=False)  # 3440
+                                                r.di = 0x2f63  # 3443
+                                                r.push(mem.seg(0xE))  # 3446
+                                                r.push(r.di)  # 3447
+                                                r.di = 0x2f73  # 3448
+                                                r.push(mem.seg(0xE))  # 344B
+                                                r.push(r.di)  # 344C
+                                                r.push(r.bp)  # 344D
+                                                r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x3451, far=False)  # 344E
+                                        else:
+                                            r.di = r.bp - 0x108  # 340E
+                                            r.push(r.ss)  # 3412
+                                            r.push(r.di)  # 3413
+                                            r.di = ss16(mem, r, r.bp + 4)  # 3414
+                                            r.push(ss16(mem, r, r.di + 4))  # 3417
+                                            r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x341E, far=False)  # 341B
+                                            r.di = 0x2f56  # 341E
+                                            r.push(mem.seg(0xE))  # 3421
+                                            r.push(r.di)  # 3422
+                                            r.di = 0x2ea6  # 3423
+                                            r.push(mem.seg(0xE))  # 3426
+                                            r.push(r.di)  # 3427
+                                            r.push(r.bp)  # 3428
+                                            r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x342C, far=False)  # 3429
+                                    return (yield from _headline_349b(mem, r, variant))
+                                else:
+                                    _left, _right = r.al, 2  # 349E
+                                    if _left == _right:  # 34A0
+                                        r.ax = 4  # 34A5
+                                        r.push(r.ax)  # 34A8
+                                        r = yield from _headline_call(mem, r, variant, '214B:06B1', 1, 0x34AE, far=True)  # 34A9
+                                        _left, _right = r.ax, 1  # 34AE
+                                        if _left != _right:  # 34B1
+                                            _left, _right = r.ax, 2  # 34F4
+                                            if _left != _right:  # 34F7
+                                                _left, _right = r.ax, 3  # 352E
+                                                if _left != _right:  # 3531
+                                                    _left, _right = r.ax, 4  # 3573
+                                                    if _left != _right:  # 3576
+                                                        pass
+                                                    else:
+                                                        r.di = r.bp - 0x108  # 3578
+                                                        r.push(r.ss)  # 357C
+                                                        r.push(r.di)  # 357D
+                                                        r.di = ss16(mem, r, r.bp + 4)  # 357E
+                                                        r.push(ss16(mem, r, r.di + 4))  # 3581
+                                                        r = yield from _headline_call(mem, r, variant, '000E:08F9', 1, 0x3588, far=False)  # 3585
+                                                        r.di = 0x2fdc  # 3588
+                                                        r.push(mem.seg(0xE))  # 358B
+                                                        r.push(r.di)  # 358C
+                                                        r.di = 0x2fec  # 358D
+                                                        r.push(mem.seg(0xE))  # 3590
+                                                        r.push(r.di)  # 3591
+                                                        r.push(r.bp)  # 3592
+                                                        r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x3596, far=False)  # 3593
+                                                else:
+                                                    r.di = 0x2fc9  # 3533
+                                                    r.push(mem.seg(0xE))  # 3536
+                                                    r.push(r.di)  # 3537
+                                                    r.di = r.bp - 0x108  # 3538
+                                                    r.push(r.ss)  # 353C
+                                                    r.push(r.di)  # 353D
+                                                    r.di = ss16(mem, r, r.bp + 4)  # 353E
+                                                    r.push(ss16(mem, r, r.di + 4))  # 3541
+                                                    r = yield from _headline_call(mem, r, variant, '000E:08F9', 1, 0x3548, far=False)  # 3545
+                                                    r.di = r.bp - 0x308  # 3548
+                                                    r.push(r.ss)  # 354C
+                                                    r.push(r.di)  # 354D
+                                                    r.di = 0x2fd7  # 354E
+                                                    r.push(mem.seg(0xE))  # 3551
+                                                    r.push(r.di)  # 3552
+                                                    r = yield from _headline_call(mem, r, variant, '23E4:062A', 2, 0x3558, far=True)  # 3553
+                                                    r.di = r.bp - 0x208  # 3558
+                                                    r.push(r.ss)  # 355C
+                                                    r.push(r.di)  # 355D
+                                                    r.di = ss16(mem, r, r.bp + 4)  # 355E
+                                                    r.push(ss16(mem, r, r.di + 4))  # 3561
+                                                    r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x3568, far=False)  # 3565
+                                                    r = yield from _headline_call(mem, r, variant, '23E4:06B7', 2, 0x356D, far=True)  # 3568
+                                                    r.push(r.bp)  # 356D
+                                                    r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x3571, far=False)  # 356E
+                                            else:
+                                                r.di = r.bp - 0x108  # 34F9
+                                                r.push(r.ss)  # 34FD
+                                                r.push(r.di)  # 34FE
+                                                r.di = ss16(mem, r, r.bp + 4)  # 34FF
+                                                r.push(ss16(mem, r, r.di + 4))  # 3502
+                                                r = yield from _headline_call(mem, r, variant, '000E:08F9', 1, 0x3509, far=False)  # 3506
+                                                r.di = 0x2fbc  # 3509
+                                                r.push(mem.seg(0xE))  # 350C
+                                                r.push(r.di)  # 350D
+                                                r.di = r.bp - 0x208  # 350E
+                                                r.push(r.ss)  # 3512
+                                                r.push(r.di)  # 3513
+                                                r.di = ss16(mem, r, r.bp + 4)  # 3514
+                                                r.push(ss16(mem, r, r.di + 4))  # 3517
+                                                r = yield from _headline_call(mem, r, variant, '000E:0B0A', 1, 0x351E, far=False)  # 351B
+                                                r.di = 0x2fc3  # 351E
+                                                r.push(mem.seg(0xE))  # 3521
+                                                r.push(r.di)  # 3522
+                                                r = yield from _headline_call(mem, r, variant, '23E4:06B7', 2, 0x3528, far=True)  # 3523
+                                                r.push(r.bp)  # 3528
+                                                r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x352C, far=False)  # 3529
+                                        else:
+                                            r.di = r.bp - 0x108  # 34B3
+                                            r.push(r.ss)  # 34B7
+                                            r.push(r.di)  # 34B8
+                                            r.di = ss16(mem, r, r.bp + 4)  # 34B9
+                                            r.push(ss16(mem, r, r.di + 4))  # 34BC
+                                            r = yield from _headline_call(mem, r, variant, '000E:08F9', 1, 0x34C3, far=False)  # 34C0
+                                            r.di = 0x2faa  # 34C3
+                                            r.push(mem.seg(0xE))  # 34C6
+                                            r.push(r.di)  # 34C7
+                                            r.di = r.bp - 0x308  # 34C8
+                                            r.push(r.ss)  # 34CC
+                                            r.push(r.di)  # 34CD
+                                            r.di = 0x2fb7  # 34CE
+                                            r.push(mem.seg(0xE))  # 34D1
+                                            r.push(r.di)  # 34D2
+                                            r = yield from _headline_call(mem, r, variant, '23E4:062A', 2, 0x34D8, far=True)  # 34D3
+                                            r.di = r.bp - 0x208  # 34D8
+                                            r.push(r.ss)  # 34DC
+                                            r.push(r.di)  # 34DD
+                                            r.di = ss16(mem, r, r.bp + 4)  # 34DE
+                                            r.push(ss16(mem, r, r.di + 4))  # 34E1
+                                            r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x34E8, far=False)  # 34E5
+                                            r = yield from _headline_call(mem, r, variant, '23E4:06B7', 2, 0x34ED, far=True)  # 34E8
+                                            r.push(r.bp)  # 34ED
+                                            r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x34F1, far=False)  # 34EE
+                                        return (yield from _headline_3596(mem, r, variant))
+                                    else:
+                                        _left, _right = r.al, 3  # 3599
+                                        if _left != _right:  # 359B
+                                            r.di = r.bp - 0x108  # 35BD
+                                            r.push(r.ss)  # 35C1
+                                            r.push(r.di)  # 35C2
+                                            r.di = ss16(mem, r, r.bp + 4)  # 35C3
+                                            r.push(ss16(mem, r, r.di + 4))  # 35C6
+                                            r = yield from _headline_call(mem, r, variant, '000E:08F9', 1, 0x35CD, far=False)  # 35CA
+                                            r.di = 0x300c  # 35CD
+                                            r.push(mem.seg(0xE))  # 35D0
+                                            r.push(r.di)  # 35D1
+                                            r.di = r.bp - 0x308  # 35D2
+                                            r.push(r.ss)  # 35D6
+                                            r.push(r.di)  # 35D7
+                                            r.di = 0x301d  # 35D8
+                                            r.push(mem.seg(0xE))  # 35DB
+                                            r.push(r.di)  # 35DC
+                                            r = yield from _headline_call(mem, r, variant, '23E4:062A', 2, 0x35E2, far=True)  # 35DD
+                                            r.di = r.bp - 0x208  # 35E2
+                                            r.push(r.ss)  # 35E6
+                                            r.push(r.di)  # 35E7
+                                            r.di = ss16(mem, r, r.bp + 4)  # 35E8
+                                            r.di = ss16(mem, r, r.di + 4)  # 35EB
+                                            r.ax = ss16(mem, r, r.di - 6)  # 35EF
+                                            r.di = ss16(mem, r, r.bp + 4)  # 35F3
+                                            r.di = ss16(mem, r, r.di + 4)  # 35F6
+                                            r.di = r.di + r.ax  # 35FA
+                                            r.al = ss8(mem, r, r.di - 0x1b)  # 35FC
+                                            r.ah = 0  # 3600
+                                            r.dx = 0  # 3602
+                                            r.push(r.dx)  # 3604
+                                            r.push(r.ax)  # 3605
+                                            r = yield from _headline_call(mem, r, variant, '214B:09DA', 2, 0x360B, far=True)  # 3606
+                                            r = yield from _headline_call(mem, r, variant, '23E4:06B7', 2, 0x3610, far=True)  # 360B
+                                            r.di = 0x3023  # 3610
+                                            r.push(mem.seg(0xE))  # 3613
+                                            r.push(r.di)  # 3614
+                                            r = yield from _headline_call(mem, r, variant, '23E4:06B7', 2, 0x361A, far=True)  # 3615
+                                            r.push(r.bp)  # 361A
+                                            r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x361E, far=False)  # 361B
+                                        else:
+                                            r.di = 0x2ffd  # 359D
+                                            r.push(mem.seg(0xE))  # 35A0
+                                            r.push(r.di)  # 35A1
+                                            r.di = r.bp - 0x108  # 35A2
+                                            r.push(r.ss)  # 35A6
+                                            r.push(r.di)  # 35A7
+                                            r.di = ss16(mem, r, r.bp + 4)  # 35A8
+                                            r.push(ss16(mem, r, r.di + 4))  # 35AB
+                                            r = yield from _headline_call(mem, r, variant, '000E:08F9', 1, 0x35B2, far=False)  # 35AF
+                                            r.di = 0x2ea6  # 35B2
+                                            r.push(mem.seg(0xE))  # 35B5
+                                            r.push(r.di)  # 35B6
+                                            r.push(r.bp)  # 35B7
+                                            r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x35BB, far=False)  # 35B8
+                            else:
+                                r.di = r.bp - 0x108  # 32F1
+                                r.push(r.ss)  # 32F5
+                                r.push(r.di)  # 32F6
+                                r.di = ss16(mem, r, r.bp + 4)  # 32F7
+                                r.push(ss16(mem, r, r.di + 4))  # 32FA
+                                r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x3301, far=False)  # 32FE
+                                r.di = r.bp - 0x308  # 3301
+                                r.push(r.ss)  # 3305
+                                r.push(r.di)  # 3306
+                                r.di = 0x2ef3  # 3307
+                                r.push(mem.seg(0xE))  # 330A
+                                r.push(r.di)  # 330B
+                                r = yield from _headline_call(mem, r, variant, '23E4:062A', 2, 0x3311, far=True)  # 330C
+                                r.di = r.bp - 0x208  # 3311
+                                r.push(r.ss)  # 3315
+                                r.push(r.di)  # 3316
+                                r.di = ss16(mem, r, r.bp + 4)  # 3317
+                                r.push(ss16(mem, r, r.di + 4))  # 331A
+                                r = yield from _headline_call(mem, r, variant, '000E:0B0A', 1, 0x3321, far=False)  # 331E
+                                r = yield from _headline_call(mem, r, variant, '23E4:06B7', 2, 0x3326, far=True)  # 3321
+                                r.di = 0x2ef9  # 3326
+                                r.push(mem.seg(0xE))  # 3329
+                                r.push(r.di)  # 332A
+                                r.push(r.bp)  # 332B
+                                r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x332F, far=False)  # 332C
+                        else:
+                            r.di = r.bp - 0x108  # 32BA
+                            r.push(r.ss)  # 32BE
+                            r.push(r.di)  # 32BF
+                            r.di = ss16(mem, r, r.bp + 4)  # 32C0
+                            r.push(ss16(mem, r, r.di + 4))  # 32C3
+                            r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x32CA, far=False)  # 32C7
+                            r.di = 0x2edd  # 32CA
+                            r.push(mem.seg(0xE))  # 32CD
+                            r.push(r.di)  # 32CE
+                            r.di = 0x2ee7  # 32CF
+                            r.push(mem.seg(0xE))  # 32D2
+                            r.push(r.di)  # 32D3
+                            r.push(r.bp)  # 32D4
+                            r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x32D8, far=False)  # 32D5
+                    else:
+                        r.di = r.bp - 0x108  # 327A
+                        r.push(r.ss)  # 327E
+                        r.push(r.di)  # 327F
+                        r.di = ss16(mem, r, r.bp + 4)  # 3280
+                        r.push(ss16(mem, r, r.di + 4))  # 3283
+                        r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x328A, far=False)  # 3287
+                        r.di = 0x2ed3  # 328A
+                        r.push(mem.seg(0xE))  # 328D
+                        r.push(r.di)  # 328E
+                        r = yield from _headline_call(mem, r, variant, '23E4:06B7', 2, 0x3294, far=True)  # 328F
+                        r.es, r.di = ss16(mem, r, r.bp - 8 + 2), ss16(mem, r, r.bp - 8)  # 3294
+                        r.al = mem.u8(mem.addr(r.es, r.di + 0x2c))  # 3297
+                        r.ah = 0  # 329B
+                        r.dx = 0xb  # 329D
+                        mul(r, r.dx)  # 32A0
+                        r.di = r.ax  # 32A2
+                        r.di = r.di + 0x68ff  # 32A4
+                        r.push(mem.DS)  # 32A8
+                        r.push(r.di)  # 32A9
+                        r.di = 0x2ed7  # 32AA
+                        r.push(mem.seg(0xE))  # 32AD
+                        r.push(r.di)  # 32AE
+                        r.push(r.bp)  # 32AF
+                        r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x32B3, far=False)  # 32B0
+                else:
+                    r.di = r.bp - 0x108  # 3255
+                    r.push(r.ss)  # 3259
+                    r.push(r.di)  # 325A
+                    r.di = ss16(mem, r, r.bp + 4)  # 325B
+                    r.push(ss16(mem, r, r.di + 4))  # 325E
+                    r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x3265, far=False)  # 3262
+                    r.di = 0x2eb9  # 3265
+                    r.push(mem.seg(0xE))  # 3268
+                    r.push(r.di)  # 3269
+                    r.di = 0x2ec9  # 326A
+                    r.push(mem.seg(0xE))  # 326D
+                    r.push(r.di)  # 326E
+                    r.push(r.bp)  # 326F
+                    r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x3273, far=False)  # 3270
+            else:
+                r.di = r.bp - 0x108  # 3216
+                r.push(r.ss)  # 321A
+                r.push(r.di)  # 321B
+                r.di = ss16(mem, r, r.bp + 4)  # 321C
+                r.push(ss16(mem, r, r.di + 4))  # 321F
+                r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x3226, far=False)  # 3223
+                r.di = 0x2ea7  # 3226
+                r.push(mem.seg(0xE))  # 3229
+                r.push(r.di)  # 322A
+                r = yield from _headline_call(mem, r, variant, '23E4:06B7', 2, 0x3230, far=True)  # 322B
+                r.di = 0x2eac  # 3230
+                r.push(mem.seg(0xE))  # 3233
+                r.push(r.di)  # 3234
+                r.es, r.di = ss16(mem, r, r.bp - 8 + 2), ss16(mem, r, r.bp - 8)  # 3235
+                r.al = mem.u8(mem.addr(r.es, r.di + 0x2c))  # 3238
+                r.ah = 0  # 323C
+                r.di = r.ax  # 323E
+                r.cx = (r.cx & 0xff00) | ((3) & 255)  # 3240
+                r.di = r.di << (r.cx & 255)  # 3242
+                r.di = r.di + 0x6e92  # 3244
+                r.push(mem.DS)  # 3248
+                r.push(r.di)  # 3249
+                r.push(r.bp)  # 324A
+                r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x324E, far=False)  # 324B
+        else:
+            r.di = r.bp - 0x108  # 31F1
+            r.push(r.ss)  # 31F5
+            r.push(r.di)  # 31F6
+            r.di = ss16(mem, r, r.bp + 4)  # 31F7
+            r.push(ss16(mem, r, r.di + 4))  # 31FA
+            r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x3201, far=False)  # 31FE
+            r.di = 0x2e94  # 3201
+            r.push(mem.seg(0xE))  # 3204
+            r.push(r.di)  # 3205
+            r.di = 0x2ea6  # 3206
+            r.push(mem.seg(0xE))  # 3209
+            r.push(r.di)  # 320A
+            r.push(r.bp)  # 320B
+            r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x320F, far=False)  # 320C
+        return (yield from _headline_361e(mem, r, variant))
+    else:
+        r.es, r.di = ss16(mem, r, r.bp - 4 + 2), ss16(mem, r, r.bp - 4)  # 3621
+        _left, _right = mem.u8(mem.addr(r.es, r.di + 3)), 2  # 3624
+        if _left == _right:  # 3629
+            r.di = ss16(mem, r, r.bp + 4)  # 362E
+            r.push(ss16(mem, r, r.di + 4))  # 3631
+            r = yield from _headline_call(mem, r, variant, '000E:1F4D', 1, 0x3638, far=False)  # 3635
+            _left, _right = r.al, 0  # 3638
+            if _left == _right:  # 363A
+                r.ax = 2  # 368F
+                r.push(r.ax)  # 3692
+                r = yield from _headline_call(mem, r, variant, '214B:06B1', 1, 0x3698, far=True)  # 3693
+                _left, _right = r.ax, 1  # 3698
+                if _left != _right:  # 369B
+                    _left, _right = r.ax, 2  # 36BD
+                    if _left != _right:  # 36C0
+                        pass
+                    else:
+                        r.di = r.bp - 0x108  # 36C2
+                        r.push(r.ss)  # 36C6
+                        r.push(r.di)  # 36C7
+                        r.di = ss16(mem, r, r.bp + 4)  # 36C8
+                        r.push(ss16(mem, r, r.di + 4))  # 36CB
+                        r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x36D2, far=False)  # 36CF
+                        r.di = 0x305d  # 36D2
+                        r.push(mem.seg(0xE))  # 36D5
+                        r.push(r.di)  # 36D6
+                        r.di = 0x2ea6  # 36D7
+                        r.push(mem.seg(0xE))  # 36DA
+                        r.push(r.di)  # 36DB
+                        r.push(r.bp)  # 36DC
+                        r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x36E0, far=False)  # 36DD
+                else:
+                    r.di = r.bp - 0x108  # 369D
+                    r.push(r.ss)  # 36A1
+                    r.push(r.di)  # 36A2
+                    r.di = ss16(mem, r, r.bp + 4)  # 36A3
+                    r.push(ss16(mem, r, r.di + 4))  # 36A6
+                    r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x36AD, far=False)  # 36AA
+                    r.di = 0x304f  # 36AD
+                    r.push(mem.seg(0xE))  # 36B0
+                    r.push(r.di)  # 36B1
+                    r.di = 0x2ea6  # 36B2
+                    r.push(mem.seg(0xE))  # 36B5
+                    r.push(r.di)  # 36B6
+                    r.push(r.bp)  # 36B7
+                    r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x36BB, far=False)  # 36B8
+            else:
+                r.ax = 2  # 363C
+                r.push(r.ax)  # 363F
+                r = yield from _headline_call(mem, r, variant, '214B:06B1', 1, 0x3645, far=True)  # 3640
+                _left, _right = r.ax, 1  # 3645
+                if _left != _right:  # 3648
+                    _left, _right = r.ax, 2  # 366A
+                    if _left != _right:  # 366D
+                        pass
+                    else:
+                        r.di = r.bp - 0x108  # 366F
+                        r.push(r.ss)  # 3673
+                        r.push(r.di)  # 3674
+                        r.di = ss16(mem, r, r.bp + 4)  # 3675
+                        r.push(ss16(mem, r, r.di + 4))  # 3678
+                        r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x367F, far=False)  # 367C
+                        r.di = 0x303a  # 367F
+                        r.push(mem.seg(0xE))  # 3682
+                        r.push(r.di)  # 3683
+                        r.di = 0x304a  # 3684
+                        r.push(mem.seg(0xE))  # 3687
+                        r.push(r.di)  # 3688
+                        r.push(r.bp)  # 3689
+                        r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x368D, far=False)  # 368A
+                else:
+                    r.di = r.bp - 0x108  # 364A
+                    r.push(r.ss)  # 364E
+                    r.push(r.di)  # 364F
+                    r.di = ss16(mem, r, r.bp + 4)  # 3650
+                    r.push(ss16(mem, r, r.di + 4))  # 3653
+                    r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x365A, far=False)  # 3657
+                    r.di = 0x302a  # 365A
+                    r.push(mem.seg(0xE))  # 365D
+                    r.push(r.di)  # 365E
+                    r.di = 0x2ea6  # 365F
+                    r.push(mem.seg(0xE))  # 3662
+                    r.push(r.di)  # 3663
+                    r.push(r.bp)  # 3664
+                    r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x3668, far=False)  # 3665
+                return (yield from _headline_368d(mem, r, variant))
+            return (yield from _headline_36e0(mem, r, variant))
+        else:
+            r.es, r.di = ss16(mem, r, r.bp - 4 + 2), ss16(mem, r, r.bp - 4)  # 36E3
+            r.al = mem.u8(mem.addr(r.es, r.di + 1))  # 36E6
+            r.es, r.di = ss16(mem, r, r.bp - 4 + 2), ss16(mem, r, r.bp - 4)  # 36EA
+            _left, _right = r.al, mem.u8(mem.addr(r.es, r.di))  # 36ED
+            if _left != _right:  # 36F0
+                r.di = ss16(mem, r, r.bp + 4)  # 3708
+                r.push(ss16(mem, r, r.di + 4))  # 370B
+                r = yield from _headline_call(mem, r, variant, '000E:0B77', 1, 0x3712, far=False)  # 370F
+                _left, _right = r.ax, 0xfffa  # 3712
+                if _left == _right:  # 3715
+                    return (yield from _headline_371c(mem, r, variant))
+                else:
+                    _left, _right = r.ax, 0xfff9  # 3717
+                    if _left != _right:  # 371A
+                        _left, _right = r.ax, 0xfff6  # 3752
+                        if s16(_left) < s16(_right):  # 3755
+                            return (yield from _headline_377d(mem, r, variant))
+                        else:
+                            _left, _right = r.ax, 0xfff8  # 3757
+                            if s16(_left) > s16(_right):  # 375A
+                                return (yield from _headline_377d(mem, r, variant))
+                            else:
+                                r.di = r.bp - 0x108  # 375C
+                                r.push(r.ss)  # 3760
+                                r.push(r.di)  # 3761
+                                r.di = ss16(mem, r, r.bp + 4)  # 3762
+                                r.push(ss16(mem, r, r.di + 4))  # 3765
+                                r = yield from _headline_call(mem, r, variant, '000E:0ACB', 1, 0x376C, far=False)  # 3769
+                                r.di = 0x3097  # 376C
+                                r.push(mem.seg(0xE))  # 376F
+                                r.push(r.di)  # 3770
+                                r.di = 0x30a3  # 3771
+                                r.push(mem.seg(0xE))  # 3774
+                                r.push(r.di)  # 3775
+                                r.push(r.bp)  # 3776
+                                r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x377A, far=False)  # 3777
+                    else:
+                        return (yield from _headline_371c(mem, r, variant))
+            else:
+                r.di = 0x306e  # 36F2
+                r.push(mem.seg(0xE))  # 36F5
+                r.push(r.di)  # 36F6
+                r.di = 0x3080  # 36F7
+                r.push(mem.seg(0xE))  # 36FA
+                r.push(r.di)  # 36FB
+                r.di = 0x2ea6  # 36FC
+                r.push(mem.seg(0xE))  # 36FF
+                r.push(r.di)  # 3700
+                r.push(r.bp)  # 3701
+                r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x3705, far=False)  # 3702
+    return r
+
+
+def _headline_33fd(mem, r, variant):
+    return (yield from _headline_349b(mem, r, variant))
+    return r
+
+
+def _headline_349b(mem, r, variant):
+    return (yield from _headline_361e(mem, r, variant))
+    return r
+
+
+def _headline_3596(mem, r, variant):
+    return (yield from _headline_361e(mem, r, variant))
+    return r
+
+
+def _headline_361e(mem, r, variant):
+    yield from ()
+    return r
+
+
+def _headline_368d(mem, r, variant):
+    return (yield from _headline_36e0(mem, r, variant))
+    return r
+
+
+def _headline_36e0(mem, r, variant):
+    yield from ()
+    return r
+
+
+def _headline_371c(mem, r, variant):
+    r.di = 0x3086  # 371C
+    r.push(mem.seg(0xE))  # 371F
+    r.push(r.di)  # 3720
+    r.di = r.bp - 0x208  # 3721
+    r.push(r.ss)  # 3725
+    r.push(r.di)  # 3726
+    r.di = 0x2fb7  # 3727
+    r.push(mem.seg(0xE))  # 372A
+    r.push(r.di)  # 372B
+    r = yield from _headline_call(mem, r, variant, '23E4:062A', 2, 0x3731, far=True)  # 372C
+    r.di = r.bp - 0x108  # 3731
+    r.push(r.ss)  # 3735
+    r.push(r.di)  # 3736
+    r.di = ss16(mem, r, r.bp + 4)  # 3737
+    r.push(ss16(mem, r, r.di + 4))  # 373A
+    r = yield from _headline_call(mem, r, variant, '000E:0ACB', 1, 0x3741, far=False)  # 373E
+    r = yield from _headline_call(mem, r, variant, '23E4:06B7', 2, 0x3746, far=True)  # 3741
+    r.di = 0x2ea6  # 3746
+    r.push(mem.seg(0xE))  # 3749
+    r.push(r.di)  # 374A
+    r.push(r.bp)  # 374B
+    r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x374F, far=False)  # 374C
+    return r
+
+
+def _headline_377d(mem, r, variant):
+    _left, _right = r.ax, 0xff01  # 377D
+    if s16(_left) < s16(_right):  # 3780
+        return (yield from _headline_37b4(mem, r, variant))
+    else:
+        _left, _right = r.ax, (0xfff4 if variant == 'sack-threshold-minus-one' else 0xfff5)  # 3782
+        if s16(_left) > s16(_right):  # 3785
+            return (yield from _headline_37b4(mem, r, variant))
+        else:
+            r.di = r.bp - 0x108  # 3787
+            r.push(r.ss)  # 378B
+            r.push(r.di)  # 378C
+            r.di = ss16(mem, r, r.bp + 4)  # 378D
+            r.push(ss16(mem, r, r.di + 4))  # 3790
+            r = yield from _headline_call(mem, r, variant, '000E:0ACB', 1, 0x3797, far=False)  # 3794
+            r.di = 0x30b0  # 3797
+            r.push(mem.seg(0xE))  # 379A
+            r.push(r.di)  # 379B
+            r.di = 0x2ea6  # 379C
+            r.push(mem.seg(0xE))  # 379F
+            r.push(r.di)  # 37A0
+            r.push(r.bp)  # 37A1
+            r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x37A5, far=False)  # 37A2
+            r.di = ss16(mem, r, r.bp + 4)  # 37A5
+            r.di = ss16(mem, r, r.di + 4)  # 37A8
+            _headline_store(mem, r, variant, r.ss, r.di - 2, 8, 1, '000E:37AC')  # 37AC
+    return r
+
+
+def _headline_37b4(mem, r, variant):
+    r.di = ss16(mem, r, r.bp + 4)  # 37B4
+    r.push(ss16(mem, r, r.di + 4))  # 37B7
+    r = yield from _headline_call(mem, r, variant, '000E:1F4D', 1, 0x37BE, far=False)  # 37BB
+    _left, _right = r.al, 0  # 37BE
+    if _left != _right:  # 37C0
+        r.ax = 4  # 37C5
+        r.push(r.ax)  # 37C8
+        r = yield from _headline_call(mem, r, variant, '214B:06B1', 1, 0x37CE, far=True)  # 37C9
+        _left, _right = r.ax, 1  # 37CE
+        if _left != _right:  # 37D1
+            _left, _right = r.ax, 2  # 37F3
+            if _left != _right:  # 37F6
+                _left, _right = r.ax, 3  # 3818
+                if _left != _right:  # 381B
+                    _left, _right = r.ax, 4  # 383D
+                    if _left != _right:  # 3840
+                        pass
+                    else:
+                        r.di = 0x30f7  # 3842
+                        r.push(mem.seg(0xE))  # 3845
+                        r.push(r.di)  # 3846
+                        r.di = r.bp - 0x108  # 3847
+                        r.push(r.ss)  # 384B
+                        r.push(r.di)  # 384C
+                        r.di = ss16(mem, r, r.bp + 4)  # 384D
+                        r.push(ss16(mem, r, r.di + 4))  # 3850
+                        r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x3857, far=False)  # 3854
+                        r.di = 0x2ea6  # 3857
+                        r.push(mem.seg(0xE))  # 385A
+                        r.push(r.di)  # 385B
+                        r.push(r.bp)  # 385C
+                        r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x3860, far=False)  # 385D
+                else:
+                    r.di = 0x30de  # 381D
+                    r.push(mem.seg(0xE))  # 3820
+                    r.push(r.di)  # 3821
+                    r.di = 0x30ed  # 3822
+                    r.push(mem.seg(0xE))  # 3825
+                    r.push(r.di)  # 3826
+                    r.di = r.bp - 0x108  # 3827
+                    r.push(r.ss)  # 382B
+                    r.push(r.di)  # 382C
+                    r.di = ss16(mem, r, r.bp + 4)  # 382D
+                    r.push(ss16(mem, r, r.di + 4))  # 3830
+                    r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x3837, far=False)  # 3834
+                    r.push(r.bp)  # 3837
+                    r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x383B, far=False)  # 3838
+            else:
+                r.di = r.bp - 0x108  # 37F8
+                r.push(r.ss)  # 37FC
+                r.push(r.di)  # 37FD
+                r.di = ss16(mem, r, r.bp + 4)  # 37FE
+                r.push(ss16(mem, r, r.di + 4))  # 3801
+                r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x3808, far=False)  # 3805
+                r.di = 0x30ce  # 3808
+                r.push(mem.seg(0xE))  # 380B
+                r.push(r.di)  # 380C
+                r.di = 0x2ea6  # 380D
+                r.push(mem.seg(0xE))  # 3810
+                r.push(r.di)  # 3811
+                r.push(r.bp)  # 3812
+                r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x3816, far=False)  # 3813
+        else:
+            r.di = r.bp - 0x108  # 37D3
+            r.push(r.ss)  # 37D7
+            r.push(r.di)  # 37D8
+            r.di = ss16(mem, r, r.bp + 4)  # 37D9
+            r.push(ss16(mem, r, r.di + 4))  # 37DC
+            r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x37E3, far=False)  # 37E0
+            r.di = 0x30be  # 37E3
+            r.push(mem.seg(0xE))  # 37E6
+            r.push(r.di)  # 37E7
+            r.di = 0x2ea6  # 37E8
+            r.push(mem.seg(0xE))  # 37EB
+            r.push(r.di)  # 37EC
+            r.push(r.bp)  # 37ED
+            r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x37F1, far=False)  # 37EE
+        return (yield from _headline_3860(mem, r, variant))
+    else:
+        r.di = ss16(mem, r, r.bp + 4)  # 3863
+        r.push(ss16(mem, r, r.di + 4))  # 3866
+        r = yield from _headline_call(mem, r, variant, '000E:09DB', 1, 0x386D, far=False)  # 386A
+        _left, _right = r.al, 0  # 386D
+        if _left == _right:  # 386F
+            r.di = ss16(mem, r, r.bp + 4)  # 38EA
+            r.push(ss16(mem, r, r.di + 4))  # 38ED
+            r = yield from _headline_call(mem, r, variant, '000E:0A53', 1, 0x38F4, far=False)  # 38F1
+            _left, _right = r.al, 0  # 38F4
+            if _left == _right:  # 38F6
+                r.ax = 4  # 3971
+                r.push(r.ax)  # 3974
+                r = yield from _headline_call(mem, r, variant, '214B:06B1', 1, 0x397A, far=True)  # 3975
+                _left, _right = r.ax, 1  # 397A
+                if _left != _right:  # 397D
+                    _left, _right = r.ax, 2  # 39BF
+                    if _left != _right:  # 39C2
+                        _left, _right = r.ax, 3  # 39E4
+                        if _left != _right:  # 39E7
+                            _left, _right = r.ax, 4  # 3A09
+                            if _left != _right:  # 3A0C
+                                pass
+                            else:
+                                r.di = r.bp - 0x108  # 3A0E
+                                r.push(r.ss)  # 3A12
+                                r.push(r.di)  # 3A13
+                                r.di = ss16(mem, r, r.bp + 4)  # 3A14
+                                r.push(ss16(mem, r, r.di + 4))  # 3A17
+                                r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x3A1E, far=False)  # 3A1B
+                                r.di = 0x3189  # 3A1E
+                                r.push(mem.seg(0xE))  # 3A21
+                                r.push(r.di)  # 3A22
+                                r.di = 0x2ea6  # 3A23
+                                r.push(mem.seg(0xE))  # 3A26
+                                r.push(r.di)  # 3A27
+                                r.push(r.bp)  # 3A28
+                                r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x3A2C, far=False)  # 3A29
+                        else:
+                            r.di = r.bp - 0x108  # 39E9
+                            r.push(r.ss)  # 39ED
+                            r.push(r.di)  # 39EE
+                            r.di = ss16(mem, r, r.bp + 4)  # 39EF
+                            r.push(ss16(mem, r, r.di + 4))  # 39F2
+                            r = yield from _headline_call(mem, r, variant, '000E:0ACB', 1, 0x39F9, far=False)  # 39F6
+                            r.di = 0x317c  # 39F9
+                            r.push(mem.seg(0xE))  # 39FC
+                            r.push(r.di)  # 39FD
+                            r.di = 0x2ea6  # 39FE
+                            r.push(mem.seg(0xE))  # 3A01
+                            r.push(r.di)  # 3A02
+                            r.push(r.bp)  # 3A03
+                            r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x3A07, far=False)  # 3A04
+                    else:
+                        r.di = r.bp - 0x108  # 39C4
+                        r.push(r.ss)  # 39C8
+                        r.push(r.di)  # 39C9
+                        r.di = ss16(mem, r, r.bp + 4)  # 39CA
+                        r.push(ss16(mem, r, r.di + 4))  # 39CD
+                        r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x39D4, far=False)  # 39D1
+                        r.di = 0x316b  # 39D4
+                        r.push(mem.seg(0xE))  # 39D7
+                        r.push(r.di)  # 39D8
+                        r.di = 0x2ea6  # 39D9
+                        r.push(mem.seg(0xE))  # 39DC
+                        r.push(r.di)  # 39DD
+                        r.push(r.bp)  # 39DE
+                        r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x39E2, far=False)  # 39DF
+                else:
+                    r.di = r.bp - 0x108  # 397F
+                    r.push(r.ss)  # 3983
+                    r.push(r.di)  # 3984
+                    r.di = ss16(mem, r, r.bp + 4)  # 3985
+                    r.push(ss16(mem, r, r.di + 4))  # 3988
+                    r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x398F, far=False)  # 398C
+                    r.di = 0x315c  # 398F
+                    r.push(mem.seg(0xE))  # 3992
+                    r.push(r.di)  # 3993
+                    r.di = r.bp - 0x308  # 3994
+                    r.push(r.ss)  # 3998
+                    r.push(r.di)  # 3999
+                    r.di = 0x3167  # 399A
+                    r.push(mem.seg(0xE))  # 399D
+                    r.push(r.di)  # 399E
+                    r = yield from _headline_call(mem, r, variant, '23E4:062A', 2, 0x39A4, far=True)  # 399F
+                    r.di = r.bp - 0x208  # 39A4
+                    r.push(r.ss)  # 39A8
+                    r.push(r.di)  # 39A9
+                    r.di = ss16(mem, r, r.bp + 4)  # 39AA
+                    r.push(ss16(mem, r, r.di + 4))  # 39AD
+                    r = yield from _headline_call(mem, r, variant, '000E:0B0A', 1, 0x39B4, far=False)  # 39B1
+                    r = yield from _headline_call(mem, r, variant, '23E4:06B7', 2, 0x39B9, far=True)  # 39B4
+                    r.push(r.bp)  # 39B9
+                    r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x39BD, far=False)  # 39BA
+            else:
+                r.ax = 3  # 38F8
+                r.push(r.ax)  # 38FB
+                r = yield from _headline_call(mem, r, variant, '214B:06B1', 1, 0x3901, far=True)  # 38FC
+                _left, _right = r.ax, 1  # 3901
+                if _left != _right:  # 3904
+                    _left, _right = r.ax, 2  # 3926
+                    if _left != _right:  # 3929
+                        _left, _right = r.ax, 3  # 394B
+                        if _left != _right:  # 394E
+                            pass
+                        else:
+                            r.di = r.bp - 0x108  # 3950
+                            r.push(r.ss)  # 3954
+                            r.push(r.di)  # 3955
+                            r.di = ss16(mem, r, r.bp + 4)  # 3956
+                            r.push(ss16(mem, r, r.di + 4))  # 3959
+                            r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x3960, far=False)  # 395D
+                            r.di = 0x314c  # 3960
+                            r.push(mem.seg(0xE))  # 3963
+                            r.push(r.di)  # 3964
+                            r.di = 0x2ea6  # 3965
+                            r.push(mem.seg(0xE))  # 3968
+                            r.push(r.di)  # 3969
+                            r.push(r.bp)  # 396A
+                            r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x396E, far=False)  # 396B
+                    else:
+                        r.di = r.bp - 0x108  # 392B
+                        r.push(r.ss)  # 392F
+                        r.push(r.di)  # 3930
+                        r.di = ss16(mem, r, r.bp + 4)  # 3931
+                        r.push(ss16(mem, r, r.di + 4))  # 3934
+                        r = yield from _headline_call(mem, r, variant, '000E:0ACB', 1, 0x393B, far=False)  # 3938
+                        r.di = 0x313b  # 393B
+                        r.push(mem.seg(0xE))  # 393E
+                        r.push(r.di)  # 393F
+                        r.di = 0x2ea6  # 3940
+                        r.push(mem.seg(0xE))  # 3943
+                        r.push(r.di)  # 3944
+                        r.push(r.bp)  # 3945
+                        r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x3949, far=False)  # 3946
+                else:
+                    r.di = 0x3129  # 3906
+                    r.push(mem.seg(0xE))  # 3909
+                    r.push(r.di)  # 390A
+                    r.di = 0x3137  # 390B
+                    r.push(mem.seg(0xE))  # 390E
+                    r.push(r.di)  # 390F
+                    r.di = r.bp - 0x108  # 3910
+                    r.push(r.ss)  # 3914
+                    r.push(r.di)  # 3915
+                    r.di = ss16(mem, r, r.bp + 4)  # 3916
+                    r.push(ss16(mem, r, r.di + 4))  # 3919
+                    r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x3920, far=False)  # 391D
+                    r.push(r.bp)  # 3920
+                    r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x3924, far=False)  # 3921
+                return (yield from _headline_396e(mem, r, variant))
+        else:
+            r.ax = 3  # 3871
+            r.push(r.ax)  # 3874
+            r = yield from _headline_call(mem, r, variant, '214B:06B1', 1, 0x387A, far=True)  # 3875
+            _left, _right = r.ax, 1  # 387A
+            if _left != _right:  # 387D
+                _left, _right = r.ax, 2  # 389F
+                if _left != _right:  # 38A2
+                    _left, _right = r.ax, 3  # 38C4
+                    if _left != _right:  # 38C7
+                        pass
+                    else:
+                        r.di = r.bp - 0x108  # 38C9
+                        r.push(r.ss)  # 38CD
+                        r.push(r.di)  # 38CE
+                        r.di = ss16(mem, r, r.bp + 4)  # 38CF
+                        r.push(ss16(mem, r, r.di + 4))  # 38D2
+                        r = yield from _headline_call(mem, r, variant, '000E:0ACB', 1, 0x38D9, far=False)  # 38D6
+                        r.di = 0x3121  # 38D9
+                        r.push(mem.seg(0xE))  # 38DC
+                        r.push(r.di)  # 38DD
+                        r.di = 0x2ea6  # 38DE
+                        r.push(mem.seg(0xE))  # 38E1
+                        r.push(r.di)  # 38E2
+                        r.push(r.bp)  # 38E3
+                        r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x38E7, far=False)  # 38E4
+                else:
+                    r.di = r.bp - 0x108  # 38A4
+                    r.push(r.ss)  # 38A8
+                    r.push(r.di)  # 38A9
+                    r.di = ss16(mem, r, r.bp + 4)  # 38AA
+                    r.push(ss16(mem, r, r.di + 4))  # 38AD
+                    r = yield from _headline_call(mem, r, variant, '000E:0B4D', 1, 0x38B4, far=False)  # 38B1
+                    r.di = 0x302a  # 38B4
+                    r.push(mem.seg(0xE))  # 38B7
+                    r.push(r.di)  # 38B8
+                    r.di = 0x3118  # 38B9
+                    r.push(mem.seg(0xE))  # 38BC
+                    r.push(r.di)  # 38BD
+                    r.push(r.bp)  # 38BE
+                    r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x38C2, far=False)  # 38BF
+            else:
+                r.di = r.bp - 0x108  # 387F
+                r.push(r.ss)  # 3883
+                r.push(r.di)  # 3884
+                r.di = ss16(mem, r, r.bp + 4)  # 3885
+                r.push(ss16(mem, r, r.di + 4))  # 3888
+                r = yield from _headline_call(mem, r, variant, '000E:0ACB', 1, 0x388F, far=False)  # 388C
+                r.di = 0x3103  # 388F
+                r.push(mem.seg(0xE))  # 3892
+                r.push(r.di)  # 3893
+                r.di = 0x3114  # 3894
+                r.push(mem.seg(0xE))  # 3897
+                r.push(r.di)  # 3898
+                r.push(r.bp)  # 3899
+                r = yield from _headline_call(mem, r, variant, '000E:2E1F', 7, 0x389D, far=False)  # 389A
+            return (yield from _headline_38e7(mem, r, variant))
+    return r
+
+
+def _headline_3860(mem, r, variant):
+    yield from ()
+    return r
+
+
+def _headline_38e7(mem, r, variant):
+    yield from ()
+    return r
+
+
+def _headline_396e(mem, r, variant):
+    yield from ()
+    return r
+
+
+@PORTS.port('000E:4DB7', ret='ret 2')
+def headline_statistics_pages(mem, variant):
+    """Statistics routines stay actual original calls until T122e."""
+    r = Regs(mem)
+    r.enter()
+    r = yield from _headline_pages_4dba(mem, r, variant)
+    return _end(r)
+
+
+def _headline_pages_4dba(mem, r, variant):
+    r.push(r.bp)  # 4DBA
+    r = yield from _headline_call(mem, r, variant, '000E:319B', 1, 0x4DBE, far=False)  # 4DBB
+    r.push(r.bp)  # 4DBE
+    r = yield from _headline_call(mem, r, variant, '000E:3CC8', 1, 0x4DC2, far=False)  # 4DBF
+    _left, _right = r.al, 0  # 4DC2
+    if _left == _right:  # 4DC4
+        r.ax = 6  # 4DD8
+        r.push(r.ax)  # 4DDB
+        r.push(r.bp)  # 4DDC
+        r = yield from _headline_call(mem, r, variant, '000E:4440', 2, 0x4DE0, far=False)  # 4DDD
+        r.push(r.bp)  # 4DE0
+        r = yield from _headline_call(mem, r, variant, '000E:4A87', 1, 0x4DE4, far=False)  # 4DE1
+        _left, _right = r.al, 0  # 4DE4
+        if _left != _right:  # 4DE6
+            pass
+        else:
+            pass
+    else:
+        r.push(r.bp)  # 4DC6
+        r = yield from _headline_call(mem, r, variant, '000E:4A87', 1, 0x4DCA, far=False)  # 4DC7
+        _left, _right = r.al, 0  # 4DCA
+        if _left != _right:  # 4DCC
+            pass
+        else:
+            r.ax = 0xa  # 4DCE
+            r.push(r.ax)  # 4DD1
+            r.push(r.bp)  # 4DD2
+            r = yield from _headline_call(mem, r, variant, '000E:4440', 2, 0x4DD6, far=False)  # 4DD3
+        return (yield from _headline_pages_4dd6(mem, r, variant))
+    return r
+
+
+def _headline_pages_4dd6(mem, r, variant):
+    yield from ()
+    return r
+
+
+@PORTS.port('000E:4E0E', ret='ret 6')
+def post_match_news_and_sack(mem, variant):
+    """Original scorer histogram, strict first maximum, whole flag words and actual wait before unmanage."""
+    r = Regs(mem)
+    r.enter(0x22)
+    r = yield from _news_outer_prelude_4e14(mem, r, variant)
+    r.ax = 1  # 4E72
+    _left, _right = r.ax, ss16(mem, r, r.bp - 0x21)  # 4E75
+    if _left <= _right:  # 4E78
+        r.local16(- 4, r.ax)  # 4E7A
+        while True:  # 4E82; original scorer-loop back edge 4EB0 -> 4E7F
+            r.ax = ss16(mem, r, r.bp - 4)  # 4E82
+            r.dx = 3  # 4E85
+            mul(r, r.dx)  # 4E88
+            r.cx = r.ax  # 4E8A
+            r.al = ss8(mem, r, r.bp - 1)  # 4E8C
+            cbw(r)  # 4E8F
+            r.dx = 0x21  # 4E90
+            mul(r, r.dx)  # 4E93
+            r.di = r.ax  # 4E95
+            r.di = r.di + r.cx  # 4E97
+            r.push(mem.ds16((r.di + 0x7bd1) & M16))  # 4E99
+            r.push(ss16(mem, r, r.bp + 8))  # 4E9D
+            r = yield from _headline_call(mem, r, variant, '1771:3A82', 2, 0x4EA5, far=True)  # 4EA0
+            r.di = r.ax  # 4EA5
+            r.local8(+ r.di - 0x1b, ss8(mem, r, r.bp + r.di - 0x1b) + 1)  # 4EA7
+            r.ax = ss16(mem, r, r.bp - 4)  # 4EAA
+            _left, _right = r.ax, ss16(mem, r, r.bp - 0x21)  # 4EAD
+            if _left == _right:  # 4EB0
+                break
+            r.local16(- 4, ss16(mem, r, r.bp - 4) + 1)  # 4E7F
+    _left, _right = ss16(mem, r, r.bp - 6), 0  # 4EB2
+    if _left > _right:  # 4EB6
+        r.local16(- 4, 1)  # 4EB8
+        while True:  # 4EC2; original max-loop back edge 4EDA -> 4EBF
+            r = yield from _news_histogram_max_4ec2(mem, r, variant)
+            _left, _right = ss16(mem, r, r.bp - 4), 0x14  # 4ED6
+            if _left == _right:  # 4EDA
+                break
+            r.local16(- 4, ss16(mem, r, r.bp - 4) + 1)  # 4EBF
+    r = yield from _news_outer_tail_4edc(mem, r, variant)
+    return _end(r)
+
+
+def _news_outer_prelude_4e14(mem, r, variant):
+    r.es, r.di = ss16(mem, r, r.bp + 4 + 2), ss16(mem, r, r.bp + 4)  # 4E14
+    r.local16(- 0x1f, r.di)  # 4E17
+    r.local16(- 0x1d, r.es)  # 4E1A
+    r.local8(- 2, 0)  # 4E1D
+    r.es, r.di = ss16(mem, r, r.bp - 0x1f + 2), ss16(mem, r, r.bp - 0x1f)  # 4E21
+    r.ax = mem.u16(mem.addr(r.es, r.di + 6))  # 4E24
+    _left, _right = r.ax, ss16(mem, r, r.bp + 8)  # 4E28
+    if _left == _right:  # 4E2B
+        r.al = 1  # 4E31
+    else:
+        r.al = 0  # 4E2D
+    return (yield from _news_outer_prelude_4e33(mem, r, variant))
+    return r
+
+
+def _news_outer_prelude_4e33(mem, r, variant):
+    r.local8(- 1, r.al)  # 4E33
+    r.al = ss8(mem, r, r.bp - 1)  # 4E36
+    cbw(r)  # 4E39
+    r.es, r.di = ss16(mem, r, r.bp - 0x1f + 2), ss16(mem, r, r.bp - 0x1f)  # 4E3A
+    r.di = r.di + r.ax  # 4E3D
+    _left, _right = mem.u8(mem.addr(r.es, r.di)), 0  # 4E3F
+    if _left > _right:  # 4E43
+        r.al = 1  # 4E49
+    else:
+        r.al = 0  # 4E45
+    return (yield from _news_outer_prelude_4e4b(mem, r, variant))
+    return r
+
+
+def _news_outer_prelude_4e4b(mem, r, variant):
+    r.ah = 0  # 4E4B
+    r.local16(- 6, r.ax)  # 4E4D
+    r.di = r.bp - 0x1b  # 4E50
+    r.push(r.ss)  # 4E53
+    r.push(r.di)  # 4E54
+    r.ax = 0x15  # 4E55
+    r.push(r.ax)  # 4E58
+    r.ax = 0  # 4E59
+    r.push(r.ax)  # 4E5B
+    r = yield from _headline_call(mem, r, variant, '214B:0018', 4, 0x4E61, far=True)  # 4E5C
+    r.al = ss8(mem, r, r.bp - 1)  # 4E61
+    cbw(r)  # 4E64
+    r.es, r.di = ss16(mem, r, r.bp - 0x1f + 2), ss16(mem, r, r.bp - 0x1f)  # 4E65
+    r.di = r.di + r.ax  # 4E68
+    r.al = mem.u8(mem.addr(r.es, r.di))  # 4E6A
+    r.ah = 0  # 4E6D
+    r.local16(- 0x21, r.ax)  # 4E6F
+    return r
+
+
+def _news_histogram_max_4ec2(mem, r, variant):
+    yield from ()
+    r.di = ss16(mem, r, r.bp - 4)  # 4EC2
+    r.al = ss8(mem, r, r.bp + r.di - 0x1b)  # 4EC5
+    r.di = ss16(mem, r, r.bp - 6)  # 4EC8
+    _left, _right = r.al, ss8(mem, r, r.bp + r.di - 0x1b)  # 4ECB
+    if _left <= _right:  # 4ECE
+        pass
+    else:
+        r.ax = ss16(mem, r, r.bp - 4)  # 4ED0
+        r.local16(- 6, r.ax)  # 4ED3
+    return r
+
+
+def _news_outer_tail_4edc(mem, r, variant):
+    r = yield from _headline_call(mem, r, variant, '000E:038E', 0, 0x4EDF, far=False)  # 4EDC
+    r.push(r.bp)  # 4EDF
+    r = yield from _headline_call(mem, r, variant, '000E:11D9', 1, 0x4EE3, far=False)  # 4EE0
+    r.push(r.bp)  # 4EE3
+    r = yield from _headline_call(mem, r, variant, '000E:4DB7', 1, 0x4EE7, far=False)  # 4EE4
+    r.push(r.bp)  # 4EE7
+    r = yield from _headline_call(mem, r, variant, '000E:26F2', 1, 0x4EEB, far=False)  # 4EE8
+    r.al = 0  # 4EEB
+    r.push(r.ax)  # 4EED
+    r.ax = ss16(mem, r, r.bp + 8)  # 4EEE
+    r.dx = 0xbf  # 4EF1
+    mul(r, r.dx)  # 4EF4
+    r.es, r.di = mem.ds16((0xa917 + 2) & M16), mem.ds16((0xa917) & M16)  # 4EF6
+    r.di = r.di + r.ax  # 4EFA
+    r.al = mem.u8(mem.addr(r.es, r.di + 0x2e))  # 4EFC
+    r.ah = 0  # 4F00
+    r.ax = r.ax - 0x80  # 4F02
+    r.dx = r.ax  # 4F05
+    r.es, r.di = mem.ds16((0xa923 + 2) & M16), mem.ds16((0xa923) & M16)  # 4F07
+    r.al = mem.u8(mem.addr(r.es, r.di + 0x40))  # 4F0B
+    cbw(r)  # 4F0F
+    r.ax = r.ax << 1  # 4F10
+    r.si = r.ax  # 4F12
+    r.ax = r.ax << 1  # 4F14
+    r.ax = r.ax + r.si  # 4F16
+    r.es, r.di = mem.ds16((0xa923 + 2) & M16), mem.ds16((0xa923) & M16)  # 4F18
+    r.di = r.di + r.ax  # 4F1C
+    r.di = r.di + r.dx  # 4F1E
+    r.al = mem.u8(mem.addr(r.es, r.di + 0x19))  # 4F20
+    r.es, r.di = ss16(mem, r, r.bp - 0x1f + 2), ss16(mem, r, r.bp - 0x1f)  # 4F24
+    _left, _right = r.al, mem.u8(mem.addr(r.es, r.di + 2))  # 4F27
+    if _left >= _right:  # 4F2B
+        return (yield from _news_outer_tail_4f41(mem, r, variant))
+    else:
+        r.es, r.di = ss16(mem, r, r.bp - 0x1f + 2), ss16(mem, r, r.bp - 0x1f)  # 4F2D
+        r.al = mem.u8(mem.addr(r.es, r.di + 2))  # 4F30
+        r.push(r.ax)  # 4F34
+        r.di = 0xa943  # 4F35
+        r.push(mem.DS)  # 4F38
+        r.push(r.di)  # 4F39
+        r = yield from _headline_call(mem, r, variant, '23E4:08DF', 3, 0x4F3F, far=True)  # 4F3A
+        _left, _right = int(not (mem.reg('eflags') & 0x40)), 0  # 4F3A
+        if _left != _right:  # 4F3F
+            r.al = 1  # 4F45
+        else:
+            return (yield from _news_outer_tail_4f41(mem, r, variant))
+    return (yield from _news_outer_tail_4f47(mem, r, variant))
+    return r
+
+
+def _news_outer_tail_4f41(mem, r, variant):
+    r.al = 0  # 4F41
+    return (yield from _news_outer_tail_4f47(mem, r, variant))
+    return r
+
+
+def _news_outer_tail_4f47(mem, r, variant):
+    r.push(r.ax)  # 4F47
+    r.es, r.di = ss16(mem, r, r.bp - 0x1f + 2), ss16(mem, r, r.bp - 0x1f)  # 4F48
+    r.al = mem.u8(mem.addr(r.es, r.di + 3))  # 4F4B
+    _left, _right = r.al, ss8(mem, r, r.bp - 1)  # 4F4F
+    if _left != _right:  # 4F52
+        return (yield from _news_outer_tail_4f68(mem, r, variant))
+    else:
+        r.es, r.di = ss16(mem, r, r.bp - 0x1f + 2), ss16(mem, r, r.bp - 0x1f)  # 4F54
+        r.al = mem.u8(mem.addr(r.es, r.di + 2))  # 4F57
+        r.push(r.ax)  # 4F5B
+        r.di = 0x4dee  # 4F5C
+        r.push(mem.seg(0xE))  # 4F5F
+        r.push(r.di)  # 4F60
+        r = yield from _headline_call(mem, r, variant, '23E4:08DF', 3, 0x4F66, far=True)  # 4F61
+        _left, _right = int(not (mem.reg('eflags') & 0x40)), 0  # 4F61
+        if _left != _right:  # 4F66
+            r.al = 1  # 4F6C
+        else:
+            return (yield from _news_outer_tail_4f68(mem, r, variant))
+    return (yield from _news_outer_tail_4f6e(mem, r, variant))
+    return r
+
+
+def _news_outer_tail_4f68(mem, r, variant):
+    r.al = 0  # 4F68
+    return (yield from _news_outer_tail_4f6e(mem, r, variant))
+    return r
+
+
+def _news_outer_tail_4f6e(mem, r, variant):
+    r.push(r.ax)  # 4F6E
+    r = yield from _headline_call(mem, r, variant, '000E:05F6', 3, 0x4F72, far=False)  # 4F6F
+    _left, _right = ss8(mem, r, r.bp - 2), 0  # 4F72
+    if _left == _right:  # 4F76
+        pass
+    else:
+        r.ax = ss16(mem, r, r.bp + 8)  # 4F78
+        r.dx = 0xbf  # 4F7B
+        mul(r, r.dx)  # 4F7E
+        r.es, r.di = mem.ds16((0xa917 + 2) & M16), mem.ds16((0xa917) & M16)  # 4F80
+        r.di = r.di + r.ax  # 4F84
+        r.al = mem.u8(mem.addr(r.es, r.di + 0x2e))  # 4F86
+        r.ah = 0  # 4F8A
+        r.ax = r.ax - 0x80  # 4F8C
+        r.push(r.ax)  # 4F8F
+        r = yield from _headline_call(mem, r, variant, '000E:01FA', 1, 0x4F93, far=False)  # 4F90
     return r
