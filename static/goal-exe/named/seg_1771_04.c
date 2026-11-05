@@ -660,7 +660,7 @@ void __cdecl16far sort_pool_by_position(void)
 
 
 // ---- 1771:55FC  find_next_managed_fixture  (f_1771_55FC; Ghidra 4000:55FC, __cdecl16far; found by routines.tsv)
-// (none) 0 for a sacked manager ([A923]+0x47+m); else sets DS:9B43 to the current manager's country's next pending fixture (the first of the trailing run of list entries whose record +0 >= 0xFE and that are >= [A923]+0x26), 0 when none, and returns DS:9B43 != 0  [established; F031]
+// (none) 0 for a sacked manager ([A923]+0x47+m); else sets DS:9B43 to the current manager's country's next pending fixture (the first of the trailing run of list entries whose record +0 >= 0xFE and that are >= [A923]+0x26), 0 when none, and returns DS:9B43 != 0; the sacked branch preserves DS:9B43; AL boolean retains AH  [established; F031; read code/seg_1771_08.asm]
 
 undefined2 __cdecl16far find_next_managed_fixture(void)
 

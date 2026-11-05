@@ -1,0 +1,25 @@
+check_annotations: routines.tsv:126: basis part 'T125' is neither a finding id F<nnn> nor 'read <path>'
+check_annotations: routines.tsv:126: basis 'read code/seg_0791_22.asm DC7E-DDCA': no file static/goal-exe/code/seg_0791_22.asm DC7E-DDCA
+check_annotations: routines.tsv:549: basis part 'T125' is neither a finding id F<nnn> nor 'read <path>'
+check_annotations: routines.tsv:549: basis 'read code/seg_0791_22.asm DAF8-DB35': no file static/goal-exe/code/seg_0791_22.asm DAF8-DB35
+check_annotations: routines.tsv:549: basis 'read code/seg_1771_08.asm 5A38-5A8C': no file static/goal-exe/code/seg_1771_08.asm 5A38-5A8C
+check_annotations: routines.tsv:550: basis part 'T125' is neither a finding id F<nnn> nor 'read <path>'
+check_annotations: routines.tsv:550: basis 'read code/seg_0791_22.asm DB38-DBD8': no file static/goal-exe/code/seg_0791_22.asm DB38-DBD8
+check_annotations: routines.tsv:551: basis part 'T125' is neither a finding id F<nnn> nor 'read <path>'
+check_annotations: routines.tsv:551: basis 'read code/seg_0791_22.asm DBFA-DC7B': no file static/goal-exe/code/seg_0791_22.asm DBFA-DC7B
+check_annotations: routines.tsv:552: basis part 'T125' is neither a finding id F<nnn> nor 'read <path>'
+check_annotations: routines.tsv:552: basis 'read code/seg_1771_08.asm 55FC-56E3': no file static/goal-exe/code/seg_1771_08.asm 55FC-56E3
+check_annotations: 11 error(s)
+segment	named	routines
+0000	1	1
+000E	47	58
+0791	277	283
+16D6	0	26
+1771	134	154
+2138	1	1  (run-time library)
+2139	1	1  (run-time library)
+214B	85	85  (run-time library)
+235C	12	12  (run-time library)
+2382	17	17  (run-time library)
+23E4	88	88  (run-time library)
+records 5, fields 47, globals 68

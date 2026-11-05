@@ -1,0 +1,49 @@
+# T125 assistant evidence
+
+Method: read named 0791 DAF8/DB38/DBFA/DC7E and 1771 55FC first, then their complete assembly listings. Static analysis establishes exact control flow, record offsets, call frames, the unsigned comparison and two passes. The original-backed runs corroborate that transcription with real original callees and entry frames on explicitly synthetic records over a hash-verified published image. No guest bytes are published.
+
+`baseline/unit-red.log` is the missing-module preimplementation failure. `ports-v1`/`ports-v2` are retained failed calibration runs; the latter exposed an incorrect synthetic expected pool order, corrected only after original `oracle-v2` established pool `[1,2,...]`. `ports-v3` passes the six focused tests.
+
+`oracle-v1` is **not acceptance evidence**: its outer return did not dispatch the Prover completion hook, and its refusal keyboard boundary was absent. `oracle-v2` adds the return handler and real key boundary service; each accepted outer routine must have `proved: 1`. No earlier attempt is overwritten.
+
+The sealed consumer API is documented in `runtime/original_match/assistant.py`. It installs only real existing port entries (no display stubs), runs DC7E on copied state/tables, and reports the original finals/tour refusal. Full suites/gates remain CI work under the owner's instruction.
+
+The facade starts at DC7E, in the prepared SELECT TEAM context: caller supplies the current manager, DS:0C1E/0C1F clear, and incoming selection order. It does not execute E44F's setup/sort (52CC), or the full menu-to-Ins path. A consumer requiring that UI parity must prove/reproduce that preparation separately. Original refusal side effects (including conditional 9B43, screen/message/stack writes) remain in the returned copied state; whether a UI publishes a refused copied state is a separate consumer policy.
+
+Full-closure instrumentation calibrations: `closure-v1` instruments existing inlined bit helpers too and cannot pair its artificial nested-call events; `closure-v2` restricts the names but Prover assumes every installed helper is named and raises StopIteration. Neither is acceptance evidence; both are retained reproductions of tooling limits. `sealed-v1` instead compares independent raw-original and truly sealed subprocess runs for every selected-record hash, squad/pool order, both RNG words, original refusal and 9B43 (22 cases), with positive Unicorn/GOAL.EXE denial and full input-state hashes. It passes without stubs. The raw-original five-routine Prover comparison remains the ordered-write/register/flag oracle; 48 cases in `oracle-v2` completed with one proved root each and zero scratch-register differences.
+
+Calibration correction: batches through `final-raw`/`final-sealed` used synthetic manager indices 0/1, pool base 0 and overlapping synthetic allocations; they are not the required real-manager 1/2 acceptance. `final-raw/interrupted.json` records the specifically authorized obsolete calibration interruption. Corrected fixtures use real slots 1/2, bases 1/81, clear C1E/C1F, and disjoint complete allocations. Final acceptance follows the committed corrected fixture. Manager array 0x195, pool array 0x3C2, fixtures 0x4B48, country lists 0x2448 and game record 0x10E trace to globals.tsv and named 1771 load/save 0232 calls.
+
+Final proof families: `real-v1/raw.jsonl` is the 48-case original oracle on real manager slots 1/2 and normal bases 1/81 (explicit wrapped-base stress excepted). Its unchanged `prove.py` and port module are the source dependencies; it compares complete memory including all dead frames and ALL machine registers independently, plus Prover's complete ordered live writes. Independent unported-original strength calls/returns and swap arguments retain actual call order and decisions. The raw driver's recorded facade hash is informational: nonclosure mode never executes that facade.
+
+After these raw proofs completed, the copied-state facade's key adapter was corrected to preserve AX like Match's existing key service; `key-boundary-red/unit.log` proves the new ABI test failed on the prior adapter. The original five port bodies and raw driver did not change. `real-v2` is the final facade family. It compares entire canonical state (memory, metadata, initialised/code-data deltas) except **SS:2000 inclusive through SS:3000 exclusive**, dead helper stack locals strictly below entry SP3000. Reused helper ports inline frames differently; selection/player/manager/game/fixture/pool/list records, screen bytes, RNG and 9B43 are outside that exception and must match. Independent raw comparisons of the five new routines also include those dead frames. `verify.py` falsifies the normalized comparison immediately below/above both bounds, on a manager record and on RNG; it also checks inside-bound mutations are the only ignored controls. No full E44F/52CC/UI-path parity is asserted.
+
+## Acceptance receipts and consumer API
+
+`final-audit/index.json` records source and receipt hashes, 48 raw cases, 22 final sealed cases, all six comparison/swap/9B43 falsifiers and all six normalization controls. Raw dependency freeze: `49115eec86c6`; final facade/test/normalization freeze: `d430aeea085f`. Later evidence-only commits do not change those executable sources. `real-v2/unit.log` passes all nine focused tests; `baseline-v4/unit-red.log` runs that exact final test module against the untouched `472177a7` runtime and fails on the missing module. `final-audit/annotations.log` passes the annotation check. The named view was regenerated with the pinned Ghidra/JDK (`annotations-v2/regenerate.log`); the three reported decompiler failures are the unchanged baseline functions, and the generator exits zero.
+
+Public call: `original_match.assistant.recommend(state, tables, *, key=13)`. Input is `original_match.state/2` plus loaded `port.tables.Tables`. Output fields: copied `state`, original `allowed` and `refusal` (`None`, `finals`, `tour`), `manager`, `country`, ordered 20-word `squad`, ordered 80-word `pool`, `next_fixture`, nonzero routine `calls`, and acknowledgment `keys`. Input state and every table field are unchanged. It uses only real registered ports. Positive denial is tested in fresh child processes, for both a Unicorn import and an actual attempted GOAL.EXE read. Normal-state proof contexts are real manager slots 1 and 2 with normal pool bases 1 and 81; record values are explicitly synthetic branch fixtures over the hash-verified published original image, not a claim of whole-career coverage. Numeric wrap stress is separate. The operation retains the incoming selection order; legal-eleven policy and full menu/SELECT TEAM preparation are caller responsibilities.
+
+Reproduce without overwriting any receipt:
+
+```sh
+tools/heavy.sh t125-unit -- python3 -B -m unittest tests.test_port_assistant -v
+tools/heavy.sh t125-raw -- python3 -B experiments/E040-route-fixture-writes/out/T125/prove.py --out /tmp/NEW-t125-raw.jsonl
+tools/heavy.sh t125-sealed -- python3 -B experiments/E040-route-fixture-writes/out/T125/sealed.py --out /tmp/NEW-t125-sealed.jsonl
+tools/heavy.sh t125-audit -- python3 -B experiments/E040-route-fixture-writes/out/T125/verify.py --out /tmp/NEW-t125-index.json
+python3 tools/static/check_annotations.py
+```
+
+The audit checks the committed accepted receipt families. New measurements belong in a new tracked T125 batch directory; `/tmp/NEW-*` above illustrates exclusive output naming only. Full suites and gates remain CI's work.
+
+## Native published-record supplement
+
+`published-v1/index.json` supplements the immutable `final-audit/index.json`; both are acceptance pointers. The earlier 48/22 matrices are **synthetic isolated-function-domain inputs**, including zero affiliation and controlled homogeneous positions; they do not represent valid whole-career populations.
+
+`published.py` separately probes three hash-verified published states, keeping their entire native players/countries/pools/manager mapping and all other record arrays intact. It declares only C1E/C1F clearing for prepared SELECT TEAM; both flags were already clear in all three sources, so **zero input bytes actually changed** and the active manager was never changed. Source and prepared image hashes are identical, each full allocated record-array hash is retained, and only aggregate affiliation/current-position/energy counts are emitted. The isolated call frame remains the declared `prove.call` frame. This establishes native record/strength-condition coverage, not a natural calendar or the full E44F/52CC/menu-to-Ins journey.
+
+- Published E006 `c6b4796bbd02b1ab-...r0007.sav`, manager 1/country 7: 500 actual strength calls, 19 swaps.
+- Published E015 `53b69d3dfb964e77-...0213...sav`, manager 1/country 16: 516 strength calls, 27 swaps.
+- Published E006 `b9f1fe3925f4b8b3-...r0009.sav`, manager 1/country 7: 500 strength calls, 19 swaps.
+
+Each raw-original/port comparison proves ordered live/caller-visible writes and matches complete memory (final dead frames included) and ALLREGS. Each independently sealed child matches full allocated records, ordered selection, RNG/9B43 and the complete canonical state outside the same strictly bounded dead-helper-frame exception. Player records remain unchanged. Positive Unicorn/GOAL.EXE denial, state-copy isolation and every table-field purity check pass. `verify_published.py` verifies these receipts and all prior dependency hashes without rewriting the original index. The native probe changes no runtime source; the nine focused unit tests remain applicable on their unchanged source hashes.

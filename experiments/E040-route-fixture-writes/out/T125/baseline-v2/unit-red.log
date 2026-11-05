@@ -1,0 +1,18 @@
+test_port_assistant (unittest.loader._FailedTest.test_port_assistant) ... ERROR
+
+======================================================================
+ERROR: test_port_assistant (unittest.loader._FailedTest.test_port_assistant)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_port_assistant
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+  File "/tmp/t125-baseline-final-tests/tests/test_port_assistant.py", line 7, in <module>
+    from original_match.port import assistant
+ImportError: cannot import name 'assistant' from 'original_match.port' (/tmp/t125-baseline-final-tests/runtime/original_match/port/__init__.py)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

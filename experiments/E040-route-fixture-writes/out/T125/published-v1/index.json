@@ -1,0 +1,64 @@
+{
+  "native_cases": [
+    {
+      "actual_context_byte_changes": 0,
+      "asset": "c6b4796bbd02b1ab-e006-0000-r0007.sav",
+      "asset_sha256": "c6b4796bbd02b1ab826ae0084b28a89711ec14b722a318c55ff6fc94be8f7854",
+      "country": 7,
+      "manager": 1,
+      "record_arrays_retained": true,
+      "source_image_sha256": "9ed4dd29aa507c1aa57e4203d33bbda1b18405c3310e54eeddb36301b3964fb9",
+      "strength_calls": 500,
+      "swaps": 19
+    },
+    {
+      "actual_context_byte_changes": 0,
+      "asset": "53b69d3dfb964e77-snap-0213-20261011T142027Z.sav",
+      "asset_sha256": "53b69d3dfb964e777c689d439d3bf434600f8891e391cab5c45fd863787d2a94",
+      "country": 16,
+      "manager": 1,
+      "record_arrays_retained": true,
+      "source_image_sha256": "2c93944b8f6d0e089d4b8e4ee8bd78d2c44b3f03f49c6ae21a367893927f5193",
+      "strength_calls": 516,
+      "swaps": 27
+    },
+    {
+      "actual_context_byte_changes": 0,
+      "asset": "b9f1fe3925f4b8b3-e006-1200-r0009.sav",
+      "asset_sha256": "b9f1fe3925f4b8b302a2e256ba17131f4115d044714b0b33bf45b2e0575f7a2b",
+      "country": 7,
+      "manager": 1,
+      "record_arrays_retained": true,
+      "source_image_sha256": "d724a51aa0b49e7edbdf594361cb5303cce4f30346d4d174cb197a3535f3ffa0",
+      "strength_calls": 500,
+      "swaps": 19
+    }
+  ],
+  "prior_families": {
+    "classification": "Explicitly synthetic isolated-function inputs; player affiliation and homogeneous position fixtures are not valid whole-career populations.",
+    "raw_function_domain_cases": 48,
+    "sealed_function_domain_cases": 22
+  },
+  "prior_index": {
+    "path": "experiments/E040-route-fixture-writes/out/T125/final-audit/index.json",
+    "sha256": "df447fc5310358c9ca746a6b9c4a5ed1c70d67bbc5fc8ddbb108ff9529df886e"
+  },
+  "raw_comparison": "Prover ordered LIVE/caller-visible writes and guest frame effects, plus independent complete native/port memory including final dead-frame bytes and ALLREGS. No ISA-level intermediate dead-stack chronology claim.",
+  "receipt_sha256": {
+    "experiments/E040-route-fixture-writes/out/T125/published-v1/results.jsonl": "05b82f5d87ab9ab42c89900756cb8a1c7c87c59483cba73acda58c3291d080e8",
+    "experiments/E040-route-fixture-writes/out/T125/published-v1/run.log": "1aa64cda2b13ee4f445358ad0731219218191a5f46699d325c67f0b762819fd0"
+  },
+  "schema": "t125-native-supplement-index/1",
+  "scope": "Three hash-verified native published populations; original players/countries/pools/manager mapping retained. C1E/C1F preparation was declared but changed zero bytes. Active manager unchanged. Isolated DC7E entry ABI, not natural calendar or full E44F/52CC/menu workflow.",
+  "sealed_comparison": "Full allocated record regions, squad/pool order, RNG/9B43, all canonical state/table deltas excluding strictly SS:2000..2FFF dead helper locals; copy/table purity and positive Unicorn/GOAL.EXE denial.",
+  "sources": {
+    "experiments/E040-route-fixture-writes/out/T125/prove.py": "0d6e078871f0283a3a7efba5361f7c492d3341c447aa99dfdc93b71f786d9f2b",
+    "experiments/E040-route-fixture-writes/out/T125/published.py": "496ec23c5f922f4902d61e954e93d34abbdd52ad2cf570604db472347e97366e",
+    "experiments/E040-route-fixture-writes/out/T125/sealed.py": "8be29d5bcd6a02f94d3bf4388f3e7be7075c4fea711e631613d2f51ebb333edf",
+    "experiments/E040-route-fixture-writes/out/T125/verify.py": "4061cb67d99949149ec19a75364ee8efdd2e21fcfcafaab612c732e121588efe",
+    "experiments/E040-route-fixture-writes/out/T125/verify_published.py": "b9c315a6f361a71833c3451bd5f4c4d3e332df6a054634ebb09e8b4a84259616",
+    "runtime/original_match/assistant.py": "d0b7dbd6f9773abf1ace0411b34978f842d9c9077082202c8c244f1764794f0e",
+    "runtime/original_match/port/assistant.py": "32fe1f315f1a8cce5375b2cc9fdc07ec78a5461a0e275c99ebd06f9cad5db514",
+    "tests/test_port_assistant.py": "07cf27f39b1e295c3184edfdbabe08060356c5f774b1afd9c50e5f47bc181ef1"
+  }
+}
