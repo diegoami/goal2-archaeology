@@ -62,6 +62,10 @@ class PreMatchSwap(unittest.TestCase):
         self.assertEqual(self.squad(m),before)
         self.assertEqual(m.ports_inst.calls['214B:007B'],0)
 
+    def test_first_enter_ignores_unmarked_stale_pool_location(self):
+        m,w=self.machine(marked=False,marked_pane=2);self.invoke(m)
+        self.assertEqual((self.parent(m,-1,1),self.parent(m,-7)),(1,1))
+
     def test_empty_first_enter_leaves_parent_fields_unchanged(self):
         m,w=self.machine(empty=True,marked_slot=19);before=self.squad(m);self.invoke(m)
         self.assertEqual((self.parent(m,-1,1),self.parent(m,-9),self.parent(m,-7),self.parent(m,-11)),(0,19,1,0xBEEF))

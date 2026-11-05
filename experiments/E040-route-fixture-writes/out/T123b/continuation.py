@@ -52,7 +52,7 @@ class LeafMatch(RouteMatch):
                 self.leaf_frames[-1]['after']=parent_state(self.m,self.leaf_frames[-1]['entry']['parent_bp'])
         self.m.at('0791:DEA6',entered);self.m.at('0791:E672',returned)
         self.leaf_inst=port.install(self.m,prove.leaf())
-        self.leaf_prover=Prover(self.m,self.leaf_inst,where=lambda:f"T123b fixture {self.fixture.index}")
+        self.leaf_prover=Prover(self.m,self.leaf_inst,where=lambda:f"T123b fixture {self.opts['index']}")
 
 
 def run(out,resume=False,stop_after=4):
@@ -95,12 +95,12 @@ def run(out,resume=False,stop_after=4):
         # Route.matches accumulates all matches; this round's fixtures identify the newly completed ones.
         fixtures={e[1]['fixture'] for e in entries if e[0]=='match'}
         for match in route.matches:
-            if match.fixture.index not in fixtures:continue
+            if match.opts['index'] not in fixtures:continue
             summary=match.leaf_prover.summary();count=match.leaf_inst.calls['0791:DEA6']
             assert summary['0791:DEA6']['proved']==count and summary['0791:DEA6']['before']==0
             assert not summary['0791:DEA6']['scratch']
             assert len(match.leaf_frames)==count and all('after' in frame for frame in match.leaf_frames)
-            matches.append({'fixture':match.fixture.index,'proof':summary,'calls':match.leaf_inst.calls,
+            matches.append({'fixture':match.opts['index'],'proof':summary,'calls':match.leaf_inst.calls,
               'frames':match.leaf_frames,'choices':match.team_choices,'keys':match.team_keys,
               'final_regs':{r:match.m.reg(r) for r in REGS},'final_memory_sha256':sha(match.m.read(0,MEM_SIZE))})
         record({'status':'round','round':number,'end':end,'before_context':before,'after_context':context(route),
@@ -110,7 +110,6 @@ def run(out,resume=False,stop_after=4):
           'elapsed_s':round(time.monotonic()-start,3)})
         print('round',number,'end',end,'leaf_calls',sum(m['calls']['0791:DEA6'] for m in matches),flush=True)
         if number==stop_after and number<4:record({'status':'paused','after_round':number});return
-      all_rounds=previous+[r for r in []]
       record({'status':'completed','through_round':4,'final_context':context(route),'elapsed_s':round(time.monotonic()-start,3)})
 
 if __name__=='__main__':
