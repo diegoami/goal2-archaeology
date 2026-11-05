@@ -18,7 +18,7 @@ image_hash=hashlib.sha256(raw).hexdigest()
 assert image_hash=='e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d'
 m=Match(Image.from_savestate(raw),Fixture(7,19,index=21),managed=7,seed=0x1234,delay_byte=0,
         record_draws=True,engine=a.engine,ports=['all'] if a.engine=='port' else [],timeout_s=600)
-events=[]; snapshots=[]; pairs=[]; original_left=None; started=time.monotonic()
+events=[]; snapshots=[]; pairs=[]; original_left=None; stopped_minute=None; started=time.monotonic()
 for e in m.events():
     events.append((e.kind,e.minute,e.score,copy.deepcopy(e.data)))
     if e.kind!='decision': continue
@@ -26,7 +26,7 @@ for e in m.events():
     if d['context']!='half_time': m.answer(); continue
     if not pairs:
         pairs=[[d['eleven'][6],d['bench'][0]],[d['eleven'][7],d['bench'][1]]]
-        original_left=d['substitutions_left']
+        original_left=d['substitutions_left']; stopped_minute=e.minute
         if a.mode=='batch': m.answer(substitutions=pairs); continue
     if a.mode=='batch': raise AssertionError('unexpected repeat half-time decision')
     made=[event for event in events if event[0]=='substitution' and event[3]['team']==m.side]
@@ -34,7 +34,7 @@ for e in m.events():
     assert len(made)==done,(done,made)
     assert d['substitutions_left']==original_left-done
     assert not d.get('requested')
-    assert e.minute==45,e
+    assert e.minute==stopped_minute,e
     for off,on in pairs[:done]:
         assert off in d['bench'] and on in d['eleven']
         assert sum(event[3]['off']==off and event[3]['on']==on for event in made)==1
