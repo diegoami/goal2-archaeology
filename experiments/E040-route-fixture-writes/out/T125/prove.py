@@ -67,7 +67,7 @@ def call(m,target,args=()):
     assert m.reg('sp')==sp+(4 if entry.far else 2)+entry.pop
     assert m.reg('bp')==0x3456
 
-def run(out,variant=None):
+def run(out,variant=None,closure=False):
     source,sha=image();records=[]
     targets={'1771:55FC':['sacked','none','next','allpending','pastcursor'],
              '0791:DAF8':['sacked','none','next','notour'],
@@ -86,16 +86,30 @@ def run(out,variant=None):
                 def keypressed(replay):
                     m.set_reg('ax',(m.reg('ax')&0xFF00)|1);m.return_from(True)
                 m.at('214B:08DD',read_key);m.at('214B:0723',keypressed)
+                if closure:
+                    from original_match.assistant import _ports
+                    helpers=[]
+                    for reg,v in _ports():
+                        if reg.name=='assistant':continue
+                        real=port.Registry(reg.name,reg.doc)
+                        for addr,e in reg.entries.items():
+                            if addr not in ('214B:08DD','214B:0723'):real._add(e)
+                        helpers.append((real,v))
+                    port.install(m,helpers)
                 inst=port.install(m,[('assistant'+('.'+variant if variant else ''))]);prover=Prover(m,inst)
+                decisions=[]
+                for site in ('0791:DB03','0791:DB22','0791:DBC5','0791:DC3D','0791:DC68','0791:DCB3'):
+                    def decided(replay,site=site):decisions.append([site,m.reg('ax')])
+                    m.at(site,decided)
                 t=time.monotonic();status='passed'
                 try:call(m,target,() if target in ('1771:55FC','0791:DC7E') else (7,))
                 except Exception as e:status=f'{type(e).__name__}: {e}'
-                rec={'target':target,'manager':manager,'case':case,'status':status,'before_sha256':before,
+                rec={'source_hashes':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__),ROOT/'runtime/original_match/port/assistant.py',ROOT/'runtime/original_match/assistant.py']},'asset_sha256':sha,'target':target,'manager':manager,'case':case,'status':status,'before_sha256':before,
                      'after_sha256':hashlib.sha256(m.read(0,MEM_SIZE)).hexdigest(),
                      'next':m.rd(0x9B43),'ax':m.reg('ax'),'registers':{r:m.reg(r) for r in REGS},
                      'squad':[m.word_at(0x72000+7*191+2*i) for i in range(20)],
                      'pool':[m.word_at(0x76000+2*i) for i in range(80)],
-                     'summary':prover.summary(),'calls':inst.calls,'elapsed_s':round(time.monotonic()-t,3)}
+                     'summary':prover.summary(),'calls':inst.calls,'decisions':decisions,'closure':closure,'elapsed_s':round(time.monotonic()-t,3)}
                 records.append(rec);print(target,manager,case,status,flush=True)
                 with out.open('a') as f:f.write(json.dumps(rec,sort_keys=True)+'\n')
                 if status!='passed' and not variant:return 1
@@ -105,6 +119,6 @@ def run(out,variant=None):
     return 0
 
 if __name__=='__main__':
-    ap=argparse.ArgumentParser();ap.add_argument('--out',type=Path,required=True);ap.add_argument('--variant');a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('--out',type=Path,required=True);ap.add_argument('--variant');ap.add_argument('--closure',action='store_true');a=ap.parse_args()
     if a.out.exists():raise SystemExit('immutable output already exists')
-    raise SystemExit(run(a.out,a.variant))
+    raise SystemExit(run(a.out,a.variant,a.closure))

@@ -28,7 +28,7 @@ class Assistant(unittest.TestCase):
         w(0x50101,manager,1);w(0x51000+3*(0x80+manager),7,1)
         w(0x50126,1)
         w(ds+0x9B43,0xABCD)
-        port.install(m,['assistant','runtime','update','attributes','pilot','menus','display','entrypoints'])
+        m.assistant_ports=port.install(m,['assistant','runtime','update','attributes','pilot','menus','display','entrypoints'])
         return m,w
 
     def invoke(self,m,target,args=()):
@@ -81,6 +81,45 @@ class Assistant(unittest.TestCase):
             self.assertEqual(m.word_at(0x52000+7*191+2),21)
             self.assertEqual(m.word_at(0x56000),1)
             self.assertEqual(m.word_at(0x56002),2)
+            self.assertEqual(m.assistant_ports.calls['1771:377E'],6320)
+            self.assertEqual(m.assistant_ports.calls['214B:007B'],3)
+
+    def state(self,m):
+        from original_match.image import Image
+        from original_match.port.tables import load
+        tables=load(Path(__file__).resolve().parents[1]/'static/goal-exe/tables')
+        image=Image.__new__(Image);image.header=bytes(0x78);image.memory=bytearray(m.read(0,MEM_SIZE))
+        image.load=m.load;image.DS=m.DS;image.tables=tables
+        return image.state(tables),tables
+
+    def test_public_facade_copies_state_and_preserves_rng(self):
+        import hashlib,json
+        from original_match.assistant import recommend
+        m,w=self.machine();w(m.DS*16+0x7B62,0x1234);w(m.DS*16+0x8336,0xBEEF)
+        state,tables=self.state(m)
+        digest=lambda v:hashlib.sha256(json.dumps(v,sort_keys=True).encode()).hexdigest()
+        before=digest(state);result=recommend(state,tables)
+        self.assertEqual(digest(state),before)
+        self.assertTrue(result['allowed']);self.assertIsNone(result['refusal'])
+        from original_match.image import Image
+        after=Image.from_state(result['state'],tables)
+        self.assertEqual(after.memory[after.DS*16+0x7B62:after.DS*16+0x7B64],bytes.fromhex('3412'))
+        self.assertEqual(after.memory[after.DS*16+0x8336:after.DS*16+0x8338],bytes.fromhex('efbe'))
+        result['state']['initialised'].append([0,1])
+        self.assertEqual(digest(state),before)
+
+    def test_public_facade_refusal_keeps_selection_and_updates_copied_context(self):
+        import hashlib,json
+        from original_match.assistant import recommend
+        m,w=self.machine();w(0x50113,1,1)
+        state,tables=self.state(m)
+        before=hashlib.sha256(json.dumps(state,sort_keys=True).encode()).hexdigest()
+        result=recommend(state,tables)
+        self.assertFalse(result['allowed']);self.assertEqual(result['refusal'],'finals')
+        self.assertEqual(result['squad'],[0]*20);self.assertEqual(result['pool'],[0]*80)
+        self.assertEqual(result['next_fixture'],0xABCD)
+        self.assertEqual(hashlib.sha256(json.dumps(state,sort_keys=True).encode()).hexdigest(),before)
+        self.assertNotEqual(hashlib.sha256(json.dumps(result['state'],sort_keys=True).encode()).hexdigest(),before)
 
     def test_wrapped_pool_upper_bound_skips_scan(self):
         m,w=self.machine();w(m.DS*16+0x6D18,0xFFF0)

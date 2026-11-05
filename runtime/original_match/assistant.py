@@ -8,6 +8,9 @@ port.tables.Tables. It returns a dict containing the copied ``state``, original
 ``keys``. The input state and tables are never changed. No EXE or Unicorn is
 read. The operation follows original DC7E in the SELECT TEAM context, outside
 a match: the current manager byte is [DS:A923]+1, not a caller-selected country.
+The caller supplies the SELECT TEAM preparation: DS:0C1E/0C1F clear and the
+incoming squad/pool order. This API starts at DC7E, without E44F's setup, its
+52CC sort or the manager menu; it promises no parity for that earlier UI path.
 
 DBFA's real message and draw/key subtree runs on PortMachine on refusals. The
 key argument acknowledges its message; it does not choose an eleven. The
@@ -65,7 +68,7 @@ def recommend(state,tables,*,key=13):
     if m.frames or m.reg('sp')!=sp+2:raise RuntimeError('assistant did not return with its original near ABI')
     image.memory[:MEM_SIZE]=m.read(0,MEM_SIZE)
     squad=m.far(0xA917)+country*191
-    pool=m.far(0xA927);pool_off=m.rd(0xA927);pool_seg=m.rd(0xA929)
+    pool_off=m.rd(0xA927);pool_seg=m.rd(0xA929)
     base=m.rd(0x6D18+2*manager)
     result.update(state=image.state(tables),squad=[m.word_at(squad+2*i) for i in range(20)],
                   pool=[m.word_at(pool_seg*16+((pool_off+2*((base+i)&65535))&65535)) for i in range(80)],

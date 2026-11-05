@@ -415,7 +415,7 @@ void __cdecl16near quick_match_engine(void)
 
 
 // ---- 0791:DAF8  next_fixture_is_tour  (f_0791_DAF8; Ghidra 2000:DAF8, __stdcall16far; found by routines.tsv)
-// (country) 1771:55FC finds the current manager's next pending fixture (DS:9B43) and 1771:5A38 holds for it: the next fixture is a friendly the country plays as side A against a country of another continent  [established; F031]
+// (country) calls 1771:55FC; if successful returns 1771:5A38 for DS:9B43: friendly kind 1 and country continent differs from fixture side B; does not independently check that country is side A; AL boolean retains AH  [established; F031; read code/seg_0791_22.asm; read code/seg_1771_08.asm]
 
 undefined2 __stdcall16far next_fixture_is_tour(undefined2 param_1)
 
@@ -446,7 +446,7 @@ LAB_0791_DB2C:
 
 
 // ---- 0791:DB38  on_tour  (f_0791_DB38; Ghidra 2000:DB38, __stdcall16far; found by routines.tsv)
-// (country) when 0791:DAF8 holds, walks the country's 36-word fixture list from the newest entry past every unplayed record (+0 >= 0xFE) to the newest played one and returns 1771:5A38 of it: the last played and the next fixture are both away cross-continent friendlies  [established; F031]
+// (country) calls DAF8 with a push-CS plus near-call far frame; when true scans 36 country fixture words backward past records +0 >= FE, then returns 5A38 of the newest played fixture, or 0 when none; AL retains AH  [established; F031; read code/seg_0791_22.asm]
 
 undefined1 __stdcall16far on_tour(int param_1)
 
@@ -485,7 +485,7 @@ undefined1 __stdcall16far on_tour(int param_1)
 
 
 // ---- 0791:DBFA  squad_change_allowed  (f_0791_DBFA; Ghidra 2000:DBFA, __stdcall16near; found by routines.tsv)
-// "(country) the gate of a squad/pool exchange: refuses with ""cannot alter squad during finals"" when [A923]+0x13+m (the finals flag) is set, else with ""cannot alter squad whilst on tour"" when 0791:DB38 holds; returns 1 only when neither"  [established; F031]
+// "(country) the gate of a squad/pool exchange: refuses with ""cannot alter squad during finals"" when [A923]+0x13+m (the finals flag) is set, else with ""cannot alter squad whilst on tour"" when 0791:DB38 holds; returns 1 only when neither"  [established; F031; read code/seg_0791_22.asm]
 
 undefined2 squad_change_allowed(undefined2 param_1)
 
@@ -532,7 +532,7 @@ LAB_0791_DC72:
 
 
 // ---- 0791:DC7E  assistant_recommend_squad  (f_0791_DC7E; Ghidra 2000:DC7E, __cdecl16near; found by routines.tsv)
-// the assistant's recommended squad of 20 (GOAL.HLP P58, the Ins key of the SELECT TEAM screen): for the manager's country, two passes over the 20 squad slots, and for each slot the whole pool is scanned for a same-position player whose player_strength exceeds the incumbent's, swapped in by u214b_swap_bytes; runs only when 0791:DBFA allows (DCB0)  [likely; read named/seg_0791_10.c; F031]
+// T125 original assistant: two ordered passes over 20 squad slots and unsigned pool base..base+79; compare current position +6, call strength for pool then incumbent, swap two bytes immediately only on strictly greater unsigned strength; DBFA refusal leaves selection unchanged; a wrapped upper bound skips the scan  [established; F031; read code/seg_0791_22.asm]
 
 void __cdecl16near assistant_recommend_squad(void)
 
