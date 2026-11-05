@@ -45,6 +45,11 @@ def cases():
    add(f'outer-threshold-{side}-{threshold}-{int(member)}','4E0E',side=side,result='win',slots=(1,),threshold=threshold,member=member)
   for score in (-11,-10,-6,-5):
    for seed in seeds():add(f'pages-{side}-{score}-{seed}','4DB7',side=side,score=score,seed=seed)
+ for side in (0,1):
+  for performance in ('ahead','behind'):
+   for choice in (1,2):
+    seed=next(s for s in range(65536) if (step(s)*2>>16)+1==choice)
+    add(f'draw-branch-{side}-{performance}-{choice}',side=side,goals=(1,1),winner=2,slots=(1,),performance=performance,seed=seed)
  for manager in (1,2):
   for prefix in (0,2,16):
    for reverse in (False,True):
