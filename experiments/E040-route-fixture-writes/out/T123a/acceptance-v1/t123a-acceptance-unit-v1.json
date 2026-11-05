@@ -1,0 +1,19 @@
+{
+  "name": "t123a-acceptance-unit-v1",
+  "command": [
+    "tools/heavy.sh",
+    "t123a-acceptance-unit-v1",
+    "--",
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_port_speaker",
+    "-v"
+  ],
+  "cwd": "/home/diego/projects/m3-trackb/goal2-archaeology",
+  "head": "e2fa1285f45d9dfb42a42528dab68cf4c70b827a",
+  "started_utc": "2026-11-05T21:49:44+00:00",
+  "log": "/home/diego/projects/goal2/.cache/jobs/t123a-acceptance-unit-v1.log",
+  "wrapper_pid": 530981
+}
