@@ -25,7 +25,7 @@ for e in m.events():
     d=e.data
     if d['context']!='half_time': m.answer(); continue
     if not pairs:
-        pairs=[[d['eleven'][6],d['bench'][0]],[d['eleven'][7],d['bench'][1]]]
+        pairs=[[d['eleven'][6],d['bench'][1]],[d['eleven'][7],d['bench'][2]]]
         original_left=d['substitutions_left']; stopped_minute=e.minute
         if a.mode=='batch': m.answer(substitutions=pairs); continue
     if a.mode=='batch': raise AssertionError('unexpected repeat half-time decision')
