@@ -1,0 +1,19 @@
+{
+  "name": "t123a-calibration-fixed",
+  "command": [
+    "tools/heavy.sh",
+    "t123a-calibration-fixed",
+    "--",
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_port_speaker",
+    "-v"
+  ],
+  "cwd": "/home/diego/projects/m3-trackb/goal2-archaeology",
+  "head": "d170aaed48e175e596d4bc5fa3a0c19a4560a045",
+  "started_utc": "2026-11-05T21:46:25+00:00",
+  "log": "/home/diego/projects/goal2/.cache/jobs/t123a-calibration-fixed.log",
+  "wrapper_pid": 526024
+}

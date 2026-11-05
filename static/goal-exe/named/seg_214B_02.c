@@ -862,7 +862,7 @@ void __cdecl16far u214b_sound_toggle_mute(void)
 
 
 // ---- 214B:1E75  u214b_speaker_on  (f_214B_1E75; Ghidra 7000:1E75, __cdecl16far; found by routines.tsv)
-// If sound enabled (DS:A9FC = 0): out 43h,B6h (PIT channel 2 square wave) and sets port 61h bits 0 and 1 (gate and speaker on)  [likely; read decompiled/seg_214B_02.c]
+// T123a Python port retains saved BP/dead frame, AH and exact CMP/OR flags: DS:A9FC nonzero retains AX; enabled unhandled IN61 returns zero then OR AL,3 yields AL=3; retf with no argument cleanup; hardware OUT omitted by design  [likely; read named/seg_214B_02.c; read code/seg_214B_04.asm:130-144]
 
 void __cdecl16far u214b_speaker_on(void)
 

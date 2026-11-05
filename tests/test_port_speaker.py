@@ -46,13 +46,19 @@ def check_plain():
         for flags in FLAGS:
             m = PortMachine(bytes(MEM_SIZE), 0x1000)
             port.install(m, ['display'])
-            run(m, mute, 0x1234, flags)
+            actual = run(m, mute, 0x1234, flags)
             assert m.reg('ax') == (0x1234 if mute else 0x1203)
             assert m.reg('ah') == 0x12
             expected = (flags & ~0x8D5) | (4 if mute in (0, 3, 255) else 0) | (128 if mute == 255 else 0)
             assert m.reg('eflags') == expected, (mute, flags, m.reg('eflags'), expected)
             assert m.reg('sp') == ENTRY_SP + 4 and m.reg('bp') == BP
             assert m.read(SS * 16 + ENTRY_SP - 2, 2) == BP.to_bytes(2, 'little')
+            expected_memory = bytearray(MEM_SIZE)
+            expected_memory[m.DS * 16 + 0xA9FC] = mute
+            expected_memory[SS * 16 + ENTRY_SP - 4:SS * 16 + ENTRY_SP + 12] = bytes([0xA5]) * 16
+            expected_memory[SS * 16 + ENTRY_SP - 2:SS * 16 + ENTRY_SP + 4] = BP.to_bytes(2, 'little') + bytes([0x10, 0, 0, 0x9F])
+            assert digest(m) == hashlib.sha256(expected_memory).hexdigest()
+            assert (actual['CS'], actual['EIP'], actual['SS']) == (0x9F00, 0x10, SS)
             assert not hasattr(m, '_uc')
 
 
