@@ -1,0 +1,4 @@
+route-fragment-0 differs 000E:4E0E (news), call #1 from 000E:6FDB: ported call #8 inside: the original's call of 000E:0ACB from 000E:3797 returned, the port's run's of 000E:1F4D from 000E:37BE
+record: experiments/E040-route-fixture-writes/out/T122d/falsifiers-active/function-sack-threshold-minus-one-20261105T204324Z.json
+unmanage-1-0-0 differs 000E:01FA (news), call #1 from 000E:7080: written byte #218 differs: the original wrote 0x07 at linear 0x48AE5, the port wrote 0xFF at linear 0x5DBDE
+record: experiments/E040-route-fixture-writes/out/T122d/falsifiers-active/function-unmanage-manager-write-dropped-20261105T204325Z.json
