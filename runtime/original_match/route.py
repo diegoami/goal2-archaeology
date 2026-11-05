@@ -66,6 +66,7 @@ included) or run_stage 76B1 calls 214B:08DD or 0723 (the closure of calls.tsv's 
 05F6 does, so a round's end adds no site."""
 from .image import Image, FIXTURES_PTR, FIXTURE_SIZE, GAME_PTR
 from .route_team import RouteMatch
+from .news import capture_news_page,news_pages as decode_news_pages
 from .machine import Machine, GuestError, MEM_SIZE
 from .match import (Match, Fixture, SS_PARAGRAPH, ENTRY_SP, ENTRY_BP, RUN_MATCH_RETURN, DELAY_COUNT,
                     DELAY_COUNT_VALUE, KEYPRESSED, READKEY, PUSHED_BACK, KEY, SEED, SCREEN_PTR, TABLE_READS, TABLE_KEY)
@@ -150,7 +151,7 @@ class Keys:
 
 
 class Route:
-    def __init__(self, image, keys=None, timeout_s=600, record_writes=True, entry="route_fixture", match_entry=False):
+    def __init__(self, image, keys=None, timeout_s=600, record_writes=True, entry="route_fixture", match_entry=False, capture_news=True):
         """match_entry: stop at the real F1F6 entry with its already-pushed far-call
         frame (T121); required when proving a translated route_fixture. Both the
         original and port then stop at that same site. The default keeps 6F18.
@@ -175,6 +176,8 @@ class Route:
         self.timeout_s = timeout_s
         self.record_writes = bool(record_writes)
         self.record = []
+        self.capture_news = bool(capture_news)
+        self.news_history = []
         self.inputs = []
         self.matches = []
         self._hooks()
@@ -194,6 +197,8 @@ class Route:
             self._watch_seed(m, name, off, "route")
         m.at(KEYPRESSED, self._on_poll)
         m.at(READKEY, self._on_read)
+        if self.capture_news:
+            m.at("000E:05F6", self._on_news_page)
         # [derived: T121] A translated 6CA7 calls F1F6 directly via guest.Call;
         # hook its entry in both proof runs so they visit the same real site.
         if self.match_entry:
@@ -204,6 +209,34 @@ class Route:
             m.at(MATCH_AT, lambda replay: replay or m.stop("match"))
         if self.entry == "play_round":
             m.at(ROUND_END, self._on_round_end)
+
+    def _on_news_page(self, replay):
+        """Actual05F6entry: back buffer is complete, front copy/celebration not begun.
+
+        Prover muted replay validates these reads without re-running the handler;
+        a resume at the same hook is not a second actual page. Identical content
+        on two real entries remains two snapshots. No key-policy method is called.
+        """
+        m=self.m
+        if replay or m.muted:
+            return
+        ret=m.stack_word(0)
+        country=side=manager=None
+        if ret==0x4F72:
+            bp=m.reg("bp")
+            country=m.frame_word(bp,8)
+            side=m.read(m.reg("ss")*16+((bp-1)&0xFFFF),1)[0]
+            manager=m.read(m.far(0xA917)+191*country+0x2E,1)[0]
+        snapshot=capture_news_page(m,return_address=f"000E:{ret:04X}",country=country,side=side,manager=manager,
+                                   flags_words=tuple(m.stack_word(2+2*i) for i in range(3)),
+                                   waiting_key=self.keys.waiting,pushed_back=bool(m.rd(PUSHED_BACK,1)),key_code=m.rd(KEY,1),
+                                   seed_words=tuple(m.rd(off,2) for off in SEEDS.values()))
+        self.news_history.append(snapshot)
+
+    @property
+    def news_pages(self):
+        """Ordered exact text pages from retained actual-entry snapshots."""
+        return tuple(page for snapshot in self.news_history for page in decode_news_pages(snapshot))
 
     def _on_round_end(self, replay):
         """At 70E6: the round's end, the game record as stage_end finds it."""

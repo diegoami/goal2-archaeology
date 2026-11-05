@@ -16,6 +16,7 @@ from .runtime import Regs
 from .setup import farg, rb, rw, w8
 from .silent import _ds_far, country_of, save_ptr
 from .route import near, far
+from ..news import NewsPageMemory,capture_news_page,news_pages
 
 PORTS = Registry('news', 'shared news formatting, waits, ratings and result text, headlines and sack (T122a–d)')
 PORTS.variant('crowd-draw-dropped', '045D: omit the conditional third RNG draw at04B2')

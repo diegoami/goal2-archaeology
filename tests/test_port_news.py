@@ -490,3 +490,85 @@ class Statistics(Case):
             self.assertEqual(len(r.args('000E:47E6')),expected)
             if kind==1:self.assertEqual(len(r.args('214B:06FA')),1)
             else:self.assertEqual(r.args('214B:06B1'),[(4,)]);self.assertEqual(result&255,0)
+
+    def test_reader_exhaustive_codec_matches_canonical_oracle(self):
+        from original_match.news import NewsPageMemory,news_pages
+        from decoders.manager import screen_text
+        cells=bytearray(b' \x70'*2000)
+        for i in range(256):cells[2*i]=i
+        lines=news_pages(NewsPageMemory(cells=cells))[0]
+        expected=screen_text(bytes(range(256)))
+        self.assertEqual(''.join(lines)[:256],expected)
+        self.assertEqual(lines[0][:4],' ☺☻♥')
+        self.assertEqual(''.join(lines)[127],'⌂')
+        self.assertEqual(len(lines),25);self.assertTrue(all(len(line)==80 for line in lines))
+
+    def test_reader_uses_completed_back_buffer_and_preserves_immutable_cells(self):
+        from original_match.news import NewsPageMemory,capture_news_page,news_pages
+        r=Rig();r.ds16(0xA96E,0x100);r.ds16(0xA970,0x5500);r.ds16(0xA96A,0x100);r.ds16(0xA96C,0x5600)
+        r.mem.memory[0x55100:0x55100+4000]=b'B\x17'*2000;r.mem.memory[0x56100:0x56100+4000]=b'F\x70'*2000
+        original=bytes(r.mem.memory);regs=dict(r.mem.regs)
+        snapshot=capture_news_page(r.mem)
+        self.assertEqual(news_pages(snapshot)[0][0],'B'*80)
+        self.assertEqual(bytes(r.mem.memory),original);self.assertEqual(r.mem.regs,regs)
+        r.mem.memory[0x55100]=ord('N')
+        self.assertEqual(news_pages(snapshot)[0][0],'B'*80);self.assertEqual(news_pages(r.mem)[0][0][0],'N')
+        raw=bytearray(b'X\x70'*2000);flags=[1,2,3];snap=NewsPageMemory(cells=raw,flags_words=flags)
+        raw[0]=ord('Y');flags[0]=9
+        self.assertEqual(snap.cells[0],ord('X'));self.assertEqual(snap.flags_words,(1,2,3))
+
+    def test_reader_imports_and_decodes_without_unicorn_or_external_runtime_package(self):
+        import subprocess,os
+        runtime=Path(__file__).resolve().parents[1]/'runtime';env=dict(os.environ);env['PYTHONPATH']=str(runtime)
+        code="""import builtins
+original=builtins.__import__
+def blocked(name,*a,**k):
+ if name.split('.')[0] in ('unicorn','decoders','driver'): raise ImportError('blocked optional package '+name)
+ return original(name,*a,**k)
+builtins.__import__=blocked
+from original_match.news import NewsPageMemory,news_pages
+assert news_pages(NewsPageMemory(cells=b'A\\x70'*2000))[0][0]=='A'*80
+print('self-contained pure reader OK')
+"""
+        p=subprocess.run([sys.executable,'-B','-c',code],env=env,capture_output=True,text=True)
+        self.assertEqual(p.returncode,0,p.stderr);self.assertIn('pure reader OK',p.stdout)
+
+    def run_wait(self,capture=True,pushed=False,two=False):
+        from original_match import route as R
+        from original_match.image import Image
+        try:import unicorn
+        except ImportError:self.skipTest('unicorn missing')
+        path=Path(__file__).resolve().parents[1]/'experiments/E040-route-fixture-writes/prove.py'
+        import importlib.util
+        spec=importlib.util.spec_from_file_location('t122e_wait_case',path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+        case=next(c for c in module.cases() if c[0]=='E040-r0004');asset=module.DL/case[2]
+        if not asset.is_file():self.skipTest('published E040 state missing')
+        route=R.Route(Image.from_savestate(asset.read_bytes()),record_writes=False,capture_news=capture)
+        m=route.m;raw=b'Z\x17'*2000;m.write(m.far(0xA96E),raw);m.write(m.far(0xA96A),b'F\x70'*2000)
+        route.keys.waiting=13;m.wr(R.PUSHED_BACK,int(pushed),1);m.wr(R.KEY,0x50,1)
+        ss=m.seg(0x3052);sp=0x3900;m.at('000E:7080',lambda replay:m.stop('wait-test-return'))
+        def call():
+            for i,w in enumerate((0x7080,0,0,0)):m.write(ss*16+sp+2*i,w.to_bytes(2,'little'))
+            for name,v in (('ss',ss),('sp',sp),('bp',0x3F00),('ds',m.DS),('es',m.DS),('cs',m.seg(0xE)),('eip',0x05F6)):m.set_reg(name,v)
+            self.assertEqual(m.run(m.lin('000E:7080')+1,fresh=True),'wait-test-return')
+        call()
+        if two:route.keys.waiting=13;call()
+        return route,raw
+
+    def test_actual_wait_entry_history_is_before_copy_and_has_no_content_dedup(self):
+        route,raw=self.run_wait(two=True)
+        self.assertEqual(len(route.news_history),2)
+        self.assertTrue(all(page.cells==raw for page in route.news_history))
+        self.assertEqual(len(route.news_pages),2);self.assertTrue(all(p[0]=='Z'*80 for p in route.news_pages))
+        self.assertTrue(all(page.waiting_key==13 for page in route.news_history))
+
+    def test_capture_preserves_actual_pushed_back_priority_and_full_original_outcome(self):
+        import hashlib
+        captured,_=self.run_wait(capture=True,pushed=True);plain,_=self.run_wait(capture=False,pushed=True)
+        self.assertEqual(captured.keys.waiting,plain.keys.waiting);self.assertEqual(captured.keys.waiting,13)
+        self.assertEqual(hashlib.sha256(captured.m.read(0,0x110000)).digest(),hashlib.sha256(plain.m.read(0,0x110000)).digest())
+        names=('eax','ebx','ecx','edx','esi','edi','ebp','esp','eflags','cs','ds','es','ss','fs','gs','eip')
+        self.assertEqual([captured.m.reg(n) for n in names],[plain.m.reg(n) for n in names])
+        self.assertEqual(captured.record,plain.record)
+        self.assertEqual(captured.news_history[0].waiting_key,13);self.assertEqual(captured.news_history[0].pushed_back,True)
+        self.assertEqual(captured.news_history[0].key_code,0x50)

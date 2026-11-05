@@ -1,0 +1,58 @@
+EEFEE
+======================================================================
+ERROR: test_reader_exhaustive_codec_matches_canonical_oracle (tests.test_port_news.Statistics.test_reader_exhaustive_codec_matches_canonical_oracle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 495, in test_reader_exhaustive_codec_matches_canonical_oracle
+    from original_match.news import NewsPageMemory,news_pages
+ModuleNotFoundError: No module named 'original_match.news'
+
+======================================================================
+ERROR: test_reader_uses_completed_back_buffer_and_preserves_immutable_cells (tests.test_port_news.Statistics.test_reader_uses_completed_back_buffer_and_preserves_immutable_cells)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 507, in test_reader_uses_completed_back_buffer_and_preserves_immutable_cells
+    from original_match.news import NewsPageMemory,capture_news_page,news_pages
+ModuleNotFoundError: No module named 'original_match.news'
+
+======================================================================
+ERROR: test_actual_wait_entry_history_is_before_copy_and_has_no_content_dedup (tests.test_port_news.Statistics.test_actual_wait_entry_history_is_before_copy_and_has_no_content_dedup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 559, in test_actual_wait_entry_history_is_before_copy_and_has_no_content_dedup
+    route,raw=self.run_wait(two=True)
+              ~~~~~~~~~~~~~^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 546, in run_wait
+    route=R.Route(Image.from_savestate(asset.read_bytes()),record_writes=False,capture_news=capture)
+TypeError: Route.__init__() got an unexpected keyword argument 'capture_news'
+
+======================================================================
+ERROR: test_capture_preserves_actual_pushed_back_priority_and_full_original_outcome (tests.test_port_news.Statistics.test_capture_preserves_actual_pushed_back_priority_and_full_original_outcome)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 567, in test_capture_preserves_actual_pushed_back_priority_and_full_original_outcome
+    captured,_=self.run_wait(capture=True,pushed=True);plain,_=self.run_wait(capture=False,pushed=True)
+               ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 546, in run_wait
+    route=R.Route(Image.from_savestate(asset.read_bytes()),record_writes=False,capture_news=capture)
+TypeError: Route.__init__() got an unexpected keyword argument 'capture_news'
+
+======================================================================
+FAIL: test_reader_imports_and_decodes_without_unicorn_or_external_runtime_package (tests.test_port_news.Statistics.test_reader_imports_and_decodes_without_unicorn_or_external_runtime_package)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 534, in test_reader_imports_and_decodes_without_unicorn_or_external_runtime_package
+    self.assertEqual(p.returncode,0,p.stderr);self.assertIn('pure reader OK',p.stdout)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "<string>", line 7, in <module>
+    from original_match.news import NewsPageMemory,news_pages
+  File "<string>", line 5, in blocked
+    return original(name,*a,**k)
+ModuleNotFoundError: No module named 'original_match.news'
+
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.162s
+
+FAILED (failures=1, errors=4)
