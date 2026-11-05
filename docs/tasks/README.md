@@ -167,7 +167,7 @@ exists.
 - [T121](T121.md): route_fixture ported: the fixture loop, the gate, the watch prompt and the news page 6685 (#427).
 - [T122](T122.md): the post-match news ported: 4E0E, its headline and text routines, the sack, proven (#427).
 - [T123](T123.md): the sealed route: route_fixture from goal2's state and the tables, without GOAL.EXE; handover (#427).
-- [T124](T124.md): the round's end ported: the stage dispatch, the stage builders and the stage news; split into T124a (harness, stage_end, dispatch, shared helpers), T124b (stages 2 and 5), T124c (3 and 4), T124d (6 to 8) and T124e (60CB, after T122) (#427).
+- [T124](T124.md): the round's end ported: the stage dispatch, the stage builders and the stage news; split into T124a (harness/frame/helpers), T124t (legal-eleven harness), T124b1/b2 (stages 2 and 5), T124c (3 and 4), T124d (6 to 8), T124e (announcements, after T122e) and T124f (in-season ageing) (#427).
 - [T122a](T122a.md): Shared news primitives, waits and formatting (#427); sequential slice of T122.
 - [T122b](T122b.md): The result column 11D9 (#427); sequential slice of T122.
 - [T122c](T122c.md): The secondary result text 2071 and 26F2 (#427); sequential slice of T122.
@@ -176,3 +176,7 @@ exists.
 - [T124f](T124f.md): in-season ageing, retirement and replacement required before T123; year rollover deferred (#427).
 - [T124b1](T124b1.md): Rankings and the qualifying builder’s shared updates (#427); sequential slice of T124b.
 - [T124b2](T124b2.md): Qualifying calendar, draw order and the reference seed service (#427); sequential slice of T124b.
+
+- [T124c](T124c.md): Continental finals and knockout builders (#427); after T124b2.
+- [T124d](T124d.md): World playoffs, groups and knockout builders (#427); after T124c.
+- [T124e](T124e.md): Stage announcements and tour/qualification helpers (#427); after T124d and T122e.
