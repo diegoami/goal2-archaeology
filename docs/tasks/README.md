@@ -180,3 +180,5 @@ exists.
 - [T124c](T124c.md): Continental finals and knockout builders (#427); after T124b2.
 - [T124d](T124d.md): World playoffs, groups and knockout builders (#427); after T124c.
 - [T124e](T124e.md): Stage announcements and tour/qualification helpers (#427); after T124d and T122e.
+
+- [T125](T125.md): the original best-twenty assistant and finals/tour closure; required for m3, reviewed with T123 (#427).
