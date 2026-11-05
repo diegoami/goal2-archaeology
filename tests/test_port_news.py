@@ -39,7 +39,7 @@ class Shared(Case):
         reg = port._module_registry('news')
         expected = {a: 'ret 2' for a in '08F9 094A 09DB 0A53 0ACB 0B0A 0B4D 0B77 0C3A 1F4D 4865 0572'.split()}
         expected.update({'03C4':'ret 6', '045D':'ret 4', '04F5':'ret 4', '0868':'ret 0xa',
-                         '2E1F':'ret 0xe', '3A5E':'ret 6', '4045':'ret 0xa', '47E6':'ret 0xa', '11D9':'ret 2', '2071':'ret 2', '26F2':'ret 2', '319B':'ret 2', '01FA':'ret 2', '4DB7':'ret 2', '4E0E':'ret 6'})
+                         '2E1F':'ret 0xe', '3A5E':'ret 6', '4045':'ret 0xa', '47E6':'ret 0xa', '11D9':'ret 2', '2071':'ret 2', '26F2':'ret 2', '319B':'ret 2', '01FA':'ret 2', '4DB7':'ret 2', '4E0E':'ret 6', '3CC8':'ret 2', '4440':'ret 4', '4A87':'ret 2'})
         self.assertEqual({a: e.ret for a,e in reg.entries.items()}, {'000E:'+a:r for a,r in expected.items()})
 
     def test_crowd_uses_two_draws_per_seat_and_a_conditional_third(self):
@@ -444,3 +444,49 @@ class HeadlineSack(Case):
                     self.assertEqual(len(result['checks']['news_order']),2)
                     self.assertEqual(result['checks']['wait_order'],result['checks']['news_order'])
                     self.assertEqual(result['checks']['released'],result['checks']['news_order'][:1])
+
+
+class Statistics(Case):
+    def frame(self,kind=2,winner=0,goals=(1,0),side=0):
+        r=Rig();pages=0x2900;news=0x2800;country=3 if side==0 else 4
+        r.lin16(pages+4,news);r.lin16(news+4,FXOFF);r.lin16(news+6,FXSEG);r.lin16(news+8,country);r.lin8(news-1,side)
+        r.fixture(kind,3,4);base=FXSEG*16+FXOFF
+        for off,value in enumerate((*goals,kind,winner)):r.lin8(base+off,value)
+        return r,pages,news
+
+    def test_three_original_returns(self):
+        reg=port._module_registry('news')
+        for address,ret in (('3CC8','ret 2'),('4440','ret 4'),('4A87','ret 2')):
+            self.assertEqual(reg.entries['000E:'+address].ret,ret)
+
+    def test_manager_quote_all_eighteen_choices_on_both_result_branches(self):
+        for winner in (0,1):
+            for choice in range(1,19):
+                r,pages,_=self.frame(winner=winner)
+                r.run('000E:4440',[pages,6],responder({'214B:06B1':choice}))
+                self.assertEqual(r.args('214B:06B1'),[(18,)])
+                self.assertEqual(len(r.args('000E:4045')),1)
+                self.assertEqual(r.args('000E:4045')[0][-1],0x2FFE)
+
+    def test_fan_and_board_boolean_results_preserve_high_ax(self):
+        for address,target,table in (('000E:3CC8','000E:3A5E',{}),('000E:4A87','000E:47E6',{'000E:0B77':0xFFF5})):
+            r,pages,_=self.frame(kind=0xCB)
+            def quote(req,mem):r.lin8(req.args[-1]-1,1);return 0x170D
+            answer=responder({**table,target:quote})
+            self.assertEqual(r.run(address,[pages],answer),0x1701)
+            self.assertEqual(len(r.args(target)),1)
+
+    def test_goalless_draw_uses_three_way_fan_quote_without_sack_lookup(self):
+        r,pages,_=self.frame(winner=2,goals=(0,0))
+        r.run('000E:3CC8',[pages],responder({'214B:06B1':2}))
+        self.assertEqual(r.args('214B:06B1'),[(3,)])
+        self.assertEqual(r.args('000E:0B77'),[])
+        self.assertEqual(len(r.args('000E:3A5E')),1)
+
+    def test_excessive_fouls_friendly_coin_and_silent_fourth_competitive_choice(self):
+        for kind,choice,expected in ((1,0,1),(1,1,1),(2,4,0)):
+            r,pages,_=self.frame(kind=kind)
+            result=r.run('000E:4A87',[pages],responder({'000E:4865':1,'214B:06FA':choice,'214B:06B1':choice}))
+            self.assertEqual(len(r.args('000E:47E6')),expected)
+            if kind==1:self.assertEqual(len(r.args('214B:06FA')),1)
+            else:self.assertEqual(r.args('214B:06B1'),[(4,)]);self.assertEqual(result&255,0)

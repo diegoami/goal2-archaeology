@@ -27,6 +27,7 @@ PORTS.variant('secondary-text-byte-flipped', '26F2 at274D: flip one country-name
 PORTS.variant('headline-draw-dropped', '319B: omit a direct headline RNG draw')
 PORTS.variant('sack-threshold-minus-one', '319B at3782: change -11 upper sack bound to -12')
 PORTS.variant('unmanage-manager-write-dropped', '01FA at02FD: omit country-manager reset')
+PORTS.variant('statistics-draw-dropped', 'statistics: omit a direct RNG draw')
 M16 = 0xffff
 
 
@@ -4873,4 +4874,1341 @@ def _news_outer_tail_4f6e(mem, r, variant):
         r.ax = r.ax - 0x80  # 4F8C
         r.push(r.ax)  # 4F8F
         r = yield from _headline_call(mem, r, variant, '000E:01FA', 1, 0x4F93, far=False)  # 4F90
+    return r
+
+
+# T122e [confirmed: F039; code/seg_000E_05.asm3CC8-4044/4440-47BB,
+# code/seg_000E_06.asm4A87-4DB6]. Fixed statistics, original partial-register ABI.
+def _statistics_call(mem, r, variant, target, words, ret, far):
+    if variant == 'statistics-draw-dropped' and target == '214B:06B1':
+        for _ in range(words):
+            pop(mem, r)
+        r.ax = 1
+        return r
+    return (yield from _result_call(mem, r, variant, target, words, ret, far))
+
+
+@PORTS.port('000E:3CC8', ret='ret 2')
+def statistics_fan_quote(mem, variant):
+    r = Regs(mem)
+    r.enter(0x20A)
+    r = yield from _statistics_3ccf(mem, r, variant)
+    return _end(r, value=True)
+
+
+def _statistics_3ccf(mem, r, variant):
+    r.di = ss16(mem, r, r.bp + 4)  # 3CCF
+    r.di = ss16(mem, r, r.di + 4)  # 3CD2
+    r.es, r.di = ss16(mem, r, r.di + 4 + 2), ss16(mem, r, r.di + 4)  # 3CD6
+    r.local16(- 5, r.di)  # 3CDA
+    r.local16(- 3, r.es)  # 3CDD
+    r.di = ss16(mem, r, r.bp + 4)  # 3CE0
+    r.di = ss16(mem, r, r.di + 4)  # 3CE3
+    r.ax = ss16(mem, r, r.di + 8)  # 3CE7
+    r.dx = 0xbf  # 3CEB
+    mul(r, r.dx)  # 3CEE
+    r.es, r.di = mem.ds16((0xa917 + 2) & M16), mem.ds16((0xa917) & M16)  # 3CF0
+    r.di = r.di + r.ax  # 3CF4
+    r.local16(- 9, r.di)  # 3CF6
+    r.local16(- 7, r.es)  # 3CF9
+    r.local8(- 1, 0)  # 3CFC
+    r.es, r.di = ss16(mem, r, r.bp - 5 + 2), ss16(mem, r, r.bp - 5)  # 3D00
+    r.al = mem.u8(mem.addr(r.es, r.di + 3))  # 3D03
+    r.di = ss16(mem, r, r.bp + 4)  # 3D07
+    r.di = ss16(mem, r, r.di + 4)  # 3D0A
+    _left, _right = r.al, ss8(mem, r, r.di - 1)  # 3D0E
+    if _left == _right:  # 3D12
+        r.es, r.di = ss16(mem, r, r.bp - 5 + 2), ss16(mem, r, r.bp - 5)  # 3D17
+        r.al = mem.u8(mem.addr(r.es, r.di + 2))  # 3D1A
+        _left, _right = r.al, 0xcb  # 3D1E
+        if _left != _right:  # 3D20
+            _left, _right = r.al, 0x67  # 3D2E
+            if _left != _right:  # 3D30
+                _left, _right = r.al, 0xc9  # 3D3E
+                if _left != _right:  # 3D40
+                    _left, _right = r.al, 0x65  # 3D4E
+                    if _left != _right:  # 3D50
+                        r.di = ss16(mem, r, r.bp + 4)  # 3D5E
+                        r.di = ss16(mem, r, r.di + 4)  # 3D61
+                        r.es, r.di = ss16(mem, r, r.di + 4 + 2), ss16(mem, r, r.di + 4)  # 3D65
+                        r.push(r.es)  # 3D69
+                        r.push(r.di)  # 3D6A
+                        r = yield from _statistics_call(mem, r, variant, '1771:5C60', 2, 0x3D70, far=True)  # 3D6B
+                        _left, _right = r.ax, 2  # 3D70
+                        if _left <= _right:  # 3D73
+                            r.es, r.di = ss16(mem, r, r.bp - 5 + 2), ss16(mem, r, r.bp - 5)  # 3DE4
+                            r.al = mem.u8(mem.addr(r.es, r.di + 2))  # 3DE7
+                            r.push(r.ax)  # 3DEB
+                            r.di = 0xa943  # 3DEC
+                            r.push(mem.DS)  # 3DEF
+                            r.push(r.di)  # 3DF0
+                            r = yield from _statistics_call(mem, r, variant, '23E4:08DF', 3, 0x3DF6, far=True)  # 3DF1
+                            _left, _right = int(not (mem.reg('eflags') & 0x40)), 0  # 3DF1
+                            if _left == _right:  # 3DF6
+                                r.ax = 6  # 3E31
+                                r.push(r.ax)  # 3E34
+                                r = yield from _statistics_call(mem, r, variant, '214B:06B1', 1, 0x3E3A, far=True)  # 3E35
+                                _left, _right = r.ax, 1  # 3E3A
+                                if _left != _right:  # 3E3D
+                                    _left, _right = r.ax, 2  # 3E4A
+                                    if _left != _right:  # 3E4D
+                                        _left, _right = r.ax, 3  # 3E5A
+                                        if _left != _right:  # 3E5D
+                                            pass
+                                        else:
+                                            r.di = 0x3bb9  # 3E5F
+                                            r.push(mem.seg(0xE))  # 3E62
+                                            r.push(r.di)  # 3E63
+                                            r.push(r.bp)  # 3E64
+                                            r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3E68, far=False)  # 3E65
+                                    else:
+                                        r.di = 0x3bac  # 3E4F
+                                        r.push(mem.seg(0xE))  # 3E52
+                                        r.push(r.di)  # 3E53
+                                        r.push(r.bp)  # 3E54
+                                        r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3E58, far=False)  # 3E55
+                                else:
+                                    r.di = 0x3ba2  # 3E3F
+                                    r.push(mem.seg(0xE))  # 3E42
+                                    r.push(r.di)  # 3E43
+                                    r.push(r.bp)  # 3E44
+                                    r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3E48, far=False)  # 3E45
+                            else:
+                                r.ax = 6  # 3DF8
+                                r.push(r.ax)  # 3DFB
+                                r = yield from _statistics_call(mem, r, variant, '214B:06B1', 1, 0x3E01, far=True)  # 3DFC
+                                _left, _right = r.ax, 1  # 3E01
+                                if _left != _right:  # 3E04
+                                    _left, _right = r.ax, 2  # 3E11
+                                    if _left != _right:  # 3E14
+                                        _left, _right = r.ax, 3  # 3E21
+                                        if _left != _right:  # 3E24
+                                            pass
+                                        else:
+                                            r.di = 0x3b92  # 3E26
+                                            r.push(mem.seg(0xE))  # 3E29
+                                            r.push(r.di)  # 3E2A
+                                            r.push(r.bp)  # 3E2B
+                                            r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3E2F, far=False)  # 3E2C
+                                    else:
+                                        r.di = 0x3b80  # 3E16
+                                        r.push(mem.seg(0xE))  # 3E19
+                                        r.push(r.di)  # 3E1A
+                                        r.push(r.bp)  # 3E1B
+                                        r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3E1F, far=False)  # 3E1C
+                                else:
+                                    r.di = 0x3b6d  # 3E06
+                                    r.push(mem.seg(0xE))  # 3E09
+                                    r.push(r.di)  # 3E0A
+                                    r.push(r.bp)  # 3E0B
+                                    r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3E0F, far=False)  # 3E0C
+                                return (yield from _statistics_3e2f(mem, r, variant))
+                        else:
+                            r.ax = 6  # 3D75
+                            r.push(r.ax)  # 3D78
+                            r = yield from _statistics_call(mem, r, variant, '214B:06B1', 1, 0x3D7E, far=True)  # 3D79
+                            _left, _right = r.ax, 1  # 3D7E
+                            if _left != _right:  # 3D81
+                                _left, _right = r.ax, 2  # 3DA3
+                                if _left != _right:  # 3DA6
+                                    _left, _right = r.ax, 3  # 3DB3
+                                    if _left != _right:  # 3DB6
+                                        _left, _right = r.ax, 4  # 3DC3
+                                        if _left != _right:  # 3DC6
+                                            _left, _right = r.ax, 5  # 3DD3
+                                            if _left != _right:  # 3DD6
+                                                pass
+                                            else:
+                                                r.di = 0x3b61  # 3DD8
+                                                r.push(mem.seg(0xE))  # 3DDB
+                                                r.push(r.di)  # 3DDC
+                                                r.push(r.bp)  # 3DDD
+                                                r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3DE1, far=False)  # 3DDE
+                                        else:
+                                            r.di = 0x3b56  # 3DC8
+                                            r.push(mem.seg(0xE))  # 3DCB
+                                            r.push(r.di)  # 3DCC
+                                            r.push(r.bp)  # 3DCD
+                                            r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3DD1, far=False)  # 3DCE
+                                    else:
+                                        r.di = 0x3b46  # 3DB8
+                                        r.push(mem.seg(0xE))  # 3DBB
+                                        r.push(r.di)  # 3DBC
+                                        r.push(r.bp)  # 3DBD
+                                        r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3DC1, far=False)  # 3DBE
+                                else:
+                                    r.di = 0x3b36  # 3DA8
+                                    r.push(mem.seg(0xE))  # 3DAB
+                                    r.push(r.di)  # 3DAC
+                                    r.push(r.bp)  # 3DAD
+                                    r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3DB1, far=False)  # 3DAE
+                            else:
+                                r.di = r.bp - 0x109  # 3D83
+                                r.push(r.ss)  # 3D87
+                                r.push(r.di)  # 3D88
+                                r.di = ss16(mem, r, r.bp + 4)  # 3D89
+                                r.push(ss16(mem, r, r.di + 4))  # 3D8C
+                                r = yield from _statistics_call(mem, r, variant, '000E:0ACB', 1, 0x3D93, far=False)  # 3D90
+                                r.di = 0x3b2e  # 3D93
+                                r.push(mem.seg(0xE))  # 3D96
+                                r.push(r.di)  # 3D97
+                                r = yield from _statistics_call(mem, r, variant, '23E4:06B7', 2, 0x3D9D, far=True)  # 3D98
+                                r.push(r.bp)  # 3D9D
+                                r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3DA1, far=False)  # 3D9E
+                            return (yield from _statistics_3de1(mem, r, variant))
+                    else:
+                        r.di = 0x3b22  # 3D52
+                        r.push(mem.seg(0xE))  # 3D55
+                        r.push(r.di)  # 3D56
+                        r.push(r.bp)  # 3D57
+                        r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3D5B, far=False)  # 3D58
+                else:
+                    r.di = 0x3b14  # 3D42
+                    r.push(mem.seg(0xE))  # 3D45
+                    r.push(r.di)  # 3D46
+                    r.push(r.bp)  # 3D47
+                    r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3D4B, far=False)  # 3D48
+            else:
+                r.di = 0x3b04  # 3D32
+                r.push(mem.seg(0xE))  # 3D35
+                r.push(r.di)  # 3D36
+                r.push(r.bp)  # 3D37
+                r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3D3B, far=False)  # 3D38
+        else:
+            r.di = 0x3af1  # 3D22
+            r.push(mem.seg(0xE))  # 3D25
+            r.push(r.di)  # 3D26
+            r.push(r.bp)  # 3D27
+            r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3D2B, far=False)  # 3D28
+        return (yield from _statistics_3e68(mem, r, variant))
+    else:
+        r.es, r.di = ss16(mem, r, r.bp - 5 + 2), ss16(mem, r, r.bp - 5)  # 3E6B
+        _left, _right = mem.u8(mem.addr(r.es, r.di + 3)), 2  # 3E6E
+        if _left != _right:  # 3E73
+            return (yield from _statistics_3eb9(mem, r, variant))
+        else:
+            r.es, r.di = ss16(mem, r, r.bp - 5 + 2), ss16(mem, r, r.bp - 5)  # 3E75
+            _left, _right = mem.u8(mem.addr(r.es, r.di + 1)), 0  # 3E78
+            if _left != _right:  # 3E7D
+                return (yield from _statistics_3eb9(mem, r, variant))
+            else:
+                r.ax = 3  # 3E7F
+                r.push(r.ax)  # 3E82
+                r = yield from _statistics_call(mem, r, variant, '214B:06B1', 1, 0x3E88, far=True)  # 3E83
+                _left, _right = r.ax, 1  # 3E88
+                if _left != _right:  # 3E8B
+                    _left, _right = r.ax, 2  # 3E98
+                    if _left != _right:  # 3E9B
+                        _left, _right = r.ax, 3  # 3EA8
+                        if _left != _right:  # 3EAB
+                            pass
+                        else:
+                            r.di = 0x3be8  # 3EAD
+                            r.push(mem.seg(0xE))  # 3EB0
+                            r.push(r.di)  # 3EB1
+                            r.push(r.bp)  # 3EB2
+                            r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3EB6, far=False)  # 3EB3
+                    else:
+                        r.di = 0x3bd7  # 3E9D
+                        r.push(mem.seg(0xE))  # 3EA0
+                        r.push(r.di)  # 3EA1
+                        r.push(r.bp)  # 3EA2
+                        r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3EA6, far=False)  # 3EA3
+                else:
+                    r.di = 0x3bc4  # 3E8D
+                    r.push(mem.seg(0xE))  # 3E90
+                    r.push(r.di)  # 3E91
+                    r.push(r.bp)  # 3E92
+                    r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3E96, far=False)  # 3E93
+                return (yield from _statistics_3eb6(mem, r, variant))
+    return (yield from _statistics_403c(mem, r, variant))
+    return r
+
+
+def _statistics_3de1(mem, r, variant):
+    return (yield from _statistics_3e68(mem, r, variant))
+    return r
+
+
+def _statistics_3e2f(mem, r, variant):
+    return (yield from _statistics_3e68(mem, r, variant))
+    return r
+
+
+def _statistics_3e68(mem, r, variant):
+    return (yield from _statistics_403c(mem, r, variant))
+    return r
+
+
+def _statistics_3eb6(mem, r, variant):
+    return (yield from _statistics_403c(mem, r, variant))
+    return r
+
+
+def _statistics_3eb9(mem, r, variant):
+    r.di = ss16(mem, r, r.bp + 4)  # 3EB9
+    r.push(ss16(mem, r, r.di + 4))  # 3EBC
+    r = yield from _statistics_call(mem, r, variant, '000E:0B77', 1, 0x3EC3, far=False)  # 3EC0
+    _left, _right = r.ax, 0xfffa  # 3EC3
+    if _left != _right:  # 3EC6
+        _left, _right = r.ax, 0xfff9  # 3EF4
+        if _left != _right:  # 3EF7
+            _left, _right = r.ax, 0xfff6  # 3F1A
+            if s16(_left) < s16(_right):  # 3F1D
+                return (yield from _statistics_3f30(mem, r, variant))
+            else:
+                _left, _right = r.ax, 0xfff8  # 3F1F
+                if s16(_left) > s16(_right):  # 3F22
+                    return (yield from _statistics_3f30(mem, r, variant))
+                else:
+                    r.di = 0x3bff  # 3F24
+                    r.push(mem.seg(0xE))  # 3F27
+                    r.push(r.di)  # 3F28
+                    r.push(r.bp)  # 3F29
+                    r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3F2D, far=False)  # 3F2A
+        else:
+            r.di = r.bp - 0x109  # 3EF9
+            r.push(r.ss)  # 3EFD
+            r.push(r.di)  # 3EFE
+            r.di = ss16(mem, r, r.bp + 4)  # 3EFF
+            r.push(ss16(mem, r, r.di + 4))  # 3F02
+            r = yield from _statistics_call(mem, r, variant, '000E:0ACB', 1, 0x3F09, far=False)  # 3F06
+            r.di = 0x3bf6  # 3F09
+            r.push(mem.seg(0xE))  # 3F0C
+            r.push(r.di)  # 3F0D
+            r = yield from _statistics_call(mem, r, variant, '23E4:06B7', 2, 0x3F13, far=True)  # 3F0E
+            r.push(r.bp)  # 3F13
+            r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3F17, far=False)  # 3F14
+    else:
+        r.di = r.bp - 0x209  # 3EC8
+        r.push(r.ss)  # 3ECC
+        r.push(r.di)  # 3ECD
+        r.di = 0x3bf0  # 3ECE
+        r.push(mem.seg(0xE))  # 3ED1
+        r.push(r.di)  # 3ED2
+        r = yield from _statistics_call(mem, r, variant, '23E4:062A', 2, 0x3ED8, far=True)  # 3ED3
+        r.di = r.bp - 0x109  # 3ED8
+        r.push(r.ss)  # 3EDC
+        r.push(r.di)  # 3EDD
+        r.di = ss16(mem, r, r.bp + 4)  # 3EDE
+        r.push(ss16(mem, r, r.di + 4))  # 3EE1
+        r = yield from _statistics_call(mem, r, variant, '000E:0ACB', 1, 0x3EE8, far=False)  # 3EE5
+        r = yield from _statistics_call(mem, r, variant, '23E4:06B7', 2, 0x3EED, far=True)  # 3EE8
+        r.push(r.bp)  # 3EED
+        r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3EF1, far=False)  # 3EEE
+    return (yield from _statistics_403c(mem, r, variant))
+    return r
+
+
+def _statistics_3f30(mem, r, variant):
+    _left, _right = r.ax, 0xff01  # 3F30
+    if s16(_left) < s16(_right):  # 3F33
+        return (yield from _statistics_3f46(mem, r, variant))
+    else:
+        _left, _right = r.ax, 0xfff5  # 3F35
+        if s16(_left) > s16(_right):  # 3F38
+            return (yield from _statistics_3f46(mem, r, variant))
+        else:
+            r.di = 0x3c13  # 3F3A
+            r.push(mem.seg(0xE))  # 3F3D
+            r.push(r.di)  # 3F3E
+            r.push(r.bp)  # 3F3F
+            r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3F43, far=False)  # 3F40
+    return (yield from _statistics_403c(mem, r, variant))
+    return r
+
+
+def _statistics_3f46(mem, r, variant):
+    r.di = ss16(mem, r, r.bp + 4)  # 3F46
+    r.push(ss16(mem, r, r.di + 4))  # 3F49
+    r = yield from _statistics_call(mem, r, variant, '000E:09DB', 1, 0x3F50, far=False)  # 3F4D
+    _left, _right = r.al, 0  # 3F50
+    if _left == _right:  # 3F52
+        r.di = ss16(mem, r, r.bp + 4)  # 3FAE
+        r.push(ss16(mem, r, r.di + 4))  # 3FB1
+        r = yield from _statistics_call(mem, r, variant, '000E:0A53', 1, 0x3FB8, far=False)  # 3FB5
+        _left, _right = r.al, 0  # 3FB8
+        if _left == _right:  # 3FBA
+            r.ax = 6  # 4005
+            r.push(r.ax)  # 4008
+            r = yield from _statistics_call(mem, r, variant, '214B:06B1', 1, 0x400E, far=True)  # 4009
+            _left, _right = r.ax, 1  # 400E
+            if _left != _right:  # 4011
+                _left, _right = r.ax, 2  # 401E
+                if _left != _right:  # 4021
+                    _left, _right = r.ax, 3  # 402E
+                    if _left != _right:  # 4031
+                        pass
+                    else:
+                        r.di = 0x3cb5  # 4033
+                        r.push(mem.seg(0xE))  # 4036
+                        r.push(r.di)  # 4037
+                        r.push(r.bp)  # 4038
+                        r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x403C, far=False)  # 4039
+                else:
+                    r.di = 0x3ca1  # 4023
+                    r.push(mem.seg(0xE))  # 4026
+                    r.push(r.di)  # 4027
+                    r.push(r.bp)  # 4028
+                    r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x402C, far=False)  # 4029
+            else:
+                r.di = 0x3c90  # 4013
+                r.push(mem.seg(0xE))  # 4016
+                r.push(r.di)  # 4017
+                r.push(r.bp)  # 4018
+                r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x401C, far=False)  # 4019
+        else:
+            r.ax = 6  # 3FBC
+            r.push(r.ax)  # 3FBF
+            r = yield from _statistics_call(mem, r, variant, '214B:06B1', 1, 0x3FC5, far=True)  # 3FC0
+            _left, _right = r.ax, 1  # 3FC5
+            if _left != _right:  # 3FC8
+                _left, _right = r.ax, 2  # 3FD5
+                if _left != _right:  # 3FD8
+                    _left, _right = r.ax, 3  # 3FE5
+                    if _left != _right:  # 3FE8
+                        _left, _right = r.ax, 4  # 3FF5
+                        if _left != _right:  # 3FF8
+                            pass
+                        else:
+                            r.di = 0x3c89  # 3FFA
+                            r.push(mem.seg(0xE))  # 3FFD
+                            r.push(r.di)  # 3FFE
+                            r.push(r.bp)  # 3FFF
+                            r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x4003, far=False)  # 4000
+                    else:
+                        r.di = 0x3c7c  # 3FEA
+                        r.push(mem.seg(0xE))  # 3FED
+                        r.push(r.di)  # 3FEE
+                        r.push(r.bp)  # 3FEF
+                        r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3FF3, far=False)  # 3FF0
+                else:
+                    r.di = 0x3c6d  # 3FDA
+                    r.push(mem.seg(0xE))  # 3FDD
+                    r.push(r.di)  # 3FDE
+                    r.push(r.bp)  # 3FDF
+                    r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3FE3, far=False)  # 3FE0
+            else:
+                r.di = 0x3c5f  # 3FCA
+                r.push(mem.seg(0xE))  # 3FCD
+                r.push(r.di)  # 3FCE
+                r.push(r.bp)  # 3FCF
+                r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3FD3, far=False)  # 3FD0
+            return (yield from _statistics_4003(mem, r, variant))
+    else:
+        r.ax = 6  # 3F54
+        r.push(r.ax)  # 3F57
+        r = yield from _statistics_call(mem, r, variant, '214B:06B1', 1, 0x3F5D, far=True)  # 3F58
+        _left, _right = r.ax, 1  # 3F5D
+        if _left != _right:  # 3F60
+            _left, _right = r.ax, 2  # 3F6D
+            if _left != _right:  # 3F70
+                _left, _right = r.ax, 3  # 3F7D
+                if _left != _right:  # 3F80
+                    _left, _right = r.ax, 4  # 3F8D
+                    if _left != _right:  # 3F90
+                        _left, _right = r.ax, 5  # 3F9D
+                        if _left != _right:  # 3FA0
+                            pass
+                        else:
+                            r.di = 0x3c53  # 3FA2
+                            r.push(mem.seg(0xE))  # 3FA5
+                            r.push(r.di)  # 3FA6
+                            r.push(r.bp)  # 3FA7
+                            r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3FAB, far=False)  # 3FA8
+                    else:
+                        r.di = 0x3c49  # 3F92
+                        r.push(mem.seg(0xE))  # 3F95
+                        r.push(r.di)  # 3F96
+                        r.push(r.bp)  # 3F97
+                        r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3F9B, far=False)  # 3F98
+                else:
+                    r.di = 0x3c41  # 3F82
+                    r.push(mem.seg(0xE))  # 3F85
+                    r.push(r.di)  # 3F86
+                    r.push(r.bp)  # 3F87
+                    r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3F8B, far=False)  # 3F88
+            else:
+                r.di = 0x3c2e  # 3F72
+                r.push(mem.seg(0xE))  # 3F75
+                r.push(r.di)  # 3F76
+                r.push(r.bp)  # 3F77
+                r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3F7B, far=False)  # 3F78
+        else:
+            r.di = 0x3c23  # 3F62
+            r.push(mem.seg(0xE))  # 3F65
+            r.push(r.di)  # 3F66
+            r.push(r.bp)  # 3F67
+            r = yield from _statistics_call(mem, r, variant, '000E:3A5E', 3, 0x3F6B, far=False)  # 3F68
+        return (yield from _statistics_3fab(mem, r, variant))
+    return (yield from _statistics_403c(mem, r, variant))
+    return r
+
+
+def _statistics_3fab(mem, r, variant):
+    return (yield from _statistics_403c(mem, r, variant))
+    return r
+
+
+def _statistics_4003(mem, r, variant):
+    return (yield from _statistics_403c(mem, r, variant))
+    return r
+
+
+def _statistics_403c(mem, r, variant):
+    yield from ()
+    r.al = ss8(mem, r, r.bp - 1)  # 403C
+    return r
+
+
+@PORTS.port('000E:4440', ret='ret 4')
+def statistics_manager_quote(mem, variant):
+    r = Regs(mem)
+    r.enter(0x204)
+    r = yield from _statistics_4447(mem, r, variant)
+    return _end(r)
+
+
+def _statistics_4447(mem, r, variant):
+    r.di = ss16(mem, r, r.bp + 4)  # 4447
+    r.di = ss16(mem, r, r.di + 4)  # 444A
+    r.es, r.di = ss16(mem, r, r.di + 4 + 2), ss16(mem, r, r.di + 4)  # 444E
+    r.local16(- 4, r.di)  # 4452
+    r.local16(- 2, r.es)  # 4455
+    r.es, r.di = ss16(mem, r, r.bp - 4 + 2), ss16(mem, r, r.bp - 4)  # 4458
+    r.al = mem.u8(mem.addr(r.es, r.di + 3))  # 445B
+    r.di = ss16(mem, r, r.bp + 4)  # 445F
+    r.di = ss16(mem, r, r.di + 4)  # 4462
+    _left, _right = r.al, ss8(mem, r, r.di - 1)  # 4466
+    if _left == _right:  # 446A
+        r.ax = 0x12  # 446F
+        r.push(r.ax)  # 4472
+        r = yield from _statistics_call(mem, r, variant, '214B:06B1', 1, 0x4478, far=True)  # 4473
+        _left, _right = r.ax, 1  # 4478
+        if _left != _right:  # 447B
+            _left, _right = r.ax, 2  # 448E
+            if _left != _right:  # 4491
+                _left, _right = r.ax, 3  # 44A4
+                if _left != _right:  # 44A7
+                    _left, _right = r.ax, 4  # 44BA
+                    if _left != _right:  # 44BD
+                        _left, _right = r.ax, 5  # 44D0
+                        if _left != _right:  # 44D3
+                            _left, _right = r.ax, 6  # 44E6
+                            if _left != _right:  # 44E9
+                                _left, _right = r.ax, 7  # 44FC
+                                if _left != _right:  # 44FF
+                                    _left, _right = r.ax, 8  # 4512
+                                    if _left != _right:  # 4515
+                                        _left, _right = r.ax, 9  # 4528
+                                        if _left != _right:  # 452B
+                                            _left, _right = r.ax, 0xa  # 453E
+                                            if _left != _right:  # 4541
+                                                _left, _right = r.ax, 0xb  # 4554
+                                                if _left != _right:  # 4557
+                                                    _left, _right = r.ax, 0xc  # 456A
+                                                    if _left != _right:  # 456D
+                                                        _left, _right = r.ax, 0xd  # 457F
+                                                        if _left != _right:  # 4582
+                                                            _left, _right = r.ax, 0xe  # 4594
+                                                            if _left != _right:  # 4597
+                                                                _left, _right = r.ax, 0xf  # 45A9
+                                                                if _left != _right:  # 45AC
+                                                                    _left, _right = r.ax, 0x10  # 45BE
+                                                                    if _left != _right:  # 45C1
+                                                                        _left, _right = r.ax, 0x11  # 45D3
+                                                                        if _left != _right:  # 45D6
+                                                                            _left, _right = r.ax, 0x12  # 45E8
+                                                                            if _left != _right:  # 45EB
+                                                                                pass
+                                                                            else:
+                                                                                r.di = 0x4232  # 45ED
+                                                                                r.push(mem.seg(0xE))  # 45F0
+                                                                                r.push(r.di)  # 45F1
+                                                                                r.di = 0x4241  # 45F2
+                                                                                r.push(mem.seg(0xE))  # 45F5
+                                                                                r.push(r.di)  # 45F6
+                                                                                r.push(r.bp)  # 45F7
+                                                                                r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x45FB, far=False)  # 45F8
+                                                                        else:
+                                                                            r.di = 0x4216  # 45D8
+                                                                            r.push(mem.seg(0xE))  # 45DB
+                                                                            r.push(r.di)  # 45DC
+                                                                            r.di = 0x4226  # 45DD
+                                                                            r.push(mem.seg(0xE))  # 45E0
+                                                                            r.push(r.di)  # 45E1
+                                                                            r.push(r.bp)  # 45E2
+                                                                            r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x45E6, far=False)  # 45E3
+                                                                    else:
+                                                                        r.di = 0x4202  # 45C3
+                                                                        r.push(mem.seg(0xE))  # 45C6
+                                                                        r.push(r.di)  # 45C7
+                                                                        r.di = 0x40d0  # 45C8
+                                                                        r.push(mem.seg(0xE))  # 45CB
+                                                                        r.push(r.di)  # 45CC
+                                                                        r.push(r.bp)  # 45CD
+                                                                        r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x45D1, far=False)  # 45CE
+                                                                else:
+                                                                    r.di = 0x41eb  # 45AE
+                                                                    r.push(mem.seg(0xE))  # 45B1
+                                                                    r.push(r.di)  # 45B2
+                                                                    r.di = 0x41fa  # 45B3
+                                                                    r.push(mem.seg(0xE))  # 45B6
+                                                                    r.push(r.di)  # 45B7
+                                                                    r.push(r.bp)  # 45B8
+                                                                    r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x45BC, far=False)  # 45B9
+                                                            else:
+                                                                r.di = 0x41d2  # 4599
+                                                                r.push(mem.seg(0xE))  # 459C
+                                                                r.push(r.di)  # 459D
+                                                                r.di = 0x41dd  # 459E
+                                                                r.push(mem.seg(0xE))  # 45A1
+                                                                r.push(r.di)  # 45A2
+                                                                r.push(r.bp)  # 45A3
+                                                                r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x45A7, far=False)  # 45A4
+                                                        else:
+                                                            r.di = 0x41b1  # 4584
+                                                            r.push(mem.seg(0xE))  # 4587
+                                                            r.push(r.di)  # 4588
+                                                            r.di = 0x41c1  # 4589
+                                                            r.push(mem.seg(0xE))  # 458C
+                                                            r.push(r.di)  # 458D
+                                                            r.push(r.bp)  # 458E
+                                                            r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x4592, far=False)  # 458F
+                                                    else:
+                                                        r.di = 0x4196  # 456F
+                                                        r.push(mem.seg(0xE))  # 4572
+                                                        r.push(r.di)  # 4573
+                                                        r.di = 0x41a1  # 4574
+                                                        r.push(mem.seg(0xE))  # 4577
+                                                        r.push(r.di)  # 4578
+                                                        r.push(r.bp)  # 4579
+                                                        r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x457D, far=False)  # 457A
+                                                else:
+                                                    r.di = 0x4177  # 4559
+                                                    r.push(mem.seg(0xE))  # 455C
+                                                    r.push(r.di)  # 455D
+                                                    r.di = 0x4185  # 455E
+                                                    r.push(mem.seg(0xE))  # 4561
+                                                    r.push(r.di)  # 4562
+                                                    r.push(r.bp)  # 4563
+                                                    r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x4567, far=False)  # 4564
+                                            else:
+                                                r.di = 0x4162  # 4543
+                                                r.push(mem.seg(0xE))  # 4546
+                                                r.push(r.di)  # 4547
+                                                r.di = 0x40d0  # 4548
+                                                r.push(mem.seg(0xE))  # 454B
+                                                r.push(r.di)  # 454C
+                                                r.push(r.bp)  # 454D
+                                                r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x4551, far=False)  # 454E
+                                        else:
+                                            r.di = 0x414a  # 452D
+                                            r.push(mem.seg(0xE))  # 4530
+                                            r.push(r.di)  # 4531
+                                            r.di = 0x4154  # 4532
+                                            r.push(mem.seg(0xE))  # 4535
+                                            r.push(r.di)  # 4536
+                                            r.push(r.bp)  # 4537
+                                            r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x453B, far=False)  # 4538
+                                    else:
+                                        r.di = 0x412c  # 4517
+                                        r.push(mem.seg(0xE))  # 451A
+                                        r.push(r.di)  # 451B
+                                        r.di = 0x413f  # 451C
+                                        r.push(mem.seg(0xE))  # 451F
+                                        r.push(r.di)  # 4520
+                                        r.push(r.bp)  # 4521
+                                        r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x4525, far=False)  # 4522
+                                else:
+                                    r.di = 0x4117  # 4501
+                                    r.push(mem.seg(0xE))  # 4504
+                                    r.push(r.di)  # 4505
+                                    r.di = 0x40d0  # 4506
+                                    r.push(mem.seg(0xE))  # 4509
+                                    r.push(r.di)  # 450A
+                                    r.push(r.bp)  # 450B
+                                    r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x450F, far=False)  # 450C
+                            else:
+                                r.di = 0x40f9  # 44EB
+                                r.push(mem.seg(0xE))  # 44EE
+                                r.push(r.di)  # 44EF
+                                r.di = 0x410a  # 44F0
+                                r.push(mem.seg(0xE))  # 44F3
+                                r.push(r.di)  # 44F4
+                                r.push(r.bp)  # 44F5
+                                r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x44F9, far=False)  # 44F6
+                        else:
+                            r.di = 0x40e0  # 44D5
+                            r.push(mem.seg(0xE))  # 44D8
+                            r.push(r.di)  # 44D9
+                            r.di = 0x40ed  # 44DA
+                            r.push(mem.seg(0xE))  # 44DD
+                            r.push(r.di)  # 44DE
+                            r.push(r.bp)  # 44DF
+                            r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x44E3, far=False)  # 44E0
+                    else:
+                        r.di = 0x40d1  # 44BF
+                        r.push(mem.seg(0xE))  # 44C2
+                        r.push(r.di)  # 44C3
+                        r.di = 0x40d0  # 44C4
+                        r.push(mem.seg(0xE))  # 44C7
+                        r.push(r.di)  # 44C8
+                        r.push(r.bp)  # 44C9
+                        r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x44CD, far=False)  # 44CA
+                else:
+                    r.di = 0x40bd  # 44A9
+                    r.push(mem.seg(0xE))  # 44AC
+                    r.push(r.di)  # 44AD
+                    r.di = 0x40d0  # 44AE
+                    r.push(mem.seg(0xE))  # 44B1
+                    r.push(r.di)  # 44B2
+                    r.push(r.bp)  # 44B3
+                    r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x44B7, far=False)  # 44B4
+            else:
+                r.di = 0x40a1  # 4493
+                r.push(mem.seg(0xE))  # 4496
+                r.push(r.di)  # 4497
+                r.di = 0x40b3  # 4498
+                r.push(mem.seg(0xE))  # 449B
+                r.push(r.di)  # 449C
+                r.push(r.bp)  # 449D
+                r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x44A1, far=False)  # 449E
+        else:
+            r.di = 0x408b  # 447D
+            r.push(mem.seg(0xE))  # 4480
+            r.push(r.di)  # 4481
+            r.di = 0x4095  # 4482
+            r.push(mem.seg(0xE))  # 4485
+            r.push(r.di)  # 4486
+            r.push(r.bp)  # 4487
+            r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x448B, far=False)  # 4488
+        return (yield from _statistics_45fb(mem, r, variant))
+    else:
+        r.ax = 0x12  # 45FE
+        r.push(r.ax)  # 4601
+        r = yield from _statistics_call(mem, r, variant, '214B:06B1', 1, 0x4607, far=True)  # 4602
+        _left, _right = r.ax, 1  # 4607
+        if _left != _right:  # 460A
+            _left, _right = r.ax, 2  # 461D
+            if _left != _right:  # 4620
+                _left, _right = r.ax, 3  # 4633
+                if _left != _right:  # 4636
+                    _left, _right = r.ax, 4  # 4649
+                    if _left != _right:  # 464C
+                        _left, _right = r.ax, 5  # 465F
+                        if _left != _right:  # 4662
+                            _left, _right = r.ax, 6  # 4675
+                            if _left != _right:  # 4678
+                                _left, _right = r.ax, 7  # 468B
+                                if _left != _right:  # 468E
+                                    _left, _right = r.ax, 8  # 46A1
+                                    if _left != _right:  # 46A4
+                                        _left, _right = r.ax, 9  # 46B7
+                                        if _left != _right:  # 46BA
+                                            _left, _right = r.ax, 0xa  # 46CD
+                                            if _left != _right:  # 46D0
+                                                _left, _right = r.ax, 0xb  # 46E3
+                                                if _left != _right:  # 46E6
+                                                    _left, _right = r.ax, 0xc  # 46F9
+                                                    if _left != _right:  # 46FC
+                                                        _left, _right = r.ax, 0xd  # 470F
+                                                        if _left != _right:  # 4712
+                                                            _left, _right = r.ax, 0xe  # 4725
+                                                            if _left != _right:  # 4728
+                                                                _left, _right = r.ax, 0xf  # 473A
+                                                                if _left != _right:  # 473D
+                                                                    _left, _right = r.ax, 0x10  # 474F
+                                                                    if _left != _right:  # 4752
+                                                                        _left, _right = r.ax, 0x11  # 478E
+                                                                        if _left != _right:  # 4791
+                                                                            _left, _right = r.ax, 0x12  # 47A3
+                                                                            if _left != _right:  # 47A6
+                                                                                pass
+                                                                            else:
+                                                                                r.di = 0x441c  # 47A8
+                                                                                r.push(mem.seg(0xE))  # 47AB
+                                                                                r.push(r.di)  # 47AC
+                                                                                r.di = 0x442d  # 47AD
+                                                                                r.push(mem.seg(0xE))  # 47B0
+                                                                                r.push(r.di)  # 47B1
+                                                                                r.push(r.bp)  # 47B2
+                                                                                r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x47B6, far=False)  # 47B3
+                                                                        else:
+                                                                            r.di = 0x43fe  # 4793
+                                                                            r.push(mem.seg(0xE))  # 4796
+                                                                            r.push(r.di)  # 4797
+                                                                            r.di = 0x440b  # 4798
+                                                                            r.push(mem.seg(0xE))  # 479B
+                                                                            r.push(r.di)  # 479C
+                                                                            r.push(r.bp)  # 479D
+                                                                            r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x47A1, far=False)  # 479E
+                                                                    else:
+                                                                        r.di = r.bp - 0x204  # 4754
+                                                                        r.push(r.ss)  # 4758
+                                                                        r.push(r.di)  # 4759
+                                                                        r.di = 0x43e4  # 475A
+                                                                        r.push(mem.seg(0xE))  # 475D
+                                                                        r.push(r.di)  # 475E
+                                                                        r = yield from _statistics_call(mem, r, variant, '23E4:062A', 2, 0x4764, far=True)  # 475F
+                                                                        r.di = r.bp - 0x104  # 4764
+                                                                        r.push(r.ss)  # 4768
+                                                                        r.push(r.di)  # 4769
+                                                                        r.di = ss16(mem, r, r.bp + 4)  # 476A
+                                                                        r.push(ss16(mem, r, r.di + 4))  # 476D
+                                                                        r = yield from _statistics_call(mem, r, variant, '000E:0B0A', 1, 0x4774, far=False)  # 4771
+                                                                        r = yield from _statistics_call(mem, r, variant, '23E4:06B7', 2, 0x4779, far=True)  # 4774
+                                                                        r.di = 0x43e6  # 4779
+                                                                        r.push(mem.seg(0xE))  # 477C
+                                                                        r.push(r.di)  # 477D
+                                                                        r = yield from _statistics_call(mem, r, variant, '23E4:06B7', 2, 0x4783, far=True)  # 477E
+                                                                        r.di = 0x43eb  # 4783
+                                                                        r.push(mem.seg(0xE))  # 4786
+                                                                        r.push(r.di)  # 4787
+                                                                        r.push(r.bp)  # 4788
+                                                                        r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x478C, far=False)  # 4789
+                                                                else:
+                                                                    r.di = 0x43ba  # 473F
+                                                                    r.push(mem.seg(0xE))  # 4742
+                                                                    r.push(r.di)  # 4743
+                                                                    r.di = 0x43cf  # 4744
+                                                                    r.push(mem.seg(0xE))  # 4747
+                                                                    r.push(r.di)  # 4748
+                                                                    r.push(r.bp)  # 4749
+                                                                    r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x474D, far=False)  # 474A
+                                                            else:
+                                                                r.di = 0x439e  # 472A
+                                                                r.push(mem.seg(0xE))  # 472D
+                                                                r.push(r.di)  # 472E
+                                                                r.di = 0x43ad  # 472F
+                                                                r.push(mem.seg(0xE))  # 4732
+                                                                r.push(r.di)  # 4733
+                                                                r.push(r.bp)  # 4734
+                                                                r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x4738, far=False)  # 4735
+                                                        else:
+                                                            r.di = 0x437d  # 4714
+                                                            r.push(mem.seg(0xE))  # 4717
+                                                            r.push(r.di)  # 4718
+                                                            r.di = 0x438a  # 4719
+                                                            r.push(mem.seg(0xE))  # 471C
+                                                            r.push(r.di)  # 471D
+                                                            r.push(r.bp)  # 471E
+                                                            r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x4722, far=False)  # 471F
+                                                    else:
+                                                        r.di = 0x435e  # 46FE
+                                                        r.push(mem.seg(0xE))  # 4701
+                                                        r.push(r.di)  # 4702
+                                                        r.di = 0x436e  # 4703
+                                                        r.push(mem.seg(0xE))  # 4706
+                                                        r.push(r.di)  # 4707
+                                                        r.push(r.bp)  # 4708
+                                                        r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x470C, far=False)  # 4709
+                                                else:
+                                                    r.di = 0x4341  # 46E8
+                                                    r.push(mem.seg(0xE))  # 46EB
+                                                    r.push(r.di)  # 46EC
+                                                    r.di = 0x434f  # 46ED
+                                                    r.push(mem.seg(0xE))  # 46F0
+                                                    r.push(r.di)  # 46F1
+                                                    r.push(r.bp)  # 46F2
+                                                    r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x46F6, far=False)  # 46F3
+                                            else:
+                                                r.di = 0x4336  # 46D2
+                                                r.push(mem.seg(0xE))  # 46D5
+                                                r.push(r.di)  # 46D6
+                                                r.di = 0x40d0  # 46D7
+                                                r.push(mem.seg(0xE))  # 46DA
+                                                r.push(r.di)  # 46DB
+                                                r.push(r.bp)  # 46DC
+                                                r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x46E0, far=False)  # 46DD
+                                        else:
+                                            r.di = 0x431b  # 46BC
+                                            r.push(mem.seg(0xE))  # 46BF
+                                            r.push(r.di)  # 46C0
+                                            r.di = 0x4325  # 46C1
+                                            r.push(mem.seg(0xE))  # 46C4
+                                            r.push(r.di)  # 46C5
+                                            r.push(r.bp)  # 46C6
+                                            r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x46CA, far=False)  # 46C7
+                                    else:
+                                        r.di = 0x4303  # 46A6
+                                        r.push(mem.seg(0xE))  # 46A9
+                                        r.push(r.di)  # 46AA
+                                        r.di = 0x430c  # 46AB
+                                        r.push(mem.seg(0xE))  # 46AE
+                                        r.push(r.di)  # 46AF
+                                        r.push(r.bp)  # 46B0
+                                        r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x46B4, far=False)  # 46B1
+                                else:
+                                    r.di = 0x408b  # 4690
+                                    r.push(mem.seg(0xE))  # 4693
+                                    r.push(r.di)  # 4694
+                                    r.di = 0x42f1  # 4695
+                                    r.push(mem.seg(0xE))  # 4698
+                                    r.push(r.di)  # 4699
+                                    r.push(r.bp)  # 469A
+                                    r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x469E, far=False)  # 469B
+                            else:
+                                r.di = 0x42de  # 467A
+                                r.push(mem.seg(0xE))  # 467D
+                                r.push(r.di)  # 467E
+                                r.di = 0x40d0  # 467F
+                                r.push(mem.seg(0xE))  # 4682
+                                r.push(r.di)  # 4683
+                                r.push(r.bp)  # 4684
+                                r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x4688, far=False)  # 4685
+                        else:
+                            r.di = 0x42c3  # 4664
+                            r.push(mem.seg(0xE))  # 4667
+                            r.push(r.di)  # 4668
+                            r.di = 0x42d1  # 4669
+                            r.push(mem.seg(0xE))  # 466C
+                            r.push(r.di)  # 466D
+                            r.push(r.bp)  # 466E
+                            r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x4672, far=False)  # 466F
+                    else:
+                        r.di = 0x42a9  # 464E
+                        r.push(mem.seg(0xE))  # 4651
+                        r.push(r.di)  # 4652
+                        r.di = 0x42b6  # 4653
+                        r.push(mem.seg(0xE))  # 4656
+                        r.push(r.di)  # 4657
+                        r.push(r.bp)  # 4658
+                        r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x465C, far=False)  # 4659
+                else:
+                    r.di = 0x4282  # 4638
+                    r.push(mem.seg(0xE))  # 463B
+                    r.push(r.di)  # 463C
+                    r.di = 0x4295  # 463D
+                    r.push(mem.seg(0xE))  # 4640
+                    r.push(r.di)  # 4641
+                    r.push(r.bp)  # 4642
+                    r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x4646, far=False)  # 4643
+            else:
+                r.di = 0x4271  # 4622
+                r.push(mem.seg(0xE))  # 4625
+                r.push(r.di)  # 4626
+                r.di = 0x40d0  # 4627
+                r.push(mem.seg(0xE))  # 462A
+                r.push(r.di)  # 462B
+                r.push(r.bp)  # 462C
+                r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x4630, far=False)  # 462D
+        else:
+            r.di = 0x4253  # 460C
+            r.push(mem.seg(0xE))  # 460F
+            r.push(r.di)  # 4610
+            r.di = 0x4262  # 4611
+            r.push(mem.seg(0xE))  # 4614
+            r.push(r.di)  # 4615
+            r.push(r.bp)  # 4616
+            r = yield from _statistics_call(mem, r, variant, '000E:4045', 5, 0x461A, far=False)  # 4617
+    return r
+
+
+def _statistics_45fb(mem, r, variant):
+    yield from ()
+    return r
+
+
+@PORTS.port('000E:4A87', ret='ret 2')
+def statistics_board_quote(mem, variant):
+    r = Regs(mem)
+    r.enter(0x20A)
+    r = yield from _statistics_4a8e(mem, r, variant)
+    return _end(r, value=True)
+
+
+def _statistics_4a8e(mem, r, variant):
+    r.di = ss16(mem, r, r.bp + 4)  # 4A8E
+    r.di = ss16(mem, r, r.di + 4)  # 4A91
+    r.es, r.di = ss16(mem, r, r.di + 4 + 2), ss16(mem, r, r.di + 4)  # 4A95
+    r.local16(- 5, r.di)  # 4A99
+    r.local16(- 3, r.es)  # 4A9C
+    r.di = ss16(mem, r, r.bp + 4)  # 4A9F
+    r.di = ss16(mem, r, r.di + 4)  # 4AA2
+    r.ax = ss16(mem, r, r.di + 8)  # 4AA6
+    r.dx = 0xbf  # 4AAA
+    mul(r, r.dx)  # 4AAD
+    r.es, r.di = mem.ds16((0xa917 + 2) & M16), mem.ds16((0xa917) & M16)  # 4AAF
+    r.di = r.di + r.ax  # 4AB3
+    r.local16(- 9, r.di)  # 4AB5
+    r.local16(- 7, r.es)  # 4AB8
+    r.local8(- 1, 0)  # 4ABB
+    r.di = ss16(mem, r, r.bp + 4)  # 4ABF
+    r.push(ss16(mem, r, r.di + 4))  # 4AC2
+    r = yield from _statistics_call(mem, r, variant, '000E:0B77', 1, 0x4AC9, far=False)  # 4AC6
+    _left, _right = r.ax, 0xfffa  # 4AC9
+    if _left != _right:  # 4ACC
+        _left, _right = r.ax, 0xfff9  # 4B09
+        if _left != _right:  # 4B0C
+            _left, _right = r.ax, 0xfff6  # 4B49
+            if s16(_left) < s16(_right):  # 4B4C
+                return (yield from _statistics_4b64(mem, r, variant))
+            else:
+                _left, _right = r.ax, 0xfff8  # 4B4E
+                if s16(_left) > s16(_right):  # 4B51
+                    return (yield from _statistics_4b64(mem, r, variant))
+                else:
+                    r.di = 0x4905  # 4B53
+                    r.push(mem.seg(0xE))  # 4B56
+                    r.push(r.di)  # 4B57
+                    r.di = 0x4919  # 4B58
+                    r.push(mem.seg(0xE))  # 4B5B
+                    r.push(r.di)  # 4B5C
+                    r.push(r.bp)  # 4B5D
+                    r = yield from _statistics_call(mem, r, variant, '000E:47E6', 5, 0x4B61, far=False)  # 4B5E
+        else:
+            r.di = r.bp - 0x209  # 4B0E
+            r.push(r.ss)  # 4B12
+            r.push(r.di)  # 4B13
+            r.di = 0x48d7  # 4B14
+            r.push(mem.seg(0xE))  # 4B17
+            r.push(r.di)  # 4B18
+            r = yield from _statistics_call(mem, r, variant, '23E4:062A', 2, 0x4B1E, far=True)  # 4B19
+            r.di = r.bp - 0x109  # 4B1E
+            r.push(r.ss)  # 4B22
+            r.push(r.di)  # 4B23
+            r.di = ss16(mem, r, r.bp + 4)  # 4B24
+            r.push(ss16(mem, r, r.di + 4))  # 4B27
+            r = yield from _statistics_call(mem, r, variant, '000E:0B4D', 1, 0x4B2E, far=False)  # 4B2B
+            r = yield from _statistics_call(mem, r, variant, '23E4:06B7', 2, 0x4B33, far=True)  # 4B2E
+            r.di = 0x48f0  # 4B33
+            r.push(mem.seg(0xE))  # 4B36
+            r.push(r.di)  # 4B37
+            r = yield from _statistics_call(mem, r, variant, '23E4:06B7', 2, 0x4B3D, far=True)  # 4B38
+            r.di = 0x48f6  # 4B3D
+            r.push(mem.seg(0xE))  # 4B40
+            r.push(r.di)  # 4B41
+            r.push(r.bp)  # 4B42
+            r = yield from _statistics_call(mem, r, variant, '000E:47E6', 5, 0x4B46, far=False)  # 4B43
+    else:
+        r.di = r.bp - 0x209  # 4ACE
+        r.push(r.ss)  # 4AD2
+        r.push(r.di)  # 4AD3
+        r.di = 0x48d7  # 4AD4
+        r.push(mem.seg(0xE))  # 4AD7
+        r.push(r.di)  # 4AD8
+        r = yield from _statistics_call(mem, r, variant, '23E4:062A', 2, 0x4ADE, far=True)  # 4AD9
+        r.di = r.bp - 0x109  # 4ADE
+        r.push(r.ss)  # 4AE2
+        r.push(r.di)  # 4AE3
+        r.di = ss16(mem, r, r.bp + 4)  # 4AE4
+        r.push(ss16(mem, r, r.di + 4))  # 4AE7
+        r = yield from _statistics_call(mem, r, variant, '000E:0ACB', 1, 0x4AEE, far=False)  # 4AEB
+        r = yield from _statistics_call(mem, r, variant, '23E4:06B7', 2, 0x4AF3, far=True)  # 4AEE
+        r.di = 0x48d9  # 4AF3
+        r.push(mem.seg(0xE))  # 4AF6
+        r.push(r.di)  # 4AF7
+        r = yield from _statistics_call(mem, r, variant, '23E4:06B7', 2, 0x4AFD, far=True)  # 4AF8
+        r.di = 0x48e1  # 4AFD
+        r.push(mem.seg(0xE))  # 4B00
+        r.push(r.di)  # 4B01
+        r.push(r.bp)  # 4B02
+        r = yield from _statistics_call(mem, r, variant, '000E:47E6', 5, 0x4B06, far=False)  # 4B03
+    return (yield from _statistics_4dae(mem, r, variant))
+    return r
+
+
+def _statistics_4b64(mem, r, variant):
+    _left, _right = r.ax, 0xff01  # 4B64
+    if s16(_left) < s16(_right):  # 4B67
+        return (yield from _statistics_4b9f(mem, r, variant))
+    else:
+        _left, _right = r.ax, 0xfff5  # 4B69
+        if s16(_left) > s16(_right):  # 4B6C
+            return (yield from _statistics_4b9f(mem, r, variant))
+        else:
+            r.di = r.bp - 0x209  # 4B6E
+            r.push(r.ss)  # 4B72
+            r.push(r.di)  # 4B73
+            r.di = 0x48d7  # 4B74
+            r.push(mem.seg(0xE))  # 4B77
+            r.push(r.di)  # 4B78
+            r = yield from _statistics_call(mem, r, variant, '23E4:062A', 2, 0x4B7E, far=True)  # 4B79
+            r.di = r.bp - 0x109  # 4B7E
+            r.push(r.ss)  # 4B82
+            r.push(r.di)  # 4B83
+            r.di = ss16(mem, r, r.bp + 4)  # 4B84
+            r.push(ss16(mem, r, r.di + 4))  # 4B87
+            r = yield from _statistics_call(mem, r, variant, '000E:0ACB', 1, 0x4B8E, far=False)  # 4B8B
+            r = yield from _statistics_call(mem, r, variant, '23E4:06B7', 2, 0x4B93, far=True)  # 4B8E
+            r.di = 0x4928  # 4B93
+            r.push(mem.seg(0xE))  # 4B96
+            r.push(r.di)  # 4B97
+            r.push(r.bp)  # 4B98
+            r = yield from _statistics_call(mem, r, variant, '000E:47E6', 5, 0x4B9C, far=False)  # 4B99
+    return (yield from _statistics_4dae(mem, r, variant))
+    return r
+
+
+def _statistics_4b9f(mem, r, variant):
+    r.push(r.bp)  # 4B9F
+    r = yield from _statistics_call(mem, r, variant, '000E:4865', 1, 0x4BA3, far=False)  # 4BA0
+    _left, _right = r.al, 0  # 4BA3
+    if _left != _right:  # 4BA5
+        r.es, r.di = ss16(mem, r, r.bp - 5 + 2), ss16(mem, r, r.bp - 5)  # 4BAA
+        _left, _right = mem.u8(mem.addr(r.es, r.di + 2)), 1  # 4BAD
+        if _left != _right:  # 4BB2
+            r.ax = 4  # 4BE1
+            r.push(r.ax)  # 4BE4
+            r = yield from _statistics_call(mem, r, variant, '214B:06B1', 1, 0x4BEA, far=True)  # 4BE5
+            _left, _right = r.ax, 1  # 4BEA
+            if _left != _right:  # 4BED
+                _left, _right = r.ax, 2  # 4BFF
+                if _left != _right:  # 4C02
+                    _left, _right = r.ax, 3  # 4C14
+                    if _left != _right:  # 4C17
+                        pass
+                    else:
+                        r.di = 0x49ce  # 4C19
+                        r.push(mem.seg(0xE))  # 4C1C
+                        r.push(r.di)  # 4C1D
+                        r.di = 0x49dd  # 4C1E
+                        r.push(mem.seg(0xE))  # 4C21
+                        r.push(r.di)  # 4C22
+                        r.push(r.bp)  # 4C23
+                        r = yield from _statistics_call(mem, r, variant, '000E:47E6', 5, 0x4C27, far=False)  # 4C24
+                else:
+                    r.di = 0x49aa  # 4C04
+                    r.push(mem.seg(0xE))  # 4C07
+                    r.push(r.di)  # 4C08
+                    r.di = 0x49bc  # 4C09
+                    r.push(mem.seg(0xE))  # 4C0C
+                    r.push(r.di)  # 4C0D
+                    r.push(r.bp)  # 4C0E
+                    r = yield from _statistics_call(mem, r, variant, '000E:47E6', 5, 0x4C12, far=False)  # 4C0F
+            else:
+                r.di = 0x4984  # 4BEF
+                r.push(mem.seg(0xE))  # 4BF2
+                r.push(r.di)  # 4BF3
+                r.di = 0x4998  # 4BF4
+                r.push(mem.seg(0xE))  # 4BF7
+                r.push(r.di)  # 4BF8
+                r.push(r.bp)  # 4BF9
+                r = yield from _statistics_call(mem, r, variant, '000E:47E6', 5, 0x4BFD, far=False)  # 4BFA
+        else:
+            r = yield from _statistics_call(mem, r, variant, '214B:06FA', 0, 0x4BB9, far=True)  # 4BB4
+            _left, _right = r.al, 0  # 4BB9
+            if _left != _right:  # 4BBB
+                _left, _right = r.al, 1  # 4BCD
+                if _left != _right:  # 4BCF
+                    pass
+                else:
+                    r.di = 0x495e  # 4BD1
+                    r.push(mem.seg(0xE))  # 4BD4
+                    r.push(r.di)  # 4BD5
+                    r.di = 0x4970  # 4BD6
+                    r.push(mem.seg(0xE))  # 4BD9
+                    r.push(r.di)  # 4BDA
+                    r.push(r.bp)  # 4BDB
+                    r = yield from _statistics_call(mem, r, variant, '000E:47E6', 5, 0x4BDF, far=False)  # 4BDC
+            else:
+                r.di = 0x493a  # 4BBD
+                r.push(mem.seg(0xE))  # 4BC0
+                r.push(r.di)  # 4BC1
+                r.di = 0x494b  # 4BC2
+                r.push(mem.seg(0xE))  # 4BC5
+                r.push(r.di)  # 4BC6
+                r.push(r.bp)  # 4BC7
+                r = yield from _statistics_call(mem, r, variant, '000E:47E6', 5, 0x4BCB, far=False)  # 4BC8
+            return (yield from _statistics_4bdf(mem, r, variant))
+        return (yield from _statistics_4c27(mem, r, variant))
+    else:
+        r.es, r.di = ss16(mem, r, r.bp - 5 + 2), ss16(mem, r, r.bp - 5)  # 4C2A
+        r.al = mem.u8(mem.addr(r.es, r.di + 3))  # 4C2D
+        r.di = ss16(mem, r, r.bp + 4)  # 4C31
+        r.di = ss16(mem, r, r.di + 4)  # 4C34
+        _left, _right = r.al, ss8(mem, r, r.di - 1)  # 4C38
+        if _left == _right:  # 4C3C
+            r.ax = 0x10  # 4C41
+            r.push(r.ax)  # 4C44
+            r = yield from _statistics_call(mem, r, variant, '214B:06B1', 1, 0x4C4A, far=True)  # 4C45
+            _left, _right = r.ax, 1  # 4C4A
+            if _left != _right:  # 4C4D
+                _left, _right = r.ax, 2  # 4C89
+                if _left != _right:  # 4C8C
+                    _left, _right = r.ax, 3  # 4C9E
+                    if _left != _right:  # 4CA1
+                        _left, _right = r.ax, 4  # 4CD3
+                        if _left != _right:  # 4CD6
+                            pass
+                        else:
+                            r.di = 0x4a2c  # 4CD8
+                            r.push(mem.seg(0xE))  # 4CDB
+                            r.push(r.di)  # 4CDC
+                            r.di = 0x4a41  # 4CDD
+                            r.push(mem.seg(0xE))  # 4CE0
+                            r.push(r.di)  # 4CE1
+                            r.push(r.bp)  # 4CE2
+                            r = yield from _statistics_call(mem, r, variant, '000E:47E6', 5, 0x4CE6, far=False)  # 4CE3
+                    else:
+                        r.di = r.bp - 0x209  # 4CA3
+                        r.push(r.ss)  # 4CA7
+                        r.push(r.di)  # 4CA8
+                        r.di = 0x48d7  # 4CA9
+                        r.push(mem.seg(0xE))  # 4CAC
+                        r.push(r.di)  # 4CAD
+                        r = yield from _statistics_call(mem, r, variant, '23E4:062A', 2, 0x4CB3, far=True)  # 4CAE
+                        r.di = r.bp - 0x109  # 4CB3
+                        r.push(r.ss)  # 4CB7
+                        r.push(r.di)  # 4CB8
+                        r.di = ss16(mem, r, r.bp + 4)  # 4CB9
+                        r.push(ss16(mem, r, r.di + 4))  # 4CBC
+                        r = yield from _statistics_call(mem, r, variant, '000E:0ACB', 1, 0x4CC3, far=False)  # 4CC0
+                        r = yield from _statistics_call(mem, r, variant, '23E4:06B7', 2, 0x4CC8, far=True)  # 4CC3
+                        r.di = 0x4a1a  # 4CC8
+                        r.push(mem.seg(0xE))  # 4CCB
+                        r.push(r.di)  # 4CCC
+                        r.push(r.bp)  # 4CCD
+                        r = yield from _statistics_call(mem, r, variant, '000E:47E6', 5, 0x4CD1, far=False)  # 4CCE
+                else:
+                    r.di = 0x4a02  # 4C8E
+                    r.push(mem.seg(0xE))  # 4C91
+                    r.push(r.di)  # 4C92
+                    r.di = 0x4a12  # 4C93
+                    r.push(mem.seg(0xE))  # 4C96
+                    r.push(r.di)  # 4C97
+                    r.push(r.bp)  # 4C98
+                    r = yield from _statistics_call(mem, r, variant, '000E:47E6', 5, 0x4C9C, far=False)  # 4C99
+            else:
+                r.di = 0x49ea  # 4C4F
+                r.push(mem.seg(0xE))  # 4C52
+                r.push(r.di)  # 4C53
+                r.di = r.bp - 0x209  # 4C54
+                r.push(r.ss)  # 4C58
+                r.push(r.di)  # 4C59
+                r.di = 0x49fc  # 4C5A
+                r.push(mem.seg(0xE))  # 4C5D
+                r.push(r.di)  # 4C5E
+                r = yield from _statistics_call(mem, r, variant, '23E4:062A', 2, 0x4C64, far=True)  # 4C5F
+                r.di = r.bp - 0x109  # 4C64
+                r.push(r.ss)  # 4C68
+                r.push(r.di)  # 4C69
+                r.di = ss16(mem, r, r.bp + 4)  # 4C6A
+                r.push(ss16(mem, r, r.di + 4))  # 4C6D
+                r = yield from _statistics_call(mem, r, variant, '000E:0ACB', 1, 0x4C74, far=False)  # 4C71
+                r = yield from _statistics_call(mem, r, variant, '23E4:06B7', 2, 0x4C79, far=True)  # 4C74
+                r.di = 0x48d7  # 4C79
+                r.push(mem.seg(0xE))  # 4C7C
+                r.push(r.di)  # 4C7D
+                r = yield from _statistics_call(mem, r, variant, '23E4:06B7', 2, 0x4C83, far=True)  # 4C7E
+                r.push(r.bp)  # 4C83
+                r = yield from _statistics_call(mem, r, variant, '000E:47E6', 5, 0x4C87, far=False)  # 4C84
+            return (yield from _statistics_4ce6(mem, r, variant))
+        else:
+            r.es, r.di = ss16(mem, r, r.bp - 9 + 2), ss16(mem, r, r.bp - 9)  # 4CE9
+            r.al = mem.u8(mem.addr(r.es, r.di + 0x2e))  # 4CEC
+            r.ah = 0  # 4CF0
+            r.ax = r.ax - 0x80  # 4CF2
+            r.dx = r.ax  # 4CF5
+            r.es, r.di = mem.ds16((0xa923 + 2) & M16), mem.ds16((0xa923) & M16)  # 4CF7
+            r.al = mem.u8(mem.addr(r.es, r.di + 0x40))  # 4CFB
+            cbw(r)  # 4CFF
+            r.ax = r.ax << 1  # 4D00
+            r.si = r.ax  # 4D02
+            r.ax = r.ax << 1  # 4D04
+            r.ax = r.ax + r.si  # 4D06
+            r.es, r.di = mem.ds16((0xa923 + 2) & M16), mem.ds16((0xa923) & M16)  # 4D08
+            r.di = r.di + r.ax  # 4D0C
+            r.di = r.di + r.dx  # 4D0E
+            r.al = mem.u8(mem.addr(r.es, r.di + 0x19))  # 4D10
+            r.es, r.di = ss16(mem, r, r.bp - 5 + 2), ss16(mem, r, r.bp - 5)  # 4D14
+            _left, _right = r.al, mem.u8(mem.addr(r.es, r.di + 2))  # 4D17
+            if _left >= _right:  # 4D1B
+                return (yield from _statistics_4d65(mem, r, variant))
+            else:
+                r.es, r.di = mem.ds16((0xa923 + 2) & M16), mem.ds16((0xa923) & M16)  # 4D1D
+                r.al = mem.u8(mem.addr(r.es, r.di + 0x40))  # 4D21
+                cbw(r)  # 4D25
+                r.di = r.ax  # 4D26
+                r.al = mem.ds8((r.di + 0x74) & M16)  # 4D28
+                r.es, r.di = ss16(mem, r, r.bp - 5 + 2), ss16(mem, r, r.bp - 5)  # 4D2C
+                _left, _right = r.al, mem.u8(mem.addr(r.es, r.di + 2))  # 4D2F
+                if _left >= _right:  # 4D33
+                    return (yield from _statistics_4d65(mem, r, variant))
+                else:
+                    r.di = r.bp - 0x209  # 4D35
+                    r.push(r.ss)  # 4D39
+                    r.push(r.di)  # 4D3A
+                    r.di = 0x48d7  # 4D3B
+                    r.push(mem.seg(0xE))  # 4D3E
+                    r.push(r.di)  # 4D3F
+                    r = yield from _statistics_call(mem, r, variant, '23E4:062A', 2, 0x4D45, far=True)  # 4D40
+                    r.di = r.bp - 0x109  # 4D45
+                    r.push(r.ss)  # 4D49
+                    r.push(r.di)  # 4D4A
+                    r.di = ss16(mem, r, r.bp + 4)  # 4D4B
+                    r.push(ss16(mem, r, r.di + 4))  # 4D4E
+                    r = yield from _statistics_call(mem, r, variant, '000E:0ACB', 1, 0x4D55, far=False)  # 4D52
+                    r = yield from _statistics_call(mem, r, variant, '23E4:06B7', 2, 0x4D5A, far=True)  # 4D55
+                    r.di = 0x4a42  # 4D5A
+                    r.push(mem.seg(0xE))  # 4D5D
+                    r.push(r.di)  # 4D5E
+                    r.push(r.bp)  # 4D5F
+                    r = yield from _statistics_call(mem, r, variant, '000E:47E6', 5, 0x4D63, far=False)  # 4D60
+    return (yield from _statistics_4dae(mem, r, variant))
+    return r
+
+
+def _statistics_4bdf(mem, r, variant):
+    return (yield from _statistics_4c27(mem, r, variant))
+    return r
+
+
+def _statistics_4c27(mem, r, variant):
+    return (yield from _statistics_4dae(mem, r, variant))
+    return r
+
+
+def _statistics_4ce6(mem, r, variant):
+    return (yield from _statistics_4dae(mem, r, variant))
+    return r
+
+
+def _statistics_4d65(mem, r, variant):
+    r.es, r.di = ss16(mem, r, r.bp - 5 + 2), ss16(mem, r, r.bp - 5)  # 4D65
+    r.al = mem.u8(mem.addr(r.es, r.di + 2))  # 4D68
+    r.push(r.ax)  # 4D6C
+    r.di = 0xa943  # 4D6D
+    r.push(mem.DS)  # 4D70
+    r.push(r.di)  # 4D71
+    r = yield from _statistics_call(mem, r, variant, '23E4:08DF', 3, 0x4D77, far=True)  # 4D72
+    _left, _right = int(not (mem.reg('eflags') & 0x40)), 0  # 4D72
+    if _left == _right:  # 4D77
+        r.di = ss16(mem, r, r.bp + 4)  # 4D89
+        r.push(ss16(mem, r, r.di + 4))  # 4D8C
+        r = yield from _statistics_call(mem, r, variant, '000E:09DB', 1, 0x4D93, far=False)  # 4D90
+        _left, _right = r.al, 0  # 4D93
+        if _left == _right:  # 4D95
+            pass
+        else:
+            r = yield from _statistics_call(mem, r, variant, '214B:06FA', 0, 0x4D9C, far=True)  # 4D97
+            _left, _right = r.al, 0  # 4D9C
+            if _left == _right:  # 4D9E
+                pass
+            else:
+                r.di = 0x4a6d  # 4DA0
+                r.push(mem.seg(0xE))  # 4DA3
+                r.push(r.di)  # 4DA4
+                r.di = 0x4a76  # 4DA5
+                r.push(mem.seg(0xE))  # 4DA8
+                r.push(r.di)  # 4DA9
+                r.push(r.bp)  # 4DAA
+                r = yield from _statistics_call(mem, r, variant, '000E:47E6', 5, 0x4DAE, far=False)  # 4DAB
+    else:
+        r.di = 0x4a56  # 4D79
+        r.push(mem.seg(0xE))  # 4D7C
+        r.push(r.di)  # 4D7D
+        r.di = 0x4a67  # 4D7E
+        r.push(mem.seg(0xE))  # 4D81
+        r.push(r.di)  # 4D82
+        r.push(r.bp)  # 4D83
+        r = yield from _statistics_call(mem, r, variant, '000E:47E6', 5, 0x4D87, far=False)  # 4D84
+    return (yield from _statistics_4dae(mem, r, variant))
+    return r
+
+
+def _statistics_4dae(mem, r, variant):
+    yield from ()
+    r.al = ss8(mem, r, r.bp - 1)  # 4DAE
     return r
