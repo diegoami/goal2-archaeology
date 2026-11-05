@@ -27,7 +27,7 @@ def normalized(state):
     import base64,zlib
     data=bytearray(zlib.decompress(base64.b64decode(state['memory'])))
     stack=(state['load']+0x3052)*16+0x2000
-    data[stack:stack+0x1004]=bytes(0x1004)
+    data[stack:stack+0x1000]=bytes(0x1000)
     return digest({**state,'memory':hashlib.sha256(data).hexdigest()})
 
 def table_hash(t):

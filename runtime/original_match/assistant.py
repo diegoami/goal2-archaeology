@@ -38,7 +38,6 @@ class _Keys:
     def key(self,site):
         self.log.append(['read',site,self.value])
         self.m.wr(0xA976,self.value|(self.value<<8))
-        self.m.set_reg('ax',(self.m.reg('ax')&0xFF00)|self.value)
         return self.value
     def keypressed(self,site):
         self.log.append(['poll',site,True]);return True

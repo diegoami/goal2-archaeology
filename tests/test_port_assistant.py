@@ -62,9 +62,9 @@ class Assistant(unittest.TestCase):
             w(0x58100+8*i,0 if i==0 else 0xFE,1)
             w(0x58102+8*i,1,1);w(0x58106+8*i,8)
         w(0x52000+7*191+0x2C,1,1);w(0x52000+8*191+0x2C,2,1)
-        self.assertEqual(self.invoke(m,'0791:DAF8',(7,))&255,1)
+        self.assertEqual(self.invoke(m,'0791:DAF8',(7,)),0x0501)
         self.assertEqual(m.rd(0x9B43),2)
-        self.assertEqual(self.invoke(m,'0791:DB38',(7,))&255,1)
+        self.assertEqual(self.invoke(m,'0791:DB38',(7,)),0x0501)
 
     def test_ordered_strict_improvements_and_current_position(self):
         for manager in (1,2):
@@ -93,6 +93,13 @@ class Assistant(unittest.TestCase):
         image=Image.__new__(Image);image.header=bytes(0x78);image.memory=bytearray(m.read(0,MEM_SIZE))
         image.load=m.load;image.DS=m.DS;image.tables=tables
         return image.state(tables),tables
+
+    def test_facade_key_boundary_preserves_ax(self):
+        from original_match.assistant import _Keys
+        m,w=self.machine();m.set_reg('ax',0xA55A)
+        keys=_Keys(m,13);self.assertEqual(keys.key('214B:098A'),13)
+        self.assertEqual(m.reg('ax'),0xA55A)
+        self.assertEqual(m.rd(0xA976),0x0D0D)
 
     def test_public_facade_copies_state_and_preserves_rng(self):
         import hashlib,json
