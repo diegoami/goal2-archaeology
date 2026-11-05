@@ -2,7 +2,7 @@
 
 [confirmed: F012/F025/F039; upstream7032ce40; named/seg_000E_01..04.c,
 then code/seg_000E_01.asm 03C4-0A52, _02.asm 0A53-0CCC/1F4D-2013,
-_03.asm 2E1F-2E93, _05.asm 3A5E-3AF0/4045-408A,
+_04.asm 2E1F-2E93, _05.asm 3A5E-3AF0/4045-408A,
 _06.asm 47E6-48D6]. Original calls, hidden string result pointers,
 caller frames, returned AX/DX and draw order are retained. Other news
 routines remain original until their own T122 slice.
