@@ -1,0 +1,195 @@
+{
+ "schema": "e040-t122b-synthetic/1",
+ "task": "T122b",
+ "code_commit": "c51158205b0667e65e38fe081edc5612fa9106de",
+ "source_state": {
+  "asset": "f8b22081eeb072e5-e006-1337-r0004.sav",
+  "sha256": "f8b22081eeb072e5b371a5b36628a745cc359efcfdabf6dc2cdaab4ebc66263c"
+ },
+ "variant": "result-text-inverted",
+ "caught": true,
+ "passes": [
+  {
+   "case": "special-0-203-win",
+   "routine": "000E:11D9",
+   "synthetic": true,
+   "authored_inputs": {
+    "side": 0,
+    "kind": 203,
+    "result": "win",
+    "margin": 1
+   },
+   "category": "declared-ordinary",
+   "fixture_index": 3,
+   "country": 7,
+   "side": 0,
+   "inputs": [
+    {
+     "linear": 248404,
+     "old_sha256": "86cf384458ee22739ac999ee7bd0a0004976a437010d593e1b3b1e72e0f2ccb8",
+     "new_sha256": "87afe6086fe4571e37657e76281301f189c75ebae1d2eaafb56d578067a1d95e",
+     "why": "wrapper parent link"
+    },
+    {
+     "linear": 248660,
+     "old_sha256": "8a24b8e4d0edc6fbdf1b43ec704da3e6196c0874670365cb64943762dec15c7e",
+     "new_sha256": "b563a5e69628743929eddec0ccfeb0745c39577e12a72e84915edd6633cb97f2",
+     "why": "outer parent link"
+    },
+    {
+     "linear": 248148,
+     "old_sha256": "9675bd5849a071e70ef26a019f6d48f26897d06a8d8e86d602fed03f9c93ab0b",
+     "new_sha256": "d57e9d4f5842134f140032eaf38b5333638e8c4b145fcf86a23d48d3e9acc0f8",
+     "why": "published managed fixture offset"
+    },
+    {
+     "linear": 248150,
+     "old_sha256": "463cd86bbe21e323ec5b5ec2255080519318e99d2750c4f5fa173fc01427f78c",
+     "new_sha256": "55e801776f3aaacd8d5c8e28a25c68c968eb3b6a2146290711f7c823a02f45d0",
+     "why": "published managed fixture segment"
+    },
+    {
+     "linear": 230463,
+     "old_sha256": "05f4d037636da31329eb897d0b347d87f157db7220bbb630464a1997c1c7d949",
+     "new_sha256": "447e12701a0d03cf90a4ad7f02f1a045b35d284e26fe520440edb116d76bf700",
+     "why": "same delay calibration as Route.call()"
+    },
+    {
+     "linear": 248152,
+     "old_sha256": "a90648cc7894b37e690d6b58d5226d995aae8869a79d3edc2136e6dfdc108dda",
+     "new_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd",
+     "why": "news country"
+    },
+    {
+     "linear": 248138,
+     "old_sha256": "3da5c199770b6698291ece54d9da2d5168b04db7638739527d8bb69881e15985",
+     "new_sha256": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+     "why": "selected squad slot"
+    },
+    {
+     "linear": 248143,
+     "old_sha256": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+     "new_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+     "why": "selected fixture side"
+    },
+    {
+     "linear": 248406,
+     "old_sha256": "c55bd639d8c368e737cdc6bb17522f91dbe1f51682d2433f4caa962e6ca77513",
+     "new_sha256": "2921a11f25dadaa24aa79a548e4e81508c2e5e56af2d833d65e2bcce448ce2f5",
+     "why": "quote row argument"
+    },
+    {
+     "linear": 248912,
+     "old_sha256": "e56af15ef355a26298ef700377ed61b852f2a200cace575566bcfd8191c7a3d8",
+     "new_sha256": "f60a218951da4f3a0ee41f97d5766f71f0174edf55d69b8f62eb0b280ad219d6",
+     "why": "synthetic Pascal text"
+    },
+    {
+     "linear": 383830,
+     "old_sha256": "59316c1a765f0c95af8be7f3f75371aa38612e5ceffc4785ef22f5541635413a",
+     "new_sha256": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+     "why": "authored goals for win margin 1"
+    },
+    {
+     "linear": 383832,
+     "old_sha256": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+     "new_sha256": "2de2adc09e5d703319c5eb96dc6aab69ee561d6e75a7b86b35af8bee453a25c4",
+     "why": "fixture kind and winner"
+    },
+    {
+     "linear": 382638,
+     "old_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+     "new_sha256": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+     "why": "year word"
+    },
+    {
+     "linear": 382642,
+     "old_sha256": "dbc1b4c900ffe48d575b5da5c638040125f65db0fe3e24494b76ea986457d986",
+     "new_sha256": "dbc1b4c900ffe48d575b5da5c638040125f65db0fe3e24494b76ea986457d986",
+     "why": "actual stage byte +3C for original59D8"
+    },
+    {
+     "linear": 382584,
+     "old_sha256": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+     "new_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+     "why": "active manager finals group"
+    },
+    {
+     "linear": 297845,
+     "old_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+     "new_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+     "why": "no sack exemption"
+    },
+    {
+     "linear": 297839,
+     "old_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+     "new_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+     "why": "country winless counter"
+    },
+    {
+     "linear": 297697,
+     "old_sha256": "b100b5696e177337e0b3c61dee8fd9f76615238936db087101638ccaab4ae1fd",
+     "new_sha256": "d292dfd8f92e7f808a6c0d974e0e386617a9c7f23b012c622df44d7b342263ea",
+     "why": "ranking/world-ranking/continent fields for balanced rating family"
+    },
+    {
+     "linear": 301517,
+     "old_sha256": "494bf26d9b32371e0c83c53776df5b944dae7c2f6ec001ecad7f8cdfc4f97d6f",
+     "new_sha256": "d292dfd8f92e7f808a6c0d974e0e386617a9c7f23b012c622df44d7b342263ea",
+     "why": "ranking/world-ranking/continent fields for balanced rating family"
+    },
+    {
+     "linear": 218530,
+     "old_sha256": "89e9db42880ab2a599cc8e0375d3defceefb5c70bfea4278b3a84aa4c257104e",
+     "new_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+     "why": "declared original RNG seed"
+    },
+    {
+     "linear": 218558,
+     "old_sha256": "5eee2ffe038353a4799fe635bb93411a2b27092d47a29e9d8b80024915ba62b1",
+     "new_sha256": "96eeff563b3135e3f77964e8c062328fd207c8bc9e754fc423abaf83eb3f1490",
+     "why": "coherent bounded match-stat row"
+    },
+    {
+     "linear": 218568,
+     "old_sha256": "bc5f0029786687bebc2e70ebf181e863640410f890ee014d3718946da75eac1d",
+     "new_sha256": "01d448afd928065458cf670b60f5a594d735af0172c8d67f22a81680132681ca",
+     "why": "coherent bounded match-stat row"
+    },
+    {
+     "linear": 245840,
+     "old_sha256": "4ceca809daaa8c33df211456d77e68524f803d33c89fd079711926eaa80b2034",
+     "new_sha256": "1d469117e72c5c2d3444ec7a0379fc404ca0fadadb107a6b200abc81ee0edf20",
+     "why": "near-call stack"
+    },
+    {
+     "linear": 245842,
+     "old_sha256": "4ceca809daaa8c33df211456d77e68524f803d33c89fd079711926eaa80b2034",
+     "new_sha256": "87afe6086fe4571e37657e76281301f189c75ebae1d2eaafb56d578067a1d95e",
+     "why": "near-call stack"
+    }
+   ],
+   "status": "differs",
+   "error": "000E:11D9 (news), call #1 from 000E:7080: written byte #3 differs: the original wrote 0x57 at linear 0x3CD9A (DS:F35A), the port wrote 0x20 at linear 0x3CD9A (DS:F35A)",
+   "calls": {
+    "000E:11D9": 1
+   },
+   "proof": {
+    "000E:11D9": {
+     "proved": 0,
+     "nested": 0,
+     "before": 0,
+     "dead": {},
+     "scratch": {}
+    }
+   },
+   "decision_calls": [],
+   "gate_check": null
+  }
+ ],
+ "command": "python3 -B experiments/E040-route-fixture-writes/out/T122b/prove_column.py --out experiments/E040-route-fixture-writes/out/T122b/corrected/falsifiers --group special --variant result-text-inverted",
+ "source_hashes": {
+  "experiments/E040-route-fixture-writes/out/T122b/prove_column.py": "6aee37992a93ebb366e8075f13806d72ba1e160926eb3b73b37642202d6da7c7",
+  "runtime/original_match/port/news.py": "8673983916ad6c01c96287ed1809c271f3f89206e9deada45a2b625465a8ebb2"
+ }
+}

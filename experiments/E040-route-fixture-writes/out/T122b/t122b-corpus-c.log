@@ -1,0 +1,18 @@
+E040-r0011     four  completed 000E:6970=3 0791:B602=3 0791:BB2F=0 0791:D47E=3 2648=3 pages=0/3 39.7s
+E040-r0011     inner completed 0791:B602=3 0791:BB2F=0 0791:D47E=3 2648=3 pages=0/3 34.2s
+E040-r0012     four  completed 000E:6970=15 0791:B602=15 0791:BB2F=0 0791:D47E=15 2648=15 pages=0/15 60.4s
+E040-r0012     inner completed 0791:B602=15 0791:BB2F=0 0791:D47E=15 2648=15 pages=0/15 42.2s
+bb2f           four  completed 000E:6970=2 0791:B602=2 0791:BB2F=1 0791:D47E=2 2648=3 pages=0/2 3.7s
+bb2f           inner completed 0791:B602=2 0791:BB2F=1 0791:D47E=2 2648=3 pages=0/2 2.5s
+news-cb        four  completed 000E:6970=1 0791:B602=1 0791:BB2F=0 0791:D47E=1 2648=2 pages=1/0 3.6s
+news-cb        inner completed 0791:B602=1 0791:BB2F=0 0791:D47E=1 2648=2 pages=1/0 2.4s
+finals-3       four  completed 000E:6970=3 0791:B602=3 0791:BB2F=0 0791:D47E=3 2648=3 pages=0/3 39.0s
+finals-3       inner completed 0791:B602=3 0791:BB2F=0 0791:D47E=3 2648=3 pages=0/3 36.1s
+silent-kind-0  four  completed 000E:6970=2 0791:B602=2 0791:BB2F=0 0791:D47E=2 2648=2 pages=0/2 35.0s
+silent-kind-0  inner completed 0791:B602=2 0791:BB2F=0 0791:D47E=2 2648=2 pages=0/2 32.8s
+000E:6970: 0 of 26 calls proved on their own
+0791:D47E: 26 of 26 calls proved on their own
+0791:B602: 26 of 26 calls proved on their own
+0791:BB2F: 1 of 1 calls proved on their own
+proof: holds
+record: experiments/E040-route-fixture-writes/out/T122b/corpus-c/prove-news+route+silent-20261105T123454Z.json

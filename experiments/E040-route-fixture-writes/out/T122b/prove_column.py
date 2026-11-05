@@ -47,7 +47,7 @@ def cases():
             for margin in ((0,) if result=='draw' else (0,1,3,6)):
                 for rating in ('balanced','strong','weak'):
                     for seed in (0, 1, 6, 7, 11, 16):
-                        add(f'ordinary-{side}-{result}-{margin}-{rating}-{seed}',side=side,kind=2,result=result,margin=margin,rating=rating,seed=seed)
+                        add(f'ordinary-{side}-{result}-{margin}-{rating}-{seed}',side=side,kind=0x66 if result!='draw' and margin==0 else 2,stage=3 if result!='draw' and margin==0 else 2,result=result,margin=margin,rating=rating,seed=seed)
         for score in (-128,-11,-10,-8,-7,-6,-5,0):
             for winless in (3,4):
                 add(f'sack-{side}-{score}-{winless}',side=side,kind=2,result='loss',margin=2,year=2,confidence=score,winless=winless)
@@ -65,7 +65,7 @@ def cases():
         for side in (0,1):
             for stage in (2,3,7):
                 for group in (0,1):
-                    edits={'side':side,'kind':2,'result':'loss','margin':2,'year':2,'confidence':-11,'stage':stage,'group':group,'actual_gate':True}
+                    edits={'side':side,'kind':stage if stage in (3,7) else 2,'result':'loss','margin':2,'year':2,'confidence':-11,'stage':stage,'group':group,'actual_gate':True}
                     out.append((f'finals-{routine}-{side}-{stage}-{group}','000E:'+routine,('PARENT',),edits))
     return out
 
