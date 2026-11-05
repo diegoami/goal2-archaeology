@@ -162,6 +162,15 @@ in a competitive fixture also `extra_time` (extra time begins: the clock set bac
 shoot-out begins; `score_120`) and `shootout_kick` (team, player, name, scored, round, `shootout_score`).
 `m.pitch()` gives the 22 players' and the ball's positions at any moment (for drawing).
 
+**Stopped edits** [designed: #663; goal2 owner #599]: `answer(substitutions=[(off,on)], edit_only=True)`
+executes the original's operation at a legal half-time/substitution stop and yields a fresh `decision` with
+`edited=True`, the actual eleven/bench, injuries and remaining budget. The actual made/refused events precede it.
+It keeps SELECT TEAM open between pairs; an ordinary `answer()` subsequently leaves the screen and selects Play.
+No pitch tick occurs while editing. At an ordinary in-play pause this opt-in is refused before consuming the
+waiting decision. Legacy answers retain their queue-at-pause behavior. Reopening SELECT TEAM between individual
+pairs is deliberately avoided: the original does housekeeping on that path and its records can differ from a
+single visit (fix663 comparison-v3); retaining the open screen restores exact original memory (comparison-v4).
+
 **Goals**: a `goal` is a goal the original commits. Watched, that is the score byte's `inc` at 0791:685C; a
 `goal_disallowed` is its `dec` at 68B3 (DS:830E set: no scorer row), which comes after the `goal` and after whatever
 the original wrote in between (its commentary), never in the goal's place. In a quick result (`answer(quick=True)`,

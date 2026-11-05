@@ -605,9 +605,9 @@ class Match:
     def _advance(self):
         fresh, self.st["fresh"] = self.st["fresh"], False
         stopped = self.m.run(self.end_lin, self.timeout_s, fresh=fresh)
-        # Every stop is outside the original's screens: a decision stops at a menu's first read or at the notice,
-        # before any plan; a tick and the end of a call come after the menus closed. A plan left here is done, so
-        # nothing of a screen survives into the state between events (save() relies on it).
+        # Ordinary decisions stop at a menu/notice before a plan; ticks follow closed menus.
+        # An edit-only decision also permits SELECT TEAM's read: editing_select records that
+        # continuation, with all completed operations flushed and no live MenuPlan retained.
         self._menu = None
         if stopped is not None:
             return
