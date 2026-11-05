@@ -886,7 +886,10 @@ class Match:
             return
         role, side = self.m.stack_word(2) & 0xFF, self.m.stack_word(4) & 0xFF
         if role == 1 and side == self.side:
-            self.st["prompt"] = {"kind": "prompt", "key": S.ENTER, "role": 1, "waited": False}
+            # [derived: #659, F030] Kickoff overrides are initial inputs. A later captain
+            # prompt (for example after a withdrawal) keeps the guest's eligible default.
+            self.st["prompt"] = {"kind": "prompt", "key": S.ENTER, "role": 1, "waited": False,
+                                 "initial": self.st["kickoff_seed"] is None}
         elif self.opts.get("set_piece") and side == self.side and role in (2, 3, 4, 5):
             self.st["prompt"] = {"kind": "prompt", "key": None, "role": role, "waited": False}
 
@@ -907,6 +910,8 @@ class Match:
         if replay or p is None or p.get("role") != 1 or p["waited"] or self.m.stack_word(0) != 0xCED9:
             return
         p["waited"] = True
+        if not p.setdefault("initial", self.st["kickoff_seed"] is None):
+            return
         if self.opts["seed"] is not None:
             self._declare("main seed DS:7B62 at the captain prompt", self.m.DS * 16 + SEED,
                           int(self.opts["seed"]).to_bytes(2, "little"))
@@ -920,7 +925,11 @@ class Match:
         p = self.st["prompt"]
         if p is None:
             self._fail("a key read at the captain prompt the kit did not ask for")
-        want = self.opts["captain"] if p.get("role") == 1 else p.get("target")
+        if p.get("role") == 1:
+            initial = p.get("initial", self.st["kickoff_seed"] is None)
+            want = self.opts["captain"] if initial else None
+        else:
+            want = p.get("target")
         if want is not None:
             slot = self._squad(self.opts["managed"]).index(want) + 1
             here = self.m.frame_word(self.m.reg("bp"), S.PROMPT_SLOT_BP)
