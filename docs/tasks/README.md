@@ -182,3 +182,6 @@ exists.
 - [T124e](T124e.md): Stage announcements and tour/qualification helpers (#427); after T124d and T122e.
 
 - [T125](T125.md): the original best-twenty assistant and finals/tour closure; required for m3, reviewed with T123 (#427).
+
+- [T123a](T123a.md): real speaker-on return ABI; independent sealed-route prerequisite (#427).
+- [T123b](T123b.md): bounded pre-match SELECT TEAM squad swaps and original-key continuation (#427).
