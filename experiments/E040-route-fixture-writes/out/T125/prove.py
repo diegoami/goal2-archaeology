@@ -29,8 +29,8 @@ def prepare(source,manager,case):
     for ptr,off,seg in [(0xA923,0x100,0x6700),(0xA91F,0,0x6800),(0xA917,0,0x7000),
             (0xA91B,0,0x7800),(0xA927,0,0x8900),(0xA92B,0x100,0x8A00),(0xA92F,0,0x9000)]:
         w(ds+ptr,off);w(ds+ptr+2,seg)
-    m.write(0x65000,bytes(0x30000));w(0x70101,manager,1);w(0x68000+3*(0x80+manager),7,1)
-    w(0x70126,1);w(ds+0x9B43,0xABCD);base=80*(manager-1)+1;w(ds+0x6D18+2*manager,base)
+    m.write(0x65000,bytes(0x30000));w(0x67101,manager,1);w(0x68000+3*(0x80+manager),7,1)
+    w(0x67126,1);w(ds+0x9B43,0xABCD);base=80*(manager-1)+1;w(ds+0x6D18+2*manager,base)
     w(0x67100,2,1);w(0x70000+7*191+0x2E,128+manager,1)
     w(ds+0xC1E,0,1);w(ds+0xC1F,0,1)
     for i in range(20):w(0x70000+7*191+2*i,1+i)
@@ -46,15 +46,15 @@ def prepare(source,manager,case):
     if case=='weaker':
         for p in range(21,101):w(0x78000+20*p+4,70,1)
     if case=='wrap':w(ds+0x6D18+2*manager,0xFFF0)
-    if case=='sacked':w(0x70147+manager,1,1)
-    if case=='finals':w(0x70113+manager,1,1)
+    if case=='sacked':w(0x67147+manager,1,1)
+    if case=='finals':w(0x67113+manager,1,1)
     if case in ('tour','next','notour','allpending','pastcursor'):
         for i in range(36):
             w(0x90000+7*72+2*i,i+1)
-            w(0x78100+8*i,0xFE if i or case=='allpending' else 0,1)
-            w(0x78102+8*i,1 if case!='notour' else 2,1);w(0x78106+8*i,8)
+            w(0x8A100+8*i,0xFE if i or case=='allpending' else 0,1)
+            w(0x8A102+8*i,1 if case!='notour' else 2,1);w(0x8A106+8*i,8)
         w(0x70000+7*191+0x2C,1,1);w(0x70000+8*191+0x2C,2,1)
-        if case=='pastcursor':w(0x70126,37)
+        if case=='pastcursor':w(0x67126,37)
     return m
 
 def call(m,target,args=()):
