@@ -1,0 +1,186 @@
+EEEEEEEEEEEEEEE
+======================================================================
+ERROR: test_bonus_wraps_points_and_counter_and_signed_flag (tests.test_port_stage_qualifying.Rankings.test_bonus_wraps_points_and_counter_and_signed_flag) (flag=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stage_qualifying.py", line 56, in test_bonus_wraps_points_and_counter_and_signed_flag
+    m,p=self.call("1771:5FD1", (1,600,2,flag,0x3E80),before=before)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stages.py", line 105, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_bonus_wraps_points_and_counter_and_signed_flag (tests.test_port_stage_qualifying.Rankings.test_bonus_wraps_points_and_counter_and_signed_flag) (flag=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stage_qualifying.py", line 56, in test_bonus_wraps_points_and_counter_and_signed_flag
+    m,p=self.call("1771:5FD1", (1,600,2,flag,0x3E80),before=before)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stages.py", line 105, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_bonus_wraps_points_and_counter_and_signed_flag (tests.test_port_stage_qualifying.Rankings.test_bonus_wraps_points_and_counter_and_signed_flag) (flag=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stage_qualifying.py", line 56, in test_bonus_wraps_points_and_counter_and_signed_flag
+    m,p=self.call("1771:5FD1", (1,600,2,flag,0x3E80),before=before)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stages.py", line 105, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_continent_rank_includes_ties_self_and_only_same_continent (tests.test_port_stage_qualifying.Rankings.test_continent_rank_includes_ties_self_and_only_same_continent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stage_qualifying.py", line 33, in test_continent_rank_includes_ties_self_and_only_same_continent
+    m, p = self.call("1771:114B", (1,), before=before)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stages.py", line 105, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_entries_returns_and_no_duplicate_display_ownership (tests.test_port_stage_qualifying.Rankings.test_entries_returns_and_no_duplicate_display_ownership)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stage_qualifying.py", line 25, in test_entries_returns_and_no_duplicate_display_ownership
+    self.assertEqual({a: ST.PORTS.entries[a].ret for a in ENTRIES}, ENTRIES)
+                         ~~~~~~~~~~~~~~~~^^^
+KeyError: '1771:114B'
+
+======================================================================
+ERROR: test_group_points_both_modes_and_stage2_table_selector (tests.test_port_stage_qualifying.Rankings.test_group_points_both_modes_and_stage2_table_selector) (mode=0, stage=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stage_qualifying.py", line 71, in test_group_points_both_modes_and_stage2_table_selector
+    m,p=self.call("1771:61F8",(0x3E80,),game={0x40:mode,0x3C:stage})
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stages.py", line 105, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_group_points_both_modes_and_stage2_table_selector (tests.test_port_stage_qualifying.Rankings.test_group_points_both_modes_and_stage2_table_selector) (mode=0, stage=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stage_qualifying.py", line 71, in test_group_points_both_modes_and_stage2_table_selector
+    m,p=self.call("1771:61F8",(0x3E80,),game={0x40:mode,0x3C:stage})
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stages.py", line 105, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_group_points_both_modes_and_stage2_table_selector (tests.test_port_stage_qualifying.Rankings.test_group_points_both_modes_and_stage2_table_selector) (mode=1, stage=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stage_qualifying.py", line 71, in test_group_points_both_modes_and_stage2_table_selector
+    m,p=self.call("1771:61F8",(0x3E80,),game={0x40:mode,0x3C:stage})
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stages.py", line 105, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_quicksort_unsigned_points_ties_and_self_swap (tests.test_port_stage_qualifying.Rankings.test_quicksort_unsigned_points_ties_and_self_swap)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stage_qualifying.py", line 44, in test_quicksort_unsigned_points_ties_and_self_swap
+    m,p = self.call("1771:5EE1", (1, 8, 0x3E80), before=before)
+          ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stages.py", line 105, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_rank_recompute_both_modes_full_order_and_manager_records (tests.test_port_stage_qualifying.Rankings.test_rank_recompute_both_modes_full_order_and_manager_records) (mode=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stage_qualifying.py", line 77, in test_rank_recompute_both_modes_full_order_and_manager_records
+    m,p=self.call("1771:63A4",game={0x40:mode,0x3C:2 if mode==0 else 5},
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  before=self.manager_edges)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stages.py", line 105, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_rank_recompute_both_modes_full_order_and_manager_records (tests.test_port_stage_qualifying.Rankings.test_rank_recompute_both_modes_full_order_and_manager_records) (mode=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stage_qualifying.py", line 77, in test_rank_recompute_both_modes_full_order_and_manager_records
+    m,p=self.call("1771:63A4",game={0x40:mode,0x3C:2 if mode==0 else 5},
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  before=self.manager_edges)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stages.py", line 105, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_ranking_bonus_and_manager_reset_falsifiers_are_caught (tests.test_port_stage_qualifying.Rankings.test_ranking_bonus_and_manager_reset_falsifiers_are_caught) (variant='ranking-bonus-dropped')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stage_qualifying.py", line 98, in test_ranking_bonus_and_manager_reset_falsifiers_are_caught
+    self.call("1771:63A4",specs=((ST.PORTS,variant),),before=self.manager_edges)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stages.py", line 105, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_ranking_bonus_and_manager_reset_falsifiers_are_caught (tests.test_port_stage_qualifying.Rankings.test_ranking_bonus_and_manager_reset_falsifiers_are_caught) (variant='manager-score-reset-dropped')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stage_qualifying.py", line 98, in test_ranking_bonus_and_manager_reset_falsifiers_are_caught
+    self.call("1771:63A4",specs=((ST.PORTS,variant),),before=self.manager_edges)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stages.py", line 105, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_world_and_continent_placement_bonuses_real_winner_loser_calls (tests.test_port_stage_qualifying.Rankings.test_world_and_continent_placement_bonuses_real_winner_loser_calls) (target='1771:602D')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stage_qualifying.py", line 65, in test_world_and_continent_placement_bonuses_real_winner_loser_calls
+    m,p=self.call(target,(0x3E80,))
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stages.py", line 105, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_world_and_continent_placement_bonuses_real_winner_loser_calls (tests.test_port_stage_qualifying.Rankings.test_world_and_continent_placement_bonuses_real_winner_loser_calls) (target='1771:6103')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stage_qualifying.py", line 65, in test_world_and_continent_placement_bonuses_real_winner_loser_calls
+    m,p=self.call(target,(0x3E80,))
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b1-old-source-953b57ee/tests/test_port_stages.py", line 105, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.190s
+
+FAILED (errors=15)

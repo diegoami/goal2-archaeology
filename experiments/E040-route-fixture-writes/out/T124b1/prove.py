@@ -19,6 +19,7 @@ HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[3]
 sys.path[:0]=[str(ROOT),str(ROOT/'runtime')]
 from tests.test_port_stage_qualifying import Rankings, ENTRIES, word
+from tests.test_port_stages import IMAGE_SHA
 from original_match import port, route as R
 from original_match.image import Image
 from original_match.machine import MEM_SIZE, REGS
@@ -73,8 +74,14 @@ def synthetic(f):
         row={'case':f'synthetic-{n:03}', 'target':target,'args':list(args),
              'game_edits':kw.get('game',{}),
              'input_kind':'declared synthetic direct frame on published E006-r0001',
+             'base_state_sha256':IMAGE_SHA,
              'frame':'real caller return PC, SS:SP=3E00, BP=3E80; Pascal link retained',
              'before_mutation':getattr(kw.get('before'),'__name__',None)}
+        before=kw.get('before')
+        def input_hash(m):
+            if before:before(m)
+            row['input_memory_before_declared_call_frame_sha256']=sha(m.read(0,MEM_SIZE))
+        kw['before']=input_hash
         try:
             m,p=raw(target,args,**kw)
             row.update(status='proved',summary=p.summary(),end=game(m),record_hashes=digests(m),
@@ -103,7 +110,10 @@ def synthetic(f):
                 for tag in range(256):m.write(m.far(stages.MANAGERS)+3*tag+2,bytes([value]))
                 for c in range(1,129):
                     cp=m.far(stages.COUNTRIES)+191*c
-                    m.write(cp+40,bytes([255,255 if c%2 else 1]))
+                    m.write(cp+40,bytes([255 if c%2 else 1,255]))
+                for manager in range(1,m.read(m.far(stages.GAME),1)[0]+1):
+                    m.write(m.far(stages.GAME)+7+manager,bytes([255]))
+                    m.write(m.far(stages.GAME)+13+manager,bytes([255]))
             capture('1771:63A4',game={0x40:mode,0x3C:2 if not mode else 5},before=score_extremes)
     emit(f,{'status':'completed','cases':n})
 
