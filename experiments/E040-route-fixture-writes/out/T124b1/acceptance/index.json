@@ -1,0 +1,51 @@
+{
+  "limits": "Standard T59 per-call dead/scratch; full memory/16regs extra verified on two completed rounds only. World preparation synthetic; original year rollover, no sealed claim.",
+  "measurements": {
+    "focused_tests": 23,
+    "natural_context": "unmodified T124t CP3 stage4r1->stage5",
+    "natural_mutants_caught": 2,
+    "new_tests": 8,
+    "ports": 7,
+    "static_call_sites": 28,
+    "static_instructions": 758,
+    "synthetic_direct_calls": 27,
+    "synthetic_mutants_caught": 2,
+    "synthetic_pass": 25,
+    "synthetic_world_context": "original-generated world bracket; actualplay_round8->2",
+    "world_preparation_original_results": 1040
+  },
+  "model": "inherited Codex GPT-6 family; exact variant unavailable",
+  "receipts": {
+    "experiments/E040-route-fixture-writes/out/T124b1/annotations-final.log": "5457ac576e7fe5288eca72b66ef6b67dcfe19de727405029a689e7c9fb753831",
+    "experiments/E040-route-fixture-writes/out/T124b1/baseline-v1/missing-module.log": "1ca1504e66a8c002b7d6432d04c38dc47a580f8985b69a17572e9c7499a7018a",
+    "experiments/E040-route-fixture-writes/out/T124b1/exact-final-tests-before/unit.log": "44cdd146c8bb29e486fa125538c533155baacb7755e8df27d4dcea47f227da87",
+    "experiments/E040-route-fixture-writes/out/T124b1/focused-final.log": "96d65534ceadd565f17168147b90e4151719aa393d8bbd4c8075d9f0e8af919c",
+    "experiments/E040-route-fixture-writes/out/T124b1/named-v2.log": "e4d0ef9233708493cf731f8d2921477ef8ee2148e6806068ce012125f92ac351",
+    "experiments/E040-route-fixture-writes/out/T124b1/natural-final.jsonl": "6ceb08a5d9eed4f0bc400703afab6c2d7bb9c94372413255a0d4ff8b59828605",
+    "experiments/E040-route-fixture-writes/out/T124b1/natural-mutant-bonus-v3.jsonl": "6eb23efcc0088fca3755bcc144481f2e4a495cda20f2ceade822ba158d27d786",
+    "experiments/E040-route-fixture-writes/out/T124b1/natural-mutant-score-v3.jsonl": "709ab21bc66569abc940beb3ac9e7ac4d02e439f16a4c4cca46a808b7fd728b0",
+    "experiments/E040-route-fixture-writes/out/T124b1/static-call-audit-final.json": "8d2c03486b73185506938ea931418ccf88d81ea58c0b412b8a83249db50145e4",
+    "experiments/E040-route-fixture-writes/out/T124b1/synthetic-final.jsonl": "fd5f22fcf046d3e47c500d37c5ce3c07ea24d672fd95d072773f059d158ee89b",
+    "experiments/E040-route-fixture-writes/out/T124b1/world-prepare-v4.jsonl": "af2f0baec906814f4cf963198288f00a61984a1c3e3306840fe26b754f72564c",
+    "experiments/E040-route-fixture-writes/out/T124b1/world-proof-v2.jsonl": "b28eb92a3b7b5fe7bb63f91b59dbbcb008a8e073deebd135ac880708a2899eb9"
+  },
+  "schema": "t124b1-acceptance/1",
+  "source_freeze_commit": "e501492347920d17cf542151dc53a7ca5688b6e9",
+  "sources": {
+    "experiments/E040-route-fixture-writes/out/T124b1/README.md": "100a5636d7ede41fccec1cd9c2048b82e097df2ecf4d30c5cb151a3f4a94ae2a",
+    "experiments/E040-route-fixture-writes/out/T124b1/main_call_audit.py": "6da8dc854f09343edacb3b3df4084de12f9a5a049626da75567ecb69c6211de9",
+    "experiments/E040-route-fixture-writes/out/T124b1/prove.py": "d993d043fad55637323a5bf45d35646698a108f76a2d2e67b7760466570a56ca",
+    "experiments/E040-route-fixture-writes/out/T124b1/verify.py": "142a7c417188314dcc53f5590d1b5037400ab0ec40b6413e8d08739bffd015f7",
+    "experiments/E040-route-fixture-writes/out/T124b1/world.py": "bd0e290dd873f27bfbe87321755a816f5e283c7d33cd1f4a4c0c30aa8d6864e2",
+    "runtime/original_match/port/stages.py": "ce488fac5836cc1320f49daacf56d0ff9abf81567b5567620f57807f2f5873a1",
+    "static/goal-exe/annotations/routines.tsv": "067c8e514713453331eaff98fcfea7228d2a42b48c35ce1dc4de8c3219f6b811",
+    "static/goal-exe/named/README.md": "ec71b1100e047ff6fce38eaf60296916f497e5411441d5c877afff4c94c5d083",
+    "static/goal-exe/named/index.tsv": "7fadaf980c8f18d3ac378fdb6579f24fd2d99760fcb2b4de439bae237ca0ac72",
+    "static/goal-exe/named/seg_1771_01.c": "d62be9eaf1e3e183594e1dea3e11fc653c68db9192d6048e06248ea4d7654249",
+    "static/goal-exe/named/seg_1771_02.c": "93c39d63b244b3485ade8ab1951d4066c5a3f896d8bf0b9e2db7bc7bf3d68d95",
+    "static/goal-exe/named/seg_1771_03.c": "713f7864de5e6feafa722a348c3b4a1cb9c87f14bc751dbd1a1429ccb109d29f",
+    "static/goal-exe/named/seg_1771_05.c": "b805cb6d682ad7dfd05018eebbad4b1120271e0c8f0d590ec1c418d1135032e6",
+    "tests/test_port_stage_qualifying.py": "6af9dc5b7c6c75ccffc70f4528adefafd6724baa8bb88fc0a840f588ed610a95",
+    "tests/test_port_stages.py": "7581c05f8e02e2268e63720ef79feb97ce3b43ff8b6c54f5df889d97985273d2"
+  }
+}
