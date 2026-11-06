@@ -393,50 +393,50 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 1771:0FB1	draw_country_name_right	likely	decompiled	seg_1771_01.c	799	4000:0FB1	routines.tsv	
 1771:101A			decompiled	seg_1771_01.c	824	4000:101A	routines.tsv	
 1771:10E7	country_rating	established	decompiled	seg_1771_01.c	874	4000:10E7	routines.tsv	
-1771:114B			decompiled	seg_1771_01.c	891	4000:114B	routines.tsv	
-1771:11E1	draw_team_line_bars	established	decompiled	seg_1771_01.c	922	4000:11E1	routines.tsv	
-1771:1289	draw_team_performance_bars	established	decompiled	seg_1771_01.c	952	4000:1289	routines.tsv	
-1771:13D0	team_panel_aggregate	established	decompiled	seg_1771_01.c	1003	4000:13D0	routines.tsv	
-1771:1527	draw_country_status_label	established	decompiled	seg_1771_01.c	1062	4000:1527	routines.tsv	
-1771:157D	draw_team_panel	likely	decompiled	seg_1771_02.c	4	4000:157D	routines.tsv	
-1771:1934			decompiled	seg_1771_02.c	136	4000:1934	routines.tsv	
-1771:1981	edit_team_tactics	established	decompiled	seg_1771_02.c	154	4000:1981	routines.tsv	
-1771:1A7D			decompiled	seg_1771_02.c	203	4000:1A7D	routines.tsv	
-1771:1B2E			decompiled	seg_1771_02.c	220	4000:1B2E	routines.tsv	
-1771:1C85			decompiled	seg_1771_02.c	266	4000:1C85	routines.tsv	
-1771:1D5C			decompiled	seg_1771_02.c	300	4000:1D5C	routines.tsv	
-1771:25EA			decompiled	seg_1771_02.c	618	4000:25EA	routines.tsv	
-1771:26B9	country_list_screen	likely	decompiled	seg_1771_02.c	655	4000:26B9	routines.tsv	
-1771:2D15	set_managed_countries	established	decompiled	seg_1771_02.c	880	4000:2D15	routines.tsv	
-1771:2E20	player_name_colour	established	decompiled	seg_1771_02.c	924	4000:2E20	routines.tsv	
-1771:2E93	player_name	established	decompiled	seg_1771_02.c	951	4000:2E93	routines.tsv	
-1771:2EE5	draw_player_name	established	decompiled	seg_1771_02.c	970	4000:2EE5	routines.tsv	
-1771:2F37	draw_squad_row	established	decompiled	seg_1771_02.c	996	4000:2F37	routines.tsv	
-1771:2FAD	player_height	established	decompiled	seg_1771_02.c	1025	4000:2FAD	routines.tsv	
-1771:2FFB	player_hardness	established	decompiled	seg_1771_02.c	1036	4000:2FFB	routines.tsv	
-1771:3041	is_two_footed	established	decompiled	seg_1771_02.c	1050	4000:3041	routines.tsv	
-1771:3088	foot_index	established	decompiled	seg_1771_02.c	1066	4000:3088	routines.tsv	
-1771:30D9	player_leadership	established	decompiled	seg_1771_03.c	4	4000:30D9	routines.tsv	
-1771:3179	out_of_place_flag	established	decompiled	seg_1771_03.c	24	4000:3179	routines.tsv	
-1771:3216	player_unavailable	established	decompiled	seg_1771_03.c	75	4000:3216	routines.tsv	
-1771:3291	roll_peak_age	established	decompiled	seg_1771_03.c	97	4000:3291	routines.tsv	
-1771:32EB	compute_ability	established	decompiled	seg_1771_03.c	118	4000:32EB	routines.tsv	
-1771:33CD	force_tactic4_off	established	decompiled	seg_1771_03.c	150	4000:33CD	routines.tsv	
-1771:3431	set_player_tactics	established	decompiled	seg_1771_03.c	167	4000:3431	routines.tsv	
-1771:34E7	reset_own_tactics	established	decompiled	seg_1771_03.c	203	4000:34E7	routines.tsv	
-1771:3558	roll_fitness_energy	established	decompiled	seg_1771_03.c	228	4000:3558	routines.tsv	
-1771:3651	recover_fitness_energy	established	decompiled	seg_1771_03.c	266	4000:3651	routines.tsv	
-1771:377E	player_strength	established	decompiled	seg_1771_03.c	316	4000:377E	routines.tsv	
-1771:3827	performance_text	likely	decompiled	seg_1771_03.c	360	4000:3827	routines.tsv	
-1771:3947	draw_skill_bars	established	decompiled	seg_1771_03.c	427	4000:3947	routines.tsv	
-1771:3A06	derived_skill	established	decompiled	seg_1771_03.c	459	4000:3A06	routines.tsv	
-1771:3A82	squad_slot_of_player	established	decompiled	seg_1771_03.c	478	4000:3A82	routines.tsv	
-1771:3AE2	draw_mark_text	established	decompiled	seg_1771_03.c	500	4000:3AE2	routines.tsv	
-1771:3B3F	draw_mark_row	established	decompiled	seg_1771_03.c	521	4000:3B3F	routines.tsv	
-1771:3BD3	draw_tactics_panel	established	decompiled	seg_1771_03.c	551	4000:3BD3	routines.tsv	
-1771:3E2F	pick_mark_target	established	decompiled	seg_1771_03.c	642	4000:3E2F	routines.tsv	
-1771:3EF8	set_marking_words	established	decompiled	seg_1771_03.c	687	4000:3EF8	routines.tsv	
-1771:42BC	draw_player_screen	established	decompiled	seg_1771_03.c	805	4000:42BC	routines.tsv	
+1771:114B	rank_within_continent	established	decompiled	seg_1771_01.c	891	4000:114B	routines.tsv	
+1771:11E1	draw_team_line_bars	established	decompiled	seg_1771_01.c	923	4000:11E1	routines.tsv	
+1771:1289	draw_team_performance_bars	established	decompiled	seg_1771_01.c	953	4000:1289	routines.tsv	
+1771:13D0	team_panel_aggregate	established	decompiled	seg_1771_01.c	1004	4000:13D0	routines.tsv	
+1771:1527	draw_country_status_label	established	decompiled	seg_1771_02.c	4	4000:1527	routines.tsv	
+1771:157D	draw_team_panel	likely	decompiled	seg_1771_02.c	20	4000:157D	routines.tsv	
+1771:1934			decompiled	seg_1771_02.c	152	4000:1934	routines.tsv	
+1771:1981	edit_team_tactics	established	decompiled	seg_1771_02.c	170	4000:1981	routines.tsv	
+1771:1A7D			decompiled	seg_1771_02.c	219	4000:1A7D	routines.tsv	
+1771:1B2E			decompiled	seg_1771_02.c	236	4000:1B2E	routines.tsv	
+1771:1C85			decompiled	seg_1771_02.c	282	4000:1C85	routines.tsv	
+1771:1D5C			decompiled	seg_1771_02.c	316	4000:1D5C	routines.tsv	
+1771:25EA			decompiled	seg_1771_02.c	634	4000:25EA	routines.tsv	
+1771:26B9	country_list_screen	likely	decompiled	seg_1771_02.c	671	4000:26B9	routines.tsv	
+1771:2D15	set_managed_countries	established	decompiled	seg_1771_02.c	896	4000:2D15	routines.tsv	
+1771:2E20	player_name_colour	established	decompiled	seg_1771_02.c	940	4000:2E20	routines.tsv	
+1771:2E93	player_name	established	decompiled	seg_1771_02.c	967	4000:2E93	routines.tsv	
+1771:2EE5	draw_player_name	established	decompiled	seg_1771_02.c	986	4000:2EE5	routines.tsv	
+1771:2F37	draw_squad_row	established	decompiled	seg_1771_02.c	1012	4000:2F37	routines.tsv	
+1771:2FAD	player_height	established	decompiled	seg_1771_02.c	1041	4000:2FAD	routines.tsv	
+1771:2FFB	player_hardness	established	decompiled	seg_1771_02.c	1052	4000:2FFB	routines.tsv	
+1771:3041	is_two_footed	established	decompiled	seg_1771_02.c	1066	4000:3041	routines.tsv	
+1771:3088	foot_index	established	decompiled	seg_1771_03.c	4	4000:3088	routines.tsv	
+1771:30D9	player_leadership	established	decompiled	seg_1771_03.c	19	4000:30D9	routines.tsv	
+1771:3179	out_of_place_flag	established	decompiled	seg_1771_03.c	39	4000:3179	routines.tsv	
+1771:3216	player_unavailable	established	decompiled	seg_1771_03.c	90	4000:3216	routines.tsv	
+1771:3291	roll_peak_age	established	decompiled	seg_1771_03.c	112	4000:3291	routines.tsv	
+1771:32EB	compute_ability	established	decompiled	seg_1771_03.c	133	4000:32EB	routines.tsv	
+1771:33CD	force_tactic4_off	established	decompiled	seg_1771_03.c	165	4000:33CD	routines.tsv	
+1771:3431	set_player_tactics	established	decompiled	seg_1771_03.c	182	4000:3431	routines.tsv	
+1771:34E7	reset_own_tactics	established	decompiled	seg_1771_03.c	218	4000:34E7	routines.tsv	
+1771:3558	roll_fitness_energy	established	decompiled	seg_1771_03.c	243	4000:3558	routines.tsv	
+1771:3651	recover_fitness_energy	established	decompiled	seg_1771_03.c	281	4000:3651	routines.tsv	
+1771:377E	player_strength	established	decompiled	seg_1771_03.c	331	4000:377E	routines.tsv	
+1771:3827	performance_text	likely	decompiled	seg_1771_03.c	375	4000:3827	routines.tsv	
+1771:3947	draw_skill_bars	established	decompiled	seg_1771_03.c	442	4000:3947	routines.tsv	
+1771:3A06	derived_skill	established	decompiled	seg_1771_03.c	474	4000:3A06	routines.tsv	
+1771:3A82	squad_slot_of_player	established	decompiled	seg_1771_03.c	493	4000:3A82	routines.tsv	
+1771:3AE2	draw_mark_text	established	decompiled	seg_1771_03.c	515	4000:3AE2	routines.tsv	
+1771:3B3F	draw_mark_row	established	decompiled	seg_1771_03.c	536	4000:3B3F	routines.tsv	
+1771:3BD3	draw_tactics_panel	established	decompiled	seg_1771_03.c	566	4000:3BD3	routines.tsv	
+1771:3E2F	pick_mark_target	established	decompiled	seg_1771_03.c	657	4000:3E2F	routines.tsv	
+1771:3EF8	set_marking_words	established	decompiled	seg_1771_03.c	702	4000:3EF8	routines.tsv	
+1771:42BC	draw_player_screen	established	decompiled	seg_1771_03.c	820	4000:42BC	routines.tsv	
 1771:4859	edit_player_name	likely	decompiled	seg_1771_04.c	4	4000:4859	routines.tsv	
 1771:4925	advance_player_position_code	likely	decompiled	seg_1771_04.c	57	4000:4925	routines.tsv	
 1771:4952	edit_player_position	likely	decompiled	seg_1771_04.c	72	4000:4952	routines.tsv	

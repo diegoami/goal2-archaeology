@@ -48,7 +48,7 @@ void set_manager_groups(byte param_1)
 
 
 // ---- 1771:5EE1  sort_countries_by_points  (f_1771_5EE1; Ghidra 4000:5EE1, __stdcall16near; found by routines.tsv)
-// quicksorts the range [lo, hi] of the order array [DS:9B56] by the countries' +0x2F word, largest first (5F1D-5F69), swapping with 214B:007B  [established; F017; read code/seg_1771_09.asm]
+// T124b1: unsigned descending quicksort through DS:9B56, equal/self swaps preserved via214B:007B; recursive calls forward original Pascal link; ret6  [established; F017; read code/seg_1771_09.asm]
 
 void sort_countries_by_points(undefined2 param_1,uint param_2,uint param_3)
 
@@ -91,7 +91,7 @@ void sort_countries_by_points(undefined2 param_1,uint param_2,uint param_3)
 
 
 // ---- 1771:5FD1  add_placement_bonus  (f_1771_5FD1; Ghidra 4000:5FD1, __stdcall16near; found by routines.tsv)
-// for country, bonus, place, flag: +0x41 := DS:10FD[place], +0x2F += bonus, increments the byte +0x32 + 4 flag + place  [established; F017; read code/seg_1771_09.asm]
+// T124b1: country +41 lookup then wrapping +2F bonus then wrapping byte +32+4*signed(flag)+place; real caller link; ret0xA  [established; F017; read code/seg_1771_09.asm]
 
 void add_placement_bonus(undefined2 param_1,char param_2,int param_3,int param_4,int param_5)
 
@@ -113,7 +113,7 @@ void add_placement_bonus(undefined2 param_1,char param_2,int param_3,int param_4
 
 
 // ---- 1771:602D  world_placement_bonuses  (f_1771_602D; Ghidra 4000:602D, __stdcall16near; found by routines.tsv)
-// 1771:5FD1 for the winner and loser (1771:5C94/5CCB) of two fixtures of [A92B] indexed by [A923]+0x2A: 800 and 600, then 400 and 200, flag 1  [established; F017; read code/seg_1771_09.asm]
+// T124b1: saved final then third-place indices; real far-return winner/loser calls, bonuses800/600/400/200 flag1 and parent link forwarded; ret2  [established; F017; read code/seg_1771_09.asm]
 
 void world_placement_bonuses(undefined2 param_1)
 
@@ -141,7 +141,7 @@ void world_placement_bonuses(undefined2 param_1)
 
 
 // ---- 1771:6103  continent_placement_bonuses  (f_1771_6103; Ghidra 4000:6103, __stdcall16near; found by routines.tsv)
-// for each continent 1..4, 1771:5FD1 for the winner and loser of two fixtures named in [A933] + 0x1C0 k + 0x540 (+0x32, +0x30): 800 and 600, then 400 and 200, flag 0  [established; F017; read code/seg_1771_09.asm]
+// T124b1: continents1..4 saved +32/+30 final/third-place indices; real winner/loser calls, bonuses800/600/400/200 flag0 and parent link forwarded; ret2  [established; F017; read code/seg_1771_09.asm]
 
 void continent_placement_bonuses(undefined2 param_1)
 
@@ -175,7 +175,7 @@ void continent_placement_bonuses(undefined2 param_1)
 
 
 // ---- 1771:61F8  add_group_points  (f_1771_61F8; Ghidra 4000:61F8, __stdcall16near; found by routines.tsv)
-// adds (5 - k) x the points byte +7 of every group entry of the tables at [A933] (k = 1..4) to that country's +0x2F; a second loop does the same for the rounds DS:1102 names  [established; F017; read code/seg_1771_09.asm]
+// T124b1: both table loops add wrapping points*(5-continent); first4 continents8groups4places; second1+3*mode continents and DS:1102[stage==2] groups; ret2  [established; F017; read code/seg_1771_09.asm]
 
 void add_group_points(void)
 
@@ -248,7 +248,7 @@ void add_group_points(void)
 
 
 // ---- 1771:63A4  recompute_country_ranks  (f_1771_63A4; Ghidra 4000:63A4, __cdecl16near; found by routines.tsv)
-// from 1771:6730 at stages 2 and 5 (+0x38 > 0): +0x40 = 0 (stage 2): 1771:602D, 1771:61F8, sort all 128 by +0x2F (1771:5EE1 on DS:9BFD) and +0x2B := place (6530); +0x40 = 1 (stage 5): 1771:6103, 61F8, sort each continent's 32 (5EE1 on DS:9C7E from DS:10F9[c]) and +0x2A := (place - 1) mod 32 + 1 (6524); per country also the best ranks +0x29/+0x28, a managed country's manager records, the manager byte [A91F]+3(+0x2E)+1 := clamp(country_rating + signed [A91F]+3(+0x2E)+2, 1, 128) and +2 := 0 (6572-65ED), and +0x2F := 5 - continent (6605)  [established; F017; read code/seg_1771_09.asm]
+// T124b1: world/continent placement and group points; unsigned quicksort; manager best ranks before new country ranks; world-best ELSE continent-best; all128 country rating plus signed manager score clamp1..128 and reset, points=5-continent; ret  [established; F017; F023; read code/seg_1771_09.asm]
 
 void __cdecl16near recompute_country_ranks(void)
 
@@ -302,9 +302,9 @@ void __cdecl16near recompute_country_ranks(void)
       if (pcVar6[bVar1].continent_rank < *(byte *)(iVar2 + (uint)pcVar6[bVar1].manager + -0x79)) {
         *(byte *)(iVar2 + (uint)pcVar6[bVar1].manager + -0x79) = pcVar6[bVar1].continent_rank;
       }
-      iVar5 = f_1771_114B(((byte *)country_order_ptr)[local_4]);
+      iVar5 = rank_within_continent(((byte *)country_order_ptr)[local_4]);
       if (iVar5 < (int)(uint)*(byte *)(iVar2 + (uint)pcVar6[bVar1].manager + -0x73)) {
-        uVar4 = f_1771_114B(((byte *)country_order_ptr)[local_4]);
+        uVar4 = rank_within_continent(((byte *)country_order_ptr)[local_4]);
         *(undefined1 *)(iVar2 + (uint)pcVar6[bVar1].manager + -0x73) = uVar4;
       }
     }
