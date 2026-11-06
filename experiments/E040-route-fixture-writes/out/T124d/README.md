@@ -140,3 +140,14 @@ deleted, no fixture producer/RNG/proof oracle was mocked, and no running CI was
 cancelled. Runtime/proof/producer/validator source and all prior measurements are
 unchanged. **acceptance-v3/index.json** binds this final test-loader regression;
 v2 remains historical at its own source freeze and is not the current index.
+
+
+Final direct-source refresh: `direct-loaderfix-v2.jsonl` re-executes all19 direct
+cases after the test-loader source freeze (16pass,3mutants). Its complete header
+source hashes match current files, including the fixed world tests. The seven
+natural tails and original-world validator do not import the loader and their
+runtime/proof sources are unchanged, so their explicit reuse remains valid.
+**acceptance-v4/index.json** is the final combined index; v3 is retained as the
+intermediate loader-fix index and does not claim the old direct header is current.
+Issue673 closes only after main independently accepts the repair and normally
+merges the PR. No issue or merge is performed by this evidence packaging.

@@ -10,7 +10,7 @@ def rows(name):return [json.loads(l) for l in (HERE/name).read_text().splitlines
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--private',action='store_true');a=ap.parse_args()
-    index=json.loads((HERE/'acceptance-v3/index.json').read_text())
+    index=json.loads((HERE/'acceptance-v4/index.json').read_text())
     for group in ('sources','receipts'):
         for name,h in index[group].items():assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==h,name
     natural=rows('natural-inputs-v1.jsonl');assert natural[-1]['status']=='completed'
@@ -22,7 +22,8 @@ def main():
         assert not v['memory_difference_spans'] and not v['returned_register_differences']
         assert v['reference_matches_prepared_tail'] and all(s['before']==0 for s in v['summary'].values())
         if phase=='qualifying':assert len(v['draws'])==160 and v['end']['year_word']==2
-    direct=rows('direct-v1.jsonl');assert direct[-1]=={'cases':19,'status':'completed'}
+    direct=rows('direct-loaderfix-v2.jsonl')
+    for name,h in direct[0]['source_hashes'].items():assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==h,name;assert direct[-1]=={'cases':19,'status':'completed'}
     assert sum(v.get('status')=='proved' for v in direct)==16
     assert sum(v.get('status')=='falsifier_caught' for v in direct)==3
     for site,n in (('1771:71D1',8),('1771:71E0',2),('1771:720D',4)):
