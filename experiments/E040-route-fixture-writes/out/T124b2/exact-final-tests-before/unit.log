@@ -1,0 +1,214 @@
+EEEEEEEEEEEEEEEEE
+======================================================================
+ERROR: test_continent_offset_wraps_word_and_returns_real_cx (tests.test_port_stage_qualifying.Draw.test_continent_offset_wraps_word_and_returns_real_cx) (c=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 126, in test_continent_offset_wraps_word_and_returns_real_cx
+    m,p=self.call('1771:56E4',(c,))
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stages.py", line 108, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_continent_offset_wraps_word_and_returns_real_cx (tests.test_port_stage_qualifying.Draw.test_continent_offset_wraps_word_and_returns_real_cx) (c=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 126, in test_continent_offset_wraps_word_and_returns_real_cx
+    m,p=self.call('1771:56E4',(c,))
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stages.py", line 108, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_continent_offset_wraps_word_and_returns_real_cx (tests.test_port_stage_qualifying.Draw.test_continent_offset_wraps_word_and_returns_real_cx) (c=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 126, in test_continent_offset_wraps_word_and_returns_real_cx
+    m,p=self.call('1771:56E4',(c,))
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stages.py", line 108, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_continent_offset_wraps_word_and_returns_real_cx (tests.test_port_stage_qualifying.Draw.test_continent_offset_wraps_word_and_returns_real_cx) (c=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 126, in test_continent_offset_wraps_word_and_returns_real_cx
+    m,p=self.call('1771:56E4',(c,))
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stages.py", line 108, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_continent_offset_wraps_word_and_returns_real_cx (tests.test_port_stage_qualifying.Draw.test_continent_offset_wraps_word_and_returns_real_cx) (c=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 126, in test_continent_offset_wraps_word_and_returns_real_cx
+    m,p=self.call('1771:56E4',(c,))
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stages.py", line 108, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_continent_offset_wraps_word_and_returns_real_cx (tests.test_port_stage_qualifying.Draw.test_continent_offset_wraps_word_and_returns_real_cx) (c=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 126, in test_continent_offset_wraps_word_and_returns_real_cx
+    m,p=self.call('1771:56E4',(c,))
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stages.py", line 108, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_continent_offset_wraps_word_and_returns_real_cx (tests.test_port_stage_qualifying.Draw.test_continent_offset_wraps_word_and_returns_real_cx) (c=65535)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 126, in test_continent_offset_wraps_word_and_returns_real_cx
+    m,p=self.call('1771:56E4',(c,))
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stages.py", line 108, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_draw_order_and_group_assignment_falsifiers_caught (tests.test_port_stage_qualifying.Draw.test_draw_order_and_group_assignment_falsifiers_caught) (variant='qualifying-draw-order-reversed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 183, in test_draw_order_and_group_assignment_falsifiers_caught
+    self.call('1771:6730',game={0x38:0,0x39:0,0x3C:2,0x40:0},
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              specs=((ST.PORTS,variant),'runtime',qualifying_rng_port()))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stages.py", line 108, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_draw_order_and_group_assignment_falsifiers_caught (tests.test_port_stage_qualifying.Draw.test_draw_order_and_group_assignment_falsifiers_caught) (variant='qualifying-group-plus-one')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 183, in test_draw_order_and_group_assignment_falsifiers_caught
+    self.call('1771:6730',game={0x38:0,0x39:0,0x3C:2,0x40:0},
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              specs=((ST.PORTS,variant),'runtime',qualifying_rng_port()))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stages.py", line 108, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_four_entries_and_return_abis (tests.test_port_stage_qualifying.Draw.test_four_entries_and_return_abis)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 121, in test_four_entries_and_return_abis
+    self.assertEqual({a:ST.PORTS.entries[a].ret for a in DRAW_ENTRIES},DRAW_ENTRIES)
+                        ~~~~~~~~~~~~~~~~^^^
+KeyError: '1771:56E4'
+
+======================================================================
+ERROR: test_initial_year_whole_builder_both_modes_with_real_library_helpers (tests.test_port_stage_qualifying.Draw.test_initial_year_whole_builder_both_modes_with_real_library_helpers) (mode=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 171, in test_initial_year_whole_builder_both_modes_with_real_library_helpers
+    m,p=self.call('1771:6730',game={0x38:0,0x39:0,0x3C:2 if mode==0 else 5,0x40:mode},
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  specs=('stages','runtime',qualifying_rng_port()))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stages.py", line 108, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_initial_year_whole_builder_both_modes_with_real_library_helpers (tests.test_port_stage_qualifying.Draw.test_initial_year_whole_builder_both_modes_with_real_library_helpers) (mode=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 171, in test_initial_year_whole_builder_both_modes_with_real_library_helpers
+    m,p=self.call('1771:6730',game={0x38:0,0x39:0,0x3C:2 if mode==0 else 5,0x40:mode},
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  specs=('stages','runtime',qualifying_rng_port()))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stages.py", line 108, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_mode0_copies_all129_bytes_including_sentinel (tests.test_port_stage_qualifying.Draw.test_mode0_copies_all129_bytes_including_sentinel)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 135, in test_mode0_copies_all129_bytes_including_sentinel
+    m,p=self.call('1771:56FF',game={0x40:0},before=before,specs=('stages','runtime'))
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stages.py", line 108, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_mode1_stably_filters_original_world_order_per_continent (tests.test_port_stage_qualifying.Draw.test_mode1_stably_filters_original_world_order_per_continent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 150, in test_mode1_stably_filters_original_world_order_per_continent
+    m,p=self.call('1771:56FF',game={0x40:1},before=before,specs=('stages','runtime'))
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stages.py", line 108, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_reference_seed_service_preserves_cx_dx_and_sets_only_ah (tests.test_port_stage_qualifying.Draw.test_reference_seed_service_preserves_cx_dx_and_sets_only_ah) (cx=0, dx=0, ax=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 161, in test_reference_seed_service_preserves_cx_dx_and_sets_only_ah
+    m,p=self.call('23E4:11D7',before=before)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stages.py", line 108, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_reference_seed_service_preserves_cx_dx_and_sets_only_ah (tests.test_port_stage_qualifying.Draw.test_reference_seed_service_preserves_cx_dx_and_sets_only_ah) (cx=48879, dx=64206, ax=21415)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 161, in test_reference_seed_service_preserves_cx_dx_and_sets_only_ah
+    m,p=self.call('23E4:11D7',before=before)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stages.py", line 108, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_reference_seed_service_preserves_cx_dx_and_sets_only_ah (tests.test_port_stage_qualifying.Draw.test_reference_seed_service_preserves_cx_dx_and_sets_only_ah) (cx=65535, dx=1, ax=32769)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stage_qualifying.py", line 161, in test_reference_seed_service_preserves_cx_dx_and_sets_only_ah
+    m,p=self.call('23E4:11D7',before=before)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124b2-old-source-9f5cd1f6/tests/test_port_stages.py", line 108, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.068s
+
+FAILED (errors=17)
