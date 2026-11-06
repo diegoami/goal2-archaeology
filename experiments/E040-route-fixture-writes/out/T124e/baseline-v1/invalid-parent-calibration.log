@@ -1,0 +1,20 @@
+E.
+======================================================================
+ERROR: test_failure_headline_keeps_manager_ownership_and_visits_tour_when_sacked (tests.test_port_stage_news.StageNews.test_failure_headline_keeps_manager_ownership_and_visits_tour_when_sacked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 47, in test_failure_headline_keeps_manager_ownership_and_visits_tour_when_sacked
+    m,p=self.call('000E:5E6C',(0x3D00,),specs=specs(),before=before)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 125, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 416, in run
+    raise GuestError(f"the run ended at {self.where(self.reg('cs'), self.reg('ip'))} without reaching its end "
+                     f"(time limit {timeout_s} s)")
+original_match.machine.GuestError: the run ended at FC0E:4402 without reaching its end (time limit 300 s)
+
+----------------------------------------------------------------------
+Ran 2 tests in 300.089s
+
+FAILED (errors=1)
