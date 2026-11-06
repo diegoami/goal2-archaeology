@@ -1,0 +1,63 @@
+...EE..........................
+======================================================================
+ERROR: test_initial_year_whole_builder_both_modes_with_real_library_helpers (tests.test_port_stage_qualifying.Draw.test_initial_year_whole_builder_both_modes_with_real_library_helpers) (mode=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_qualifying.py", line 159, in test_initial_year_whole_builder_both_modes_with_real_library_helpers
+    m,p=self.call('1771:6730',game={0x38:0,0x39:0,0x3C:2 if mode==0 else 5,0x40:mode},
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  specs=('stages','runtime','entrypoints'))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 120, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 226, in dispatch
+    self.muted_hook(lin)
+    ~~~~~~~~~~~~~~~^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 426, in _muted_at
+    self._nested_returned()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 454, in _nested_returned
+    self._fail(f"ported call #{i + 1} inside: the original's call of {address} from {caller} returned, the "
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               f"port's run's of {p_address} from {p_caller}")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 476, in _fail
+    raise ProofError(f"{self._head(st)}: {text}")
+original_match.port.prove.ProofError: 1771:6730 (stages), call #1 from 1771:76C7: ported call #7 inside: the original's call of 214B:0688 from 214B:06C4 returned, the port's run's of 214B:06B1 from 1771:680D
+
+======================================================================
+ERROR: test_initial_year_whole_builder_both_modes_with_real_library_helpers (tests.test_port_stage_qualifying.Draw.test_initial_year_whole_builder_both_modes_with_real_library_helpers) (mode=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_qualifying.py", line 159, in test_initial_year_whole_builder_both_modes_with_real_library_helpers
+    m,p=self.call('1771:6730',game={0x38:0,0x39:0,0x3C:2 if mode==0 else 5,0x40:mode},
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  specs=('stages','runtime','entrypoints'))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 120, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 226, in dispatch
+    self.muted_hook(lin)
+    ~~~~~~~~~~~~~~~^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 426, in _muted_at
+    self._nested_returned()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 454, in _nested_returned
+    self._fail(f"ported call #{i + 1} inside: the original's call of {address} from {caller} returned, the "
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               f"port's run's of {p_address} from {p_caller}")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 476, in _fail
+    raise ProofError(f"{self._head(st)}: {text}")
+original_match.port.prove.ProofError: 1771:6730 (stages), call #1 from 1771:76C7: ported call #6 inside: the original's call of 214B:0688 from 214B:06C4 returned, the port's run's of 214B:06B1 from 1771:680D
+
+----------------------------------------------------------------------
+Ran 30 tests in 31.973s
+
+FAILED (errors=2)

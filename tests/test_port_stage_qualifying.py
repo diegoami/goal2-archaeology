@@ -103,6 +103,18 @@ RET.update({"1771:56E4": "1771:6944", "1771:56FF": "1771:6758",
 DRAW_ENTRIES={"1771:56E4":"ret 2","1771:56FF":"ret","1771:6730":"ret","23E4:11D7":"retf"}
 
 
+def qualifying_rng_port():
+    """Real06B1 includes its0688 body inline; select the caller entry, without double-registering its inline callee.
+
+    [confirmed: port/entrypoints.py random_core/rng_core] This is the same real
+    implementation used by the aggregate proof, never a stub or replacement RNG.
+    """
+    from original_match.port import Registry,entrypoints
+    reg=Registry('entrypoints','real06B1 with its original inlined0688 body')
+    reg._add(entrypoints.PORTS.entries['214B:06B1'])
+    return (reg,None)
+
+
 class Draw(_Calls):
     """[confirmed: F023/F004] Direct synthetic ABI edges; full natural/world construction under out/T124b2."""
     def test_four_entries_and_return_abis(self):
@@ -157,7 +169,7 @@ class Draw(_Calls):
         for mode in (0,1):
             with self.subTest(mode=mode):
                 m,p=self.call('1771:6730',game={0x38:0,0x39:0,0x3C:2 if mode==0 else 5,0x40:mode},
-                              specs=('stages','runtime','entrypoints'))
+                              specs=('stages','runtime',qualifying_rng_port()))
                 self.proved(p,'1771:6730')
                 summary=p.summary()
                 self.assertEqual(summary['23E4:11D7']['nested'],1)
@@ -169,4 +181,4 @@ class Draw(_Calls):
         for variant in ('qualifying-draw-order-reversed','qualifying-group-plus-one'):
             with self.subTest(variant=variant),self.assertRaises(ProofError):
                 self.call('1771:6730',game={0x38:0,0x39:0,0x3C:2,0x40:0},
-                          specs=((ST.PORTS,variant),'runtime','entrypoints'))
+                          specs=((ST.PORTS,variant),'runtime',qualifying_rng_port()))
