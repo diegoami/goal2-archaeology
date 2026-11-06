@@ -1,0 +1,57 @@
+FF
+======================================================================
+FAIL: test_the_twenty_routines_with_the_listings_returns (tests.test_port_stages.RegistryTests.test_the_twenty_routines_with_the_listings_returns)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 53, in test_the_twenty_routines_with_the_listings_returns
+    self.assertEqual({a: e.ret for a, e in ST.PORTS.entries.items()},
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     {"1771:8208": "retf", "1771:76B1": "retf", "1771:5D02": "ret 4", "1771:5D94": "ret 8",
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+                      "1771:56E4": "ret 2", "1771:56FF": "ret", "1771:6730": "ret", "23E4:11D7": "retf",
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      "1771:6B55": "ret", "1771:6E59": "ret"})
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'177[343 chars]t', '23E4:11D7': 'retf', '1771:6730': 'ret', '[115 chars]ret'} != {'177[343 chars]t', '1771:6730': 'ret', '23E4:11D7': 'retf', '[33 chars]ret'}
+  {'1771:114B': 'retf 2',
+   '1771:56E4': 'ret 2',
+   '1771:56FF': 'ret',
+   '1771:5D02': 'ret 4',
+   '1771:5D94': 'ret 8',
+   '1771:5E3A': 'ret 0xa',
+   '1771:5E99': 'ret 2',
+   '1771:5EE1': 'ret 6',
+   '1771:5FD1': 'ret 0xa',
+   '1771:602D': 'ret 2',
+   '1771:6103': 'ret 2',
+   '1771:61F8': 'ret 2',
+   '1771:63A4': 'ret',
+   '1771:6617': 'ret 2',
+   '1771:6730': 'ret',
+   '1771:6B55': 'ret',
+   '1771:6E59': 'ret',
+-  '1771:6FEB': 'ret 2',
+-  '1771:7090': 'ret',
+-  '1771:71B2': 'ret',
+-  '1771:74BE': 'ret',
+   '1771:76B1': 'retf',
+   '1771:8208': 'retf',
+   '23E4:11D7': 'retf'}
+
+======================================================================
+FAIL: test_every_variant_is_listed (tests.test_port_stages.FalsifierTests.test_every_variant_is_listed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 253, in test_every_variant_is_listed
+    self.assertEqual(set(self.CASES), set(ST.PORTS.variants))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Items in the second set but not the first:
+'world-third-place-opponent'
+'world-host-bound-seven'
+'world-playoff-mark-dropped'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.050s
+
+FAILED (failures=2)
