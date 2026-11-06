@@ -1004,7 +1004,7 @@ undefined1 finals_squad_news(int param_1)
 
 
 // ---- 000E:5DAF  news_tour_line  (f_000E_5DAF; Ghidra 1000:5DAF, __stdcall16near; found by routines.tsv)
-// (frame) when 0791:DAF8 holds for the country, writes the line '... TO TOUR' with the continent of the next fixture's side B; returns that  [likely; F031]
+// (parent frame) calls real0791:DAF8(country at parent+6), retaining its55FC DS:9B43 effects even when false; when true writes TO TOUR with the next fixture sideB continent and returns AL1, else AL0; called both by failed5E6C and qualified60CB news  [established; F031; read code/seg_000E_07.asm]
 
 bool news_tour_line(int param_1)
 
@@ -1025,7 +1025,7 @@ bool news_tour_line(int param_1)
 
 
 // ---- 000E:5E6C  news_failed_to_qualify  (f_000E_5E6C; Ghidra 1000:5E6C, __stdcall16near; found by routines.tsv)
-// news item only: the headline FAIL TO QUALIFY FOR (competition) with a random one of BOO HISS / SACK / GET RID OF and the manager's name; does not sack or release the manager (no call of unmanage_country, no store into 000E:4E0E's frame) but draws one random number (214B:06B1(3)); called by 000E:60CB when [A923]+m+1 (the group number) is 0  [likely; F025; read code/seg_000E_07.asm]
+// news only: FAIL TO QUALIFY FOR plus one06B1(3) headline choice BOO HISS/SACK/GET RID OF and manager name; rating selects commentary, then ALWAYS calls5DAF tour helper and uses fallback only when false; never unmanages/releases country  [established; F025; read code/seg_000E_07.asm]
 
 void news_failed_to_qualify(int param_1)
 

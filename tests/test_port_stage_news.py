@@ -205,6 +205,9 @@ class StageNewsControl(_Calls):
         from original_match.port.prove import ProofError
         image=world_image();country=tour_country(image)
         def stale(m):m.wr(0x9B43,0)
+        original,p,_=announce(image,[country],setup=stale)
+        self.assertEqual(p.summary()['000E:60CB']['proved'],1)
+        self.assertGreater(original.m.rd(0x9B43),0)
         with self.assertRaises(ProofError):announce(image,[country],setup=stale,helper_variant='next-write-omitted')
 
 

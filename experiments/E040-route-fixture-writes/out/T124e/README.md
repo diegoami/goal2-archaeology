@@ -79,3 +79,11 @@ instructions in the three added bodies, including helper-generated return PCs.
 It compares source AST call arguments/return PCs/near-far forms with the raw
 listing and existing callee ABIs. The older868/77 closure inventory included
 the reused T125 assistant helpers; this PR does not add those owners again.
+
+The exact-before audit also checks that each new test requires this integration.
+Its first run found the existing T125 next-write mutant was already caught when
+60CB was still original. The final test therefore includes a positive actual
+ported60CB call/proof and next-fixture effect before applying that helper mutant;
+it verifies the new caller integration as well as the already required helper
+falsifier. The original audit and its failed all-tests-fail assertion remain
+calibration, never acceptance. No task assertion was weakened.

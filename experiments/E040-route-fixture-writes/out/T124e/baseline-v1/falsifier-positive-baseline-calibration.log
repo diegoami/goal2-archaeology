@@ -1,0 +1,161 @@
+test_actual_stage_news_oracles_run_with_receipt_present_and_private_inputs_absent (tests.test_port_stage_news.CIMissingPrivateInputs.test_actual_stage_news_oracles_run_with_receipt_present_and_private_inputs_absent) ... FAIL
+test_failure_headline_keeps_manager_ownership_and_visits_tour_when_sacked (tests.test_port_stage_news.StageNews.test_failure_headline_keeps_manager_ownership_and_visits_tour_when_sacked) ... ERROR
+test_tour_helper_true_original_near_abi_and_no_duplicate_assistant_owner (tests.test_port_stage_news.StageNews.test_tour_helper_true_original_near_abi_and_no_duplicate_assistant_owner) ... ERROR
+test_all_three_rating_comparisons_use_actual_unmodified_country_ranks (tests.test_port_stage_news.StageNewsControl.test_all_three_rating_comparisons_use_actual_unmodified_country_ranks) ... 
+  test_all_three_rating_comparisons_use_actual_unmodified_country_ranks (tests.test_port_stage_news.StageNewsControl.test_all_three_rating_comparisons_use_actual_unmodified_country_ranks) (return_pc='000E:651E') ... ERROR
+  test_all_three_rating_comparisons_use_actual_unmodified_country_ranks (tests.test_port_stage_news.StageNewsControl.test_all_three_rating_comparisons_use_actual_unmodified_country_ranks) (return_pc='000E:6500') ... ERROR
+  test_all_three_rating_comparisons_use_actual_unmodified_country_ranks (tests.test_port_stage_news.StageNewsControl.test_all_three_rating_comparisons_use_actual_unmodified_country_ranks) (return_pc='000E:64C1') ... ERROR
+test_failed_group_still_calls_tour_and_preserves_ownership (tests.test_port_stage_news.StageNewsControl.test_failed_group_still_calls_tour_and_preserves_ownership) ... ERROR
+test_host_announcement_uses_actual_original_draw_host_and_group (tests.test_port_stage_news.StageNewsControl.test_host_announcement_uses_actual_original_draw_host_and_group) ... ERROR
+test_news_draw_and_cursor_restoration_falsifiers_are_caught (tests.test_port_stage_news.StageNewsControl.test_news_draw_and_cursor_restoration_falsifiers_are_caught) ... FAIL
+test_observer_on_off_preserves_full_state_keys_draws_and_records (tests.test_port_stage_news.StageNewsControl.test_observer_on_off_preserves_full_state_keys_draws_and_records) ... ERROR
+test_tour_next_fixture_write_falsifier_is_caught_in_announcements (tests.test_port_stage_news.StageNewsControl.test_tour_next_fixture_write_falsifier_is_caught_in_announcements) ... ok
+test_two_actual_pages_keep_each_selected_manager_then_restore_cursor (tests.test_port_stage_news.StageNewsControl.test_two_actual_pages_keep_each_selected_manager_then_restore_cursor) ... ERROR
+test_competitive_next_fixture_false_still_updates_previous_word (tests.test_port_stage_news.TourEffects.test_competitive_next_fixture_false_still_updates_previous_word) ... ERROR
+test_no_next_fixture_false_still_clears_previous_word (tests.test_port_stage_news.TourEffects.test_no_next_fixture_false_still_clears_previous_word) ... ERROR
+test_side_b_friendly_false_preserves_real_next_fixture_write_in_failure_page (tests.test_port_stage_news.TourEffects.test_side_b_friendly_false_preserves_real_next_fixture_write_in_failure_page) ... ERROR
+
+======================================================================
+ERROR: test_failure_headline_keeps_manager_ownership_and_visits_tour_when_sacked (tests.test_port_stage_news.StageNews.test_failure_headline_keeps_manager_ownership_and_visits_tour_when_sacked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 48, in test_failure_headline_keeps_manager_ownership_and_visits_tour_when_sacked
+    m,p=self.call('000E:5E6C',(0x3F00,),specs=specs(),before=before)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_tour_helper_true_original_near_abi_and_no_duplicate_assistant_owner (tests.test_port_stage_news.StageNews.test_tour_helper_true_original_near_abi_and_no_duplicate_assistant_owner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 36, in test_tour_helper_true_original_near_abi_and_no_duplicate_assistant_owner
+    self.assertEqual(ST.PORTS.entries['000E:5DAF'].ret,'ret 2')
+                     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '000E:5DAF'
+
+======================================================================
+ERROR: test_all_three_rating_comparisons_use_actual_unmodified_country_ranks (tests.test_port_stage_news.StageNewsControl.test_all_three_rating_comparisons_use_actual_unmodified_country_ranks) (return_pc='000E:651E')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 201, in test_all_three_rating_comparisons_use_actual_unmodified_country_ranks
+    r,p,_=announce(image,[country]);self.assertEqual(p.summary()['000E:60CB']['proved'],1)
+                                                     ~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '000E:60CB'
+
+======================================================================
+ERROR: test_all_three_rating_comparisons_use_actual_unmodified_country_ranks (tests.test_port_stage_news.StageNewsControl.test_all_three_rating_comparisons_use_actual_unmodified_country_ranks) (return_pc='000E:6500')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 201, in test_all_three_rating_comparisons_use_actual_unmodified_country_ranks
+    r,p,_=announce(image,[country]);self.assertEqual(p.summary()['000E:60CB']['proved'],1)
+                                                     ~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '000E:60CB'
+
+======================================================================
+ERROR: test_all_three_rating_comparisons_use_actual_unmodified_country_ranks (tests.test_port_stage_news.StageNewsControl.test_all_three_rating_comparisons_use_actual_unmodified_country_ranks) (return_pc='000E:64C1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 201, in test_all_three_rating_comparisons_use_actual_unmodified_country_ranks
+    r,p,_=announce(image,[country]);self.assertEqual(p.summary()['000E:60CB']['proved'],1)
+                                                     ~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '000E:60CB'
+
+======================================================================
+ERROR: test_failed_group_still_calls_tour_and_preserves_ownership (tests.test_port_stage_news.StageNewsControl.test_failed_group_still_calls_tour_and_preserves_ownership)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 155, in test_failed_group_still_calls_tour_and_preserves_ownership
+    self.assertEqual(p.summary()['000E:5E6C']['nested'],1)
+                     ~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '000E:5E6C'
+
+======================================================================
+ERROR: test_host_announcement_uses_actual_original_draw_host_and_group (tests.test_port_stage_news.StageNewsControl.test_host_announcement_uses_actual_original_draw_host_and_group)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 147, in test_host_announcement_uses_actual_original_draw_host_and_group
+    self.assertEqual(p.summary()['000E:60CB']['proved'],1)
+                     ~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '000E:60CB'
+
+======================================================================
+ERROR: test_observer_on_off_preserves_full_state_keys_draws_and_records (tests.test_port_stage_news.StageNewsControl.test_observer_on_off_preserves_full_state_keys_draws_and_records)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 170, in test_observer_on_off_preserves_full_state_keys_draws_and_records
+    self.assertEqual(pa.summary()['000E:60CB']['proved'],1)
+                     ~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '000E:60CB'
+
+======================================================================
+ERROR: test_two_actual_pages_keep_each_selected_manager_then_restore_cursor (tests.test_port_stage_news.StageNewsControl.test_two_actual_pages_keep_each_selected_manager_then_restore_cursor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 138, in test_two_actual_pages_keep_each_selected_manager_then_restore_cursor
+    self.assertEqual(p.summary()['000E:60CB']['proved'],2)
+                     ~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '000E:60CB'
+
+======================================================================
+ERROR: test_competitive_next_fixture_false_still_updates_previous_word (tests.test_port_stage_news.TourEffects.test_competitive_next_fixture_false_still_updates_previous_word)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 226, in test_competitive_next_fixture_false_still_updates_previous_word
+    m,p=self.call('000E:5DAF',(0x3F00,),specs=specs(),before=before)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_no_next_fixture_false_still_clears_previous_word (tests.test_port_stage_news.TourEffects.test_no_next_fixture_false_still_clears_previous_word)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 216, in test_no_next_fixture_false_still_clears_previous_word
+    m,p=self.call('000E:5DAF',(0x3F00,),specs=specs(),before=before)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_side_b_friendly_false_preserves_real_next_fixture_write_in_failure_page (tests.test_port_stage_news.TourEffects.test_side_b_friendly_false_preserves_real_next_fixture_write_in_failure_page)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 239, in test_side_b_friendly_false_preserves_real_next_fixture_write_in_failure_page
+    self.assertEqual(p.summary()['000E:5DAF']['nested'],1)
+                     ~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '000E:5DAF'
+
+======================================================================
+FAIL: test_actual_stage_news_oracles_run_with_receipt_present_and_private_inputs_absent (tests.test_port_stage_news.CIMissingPrivateInputs.test_actual_stage_news_oracles_run_with_receipt_present_and_private_inputs_absent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 276, in test_actual_stage_news_oracles_run_with_receipt_present_and_private_inputs_absent
+    self.assertTrue(result.wasSuccessful(),str(result.errors)+str(result.failures))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : [(<tests.test_port_stage_news.StageNews testMethod=test_failure_headline_keeps_manager_ownership_and_visits_tour_when_sacked>, 'Traceback (most recent call last):\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 48, in test_failure_headline_keeps_manager_ownership_and_visits_tour_when_sacked\n    m,p=self.call(\'000E:5E6C\',(0x3F00,),specs=specs(),before=before)\n        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call\n    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far\n          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nStopIteration\n'), (<tests.test_port_stage_news.StageNews testMethod=test_tour_helper_true_original_near_abi_and_no_duplicate_assistant_owner>, 'Traceback (most recent call last):\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 36, in test_tour_helper_true_original_near_abi_and_no_duplicate_assistant_owner\n    self.assertEqual(ST.PORTS.entries[\'000E:5DAF\'].ret,\'ret 2\')\n                     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\nKeyError: \'000E:5DAF\'\n'), (<unittest.case._SubTest testMethod=runTest>, 'Traceback (most recent call last):\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 201, in test_all_three_rating_comparisons_use_actual_unmodified_country_ranks\n    r,p,_=announce(image,[country]);self.assertEqual(p.summary()[\'000E:60CB\'][\'proved\'],1)\n                                                     ~~~~~~~~~~~^^^^^^^^^^^^^\nKeyError: \'000E:60CB\'\n'), (<unittest.case._SubTest testMethod=runTest>, 'Traceback (most recent call last):\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 201, in test_all_three_rating_comparisons_use_actual_unmodified_country_ranks\n    r,p,_=announce(image,[country]);self.assertEqual(p.summary()[\'000E:60CB\'][\'proved\'],1)\n                                                     ~~~~~~~~~~~^^^^^^^^^^^^^\nKeyError: \'000E:60CB\'\n'), (<unittest.case._SubTest testMethod=runTest>, 'Traceback (most recent call last):\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 201, in test_all_three_rating_comparisons_use_actual_unmodified_country_ranks\n    r,p,_=announce(image,[country]);self.assertEqual(p.summary()[\'000E:60CB\'][\'proved\'],1)\n                                                     ~~~~~~~~~~~^^^^^^^^^^^^^\nKeyError: \'000E:60CB\'\n'), (<tests.test_port_stage_news.StageNewsControl testMethod=test_failed_group_still_calls_tour_and_preserves_ownership>, 'Traceback (most recent call last):\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 155, in test_failed_group_still_calls_tour_and_preserves_ownership\n    self.assertEqual(p.summary()[\'000E:5E6C\'][\'nested\'],1)\n                     ~~~~~~~~~~~^^^^^^^^^^^^^\nKeyError: \'000E:5E6C\'\n'), (<tests.test_port_stage_news.StageNewsControl testMethod=test_host_announcement_uses_actual_original_draw_host_and_group>, 'Traceback (most recent call last):\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 147, in test_host_announcement_uses_actual_original_draw_host_and_group\n    self.assertEqual(p.summary()[\'000E:60CB\'][\'proved\'],1)\n                     ~~~~~~~~~~~^^^^^^^^^^^^^\nKeyError: \'000E:60CB\'\n'), (<tests.test_port_stage_news.StageNewsControl testMethod=test_observer_on_off_preserves_full_state_keys_draws_and_records>, 'Traceback (most recent call last):\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 170, in test_observer_on_off_preserves_full_state_keys_draws_and_records\n    self.assertEqual(pa.summary()[\'000E:60CB\'][\'proved\'],1)\n                     ~~~~~~~~~~~~^^^^^^^^^^^^^\nKeyError: \'000E:60CB\'\n'), (<tests.test_port_stage_news.StageNewsControl testMethod=test_two_actual_pages_keep_each_selected_manager_then_restore_cursor>, 'Traceback (most recent call last):\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 138, in test_two_actual_pages_keep_each_selected_manager_then_restore_cursor\n    self.assertEqual(p.summary()[\'000E:60CB\'][\'proved\'],2)\n                     ~~~~~~~~~~~^^^^^^^^^^^^^\nKeyError: \'000E:60CB\'\n'), (<tests.test_port_stage_news.TourEffects testMethod=test_competitive_next_fixture_false_still_updates_previous_word>, 'Traceback (most recent call last):\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 226, in test_competitive_next_fixture_false_still_updates_previous_word\n    m,p=self.call(\'000E:5DAF\',(0x3F00,),specs=specs(),before=before)\n        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call\n    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far\n          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nStopIteration\n'), (<tests.test_port_stage_news.TourEffects testMethod=test_no_next_fixture_false_still_clears_previous_word>, 'Traceback (most recent call last):\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 216, in test_no_next_fixture_false_still_clears_previous_word\n    m,p=self.call(\'000E:5DAF\',(0x3F00,),specs=specs(),before=before)\n        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call\n    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far\n          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nStopIteration\n'), (<tests.test_port_stage_news.TourEffects testMethod=test_side_b_friendly_false_preserves_real_next_fixture_write_in_failure_page>, 'Traceback (most recent call last):\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 239, in test_side_b_friendly_false_preserves_real_next_fixture_write_in_failure_page\n    self.assertEqual(p.summary()[\'000E:5DAF\'][\'nested\'],1)\n                     ~~~~~~~~~~~^^^^^^^^^^^^^\nKeyError: \'000E:5DAF\'\n')][(<tests.test_port_stage_news.StageNewsControl testMethod=test_news_draw_and_cursor_restoration_falsifiers_are_caught>, 'Traceback (most recent call last):\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 181, in test_news_draw_and_cursor_restoration_falsifiers_are_caught\n    with self.assertRaises(ProofError):announce(image,[country],variant=\'stage-news-draw-dropped\',setup=failure)\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ProofError not raised\n')]
+
+======================================================================
+FAIL: test_news_draw_and_cursor_restoration_falsifiers_are_caught (tests.test_port_stage_news.StageNewsControl.test_news_draw_and_cursor_restoration_falsifiers_are_caught)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 181, in test_news_draw_and_cursor_restoration_falsifiers_are_caught
+    with self.assertRaises(ProofError):announce(image,[country],variant='stage-news-draw-dropped',setup=failure)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ProofError not raised
+
+----------------------------------------------------------------------
+Ran 13 tests in 25.458s
+
+FAILED (failures=2, errors=12)
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T124e/before.py", line 25, in <module>
+    assert result.testsRun==len(expected)==13 and failed==expected and not result.skipped,(expected-failed,failed-expected,result.testsRun,result.skipped)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ({'tests.test_port_stage_news.StageNewsControl.test_tour_next_fixture_write_falsifier_is_caught_in_announcements'}, set(), 13, [])
