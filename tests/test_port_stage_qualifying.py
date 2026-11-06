@@ -56,7 +56,7 @@ class Rankings(_Calls):
                 m,p=self.call("1771:5FD1", (1,600,2,flag,0x3E80),before=before)
                 self.proved(p,"1771:5FD1")
                 cp=m.far(ST.COUNTRIES)+191
-                self.assertEqual(m.word_at(cp+47),564)
+                self.assertEqual(m.word_at(cp+47),820 if flag == 255 else 564)  # signed -1 counter aliases high points byte
                 self.assertEqual(m.read(cp+50+4*(flag if flag<128 else flag-256)+2,1),bytes([0]))
 
     def test_world_and_continent_placement_bonuses_real_winner_loser_calls(self):

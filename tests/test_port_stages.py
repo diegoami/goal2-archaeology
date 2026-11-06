@@ -1,7 +1,7 @@
 """runtime/original_match/port/stages.py (T124a, #427): stage_end 1771:8208's own part, run_stage 76B1's dispatch and
 the builders' shared helpers 5D02, 5D94, 5E3A, 5E99, 6617, each proved against the original by port/prove.py.
 
-- RegistryTests (no emulator): the module ports exactly T124a's seven routines with the listing's returns; 5C94 and
+- RegistryTests (no emulator): the module ports exactly T124a's seven plus T124b1's seven routines with the listing's returns; 5C94 and
   5CCB stay display's (one port a routine), and display_helpers() gives those two entries alone, installable beside
   stages.
 - DirectProofTests (unicorn and the published E006-r0001 state, `.cache/dl`, as tests/test_route_harness.py; skipped
@@ -46,10 +46,12 @@ RET = {"1771:8208": "000E:70EB", "1771:76B1": "000E:70F9",      # play_round 70E
 
 
 class RegistryTests(unittest.TestCase):
-    def test_the_seven_routines_with_the_listings_returns(self):
+    def test_the_fourteen_routines_with_the_listings_returns(self):
         self.assertEqual({a: e.ret for a, e in ST.PORTS.entries.items()},
                          {"1771:8208": "retf", "1771:76B1": "retf", "1771:5D02": "ret 4", "1771:5D94": "ret 8",
-                          "1771:5E3A": "ret 0xa", "1771:5E99": "ret 2", "1771:6617": "ret 2"})
+                          "1771:5E3A": "ret 0xa", "1771:5E99": "ret 2", "1771:6617": "ret 2",
+                          "1771:114B": "retf 2", "1771:5EE1": "ret 6", "1771:5FD1": "ret 0xa",
+                          "1771:602D": "ret 2", "1771:6103": "ret 2", "1771:61F8": "ret 2", "1771:63A4": "ret"})
 
     def test_5C94_and_5CCB_are_displays_and_installable_beside_stages(self):
         from original_match import port
