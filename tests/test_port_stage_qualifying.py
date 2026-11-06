@@ -157,7 +157,7 @@ class Draw(_Calls):
         for mode in (0,1):
             with self.subTest(mode=mode):
                 m,p=self.call('1771:6730',game={0x38:0,0x39:0,0x3C:2 if mode==0 else 5,0x40:mode},
-                              specs=('stages','runtime'))
+                              specs=('stages','runtime','entrypoints'))
                 self.proved(p,'1771:6730')
                 summary=p.summary()
                 self.assertEqual(summary['23E4:11D7']['nested'],1)
@@ -169,4 +169,4 @@ class Draw(_Calls):
         for variant in ('qualifying-draw-order-reversed','qualifying-group-plus-one'):
             with self.subTest(variant=variant),self.assertRaises(ProofError):
                 self.call('1771:6730',game={0x38:0,0x39:0,0x3C:2,0x40:0},
-                          specs=((ST.PORTS,variant),'runtime'))
+                          specs=((ST.PORTS,variant),'runtime','entrypoints'))

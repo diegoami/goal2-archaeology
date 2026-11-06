@@ -900,3 +900,397 @@ def recompute_country_ranks(mem, variant):
         _local_far(mem, r, -0xC)
         w16(mem, r, 0x2F, r.ax, "1771:6605")
     return _end(r)
+
+# -- qualifying draw/calendar and bounded reference seed service: T124b2 ---------------------------------------------
+# [confirmed: F023/F004; named1771_04/05 and raw1771_08 56E4..577E,
+# raw1771_09 6730..6B54; raw23E4_02 11D7..11E3; Machine's swallowed INT21].
+PORTS.variant("qualifying-draw-order-reversed", "67F5..685A: shuffle the sixteen pots in reverse block order")
+PORTS.variant("qualifying-group-plus-one", "6B2A: qualifying fixture group argument incremented")
+
+
+@PORTS.port("1771:56E4", ret="ret 2")
+def continent_order_offset(mem, variant):
+    """Word-wrapping (continent-1)*32; CX=5 from the actual shift (56E4..56FC)."""
+    r=Regs(mem)
+    r.enter(2)
+    r.ax=ss16(mem,r,r.bp+4)
+    r.ax=r.ax-1
+    r.cx=5
+    r.ax=r.ax<<5
+    r.local16(-2,r.ax)
+    r.ax=ss16(mem,r,r.bp-2)
+    return _end(r,True)
+
+
+@PORTS.port("1771:56FF", ret="ret")
+def build_draw_order(mem, variant):
+    """Mode0 copies129 bytes including sentinel; mode1 stably filters world order per continent (56FF..577E).
+
+    The copy's real returned CX (zero) and mode1's unchanged CX are preserved:
+    6730's initial-year path passes that value to the reference seed service.
+    """
+    r=Regs(mem)
+    r.enter(6)
+    _far(mem,r,GAME)
+    if rb(mem,r,0x40)==0:
+        r.di=0x9C7E
+        src=(mem.reg('ds'),r.di)
+        r.di=0x9CFF
+        dst=(mem.reg('ds'),r.di)
+        r.ax=0x81
+        r=yield from guest(mem,r,'214B:003C',*src,*dst,r.ax,ret='1771:5723')
+    else:
+        r.ax=0
+        r.local16(-4,0)
+        for continent in range(1,5):
+            r.local16(-6,continent)
+            for index in range(1,129):
+                r.local16(-2,index)
+                r.di=ss16(mem,r,r.bp-2)
+                r.al=mem.ds8(r.di+0x9BFD)
+                r.ah=0
+                _country_record(mem,r,r.ax)
+                r.al=rb(mem,r,0x2C)
+                r.ah=0
+                if r.ax==ss16(mem,r,r.bp-6):
+                    r.local16(-4,ss16(mem,r,r.bp-4)+1)
+                    r.di=ss16(mem,r,r.bp-2)
+                    r.al=mem.ds8(r.di+0x9BFD)
+                    r.di=ss16(mem,r,r.bp-4)
+                    mem.wds8((r.di+0x9CFF)&M16,r.al,'1771:576A')
+    return _end(r)
+
+
+@PORTS.port("23E4:11D7", ret="retf")
+def reference_seed_from_registers(mem, variant):
+    """Reference Machine swallows INT21: AH=2C, CX→7B62 then DX→7B64 (11D7..11E3).
+
+    [confirmed: listing and machine.py interrupt hook] This preserves that bounded
+    machine service, not DOS wall-clock time. No host time or invented reseed.
+    """
+    r=Regs(mem)
+    r.ah=0x2C
+    mem.wds16(0x7B62,r.cx,'23E4:11DB')
+    mem.wds16(0x7B64,r.dx,'23E4:11DF')
+    r.store()
+
+
+def _qualifying_table(mem,r):
+    """69D4..6A06: group at the two loop locals, first entry country word +0."""
+    r.ax=ss16(mem,r,r.bp-4)
+    r.dx=0x38
+    mul(r,r.dx)
+    r.bx=r.ax
+    r.ax=ss16(mem,r,r.bp-2)
+    r.dx=0x1C0
+    mul(r,r.dx)
+    r.cx=r.ax
+    _local_far(mem,r,-0x10)
+    r.al=rb(mem,r,0x40)
+    cbw(r)
+    r.dx=0xE00
+    mul(r,r.dx)
+    _far(mem,r,TABLES)
+    r.di=r.di+r.ax+r.cx+r.bx+0xFE08
+    _keep(r,-0x14)
+
+
+def _round_pair_index(mem,r):
+    """6A2A..6A38 / 6A63..6A71, the table index group*6+round."""
+    r.ax=ss16(mem,r,r.bp-6)
+    r.di=ss16(mem,r,r.bp-4)
+    r.di=r.di<<1
+    r.si=r.di
+    r.di=r.di<<1
+    r.di=r.di+r.si+r.ax
+
+
+@PORTS.port("1771:6730", ret="ret")
+def stage_qualifying(mem,variant):
+    """The complete qualifying builder, preserving all original helpers/draws/frames (6730..6B54)."""
+    r=Regs(mem)
+    r.enter(0x18)
+    _far(mem,r,GAME)
+    _keep(r,-0x10)
+    _local_far(mem,r,-0x10)
+    r.di=r.di+0x14
+    dst=(r.es,r.di)
+    r.ax=6
+    size=r.ax
+    r.ax=0
+    r=yield from guest(mem,r,'214B:0018',*dst,size,r.ax,ret='1771:6755')
+    r=yield from guest(mem,r,'1771:56FF',ret='1771:6758',far=False)
+    _local_far(mem,r,-0x10)
+    if rw(mem,r,0x38)>0:
+        r=yield from guest(mem,r,'1771:63A4',ret='1771:6765',far=False)
+    else:
+        for country in range(1,129):
+            r.local16(-6,country)
+            _country_record(mem,r,ss16(mem,r,r.bp-6))
+            _keep(r,-0x14)
+            _local_far(mem,r,-0x14)
+            r.al=rb(mem,r,0x2C)
+            r.ah=0
+            r.dx=r.ax
+            r.ax=5
+            r.ax=r.ax-r.dx
+            _local_far(mem,r,-0x14)
+            w16(mem,r,0x2F,r.ax,'1771:6798')
+        r=yield from guest(mem,r,'23E4:11D7',ret='1771:67A8')
+    _local_far(mem,r,-0x10)
+    r.al=rb(mem,r,0x40)
+    cbw(r)
+    r.di=r.ax
+    r.di=r.di<<1
+    r.ax=mem.ds16(r.di+0x6936)
+    _local_far(mem,r,-0x10)
+    w16(mem,r,0x28,r.ax,'1771:67BB')
+    _local_far(mem,r,-0x10)
+    r.ax=rw(mem,r,0x28)
+    _local_far(mem,r,-0x10)
+    w16(mem,r,0x26,r.ax,'1771:67C9')
+    _local_far(mem,r,-0x10)
+    r.al=rb(mem,r,0x40)
+    cbw(r)
+    r.dx=0xE00
+    mul(r,r.dx)
+    _far(mem,r,TABLES)
+    r.di=r.di+r.ax
+    dst=(r.es,r.di)
+    r.ax=0xE00
+    size=r.ax
+    r.ax=0
+    r=yield from guest(mem,r,'214B:0018',*dst,size,r.ax,ret='1771:67EE')
+    r.ax=1
+    r=yield from guest(mem,r,'1771:5E99',r.ax,ret='1771:67F5',far=False)
+    r.ax=0
+    r.local16(-0xC,0)
+    blocks=range(0x78,-1,-8) if variant=='qualifying-draw-order-reversed' else range(0,0x80,8)
+    for block in blocks:
+        r.local16(-0xC,block)
+        for swap in range(1,5):
+            r.local16(-2,swap)
+            r.ax=8
+            r=yield from guest(mem,r,'214B:06B1',r.ax,ret='1771:680D')
+            r.dx=0xFFFF if r.ax&0x8000 else 0                  # 680D CWD
+            r.cx,r.bx=r.ax,r.dx
+            r.ax=ss16(mem,r,r.bp-0xC)
+            r.dx=0
+            total=r.ax+r.cx
+            r.ax=total
+            r.dx=r.dx+r.bx+(total>>16)
+            r.di=r.ax
+            r.di=r.di+0x9CFF
+            # First far pointer is already pushed while the SECOND RNG executes.
+            # Restore SP before issuing all swap arguments, reproducing those same slots.
+            first=(mem.reg('ds'),r.di)
+            r.push(first[0]);r.push(first[1])                 # 6821..6822
+            r.ax=8
+            r=yield from guest(mem,r,'214B:06B1',r.ax,ret='1771:682C')
+            r.dx=0xFFFF if r.ax&0x8000 else 0
+            r.cx,r.bx=r.ax,r.dx
+            r.ax=ss16(mem,r,r.bp-0xC)
+            r.dx=0
+            total=r.ax+r.cx
+            r.ax=total
+            r.dx=r.dx+r.bx+(total>>16)
+            r.di=r.ax
+            r.di=r.di+0x9CFF
+            second=(mem.reg('ds'),r.di)
+            first_off=pop(mem,r);first_seg=pop(mem,r)
+            r.ax=1
+            r=yield from guest(mem,r,'214B:007B',first_seg,first_off,*second,r.ax,ret='1771:684B')
+        r.local16(-0xC,ss16(mem,r,r.bp-0xC)+8)                 # 6851, final128 too
+    _local_far(mem,r,-0x10)
+    if rb(mem,r,0x40)!=0:
+        _local_far(mem,r,-0x10)
+        r.ax=0
+        w16(mem,r,0x36,r.ax,'1771:686B')
+    else:
+        for continent in range(1,5):
+            r.local16(-2,continent)
+            r.ax=ss16(mem,r,r.bp-2)
+            r.ax=r.ax<<1
+            _local_far(mem,r,-0x10)
+            r.di=r.di+r.ax
+            r.ax=0
+            w16(mem,r,0x2C,r.ax,'1771:6887')
+    _local_far(mem,r,-0x10)
+    if rb(mem,r,0x40)!=0:
+        _far(mem,r,0xA93F)
+        r.di=r.di+0x180
+        dst=(r.es,r.di)
+        r.ax=0x60
+        size=r.ax
+        r.ax=0
+        r=yield from guest(mem,r,'214B:0018',*dst,size,r.ax,ret='1771:68B1')
+    else:
+        _far(mem,r,0xA93F)
+        dst=(r.es,r.di)
+        r.ax=0x180
+        size=r.ax
+        r.ax=0
+        r=yield from guest(mem,r,'214B:0018',*dst,size,r.ax,ret='1771:68C5')
+    for continent in range(1,5):
+        r.local16(-2,continent)
+        for group in range(1,9):
+            r.local16(-6,group)
+            r.ax=4
+            r=yield from guest(mem,r,'214B:06B1',r.ax,ret='1771:68E2')
+            r.local16(-0xA,r.ax)
+            for place in range(1,5):
+                r.local16(-8,place)
+                r.ax=ss16(mem,r,r.bp-8)
+                r.di=ss16(mem,r,r.bp-0xA)
+                r.di=r.di<<2
+                r.di=r.di+r.ax
+                r.al=mem.ds8(r.di+0x0F71)
+                r.ah=0
+                _set_cl(r,3)
+                r.ax=r.ax<<3
+                r.push(r.ax)
+                r.ax=ss16(mem,r,r.bp-6)
+                r.dx=0x38
+                mul(r,r.dx)
+                r.bx=r.ax
+                r.ax=ss16(mem,r,r.bp-2)
+                r.dx=0x1C0
+                mul(r,r.dx)
+                r.cx=r.ax
+                _local_far(mem,r,-0x10)
+                r.al=rb(mem,r,0x40)
+                cbw(r)
+                r.dx=0xE00
+                mul(r,r.dx)
+                _far(mem,r,TABLES)
+                r.di=r.di+r.ax+r.cx+r.bx
+                r.ax=pop(mem,r)
+                r.di=r.di+r.ax+0xFE00
+                _keep(r,-0x14)
+                r=yield from guest(mem,r,'1771:56E4',ss16(mem,r,r.bp-2),ret='1771:6944',far=False)
+                r.dx=r.ax
+                r.ax=ss16(mem,r,r.bp-8)
+                r.ax=r.ax-1
+                r.cx=3
+                r.ax=r.ax<<3
+                r.ax=r.ax+r.dx+ss16(mem,r,r.bp-6)
+                r.di=r.ax
+                r.al=mem.ds8(r.di+0x9CFF)
+                r.ah=0
+                _local_far(mem,r,-0x14)
+                w16(mem,r,0,r.ax,'1771:695F')
+                _local_far(mem,r,-0x14)
+                _country_record(mem,r,rw(mem,r,0))
+                _keep(r,-0x18)
+                _local_far(mem,r,-0x18)
+                if rb(mem,r,0x2E)>0x80:
+                    _set_dl(r,ss8(mem,r,r.bp-6))
+                    _local_far(mem,r,-0x18)
+                    r.al=rb(mem,r,0x2E)
+                    r.ah=0
+                    r.ax=r.ax-0x80
+                    _local_far(mem,r,-0x10)
+                    r.di=r.di+r.ax
+                    w8(mem,r,1,r.dx&255,'1771:6997')
+    for round_ in range(1,13):
+        r.local16(-6,round_)
+        for continent in range(1,5):
+            r.local16(-2,continent)
+            for group in range(1,9):
+                r.local16(-4,group)
+                _qualifying_table(mem,r)
+                _local_far(mem,r,-0x10)
+                r.al=int(rb(mem,r,0x40)==0)
+                cbw(r)
+                r.di=r.ax
+                r.al=mem.ds8(r.di+0x1106)
+                r.ah=0
+                friendly=False
+                if r.ax>ss16(mem,r,r.bp-6):
+                    _round_pair_index(mem,r)
+                    friendly=mem.ds8(r.di+0x1087)>0
+                if friendly:
+                    for place in range(1,5):
+                        r.local16(-8,place)
+                        r.ax=ss16(mem,r,r.bp-8)
+                        _set_cl(r,3)
+                        r.ax=r.ax<<3
+                        _local_far(mem,r,-0x14)
+                        r.di=r.di+r.ax
+                        first=rw(mem,r,-8)
+                        r.push(first)                             # 6A57 first country
+                        r.ax=ss16(mem,r,r.bp-8)
+                        _set_cl(r,3)
+                        r.ax=r.ax<<3
+                        r.push(r.ax)                              # 6A62 temporary8*place
+                        _round_pair_index(mem,r)
+                        r.al=mem.ds8(r.di+0x1087)
+                        r.ah=0
+                        r.dx=0x38
+                        mul(r,r.dx)
+                        r.bx=r.ax
+                        r.ax=ss16(mem,r,r.bp-2)
+                        r.dx=0x1C0
+                        mul(r,r.dx)
+                        r.cx=r.ax
+                        _local_far(mem,r,-0x10)
+                        r.al=rb(mem,r,0x40)
+                        cbw(r)
+                        r.dx=0xE00
+                        mul(r,r.dx)
+                        _far(mem,r,TABLES)
+                        r.di=r.di+r.ax+r.cx+r.bx
+                        r.ax=pop(mem,r)
+                        r.di=r.di+r.ax
+                        second=rw(mem,r,-0x200)
+                        first=pop(mem,r)
+                        r.ax=1
+                        kind=r.ax
+                        r.ax=0
+                        r=yield from guest(mem,r,'1771:5D94',first,second,kind,r.ax,ret='1771:6AB3',far=False)
+                _local_far(mem,r,-0x10)
+                r.dx=rw(mem,r,0x28)
+                r.ax=ss16(mem,r,r.bp-6)
+                r.ax=r.ax<<1
+                _local_far(mem,r,-0x14)
+                r.di=r.di+r.ax
+                w16(mem,r,0x1E,r.dx,'1771:6ACA')
+                r.ax=ss16(mem,r,r.bp-6)
+                r.ax=r.ax<<1
+                r.cx=r.ax
+                r.ax=ss16(mem,r,r.bp-4)+ss16(mem,r,r.bp-2)
+                r.dx=0x18
+                mul(r,r.dx)
+                r.di=r.ax
+                r.di=r.di+r.cx
+                r.al=mem.ds8(r.di+0x0F55)
+                r.ah=0
+                _set_cl(r,3)
+                r.ax=r.ax<<3
+                _local_far(mem,r,-0x14)
+                r.di=r.di+r.ax
+                first=rw(mem,r,-8)
+                r.ax=ss16(mem,r,r.bp-6)
+                r.ax=r.ax<<1
+                r.cx=r.ax
+                r.ax=ss16(mem,r,r.bp-4)+ss16(mem,r,r.bp-2)
+                r.dx=0x18
+                mul(r,r.dx)
+                r.di=r.ax
+                r.di=r.di+r.cx
+                r.al=mem.ds8(r.di+0x0F54)
+                r.ah=0
+                _set_cl(r,3)
+                r.ax=r.ax<<3
+                _local_far(mem,r,-0x14)
+                r.di=r.di+r.ax
+                second=rw(mem,r,-8)
+                _local_far(mem,r,-0x10)
+                r.al=rb(mem,r,0x3C)
+                r.ah=0
+                kind=r.ax
+                group_arg=ss16(mem,r,r.bp-4)+(1 if variant=='qualifying-group-plus-one' else 0)
+                r=yield from guest(mem,r,'1771:5D94',first,second,kind,group_arg,ret='1771:6B30',far=False)
+    r.al=0                                                       # 6B4B: preserve AH
+    r=yield from guest(mem,r,'1771:6617',r.ax,ret='1771:6B51',far=False)
+    return _end(r)
