@@ -10,7 +10,7 @@ def rows(name):return [json.loads(l) for l in (HERE/name).read_text().splitlines
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--private',action='store_true');a=ap.parse_args()
-    index=json.loads((HERE/'acceptance/index.json').read_text())
+    index=json.loads((HERE/'acceptance-v2/index.json').read_text())
     for group in ('sources','receipts'):
         for name,h in index[group].items():assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==h,name
     natural=rows('natural-inputs-v1.jsonl');assert natural[-1]['status']=='completed'
@@ -29,7 +29,7 @@ def main():
         assert {d['value'] for v in direct for d in v.get('draws',[]) if d['return']==site and 'value'in d}==set(range(1,n+1))
     for name in ('natural-host-mutant-v1.jsonl','natural-third-mutant-v1.jsonl','controlled-mark-mutant-v1.jsonl'):
         assert rows(name)[-1]['status']=='falsifier_caught'
-    controlled=rows('controlled-playoffs-v1.jsonl');paired=next(v for v in controlled if v['status']=='paired-playoffs')
+    controlled=rows('controlled-playoffs-v1.jsonl');paired=next(v for v in controlled if v.get('status')=='paired-playoffs')
     assert paired['all_memory_equal'] and paired['records_equal'] and not paired['returned_register_differences']
     assert controlled[-1]['status']=='completed' and '000E:706E' in controlled[-1]['outer_finalizer_visits']
     corrected=rows('corrected-synthetic-v1.jsonl');assert corrected[-1]['status']=='completed' and corrected[-1]['fixtures']==1040

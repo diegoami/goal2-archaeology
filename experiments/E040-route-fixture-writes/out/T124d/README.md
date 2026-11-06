@@ -116,3 +116,10 @@ live/caller writes, existing dead/scratch handling, no new exemption. Extra full
 memory/all-register equality is measured only where explicitly reported. Original
 ageing/rollover remain reference code; T124f and sealed-route acceptance are still
 required. Model: inherited Codex GPT-6 family; exact variant unavailable.
+
+
+Acceptance packaging: `acceptance/index.json` is retained as first-version
+calibration. Its verifier accessed a header's absent status key; the packaging
+shell then committed despite that failure. No runtime or measured proof changed.
+The corrected verifier uses `.get`, and **acceptance-v2/index.json** is the final
+source-bound index. The earlier index/log remain untouched, not accepted as final.
