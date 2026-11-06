@@ -14,6 +14,7 @@ from pathlib import Path
 import subprocess
 import sys
 import time
+from collections import Counter
 
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[3]
 sys.path[:0]=[str(ROOT),str(ROOT/'runtime')]
@@ -79,6 +80,33 @@ def specs(variant=None):
 def returned(m):return {reg:m.reg(reg) for reg in REGS}
 
 
+def observe_draws(m):
+    """Actual06B1 caller frames and returned choices, not reconstructed seed predictions."""
+    trace=[]
+    sites={'1771:680D':8,'1771:682C':8,'1771:68E2':4}
+    def entry(replay):
+        if replay:return
+        stack=m.reg('ss')*16+m.reg('sp')
+        ret=m.where(m.word_at(stack+2),m.word_at(stack))
+        if ret in sites:
+            trace.append({'return':ret,'bound':m.word_at(stack+4),'seed_before':m.rd(0x7B62)})
+    m.at('214B:06B1',entry)
+    for site in sites:
+        def returned(replay,site=site):
+            if not replay:
+                assert trace and trace[-1]['return']==site and 'value' not in trace[-1]
+                trace[-1].update(value=m.reg('ax'),seed_after=m.rd(0x7B62))
+        m.at(site,returned)
+    return trace
+
+
+def check_draws(trace):
+    counts=Counter(v['return'] for v in trace)
+    assert counts=={'1771:680D':64,'1771:682C':64,'1771:68E2':32},counts
+    assert all(v['bound']==(4 if v['return']=='1771:68E2' else 8) and 1<=v['value']<=v['bound'] for v in trace)
+    return dict(counts)
+
+
 def paired(f,kind,variant):
     if kind=='natural':
         make=lambda:B1.route_from_checkpoint()[0]
@@ -93,8 +121,9 @@ def paired(f,kind,variant):
         make=lambda:WORLD.load(cp)
         description='declared synthetic world: original-built/results lineage B1worldv4; actualplay_round8->2'
     start=time.monotonic();reference=make();before=game(reference.m)
+    reference_draws=observe_draws(reference.m)
     reference.round()
-    r=make();inst=port.install(r.m,specs(variant));p=Prover(r.m,inst)
+    r=make();draws=observe_draws(r.m);inst=port.install(r.m,specs(variant));p=Prover(r.m,inst)
     try:r.round()
     except ProofError as exc:
         emit(f,{'case':kind,'status':'falsifier_caught','variant':variant,'difference':str(exc),
@@ -104,6 +133,8 @@ def paired(f,kind,variant):
     assert not variant,'mutant not caught'
     assert digests(r.m)==digests(reference.m),'full country/manager/game/calendar records differ'
     assert r.record==reference.record,'full ordered RNG/key/team/match/events differ'
+    assert draws==reference_draws,'ordered RNG call-site/bound/value stream differs'
+    draw_counts=check_draws(draws)
     a,b=reference.m.read(0,MEM_SIZE),r.m.read(0,MEM_SIZE)
     spans=[]
     for i,(x,y) in enumerate(zip(a,b)):
@@ -114,7 +145,9 @@ def paired(f,kind,variant):
     emit(f,{'case':kind,'status':'completed','input_kind':description,
          'checkpoint_sha256':cp['sha256'],'start':before,'end':game(r.m),
          'summary':p.summary(),'calls':dict(inst.calls),'installed':sorted(p.names),
-         'records_equal':True,'record_hashes':digests(r.m),'all_memory_equal':a==b,
+         'records_equal':True,'record_hashes':digests(r.m),
+         'ordered_record_sha256':sha(json.dumps(public_record(r.record),sort_keys=True).encode()),
+         'draws':draws,'draw_site_counts':draw_counts,'all_memory_equal':a==b,
          'memory_difference_spans':spans,'returned_register_differences':diff,
          'waiting_key_equal':reference.keys.waiting==r.keys.waiting,
          'elapsed_s':round(time.monotonic()-start,4)})
@@ -135,6 +168,7 @@ def direct(f):
         before=kw.get('before')
         def input_hash(m):
             if before:before(m)
+            if target=='1771:6730':row['draws']=observe_draws(m)
             row['input_memory_before_declared_call_frame_sha256']=sha(m.read(0,MEM_SIZE))
             row['seed_service_entries']=[]
             row['seed_service_returns']=[]
@@ -161,6 +195,7 @@ def direct(f):
                 incoming=row['seed_service_entries'][0];saved=row['seed_service_returns'][0]
                 assert (incoming['cx'],incoming['dx'])==(saved['seed_7B62'],saved['seed_7B64'])
                 assert saved['ax']==(0x2C00|(incoming['ax']&255))
+            if target=='1771:6730':row['draw_site_counts']=check_draws(row['draws'])
             row.update(status='proved',summary=p.summary(),end=game(m),record_hashes=digests(m),
                        returned=returned(m),elapsed_s=round(time.monotonic()-start,4))
             emit(f,row);return m,p
