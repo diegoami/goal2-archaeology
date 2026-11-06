@@ -141,14 +141,17 @@ def prepare(out):
             all_squads_before=sha(b''.join(r.m.read(r.m.far(stages.COUNTRIES)+191*i,40) for i in range(129)))
             constructed=build(r,stage,rounds) if stage else {'before':before,'edits':[],'after':before}
             simulated=simulate_calendar(r)
-            assert managers(r)==tags,'preparation changed manager count/tags or managed squad words'
+            after_tags=managers(r)
+            assert {k:v for k,v in after_tags.items() if k!='managed_squads_sha256'}=={k:v for k,v in tags.items() if k!='managed_squads_sha256'},'preparation changed manager count or country ownership tags'
             cp=checkpoint(r,label)
             emit(f,{'status':'prepared-step','step':index,'label':label,'constructor':constructed,
                 'silent_updates':simulated,'checkpoint':cp,'record_hashes':digests(r.m),
-                'manager_and_squad_invariants':tags,
+                'manager_invariants':{k:v for k,v in tags.items() if k!='managed_squads_sha256'},
+                'managed_squads_before_sha256':tags['managed_squads_sha256'],
+                'managed_squads_after_sha256':after_tags['managed_squads_sha256'],
                 'all_squads_before_sha256':all_squads_before,
                 'all_squads_after_sha256':sha(b''.join(r.m.read(r.m.far(stages.COUNTRIES)+191*i,40) for i in range(129))),
-                'computer_squad_changes':'original A3DE calls B11F/52CC only when0B77 false; managed squads invariant',
+                'squad_changes':'original A3DE->B11F/52CC computer selection and original6970->BC5D->52CC BOTH sides, including managed; no host edits',
                 'end':game(r.m),'elapsed_s':round(time.monotonic()-start,4)})
         assert game(r.m)['stage']==8 and game(r.m)['rounds']==1
         assert game(r.m)['cursor']==game(r.m)['count']
