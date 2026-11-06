@@ -136,6 +136,16 @@ def direct(f):
         def input_hash(m):
             if before:before(m)
             row['input_memory_before_declared_call_frame_sha256']=sha(m.read(0,MEM_SIZE))
+            row['seed_service_entries']=[]
+            row['seed_service_returns']=[]
+            def entry(replay):
+                if not replay:row['seed_service_entries'].append({n:m.reg(n) for n in ('ax','cx','dx','sp','bp','ss','ds')})
+            def after(replay):
+                if not replay:row['seed_service_returns'].append({'ax':m.reg('ax'),'cx':m.reg('cx'),'dx':m.reg('dx'),
+                    'seed_7B62':m.rd(0x7B62),'seed_7B64':m.rd(0x7B64)})
+            if target in ('1771:6730','23E4:11D7'):
+                m.at('23E4:11D7',entry)
+                m.at('1771:67A8',after)
         kw['before']=input_hash
         # Force ALL real library helper implementations in whole initial-year
         # builder cases and reuse exact same complete callee set as route proof.
@@ -146,6 +156,11 @@ def direct(f):
             kw['specs']=specs(variant)
         try:
             m,p=raw(target,args,**kw)
+            if row['seed_service_entries']:
+                assert len(row['seed_service_entries'])==len(row['seed_service_returns'])==1
+                incoming=row['seed_service_entries'][0];saved=row['seed_service_returns'][0]
+                assert (incoming['cx'],incoming['dx'])==(saved['seed_7B62'],saved['seed_7B64'])
+                assert saved['ax']==(0x2C00|(incoming['ax']&255))
             row.update(status='proved',summary=p.summary(),end=game(m),record_hashes=digests(m),
                        returned=returned(m),elapsed_s=round(time.monotonic()-start,4))
             emit(f,row);return m,p
