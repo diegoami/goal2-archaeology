@@ -1,0 +1,14 @@
+F.......
+======================================================================
+FAIL: test_bonus_wraps_points_and_counter_and_signed_flag (tests.test_port_stage_qualifying.Rankings.test_bonus_wraps_points_and_counter_and_signed_flag) (flag=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_qualifying.py", line 59, in test_bonus_wraps_points_and_counter_and_signed_flag
+    self.assertEqual(m.word_at(cp+47),564)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 820 != 564
+
+----------------------------------------------------------------------
+Ran 8 tests in 3.465s
+
+FAILED (failures=1)

@@ -1,0 +1,175 @@
+{
+  "source_sha256": "ce488fac5836cc1320f49daacf56d0ff9abf81567b5567620f57807f2f5873a1",
+  "static_call_sites": 28,
+  "targets_far_frames_returnPCs_argument_cleanup": "all match original listing and real registry",
+  "sites": {
+    "1771:5F92": {
+      "target": "214B:007B",
+      "far": true,
+      "site": "1771:5F8D",
+      "argument_words": 5
+    },
+    "1771:5FB7": {
+      "target": "1771:5EE1",
+      "far": false,
+      "site": "1771:5FB4",
+      "argument_words": 3
+    },
+    "1771:5FCB": {
+      "target": "1771:5EE1",
+      "far": false,
+      "site": "1771:5FC8",
+      "argument_words": 3
+    },
+    "1771:605B": {
+      "target": "1771:5C94",
+      "far": true,
+      "site": "1771:6058",
+      "argument_words": 2
+    },
+    "1771:606D": {
+      "target": "1771:5FD1",
+      "far": false,
+      "site": "1771:606A",
+      "argument_words": 5
+    },
+    "1771:608B": {
+      "target": "1771:5CCB",
+      "far": true,
+      "site": "1771:6088",
+      "argument_words": 2
+    },
+    "1771:609D": {
+      "target": "1771:5FD1",
+      "far": false,
+      "site": "1771:609A",
+      "argument_words": 5
+    },
+    "1771:60BB": {
+      "target": "1771:5C94",
+      "far": true,
+      "site": "1771:60B8",
+      "argument_words": 2
+    },
+    "1771:60CD": {
+      "target": "1771:5FD1",
+      "far": false,
+      "site": "1771:60CA",
+      "argument_words": 5
+    },
+    "1771:60EB": {
+      "target": "1771:5CCB",
+      "far": true,
+      "site": "1771:60E8",
+      "argument_words": 2
+    },
+    "1771:60FD": {
+      "target": "1771:5FD1",
+      "far": false,
+      "site": "1771:60FA",
+      "argument_words": 5
+    },
+    "1771:6150": {
+      "target": "1771:5C94",
+      "far": true,
+      "site": "1771:614D",
+      "argument_words": 2
+    },
+    "1771:6162": {
+      "target": "1771:5FD1",
+      "far": false,
+      "site": "1771:615F",
+      "argument_words": 5
+    },
+    "1771:617D": {
+      "target": "1771:5CCB",
+      "far": true,
+      "site": "1771:617A",
+      "argument_words": 2
+    },
+    "1771:618F": {
+      "target": "1771:5FD1",
+      "far": false,
+      "site": "1771:618C",
+      "argument_words": 5
+    },
+    "1771:61AA": {
+      "target": "1771:5C94",
+      "far": true,
+      "site": "1771:61A7",
+      "argument_words": 2
+    },
+    "1771:61BC": {
+      "target": "1771:5FD1",
+      "far": false,
+      "site": "1771:61B9",
+      "argument_words": 5
+    },
+    "1771:61D7": {
+      "target": "1771:5CCB",
+      "far": true,
+      "site": "1771:61D4",
+      "argument_words": 2
+    },
+    "1771:61E9": {
+      "target": "1771:5FD1",
+      "far": false,
+      "site": "1771:61E6",
+      "argument_words": 5
+    },
+    "1771:63C2": {
+      "target": "1771:6103",
+      "far": false,
+      "site": "1771:63BF",
+      "argument_words": 1
+    },
+    "1771:63C8": {
+      "target": "1771:602D",
+      "far": false,
+      "site": "1771:63C5",
+      "argument_words": 1
+    },
+    "1771:63CC": {
+      "target": "1771:61F8",
+      "far": false,
+      "site": "1771:63C9",
+      "argument_words": 1
+    },
+    "1771:6406": {
+      "target": "1771:5EE1",
+      "far": false,
+      "site": "1771:6403",
+      "argument_words": 3
+    },
+    "1771:642D": {
+      "target": "1771:5EE1",
+      "far": false,
+      "site": "1771:642A",
+      "argument_words": 3
+    },
+    "1771:646F": {
+      "target": "1771:0B77",
+      "far": true,
+      "site": "1771:646C",
+      "argument_words": 1
+    },
+    "1771:64C3": {
+      "target": "1771:114B",
+      "far": true,
+      "site": "1771:64C0",
+      "argument_words": 1
+    },
+    "1771:64F3": {
+      "target": "1771:114B",
+      "far": true,
+      "site": "1771:64F0",
+      "argument_words": 1
+    },
+    "1771:6585": {
+      "target": "1771:10E7",
+      "far": true,
+      "site": "1771:6582",
+      "argument_words": 1
+    }
+  }
+}

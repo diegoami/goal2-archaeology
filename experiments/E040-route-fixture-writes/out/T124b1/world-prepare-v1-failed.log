@@ -1,0 +1,12 @@
+{}
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T124b1/world.py", line 195, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T124b1/world.py", line 193, in main
+    if a.prepare:prepare(Path(a.out))
+                 ~~~~~~~^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T124b1/world.py", line 143, in prepare
+    assert managers(r)==tags,'preparation changed manager count/tags or squad words'
+           ^^^^^^^^^^^^^^^^^
+AssertionError: preparation changed manager count/tags or squad words

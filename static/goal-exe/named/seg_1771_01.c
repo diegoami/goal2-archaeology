@@ -888,9 +888,10 @@ int __stdcall16far country_rating(int param_1)
 }
 
 
-// ---- 1771:114B  f_1771_114B  (f_1771_114B; Ghidra 4000:114B, __stdcall16far; found by routines.tsv)
+// ---- 1771:114B  rank_within_continent  (f_1771_114B; Ghidra 4000:114B, __stdcall16far; found by routines.tsv)
+// T124b1: counts all 128 countries with target continent and world rank <= target, including self/ties; PUSH CS callers 64C0/64F0; retf2  [established; F017; F023; read code/seg_1771_02.asm; read code/seg_1771_09.asm]
 
-undefined4 __stdcall16far f_1771_114B(uint param_1)
+undefined4 __stdcall16far rank_within_continent(uint param_1)
 
 {
   undefined2 uVar1;
@@ -1055,21 +1056,5 @@ void team_panel_aggregate(int param_1)
   if (team_characteristics[0] == 0) {
     team_characteristics[0] = 1;
   }
-  return;
-}
-
-
-// ---- 1771:1527  draw_country_status_label  (f_1771_1527; Ghidra 4000:1527, __stdcall16near; found by routines.tsv)
-// TEAM row8 column25 Status: country_rating10E7 from rank bytes, signed (rating-1)/8 indexes DS:7884 then 16-byte label at DS:6EB4; normal rating1..128  [established; F035; read code/seg_1771_03.asm:6]
-
-void draw_country_status_label(undefined1 param_1,undefined1 param_2,undefined2 param_3)
-
-{
-  int iVar1;
-  
-  iVar1 = country_rating(param_3);
-  u214b_write_string_at_fwd
-            ((undefined4 *)&DS:A96E,0xb000,param_1,param_2,
-             (uint)*(byte *)((iVar1 + -1) / 8 + 0x7884) * 0x10 + 0x6eb4,0xb000);
   return;
 }

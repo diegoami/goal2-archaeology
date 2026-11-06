@@ -1,0 +1,21 @@
+check_annotations: routines.tsv:186: basis 'read code/seg_1771_09.asm 63A4-6616': no file static/goal-exe/code/seg_1771_09.asm 63A4-6616
+check_annotations: routines.tsv:446: basis 'read code/seg_1771_09.asm 5EE1-5FCE': no file static/goal-exe/code/seg_1771_09.asm 5EE1-5FCE
+check_annotations: routines.tsv:447: basis 'read code/seg_1771_09.asm 5FD1-602A': no file static/goal-exe/code/seg_1771_09.asm 5FD1-602A
+check_annotations: routines.tsv:448: basis 'read code/seg_1771_09.asm 602D-6100': no file static/goal-exe/code/seg_1771_09.asm 602D-6100
+check_annotations: routines.tsv:449: basis 'read code/seg_1771_09.asm 6103-61F5': no file static/goal-exe/code/seg_1771_09.asm 6103-61F5
+check_annotations: routines.tsv:450: basis 'read code/seg_1771_09.asm 61F8-63A1': no file static/goal-exe/code/seg_1771_09.asm 61F8-63A1
+check_annotations: routines.tsv:670: basis 'read code/seg_1771_02.asm 114B-11DE and code/seg_1771_09.asm 64B0-6506': no file static/goal-exe/code/seg_1771_02.asm 114B-11DE and code/seg_1771_09.asm 64B0-6506
+check_annotations: 7 error(s)
+segment	named	routines
+0000	1	1
+000E	52	58
+0791	277	283
+16D6	0	26
+1771	135	154
+2138	1	1  (run-time library)
+2139	1	1  (run-time library)
+214B	85	85  (run-time library)
+235C	12	12  (run-time library)
+2382	17	17  (run-time library)
+23E4	88	88  (run-time library)
+records 5, fields 47, globals 68

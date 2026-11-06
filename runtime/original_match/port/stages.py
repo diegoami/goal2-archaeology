@@ -25,8 +25,8 @@ from .restarts import _end
 from .runtime import Regs
 from .setup import guest, member, w8, w16, rb, rw
 
-PORTS = Registry("stages", "the round's end: stage_end 8208's own part, run_stage 76B1's dispatch and the stage "
-                           "builders' shared helpers 5D02, 5D94, 5E3A, 5E99, 6617 (T124a)")
+PORTS = Registry("stages", "round-end frame and shared fixture helpers (T124a), qualifying rankings "
+                           "114B, 5EE1, 5FD1, 602D, 6103, 61F8, 63A4 (T124b1)")
 PORTS.variant("ageing-gate-skipped", "8268: the ageing gate's member branch never calls 1771:80DA")
 PORTS.variant("playoff-flag-from-4", "8270: +0x40 := (stage >= 4), not (stage >= 5)")
 PORTS.variant("stage-4-one-round", "82A0: +0x3D drops the (stage == 4) term: stage 4 gets one round, not two")
@@ -442,3 +442,461 @@ def display_helpers():
         name = "omit-" + address.lower().replace(":", "-")
         reg.variant(name, display.PORTS.variants[name])
     return reg
+
+# -- qualifying rankings: T124b1 ---------------------------------------------------------------------------------------
+# [confirmed: F017/F023; seg_1771_02.asm 114B..11DE, seg_1771_09.asm 5EE1..6616].
+# Explicit registers and guest frames retain the listing's observable calls and writes.
+PORTS.variant("ranking-bonus-dropped", "600B: the placement points bonus is omitted")
+PORTS.variant("manager-score-reset-dropped", "65ED: the manager's score byte is not cleared")
+
+
+def _country_record(mem, r, country):
+    r.ax = country
+    r.dx = 0xBF
+    mul(r, r.dx)
+    _far(mem, r, COUNTRIES)
+    r.di = r.di + r.ax
+
+
+def _ordered_country(mem, r, index):
+    r.ax = index
+    _far(mem, r, 0x9B56)
+    r.di = r.di + r.ax
+    r.al = rb(mem, r, 0)
+    r.ah = 0
+    return r.ax
+
+
+@PORTS.port("1771:114B", ret="retf 2")
+def rank_within_continent(mem, variant):
+    """Count same-continent countries with world rank <= target, including ties and self (114B..11DE)."""
+    r = Regs(mem)
+    r.enter(0x12)                                                   # 114B..114E
+    country = ss16(mem, r, r.bp + 6)
+    _country_record(mem, r, country)                                # 1151..115D
+    _keep(r, -0xA)
+    _far(mem, r, GAME)                                              # 1165..116C
+    _keep(r, -0xE)
+    r.ax = 0
+    r.local16(-6, 0)                                               # 116F..1171
+    for c in range(1, 129):
+        r.local16(-4, c)                                           # 1174/117B
+        _country_record(mem, r, c)                                  # 117E..118A
+        _keep(r, -0x12)
+        _country_record(mem, r, country)                            # 1192..119E
+        r.al = rb(mem, r, 0x2C)                                    # 11A0
+        continent = r.al
+        _local_far(mem, r, -0x12)
+        if continent == rb(mem, r, 0x2C):                          # 11A7..11AB
+            _country_record(mem, r, country)                        # 11AD..11B9
+            r.al = rb(mem, r, 0x2B)                                # 11BB
+            rank = r.al
+            _local_far(mem, r, -0x12)
+            if rank >= rb(mem, r, 0x2B):                           # 11C2..11C6 unsigned
+                r.local16(-6, ss16(mem, r, r.bp - 6) + 1)           # 11C8
+    r.ax = ss16(mem, r, r.bp - 6)                                  # 11D2
+    r.local16(-2, r.ax)
+    r.ax = ss16(mem, r, r.bp - 2)                                  # 11D8
+    return _end(r, True)
+
+
+@PORTS.port("1771:5EE1", ret="ret 6")
+def sort_countries_by_points(mem, variant):
+    """Unsigned, descending in-place quicksort; ties/self-swaps still invoke real 214B:007B (5EE1..5FCE)."""
+    r = Regs(mem)
+    r.enter(6)
+    lo = ss16(mem, r, r.bp + 8)
+    hi = ss16(mem, r, r.bp + 6)
+    link = ss16(mem, r, r.bp + 4)
+    r.ax = lo
+    r.local16(-2, r.ax)
+    r.ax = hi
+    r.local16(-4, r.ax)
+    r.ax = lo + hi                                                # 5EF3..5EF6 word sum
+    r.dx = 0
+    r.cx = 2
+    r.dx, r.ax = r.ax % 2, r.ax // 2                              # 5EFE div cx
+    _country_record(mem, r, _ordered_country(mem, r, r.ax))          # 5F00..5F14
+    r.ax = rw(mem, r, 0x2F)
+    r.local16(-6, r.ax)
+    while True:
+        while True:
+            _country_record(mem, r, _ordered_country(mem, r, ss16(mem, r, r.bp - 2)))
+            r.ax = rw(mem, r, 0x2F)                                # 5F36
+            if r.ax <= ss16(mem, r, r.bp - 6):
+                break
+            r.local16(-2, ss16(mem, r, r.bp - 2) + 1)
+        while True:
+            _country_record(mem, r, _ordered_country(mem, r, ss16(mem, r, r.bp - 4)))
+            r.ax = rw(mem, r, 0x2F)                                # 5F5D
+            if r.ax >= ss16(mem, r, r.bp - 6):
+                break
+            r.local16(-4, ss16(mem, r, r.bp - 4) - 1)
+        r.ax = ss16(mem, r, r.bp - 2)
+        if r.ax <= ss16(mem, r, r.bp - 4):
+            _far(mem, r, 0x9B56)
+            r.di = r.di + r.ax
+            first = r.es, r.di                                     # 5F7C..5F7D
+            r.ax = ss16(mem, r, r.bp - 4)
+            _far(mem, r, 0x9B56)
+            r.di = r.di + r.ax
+            second = r.es, r.di
+            r.ax = 1
+            r = yield from guest(mem, r, "214B:007B", *first, *second, r.ax, ret="1771:5F92")
+            r.local16(-2, ss16(mem, r, r.bp - 2) + 1)
+            r.local16(-4, ss16(mem, r, r.bp - 4) - 1)
+        r.ax = ss16(mem, r, r.bp - 2)
+        if r.ax > ss16(mem, r, r.bp - 4):
+            break
+    r.ax = ss16(mem, r, r.bp + 8)                                  # 5FA3
+    if r.ax < ss16(mem, r, r.bp - 4):
+        r = yield from guest(mem, r, "1771:5EE1", r.ax, ss16(mem, r, r.bp - 4), link,
+                             ret="1771:5FB7", far=False)
+    r.ax = ss16(mem, r, r.bp - 2)                                  # 5FB7
+    if r.ax < ss16(mem, r, r.bp + 6):
+        r = yield from guest(mem, r, "1771:5EE1", r.ax, hi, link, ret="1771:5FCB", far=False)
+    return _end(r)
+
+
+@PORTS.port("1771:5FD1", ret="ret 0xa")
+def add_placement_bonus(mem, variant):
+    """Lookup award, add wrapping word points, increment wrapping byte counter; flag is signed (5FD1..602A)."""
+    r = Regs(mem)
+    r.enter(8)
+    _country_record(mem, r, ss16(mem, r, r.bp + 0xC))
+    _keep(r, -4)
+    _local_far(mem, r, -4)
+    r.di = r.di + 0x41
+    _keep(r, -8)
+    r.di = ss16(mem, r, r.bp + 8)
+    r.al = mem.ds8(r.di + 0x10FD)
+    _local_far(mem, r, -8)
+    w8(mem, r, 0, r.al, "1771:6002")
+    r.ax = ss16(mem, r, r.bp + 0xA)
+    _local_far(mem, r, -4)
+    if variant != "ranking-bonus-dropped":
+        w16(mem, r, 0x2F, rw(mem, r, 0x2F) + r.ax, "1771:600B")
+    r.ax = ss16(mem, r, r.bp + 8)
+    r.dx = r.ax
+    r.al = ss8(mem, r, r.bp + 6)
+    cbw(r)
+    r.ax = r.ax << 2
+    _local_far(mem, r, -4)
+    r.di = r.di + r.ax + r.dx
+    w8(mem, r, 0x32, rb(mem, r, 0x32) + 1, "1771:6023")
+    return _end(r)
+
+
+@PORTS.port("1771:602D", ret="ret 2")
+def world_placement_bonuses(mem, variant):
+    """Final then third-place fixture: winner/loser 800,600,400,200 with flag1 (602D..6100)."""
+    r = Regs(mem)
+    r.enter(4)
+    _far(mem, r, GAME)
+    _keep(r, -4)
+    rows = ((15,"1771:5C94","1771:605B",800,1,"1771:606D"),
+            (15,"1771:5CCB","1771:608B",600,2,"1771:609D"),
+            (14,"1771:5C94","1771:60BB",400,3,"1771:60CD"),
+            (14,"1771:5CCB","1771:60EB",200,4,"1771:60FD"))
+    for offset,target,ret,bonus,place,bonus_ret in rows:
+        _local_far(mem, r, -4)
+        r.ax = rw(mem, r, 0x2A) + offset
+        _set_cl(r, 3)
+        r.ax = r.ax << 3
+        _far(mem, r, FIXTURES)
+        r.di = r.di + r.ax - 8
+        r = yield from guest(mem, r, target, r.es, r.di, ret=ret)    # PUSH CS; near CALL; far RET
+        country = r.ax
+        r.ax = bonus
+        r.ax = place
+        r.al = 1
+        r = yield from guest(mem, r, "1771:5FD1", country, bonus, place, r.ax,
+                             ss16(mem, r, r.bp + 4), ret=bonus_ret, far=False)
+    return _end(r)
+
+
+@PORTS.port("1771:6103", ret="ret 2")
+def continent_placement_bonuses(mem, variant):
+    """Four continents' saved final and third-place fixture indices, flag0 (6103..61F5)."""
+    r = Regs(mem)
+    r.enter(0xA)
+    _far(mem, r, GAME)
+    _keep(r, -6)
+    rows = ((0x32,"1771:5C94","1771:6150",800,1,"1771:6162"),
+            (0x32,"1771:5CCB","1771:617D",600,2,"1771:618F"),
+            (0x30,"1771:5C94","1771:61AA",400,3,"1771:61BC"),
+            (0x30,"1771:5CCB","1771:61D7",200,4,"1771:61E9"))
+    for c in range(1, 5):
+        r.local16(-2, c)
+        r.ax = c
+        r.dx = 0x1C0
+        mul(r, r.dx)
+        _far(mem, r, TABLES)
+        r.di = r.di + r.ax + 0x540
+        _keep(r, -0xA)
+        for offset,target,ret,bonus,place,bonus_ret in rows:
+            _local_far(mem, r, -0xA)
+            r.ax = rw(mem, r, offset)
+            _set_cl(r, 3)
+            r.ax = r.ax << 3
+            _far(mem, r, FIXTURES)
+            r.di = r.di + r.ax - 8
+            r = yield from guest(mem, r, target, r.es, r.di, ret=ret)
+            country = r.ax
+            r.ax = bonus
+            r.ax = place
+            r.al = 0
+            r = yield from guest(mem, r, "1771:5FD1", country, bonus, place, r.ax,
+                                 ss16(mem, r, r.bp + 4), ret=bonus_ret, far=False)
+    return _end(r)
+
+
+def _group_points_entry(mem, r, second):
+    """6226..6295 / 630F..637E: actual loop locals and intermediate pushed term."""
+    r.ax = ss16(mem, r, r.bp - 6)
+    _set_cl(r, 3)
+    r.ax = r.ax << 3
+    r.push(r.ax)
+    r.ax = ss16(mem, r, r.bp - 4)
+    r.dx = 0x38
+    mul(r, r.dx)
+    r.bx = r.ax
+    r.ax = ss16(mem, r, r.bp - 2)
+    r.dx = 0x1C0
+    mul(r, r.dx)
+    r.cx = r.ax
+    _local_far(mem, r, -0xA)
+    r.al = int(rb(mem, r, 0x40) == 0)
+    cbw(r)
+    r.dx = 0xE00
+    mul(r, r.dx)
+    _far(mem, r, TABLES)
+    r.di = r.di + r.ax + r.cx + r.bx
+    r.ax = pop(mem, r)
+    r.di = r.di + r.ax + (0x500 if second else 0xFE00)
+    local = -0x12 if second else -0xE
+    _keep(r, local)
+    r.ax = 5 - ss16(mem, r, r.bp - 2)
+    r.dx = r.ax
+    _local_far(mem, r, local)
+    r.al = rb(mem, r, 7)
+    r.ah = 0
+    mul(r, r.dx)
+    r.cx = r.ax
+    _local_far(mem, r, local)
+    _country_record(mem, r, rw(mem, r, 0))
+    w16(mem, r, 0x2F, rw(mem, r, 0x2F) + r.cx, "1771:637E" if second else "1771:6295")
+
+
+@PORTS.port("1771:61F8", ret="ret 2")
+def add_group_points(mem, variant):
+    """Both group-table loops, weighted by 5-continent, and stage2/other selector (61F8..63A1)."""
+    r = Regs(mem)
+    r.enter(0x12)
+    _far(mem, r, GAME)
+    _keep(r, -0xA)
+    for c in range(1, 5):
+        r.local16(-2, c)
+        for group in range(1, 9):
+            r.local16(-4, group)
+            for place in range(1, 5):
+                r.local16(-6, place)
+                _group_points_entry(mem, r, False)
+    _local_far(mem, r, -0xA)
+    r.al = rb(mem, r, 0x40)
+    r.ah = 0
+    r.cx = 3
+    imul(r, r.cx)
+    r.ax = r.ax + 1
+    r.local16(-0xC, r.ax)
+    r.ax = 1
+    bound = ss16(mem, r, r.bp - 0xC)
+    if r.ax <= bound:
+        for c in range(1, bound + 1):
+            r.local16(-2, c)
+            _local_far(mem, r, -0xA)
+            r.al = int(rb(mem, r, 0x3C) == 2)
+            cbw(r)
+            r.di = r.ax
+            r.al = mem.ds8(r.di + 0x1102)
+            r.ah = 0
+            r.local16(-0xE, r.ax)
+            r.ax = 1
+            n = ss16(mem, r, r.bp - 0xE)
+            if r.ax <= n:
+                for group in range(1, n + 1):
+                    r.local16(-4, group)
+                    for place in range(1, 5):
+                        r.local16(-6, place)
+                        _group_points_entry(mem, r, True)
+                    r.ax = ss16(mem, r, r.bp - 4)
+            r.ax = ss16(mem, r, r.bp - 2)
+    return _end(r)
+
+
+@PORTS.port("1771:63A4", ret="ret")
+def recompute_country_ranks(mem, variant):
+    """Placement/group points, original quicksort, old manager best ranks then new ranks and scores (63A4..6616).
+
+    [confirmed: listing] The world-best update ELSE continent-best update is deliberate.
+    Manager rating/reset runs for all 128 countries, including shared unmanaged indices.
+    """
+    r = Regs(mem)
+    r.enter(0xC)
+    _far(mem, r, GAME)
+    _keep(r, -8)
+    _local_far(mem, r, -8)
+    if rb(mem, r, 0x40):
+        r = yield from guest(mem, r, "1771:6103", r.bp, ret="1771:63C2", far=False)
+    else:
+        r = yield from guest(mem, r, "1771:602D", r.bp, ret="1771:63C8", far=False)
+    r = yield from guest(mem, r, "1771:61F8", r.bp, ret="1771:63CC", far=False)
+    _local_far(mem, r, -8)
+    mode = rb(mem, r, 0x40)
+    r.ax = 0x9C7E if mode else 0x9BFD
+    r.dx = mem.reg("ds")
+    mem.wds16(0x9B56, r.ax, "1771:63DB" if mode else "1771:63E9")
+    mem.wds16(0x9B58, r.dx, "1771:63DE" if mode else "1771:63EC")
+    _local_far(mem, r, -8)
+    if not rb(mem, r, 0x40):
+        r.ax = 1
+        lo = r.ax
+        r.ax = 128
+        r = yield from guest(mem, r, "1771:5EE1", lo, r.ax, r.bp, ret="1771:6406", far=False)
+    else:
+        for c in range(1, 5):
+            r.local16(-2, c)
+            r.di = c
+            r.al = mem.ds8(r.di + 0x10F9)
+            r.ah = 0
+            lo = r.ax
+            r.di = ss16(mem, r, r.bp - 2)
+            r.al = mem.ds8(r.di + 0x10F9)
+            r.ah = 0
+            r.ax = r.ax + 31
+            r = yield from guest(mem, r, "1771:5EE1", lo, r.ax, r.bp, ret="1771:642D", far=False)
+    for index in range(1, 129):
+        r.local16(-2, index)
+        _country_record(mem, r, _ordered_country(mem, r, index))
+        _keep(r, -0xC)
+        country = _ordered_country(mem, r, ss16(mem, r, r.bp - 2))
+        r = yield from guest(mem, r, "1771:0B77", country, ret="1771:646F")
+        if r.al:
+            _local_far(mem, r, -0xC)
+            r.al = rb(mem, r, 0x2E)
+            r.ah = 0
+            r.ax = r.ax - 128
+            _local_far(mem, r, -8)
+            r.di = r.di + r.ax
+            r.al = rb(mem, r, 7)
+            old = r.al
+            _local_far(mem, r, -0xC)
+            if old > rb(mem, r, 0x2A):
+                _local_far(mem, r, -0xC)
+                _set_dl(r, rb(mem, r, 0x2A))
+                _local_far(mem, r, -0xC)
+                r.al = rb(mem, r, 0x2E)
+                r.ah = 0
+                r.ax = r.ax - 128
+                _local_far(mem, r, -8)
+                r.di = r.di + r.ax
+                w8(mem, r, 7, r.dx & 255, "1771:64AC")
+            country = _ordered_country(mem, r, ss16(mem, r, r.bp - 2))
+            r = yield from guest(mem, r, "1771:114B", country, ret="1771:64C3")
+            r.dx = r.ax
+            _local_far(mem, r, -0xC)
+            r.al = rb(mem, r, 0x2E)
+            r.ah = 0
+            r.ax = r.ax - 128
+            _local_far(mem, r, -8)
+            r.di = r.di + r.ax
+            r.al = rb(mem, r, 0xD)
+            r.ah = 0
+            if r.ax > r.dx:                                       # signed JLE, both nonnegative ranks
+                country = _ordered_country(mem, r, ss16(mem, r, r.bp - 2))
+                r = yield from guest(mem, r, "1771:114B", country, ret="1771:64F3")
+                _set_dl(r, r.al)
+                _local_far(mem, r, -0xC)
+                r.al = rb(mem, r, 0x2E)
+                r.ah = 0
+                r.ax = r.ax - 128
+                _local_far(mem, r, -8)
+                r.di = r.di + r.ax
+                w8(mem, r, 0xD, r.dx & 255, "1771:6506")
+        _local_far(mem, r, -8)
+        if rb(mem, r, 0x40):
+            r.ax = ss16(mem, r, r.bp - 2) - 1
+            r.dx = 0
+            r.cx = 32
+            r.ax, r.dx = r.ax // 32, r.ax % 32
+            r.dx, r.ax = r.ax, r.dx
+            r.ax = r.ax + 1
+            _local_far(mem, r, -0xC)
+            w8(mem, r, 0x2A, r.al, "1771:6524")
+        else:
+            r.al = ss8(mem, r, r.bp - 2)
+            _local_far(mem, r, -0xC)
+            w8(mem, r, 0x2B, r.al, "1771:6530")
+        _local_far(mem, r, -0xC)
+        r.al = rb(mem, r, 0x2B)
+        _local_far(mem, r, -0xC)
+        if r.al < rb(mem, r, 0x29):
+            _local_far(mem, r, -0xC)
+            r.al = rb(mem, r, 0x2B)
+            _local_far(mem, r, -0xC)
+            w8(mem, r, 0x29, r.al, "1771:654E")
+        else:
+            _local_far(mem, r, -0xC)
+            r.al = rb(mem, r, 0x2A)
+            _local_far(mem, r, -0xC)
+            if r.al < rb(mem, r, 0x28):
+                _local_far(mem, r, -0xC)
+                r.al = rb(mem, r, 0x2A)
+                _local_far(mem, r, -0xC)
+                w8(mem, r, 0x28, r.al, "1771:656E")
+        country = _ordered_country(mem, r, ss16(mem, r, r.bp - 2))
+        r = yield from guest(mem, r, "1771:10E7", country, ret="1771:6585")
+        r.cx = r.ax
+        _local_far(mem, r, -0xC)
+        r.al = rb(mem, r, 0x2E)
+        r.ah = 0
+        r.dx = 3
+        mul(r, r.dx)
+        _far(mem, r, MANAGERS)
+        r.di = r.di + r.ax
+        r.al = rb(mem, r, 2)
+        cbw(r)
+        r.ax = r.ax + r.cx
+        r.local16(-4, r.ax)
+        signed = r.ax if r.ax < 0x8000 else r.ax - 0x10000
+        if signed < 1:
+            r.local16(-4, 1)
+        elif signed > 128:
+            r.local16(-4, 128)
+        _set_cl(r, ss8(mem, r, r.bp - 4))
+        _local_far(mem, r, -0xC)
+        r.al = rb(mem, r, 0x2E)
+        r.ah = 0
+        r.dx = 3
+        mul(r, r.dx)
+        _far(mem, r, MANAGERS)
+        r.di = r.di + r.ax
+        w8(mem, r, 1, r.cx & 255, "1771:65D5")
+        _local_far(mem, r, -0xC)
+        r.al = rb(mem, r, 0x2E)
+        r.ah = 0
+        r.dx = 3
+        mul(r, r.dx)
+        _far(mem, r, MANAGERS)
+        r.di = r.di + r.ax
+        if variant != "manager-score-reset-dropped":
+            w8(mem, r, 2, 0, "1771:65ED")
+        _local_far(mem, r, -0xC)
+        r.al = rb(mem, r, 0x2C)
+        r.ah = 0
+        r.dx = r.ax
+        r.ax = 5
+        r.ax = r.ax - r.dx
+        _local_far(mem, r, -0xC)
+        w16(mem, r, 0x2F, r.ax, "1771:6605")
+    return _end(r)
