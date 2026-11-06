@@ -395,5 +395,55 @@ class Workflow(unittest.TestCase):
         self.assertIn("workflow_dispatch:", self.TEXT)
 
 
+
+
+class PortRuntimeOwnership(unittest.TestCase):
+    def test_pure_port_groups_and_cases_belong_to_pypy(self):
+        pure = [*G.BOUNDARY_CASES.values(),
+                'test_port_engine.CLI.test_family_cli_guarded_quick_result_records_backend_identity',
+                'test_port_engine.CheckScreen.test_without_the_screen_only_the_screen_is_left_out',
+                'test_port_engine.Checkpoints.test_completed_quick_match_answer_records_and_memory_survive_loading',
+                'test_port_engine.Checkpoints.test_frame_free_answer_records_keep_pair_types_after_loading',
+                'test_port_engine.Checkpoints.test_live_decisions_and_completed_tail_with_positive_unicorn_denial',
+                'test_port_engine.Engine.test_no_unicorn_positive_denial_runs_a_complete_match',
+                'test_port_seal.CheckpointTables.test_a_loaded_sealed_match_gives_the_same_next_state',
+                'test_port_machine.PortableMachine.test_future_case',
+                'test_port_overhead_t117.Drive.test_e034_03_drive_equals_the_recorded_before_receipt']
+        for name in pure:
+            with self.subTest(case=name):
+                self.assertTrue(G.is_pure_port_test(name))
+                self.assertTrue(G.is_pure_port_test('tests.' + name))
+
+    def test_mixed_original_reference_and_unknown_tests_stay_cpython(self):
+        for name in ('test_port_engine.Engine.test_complete_reference_fixture_events_results_and_memory_equal',
+                     'test_port_engine.Engine.test_interactive_pause_tactics_and_halftime_equal',
+                     'test_port_engine.Engine.test_knockout_match_result_and_events_equal',
+                     'test_port_engine.Checkpoints.test_plain_checkpoint_keeps_backend_and_legacy_saves_keep_original',
+                     'test_port_engine.Checkpoints.test_unknown_corrupt_stale_backend_refuses_before_machine_construction',
+                     'test_port_speaker.SpeakerABI.test_reference',
+                     'test_port_entrypoints.Helpers.test_reference',
+                     'test_future.Future.test_future_case'):
+            with self.subTest(case=name):
+                self.assertFalse(G.is_pure_port_test(name))
+
+    def test_runtime_partitions_preserve_every_discovered_case_exactly_once(self):
+        selected = list(G.flatten(G.select_suite(G.SLOW)))
+        native, pure = G.partition_runtimes(unittest.TestSuite(selected))
+        names = lambda suite: [t.id() for t in G.flatten(suite)]
+        self.assertCountEqual(names(native) + names(pure), [t.id() for t in selected])
+        self.assertFalse(set(names(native)) & set(names(pure)))
+        self.assertTrue(all(G.is_pure_port_test(n) for n in names(pure)))
+        self.assertTrue(all(not G.is_pure_port_test(n) for n in names(native)))
+        for name in G.BOUNDARY_CASES.values():
+            self.assertTrue(any(n.endswith(name) for n in names(pure)), name)
+
+    def test_workflow_installs_pypy_without_replacing_cpython_reference_environment(self):
+        text = (ROOT / '.github/workflows/ci.yml').read_text()
+        self.assertIn("python-version: 'pypy3.11'", text)
+        self.assertIn('update-environment: false', text)
+        self.assertIn('GOAL2_PORT_PYTHON: ${{ steps.pypy.outputs.python-path }}', text)
+        self.assertIn("python-version: '3.12'", text)
+
+
 if __name__ == "__main__":
     unittest.main()

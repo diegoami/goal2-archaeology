@@ -268,12 +268,59 @@ def select_suite(modules=()):
     return keep
 
 
+
+# [designed: owner, T126/#676] Standalone port execution uses production PyPy.
+# Original/Unicorn and cross-dispatch references stay on CPython. Explicit
+# ownership avoids silently skipping a reference test when PyPy lacks Unicorn.
+PURE_PORT_MODULES = frozenset({"test_port_machine", "test_port_overhead_t117", "test_port_seal"})
+PURE_PORT_CLASSES = frozenset({("test_port_engine", "CLI"), ("test_port_engine", "CheckScreen")})
+PURE_PORT_CASES = frozenset(BOUNDARY_CASES.values()) | frozenset({
+    "test_port_engine.Engine.test_unknown_engine_and_inline_original_proof_are_refused",
+    "test_port_engine.Engine.test_no_unicorn_positive_denial_runs_a_complete_match",
+    "test_port_engine.Checkpoints.test_frame_free_answer_records_keep_pair_types_after_loading",
+    "test_port_engine.Checkpoints.test_completed_quick_match_answer_records_and_memory_survive_loading",
+    "test_port_engine.Checkpoints.test_live_decisions_and_completed_tail_with_positive_unicorn_denial",
+})
+
+
+def is_pure_port_test(test):
+    name = test if isinstance(test, str) else test.id()
+    parts = name.split(".")
+    if len(parts) < 3:
+        return False
+    module, cls, method = parts[-3:]
+    return (module in PURE_PORT_MODULES or (module, cls) in PURE_PORT_CLASSES
+            or ".".join((module, cls, method)) in PURE_PORT_CASES)
+
+
+def partition_runtimes(suite):
+    native, pure = unittest.TestSuite(), unittest.TestSuite()
+    for test in flatten(suite):
+        (pure if is_pure_port_test(test) else native).addTest(test)
+    return native, pure
+
+
 def run_tests(modules, group=None):
+    if sys.implementation.name != "cpython" and group in (None, "general"):
+        raise ValueError("general includes original/Unicorn references and requires CPython")
     suite = select_suite(modules)
     if group is not None:
         suite = partition_suite(suite, group)
         print(json.dumps({"group": group, "test_ids": [t.id() for t in flatten(suite)]}), flush=True)
-    return 0 if unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful() else 1
+    native, pure = partition_runtimes(suite)
+    print(json.dumps({"reference_runtime": sys.implementation.name,
+                      "cpython_test_ids": [t.id() for t in flatten(native)],
+                      "pypy_test_ids": [t.id() for t in flatten(pure)]}), flush=True)
+    if sys.implementation.name == "pypy":
+        if native.countTestCases():
+            raise ValueError("a PyPy-owned group contains original/reference tests")
+        selected = pure
+    else:
+        # The parent holds the one heavy slot. One trusted PyPy child runs the
+        # unchanged standalone cases and reports every outcome back to it.
+        from port_test_runtime import PyPySuite
+        selected = unittest.TestSuite([native, PyPySuite(list(flatten(pure)))])
+    return 0 if unittest.TextTestRunner(verbosity=2).run(selected).wasSuccessful() else 1
 
 
 def parser():
