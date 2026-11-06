@@ -1,0 +1,15 @@
+{
+  "code_commit": "03fbadb460db3b9b4e09d081bd84e02f4402327d",
+  "sources": {
+    ".github/workflows/ci.yml": "3e60f0f579dca36f5df418a4b61e10d19e1f56625c38f02c9d2fde610211ff93",
+    "tools/ci_gate.py": "0d6ec659d14cc4a6031d458d868591c8ef7b80ad8b61eb56c66782b9286956e2",
+    "tools/port_test_runtime.py": "5191c340a985d898aa314a3d96d517c83227656ae8bea45c0fd9c94b62d6d0e9",
+    "tests/test_ci_gate.py": "d64157dee73ae1c9207b831cec8e5f3ede6f80686d991c408f0475fe94f60ac3",
+    "tests/test_port_engine.py": "639a268f5e73e177b72295b977dc4d5a71fdac3cfb8689befc312e60228b235f",
+    "tests/test_port_test_runtime.py": "38fe8d4f7a00a92ebbd53344ab68e7ce981e946dc7c865405bfc32abc11efb6a",
+    "docs/cloud.md": "a7a93d7841929d4b138ec0928c6d91e3cd28fffb3bb7928ddc15123b23b91c47"
+  },
+  "parent_interpreter": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]",
+  "port_interpreter": "PyPy3.11verifiedbyworker",
+  "validation_scope": "focused three mixed complete matches and unchanged E034-03 checkpoint scenario; fullsuiteCIonly"
+}
