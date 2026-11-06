@@ -1,0 +1,14 @@
+.F....
+======================================================================
+FAIL: test_host_and_knockout_assignment_falsifiers_are_caught (tests.test_port_stage_continental.Continental.test_host_and_knockout_assignment_falsifiers_are_caught) (variant='continental-host-bound-seven')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_continental.py", line 105, in test_host_and_knockout_assignment_falsifiers_are_caught
+    with self.subTest(variant=variant),self.assertRaises(ProofError):
+                                       ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ProofError not raised
+
+----------------------------------------------------------------------
+Ran 6 tests in 5.729s
+
+FAILED (failures=1)

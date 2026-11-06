@@ -1294,3 +1294,358 @@ def stage_qualifying(mem,variant):
     r.al=0                                                       # 6B4B: preserve AH
     r=yield from guest(mem,r,'1771:6617',r.ax,ret='1771:6B51',far=False)
     return _end(r)
+
+# -- continental finals and knockout: T124c ---------------------------------------------------------------------------
+# [confirmed:F023; named1771_05, raw1771_10 6B55..6FEA].
+PORTS.variant('continental-host-bound-seven','6B75: host draw bound7 instead of8')
+PORTS.variant('continental-third-place-opponent','6F4B: the first semifinal loser is replaced by its opponent')
+
+
+@PORTS.port('1771:6B55',ret='ret')
+def stage_continental_finals(mem,variant):
+    """Continental hosts/B-table permutation, friendly and finals calendar, manager groups (6B55..6E58)."""
+    r=Regs(mem)
+    r.enter(0x1A)
+    _far(mem,r,GAME)
+    _keep(r,-0x12)
+    r.ax=0
+    r=yield from guest(mem,r,'1771:5E99',r.ax,ret='1771:6B6B',far=False)
+    for continent in range(1,5):
+        r.local16(-2,continent)
+        r.ax=7 if variant=='continental-host-bound-seven' else 8
+        r=yield from guest(mem,r,'214B:06B1',r.ax,ret='1771:6B7E')
+        r.dx=0x38
+        mul(r,r.dx)
+        r.cx=r.ax
+        r.ax=ss16(mem,r,r.bp-2)
+        r.dx=0x1C0
+        mul(r,r.dx)
+        _far(mem,r,TABLES)
+        r.di=r.di+r.ax+r.cx
+        r.dx=rw(mem,r,-0x1F8)
+        r.ax=ss16(mem,r,r.bp-2)
+        r.ax=r.ax<<1
+        _local_far(mem,r,-0x12)
+        r.di=r.di+r.ax
+        w16(mem,r,0x2C,r.dx,'1771:6BA4')
+        for group in range(1,9):
+            r.local16(-6,group)
+            r.ax=4
+            r=yield from guest(mem,r,'214B:06B1',r.ax,ret='1771:6BBB')
+            r.local16(-0xA,r.ax)
+            for place in range(1,5):
+                r.local16(-8,place)
+                r.ax=ss16(mem,r,r.bp-8)
+                r.di=ss16(mem,r,r.bp-0xA)
+                r.di=r.di<<2
+                r.di=r.di+r.ax
+                r.al=mem.ds8(r.di+0x0F71)
+                r.ah=0
+                _set_cl(r,3)
+                r.ax=r.ax<<3
+                r.bx=r.ax
+                r.ax=ss16(mem,r,r.bp-6)
+                r.dx=0x38
+                mul(r,r.dx)
+                r.cx=r.ax
+                r.ax=ss16(mem,r,r.bp-2)
+                r.dx=0x1C0
+                mul(r,r.dx)
+                _far(mem,r,TABLES)
+                r.di=r.di+r.ax+r.cx+r.bx+0x500
+                _keep(r,-0x16)
+                r.ax=ss16(mem,r,r.bp-6)
+                r.ax=r.ax+1
+                r.dx=0
+                r.cx=2
+                r.ax,r.dx=r.ax//2,r.ax%2
+                _set_cl(r,3)
+                r.ax=r.ax<<3
+                r.bx=r.ax
+                r.al=ss8(mem,r,r.bp-6)&1                    # 6C17..6C24 SHR carry -> boolean, CBW
+                cbw(r)
+                r.dx=r.ax
+                r.ax=ss16(mem,r,r.bp-8)
+                r.ax=(r.ax<<1)-r.dx
+                r.dx=0x38
+                mul(r,r.dx)
+                r.cx=r.ax
+                r.ax=ss16(mem,r,r.bp-2)
+                r.dx=0x1C0
+                mul(r,r.dx)
+                _far(mem,r,TABLES)
+                r.di=r.di+r.ax+r.cx+r.bx
+                r.ax=rw(mem,r,-0x200)
+                _local_far(mem,r,-0x16)
+                w16(mem,r,0,r.ax,'1771:6C4F')
+                _local_far(mem,r,-0x16)
+                _country_record(mem,r,rw(mem,r,0))
+                _keep(r,-0x1A)
+                _local_far(mem,r,-0x1A)
+                if rb(mem,r,0x2E)>0x80 and ss16(mem,r,r.bp-6)<3:
+                    _set_dl(r,ss8(mem,r,r.bp-6))
+                    _local_far(mem,r,-0x1A)
+                    r.al=rb(mem,r,0x2E)
+                    r.ah=0
+                    r.ax=r.ax-0x80
+                    _local_far(mem,r,-0x12)
+                    r.di=r.di+r.ax
+                    w8(mem,r,1,r.dx&255,'1771:6C8D')
+    for round_ in range(1,13):
+        r.local16(-0xC,round_)
+        for continent in range(1,5):
+            r.local16(-2,continent)
+            for group in range(1,9):
+                r.local16(-4,group)
+                r.ax=ss16(mem,r,r.bp-4)
+                r.dx=0x38
+                mul(r,r.dx)
+                r.cx=r.ax
+                r.ax=ss16(mem,r,r.bp-2)
+                r.dx=0x1C0
+                mul(r,r.dx)
+                _far(mem,r,TABLES)
+                r.di=r.di+r.ax+r.cx+0x508
+                _keep(r,-0x16)
+                friendly=False
+                if ss16(mem,r,r.bp-0xC)<7:
+                    r.ax=ss16(mem,r,r.bp-0xC)
+                    r.di=ss16(mem,r,r.bp-4)
+                    r.di=r.di<<1
+                    r.si=r.di
+                    r.di=r.di<<1
+                    r.di=r.di+r.si+r.ax
+                    friendly=mem.ds8(r.di+0x1087)>0
+                if friendly:
+                    for place in range(1,5):
+                        r.local16(-8,place)
+                        r.ax=ss16(mem,r,r.bp-8)
+                        _set_cl(r,3)
+                        r.ax=r.ax<<3
+                        _local_far(mem,r,-0x16)
+                        r.di=r.di+r.ax
+                        first=rw(mem,r,-8)
+                        r.ax=ss16(mem,r,r.bp-8)
+                        _set_cl(r,3)
+                        r.ax=r.ax<<3
+                        r.bx=r.ax
+                        r.ax=ss16(mem,r,r.bp-0xC)
+                        r.di=ss16(mem,r,r.bp-4)
+                        r.di=r.di<<1
+                        r.si=r.di
+                        r.di=r.di<<1
+                        r.di=r.di+r.si+r.ax
+                        r.al=mem.ds8(r.di+0x1087)
+                        r.ah=0
+                        r.dx=0x38
+                        mul(r,r.dx)
+                        r.cx=r.ax
+                        r.ax=ss16(mem,r,r.bp-2)
+                        r.dx=0x1C0
+                        mul(r,r.dx)
+                        _far(mem,r,TABLES)
+                        r.di=r.di+r.ax+r.cx+r.bx
+                        second=rw(mem,r,0x500)
+                        r.ax=1
+                        kind=r.ax
+                        r.ax=0
+                        r=yield from guest(mem,r,'1771:5D94',first,second,kind,r.ax,ret='1771:6D6F',far=False)
+                if ss16(mem,r,r.bp-0xC)>6:
+                    if ss16(mem,r,r.bp-4)<3:
+                        _local_far(mem,r,-0x12)
+                        r.dx=rw(mem,r,0x28)
+                        r.ax=ss16(mem,r,r.bp-0xC)-6
+                        r.ax=r.ax<<1
+                        _local_far(mem,r,-0x16)
+                        r.di=r.di+r.ax
+                        w16(mem,r,0x1E,r.dx,'1771:6D98')
+                        r.ax=ss16(mem,r,r.bp-0xC)-6
+                        r.di=r.ax
+                        r.di=r.di<<1
+                        r.al=mem.ds8(r.di+0x10BD)
+                        r.ah=0
+                        _set_cl(r,3)
+                        r.ax=r.ax<<3
+                        _local_far(mem,r,-0x16)
+                        r.di=r.di+r.ax
+                        first=rw(mem,r,-8)
+                        r.ax=ss16(mem,r,r.bp-0xC)-6
+                        r.di=r.ax
+                        r.di=r.di<<1
+                        r.al=mem.ds8(r.di+0x10BC)
+                        r.ah=0
+                        _set_cl(r,3)
+                        r.ax=r.ax<<3
+                        _local_far(mem,r,-0x16)
+                        r.di=r.di+r.ax
+                        second=rw(mem,r,-8)
+                        r.ax=3
+                        kind=r.ax
+                        group_arg=ss16(mem,r,r.bp-4)
+                        r.ax=ss16(mem,r,r.bp-2)
+                        r.ax=r.ax<<1
+                        _local_far(mem,r,-0x12)
+                        r.di=r.di+r.ax
+                        host=rw(mem,r,0x2C)
+                        r=yield from guest(mem,r,'1771:5E3A',first,second,kind,group_arg,host,ret='1771:6DEE',far=False)
+                    else:
+                        r.ax=ss16(mem,r,r.bp-0xC)-6
+                        r.di=r.ax
+                        r.di=r.di<<1
+                        r.al=mem.ds8(r.di+0x10BD)
+                        r.ah=0
+                        _set_cl(r,3)
+                        r.ax=r.ax<<3
+                        _local_far(mem,r,-0x16)
+                        r.di=r.di+r.ax
+                        first=rw(mem,r,-8)
+                        r.ax=ss16(mem,r,r.bp-0xC)-6
+                        r.di=r.ax
+                        r.di=r.di<<1
+                        r.al=mem.ds8(r.di+0x10BC)
+                        r.ah=0
+                        _set_cl(r,3)
+                        r.ax=r.ax<<3
+                        _local_far(mem,r,-0x16)
+                        r.di=r.di+r.ax
+                        second=rw(mem,r,-8)
+                        r.ax=1
+                        kind=r.ax
+                        r.ax=0
+                        r=yield from guest(mem,r,'1771:5D94',first,second,kind,r.ax,ret='1771:6E34',far=False)
+    r.al=1                                                       # 6E4F: AH retained
+    r=yield from guest(mem,r,'1771:6617',r.ax,ret='1771:6E55',far=False)
+    return _end(r)
+
+
+@PORTS.port('1771:6E59',ret='ret')
+def stage_continental_knockout(mem,variant):
+    """Two semis at rounds2; losers' third place then winners' final at rounds1 (6E59..6FEA)."""
+    r=Regs(mem)
+    r.enter(0xA)
+    _far(mem,r,GAME)
+    _keep(r,-6)
+    for continent in range(1,5):
+        r.local16(-2,continent)
+        r.ax=ss16(mem,r,r.bp-2)
+        r.dx=0x1C0
+        mul(r,r.dx)
+        _far(mem,r,TABLES)
+        r.di=r.di+r.ax+0x540
+        _keep(r,-0xA)
+        _local_far(mem,r,-6)
+        r.al=rb(mem,r,0x3D)
+        if r.al==2:
+            _local_far(mem,r,-6)
+            r.ax=rw(mem,r,0x28)
+            _local_far(mem,r,-0xA)
+            w16(mem,r,0x2C,r.ax,'1771:6EA3')
+            _local_far(mem,r,-0xA)
+            first=rw(mem,r,0)
+            r.ax=ss16(mem,r,r.bp-2)
+            r.dx=0x1C0
+            mul(r,r.dx)
+            _far(mem,r,TABLES)
+            r.di=r.di+r.ax
+            second=rw(mem,r,0x580)
+            r.ax=0x65
+            kind=r.ax
+            r.ax=0
+            group=r.ax
+            r.ax=ss16(mem,r,r.bp-2)
+            r.ax=r.ax<<1
+            _local_far(mem,r,-6)
+            r.di=r.di+r.ax
+            host=rw(mem,r,0x2C)
+            r=yield from guest(mem,r,'1771:5E3A',first,second,kind,group,host,ret='1771:6ED8',far=False)
+            _local_far(mem,r,-6)
+            r.ax=rw(mem,r,0x28)
+            _local_far(mem,r,-0xA)
+            w16(mem,r,0x2E,r.ax,'1771:6EE2')
+            r.ax=ss16(mem,r,r.bp-2)
+            r.dx=0x1C0
+            mul(r,r.dx)
+            _far(mem,r,TABLES)
+            r.di=r.di+r.ax
+            first=rw(mem,r,0x578)
+            _local_far(mem,r,-0xA)
+            second=rw(mem,r,8)
+            r.ax=0x65
+            kind=r.ax
+            r.ax=0
+            group=r.ax
+            r.ax=ss16(mem,r,r.bp-2)
+            r.ax=r.ax<<1
+            _local_far(mem,r,-6)
+            r.di=r.di+r.ax
+            host=rw(mem,r,0x2C)
+            r=yield from guest(mem,r,'1771:5E3A',first,second,kind,group,host,ret='1771:6F18',far=False)
+        elif r.al==1:
+            _local_far(mem,r,-6)
+            r.ax=rw(mem,r,0x28)
+            _local_far(mem,r,-0xA)
+            w16(mem,r,0x30,r.ax,'1771:6F2C')
+            _local_far(mem,r,-0xA)
+            r.ax=rw(mem,r,0x2C)
+            _set_cl(r,3)
+            r.ax=r.ax<<3
+            _far(mem,r,FIXTURES)
+            r.di=r.di+r.ax-8
+            first_fixture=r.es,r.di
+            r=yield from guest(mem,r,'1771:5CCB',r.es,r.di,ret='1771:6F4B')
+            if variant=='continental-third-place-opponent':
+                a=mem.u16(mem.addr(first_fixture[0],first_fixture[1]+4))
+                b=mem.u16(mem.addr(first_fixture[0],first_fixture[1]+6))
+                r.ax=b if r.ax==a else a
+            r.push(r.ax)                                         # 6F4B first result lives across second guest call
+            _local_far(mem,r,-0xA)
+            r.ax=rw(mem,r,0x2E)
+            _set_cl(r,3)
+            r.ax=r.ax<<3
+            _far(mem,r,FIXTURES)
+            r.di=r.di+r.ax-8
+            r=yield from guest(mem,r,'1771:5CCB',r.es,r.di,ret='1771:6F67')
+            second=r.ax
+            first=pop(mem,r)
+            r.ax=0x66
+            kind=r.ax
+            r.ax=0
+            group=r.ax
+            r.ax=ss16(mem,r,r.bp-2)
+            r.ax=r.ax<<1
+            _local_far(mem,r,-6)
+            r.di=r.di+r.ax
+            host=rw(mem,r,0x2C)
+            r=yield from guest(mem,r,'1771:5E3A',first,second,kind,group,host,ret='1771:6F80',far=False)
+            _local_far(mem,r,-6)
+            r.ax=rw(mem,r,0x28)
+            _local_far(mem,r,-0xA)
+            w16(mem,r,0x32,r.ax,'1771:6F8A')
+            _local_far(mem,r,-0xA)
+            r.ax=rw(mem,r,0x2C)
+            _set_cl(r,3)
+            r.ax=r.ax<<3
+            _far(mem,r,FIXTURES)
+            r.di=r.di+r.ax-8
+            r=yield from guest(mem,r,'1771:5C94',r.es,r.di,ret='1771:6FA9')
+            r.push(r.ax)
+            _local_far(mem,r,-0xA)
+            r.ax=rw(mem,r,0x2E)
+            _set_cl(r,3)
+            r.ax=r.ax<<3
+            _far(mem,r,FIXTURES)
+            r.di=r.di+r.ax-8
+            r=yield from guest(mem,r,'1771:5C94',r.es,r.di,ret='1771:6FC5')
+            second=r.ax
+            first=pop(mem,r)
+            r.ax=0x67
+            kind=r.ax
+            r.ax=0
+            group=r.ax
+            r.ax=ss16(mem,r,r.bp-2)
+            r.ax=r.ax<<1
+            _local_far(mem,r,-6)
+            r.di=r.di+r.ax
+            host=rw(mem,r,0x2C)
+            r=yield from guest(mem,r,'1771:5E3A',first,second,kind,group,host,ret='1771:6FDE',far=False)
+    return _end(r)
