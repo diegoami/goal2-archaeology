@@ -97,7 +97,7 @@ def build(r,stage,rounds):
 def simulate_calendar(r):
     m=r.m;g=m.far(stages.GAME);start=m.word_at(g+0x26);end=m.word_at(g+0x28)
     ss=m.seg(SS_PARAGRAPH);parent=0x3EDE
-    # Exact route_fixture parent locals/frame (6CA7..6CC1, 7012pushBP/call7013).
+    # Exact route_fixture parent locals/frame (6CA7..6CC1, 7013pushBP/call7014).
     word(m,ss*16+parent,0x3EEA);word(m,ss*16+parent+2,0x70D4)
     word(m,ss*16+parent-0x10,m.rd(stages.GAME));word(m,ss*16+parent-0xE,m.rd(stages.GAME+2))
     word(m,ss*16+parent-6,start);m.write(ss*16+parent-2,b'\0')
@@ -108,7 +108,7 @@ def simulate_calendar(r):
         kind=m.read(fx+2,1)[0]
         # Real6970 uses the fixture at the cursor and calls D47E,B7FA,B602,D050,
         # BC5D twice and complete score/table/key page paths; no isolated RNG stub.
-        original_call(r,'000E:6970','000E:7016',0x3EC4,parent,(parent,))
+        original_call(r,'000E:6970','000E:7017',0x3EC4,parent,(parent,))
         assert m.word_at(g+0x26)==index+1
         assert m.read(fx,1)[0]<254
         complete.append({'fixture':index,'kind':kind,'record_sha256':sha(m.read(fx,8))})
