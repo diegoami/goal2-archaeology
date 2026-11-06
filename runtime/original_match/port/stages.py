@@ -1649,3 +1649,256 @@ def stage_continental_knockout(mem,variant):
             host=rw(mem,r,0x2C)
             r=yield from guest(mem,r,'1771:5E3A',first,second,kind,group,host,ret='1771:6FDE',far=False)
     return _end(r)
+
+# -- world playoffs, groups and knockout: T124d ------------------------------------------------------------------------
+# [confirmed:F023; named1771_05, raw1771_10 6FEB..76B0].
+PORTS.variant('world-host-bound-seven','71C8: first host draw bound7 instead of8')
+PORTS.variant('world-playoff-mark-dropped','707D: omit managed-continent marking before aggregate copy')
+PORTS.variant('world-third-place-opponent','7635: first semifinal loser replaced by its opponent')
+
+
+@PORTS.port('1771:6FEB',ret='ret 2')
+def mark_playoff_fixture_managed(mem,variant):
+    """Every manager of the just-appended second-side continent writes FE, even if neither side is managed (6FEB..708D)."""
+    r=Regs(mem);r.enter(0xC)
+    _far(mem,r,GAME);_keep(r,-6)
+    _local_far(mem,r,-6)
+    r.al=rb(mem,r,0);r.ah=0
+    r.local16(-8,r.ax);r.ax=1
+    count=ss16(mem,r,r.bp-8)
+    if r.ax<=count:
+        for manager in range(1,count+1):
+            r.local16(-2,manager)
+            r.ax=ss16(mem,r,r.bp-2)+0x80;r.dx=3;mul(r,r.dx)
+            _far(mem,r,MANAGERS);r.di=r.di+r.ax
+            r.al=rb(mem,r,0);r.ah=0
+            _country_record(mem,r,r.ax);_keep(r,-0xC)
+            _local_far(mem,r,-6)
+            r.ax=rw(mem,r,0x28)-1;_set_cl(r,3);r.ax=r.ax<<3
+            _far(mem,r,FIXTURES);r.di=r.di+r.ax
+            _country_record(mem,r,rw(mem,r,-2))
+            r.al=rb(mem,r,0x2C)
+            _local_far(mem,r,-0xC)
+            if r.al==rb(mem,r,0x2C):
+                _local_far(mem,r,-6)
+                r.ax=rw(mem,r,0x28)-1;_set_cl(r,3);r.ax=r.ax<<3
+                _far(mem,r,FIXTURES);r.di=r.di+r.ax
+                if variant!='world-playoff-mark-dropped':w8(mem,r,-8,0xFE,'1771:707D')
+            r.ax=ss16(mem,r,r.bp-2)
+    return _end(r)
+
+
+@PORTS.port('1771:7090',ret='ret')
+def stage_playoffs(mem,variant):
+    """Continent3/4 two-leg playoffs; mark FIRST, copy complete8 bytes, append reversed leg (7090..71B1)."""
+    r=Regs(mem);r.enter(0xC)
+    _far(mem,r,GAME);_keep(r,-8)
+    _local_far(mem,r,-8);r.ax=rw(mem,r,0x28)
+    _local_far(mem,r,-8);w16(mem,r,0x2C,r.ax,'1771:70AA')
+    for continent in (3,4):
+        r.local16(-2,continent)
+        for group in range(1,5):
+            r.local16(-4,group)
+            r.ax=ss16(mem,r,r.bp-4);r.dx=0x38;mul(r,r.dx);r.cx=r.ax
+            r.ax=ss16(mem,r,r.bp-2);r.dx=0x1C0;mul(r,r.dx)
+            _far(mem,r,TABLES);r.di=r.di+r.ax+r.cx+0xC08;_keep(r,-0xC)
+            _local_far(mem,r,-0xC);first=rw(mem,r,0)
+            r.ax=9-ss16(mem,r,r.bp-4);r.dx=0x38;mul(r,r.dx);r.cx=r.ax
+            r.ax=ss16(mem,r,r.bp-2);r.dx=0x1C0;mul(r,r.dx)
+            _far(mem,r,TABLES);r.di=r.di+r.ax+r.cx;second=rw(mem,r,0xC08)
+            r.ax=6;kind=r.ax;r.ax=0
+            r=yield from guest(mem,r,'1771:5D94',first,second,kind,r.ax,ret='1771:7118',far=False)
+            r=yield from guest(mem,r,'1771:6FEB',r.bp,ret='1771:711C',far=False)
+            _local_far(mem,r,-8);r.ax=rw(mem,r,0x28)-1
+            _set_cl(r,3);r.ax=r.ax<<3
+            _far(mem,r,FIXTURES);r.di=r.di+r.ax-8;src=(r.es,r.di)
+            _local_far(mem,r,-8);r.ax=rw(mem,r,0x28)
+            _local_far(mem,r,-8);r.ax=r.ax-rw(mem,r,0x2C);r.ax=r.ax-1
+            r.dx=0;r.cx=2;r.ax,r.dx=r.ax//2,r.ax%2
+            r.ax=r.ax+0x961;_set_cl(r,3);r.ax=r.ax<<3
+            _far(mem,r,FIXTURES);r.di=r.di+r.ax-8;dst=(r.es,r.di)
+            r.ax=8
+            r=yield from guest(mem,r,'23E4:025D',*src,*dst,r.ax,ret='1771:7166')
+            r.ax=9-ss16(mem,r,r.bp-4);r.dx=0x38;mul(r,r.dx);r.cx=r.ax
+            r.ax=ss16(mem,r,r.bp-2);r.dx=0x1C0;mul(r,r.dx)
+            _far(mem,r,TABLES);r.di=r.di+r.ax+r.cx;first=rw(mem,r,0xC08)
+            _local_far(mem,r,-0xC);second=rw(mem,r,0)
+            r.ax=6;kind=r.ax;r.ax=0
+            r=yield from guest(mem,r,'1771:5D94',first,second,kind,r.ax,ret='1771:7198',far=False)
+            r=yield from guest(mem,r,'1771:6FEB',r.bp,ret='1771:719C',far=False)
+    return _end(r)
+
+
+@PORTS.port('1771:71B2',ret='ret')
+def stage_world_cup_groups(mem,variant):
+    """Host8 THEN2, eight real permutations,320friendlies then48finals, finalized aggregate winners (71B2..74BD)."""
+    r=Regs(mem);r.enter(0x1A)
+    _far(mem,r,GAME);_keep(r,-0x12)
+    r.ax=0;r=yield from guest(mem,r,'1771:5E99',r.ax,ret='1771:71C8',far=False)
+    r.ax=7 if variant=='world-host-bound-seven' else 8
+    r=yield from guest(mem,r,'214B:06B1',r.ax,ret='1771:71D1')
+    r.dx=0x38;mul(r,r.dx);r.push(r.ax)                  # 71D6 offset lives across second RNG call
+    r.ax=2;r=yield from guest(mem,r,'214B:06B1',r.ax,ret='1771:71E0')
+    r.dx=0x1C0;mul(r,r.dx);_far(mem,r,TABLES);r.di=r.di+r.ax
+    r.ax=pop(mem,r);r.di=r.di+r.ax;r.ax=rw(mem,r,0xC08)
+    _local_far(mem,r,-0x12);w16(mem,r,0x36,r.ax,'1771:71F6')
+    for group in range(1,9):
+        r.local16(-0xA,group)
+        r.ax=4;r=yield from guest(mem,r,'214B:06B1',r.ax,ret='1771:720D')
+        r.local16(-0xE,r.ax)
+        r.ax=ss16(mem,r,r.bp-0xA);r.dx=0x38;mul(r,r.dx)
+        _far(mem,r,TABLES);r.di=r.di+r.ax+0x14C8;_keep(r,-0x16)
+        r.ax=ss16(mem,r,r.bp-0xA);r.dx=0x38;mul(r,r.dx)
+        _far(mem,r,TABLES);r.di=r.di+r.ax;r.dx=rw(mem,r,0xDC8)
+        r.di=ss16(mem,r,r.bp-0xE);r.di=r.di<<2;r.al=mem.ds8(r.di+0x0F72);r.ah=0
+        _set_cl(r,3);r.ax=r.ax<<3;_local_far(mem,r,-0x16);r.di=r.di+r.ax
+        w16(mem,r,-8,r.dx,'1771:7251')
+        r.ax=9-ss16(mem,r,r.bp-0xA);r.dx=0x38;mul(r,r.dx)
+        _far(mem,r,TABLES);r.di=r.di+r.ax;r.dx=rw(mem,r,0xDD0)
+        r.di=ss16(mem,r,r.bp-0xE);r.di=r.di<<2;r.al=mem.ds8(r.di+0x0F73);r.ah=0
+        _set_cl(r,3);r.ax=r.ax<<3;_local_far(mem,r,-0x16);r.di=r.di+r.ax
+        w16(mem,r,-8,r.dx,'1771:7281')
+        r.ax=ss16(mem,r,r.bp-0xA);r.dx=0x38;mul(r,r.dx)
+        _far(mem,r,TABLES);r.di=r.di+r.ax;r.dx=rw(mem,r,0xF88)
+        r.di=ss16(mem,r,r.bp-0xE);r.di=r.di<<2;r.al=mem.ds8(r.di+0x0F74);r.ah=0
+        _set_cl(r,3);r.ax=r.ax<<3;_local_far(mem,r,-0x16);r.di=r.di+r.ax
+        w16(mem,r,-8,r.dx,'1771:72AE')
+        r.ax=ss16(mem,r,r.bp-0xA)+0x961;r.ax=r.ax-1;_set_cl(r,3);r.ax=r.ax<<3
+        _far(mem,r,FIXTURES);r.di=r.di+r.ax-8
+        r=yield from guest(mem,r,'1771:5C94',r.es,r.di,ret='1771:72CD')
+        r.dx=r.ax;r.di=ss16(mem,r,r.bp-0xE);r.di=r.di<<2;r.al=mem.ds8(r.di+0x0F75);r.ah=0
+        _set_cl(r,3);r.ax=r.ax<<3;_local_far(mem,r,-0x16);r.di=r.di+r.ax
+        w16(mem,r,-8,r.dx,'1771:72E5')
+        for place in range(1,5):
+            r.local16(-0xC,place)
+            r.ax=ss16(mem,r,r.bp-0xC);_set_cl(r,3);r.ax=r.ax<<3
+            _local_far(mem,r,-0x16);r.di=r.di+r.ax
+            _country_record(mem,r,rw(mem,r,-8));_keep(r,-0x1A)
+            _local_far(mem,r,-0x1A)
+            if rb(mem,r,0x2E)>0x80:
+                _set_dl(r,ss8(mem,r,r.bp-0xA));_local_far(mem,r,-0x1A)
+                r.al=rb(mem,r,0x2E);r.ah=0;r.ax=r.ax-0x80
+                _local_far(mem,r,-0x12);r.di=r.di+r.ax;w8(mem,r,1,r.dx&255,'1771:7332')
+    for round_ in range(1,5):
+        r.local16(-2,round_)
+        for continent in range(1,5):
+            r.local16(-6,continent)
+            for pair in range(1,17):
+                r.local16(-0xA,pair)
+                r.ax=ss16(mem,r,r.bp-2);r.bx=r.ax
+                r.ax=ss16(mem,r,r.bp-0xA)+1;r.dx=0;r.cx=2;r.ax,r.dx=r.ax//2,r.ax%2
+                r.di=r.ax;r.di=r.di<<2;r.di=r.di+r.bx
+                r.al=mem.ds8(r.di+0x10D5);r.ah=0;r.bx=r.ax
+                r.ax=ss16(mem,r,r.bp-0xA);r.dx=0;r.cx=4;r.ax,r.dx=r.ax//4,r.ax%4
+                r.dx,r.ax=r.ax,r.dx
+                r.di=ss16(mem,r,r.bp-6);r.di=r.di<<2;r.di=r.di+r.ax
+                r.al=mem.ds8(r.di+0x10C6);r.ah=0;r.ax=r.ax-1
+                r.cx=5;r.ax=r.ax<<5;r.ax=r.ax+r.bx;r.di=r.ax
+                r.al=mem.ds8(r.di+0x9CFF);r.ah=0;first=r.ax
+                r.ax=ss16(mem,r,r.bp-0xA);r.ax=r.ax<<1;r.dx=r.ax
+                r.ax=ss16(mem,r,r.bp-6)-1;r.cx=5;r.ax=r.ax<<5;r.ax=r.ax+r.dx;r.ax=r.ax-1
+                r.di=r.ax;r.al=mem.ds8(r.di+0x9CFF);r.ah=0;second=r.ax
+                r.ax=1;kind=r.ax;r.ax=0
+                r=yield from guest(mem,r,'1771:5D94',first,second,kind,r.ax,ret='1771:73D4',far=False)
+    for pair in range(1,65):
+        r.local16(-0xA,pair)
+        r.ax=ss16(mem,r,r.bp-0xA);r.ax=r.ax<<1;r.ax=r.ax-1
+        r.di=r.ax;r.al=mem.ds8(r.di+0x9CFF);r.ah=0;first=r.ax
+        r.ax=ss16(mem,r,r.bp-0xA);r.ax=r.ax<<1;r.di=r.ax
+        r.al=mem.ds8(r.di+0x9CFF);r.ah=0;second=r.ax
+        r.ax=1;kind=r.ax;r.ax=0
+        r=yield from guest(mem,r,'1771:5D94',first,second,kind,r.ax,ret='1771:741D',far=False)
+    for round_ in range(1,7):
+        r.local16(-2,round_)
+        for group in range(1,9):
+            r.local16(-8,group)
+            r.ax=ss16(mem,r,r.bp-8);r.dx=0x38;mul(r,r.dx)
+            _far(mem,r,TABLES);r.di=r.di+r.ax+0x14C8;_keep(r,-0x16)
+            _local_far(mem,r,-0x12);r.dx=rw(mem,r,0x28)
+            r.ax=ss16(mem,r,r.bp-2);r.ax=r.ax<<1;_local_far(mem,r,-0x16);r.di=r.di+r.ax
+            w16(mem,r,0x1E,r.dx,'1771:7460')
+            r.di=ss16(mem,r,r.bp-2);r.di=r.di<<1;r.al=mem.ds8(r.di+0x10BD);r.ah=0
+            _set_cl(r,3);r.ax=r.ax<<3;_local_far(mem,r,-0x16);r.di=r.di+r.ax;first=rw(mem,r,-8)
+            r.di=ss16(mem,r,r.bp-2);r.di=r.di<<1;r.al=mem.ds8(r.di+0x10BC);r.ah=0
+            _set_cl(r,3);r.ax=r.ax<<3;_local_far(mem,r,-0x16);r.di=r.di+r.ax;second=rw(mem,r,-8)
+            r.ax=7;kind=r.ax;g=ss16(mem,r,r.bp-8)
+            _local_far(mem,r,-0x12);host=rw(mem,r,0x36)
+            r=yield from guest(mem,r,'1771:5E3A',first,second,kind,g,host,ret='1771:74A5',far=False)
+    r.al=1;r=yield from guest(mem,r,'1771:6617',r.ax,ret='1771:74BA',far=False)
+    return _end(r)
+
+
+@PORTS.port('1771:74BE',ret='ret')
+def stage_world_cup_knockout(mem,variant):
+    """All four knockout rounds; last16, quarters, semis, losers' third place THEN winners' final (74BE..76B0)."""
+    r=Regs(mem);r.enter(8)
+    _far(mem,r,GAME);_keep(r,-8)
+    _local_far(mem,r,-8);r.ax=rw(mem,r,0x36);r.local16(-4,r.ax)
+    _local_far(mem,r,-8);r.al=rb(mem,r,0x3D)
+    if r.al==4:
+        _local_far(mem,r,-8);r.ax=rw(mem,r,0x28)
+        _local_far(mem,r,-8);w16(mem,r,0x2A,r.ax,'1771:74ED')
+        for pair in range(1,9):
+            r.local16(-2,pair)
+            r.ax=ss16(mem,r,r.bp-2);r.dx=0x38;mul(r,r.dx)
+            _far(mem,r,TABLES);r.di=r.di+r.ax;first=rw(mem,r,0x14C8)
+            r.ax=9-ss16(mem,r,r.bp-2);r.dx=0x38;mul(r,r.dx)
+            _far(mem,r,TABLES);r.di=r.di+r.ax;second=rw(mem,r,0x14D0)
+            r.ax=8;kind=r.ax;r.ax=0
+            r=yield from guest(mem,r,'1771:5E3A',first,second,kind,r.ax,ss16(mem,r,r.bp-4),ret='1771:7531',far=False)
+    elif r.al==3:
+        for pair in range(1,5):
+            r.local16(-2,pair)
+            r.ax=ss16(mem,r,r.bp-2);r.ax=r.ax<<1
+            _local_far(mem,r,-8);r.ax=r.ax+rw(mem,r,0x2A);r.ax=r.ax-2
+            _set_cl(r,3);r.ax=r.ax<<3;_far(mem,r,FIXTURES);r.di=r.di+r.ax-8
+            r=yield from guest(mem,r,'1771:5C94',r.es,r.di,ret='1771:756B')
+            r.push(r.ax)
+            r.ax=ss16(mem,r,r.bp-2);r.ax=r.ax<<1
+            _local_far(mem,r,-8);r.ax=r.ax+rw(mem,r,0x2A);r.ax=r.ax-1
+            _set_cl(r,3);r.ax=r.ax<<3;_far(mem,r,FIXTURES);r.di=r.di+r.ax-8
+            r=yield from guest(mem,r,'1771:5C94',r.es,r.di,ret='1771:758D')
+            second=r.ax;first=pop(mem,r)
+            r.ax=0xC8;kind=r.ax;r.ax=0
+            r=yield from guest(mem,r,'1771:5E3A',first,second,kind,r.ax,ss16(mem,r,r.bp-4),ret='1771:759B',far=False)
+    elif r.al==2:
+        for pair in range(1,3):
+            r.local16(-2,pair)
+            r.ax=ss16(mem,r,r.bp-2);r.ax=r.ax<<1
+            _local_far(mem,r,-8);r.ax=r.ax+rw(mem,r,0x2A)+6
+            _set_cl(r,3);r.ax=r.ax<<3;_far(mem,r,FIXTURES);r.di=r.di+r.ax-8
+            r=yield from guest(mem,r,'1771:5C94',r.es,r.di,ret='1771:75D5')
+            r.push(r.ax)
+            r.ax=ss16(mem,r,r.bp-2);r.ax=r.ax<<1
+            _local_far(mem,r,-8);r.ax=r.ax+rw(mem,r,0x2A)+7
+            _set_cl(r,3);r.ax=r.ax<<3;_far(mem,r,FIXTURES);r.di=r.di+r.ax-8
+            r=yield from guest(mem,r,'1771:5C94',r.es,r.di,ret='1771:75F9')
+            second=r.ax;first=pop(mem,r)
+            r.ax=0xC9;kind=r.ax;r.ax=0
+            r=yield from guest(mem,r,'1771:5E3A',first,second,kind,r.ax,ss16(mem,r,r.bp-4),ret='1771:7607',far=False)
+    elif r.al==1:
+        _local_far(mem,r,-8);r.ax=rw(mem,r,0x2A)+0xC
+        _set_cl(r,3);r.ax=r.ax<<3;_far(mem,r,FIXTURES);r.di=r.di+r.ax-8
+        first_fixture=r.es,r.di
+        r=yield from guest(mem,r,'1771:5CCB',r.es,r.di,ret='1771:7635')
+        if variant=='world-third-place-opponent':
+            a=mem.u16(mem.addr(first_fixture[0],first_fixture[1]+4));b=mem.u16(mem.addr(first_fixture[0],first_fixture[1]+6))
+            r.ax=b if r.ax==a else a
+        r.push(r.ax)
+        _local_far(mem,r,-8);r.ax=rw(mem,r,0x2A)+0xD
+        _set_cl(r,3);r.ax=r.ax<<3;_far(mem,r,FIXTURES);r.di=r.di+r.ax-8
+        r=yield from guest(mem,r,'1771:5CCB',r.es,r.di,ret='1771:7654')
+        second=r.ax;first=pop(mem,r)
+        r.ax=0xCA;kind=r.ax;r.ax=0
+        r=yield from guest(mem,r,'1771:5E3A',first,second,kind,r.ax,ss16(mem,r,r.bp-4),ret='1771:7662',far=False)
+        _local_far(mem,r,-8);r.ax=rw(mem,r,0x2A)+0xC
+        _set_cl(r,3);r.ax=r.ax<<3;_far(mem,r,FIXTURES);r.di=r.di+r.ax-8
+        r=yield from guest(mem,r,'1771:5C94',r.es,r.di,ret='1771:7680')
+        r.push(r.ax)
+        _local_far(mem,r,-8);r.ax=rw(mem,r,0x2A)+0xD
+        _set_cl(r,3);r.ax=r.ax<<3;_far(mem,r,FIXTURES);r.di=r.di+r.ax-8
+        r=yield from guest(mem,r,'1771:5C94',r.es,r.di,ret='1771:769F')
+        second=r.ax;first=pop(mem,r)
+        r.ax=0xCB;kind=r.ax;r.ax=0
+        r=yield from guest(mem,r,'1771:5E3A',first,second,kind,r.ax,ss16(mem,r,r.bp-4),ret='1771:76AD',far=False)
+    return _end(r)

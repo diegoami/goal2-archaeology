@@ -1,0 +1,169 @@
+{
+  "source_sha256": "a31d7c2035d8eb8f2c9563cdfa37663f1452d33b67852c83251b7a31562495eb",
+  "static_call_sites": 27,
+  "targets_far_frames_returnPCs_argument_cleanup": "all match original listing and real registry",
+  "sites": {
+    "1771:7118": {
+      "target": "1771:5D94",
+      "far": false,
+      "site": "1771:7115",
+      "argument_words": 4
+    },
+    "1771:711C": {
+      "target": "1771:6FEB",
+      "far": false,
+      "site": "1771:7119",
+      "argument_words": 1
+    },
+    "1771:7166": {
+      "target": "23E4:025D",
+      "far": true,
+      "site": "1771:7161",
+      "argument_words": 5
+    },
+    "1771:7198": {
+      "target": "1771:5D94",
+      "far": false,
+      "site": "1771:7195",
+      "argument_words": 4
+    },
+    "1771:719C": {
+      "target": "1771:6FEB",
+      "far": false,
+      "site": "1771:7199",
+      "argument_words": 1
+    },
+    "1771:71C8": {
+      "target": "1771:5E99",
+      "far": false,
+      "site": "1771:71C5",
+      "argument_words": 1
+    },
+    "1771:71D1": {
+      "target": "214B:06B1",
+      "far": true,
+      "site": "1771:71CC",
+      "argument_words": 1
+    },
+    "1771:71E0": {
+      "target": "214B:06B1",
+      "far": true,
+      "site": "1771:71DB",
+      "argument_words": 1
+    },
+    "1771:720D": {
+      "target": "214B:06B1",
+      "far": true,
+      "site": "1771:7208",
+      "argument_words": 1
+    },
+    "1771:72CD": {
+      "target": "1771:5C94",
+      "far": true,
+      "site": "1771:72CA",
+      "argument_words": 2
+    },
+    "1771:73D4": {
+      "target": "1771:5D94",
+      "far": false,
+      "site": "1771:73D1",
+      "argument_words": 4
+    },
+    "1771:741D": {
+      "target": "1771:5D94",
+      "far": false,
+      "site": "1771:741A",
+      "argument_words": 4
+    },
+    "1771:74A5": {
+      "target": "1771:5E3A",
+      "far": false,
+      "site": "1771:74A2",
+      "argument_words": 5
+    },
+    "1771:74BA": {
+      "target": "1771:6617",
+      "far": false,
+      "site": "1771:74B7",
+      "argument_words": 1
+    },
+    "1771:7531": {
+      "target": "1771:5E3A",
+      "far": false,
+      "site": "1771:752E",
+      "argument_words": 5
+    },
+    "1771:756B": {
+      "target": "1771:5C94",
+      "far": true,
+      "site": "1771:7568",
+      "argument_words": 2
+    },
+    "1771:758D": {
+      "target": "1771:5C94",
+      "far": true,
+      "site": "1771:758A",
+      "argument_words": 2
+    },
+    "1771:759B": {
+      "target": "1771:5E3A",
+      "far": false,
+      "site": "1771:7598",
+      "argument_words": 5
+    },
+    "1771:75D5": {
+      "target": "1771:5C94",
+      "far": true,
+      "site": "1771:75D2",
+      "argument_words": 2
+    },
+    "1771:75F9": {
+      "target": "1771:5C94",
+      "far": true,
+      "site": "1771:75F6",
+      "argument_words": 2
+    },
+    "1771:7607": {
+      "target": "1771:5E3A",
+      "far": false,
+      "site": "1771:7604",
+      "argument_words": 5
+    },
+    "1771:7635": {
+      "target": "1771:5CCB",
+      "far": true,
+      "site": "1771:7632",
+      "argument_words": 2
+    },
+    "1771:7654": {
+      "target": "1771:5CCB",
+      "far": true,
+      "site": "1771:7651",
+      "argument_words": 2
+    },
+    "1771:7662": {
+      "target": "1771:5E3A",
+      "far": false,
+      "site": "1771:765F",
+      "argument_words": 5
+    },
+    "1771:7680": {
+      "target": "1771:5C94",
+      "far": true,
+      "site": "1771:767D",
+      "argument_words": 2
+    },
+    "1771:769F": {
+      "target": "1771:5C94",
+      "far": true,
+      "site": "1771:769C",
+      "argument_words": 2
+    },
+    "1771:76AD": {
+      "target": "1771:5E3A",
+      "far": false,
+      "site": "1771:76AA",
+      "argument_words": 5
+    }
+  }
+}
