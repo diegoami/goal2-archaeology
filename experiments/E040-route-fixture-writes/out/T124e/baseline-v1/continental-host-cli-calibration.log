@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T124e/continental_host.py", line 50, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T124e/continental_host.py", line 18, in main
+    ap=argparse.ArgumentParser();ap.add_argument('--input-out',default=str(HERE/'controlled-continental-host-input-v1.jsonl'));ap.add_argument('--proof-out',default=str(HERE/'controlled-continental-host-proof-v1.jsonl'));ap.add_argument('--plain-out',default=a.plain_out);a=ap.parse_args()
+                                                                                                                                                                                                                                                                   ^
+UnboundLocalError: cannot access local variable 'a' where it is not associated with a value

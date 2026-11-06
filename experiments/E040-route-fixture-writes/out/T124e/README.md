@@ -87,3 +87,40 @@ ported60CB call/proof and next-fixture effect before applying that helper mutant
 it verifies the new caller integration as well as the already required helper
 falsifier. The original audit and its failed all-tests-fail assertion remain
 calibration, never acceptance. No task assertion was weakened.
+
+Acceptance receipts (frozen runtime/proof/test source: bcae9bab):
+
+- `natural-*-proof-v3.jsonl`: four PRIMARY actual original announcement entries,
+  through play_round return77C2; full memory/all16 registers/ordered records/keys
+  equal, with every actual stage page retained privately and hash indexed.
+- `plain-*-v5.jsonl` (four phases plus pushed-back): fully ported compositions
+  with exact LIVE byte writes/pages/records and explicit scratch differences.
+- `controlled-continental-host-input-v4.jsonl`, its `*-proof-v4` and
+  `plain-continental-host-v4`: DECLARED manager-only control using the actual
+  original continental host/groups. This covers qualified mode0/finals1,
+  complementing the PRIMARY modes. All3061 player records, country ranks,
+  all2408 fixtures and group tables remain unchanged. Every non-AX register is
+  retained; the country argument and AX match original7148–714F. The reused
+  proof schema's `natural-proof/1` is a format name; this case is SYNTHETIC,
+  never counted among the four PRIMARY natural inputs.
+- `controlled-pages-falsifiers-v1.jsonl`: both actual two-manager pages survive
+  buffer overwrite, with original-vs-port read/write validation, tags129/130,
+  temporary cursors1/2 and restored cursor2. Full cells/decoded lines are private.
+  All three required falsifiers are caught in the caller.
+- `focused-final-v2.log`:59 focused tests PASS83.218s, including13 new tests and
+  the real missing-private-input regression executing all12 stage-news cases
+  without skips. `exact-tests-before-v2.log`:ALL13 exact new tests fail/error on
+  the unchanged merged-main owner, with no skip. The outer before-control exits
+  successfully only when every new test has failed as required.
+- `preserved-functions.json`:ALL35 prior stages functions are AST-identical;
+  the prior31 count belongs to the pre-D baseline. Exact registries retain all24
+  old entries and23 variants, adding three entries and two variants only.
+- `annotations-v2.log`, `named-v1.log`: annotations pass and named views are
+  regenerated. Ghidra retains its same three baseline decompilation failures;
+  no new failure is introduced.
+
+`acceptance/index.json` identifies final measurements and binds source,
+public receipts and private inputs/pages. Earlier versions/calibrations remain
+immutable historical measurements. Only the final lists in the index constitute
+acceptance; annual rollover is original reference-only, and no whole sealed
+Route consumer is claimed by this slice.
