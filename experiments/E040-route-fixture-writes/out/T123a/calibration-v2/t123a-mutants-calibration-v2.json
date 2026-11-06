@@ -1,0 +1,16 @@
+{
+  "name": "t123a-mutants-calibration-v2",
+  "command": [
+    "tools/heavy.sh",
+    "t123a-mutants-calibration-v2",
+    "--",
+    "python3",
+    "-B",
+    "experiments/E040-route-fixture-writes/out/T123a/mutants.py"
+  ],
+  "cwd": "/home/diego/projects/m3-trackb/goal2-archaeology",
+  "head": "fdf6d58798a5347b22bcf1fab23dffd4a60d8ea3",
+  "started_utc": "2026-11-05T21:47:47+00:00",
+  "log": "/home/diego/projects/goal2/.cache/jobs/t123a-mutants-calibration-v2.log",
+  "wrapper_pid": 528310
+}

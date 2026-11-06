@@ -1,0 +1,11 @@
+{
+  "head": "c36c1665324aaa6275ccc2522bef9bcca8ab0dbb",
+  "purpose": "preimplementation calibration, not acceptance",
+  "sha256": {
+    "tests/test_port_speaker.py": "3461c81a46edfba218228e03f3500f22329e01b9a45fd55b549ea672485194c4",
+    "runtime/original_match/port/display.py": "33b298ead7c58815b9463a39f14e0ba862c81a3af02d53cd5f6184b0f4d8da5e",
+    "static/goal-exe/code/seg_214B_04.asm": "72371b7e8793207f1e000ec28e5b89f2d0e7cf26f9b1f700e4b49ae1a680b086",
+    "static/goal-exe/named/seg_214B_02.c": "b91d01953ac9e6ac3c869476af7e2438b9447f59f2f041c2fd5f8e2386815101"
+  },
+  "result": "both new tests fail against unchanged stub; 169 failures including 168 original controls"
+}

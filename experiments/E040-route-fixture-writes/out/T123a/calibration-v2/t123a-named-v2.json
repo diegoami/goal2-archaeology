@@ -1,0 +1,19 @@
+{
+  "name": "t123a-named-v2",
+  "command": [
+    "tools/heavy.sh",
+    "t123a-named-v2",
+    "--",
+    "bash",
+    "tools/static/decompile.sh",
+    "--annotations",
+    "static/goal-exe/annotations",
+    ".cache/artifacts/goal2-67cf27d6/GOAL.EXE",
+    "static/goal-exe/named"
+  ],
+  "cwd": "/home/diego/projects/m3-trackb/goal2-archaeology",
+  "head": "5bc55b7db8d2a08900239edf9262361016b39195",
+  "started_utc": "2026-11-05T21:47:26+00:00",
+  "log": "/home/diego/projects/goal2/.cache/jobs/t123a-named-v2.log",
+  "wrapper_pid": 527506
+}

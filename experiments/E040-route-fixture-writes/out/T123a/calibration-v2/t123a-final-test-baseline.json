@@ -1,0 +1,17 @@
+{
+  "name": "t123a-final-test-baseline",
+  "command": [
+    "tools/heavy.sh",
+    "t123a-final-test-baseline",
+    "--",
+    "python3",
+    "-B",
+    "-c",
+    "from pathlib import Path; import subprocess,sys; p=Path(\"runtime/original_match/port/display.py\"); saved=p.read_bytes(); old=subprocess.check_output([\"git\",\"show\",\"c36c1665324aaa6275ccc2522bef9bcca8ab0dbb:runtime/original_match/port/display.py\"]); p.write_bytes(old)\ntry:\n r=subprocess.run([sys.executable,\"-B\",\"-m\",\"unittest\",\"tests.test_port_speaker\",\"-v\"])\nfinally:\n p.write_bytes(saved)\nassert r.returncode==1, r.returncode"
+  ],
+  "cwd": "/home/diego/projects/m3-trackb/goal2-archaeology",
+  "head": "fdf6d58798a5347b22bcf1fab23dffd4a60d8ea3",
+  "started_utc": "2026-11-05T21:48:58+00:00",
+  "log": "/home/diego/projects/goal2/.cache/jobs/t123a-final-test-baseline.log",
+  "wrapper_pid": 529990
+}

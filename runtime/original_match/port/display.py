@@ -12,7 +12,7 @@ from .geometry import cbw, cwd, mul, imul
 from .mem import s16, s8
 from .postmatch import half
 from .restarts import _end, idiv_by
-from .runtime import Regs, sub_flags
+from .runtime import ARITH, Regs, or_flags, sub_flags
 from .setup import guest, member, farg, w8, w16, rb, rw, squad_of, player_of
 
 PORTS = Registry("display", "the 88-routine display boundary (T73)")
@@ -111,7 +111,7 @@ RETURNS = {
 from . import _display_finals as _finals
 
 for address, ret in RETURNS.items():
-    if address not in _finals.PORTS.entries and address not in {'1771:157D', '1771:11E1', '1771:1289', '1771:0947', '1771:13D0', '1771:4D8A', '1771:4E22', '1771:8A87', '1771:5AC4', '1771:0FB1', '1771:76FA', '1771:77C3', '1771:8E9A', '1771:8CA2', '1771:958D', '1771:8939', '0791:0441', '214B:1EF1', '214B:1F87', '0791:C50C', '214B:1E09', '0791:0481', '0791:04C9', '0791:054C', '0791:1829', '0791:0106', '0791:05C6', '0791:0691', '0791:8F10', '0791:9079', '0791:A699', '0791:94C9', '0791:94E8', '0791:0C65', '0791:0712', '214B:00FF', '214B:0123', '214B:01A3', '214B:0205', '214B:026D', '214B:02C8', '0791:15B9', '0791:0000', '214B:00DB', '214B:0625', '214B:0643', '1771:3827', '1771:2EE5', '1771:2F37', '1771:0F58', '214B:0350', '0791:A75D', '1771:3AE2', '1771:3B3F', '1771:3BD3', '1771:42BC', '214B:13C5', '214B:1E5A', '214B:1E8D'}:
+    if address not in _finals.PORTS.entries and address not in {'1771:157D', '1771:11E1', '1771:1289', '1771:0947', '1771:13D0', '1771:4D8A', '1771:4E22', '1771:8A87', '1771:5AC4', '1771:0FB1', '1771:76FA', '1771:77C3', '1771:8E9A', '1771:8CA2', '1771:958D', '1771:8939', '0791:0441', '214B:1EF1', '214B:1F87', '0791:C50C', '214B:1E09', '0791:0481', '0791:04C9', '0791:054C', '0791:1829', '0791:0106', '0791:05C6', '0791:0691', '0791:8F10', '0791:9079', '0791:A699', '0791:94C9', '0791:94E8', '0791:0C65', '0791:0712', '214B:00FF', '214B:0123', '214B:01A3', '214B:0205', '214B:026D', '214B:02C8', '0791:15B9', '0791:0000', '214B:00DB', '214B:0625', '214B:0643', '1771:3827', '1771:2EE5', '1771:2F37', '1771:0F58', '214B:0350', '0791:A75D', '1771:3AE2', '1771:3B3F', '1771:3BD3', '1771:42BC', '214B:13C5', '214B:1E5A', '214B:1E75', '214B:1E8D'}:
         PORTS.stub(address, ret=ret, value=None, why="display/sound/wait body omitted; listing return cleanup and incoming result registers preserved")
 
 
@@ -1564,6 +1564,22 @@ def toggle_sound_memory(mem,variant):
     r.arith(sub_flags(disabled,0,8))                 # 1E61 cmp byte [A9FC],0
     r.al=int(disabled==0)
     mem.wds8(0xA9FC,r.al,'214B:1E6E')
+    return _end(r)
+
+
+@PORTS.port('214B:1E75',ret='retf')
+def speaker_on_memory(mem,variant):
+    """1E75-1E8C: keep the frame, AX and arithmetic flags; omit hardware OUT.
+
+    The reference Machine's unhandled IN 61h supplies zero (T123a controls).
+    A nonzero DS:A9FC skips the I/O and retains AX and the CMP flags.
+    """
+    r=Regs(mem);r.enter()
+    disabled=mem.ds8(0xA9FC)
+    r.arith(sub_flags(disabled,0,8))                 # 1E78 cmp byte [A9FC],0
+    if not disabled:
+        r.al=3                                    # 1E83 in al,61h -> 0; 1E85 or al,3
+        r.arith(or_flags(r.al,0) & ARITH)           # OR's flags (03h has even parity)
     return _end(r)
 
 

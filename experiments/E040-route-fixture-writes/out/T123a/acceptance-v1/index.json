@@ -1,0 +1,40 @@
+{
+  "source_commit": "e2fa1285f45d9dfb42a42528dab68cf4c70b827a",
+  "task_definition_merge": "3c23fc39fe6600558143b5db7786d0727beb5f10",
+  "source_sha256": {
+    "runtime/original_match/port/display.py": "e1e76343a2b7128a42eeae3c74faa75063b54e0197ea64369e09bdbcd8cd7d63",
+    "tests/test_port_speaker.py": "12e523abe3d479fe6c176b465ca9737dbdb9f0ba91cef1d0e7078c307b360655",
+    "static/goal-exe/annotations/routines.tsv": "21638f1eb5d97df203c508e52d482aa08c3a79c73a814aaa6624961e652fd058",
+    "static/goal-exe/named/seg_214B_02.c": "8b274e22409aaf4440a5960543ebcd4e851cba0fdc059d9793a4bf3aaa58ed11",
+    "static/goal-exe/code/seg_214B_04.asm": "72371b7e8793207f1e000ec28e5b89f2d0e7cf26f9b1f700e4b49ae1a680b086",
+    "static/goal-exe/decompiled/seg_214B_02.c": "b4e491e524cf4924ce5e3ca29ef6df1069f70c032037fcf361211ec58463e475",
+    "experiments/E040-route-fixture-writes/out/T123a/mutants.py": "3e95d97c2fccd1f7e7442432697f1e0f0369bff1050238769265a5515339d12c"
+  },
+  "input_sha256": {
+    "reference_savestate": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d",
+    "controls_test_source": "12e523abe3d479fe6c176b465ca9737dbdb9f0ba91cef1d0e7078c307b360655"
+  },
+  "results": {
+    "original_all_REGS_FLAGS_complete_memory": 168,
+    "positive_Unicorn_EXE_denied_calls": 28,
+    "enabled_al_loss_caught": 42,
+    "mute_condition_inverted_caught": 168,
+    "annotations": "PASS"
+  },
+  "receipt_sha256": {
+    "acceptance-v1/t123a-acceptance-annotations-v1.exit.json": "284c27c039b83b679b2c283b54e190ef95c93a9aab09f89f18373cb1e2c5e668",
+    "acceptance-v1/t123a-acceptance-annotations-v1.json": "a9f4118c05eeb0c9637d043e2a6c50311cf26673ea6ef95f1c45e248be075898",
+    "acceptance-v1/t123a-acceptance-annotations-v1.log": "b2e6c596bd1f7d53a21e3b806e5c69d6128eee15327b9a3cc11b0ee4985ce347",
+    "acceptance-v1/t123a-acceptance-annotations-v1.pids.json": "8729ac60dc2d586456788a4c72d0a6b21779cea29ae9700a7aaf5ead2690bc5e",
+    "acceptance-v1/t123a-acceptance-mutants-v1.exit.json": "1b0c62f5b096b7470e981fa7c17e4ce5a8c18cd1c23f1a3058e1bda531293a49",
+    "acceptance-v1/t123a-acceptance-mutants-v1.json": "ac712cac235c60b23e6c5323a0c57488aa31c8dc2394552b3ad858bb1d5576fb",
+    "acceptance-v1/t123a-acceptance-mutants-v1.log": "e50164e1315ed6faa64c37b3366ba5bf6777dd25109be5def25c508655c40f1d",
+    "acceptance-v1/t123a-acceptance-mutants-v1.pids.json": "ba17bed2f12a5a74e1236397b501f2af036dfb2afb1da25181793d0b478f7a21",
+    "acceptance-v1/t123a-acceptance-unit-v1.exit.json": "1b0c62f5b096b7470e981fa7c17e4ce5a8c18cd1c23f1a3058e1bda531293a49",
+    "acceptance-v1/t123a-acceptance-unit-v1.json": "608e94e24f5477c0e4b2ecc9c361015ac27f378b0bfa05b1d1474e64dca06934",
+    "acceptance-v1/t123a-acceptance-unit-v1.log": "a91b3f9fceb031d0af3f01779aa10e13bf0fa55edcc904ba9b602f235e75d53a",
+    "acceptance-v1/t123a-acceptance-unit-v1.pids.json": "703134cd0ae57ee839385a8246d92bc3fd29278f0f29ae9446a7c9d3e97bdeb2"
+  },
+  "model": "Inherited Codex GPT-6 family; exact variant unavailable",
+  "scope": "Only 214B:1E75 ABI. Hardware OUT omitted; no SFX/assets. No other stub changed. Full suite/gate left to CI."
+}

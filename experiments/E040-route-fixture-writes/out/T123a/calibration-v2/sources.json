@@ -1,0 +1,15 @@
+{
+  "purpose": "immutable calibration; acceptance follows frozen source commit",
+  "head_before_source_freeze": "fdf6d58798a5347b22bcf1fab23dffd4a60d8ea3",
+  "source_sha256": {
+    "tests/test_port_speaker.py": "12e523abe3d479fe6c176b465ca9737dbdb9f0ba91cef1d0e7078c307b360655",
+    "runtime/original_match/port/display.py": "e1e76343a2b7128a42eeae3c74faa75063b54e0197ea64369e09bdbcd8cd7d63",
+    "static/goal-exe/annotations/routines.tsv": "21638f1eb5d97df203c508e52d482aa08c3a79c73a814aaa6624961e652fd058",
+    "static/goal-exe/named/seg_214B_02.c": "8b274e22409aaf4440a5960543ebcd4e851cba0fdc059d9793a4bf3aaa58ed11",
+    "experiments/E040-route-fixture-writes/out/T123a/mutants.py": "3e95d97c2fccd1f7e7442432697f1e0f0369bff1050238769265a5515339d12c"
+  },
+  "original_stub_commit": "c36c1665324aaa6275ccc2522bef9bcca8ab0dbb",
+  "final_test_stub_baseline": "169 failures, both test methods fail; wrapper exit0 confirms expected exit1 and saved implementation restored",
+  "reference_input_sha256": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d",
+  "released_exe_sha256": "a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664"
+}
