@@ -1,0 +1,114 @@
+F..EE...E.E...
+======================================================================
+ERROR: test_all_three_rating_comparisons_use_actual_unmodified_country_ranks (tests.test_port_stage_news.StageNewsControl.test_all_three_rating_comparisons_use_actual_unmodified_country_ranks) (return_pc='000E:6500')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 198, in test_all_three_rating_comparisons_use_actual_unmodified_country_ranks
+    r,p,_=announce(image,[country]);self.assertEqual(p.summary()['000E:60CB']['proved'],1)
+          ~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 110, in announce
+    assert m.run(m.lin('000E:7152')+1,120,fresh=True)=='announcement-return'
+           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 226, in dispatch
+    self.muted_hook(lin)
+    ~~~~~~~~~~~~~~~^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 428, in _muted_at
+    self._replay(lin)
+    ~~~~~~~~~~~~^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 487, in _replay
+    self._fail(f"at the kit's site #{i + 1} the original reached {self._here(lin)}, the port's run {v.label}")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 476, in _fail
+    raise ProofError(f"{self._head(st)}: {text}")
+original_match.port.prove.ProofError: 000E:60CB (stages), call #1 from 000E:7152: at the kit's site #2 the original reached 000E:651E, the port's run 000E:05F6
+
+======================================================================
+ERROR: test_all_three_rating_comparisons_use_actual_unmodified_country_ranks (tests.test_port_stage_news.StageNewsControl.test_all_three_rating_comparisons_use_actual_unmodified_country_ranks) (return_pc='000E:64C1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 198, in test_all_three_rating_comparisons_use_actual_unmodified_country_ranks
+    r,p,_=announce(image,[country]);self.assertEqual(p.summary()['000E:60CB']['proved'],1)
+          ~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 110, in announce
+    assert m.run(m.lin('000E:7152')+1,120,fresh=True)=='announcement-return'
+           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 226, in dispatch
+    self.muted_hook(lin)
+    ~~~~~~~~~~~~~~~^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 428, in _muted_at
+    self._replay(lin)
+    ~~~~~~~~~~~~^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 487, in _replay
+    self._fail(f"at the kit's site #{i + 1} the original reached {self._here(lin)}, the port's run {v.label}")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 476, in _fail
+    raise ProofError(f"{self._head(st)}: {text}")
+original_match.port.prove.ProofError: 000E:60CB (stages), call #1 from 000E:7152: at the kit's site #2 the original reached 000E:651E, the port's run 000E:05F6
+
+======================================================================
+ERROR: test_observer_on_off_preserves_full_state_keys_draws_and_records (tests.test_port_stage_news.StageNewsControl.test_observer_on_off_preserves_full_state_keys_draws_and_records)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 165, in test_observer_on_off_preserves_full_state_keys_draws_and_records
+    a,pa,_=announce(image,[country],setup=pushed)
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 110, in announce
+    assert m.run(m.lin('000E:7152')+1,120,fresh=True)=='announcement-return'
+           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 226, in dispatch
+    self.muted_hook(lin)
+    ~~~~~~~~~~~~~~~^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 428, in _muted_at
+    self._replay(lin)
+    ~~~~~~~~~~~~^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 487, in _replay
+    self._fail(f"at the kit's site #{i + 1} the original reached {self._here(lin)}, the port's run {v.label}")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 476, in _fail
+    raise ProofError(f"{self._head(st)}: {text}")
+original_match.port.prove.ProofError: 000E:60CB (stages), call #1 from 000E:7152: at the kit's site #2 the original reached 000E:651E, the port's run 000E:05F6
+
+======================================================================
+ERROR: test_two_actual_pages_keep_each_selected_manager_then_restore_cursor (tests.test_port_stage_news.StageNewsControl.test_two_actual_pages_keep_each_selected_manager_then_restore_cursor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 134, in test_two_actual_pages_keep_each_selected_manager_then_restore_cursor
+    r,p,contexts=announce(image,countries)
+                 ~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 110, in announce
+    assert m.run(m.lin('000E:7152')+1,120,fresh=True)=='announcement-return'
+           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 226, in dispatch
+    self.muted_hook(lin)
+    ~~~~~~~~~~~~~~~^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 428, in _muted_at
+    self._replay(lin)
+    ~~~~~~~~~~~~^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 487, in _replay
+    self._fail(f"at the kit's site #{i + 1} the original reached {self._here(lin)}, the port's run {v.label}")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 476, in _fail
+    raise ProofError(f"{self._head(st)}: {text}")
+original_match.port.prove.ProofError: 000E:60CB (stages), call #2 from 000E:7152: at the kit's site #2 the original reached 000E:651E, the port's run 000E:05F6
+
+======================================================================
+FAIL: test_actual_stage_news_oracles_run_with_receipt_present_and_private_inputs_absent (tests.test_port_stage_news.CIMissingPrivateInputs.test_actual_stage_news_oracles_run_with_receipt_present_and_private_inputs_absent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 273, in test_actual_stage_news_oracles_run_with_receipt_present_and_private_inputs_absent
+    self.assertTrue(result.wasSuccessful(),str(result.errors)+str(result.failures))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : [(<unittest.case._SubTest testMethod=runTest>, 'Traceback (most recent call last):\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 198, in test_all_three_rating_comparisons_use_actual_unmodified_country_ranks\n    r,p,_=announce(image,[country]);self.assertEqual(p.summary()[\'000E:60CB\'][\'proved\'],1)\n          ~~~~~~~~^^^^^^^^^^^^^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 110, in announce\n    assert m.run(m.lin(\'000E:7152\')+1,120,fresh=True)==\'announcement-return\'\n           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run\n    raise err\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 226, in dispatch\n    self.muted_hook(lin)\n    ~~~~~~~~~~~~~~~^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 428, in _muted_at\n    self._replay(lin)\n    ~~~~~~~~~~~~^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 487, in _replay\n    self._fail(f"at the kit\'s site #{i + 1} the original reached {self._here(lin)}, the port\'s run {v.label}")\n    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 476, in _fail\n    raise ProofError(f"{self._head(st)}: {text}")\noriginal_match.port.prove.ProofError: 000E:60CB (stages), call #1 from 000E:7152: at the kit\'s site #2 the original reached 000E:651E, the port\'s run 000E:05F6\n'), (<unittest.case._SubTest testMethod=runTest>, 'Traceback (most recent call last):\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 198, in test_all_three_rating_comparisons_use_actual_unmodified_country_ranks\n    r,p,_=announce(image,[country]);self.assertEqual(p.summary()[\'000E:60CB\'][\'proved\'],1)\n          ~~~~~~~~^^^^^^^^^^^^^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 110, in announce\n    assert m.run(m.lin(\'000E:7152\')+1,120,fresh=True)==\'announcement-return\'\n           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run\n    raise err\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 226, in dispatch\n    self.muted_hook(lin)\n    ~~~~~~~~~~~~~~~^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 428, in _muted_at\n    self._replay(lin)\n    ~~~~~~~~~~~~^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 487, in _replay\n    self._fail(f"at the kit\'s site #{i + 1} the original reached {self._here(lin)}, the port\'s run {v.label}")\n    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 476, in _fail\n    raise ProofError(f"{self._head(st)}: {text}")\noriginal_match.port.prove.ProofError: 000E:60CB (stages), call #1 from 000E:7152: at the kit\'s site #2 the original reached 000E:651E, the port\'s run 000E:05F6\n'), (<tests.test_port_stage_news.StageNewsControl testMethod=test_two_actual_pages_keep_each_selected_manager_then_restore_cursor>, 'Traceback (most recent call last):\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 134, in test_two_actual_pages_keep_each_selected_manager_then_restore_cursor\n    r,p,contexts=announce(image,countries)\n                 ~~~~~~~~^^^^^^^^^^^^^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 110, in announce\n    assert m.run(m.lin(\'000E:7152\')+1,120,fresh=True)==\'announcement-return\'\n           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run\n    raise err\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 226, in dispatch\n    self.muted_hook(lin)\n    ~~~~~~~~~~~~~~~^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 428, in _muted_at\n    self._replay(lin)\n    ~~~~~~~~~~~~^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 487, in _replay\n    self._fail(f"at the kit\'s site #{i + 1} the original reached {self._here(lin)}, the port\'s run {v.label}")\n    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 476, in _fail\n    raise ProofError(f"{self._head(st)}: {text}")\noriginal_match.port.prove.ProofError: 000E:60CB (stages), call #1 from 000E:7152: at the kit\'s site #2 the original reached 000E:651E, the port\'s run 000E:05F6\n')][]
+
+----------------------------------------------------------------------
+Ran 13 tests in 21.613s
+
+FAILED (failures=1, errors=4)

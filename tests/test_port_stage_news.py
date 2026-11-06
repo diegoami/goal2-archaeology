@@ -7,7 +7,7 @@ RET.update({'000E:5DAF':'000E:5FA0','000E:5E6C':'000E:6199','000E:60CB':'000E:71
 
 
 def specs(variant=None,news_helpers=True):
-    wanted={'000E:5DAF','000E:5E6C','000E:60CB','0791:DAF8','1771:55FC','1771:0947','214B:06B1','214B:0018','214B:003C','214B:007B','23E4:025D',
+    wanted={'000E:5DAF','000E:5E6C','000E:60CB','0791:DAF8','1771:55FC','1771:0947','1771:10E7','1771:5A38','1771:59D8','214B:06B1','214B:0018','214B:003C','214B:007B','23E4:025D',
             '23E4:0644','23E4:062A','23E4:06B7','23E4:075A'}
     result=[]
     for reg,_ in port.load(['all']):
@@ -89,7 +89,12 @@ def announce(image,countries,*,variant=None,capture=True,setup=None,helper_varia
     r=R.Route(image,record_writes=False,capture_news=capture);m=r.m
     managers(m,countries)
     if setup:setup(m)
-    contexts=[]
+    contexts=[];r.comparison_sites=[]
+    def comparison(replay):
+        if replay or m.muted:return
+        site=f'000E:{m.stack_word(0):04X}'
+        if site in ('000E:64C1','000E:6500','000E:651E'):r.comparison_sites.append(site)
+    m.at('000E:062F',comparison)
     def entry(replay):
         if replay or m.muted:return
         s=m.reg('ss')*16+m.reg('sp')
@@ -160,8 +165,10 @@ class StageNewsControl(_Calls):
         def pushed(m):
             from original_match import route as R
             m.wr(R.PUSHED_BACK,1,1);m.wr(R.KEY,0x50,1)
-        a,_,_=announce(image,[country],setup=pushed)
-        b,_,_=announce(image,[country],capture=False,setup=pushed)
+        a,pa,_=announce(image,[country],setup=pushed)
+        b,pb,_=announce(image,[country],capture=False,setup=pushed)
+        self.assertEqual(pa.summary()['000E:60CB']['proved'],1)
+        self.assertEqual(pb.summary()['000E:60CB']['proved'],1)
         self.assertEqual(a.m.read(0,MEM_SIZE),b.m.read(0,MEM_SIZE))
         self.assertEqual([a.m.reg(n) for n in REGS],[b.m.reg(n) for n in REGS])
         self.assertEqual(a.record,b.record);self.assertEqual(a.keys.waiting,b.keys.waiting)
@@ -175,6 +182,24 @@ class StageNewsControl(_Calls):
         from original_match.machine import Machine
         m=Machine(image.memory,image.load);countries=list(group_members(m))[:2]
         with self.assertRaises(ProofError):announce(image,countries,variant='stage-news-cursor-not-restored')
+
+    def test_all_three_rating_comparisons_use_actual_unmodified_country_ranks(self):
+        from original_match.machine import Machine
+        image=world_image();m=Machine(image.memory,image.load);cp=m.far(ST.COUNTRIES);groups=group_members(m)
+        # Input selection from original10E7's established rank/continent formula;
+        # no rank, country, score, fixture or result byte is rewritten.
+        ratings={c:((33-m.read(cp+191*c+42,1)[0])*(5-m.read(cp+191*c+44,1)[0])+129-m.read(cp+191*c+43,1)[0])//2 for c in groups}
+        selected={};host=host_country(image)
+        for c,g in groups.items():
+            if c==host:continue
+            total=sum(ratings[p] for p,pg in groups.items() if pg==g and p!=c)
+            site='000E:64C1' if total<2*ratings[c] else ('000E:6500' if total<3*ratings[c] else '000E:651E')
+            selected.setdefault(site,c)
+        self.assertEqual(set(selected),{'000E:64C1','000E:6500','000E:651E'})
+        for site,country in selected.items():
+            with self.subTest(return_pc=site):
+                r,p,_=announce(image,[country]);self.assertEqual(p.summary()['000E:60CB']['proved'],1)
+                self.assertEqual(r.comparison_sites,[site])
 
     def test_tour_next_fixture_write_falsifier_is_caught_in_announcements(self):
         from original_match.port.prove import ProofError
@@ -229,3 +254,25 @@ def stage_news_falsifier_input(m,variant):
     # primary harness. Keep this Route alive through its bound entry handlers.
     r=R.Route(image,record_writes=False,capture_news=False);r.m=m
     m.at(R.KEYPRESSED,r._on_poll);m.at(R.READKEY,r._on_read)
+
+
+class CIMissingPrivateInputs(_Calls):
+    def test_actual_stage_news_oracles_run_with_receipt_present_and_private_inputs_absent(self):
+        import unittest
+        from pathlib import Path
+        from unittest.mock import patch
+        from tests import test_port_stage_world as W
+        saved=dict(W._CACHES);original=Path.read_bytes;reads=[]
+        def missing(path):
+            if '/.cache/t124d/natural/' in path.as_posix():
+                reads.append(str(path));raise FileNotFoundError('CI ignored private input absent')
+            return original(path)
+        W._CACHES.clear()
+        try:
+            with patch.object(Path,'read_bytes',missing):
+                suite=unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromTestCase(c) for c in (StageNews,StageNewsControl,TourEffects))
+                result=unittest.TestResult();suite.run(result)
+                self.assertEqual(result.testsRun,12);self.assertEqual(result.skipped,[])
+                self.assertTrue(result.wasSuccessful(),str(result.errors)+str(result.failures))
+                self.assertTrue(reads);self.assertIn('original6970+actual8757',W.get_inputs()[2])
+        finally:W._CACHES.clear();W._CACHES.update(saved)

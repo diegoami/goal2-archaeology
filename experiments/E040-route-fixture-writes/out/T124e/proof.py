@@ -27,11 +27,11 @@ sha=D.sha
 
 
 def sources():
-    paths=['runtime/original_match/port/stages.py','tests/test_port_stage_news.py',str(Path(__file__).relative_to(ROOT)),
-      'runtime/original_match/route.py','runtime/original_match/news.py','runtime/original_match/port/news.py',
-      'runtime/original_match/port/route.py','runtime/original_match/port/runtime.py',
-      'runtime/original_match/port/entrypoints.py','runtime/original_match/port/display.py',
-      'runtime/original_match/port/assistant.py','runtime/original_match/port/prove.py']
+    paths=['runtime/original_match/route.py','runtime/original_match/route_team.py',
+      'runtime/original_match/match.py','runtime/original_match/machine.py',
+      'runtime/original_match/image.py','runtime/original_match/news.py',
+      'tests/test_port_stage_news.py',str(Path(__file__).relative_to(ROOT))]
+    paths += [str(p.relative_to(ROOT)) for p in sorted((ROOT/'runtime/original_match/port').glob('*.py'))]
     return {p:sha((ROOT/p).read_bytes()) for p in paths}
 
 
@@ -140,7 +140,9 @@ def prove(phase,prepared,out,variant=None):
         memory=ref.m.read(0,MEM_SIZE)==r.m.read(0,MEM_SIZE)
         emit(f,{'phase':phase,'status':'completed','pages':pp,'reference_pages':rp,'summary':p.summary(),
           'all_memory_equal':memory,'register_differences':regs,'records_equal':ref.record==r.record,
-          'waiting_key_equal':ref.keys.waiting==r.keys.waiting,'end':D.game(r.m),'elapsed_s':round(time.monotonic()-start,4)})
+          'waiting_key_equal':ref.keys.waiting==r.keys.waiting,
+          'ordered_record_sha256':sha(json.dumps(D.public(r.record),sort_keys=True).encode()),
+          'rng_events':sum(e[0]=='rng' for e in r.record),'end':D.game(r.m),'elapsed_s':round(time.monotonic()-start,4)})
         assert memory and not regs and ref.record==r.record and ref.keys.waiting==r.keys.waiting
 
 

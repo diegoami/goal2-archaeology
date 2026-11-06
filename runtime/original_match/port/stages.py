@@ -15,6 +15,9 @@ port/_display_finals.py); a routine has one port (port.install refuses two), so 
 `display_helpers()` gives those two of display's entries alone, for a proof of the round's end that installs them
 without display's 86 other entries (its display stubs) [designed: T124a].
 
+T124e also ports 000E:5DAF/5E6C/60CB: announcements retain the manager cursor through the actual page wait,
+reuse the existing real assistant/display/news helpers and restore it afterward; failure text does not unmanage.
+
 The far pointers [designed: from globals.tsv]: DS:A917 the countries (0xBF a record), DS:A91F the managers (3 bytes,
 from index 0x80), DS:A923 the game record, DS:A92B the fixtures (8 bytes, 1-based), DS:A92F the countries' fixture
 lists (0x48 bytes), DS:A933 the group tables."""

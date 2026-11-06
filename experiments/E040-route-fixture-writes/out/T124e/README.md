@@ -54,3 +54,28 @@ competitive-next fixture uses a real original-built world last16 input; the
 initial qualifying input's next fixture was friendly, and that failed calibration
 is retained. The exact old registry and variant-map changes are strictly additive:
 all24 prior entries,23 variants, prior case initializers and assertions remain.
+
+The v3 plain composition uses the real 0723/08DD menu ports too. A small proof
+adapter delegates to the existing Route.Keys object and reproduces only Route's
+key record/write/AL service boundary, leaving return-stack work to those ports.
+Original execution retains Route's standard key entry services. The default key
+policy is unchanged, including queued and pushed-back priority. All reached
+port counts are published, with no stub or original instruction fallback. The
+input is the supplied raw Image at actual 60CB entry, not a sealed state/tables
+consumer or a whole sealed Route claim.
+
+Normalization is only the exact observed below-entry-SP own/nested dead stack;
+return words and live caller country argument remain compared. Positive memory
+controls change each inside endpoint, each adjacent outside byte, the caller
+argument and both RNG words; a LIVE write deletion must also be detected. A
+positive PortMachine guard refuses original 7152 instructions, no `_uc` exists,
+and Machine.run/Image.from_savestate are denied during the plain run. Returned
+scratch differences are reported, without an all16-register equality claim for
+the plain arm. Four natural whole-tail proofs retain that stronger measured
+claim separately. No code-module memory difference is normalized.
+
+`static-call-audit-v1.json` accounts for all75 callsites across758 original
+instructions in the three added bodies, including helper-generated return PCs.
+It compares source AST call arguments/return PCs/near-far forms with the raw
+listing and existing callee ABIs. The older868/77 closure inventory included
+the reused T125 assistant helpers; this PR does not add those owners again.

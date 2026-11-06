@@ -1,0 +1,20 @@
+check_annotations: routines.tsv:478: basis 'read code/seg_000E_07.asm5E6C-5FDB': no file static/goal-exe/code/seg_000E_07.asm5E6C-5FDB
+check_annotations: routines.tsv:478: basis part 'E040/out/T124e' is neither a finding id F<nnn> nor 'read <path>'
+check_annotations: routines.tsv:479: basis 'read code/seg_000E_08.asm60CB-6632': no file static/goal-exe/code/seg_000E_08.asm60CB-6632
+check_annotations: routines.tsv:479: basis part 'E040/out/T124e' is neither a finding id F<nnn> nor 'read <path>'
+check_annotations: routines.tsv:554: basis 'read code/seg_000E_07.asm5DAF-5E1C': no file static/goal-exe/code/seg_000E_07.asm5DAF-5E1C
+check_annotations: routines.tsv:554: basis part 'E040/out/T124e' is neither a finding id F<nnn> nor 'read <path>'
+check_annotations: 6 error(s)
+segment	named	routines
+0000	1	1
+000E	52	58
+0791	277	283
+16D6	0	26
+1771	135	154
+2138	1	1  (run-time library)
+2139	1	1  (run-time library)
+214B	85	85  (run-time library)
+235C	12	12  (run-time library)
+2382	17	17  (run-time library)
+23E4	88	88  (run-time library)
+records 5, fields 47, globals 68
