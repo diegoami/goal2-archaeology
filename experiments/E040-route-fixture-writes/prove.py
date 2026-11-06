@@ -65,7 +65,7 @@ EDITS = {
                                           "(6DAE-7014), not BB2F"),
 }
 DIRTY_PATHS = ("runtime/original_match/route.py", "runtime/original_match/port", "runtime/original_match/machine.py",
-               "runtime/original_match/match.py", "experiments/E040-route-fixture-writes/prove.py",
+               "runtime/original_match/match.py", "runtime/original_match/news.py", "experiments/E040-route-fixture-writes/prove.py",
                "experiments/E040-route-fixture-writes/runner.py")
 
 
@@ -79,6 +79,33 @@ def sha256_file(path):
         for chunk in iter(lambda: f.read(1 << 20), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def news_receipts(route):
+    """Public hashes/scalar provenance; original cell bytes stay in ignored cache."""
+    from original_match.news import news_pages
+    private = ROOT / ".cache" / "t122e-news-pages"
+    private.mkdir(parents=True, exist_ok=True)
+    out = []
+    for ordinal, page in enumerate(route.news_history):
+        digest = hashlib.sha256(page.cells).hexdigest()
+        saved = private / (digest + ".cells")
+        if saved.exists():
+            if sha256_file(saved) != digest:
+                raise ValueError("private captured page hash mismatch")
+        else:
+            saved.write_bytes(page.cells)
+        decoded = news_pages(page)
+        text_digest = hashlib.sha256(json.dumps(decoded, ensure_ascii=False, separators=(",", ":")).encode()).hexdigest()
+        out.append({"ordinal": ordinal, "cells_sha256": digest, "text_sha256": text_digest,
+                    "private_cells": str(saved.relative_to(ROOT)), "buffer_address": page.buffer_address,
+                    "return_address": page.return_address, "country": page.country, "side": page.side,
+                    "manager": page.manager, "flags_words": list(page.flags_words),
+                    "waiting_key": page.waiting_key, "pushed_back": page.pushed_back,
+                    "key_code": page.key_code, "seed_words": list(page.seed_words),
+                    "page_count": len(decoded), "line_counts": [len(p) for p in decoded],
+                    "columns": [sorted(set(map(len, p))) for p in decoded]})
+    return out
 
 
 def cases():
@@ -200,6 +227,8 @@ def run_pass(image_bytes, case, loaded, label):
     accounted = {a: summary[a]["proved"] + summary[a]["nested"] == n for a, n in calls.items()}
     return {
         "case": name, "pass": label, "status": status, "error": error,
+        "news_history": news_receipts(r),
+        "news_page_comparison": "actual05F6 Kit reads compare all4000 A96E bytes in original Prover replay; no duplicate muted capture",
         "inputs": inputs, "fixtures_ahead": ahead,
         "ports": port.spec_names(loaded),
         "calls": {a: calls.get(a, 0) for a in sorted(calls)},
@@ -275,7 +304,7 @@ def main(argv=None):
     states, passes = {}, []
     caught = None
     names = {reg.name for reg, _ in loaded}
-    news_task = "T122d" if any("000E:4E0E" in reg.entries for reg, _ in loaded) else "T122c" if any("000E:26F2" in reg.entries for reg, _ in loaded) else "T122b" if any("000E:11D9" in reg.entries for reg, _ in loaded) else "T122a"
+    news_task = "T122e" if any("000E:3CC8" in reg.entries for reg, _ in loaded) else "T122d" if any("000E:4E0E" in reg.entries for reg, _ in loaded) else "T122c" if any("000E:26F2" in reg.entries for reg, _ in loaded) else "T122b" if any("000E:11D9" in reg.entries for reg, _ in loaded) else "T122a"
     for case in chosen:
         asset = case[2]
         path = DL / asset
@@ -333,6 +362,7 @@ def main(argv=None):
             "code_commit": commit, "ports": port.spec_names(loaded), "variant": a.variant,
             "runtime": {"unicorn": unicorn.__version__, "python": platform.python_version(),
                         "route.py": sha256_file(ROOT / "runtime/original_match/route.py"),
+                        "news.py": sha256_file(ROOT / "runtime/original_match/news.py"),
                         "silent.py": sha256_file(ROOT / "runtime/original_match/port/silent.py"),
                         "prove.py": sha256_file(Path(__file__)),
                         "port_modules": {reg.name: sha256_file(ROOT / "runtime/original_match/port" / (reg.name + ".py"))

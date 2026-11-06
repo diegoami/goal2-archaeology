@@ -1,0 +1,21 @@
+heavy: T122e-corpus-c: waiting for a slot (1 ahead)
+heavy: T122e-corpus-c: waiting for a slot (0 ahead)
+heavy: T122e-corpus-c: got slot 0 after 23 s
+E040-r0011     four  completed 000E:6970=3 0791:B602=3 0791:BB2F=0 0791:D47E=3 2648=3 pages=0/3 33.2s
+E040-r0011     inner completed 0791:B602=3 0791:BB2F=0 0791:D47E=3 2648=3 pages=0/3 45.0s
+E040-r0012     four  completed 000E:6970=15 0791:B602=15 0791:BB2F=0 0791:D47E=15 2648=15 pages=0/15 57.0s
+E040-r0012     inner completed 0791:B602=15 0791:BB2F=0 0791:D47E=15 2648=15 pages=0/15 33.2s
+bb2f           four  completed 000E:6970=2 0791:B602=2 0791:BB2F=1 0791:D47E=2 2648=3 pages=0/2 3.0s
+bb2f           inner completed 0791:B602=2 0791:BB2F=1 0791:D47E=2 2648=3 pages=0/2 1.9s
+news-cb        four  completed 000E:6970=1 0791:B602=1 0791:BB2F=0 0791:D47E=1 2648=2 pages=1/0 2.8s
+news-cb        inner completed 0791:B602=1 0791:BB2F=0 0791:D47E=1 2648=2 pages=1/0 2.0s
+finals-3       four  completed 000E:6970=3 0791:B602=3 0791:BB2F=0 0791:D47E=3 2648=3 pages=0/3 55.3s
+finals-3       inner completed 0791:B602=3 0791:BB2F=0 0791:D47E=3 2648=3 pages=0/3 35.8s
+silent-kind-0  four  completed 000E:6970=2 0791:B602=2 0791:BB2F=0 0791:D47E=2 2648=2 pages=0/2 30.6s
+silent-kind-0  inner completed 0791:B602=2 0791:BB2F=0 0791:D47E=2 2648=2 pages=0/2 27.9s
+000E:6970: 0 of 26 calls proved on their own
+0791:D47E: 26 of 26 calls proved on their own
+0791:B602: 26 of 26 calls proved on their own
+0791:BB2F: 1 of 1 calls proved on their own
+proof: holds
+record: experiments/E040-route-fixture-writes/out/T122e/corpus-c-v1/prove-news+route+silent-20261105T233610Z.json

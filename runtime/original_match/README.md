@@ -504,3 +504,30 @@ shared polynomial evaluation. These reuse the integer Real operations and read
 the source coefficient tables from the input image. No host math approximation
 or native instruction fallback is used. Standalone inputs remain image-backed
 until T80's separate derived-table extraction and records-only delivery.
+
+### Completed news pages (T122e)
+
+The pure reader lives inside this vendorable package:
+
+    from original_match.news import NewsPageMemory, capture_news_page, news_pages
+
+A memory view has `DS` and `read(linear, n)`. `capture_news_page(view)` copies the
+completed 4000-byte character/attribute back buffer at `[DS:A96E]` into an immutable
+`NewsPageMemory`. `news_pages(view_or_snapshot)` returns a tuple containing that one
+page, itself a tuple of 25 exact 80-column Unicode strings. It preserves trailing
+spaces and uses standard IBM PC glyph names (NUL blank, low glyphs, DEL house,
+CP437); original custom-font appearance is not inferred. Attributes remain in
+`snapshot.cells`. This module has only standard-library dependencies.
+
+`Route` captures each actual `000E:05F6` entry by default, before the front-buffer
+copy and celebration. `route.news_history` retains frozen page cells and scalar
+caller/manager/side/flag/seed/key provenance in actual order; `route.news_pages`
+aggregates their decoded lines. No content deduplication occurs, and muted Prover
+replay/resume does not create another actual page. A route object retains history
+across its calls; recreating a route from guest memory alone does not reconstruct
+previously overwritten pages. Callers can retain the immutable snapshots separately.
+`capture_news=False` is available for the observational control test.
+
+Captured cells are private original screen memory. Proof receipts publish hashes
+and semantic scalar provenance, not raw cell/name/guest bytes. They must not be
+mistaken for the later final buffer or reconstructed from it.

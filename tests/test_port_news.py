@@ -39,7 +39,7 @@ class Shared(Case):
         reg = port._module_registry('news')
         expected = {a: 'ret 2' for a in '08F9 094A 09DB 0A53 0ACB 0B0A 0B4D 0B77 0C3A 1F4D 4865 0572'.split()}
         expected.update({'03C4':'ret 6', '045D':'ret 4', '04F5':'ret 4', '0868':'ret 0xa',
-                         '2E1F':'ret 0xe', '3A5E':'ret 6', '4045':'ret 0xa', '47E6':'ret 0xa', '11D9':'ret 2', '2071':'ret 2', '26F2':'ret 2', '319B':'ret 2', '01FA':'ret 2', '4DB7':'ret 2', '4E0E':'ret 6'})
+                         '2E1F':'ret 0xe', '3A5E':'ret 6', '4045':'ret 0xa', '47E6':'ret 0xa', '11D9':'ret 2', '2071':'ret 2', '26F2':'ret 2', '319B':'ret 2', '01FA':'ret 2', '4DB7':'ret 2', '4E0E':'ret 6', '3CC8':'ret 2', '4440':'ret 4', '4A87':'ret 2'})
         self.assertEqual({a: e.ret for a,e in reg.entries.items()}, {'000E:'+a:r for a,r in expected.items()})
 
     def test_crowd_uses_two_draws_per_seat_and_a_conditional_third(self):
@@ -444,3 +444,167 @@ class HeadlineSack(Case):
                     self.assertEqual(len(result['checks']['news_order']),2)
                     self.assertEqual(result['checks']['wait_order'],result['checks']['news_order'])
                     self.assertEqual(result['checks']['released'],result['checks']['news_order'][:1])
+
+
+class Statistics(Case):
+    def frame(self,kind=2,winner=0,goals=(1,0),side=0):
+        r=Rig();pages=0x2900;news=0x2800;country=3 if side==0 else 4
+        r.lin16(pages+4,news);r.lin16(news+4,FXOFF);r.lin16(news+6,FXSEG);r.lin16(news+8,country);r.lin8(news-1,side)
+        r.fixture(kind,3,4);base=FXSEG*16+FXOFF
+        for off,value in enumerate((*goals,kind,winner)):r.lin8(base+off,value)
+        return r,pages,news
+
+    def test_three_original_returns(self):
+        reg=port._module_registry('news')
+        for address,ret in (('3CC8','ret 2'),('4440','ret 4'),('4A87','ret 2')):
+            self.assertEqual(reg.entries['000E:'+address].ret,ret)
+
+    def test_manager_quote_all_eighteen_choices_on_both_result_branches(self):
+        for winner in (0,1):
+            for choice in range(1,19):
+                r,pages,_=self.frame(winner=winner)
+                r.run('000E:4440',[pages,6],responder({'214B:06B1':choice}))
+                self.assertEqual(r.args('214B:06B1'),[(18,)])
+                self.assertEqual(len(r.args('000E:4045')),1)
+                self.assertEqual(r.args('000E:4045')[0][-1],0x2FFE)
+
+    def test_fan_and_board_boolean_results_preserve_high_ax(self):
+        for address,target,table in (('000E:3CC8','000E:3A5E',{}),('000E:4A87','000E:47E6',{'000E:0B77':0xFFF5})):
+            r,pages,_=self.frame(kind=0xCB)
+            def quote(req,mem):r.lin8(req.args[-1]-1,1);return 0x170D
+            answer=responder({**table,target:quote})
+            self.assertEqual(r.run(address,[pages],answer),0x1701)
+            self.assertEqual(len(r.args(target)),1)
+
+    def test_goalless_draw_uses_three_way_fan_quote_without_sack_lookup(self):
+        r,pages,_=self.frame(winner=2,goals=(0,0))
+        r.run('000E:3CC8',[pages],responder({'214B:06B1':2}))
+        self.assertEqual(r.args('214B:06B1'),[(3,)])
+        self.assertEqual(r.args('000E:0B77'),[])
+        self.assertEqual(len(r.args('000E:3A5E')),1)
+
+    def test_excessive_fouls_friendly_coin_and_silent_fourth_competitive_choice(self):
+        for kind,choice,expected in ((1,0,1),(1,1,1),(2,4,0)):
+            r,pages,_=self.frame(kind=kind)
+            result=r.run('000E:4A87',[pages],responder({'000E:4865':1,'214B:06FA':choice,'214B:06B1':choice}))
+            self.assertEqual(len(r.args('000E:47E6')),expected)
+            if kind==1:self.assertEqual(len(r.args('214B:06FA')),1)
+            else:self.assertEqual(r.args('214B:06B1'),[(4,)]);self.assertEqual(result&255,0)
+
+    def test_reader_exhaustive_codec_matches_canonical_oracle(self):
+        from original_match.news import NewsPageMemory,news_pages
+        from decoders.manager import screen_text
+        cells=bytearray(b' \x70'*2000)
+        for i in range(256):cells[2*i]=i
+        lines=news_pages(NewsPageMemory(cells=cells))[0]
+        expected=screen_text(bytes(range(256)))
+        self.assertEqual(''.join(lines)[:256],expected)
+        self.assertEqual(lines[0][:4],' ☺☻♥')
+        self.assertEqual(''.join(lines)[127],'⌂')
+        self.assertEqual(len(lines),25);self.assertTrue(all(len(line)==80 for line in lines))
+
+    def test_reader_uses_completed_back_buffer_and_preserves_immutable_cells(self):
+        from original_match.news import NewsPageMemory,capture_news_page,news_pages
+        r=Rig();r.ds16(0xA96E,0x100);r.ds16(0xA970,0x5500);r.ds16(0xA96A,0x100);r.ds16(0xA96C,0x5600)
+        r.mem.memory[0x55100:0x55100+4000]=b'B\x17'*2000;r.mem.memory[0x56100:0x56100+4000]=b'F\x70'*2000
+        original=bytes(r.mem.memory);regs=dict(r.mem.regs)
+        snapshot=capture_news_page(r.mem)
+        self.assertEqual(news_pages(snapshot)[0][0],'B'*80)
+        self.assertEqual(bytes(r.mem.memory),original);self.assertEqual(r.mem.regs,regs)
+        r.mem.memory[0x55100]=ord('N')
+        self.assertEqual(news_pages(snapshot)[0][0],'B'*80);self.assertEqual(news_pages(r.mem)[0][0][0],'N')
+        raw=bytearray(b'X\x70'*2000);flags=[1,2,3];snap=NewsPageMemory(cells=raw,flags_words=flags)
+        raw[0]=ord('Y');flags[0]=9
+        self.assertEqual(snap.cells[0],ord('X'));self.assertEqual(snap.flags_words,(1,2,3))
+
+    def test_reader_imports_and_decodes_without_unicorn_or_external_runtime_package(self):
+        import subprocess,os
+        runtime=Path(__file__).resolve().parents[1]/'runtime';env=dict(os.environ);env['PYTHONPATH']=str(runtime)
+        code="""import builtins
+original=builtins.__import__
+def blocked(name,*a,**k):
+ if name.split('.')[0] in ('unicorn','decoders','driver'): raise ImportError('blocked optional package '+name)
+ return original(name,*a,**k)
+builtins.__import__=blocked
+from original_match.news import NewsPageMemory,news_pages
+assert news_pages(NewsPageMemory(cells=b'A\\x70'*2000))[0][0]=='A'*80
+print('self-contained pure reader OK')
+"""
+        p=subprocess.run([sys.executable,'-B','-c',code],env=env,capture_output=True,text=True)
+        self.assertEqual(p.returncode,0,p.stderr);self.assertIn('pure reader OK',p.stdout)
+
+    def run_wait(self,capture=True,pushed=False,two=False):
+        from original_match import route as R
+        from original_match.image import Image
+        try:import unicorn
+        except ImportError:self.skipTest('unicorn missing')
+        path=Path(__file__).resolve().parents[1]/'experiments/E040-route-fixture-writes/prove.py'
+        import importlib.util
+        spec=importlib.util.spec_from_file_location('t122e_wait_case',path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+        case=next(c for c in module.cases() if c[0]=='E040-r0004');asset=module.DL/case[2]
+        if not asset.is_file():self.skipTest('published E040 state missing')
+        route=R.Route(Image.from_savestate(asset.read_bytes()),record_writes=False,capture_news=capture)
+        m=route.m;raw=b'Z\x17'*2000;m.write(m.far(0xA96E),raw);m.write(m.far(0xA96A),b'F\x70'*2000)
+        route.keys.waiting=13;m.wr(R.PUSHED_BACK,int(pushed),1);m.wr(R.KEY,0x50,1)
+        ss=m.seg(0x3052);sp=0x3900;m.at('000E:7080',lambda replay:m.stop('wait-test-return'))
+        def call():
+            for i,w in enumerate((0x7080,0,0,0)):m.write(ss*16+sp+2*i,w.to_bytes(2,'little'))
+            for name,v in (('ss',ss),('sp',sp),('bp',0x3F00),('ds',m.DS),('es',m.DS),('cs',m.seg(0xE)),('eip',0x05F6)):m.set_reg(name,v)
+            self.assertEqual(m.run(m.lin('000E:7080')+1,fresh=True),'wait-test-return')
+        call()
+        if two:route.keys.waiting=13;call()
+        return route,raw
+
+    def test_actual_wait_entry_history_is_before_copy_and_has_no_content_dedup(self):
+        route,raw=self.run_wait(two=True)
+        self.assertEqual(len(route.news_history),2)
+        self.assertTrue(all(page.cells==raw for page in route.news_history))
+        self.assertEqual(len(route.news_pages),2);self.assertTrue(all(p[0]=='Z'*80 for p in route.news_pages))
+        self.assertTrue(all(page.waiting_key==13 for page in route.news_history))
+
+    def test_capture_preserves_actual_pushed_back_priority_and_full_original_outcome(self):
+        import hashlib
+        captured,_=self.run_wait(capture=True,pushed=True);plain,_=self.run_wait(capture=False,pushed=True)
+        self.assertEqual(captured.keys.waiting,plain.keys.waiting);self.assertEqual(captured.keys.waiting,13)
+        self.assertEqual(hashlib.sha256(captured.m.read(0,0x110000)).digest(),hashlib.sha256(plain.m.read(0,0x110000)).digest())
+        names=('eax','ebx','ecx','edx','esi','edi','ebp','esp','eflags','cs','ds','es','ss','fs','gs','eip')
+        self.assertEqual([captured.m.reg(n) for n in names],[plain.m.reg(n) for n in names])
+        self.assertEqual(captured.record,plain.record)
+        self.assertEqual(captured.news_history[0].waiting_key,13);self.assertEqual(captured.news_history[0].pushed_back,True)
+        self.assertEqual(captured.news_history[0].key_code,0x50)
+
+    def complete_news_recipe(self):
+        import importlib.util
+        path=Path(__file__).resolve().parents[1]/'experiments/E040-route-fixture-writes/out/T122e/prove_complete_news.py'
+        spec=importlib.util.spec_from_file_location('t122e_complete_recipe',path);module=importlib.util.module_from_spec(spec)
+        try:spec.loader.exec_module(module)
+        except ImportError as exc:
+            if exc.name=='unicorn':self.skipTest('unicorn missing')
+            raise
+        source=next(c for c in module.d.runner.CASES if c[0]=='E040-r0004');asset=module.ROOT/'.cache/dl'/source[3]
+        if not asset.is_file():self.skipTest('published E040 state missing')
+        import hashlib
+        data=asset.read_bytes();self.assertEqual(hashlib.sha256(data).hexdigest(),module.d.runner.expected(source[3]))
+        return module,data
+
+    def test_actual_original_and_ported_recorded_pages_both_sides_survive_first_sack(self):
+        from original_match.news import NewsPageMemory,news_pages
+        import hashlib,json
+        module,data=self.complete_news_recipe()
+        for name in ('route-fragment-0','route-fragment-1'):
+            case=next(c for c in module.cases() if c[0]==name);record=module.prove(data,case)
+            self.assertEqual(record['status'],'completed',record['error'])
+            comparison=record['page_comparison'];self.assertEqual(comparison['ported_pages'],2);self.assertEqual(comparison['original_pages'],2)
+            self.assertTrue(all(comparison['cells_equal_each']+comparison['metadata_equal_each']))
+            self.assertTrue(comparison['first_page_retained_after_second']);self.assertTrue(comparison['first_manager_frozen_before_release'])
+            for receipt in record['news_history']:
+                raw=(module.ROOT/receipt['private_cells']).read_bytes();self.assertEqual(hashlib.sha256(raw).hexdigest(),receipt['cells_sha256'])
+                decoded=news_pages(NewsPageMemory(cells=raw));digest=hashlib.sha256(json.dumps(decoded,ensure_ascii=False,separators=(',',':')).encode()).hexdigest()
+                self.assertEqual(digest,receipt['text_sha256']);self.assertEqual(len(decoded[0]),25);self.assertTrue(all(len(row)==80 for row in decoded[0]))
+
+    def test_actual_queued_key_skips_notes_but_crowd_and_conditional_draw_are_reached(self):
+        module,data=self.complete_news_recipe();case=next(c for c in module.cases() if c[0]=='crowd-positive')
+        record=module.prove(data,case)
+        self.assertEqual(record['status'],'completed',record['error']);self.assertTrue(record['positive_crowd_arming_check'])
+        self.assertGreaterEqual(record['calls']['000E:045D'],1);self.assertGreater(record['actual_crowd_conditional_third_draws'],0)
+        self.assertEqual(record['note_calls'],0);self.assertEqual(record['news_history'][0]['waiting_key'],13)

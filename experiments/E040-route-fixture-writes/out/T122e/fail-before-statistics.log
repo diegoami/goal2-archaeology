@@ -1,0 +1,61 @@
+EEEEE
+======================================================================
+ERROR: test_excessive_fouls_friendly_coin_and_silent_fourth_competitive_choice (tests.test_port_news.Statistics.test_excessive_fouls_friendly_coin_and_silent_fourth_competitive_choice)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 489, in test_excessive_fouls_friendly_coin_and_silent_fourth_competitive_choice
+    result=r.run('000E:4A87',[pages],responder({'000E:4865':1,'214B:06FA':choice,'214B:06B1':choice}))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:4A87'
+
+======================================================================
+ERROR: test_fan_and_board_boolean_results_preserve_high_ax (tests.test_port_news.Statistics.test_fan_and_board_boolean_results_preserve_high_ax)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 476, in test_fan_and_board_boolean_results_preserve_high_ax
+    self.assertEqual(r.run(address,[pages],answer),0x1701)
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:3CC8'
+
+======================================================================
+ERROR: test_goalless_draw_uses_three_way_fan_quote_without_sack_lookup (tests.test_port_news.Statistics.test_goalless_draw_uses_three_way_fan_quote_without_sack_lookup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 481, in test_goalless_draw_uses_three_way_fan_quote_without_sack_lookup
+    r.run('000E:3CC8',[pages],responder({'214B:06B1':2}))
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:3CC8'
+
+======================================================================
+ERROR: test_manager_quote_all_eighteen_choices_on_both_result_branches (tests.test_port_news.Statistics.test_manager_quote_all_eighteen_choices_on_both_result_branches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 466, in test_manager_quote_all_eighteen_choices_on_both_result_branches
+    r.run('000E:4440',[pages,6],responder({'214B:06B1':choice}))
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 14, in run
+    entry = port._module_registry('news').entries[address]
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+KeyError: '000E:4440'
+
+======================================================================
+ERROR: test_three_original_returns (tests.test_port_news.Statistics.test_three_original_returns)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_news.py", line 460, in test_three_original_returns
+    self.assertEqual(reg.entries['000E:'+address].ret,ret)
+                     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: '000E:3CC8'
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.058s
+
+FAILED (errors=5)

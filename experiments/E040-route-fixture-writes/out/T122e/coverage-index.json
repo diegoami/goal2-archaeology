@@ -1,0 +1,1449 @@
+{
+ "schema": "e040-t122e-coverage/1",
+ "task": "T122e",
+ "frozen_source_commit": "0dcb6ccb5765739b64b9da9aa1bc45db3371440d",
+ "index_commit": "e8d81bff457d3bf093282ea69c51593373d98570",
+ "accepted_receipts": [
+  {
+   "path": "corpus-a-v1/prove-news+route+silent-20261105T233547Z.json",
+   "sha256": "9116dc72f30c51baeda54c0b023bf8fdb36cb75fc265411ca4e8cdb3eafce1af",
+   "code_commit": "0dcb6ccb5765739b64b9da9aa1bc45db3371440d"
+  },
+  {
+   "path": "corpus-b-v1/prove-news+route+silent-20261105T233601Z.json",
+   "sha256": "aa6c6bdeaf8c9a5bc516989c2d540b6482afba3b653127d89589a2d3240f0ff2",
+   "code_commit": "0dcb6ccb5765739b64b9da9aa1bc45db3371440d"
+  },
+  {
+   "path": "corpus-c-v1/prove-news+route+silent-20261105T233610Z.json",
+   "sha256": "bfbe8b6cc36caf10608d2763181647620730ac57b4c46b1e5a0f401802f7971d",
+   "code_commit": "0dcb6ccb5765739b64b9da9aa1bc45db3371440d"
+  },
+  {
+   "path": "matrix-v1/parent-normal-20261105T233807Z.json",
+   "sha256": "477c5b9e26380bbe6c4dc99e6d2b1963bef94ed6a65d36f1f96c3c661b6572a6",
+   "code_commit": "4dfbdd34fad5b13b617a25995cc60a4677eea758"
+  },
+  {
+   "path": "falsifiers-v1/crowd-draw-dropped/parent-crowd-draw-dropped-20261105T233811Z.json",
+   "sha256": "887fffe321f8cc9365545feccd59d80c9086c8d1399fc8179d2a8d6d07810611",
+   "code_commit": "4dfbdd34fad5b13b617a25995cc60a4677eea758"
+  },
+  {
+   "path": "falsifiers-v1/headline-draw-dropped/parent-headline-draw-dropped-20261105T233809Z.json",
+   "sha256": "d1e07b2b0bb21afea24a71075d446eda4f84f45c2d4b50720090f79b0d132034",
+   "code_commit": "4dfbdd34fad5b13b617a25995cc60a4677eea758"
+  },
+  {
+   "path": "falsifiers-v1/sack-threshold-minus-one/parent-sack-threshold-minus-one-20261105T233810Z.json",
+   "sha256": "922d1295b62f423999ddf8c1641d4508aac722b2028f2517595bf3fe9e494194",
+   "code_commit": "4dfbdd34fad5b13b617a25995cc60a4677eea758"
+  },
+  {
+   "path": "falsifiers-v1/statistics-draw-dropped/parent-statistics-draw-dropped-20261105T233809Z.json",
+   "sha256": "a9aea0284ae7a0fbd399d273825d635f769cf4da65a25c0de2d65b21dd361a9e",
+   "code_commit": "4dfbdd34fad5b13b617a25995cc60a4677eea758"
+  },
+  {
+   "path": "falsifiers-v1/unmanage-manager-write-dropped/parent-unmanage-manager-write-dropped-20261105T233811Z.json",
+   "sha256": "b392d4fd57fd421ea433215e1742e70f917b1e533ed66154d4e382c39952c844",
+   "code_commit": "4dfbdd34fad5b13b617a25995cc60a4677eea758"
+  },
+  {
+   "path": "completeness-0dcb6ccb.json",
+   "sha256": "860a92e96b6e5e9869bc3c2270edcfcf57f6dd288e860d586cb34311e8e2c05a",
+   "code_commit": "0dcb6ccb5765739b64b9da9aa1bc45db3371440d"
+  },
+  {
+   "path": "main-call-audit-0dcb6ccb.json",
+   "sha256": "1aab499dbbfc8a6e2313cabdddce781fa2232349d9705d7b8e2659c4d391e362",
+   "code_commit": "0dcb6ccb5765739b64b9da9aa1bc45db3371440d"
+  }
+ ],
+ "checks": {
+  "named-0dcb6ccb.log": "e4d0ef9233708493cf731f8d2921477ef8ee2148e6806068ce012125f92ac351",
+  "corpus-c-v1.log": "86bbc627da918596ff2ad195ce91e82ae4a5547ff94cc48b4454ef61704c22fe",
+  "fail-before-statistics.log": "95f500396abb7edece6294a0f07ddb78fd9d062e93c4bf7937b6a4063bcac257",
+  "falsifiers-v1.log": "6837ff8e306650081572bb43da84647498cacb60b8f7b00699cf5f10a5fee2a0",
+  "corpus-b-v1.log": "6fc18d0baa932eba2c0c07e5647857b32162aa3a5036ace012ac297e5d320b40",
+  "fail-before-recorded-pages.log": "bcaa627ce60fdc296173cf9c3b4677e426a2b421969729a3bbb199c1a9df53c0",
+  "corpus-a-v1.log": "a63fa40bfd0020526645e9bb4d9eafee50337f37779c6cc93ff8039a1c140ee7",
+  "focused-0dcb6ccb.log": "24aa83cd6854a1871c98cad8ef9d36ae00f2579a9e55573b1dec3e2663a5e873",
+  "matrix-v1.log": "57843799cf6e6d719f09c211b94b387b099a877397e0092d83aa0da9e901db8c",
+  "annotations-0dcb6ccb.log": "dca31176ef5992984b803066a40743b3943003b261a73cdc3dc21ad2588524d0",
+  "fail-before-reader-history.log": "8b9d2ff72fb2a74cd5be3554cb55f8b568f3da9af69bf68e54e21d3b293038e9"
+ },
+ "registered_news_entries": [
+  "000E:01FA",
+  "000E:03C4",
+  "000E:045D",
+  "000E:04F5",
+  "000E:0572",
+  "000E:0868",
+  "000E:08F9",
+  "000E:094A",
+  "000E:09DB",
+  "000E:0A53",
+  "000E:0ACB",
+  "000E:0B0A",
+  "000E:0B4D",
+  "000E:0B77",
+  "000E:0C3A",
+  "000E:11D9",
+  "000E:1F4D",
+  "000E:2071",
+  "000E:26F2",
+  "000E:2E1F",
+  "000E:319B",
+  "000E:3A5E",
+  "000E:3CC8",
+  "000E:4045",
+  "000E:4440",
+  "000E:47E6",
+  "000E:4865",
+  "000E:4A87",
+  "000E:4DB7",
+  "000E:4E0E"
+ ],
+ "counts": {
+  "route_passes": 32,
+  "published_states": 12,
+  "declared_route_edits": 4,
+  "outer_proofs": 16,
+  "declared_function_frames": 511,
+  "parent_frames": 266,
+  "new_statistics_frames": 244,
+  "crowd_positive_frames": 1,
+  "falsifiers": 5,
+  "tests": 44
+ },
+ "taxonomy": {
+  "all_frames_are_function_domain_or_route_fragment_not_natural_calendar": true,
+  "isolated_statistics_frames": 244,
+  "isolated_crowd_news_frame": 1,
+  "parent_two_manager_route_fragments": 2,
+  "parent_unmanage_stress": 14,
+  "parent_other_news_headline_frames": 250,
+  "recipe_category_refinement": "raw driver labels statistics as isolated-headline-news-frame; index refines by actual entry/case prefix"
+ },
+ "coverage": {
+  "natural_and_declared_route": {
+   "calls": {
+    "000E:01FA": 0,
+    "000E:038E": 30,
+    "000E:03C4": 360,
+    "000E:045D": 0,
+    "000E:04F5": 0,
+    "000E:0572": 0,
+    "000E:05F6": 30,
+    "000E:062F": 30,
+    "000E:070B": 210,
+    "000E:075F": 30,
+    "000E:0868": 24,
+    "000E:08F9": 10,
+    "000E:094A": 2,
+    "000E:09DB": 44,
+    "000E:0A53": 10,
+    "000E:0ACB": 32,
+    "000E:0B0A": 2,
+    "000E:0B4D": 40,
+    "000E:0B77": 72,
+    "000E:0C3A": 2,
+    "000E:11D9": 28,
+    "000E:1F4D": 18,
+    "000E:2071": 28,
+    "000E:26F2": 28,
+    "000E:2E1F": 28,
+    "000E:319B": 28,
+    "000E:3A5E": 20,
+    "000E:3CC8": 28,
+    "000E:4045": 24,
+    "000E:4440": 24,
+    "000E:47E6": 8,
+    "000E:4865": 28,
+    "000E:4A87": 28,
+    "000E:4DB7": 28,
+    "000E:4E0E": 28,
+    "000E:5978": 2,
+    "000E:6685": 1,
+    "000E:6970": 78,
+    "000E:6C21": 34,
+    "000E:6CA7": 16,
+    "0791:B602": 156,
+    "0791:BB2F": 2,
+    "0791:D47E": 156,
+    "0791:E80D": 4,
+    "1771:0947": 32
+   },
+   "scratch": {
+    "FLAGS": 89
+   },
+   "dead_write_counts": {}
+  },
+  "declared_function": {
+   "calls": {
+    "000E:01FA": 20,
+    "000E:03C4": 1717,
+    "000E:045D": 7,
+    "000E:04F5": 13,
+    "000E:0572": 7,
+    "000E:0868": 106,
+    "000E:08F9": 68,
+    "000E:094A": 0,
+    "000E:09DB": 162,
+    "000E:0A53": 112,
+    "000E:0ACB": 164,
+    "000E:0B0A": 16,
+    "000E:0B4D": 196,
+    "000E:0B77": 455,
+    "000E:0C3A": 0,
+    "000E:11D9": 49,
+    "000E:1F4D": 118,
+    "000E:2071": 36,
+    "000E:26F2": 49,
+    "000E:2E1F": 255,
+    "000E:319B": 255,
+    "000E:3A5E": 125,
+    "000E:3CC8": 179,
+    "000E:4045": 106,
+    "000E:4440": 106,
+    "000E:47E6": 89,
+    "000E:4865": 103,
+    "000E:4A87": 155,
+    "000E:4DB7": 81,
+    "000E:4E0E": 49
+   },
+   "scratch": {
+    "FLAGS": 88
+   },
+   "dead_write_counts": {}
+  }
+ },
+ "actual_decision_values": {
+  "000E:0480": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "000E:048C": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50,
+   51,
+   52,
+   53,
+   54,
+   55,
+   56,
+   57,
+   58,
+   59,
+   60,
+   61,
+   62,
+   63,
+   64,
+   65,
+   66,
+   67,
+   68,
+   69,
+   70,
+   71,
+   72,
+   73,
+   74,
+   75,
+   76,
+   77,
+   78,
+   79,
+   80
+  ],
+  "000E:04B7": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "000E:32ED": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:335B": [
+   0,
+   1
+  ],
+  "000E:336B": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:3409": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:34AE": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:3638": [
+   0,
+   1
+  ],
+  "000E:3645": [
+   1,
+   2
+  ],
+  "000E:3698": [
+   1,
+   2
+  ],
+  "000E:3712": [
+   -128,
+   -11,
+   -10,
+   -8,
+   -7,
+   -6,
+   -5,
+   0
+  ],
+  "000E:37BE": [
+   0,
+   1
+  ],
+  "000E:37CE": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:386D": [
+   0,
+   1
+  ],
+  "000E:387A": [
+   1,
+   2,
+   3
+  ],
+  "000E:38F4": [
+   0,
+   1
+  ],
+  "000E:3901": [
+   1,
+   2,
+   3
+  ],
+  "000E:397A": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:3A81": [
+   1,
+   2
+  ],
+  "000E:3D70": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:3D7E": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "000E:3E01": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "000E:3E3A": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "000E:3E88": [
+   1,
+   2,
+   3
+  ],
+  "000E:3EC3": [
+   -128,
+   -11,
+   -10,
+   -8,
+   -7,
+   -6,
+   -5,
+   0
+  ],
+  "000E:3F50": [
+   0,
+   1
+  ],
+  "000E:3F5D": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "000E:3FB8": [
+   0,
+   1
+  ],
+  "000E:3FC5": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "000E:400E": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "000E:4478": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18
+  ],
+  "000E:4607": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18
+  ],
+  "000E:4817": [
+   0,
+   1
+  ],
+  "000E:4AC9": [
+   -128,
+   -11,
+   -10,
+   -8,
+   -7,
+   -6,
+   -5,
+   0
+  ],
+  "000E:4BA3": [
+   0,
+   1
+  ],
+  "000E:4BB9": [
+   0,
+   1
+  ],
+  "000E:4BEA": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:4C4A": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16
+  ],
+  "000E:4D93": [
+   0,
+   1
+  ],
+  "000E:4D9C": [
+   0,
+   1
+  ],
+  "000E:4DC2": [
+   0,
+   1
+  ],
+  "000E:4DCA": [
+   0,
+   1
+  ],
+  "000E:4DE4": [
+   0
+  ],
+  "000E:4EA5": [
+   0,
+   1,
+   2,
+   4
+  ],
+  "000E:6FAE": [
+   1
+  ]
+ },
+ "actual_raw_ax_values": {
+  "000E:0480": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "000E:048C": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50,
+   51,
+   52,
+   53,
+   54,
+   55,
+   56,
+   57,
+   58,
+   59,
+   60,
+   61,
+   62,
+   63,
+   64,
+   65,
+   66,
+   67,
+   68,
+   69,
+   70,
+   71,
+   72,
+   73,
+   74,
+   75,
+   76,
+   77,
+   78,
+   79,
+   80
+  ],
+  "000E:04B7": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "000E:32ED": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:335B": [
+   0,
+   1
+  ],
+  "000E:336B": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:3409": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:34AE": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:3638": [
+   0,
+   1
+  ],
+  "000E:3645": [
+   1,
+   2
+  ],
+  "000E:3698": [
+   1,
+   2
+  ],
+  "000E:3712": [
+   0,
+   65408,
+   65525,
+   65526,
+   65528,
+   65529,
+   65530,
+   65531
+  ],
+  "000E:37BE": [
+   0,
+   1
+  ],
+  "000E:37CE": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:386D": [
+   0,
+   1
+  ],
+  "000E:387A": [
+   1,
+   2,
+   3
+  ],
+  "000E:38F4": [
+   0,
+   1
+  ],
+  "000E:3901": [
+   1,
+   2,
+   3
+  ],
+  "000E:397A": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:3A81": [
+   1,
+   2
+  ],
+  "000E:3D70": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:3D7E": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "000E:3E01": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "000E:3E3A": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "000E:3E88": [
+   1,
+   2,
+   3
+  ],
+  "000E:3EC3": [
+   0,
+   65408,
+   65525,
+   65526,
+   65528,
+   65529,
+   65530,
+   65531
+  ],
+  "000E:3F50": [
+   0,
+   1
+  ],
+  "000E:3F5D": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "000E:3FB8": [
+   0,
+   1
+  ],
+  "000E:3FC5": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "000E:400E": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "000E:4478": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18
+  ],
+  "000E:4607": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18
+  ],
+  "000E:4817": [
+   0,
+   1
+  ],
+  "000E:4AC9": [
+   0,
+   65408,
+   65525,
+   65526,
+   65528,
+   65529,
+   65530,
+   65531
+  ],
+  "000E:4BA3": [
+   0,
+   1
+  ],
+  "000E:4BB9": [
+   0,
+   1
+  ],
+  "000E:4BEA": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "000E:4C4A": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16
+  ],
+  "000E:4D93": [
+   0,
+   1
+  ],
+  "000E:4D9C": [
+   0,
+   1
+  ],
+  "000E:4DC2": [
+   0,
+   5889
+  ],
+  "000E:4DCA": [
+   0,
+   5889
+  ],
+  "000E:4DE4": [
+   0
+  ],
+  "000E:4EA5": [
+   0,
+   1,
+   2,
+   4
+  ],
+  "000E:6FAE": [
+   1281,
+   5121
+  ]
+ },
+ "decision_value_widths": {
+  "000E:3CC8": "AL;AH preserved",
+  "000E:4A87": "AL;AH preserved",
+  "000E:1F4D": "AL",
+  "000E:09DB": "AL",
+  "000E:0A53": "AL",
+  "1771:0B77": "AL ownership",
+  "000E:0B77": "signed AX",
+  "214B:06B1": "AX",
+  "214B:06FA": "AX"
+ },
+ "route_fragments": [
+  {
+   "case": "route-fragment-0",
+   "checks": {
+    "actual_original_ownership_results": [
+     1,
+     1
+    ],
+    "news_order": [
+     7,
+     27
+    ],
+    "wait_order": [
+     7,
+     27
+    ],
+    "released": [
+     7
+    ],
+    "expected_order": [
+     7,
+     27
+    ],
+    "second_manager_after": 130
+   },
+   "comparison": {
+    "reference_status": "completed",
+    "control_status": "completed",
+    "ported_pages": 2,
+    "original_pages": 2,
+    "cells_equal_each": [
+     true,
+     true
+    ],
+    "metadata_equal_each": [
+     true,
+     true
+    ],
+    "reference_page_receipts": [
+     {
+      "ordinal": 0,
+      "cells_sha256": "bf535015b012f3070f34d0b543c9407aecbc73827062fc92cf2ed0c60f3900ec",
+      "text_sha256": "74f9a3b86d0060260609062075f636244f89db9943bc128c01be73ce55a6dc95",
+      "private_cells": ".cache/t122e-news-pages/bf535015b012f3070f34d0b543c9407aecbc73827062fc92cf2ed0c60f3900ec.cells",
+      "buffer_address": 247632,
+      "return_address": "000E:4F72",
+      "country": 7,
+      "side": 0,
+      "manager": 129,
+      "flags_words": [
+       0,
+       0,
+       8192
+      ],
+      "waiting_key": null,
+      "pushed_back": false,
+      "key_code": 13,
+      "seed_words": [
+       15138,
+       40519
+      ],
+      "page_count": 1,
+      "line_counts": [
+       25
+      ],
+      "columns": [
+       [
+        80
+       ]
+      ]
+     },
+     {
+      "ordinal": 1,
+      "cells_sha256": "bce49c92553100531746ed01f9815ec381b4321f65bf2af9bbd91db764e53908",
+      "text_sha256": "ab45905b28db742bbe2e500b8c5f7ebc5da3709ab448443ee50313319c200472",
+      "private_cells": ".cache/t122e-news-pages/bce49c92553100531746ed01f9815ec381b4321f65bf2af9bbd91db764e53908.cells",
+      "buffer_address": 247632,
+      "return_address": "000E:4F72",
+      "country": 27,
+      "side": 1,
+      "manager": 130,
+      "flags_words": [
+       0,
+       0,
+       8192
+      ],
+      "waiting_key": null,
+      "pushed_back": false,
+      "key_code": 13,
+      "seed_words": [
+       41290,
+       40519
+      ],
+      "page_count": 1,
+      "line_counts": [
+       25
+      ],
+      "columns": [
+       [
+        80
+       ]
+      ]
+     }
+    ],
+    "original_capture_control_memory_equal": true,
+    "original_capture_control_registers_equal": true,
+    "original_capture_control_key_rng_record_equal": true,
+    "first_page_retained_after_second": true,
+    "first_manager_frozen_before_release": true
+   },
+   "history": [
+    {
+     "ordinal": 0,
+     "cells_sha256": "bf535015b012f3070f34d0b543c9407aecbc73827062fc92cf2ed0c60f3900ec",
+     "text_sha256": "74f9a3b86d0060260609062075f636244f89db9943bc128c01be73ce55a6dc95",
+     "private_cells": ".cache/t122e-news-pages/bf535015b012f3070f34d0b543c9407aecbc73827062fc92cf2ed0c60f3900ec.cells",
+     "buffer_address": 247632,
+     "return_address": "000E:4F72",
+     "country": 7,
+     "side": 0,
+     "manager": 129,
+     "flags_words": [
+      0,
+      0,
+      8192
+     ],
+     "waiting_key": null,
+     "pushed_back": false,
+     "key_code": 13,
+     "seed_words": [
+      15138,
+      40519
+     ],
+     "page_count": 1,
+     "line_counts": [
+      25
+     ],
+     "columns": [
+      [
+       80
+      ]
+     ]
+    },
+    {
+     "ordinal": 1,
+     "cells_sha256": "bce49c92553100531746ed01f9815ec381b4321f65bf2af9bbd91db764e53908",
+     "text_sha256": "ab45905b28db742bbe2e500b8c5f7ebc5da3709ab448443ee50313319c200472",
+     "private_cells": ".cache/t122e-news-pages/bce49c92553100531746ed01f9815ec381b4321f65bf2af9bbd91db764e53908.cells",
+     "buffer_address": 247632,
+     "return_address": "000E:4F72",
+     "country": 27,
+     "side": 1,
+     "manager": 130,
+     "flags_words": [
+      0,
+      0,
+      8192
+     ],
+     "waiting_key": null,
+     "pushed_back": false,
+     "key_code": 13,
+     "seed_words": [
+      41290,
+      40519
+     ],
+     "page_count": 1,
+     "line_counts": [
+      25
+     ],
+     "columns": [
+      [
+       80
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "case": "route-fragment-1",
+   "checks": {
+    "actual_original_ownership_results": [
+     1,
+     1
+    ],
+    "news_order": [
+     27,
+     7
+    ],
+    "wait_order": [
+     27,
+     7
+    ],
+    "released": [
+     27
+    ],
+    "expected_order": [
+     27,
+     7
+    ],
+    "second_manager_after": 129
+   },
+   "comparison": {
+    "reference_status": "completed",
+    "control_status": "completed",
+    "ported_pages": 2,
+    "original_pages": 2,
+    "cells_equal_each": [
+     true,
+     true
+    ],
+    "metadata_equal_each": [
+     true,
+     true
+    ],
+    "reference_page_receipts": [
+     {
+      "ordinal": 0,
+      "cells_sha256": "8c906d270db6a153c0c4e46a3fb058f28fb0edccbf91213ae3abb6c93c8533a1",
+      "text_sha256": "58b5a584d217254be00e7a2963196ef8f866a5a30235403d934b4fa0b24046b7",
+      "private_cells": ".cache/t122e-news-pages/8c906d270db6a153c0c4e46a3fb058f28fb0edccbf91213ae3abb6c93c8533a1.cells",
+      "buffer_address": 247632,
+      "return_address": "000E:4F72",
+      "country": 27,
+      "side": 0,
+      "manager": 130,
+      "flags_words": [
+       0,
+       0,
+       8192
+      ],
+      "waiting_key": null,
+      "pushed_back": false,
+      "key_code": 13,
+      "seed_words": [
+       15138,
+       40519
+      ],
+      "page_count": 1,
+      "line_counts": [
+       25
+      ],
+      "columns": [
+       [
+        80
+       ]
+      ]
+     },
+     {
+      "ordinal": 1,
+      "cells_sha256": "42d4f228554a41fb3a80f1adec7fc0c41b90e02a86b4cf0353a9aaddccbac3e4",
+      "text_sha256": "c0396dcffa213495b6a79074f5e0528dc3df7cbd15d43237fc7166596c09beec",
+      "private_cells": ".cache/t122e-news-pages/42d4f228554a41fb3a80f1adec7fc0c41b90e02a86b4cf0353a9aaddccbac3e4.cells",
+      "buffer_address": 247632,
+      "return_address": "000E:4F72",
+      "country": 7,
+      "side": 1,
+      "manager": 129,
+      "flags_words": [
+       0,
+       0,
+       8192
+      ],
+      "waiting_key": null,
+      "pushed_back": false,
+      "key_code": 13,
+      "seed_words": [
+       41290,
+       40519
+      ],
+      "page_count": 1,
+      "line_counts": [
+       25
+      ],
+      "columns": [
+       [
+        80
+       ]
+      ]
+     }
+    ],
+    "original_capture_control_memory_equal": true,
+    "original_capture_control_registers_equal": true,
+    "original_capture_control_key_rng_record_equal": true,
+    "first_page_retained_after_second": true,
+    "first_manager_frozen_before_release": true
+   },
+   "history": [
+    {
+     "ordinal": 0,
+     "cells_sha256": "8c906d270db6a153c0c4e46a3fb058f28fb0edccbf91213ae3abb6c93c8533a1",
+     "text_sha256": "58b5a584d217254be00e7a2963196ef8f866a5a30235403d934b4fa0b24046b7",
+     "private_cells": ".cache/t122e-news-pages/8c906d270db6a153c0c4e46a3fb058f28fb0edccbf91213ae3abb6c93c8533a1.cells",
+     "buffer_address": 247632,
+     "return_address": "000E:4F72",
+     "country": 27,
+     "side": 0,
+     "manager": 130,
+     "flags_words": [
+      0,
+      0,
+      8192
+     ],
+     "waiting_key": null,
+     "pushed_back": false,
+     "key_code": 13,
+     "seed_words": [
+      15138,
+      40519
+     ],
+     "page_count": 1,
+     "line_counts": [
+      25
+     ],
+     "columns": [
+      [
+       80
+      ]
+     ]
+    },
+    {
+     "ordinal": 1,
+     "cells_sha256": "42d4f228554a41fb3a80f1adec7fc0c41b90e02a86b4cf0353a9aaddccbac3e4",
+     "text_sha256": "c0396dcffa213495b6a79074f5e0528dc3df7cbd15d43237fc7166596c09beec",
+     "private_cells": ".cache/t122e-news-pages/42d4f228554a41fb3a80f1adec7fc0c41b90e02a86b4cf0353a9aaddccbac3e4.cells",
+     "buffer_address": 247632,
+     "return_address": "000E:4F72",
+     "country": 7,
+     "side": 1,
+     "manager": 129,
+     "flags_words": [
+      0,
+      0,
+      8192
+     ],
+     "waiting_key": null,
+     "pushed_back": false,
+     "key_code": 13,
+     "seed_words": [
+      41290,
+      40519
+     ],
+     "page_count": 1,
+     "line_counts": [
+      25
+     ],
+     "columns": [
+      [
+       80
+      ]
+     ]
+    }
+   ]
+  }
+ ],
+ "positive_crowd": {
+  "calls": {
+   "000E:03C4": 12,
+   "000E:045D": 1,
+   "000E:04F5": 3,
+   "000E:0572": 1,
+   "000E:0868": 0,
+   "000E:08F9": 0,
+   "000E:094A": 0,
+   "000E:09DB": 0,
+   "000E:0A53": 0,
+   "000E:0ACB": 2,
+   "000E:0B0A": 0,
+   "000E:0B4D": 2,
+   "000E:0B77": 1,
+   "000E:0C3A": 0,
+   "000E:1F4D": 0,
+   "000E:2E1F": 1,
+   "000E:3A5E": 1,
+   "000E:4045": 0,
+   "000E:47E6": 1,
+   "000E:4865": 1,
+   "000E:11D9": 1,
+   "000E:2071": 0,
+   "000E:26F2": 1,
+   "000E:01FA": 0,
+   "000E:319B": 1,
+   "000E:4DB7": 1,
+   "000E:4E0E": 1,
+   "000E:3CC8": 1,
+   "000E:4440": 0,
+   "000E:4A87": 1
+  },
+  "conditional_third_draws": 92,
+  "note_calls": 0,
+  "history": [
+   {
+    "ordinal": 0,
+    "cells_sha256": "dc2a4ed49cedb03af957a488b144ea9e13716eb7295fe7dbe0755e9368f081be",
+    "text_sha256": "832fa327eb9309b95718e170f1dce5d7df91bd0fe495c207d641ca12b302400d",
+    "private_cells": ".cache/t122e-news-pages/dc2a4ed49cedb03af957a488b144ea9e13716eb7295fe7dbe0755e9368f081be.cells",
+    "buffer_address": 247632,
+    "return_address": "000E:4F72",
+    "country": 7,
+    "side": 0,
+    "manager": 129,
+    "flags_words": [
+     1,
+     0,
+     8192
+    ],
+    "waiting_key": 13,
+    "pushed_back": false,
+    "key_code": 13,
+    "seed_words": [
+     63273,
+     40519
+    ],
+    "page_count": 1,
+    "line_counts": [
+     25
+    ],
+    "columns": [
+     [
+      80
+     ]
+    ]
+   }
+  ]
+ },
+ "current_source_hashes": {
+  "runtime/original_match/port/news.py": "c8aec06208f0ef2bf2591b8b8a74aff1e4e161b774e45da8225dec6bd159fc4e",
+  "runtime/original_match/news.py": "dde07e302270d1360e6cbc46511ace0502044419a427949801f1d42cb31fc97c",
+  "runtime/original_match/route.py": "b30afbac2b86436bd3306114af4a7b315c432b9dd49c66a4e6a00728eb39981f",
+  "experiments/E040-route-fixture-writes/prove.py": "e68e244d03aa2c333c8f0d82fd2f5a4d1c0684711a244e8112e1b2d4a864c236",
+  "experiments/E040-route-fixture-writes/out/T122e/prove_complete_news.py": "6392455d29e71e747ed5b155c1b952f8d889474266ff5753767295a1a1528809",
+  "experiments/E040-route-fixture-writes/out/T122d/prove_headlines.py": "a1f2ecdf000da693b976b9d6eceeefb21935c0e12e6a7905a56c5e6ba65ed134"
+ },
+ "diagnostics": [],
+ "limits": [
+  "Only12published states are natural;4entry edits and511function inputs are declared.",
+  "Two-manager fragments execute actual6F91->6FE1, not whole6CA7 or a natural calendar;32separate entry proofs cover full route.",
+  "Standard unchangedT59Prover compares returnedABI/livewrites and counts scratch; no all-register equality claim between port and original. Original-only capture-on/off control independently compares all16registers/fullmemory/key-RNG record.",
+  "Raw4000-byte captured guest pages remain in ignored.cache/t122e-news-pages;public receipts contain hashes/scalars only.",
+  "Unit mock-only silent/unreachable choice branches are not original-backed coverage;actual recordedRNGreturns below are authoritative.",
+  "Full suite and CI remain required before merge."
+ ]
+}

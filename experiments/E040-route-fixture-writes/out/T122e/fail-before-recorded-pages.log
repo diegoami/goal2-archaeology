@@ -1,0 +1,30 @@
+Baseline83afd93d; current new tests and proof recipe, unchanged baseline runtime.
+EE
+======================================================================
+ERROR: test_actual_original_and_ported_recorded_pages_both_sides_survive_first_sack (tests.test_port_news.Statistics.test_actual_original_and_ported_recorded_pages_both_sides_survive_first_sack)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t122e-before-finaltests/tests/test_port_news.py", line 591, in test_actual_original_and_ported_recorded_pages_both_sides_survive_first_sack
+    from original_match.news import NewsPageMemory,news_pages
+ModuleNotFoundError: No module named 'original_match.news'
+
+======================================================================
+ERROR: test_actual_queued_key_skips_notes_but_crowd_and_conditional_draw_are_reached (tests.test_port_news.Statistics.test_actual_queued_key_skips_notes_but_crowd_and_conditional_draw_are_reached)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t122e-before-finaltests/tests/test_port_news.py", line 606, in test_actual_queued_key_skips_notes_but_crowd_and_conditional_draw_are_reached
+    module,data=self.complete_news_recipe();case=next(c for c in module.cases() if c[0]=='crowd-positive')
+                ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/t122e-before-finaltests/tests/test_port_news.py", line 580, in complete_news_recipe
+    try:spec.loader.exec_module(module)
+        ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 759, in exec_module
+  File "<frozen importlib._bootstrap>", line 491, in _call_with_frames_removed
+  File "/tmp/t122e-before-finaltests/experiments/E040-route-fixture-writes/out/T122e/prove_complete_news.py", line 9, in <module>
+    from original_match.news import news_pages
+ModuleNotFoundError: No module named 'original_match.news'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.006s
+
+FAILED (errors=2)

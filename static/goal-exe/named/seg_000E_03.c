@@ -822,9 +822,10 @@ void news_fan_quote(int param_1,undefined4 param_2)
 }
 
 
-// ---- 000E:3CC8  f_000E_3CC8  (f_000E_3CC8; Ghidra 1000:3CC8, __stdcall16near; found by routines.tsv)
+// ---- 000E:3CC8  news_statistics_fan_quote  (f_000E_3CC8; Ghidra 1000:3CC8, __stdcall16near; found by routines.tsv)
+// T122e (port/news.py): fan statistics quote through nested parent frame; kind/winner/margin/set membership/real confidence/rating branches; returns AL flag while preserving AH  [likely; F039; read code/seg_000E_05.asm]
 
-undefined1 f_000E_3CC8(int param_1)
+undefined1 news_statistics_fan_quote(int param_1)
 
 {
   undefined4 uVar1;

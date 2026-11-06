@@ -1,0 +1,13 @@
+heavy: T122e-falsifiers: waiting for a slot (1 ahead)
+heavy: T122e-falsifiers: waiting for a slot (0 ahead)
+heavy: T122e-falsifiers: got slot 1 after 122 s
+stat-4440-0-win-18 differs 000E:4440 (news), call #1 from 000E:7080: the original reached the kit's site 000E:4478 (site #1), which the port's run did not (0 sites)
+record: experiments/E040-route-fixture-writes/out/T122e/falsifiers-v1/statistics-draw-dropped/parent-statistics-draw-dropped-20261105T233809Z.json
+route-fragment-0 differs 000E:4E0E (news), call #2 from 000E:6FDB: at the kit's site #4 the original reached 000E:336B, the port's run 000E:3D70
+record: experiments/E040-route-fixture-writes/out/T122e/falsifiers-v1/headline-draw-dropped/parent-headline-draw-dropped-20261105T233809Z.json
+route-fragment-0 differs 000E:4E0E (news), call #1 from 000E:6FDB: ported call #8 inside: the original's call of 000E:0ACB from 000E:3797 returned, the port's run's of 000E:1F4D from 000E:37BE
+record: experiments/E040-route-fixture-writes/out/T122e/falsifiers-v1/sack-threshold-minus-one/parent-sack-threshold-minus-one-20261105T233810Z.json
+route-fragment-0 differs 000E:4E0E (news), call #1 from 000E:6FDB: written byte #8963 differs: the original wrote 0x07 at linear 0x48AE5, the port wrote 0xFF at linear 0x5DBDE
+record: experiments/E040-route-fixture-writes/out/T122e/falsifiers-v1/unmanage-manager-write-dropped/parent-unmanage-manager-write-dropped-20261105T233811Z.json
+crowd-positive differs 000E:4E0E (news), call #1 from 000E:7080: at the kit's site #15 the original reached 000E:04B7, the port's run 000E:0480
+record: experiments/E040-route-fixture-writes/out/T122e/falsifiers-v1/crowd-draw-dropped/parent-crowd-draw-dropped-20261105T233811Z.json
