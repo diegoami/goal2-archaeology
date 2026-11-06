@@ -527,7 +527,7 @@ void __cdecl16near stage_qualifying(void)
 
 
 // ---- 1771:6B55  stage_continental_finals  (f_1771_6B55; Ghidra 4000:6B55, __cdecl16near; found by routines.tsv)
-// stage 3 builder (class 0): host of each continent = winner of a random qualifying group (+0x2C+2c); B groups from the A table (B[g][a] = A[2a - (g odd)][(g+1)/2] in a random slot permutation) so B1 = winners of groups 1,3,5,7 and B2 = of 2,4,6,8; per round 1..12 friendlies among B groups (rounds < 7, DS:1087) and, from round 7, kind 3 single round robin for B1/B2 (48 fixtures), friendlies for B3..B8  [established; F023; read code/seg_1771_10.asm]
+// T124c: clear manager groups; percontinent host RNG8 then8permutation RNG4 draws using0F71; BsourceA[2slot-(group&1)][(group+1)/2]; managed Bgroups1/2 only; full friendly/finals calendar, savedindices, bonuses and host orientation; final6617 MOVAL1 preservesAH; ret near  [established; F023; read code/seg_1771_10.asm]
 
 void __cdecl16near stage_continental_finals(void)
 
@@ -646,7 +646,7 @@ void __cdecl16near stage_continental_finals(void)
 
 
 // ---- 1771:6E59  stage_continental_knockout  (f_1771_6E59; Ghidra 4000:6E59, __cdecl16near; found by routines.tsv)
-// stage 4 builder: rounds byte +0x3D = 2: per continent two semi-finals (kind 0x65: winner of B1 v runner-up of B2, winner of B2 v runner-up of B1) through add_fixture_with_bonus (host as side B when it plays); +0x3D = 1: third place (0x66, the losers) and final (0x67, the winners)  [established; F023; read code/seg_1771_10.asm]
+// T124c: rounds2 B1winner-v-B2runnerup and reverse, save semifinalindices before append; rounds1 losers thirdplace66 before winners final67, PUSH-CS far-return winner/loser frames and firstresult kept across secondcall; host orientation/bonuses via5E3A; ret near  [established; F023; read code/seg_1771_10.asm]
 
 void __cdecl16near stage_continental_knockout(void)
 

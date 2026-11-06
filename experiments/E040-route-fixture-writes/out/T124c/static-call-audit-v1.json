@@ -1,0 +1,97 @@
+{
+  "source_sha256": "a82747a60689aee3d07cf429c353c94e7fdff887a50eb9c3c8d9129fbd3c8bbd",
+  "static_call_sites": 15,
+  "targets_far_frames_returnPCs_argument_cleanup": "all match original listing and real registry",
+  "sites": {
+    "1771:6B6B": {
+      "target": "1771:5E99",
+      "far": false,
+      "site": "1771:6B68",
+      "argument_words": 1
+    },
+    "1771:6B7E": {
+      "target": "214B:06B1",
+      "far": true,
+      "site": "1771:6B79",
+      "argument_words": 1
+    },
+    "1771:6BBB": {
+      "target": "214B:06B1",
+      "far": true,
+      "site": "1771:6BB6",
+      "argument_words": 1
+    },
+    "1771:6D6F": {
+      "target": "1771:5D94",
+      "far": false,
+      "site": "1771:6D6C",
+      "argument_words": 4
+    },
+    "1771:6DEE": {
+      "target": "1771:5E3A",
+      "far": false,
+      "site": "1771:6DEB",
+      "argument_words": 5
+    },
+    "1771:6E34": {
+      "target": "1771:5D94",
+      "far": false,
+      "site": "1771:6E31",
+      "argument_words": 4
+    },
+    "1771:6E55": {
+      "target": "1771:6617",
+      "far": false,
+      "site": "1771:6E52",
+      "argument_words": 1
+    },
+    "1771:6ED8": {
+      "target": "1771:5E3A",
+      "far": false,
+      "site": "1771:6ED5",
+      "argument_words": 5
+    },
+    "1771:6F18": {
+      "target": "1771:5E3A",
+      "far": false,
+      "site": "1771:6F15",
+      "argument_words": 5
+    },
+    "1771:6F4B": {
+      "target": "1771:5CCB",
+      "far": true,
+      "site": "1771:6F48",
+      "argument_words": 2
+    },
+    "1771:6F67": {
+      "target": "1771:5CCB",
+      "far": true,
+      "site": "1771:6F64",
+      "argument_words": 2
+    },
+    "1771:6F80": {
+      "target": "1771:5E3A",
+      "far": false,
+      "site": "1771:6F7D",
+      "argument_words": 5
+    },
+    "1771:6FA9": {
+      "target": "1771:5C94",
+      "far": true,
+      "site": "1771:6FA6",
+      "argument_words": 2
+    },
+    "1771:6FC5": {
+      "target": "1771:5C94",
+      "far": true,
+      "site": "1771:6FC2",
+      "argument_words": 2
+    },
+    "1771:6FDE": {
+      "target": "1771:5E3A",
+      "far": false,
+      "site": "1771:6FDB",
+      "argument_words": 5
+    }
+  }
+}
