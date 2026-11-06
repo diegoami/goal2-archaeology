@@ -82,6 +82,30 @@ class PreMatchSwap(unittest.TestCase):
             positions=[m.read(0x60000+20*p+6,1)[0] for p in after]
             self.assertEqual(positions[:11],sorted(positions[:11]));self.assertEqual(positions[11:],sorted(positions[11:]))
 
+    def test_original_partial_argument_frames_and_post_sort_read(self):
+        for setup in (0,1):
+            m,w=self.machine(setup=setup);events=[];post_sort=[]
+            for address,far,count in [('0791:DE27',False,1),('0791:DE51',False,3),
+                    ('214B:007B',True,5),('1771:52CC',True,1),('0791:230C',False,0)]:
+                def entered(replay,address=address,far=far,count=count):
+                    caller=m.where(m.stack_word(2) if far else m.reg('cs'),m.stack_word(0))
+                    if caller in ('0791:DF5E','0791:DF65','0791:DF75','0791:DEF9','0791:DF00','0791:DF1A','0791:DF29','0791:DF33','0791:DF41'):
+                        off=4 if far else 2
+                        events.append((address,caller,[m.stack_word(off+2*i) for i in range(count)],m.stack_word(4)))
+                m.at(address,entered)
+            sort_return='0791:DF33' if setup else '0791:DF41'
+            m.at(sort_return,lambda replay:post_sort.append(self.squad(m)))
+            self.invoke(m);w(m.DS*16+0xC1B,13);self.invoke(m)
+            self.assertEqual([(a,b) for a,b,_,_ in events],[
+                ('0791:DE27','0791:DF5E'),('0791:DE51','0791:DF65'),('0791:DE27','0791:DF75'),
+                ('0791:DE27','0791:DEF9'),('0791:DE51','0791:DF00'),('0791:DE51','0791:DF1A'),
+                ('214B:007B','0791:DF29'),(('0791:230C' if setup else '1771:52CC'),sort_return)])
+            self.assertEqual(events[0][2],[PARENT]);self.assertEqual(events[0][3],1)
+            self.assertEqual(events[1][2],[PARENT,3,1]);self.assertEqual(events[3][3],1)
+            self.assertEqual(events[4][2],[PARENT,13,1]);self.assertEqual(events[5][2],[PARENT,3,1])
+            self.assertEqual(events[6][2],[2,7*191+4,0x5000,7*191+24,0x5000])
+            self.assertEqual(post_sort,[self.squad(m)])
+
     def test_same_slot_second_enter_still_re_sorts_and_clears(self):
         for setup,sort in [(0,'1771:52CC'),(1,'0791:230C')]:
             m,w=self.machine(setup=setup,marked=True)
