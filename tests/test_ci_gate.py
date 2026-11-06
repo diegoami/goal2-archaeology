@@ -437,6 +437,19 @@ class PortRuntimeOwnership(unittest.TestCase):
         for name in G.BOUNDARY_CASES.values():
             self.assertTrue(any(n.endswith(name) for n in names(pure)), name)
 
+    def test_real_gate_executes_native_and_pure_cases_in_their_actual_interpreters(self):
+        from unittest.mock import patch
+        from tests import test_port_test_runtime as fixtures
+        class NativeReference(unittest.TestCase):
+            def runTest(self):
+                self.assertEqual(sys.implementation.name, 'cpython')
+        native = NativeReference()
+        pure = fixtures._case('test_ok')  # Its actual body rejects CPython.
+        suite = unittest.TestSuite([native, pure])
+        with patch.object(G, 'select_suite', return_value=suite), patch.object(
+                G, 'is_pure_port_test', side_effect=lambda t: t is pure):
+            self.assertEqual(G.run_tests([], None), 0)
+
     def test_workflow_installs_pypy_without_replacing_cpython_reference_environment(self):
         text = (ROOT / '.github/workflows/ci.yml').read_text()
         self.assertIn("python-version: 'pypy3.11'", text)

@@ -1,0 +1,73 @@
+test_actual_child_failures_errors_and_subtests_propagate (tests.test_port_test_runtime.RuntimeTests.test_actual_child_failures_errors_and_subtests_propagate) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_failure
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_failure
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_error
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_error
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_subtest
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_subtest
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 3 selected tests
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_cleanup_errors
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_cleanup_errors
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 1 selected tests
+ok
+test_callback_failure_reaches_parent (tests.test_port_test_runtime.RuntimeTests.test_callback_failure_reaches_parent) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_class_fixture_error_is_preserved_and_cannot_look_green (tests.test_port_test_runtime.RuntimeTests.test_class_fixture_error_is_preserved_and_cannot_look_green) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 1 selected tests
+ok
+test_configured_cpython_is_rejected_before_callback (tests.test_port_test_runtime.RuntimeTests.test_configured_cpython_is_rejected_before_callback) ... ok
+test_configured_missing_executable_fails_without_fallback (tests.test_port_test_runtime.RuntimeTests.test_configured_missing_executable_fails_without_fallback) ... ok
+test_expected_failure_and_unexpected_success_keep_semantics (tests.test_port_test_runtime.RuntimeTests.test_expected_failure_and_unexpected_success_keep_semantics) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_expected_failure
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_expected_failure
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_unexpected_success
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_unexpected_success
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 2 selected tests
+ok
+test_explicit_approved_skip_remains_visible (tests.test_port_test_runtime.RuntimeTests.test_explicit_approved_skip_remains_visible) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_dynamic_skip
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_dynamic_skip
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 1 selected tests
+ok
+test_missing_or_duplicate_requested_selectors_fail_parent (tests.test_port_test_runtime.RuntimeTests.test_missing_or_duplicate_requested_selectors_fail_parent) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_only_parent_known_static_skips_are_allowed_by_default (tests.test_port_test_runtime.RuntimeTests.test_only_parent_known_static_skips_are_allowed_by_default) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_static_skip
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_static_skip
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 1 selected tests
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_dynamic_skip
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_dynamic_skip
+ok
+test_real_pypy_callback_preserves_tuple_bytes_and_mapping (tests.test_port_test_runtime.RuntimeTests.test_real_pypy_callback_preserves_tuple_bytes_and_mapping) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+authored incidental stdout
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_subtest_skips_keep_identity_and_require_approval (tests.test_port_test_runtime.RuntimeTests.test_subtest_skips_keep_identity_and_require_approval) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_subtest_skip
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_subtest_skip
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_subtest_skip
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_subtest_skip
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 1 selected tests
+ok
+test_suite_preserves_ids_counts_and_success (tests.test_port_test_runtime.RuntimeTests.test_suite_preserves_ids_counts_and_success) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_ok
+authored test stdout
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_ok
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_expected_failure
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_expected_failure
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 2 selected tests
+ok
+test_tampered_loaded_and_executed_inventory_is_rejected (tests.test_port_test_runtime.RuntimeTests.test_tampered_loaded_and_executed_inventory_is_rejected) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_ok
+authored test stdout
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_ok
+ok
+test_wrong_runtime_suite_is_error_not_skip (tests.test_port_test_runtime.RuntimeTests.test_wrong_runtime_suite_is_error_not_skip) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 2.300s
+
+OK
