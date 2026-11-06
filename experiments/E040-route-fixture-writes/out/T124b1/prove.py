@@ -30,6 +30,13 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def public_record(value):
+    if isinstance(value,bytes):return {'bytes_sha256':sha(value),'length':len(value)}
+    if isinstance(value,(list,tuple)):return [public_record(v) for v in value]
+    if isinstance(value,dict):return {k:public_record(v) for k,v in value.items()}
+    return value
+
+
 def sources():
     paths=['runtime/original_match/port/stages.py','runtime/original_match/route.py',
            'runtime/original_match/route_team.py','runtime/original_match/port/prove.py',
@@ -122,7 +129,7 @@ def natural(f,variant=None):
     reference.round()
     emit(f,{'case':'natural-original','status':'completed-round','checkpoint_sha256':cp['sha256'],
             'end':game(reference.m),'record_hashes':digests(reference.m),
-            'record_sha256':sha(json.dumps(reference.record,sort_keys=True).encode()),
+            'record_sha256':sha(json.dumps(public_record(reference.record),sort_keys=True).encode()),
             'elapsed_s':round(time.monotonic()-start,4)})
     r,cp=route_from_checkpoint()
     reg=Registry('stages','T124b1 seven ranking helpers only, original outer builder')

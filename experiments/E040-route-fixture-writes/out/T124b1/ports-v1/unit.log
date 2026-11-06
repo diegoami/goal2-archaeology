@@ -1,1 +1,25 @@
-F................
+F.................F....
+======================================================================
+FAIL: test_bonus_wraps_points_and_counter_and_signed_flag (tests.test_port_stage_qualifying.Rankings.test_bonus_wraps_points_and_counter_and_signed_flag) (flag=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_qualifying.py", line 60, in test_bonus_wraps_points_and_counter_and_signed_flag
+    self.assertEqual(m.read(cp+50+4*(flag if flag<128 else flag-256)+2,1),bytes([0]))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: b'\x03' != b'\x00'
+
+======================================================================
+FAIL: test_every_variant_is_listed (tests.test_port_stages.FalsifierTests.test_every_variant_is_listed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 242, in test_every_variant_is_listed
+    self.assertEqual(set(self.CASES), set(ST.PORTS.variants))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Items in the second set but not the first:
+'manager-score-reset-dropped'
+'ranking-bonus-dropped'
+
+----------------------------------------------------------------------
+Ran 23 tests in 79.219s
+
+FAILED (failures=2)

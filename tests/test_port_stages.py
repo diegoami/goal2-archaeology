@@ -42,6 +42,7 @@ RET = {"1771:8208": "000E:70EB", "1771:76B1": "000E:70F9",      # play_round 70E
        "1771:5D02": "1771:5DC7", "1771:5D94": "1771:5E54",      # add_fixture 5DC4, add_fixture_with_bonus 5E51
        "1771:5E3A": "1771:6DEE", "1771:5E99": "1771:6B6B",      # 6B55's calls at 6DEB, 6B68 (seg_1771_10.asm)
        "1771:6617": "1771:6E55",                                # 6B55's call at 6E52
+       "1771:63A4": "1771:6765",                                # qualifying builder6730 calls at6762 (T124b1)
        "1771:5C94": "1771:92F9", "1771:5CCB": "1771:9321"}      # 1771:91CE's calls at 92F6, 931E
 
 
@@ -236,6 +237,8 @@ class FalsifierTests(_Calls):
         "group-plus-one": ("1771:5E99", (4,), {}),
         "mark-ff": ("1771:76B1", (), {0x3C: 3}),
         "rounds-of-next-param": ("1771:76B1", (), {0x3C: 3}),
+        "ranking-bonus-dropped": ("1771:63A4", (), {}),
+        "manager-score-reset-dropped": ("1771:63A4", (), {}),
     }
 
     def test_every_variant_is_listed(self):
