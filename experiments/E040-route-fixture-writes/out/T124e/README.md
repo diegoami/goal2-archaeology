@@ -27,3 +27,30 @@ No Prover or runtime library is changed. `helpers-selected-v4.log` measures the
 two new helper calls with that declared closure.
 
 Model: inherited Codex GPT-6 family; exact variant unavailable.
+
+The four `natural-*-input` receipts capture actual 60CB entries after original
+continental, world qualifying, world finals and next continental construction.
+The world qualifying source is unmodified T124t CP3 through actual Route calls;
+others resume accepted C/D natural constructor contexts. The v1 world-qualifying
+producer receipt is an API calibration failure; v2 captures the actual entry.
+Initial natural proof receipts compare full physical memory, all16 registers,
+ordered Route records, keys and every actual stage page. They bind the source
+hashes measured then; final acceptance repeats bind the final frozen source.
+
+The first full plain-engine composition calibration duplicated BIOS key ports
+with Route's preempting key service, so consumed a key twice. The v2 plain proof
+uses the identical existing Route key service boundary in both arms and excludes
+only the duplicate 0723/08DD port dispatch. All calculation/text/assistant owners,
+including 009C and0644, run as real ports on PortMachine, which has no opcode
+runner. It compares full ordered LIVE byte writes and page history; the observed
+below-entry-SP dead stack is excluded, while live caller words remain compared.
+Returned scratch differences are reported explicitly (v2: EFLAGS70 vs2).
+
+Focused controls include two actual announcements with manager tags129/130,
+contrasting caller cursor2, real original-built host and tour inputs, failed
+qualification without releasing ownership, observer on/off equivalence with a
+pushed-back key, three required falsifiers, and false/no-next 9B43 effects. The
+competitive-next fixture uses a real original-built world last16 input; the
+initial qualifying input's next fixture was friendly, and that failed calibration
+is retained. The exact old registry and variant-map changes are strictly additive:
+all24 prior entries,23 variants, prior case initializers and assertions remain.

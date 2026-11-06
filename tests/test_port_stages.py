@@ -47,11 +47,12 @@ RET = {"1771:8208": "000E:70EB", "1771:76B1": "000E:70F9",      # play_round 70E
        "1771:6B55": "1771:76D0", "1771:6E59": "1771:76D9",       # run_stage near calls76CD/76D6 (T124c)
        "1771:6730": "1771:76C7",                                # run_stage calls6730 at76C4 (T124b2)
        "1771:63A4": "1771:6765",                                # qualifying builder6730 calls at6762 (T124b1)
+       "000E:5DAF": "000E:5FA0", "000E:5E6C": "000E:6199", "000E:60CB": "000E:7152",
        "1771:5C94": "1771:92F9", "1771:5CCB": "1771:9321"}      # 1771:91CE's calls at 92F6, 931E
 
 
 class RegistryTests(unittest.TestCase):
-    def test_the_twenty_four_routines_with_the_listings_returns(self):
+    def test_the_twenty_seven_routines_with_the_listings_returns(self):
         self.assertEqual({a: e.ret for a, e in ST.PORTS.entries.items()},
                          {"1771:8208": "retf", "1771:76B1": "retf", "1771:5D02": "ret 4", "1771:5D94": "ret 8",
                           "1771:5E3A": "ret 0xa", "1771:5E99": "ret 2", "1771:6617": "ret 2",
@@ -59,7 +60,8 @@ class RegistryTests(unittest.TestCase):
                           "1771:602D": "ret 2", "1771:6103": "ret 2", "1771:61F8": "ret 2", "1771:63A4": "ret",
                           "1771:56E4": "ret 2", "1771:56FF": "ret", "1771:6730": "ret", "23E4:11D7": "retf",
                           "1771:6B55": "ret", "1771:6E59": "ret",
-                          "1771:6FEB": "ret 2", "1771:7090": "ret", "1771:71B2": "ret", "1771:74BE": "ret"})
+                          "1771:6FEB": "ret 2", "1771:7090": "ret", "1771:71B2": "ret", "1771:74BE": "ret",
+                          "000E:5DAF": "ret 2", "000E:5E6C": "ret 2", "000E:60CB": "retf 2"})
 
     def test_5C94_and_5CCB_are_displays_and_installable_beside_stages(self):
         from original_match import port
@@ -253,6 +255,8 @@ class FalsifierTests(_Calls):
         "world-host-bound-seven": ("1771:71B2", (), {}),
         "world-playoff-mark-dropped": ("1771:6FEB", (0x3E80,), {}),
         "world-third-place-opponent": ("1771:74BE", (), {}),
+        "stage-news-draw-dropped": ("000E:5E6C", (0x3F00,), {}),
+        "stage-news-cursor-not-restored": ("000E:60CB", (7,), {}),
     }
 
     def test_every_variant_is_listed(self):
@@ -272,6 +276,9 @@ class FalsifierTests(_Calls):
                     # Only NEWDcases get complete original-produced finalized worldinputs.
                     from tests.test_port_stage_world import world_falsifier_input
                     before = lambda m, v=variant: world_falsifier_input(m, v)
+                elif variant in ("stage-news-draw-dropped", "stage-news-cursor-not-restored"):
+                    from tests.test_port_stage_news import stage_news_falsifier_input
+                    before = lambda m, v=variant: stage_news_falsifier_input(m, v)
                 with self.assertRaises(ProofError):
                     self.call(target, args, specs=["stages." + variant], game=game, before=before)
 

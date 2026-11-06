@@ -1938,7 +1938,7 @@ def stage_tour_line(mem, variant):
         r.dx=0xBF;mul(r,r.dx);_far(mem,r,COUNTRIES);r.di+=r.ax
         r.al=rb(mem,r,0x2C);r.ah=0;r.di=r.ax
         _set_cl(r,3);r.di<<=r.cx&0xFF;r.di+=0x6E92
-        _news_ptr(r,r.ds,r.di)
+        _news_ptr(r,mem.DS,r.di)
         r=yield from _news_call(mem,r,'000E:075F',6,0x5E12)
         r.local8(-1,1)
     r.al=ss8(mem,r,r.bp-1)

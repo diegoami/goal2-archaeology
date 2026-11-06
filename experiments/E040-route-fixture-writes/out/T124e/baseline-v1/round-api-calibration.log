@@ -1,0 +1,12 @@
+t124e-natural-input/1
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T124e/proof.py", line 151, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T124e/proof.py", line 149, in main
+    if a.prepare:prepare(a.phase,Path(a.out))
+                 ~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T124e/proof.py", line 116, in prepare
+    result=r.play_round()
+           ^^^^^^^^^^^^
+AttributeError: 'Route' object has no attribute 'play_round'
