@@ -32,3 +32,6 @@ python3 tools/static/check_annotations.py
 ```
 
 Full suites/gates remain CI work. Private memory components/checkpoints and the unpublished unsanitized calibration source/receipts remain ignored, with hashes and restoration locations recorded; they never enter git.
+
+
+`ci-fix-v1` diagnoses the historical T117 straight-drive digest failure without changing runtime code or its immutable golden receipt. The unchanged test reproduces CI’s f9579e4a result digest; removing only the new, asserted-zero `0791:DEA6` call counter restores the original b08217df result digest. All 831 event records retain the original digest and complete 0x110000-byte final memory retains f308151e. The mechanical exception in `tests/test_port_overhead_t117.py` asserts that DEA6 is unused before excluding only that metadata counter, retaining all original event/result/memory assertions and later-module zero-call guards. This does not grant a general address exclusion or permit any new call. Runtime files remain identical to the accepted T123b proof sources.
