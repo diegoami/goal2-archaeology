@@ -1,0 +1,55 @@
+test_answer_is_opt_in_and_legacy_shape_stays_unchanged (test_stopped_edit_663.StoppedEdit.test_answer_is_opt_in_and_legacy_shape_stays_unchanged) ... ERROR
+test_completed_pair_holds_select_without_escape_and_continue_does_not_repeat_it (test_stopped_edit_663.StoppedEdit.test_completed_pair_holds_select_without_escape_and_continue_does_not_repeat_it) ... FAIL
+test_finishing_select_returns_fresh_decision_without_play_key (test_stopped_edit_663.StoppedEdit.test_finishing_select_returns_fresh_decision_without_play_key) ... FAIL
+test_rejects_pause_and_disallowed_edits_before_consuming_decision (test_stopped_edit_663.StoppedEdit.test_rejects_pause_and_disallowed_edits_before_consuming_decision) ... ERROR
+test_substitution_menu_reentry_consumes_new_answer_once (test_stopped_edit_663.StoppedEdit.test_substitution_menu_reentry_consumes_new_answer_once) ... FAIL
+
+======================================================================
+ERROR: test_answer_is_opt_in_and_legacy_shape_stays_unchanged (test_stopped_edit_663.StoppedEdit.test_answer_is_opt_in_and_legacy_shape_stays_unchanged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-upstream-bench/tests/test_stopped_edit_663.py", line 35, in test_answer_is_opt_in_and_legacy_shape_stays_unchanged
+    m.answer(substitutions=[(105,112)], edit_only=True)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.answer() got an unexpected keyword argument 'edit_only'
+
+======================================================================
+ERROR: test_rejects_pause_and_disallowed_edits_before_consuming_decision (test_stopped_edit_663.StoppedEdit.test_rejects_pause_and_disallowed_edits_before_consuming_decision)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-upstream-bench/tests/test_stopped_edit_663.py", line 42, in test_rejects_pause_and_disallowed_edits_before_consuming_decision
+    with self.assertRaises(ValueError): m.answer(substitutions=[(105,112)], edit_only=True)
+                                        ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.answer() got an unexpected keyword argument 'edit_only'
+
+======================================================================
+FAIL: test_completed_pair_holds_select_without_escape_and_continue_does_not_repeat_it (test_stopped_edit_663.StoppedEdit.test_completed_pair_holds_select_without_escape_and_continue_does_not_repeat_it)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-upstream-bench/tests/test_stopped_edit_663.py", line 74, in test_completed_pair_holds_select_without_escape_and_continue_does_not_repeat_it
+    self.assertIsNone(m._key_for(SITE_SELECT))
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 27 is not None
+
+======================================================================
+FAIL: test_finishing_select_returns_fresh_decision_without_play_key (test_stopped_edit_663.StoppedEdit.test_finishing_select_returns_fresh_decision_without_play_key)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-upstream-bench/tests/test_stopped_edit_663.py", line 52, in test_finishing_select_returns_fresh_decision_without_play_key
+    self.assertIsNone(m._team_menu_key(plan.item('select')))
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 177 is not None
+
+======================================================================
+FAIL: test_substitution_menu_reentry_consumes_new_answer_once (test_stopped_edit_663.StoppedEdit.test_substitution_menu_reentry_consumes_new_answer_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-upstream-bench/tests/test_stopped_edit_663.py", line 66, in test_substitution_menu_reentry_consumes_new_answer_once
+    self.assertIsNone(m._team_menu_key(0))
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 13 is not None
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.002s
+
+FAILED (failures=3, errors=2)

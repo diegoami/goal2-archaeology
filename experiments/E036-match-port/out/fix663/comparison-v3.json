@@ -1,0 +1,30 @@
+{
+  "incremental": {
+    "result_sha256": true,
+    "events_sha256": true,
+    "after": true,
+    "draws": true,
+    "draws_digest": true,
+    "score": true,
+    "substitutions": true,
+    "snapshots": true
+  },
+  "batch": {
+    "result_sha256": true,
+    "events_sha256": true,
+    "after": true,
+    "draws": true,
+    "draws_digest": true,
+    "score": true,
+    "substitutions": true,
+    "snapshots": true
+  },
+  "incremental_vs_batch": {
+    "after": false,
+    "original_output_sha256": true,
+    "draws": true,
+    "draws_digest": true,
+    "score": true,
+    "substitutions": true
+  }
+}
