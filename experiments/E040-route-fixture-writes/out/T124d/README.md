@@ -123,3 +123,20 @@ calibration. Its verifier accessed a header's absent status key; the packaging
 shell then committed despite that failure. No runtime or measured proof changed.
 The corrected verifier uses `.get`, and **acceptance-v2/index.json** is the final
 source-bound index. The earlier index/log remain untouched, not accepted as final.
+
+
+CI loader correction: the committed natural-input receipt can exist while ALL
+ignored .cache/t124d/natural files are absent. The first loader read those paths
+unconditionally and failed before reaching its real fallback. The corrected loader
+catches FileNotFoundError and invokes originalE006 constructors/6970 plus actual
+outer8757 finalization; it neither skips tests nor uses oldB1v4 data.
+
+A meaningful regression leaves the committed receipt present, controls only
+Path.is_file/read_bytes for ignored captures, clears caches, and executes the
+REAL fallback plus every one of the9 strict World tests (testsRun9 and skipped[]
+asserted). It fails before with FileNotFoundError(0.039s), then passes10.572s.
+All46 focused tests pass61.063s on the final loader source. No private files were
+deleted, no fixture producer/RNG/proof oracle was mocked, and no running CI was
+cancelled. Runtime/proof/producer/validator source and all prior measurements are
+unchanged. **acceptance-v3/index.json** binds this final test-loader regression;
+v2 remains historical at its own source freeze and is not the current index.

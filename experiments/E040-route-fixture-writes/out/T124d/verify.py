@@ -10,7 +10,7 @@ def rows(name):return [json.loads(l) for l in (HERE/name).read_text().splitlines
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--private',action='store_true');a=ap.parse_args()
-    index=json.loads((HERE/'acceptance-v2/index.json').read_text())
+    index=json.loads((HERE/'acceptance-v3/index.json').read_text())
     for group in ('sources','receipts'):
         for name,h in index[group].items():assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==h,name
     natural=rows('natural-inputs-v1.jsonl');assert natural[-1]['status']=='completed'
@@ -37,7 +37,10 @@ def main():
         if v.get('status')=='corrected-phase':assert any(x['return']=='000E:706E' for x in v['finalizer_visits'])
     validity=json.loads((HERE/'world-validity-final.json').read_text());assert len(validity['checks'])==3
     assert all(v['original85F7_idempotent'] and v['aggregate_leg_relationships'] for v in validity['checks'])
-    assert 'Ran 45 tests' in (HERE/'focused-final.log').read_text() and (HERE/'focused-final.log').read_text().rstrip().endswith('OK')
+    assert 'Ran 46 tests' in (HERE/'ci-loader-fix-v1/focused-after.log').read_text() and (HERE/'ci-loader-fix-v1/focused-after.log').read_text().rstrip().endswith('OK')
+    assert 'FileNotFoundError' in (HERE/'ci-loader-fix-v1/before.log').read_text()
+    assert 'FAILED (errors=1)' in (HERE/'ci-loader-fix-v1/before.log').read_text()
+    assert 'Ran 1 test' in (HERE/'ci-loader-fix-v1/after.log').read_text() and (HERE/'ci-loader-fix-v1/after.log').read_text().rstrip().endswith('OK')
     assert 'FAILED (errors=12)' in (HERE/'exact-final-tests-before/unit.log').read_text()
     assert json.loads((HERE/'static-call-audit-final.json').read_text())['static_call_sites']==27
     assert sum(json.loads((HERE/'instruction-counts.json').read_text()).values())==661
@@ -53,5 +56,5 @@ def main():
                 for x in v:walk(x)
         walk(natural);walk(corrected);walk(controlled)
         print('Private checkpoints:',len(checked),'full-memory hashes and16CPU/key contexts PASS')
-    print('T124d/#673 acceptance PASS: source/receipt hashes,661instructions/27calls,31oldfunctions,45tests/exactoldfailure,seven natural tails/fullmemory/16regs/records,realworld8->2qualifying,finalized24aggregate sets,corrected8757lineage,19directcases and requiredmutants')
+    print('T124d/#673 acceptance PASS: source/receipt hashes,661instructions/27calls,31oldfunctions,46tests/exactoldfailure/CI-missing-private-regression,seven natural tails/fullmemory/16regs/records,realworld8->2qualifying,finalized24aggregate sets,corrected8757lineage,19directcases and requiredmutants')
 if __name__=='__main__':main()

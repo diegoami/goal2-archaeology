@@ -93,5 +93,5 @@ and5C94 winner semantics are independently checked; no host scores/ranks/flags.
 Historical runners, measured receipts and indexes remain immutable at their
 recorded source-freeze heads. This factual README addition does not rewrite or
 re-hash those old measurements. Current accepted replacement files/hashes are in
-[T124d's index](../T124d/acceptance-v2/index.json); track the correction in
+[T124d's index](../T124d/acceptance-v3/index.json); track the correction in
 [issue673](https://github.com/diegoami/goal2-archaeology/issues/673).
