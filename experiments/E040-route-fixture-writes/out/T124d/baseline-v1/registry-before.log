@@ -1,0 +1,14 @@
+E
+======================================================================
+ERROR: test_world_entries_with_true_return_abis (tests.test_port_stage_world.World.test_world_entries_with_true_return_abis)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_world.py", line 11, in test_world_entries_with_true_return_abis
+    self.assertEqual({a:ST.PORTS.entries[a].ret for a in ENTRIES},ENTRIES)
+                        ~~~~~~~~~~~~~~~~^^^
+KeyError: '1771:6FEB'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.052s
+
+FAILED (errors=1)

@@ -1,0 +1,885 @@
+{
+  "checks": [
+    {
+      "actual_original5C94_winners": [
+        70,
+        94,
+        65,
+        75,
+        126,
+        119,
+        107,
+        105
+      ],
+      "aggregate_leg_relationships": true,
+      "aggregates": [
+        {
+          "aggregate": {
+            "index": 2401,
+            "kind": 6,
+            "score_or_mark": 5,
+            "second_score_or_group": 3,
+            "sha256": "10118e898785298b68524ffadd1b4392f23774887170ee6a5bae5ddacc0cd2f9",
+            "side4": 70,
+            "side6": 68,
+            "winner_flag": 0
+          },
+          "legs": [
+            {
+              "index": 2001,
+              "kind": 6,
+              "score_or_mark": 2,
+              "second_score_or_group": 3,
+              "sha256": "678a7ad9d3fb1e5f90b0364d2b6cb4ab68faefdf19cb7928f103f785b70d135d",
+              "side4": 70,
+              "side6": 68,
+              "winner_flag": 1
+            },
+            {
+              "index": 2002,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 3,
+              "sha256": "4baf74e74310dcf28e992d761f1dfe7222866279b86490a7ccf455e3d71ecfc4",
+              "side4": 68,
+              "side6": 70,
+              "winner_flag": 1
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2402,
+            "kind": 6,
+            "score_or_mark": 1,
+            "second_score_or_group": 2,
+            "sha256": "c8dd7f13e8c9466b74c56589fb79c5b1570ae43529737d2ee2227f6a1bdbe6b3",
+            "side4": 95,
+            "side6": 94,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2003,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 2,
+              "sha256": "c8dd7f13e8c9466b74c56589fb79c5b1570ae43529737d2ee2227f6a1bdbe6b3",
+              "side4": 95,
+              "side6": 94,
+              "winner_flag": 1
+            },
+            {
+              "index": 2004,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 0,
+              "sha256": "93edb6db53b0fbd9a8985efb76d5cc50643a276d7e6116cc6de09f36dc6b3026",
+              "side4": 94,
+              "side6": 95,
+              "winner_flag": 2
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2403,
+            "kind": 6,
+            "score_or_mark": 0,
+            "second_score_or_group": 2,
+            "sha256": "7e5b780323b30030b766ec103fd7172cc7ff90d785b70c19562c88f87905b8f5",
+            "side4": 76,
+            "side6": 65,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2005,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 1,
+              "sha256": "a43ce4fc2b053e53d284454460fa85afa5633f40d9d4bfd93b8d0f546dbcdcac",
+              "side4": 76,
+              "side6": 65,
+              "winner_flag": 1
+            },
+            {
+              "index": 2006,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 0,
+              "sha256": "e07e71541722d6624d29f4c81dca9bfdd6bb5d3db9a3fe5750a476c147493c82",
+              "side4": 65,
+              "side6": 76,
+              "winner_flag": 0
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2404,
+            "kind": 6,
+            "score_or_mark": 0,
+            "second_score_or_group": 4,
+            "sha256": "32d5b27706a7c62110373b6c990e2c535ba75135ac971daab2a3a4860a92305f",
+            "side4": 86,
+            "side6": 75,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2007,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 3,
+              "sha256": "d7a348d711e9d7de8e5839cd79fae9d9b6c573e2b01e13f3bfa4963860ab4fd1",
+              "side4": 86,
+              "side6": 75,
+              "winner_flag": 1
+            },
+            {
+              "index": 2008,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 0,
+              "sha256": "f85b062eb991e390e23e62eef536d7f568d306d1496b74249aab4fab3fcc6ade",
+              "side4": 75,
+              "side6": 86,
+              "winner_flag": 0
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2405,
+            "kind": 6,
+            "score_or_mark": 2,
+            "second_score_or_group": 2,
+            "sha256": "0d158fb0f8b558d4896413a152724655ea277be97354936c5719d9e1661db307",
+            "side4": 100,
+            "side6": 126,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2009,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 0,
+              "sha256": "3e01d9bf82627f1988f9a444ce0725fe91b9dd73aeeae457b505add8ef13ab3f",
+              "side4": 100,
+              "side6": 126,
+              "winner_flag": 0
+            },
+            {
+              "index": 2010,
+              "kind": 6,
+              "score_or_mark": 2,
+              "second_score_or_group": 1,
+              "sha256": "b74da3c17549ec3df0484a9c8535f4f97753115c687cb34b46bc991392809d68",
+              "side4": 126,
+              "side6": 100,
+              "winner_flag": 0
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2406,
+            "kind": 6,
+            "score_or_mark": 2,
+            "second_score_or_group": 4,
+            "sha256": "e78a1ee7dcc01fec175089220c42101b4e39bedb40ddb8b17fb56b90fcb6cb6b",
+            "side4": 110,
+            "side6": 119,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2011,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 3,
+              "sha256": "bd69289d25ab828336b076dc5146c2d9176ddef2211f01a5e64e05503a259465",
+              "side4": 110,
+              "side6": 119,
+              "winner_flag": 1
+            },
+            {
+              "index": 2012,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 2,
+              "sha256": "7de0ee75bc14825129fc4b83df65acd2db8ace8c678f8ec5d531a1e4bb7913e3",
+              "side4": 119,
+              "side6": 110,
+              "winner_flag": 1
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2407,
+            "kind": 6,
+            "score_or_mark": 1,
+            "second_score_or_group": 1,
+            "sha256": "5ff57e299f8dc432b42160df210d491c7b399d09ef3b26ef4419985d77a9b37d",
+            "side4": 128,
+            "side6": 107,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2013,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 1,
+              "sha256": "74e0053fa69c6fb2cc4e6ad91ec8cb8e17fe3886f2b3e2eed5aad93583fc2feb",
+              "side4": 128,
+              "side6": 107,
+              "winner_flag": 1
+            },
+            {
+              "index": 2014,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 1,
+              "sha256": "57268b2e1a4194799a6b50e18e99a65c05a784fa1eee43c03d2d71b0942fe5fd",
+              "side4": 107,
+              "side6": 128,
+              "winner_flag": 1
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2408,
+            "kind": 6,
+            "score_or_mark": 2,
+            "second_score_or_group": 6,
+            "sha256": "719eee5f94977d364a29d2eddb2f03f635950a26699a9ca0ba0d30af56241442",
+            "side4": 109,
+            "side6": 105,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2015,
+              "kind": 6,
+              "score_or_mark": 2,
+              "second_score_or_group": 5,
+              "sha256": "25aca4646075e2de928ca501393d37f1cc43d5819bc42c934bb61fcae24cf550",
+              "side4": 109,
+              "side6": 105,
+              "winner_flag": 1
+            },
+            {
+              "index": 2016,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 0,
+              "sha256": "a472eb5516e320d0b63affef77dda2a43e92fbbd10d5f09c9340a54c81073965",
+              "side4": 105,
+              "side6": 109,
+              "winner_flag": 0
+            }
+          ]
+        }
+      ],
+      "group_entry_sha256": "d9f85cfefc48c04b70dc11c1e78765c866b1063b76dd40cef3c715a1e5a86965",
+      "groups_entry_membership_valid": true,
+      "label": "natural PRIMARY",
+      "original85F7_idempotent": true,
+      "unique_finalists": 32
+    },
+    {
+      "actual_original5C94_winners": [
+        70,
+        94,
+        65,
+        75,
+        126,
+        119,
+        107,
+        105
+      ],
+      "aggregate_leg_relationships": true,
+      "aggregates": [
+        {
+          "aggregate": {
+            "index": 2401,
+            "kind": 6,
+            "score_or_mark": 5,
+            "second_score_or_group": 3,
+            "sha256": "10118e898785298b68524ffadd1b4392f23774887170ee6a5bae5ddacc0cd2f9",
+            "side4": 70,
+            "side6": 68,
+            "winner_flag": 0
+          },
+          "legs": [
+            {
+              "index": 2001,
+              "kind": 6,
+              "score_or_mark": 2,
+              "second_score_or_group": 3,
+              "sha256": "678a7ad9d3fb1e5f90b0364d2b6cb4ab68faefdf19cb7928f103f785b70d135d",
+              "side4": 70,
+              "side6": 68,
+              "winner_flag": 1
+            },
+            {
+              "index": 2002,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 3,
+              "sha256": "4baf74e74310dcf28e992d761f1dfe7222866279b86490a7ccf455e3d71ecfc4",
+              "side4": 68,
+              "side6": 70,
+              "winner_flag": 1
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2402,
+            "kind": 6,
+            "score_or_mark": 1,
+            "second_score_or_group": 2,
+            "sha256": "c8dd7f13e8c9466b74c56589fb79c5b1570ae43529737d2ee2227f6a1bdbe6b3",
+            "side4": 95,
+            "side6": 94,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2003,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 2,
+              "sha256": "c8dd7f13e8c9466b74c56589fb79c5b1570ae43529737d2ee2227f6a1bdbe6b3",
+              "side4": 95,
+              "side6": 94,
+              "winner_flag": 1
+            },
+            {
+              "index": 2004,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 0,
+              "sha256": "93edb6db53b0fbd9a8985efb76d5cc50643a276d7e6116cc6de09f36dc6b3026",
+              "side4": 94,
+              "side6": 95,
+              "winner_flag": 2
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2403,
+            "kind": 6,
+            "score_or_mark": 0,
+            "second_score_or_group": 2,
+            "sha256": "7e5b780323b30030b766ec103fd7172cc7ff90d785b70c19562c88f87905b8f5",
+            "side4": 76,
+            "side6": 65,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2005,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 1,
+              "sha256": "a43ce4fc2b053e53d284454460fa85afa5633f40d9d4bfd93b8d0f546dbcdcac",
+              "side4": 76,
+              "side6": 65,
+              "winner_flag": 1
+            },
+            {
+              "index": 2006,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 0,
+              "sha256": "e07e71541722d6624d29f4c81dca9bfdd6bb5d3db9a3fe5750a476c147493c82",
+              "side4": 65,
+              "side6": 76,
+              "winner_flag": 0
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2404,
+            "kind": 6,
+            "score_or_mark": 0,
+            "second_score_or_group": 4,
+            "sha256": "32d5b27706a7c62110373b6c990e2c535ba75135ac971daab2a3a4860a92305f",
+            "side4": 86,
+            "side6": 75,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2007,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 3,
+              "sha256": "d7a348d711e9d7de8e5839cd79fae9d9b6c573e2b01e13f3bfa4963860ab4fd1",
+              "side4": 86,
+              "side6": 75,
+              "winner_flag": 1
+            },
+            {
+              "index": 2008,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 0,
+              "sha256": "f85b062eb991e390e23e62eef536d7f568d306d1496b74249aab4fab3fcc6ade",
+              "side4": 75,
+              "side6": 86,
+              "winner_flag": 0
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2405,
+            "kind": 6,
+            "score_or_mark": 2,
+            "second_score_or_group": 2,
+            "sha256": "0d158fb0f8b558d4896413a152724655ea277be97354936c5719d9e1661db307",
+            "side4": 100,
+            "side6": 126,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2009,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 0,
+              "sha256": "3e01d9bf82627f1988f9a444ce0725fe91b9dd73aeeae457b505add8ef13ab3f",
+              "side4": 100,
+              "side6": 126,
+              "winner_flag": 0
+            },
+            {
+              "index": 2010,
+              "kind": 6,
+              "score_or_mark": 2,
+              "second_score_or_group": 1,
+              "sha256": "b74da3c17549ec3df0484a9c8535f4f97753115c687cb34b46bc991392809d68",
+              "side4": 126,
+              "side6": 100,
+              "winner_flag": 0
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2406,
+            "kind": 6,
+            "score_or_mark": 2,
+            "second_score_or_group": 4,
+            "sha256": "e78a1ee7dcc01fec175089220c42101b4e39bedb40ddb8b17fb56b90fcb6cb6b",
+            "side4": 110,
+            "side6": 119,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2011,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 3,
+              "sha256": "bd69289d25ab828336b076dc5146c2d9176ddef2211f01a5e64e05503a259465",
+              "side4": 110,
+              "side6": 119,
+              "winner_flag": 1
+            },
+            {
+              "index": 2012,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 2,
+              "sha256": "7de0ee75bc14825129fc4b83df65acd2db8ace8c678f8ec5d531a1e4bb7913e3",
+              "side4": 119,
+              "side6": 110,
+              "winner_flag": 1
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2407,
+            "kind": 6,
+            "score_or_mark": 1,
+            "second_score_or_group": 1,
+            "sha256": "5ff57e299f8dc432b42160df210d491c7b399d09ef3b26ef4419985d77a9b37d",
+            "side4": 128,
+            "side6": 107,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2013,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 1,
+              "sha256": "74e0053fa69c6fb2cc4e6ad91ec8cb8e17fe3886f2b3e2eed5aad93583fc2feb",
+              "side4": 128,
+              "side6": 107,
+              "winner_flag": 1
+            },
+            {
+              "index": 2014,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 1,
+              "sha256": "57268b2e1a4194799a6b50e18e99a65c05a784fa1eee43c03d2d71b0942fe5fd",
+              "side4": 107,
+              "side6": 128,
+              "winner_flag": 1
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2408,
+            "kind": 6,
+            "score_or_mark": 2,
+            "second_score_or_group": 6,
+            "sha256": "719eee5f94977d364a29d2eddb2f03f635950a26699a9ca0ba0d30af56241442",
+            "side4": 109,
+            "side6": 105,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2015,
+              "kind": 6,
+              "score_or_mark": 2,
+              "second_score_or_group": 5,
+              "sha256": "25aca4646075e2de928ca501393d37f1cc43d5819bc42c934bb61fcae24cf550",
+              "side4": 109,
+              "side6": 105,
+              "winner_flag": 1
+            },
+            {
+              "index": 2016,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 0,
+              "sha256": "a472eb5516e320d0b63affef77dda2a43e92fbbd10d5f09c9340a54c81073965",
+              "side4": 105,
+              "side6": 109,
+              "winner_flag": 0
+            }
+          ]
+        }
+      ],
+      "group_entry_sha256": "12836fd15a94275550cecb0d0491feecef9a398d652d157d9aaf80ce8b93ad53",
+      "groups_entry_membership_valid": true,
+      "label": "new corrected synthetic",
+      "original85F7_idempotent": true,
+      "unique_finalists": 32
+    },
+    {
+      "actual_original5C94_winners": [
+        70,
+        94,
+        65,
+        75,
+        126,
+        119,
+        107,
+        105
+      ],
+      "aggregate_leg_relationships": true,
+      "aggregates": [
+        {
+          "aggregate": {
+            "index": 2401,
+            "kind": 6,
+            "score_or_mark": 5,
+            "second_score_or_group": 3,
+            "sha256": "10118e898785298b68524ffadd1b4392f23774887170ee6a5bae5ddacc0cd2f9",
+            "side4": 70,
+            "side6": 68,
+            "winner_flag": 0
+          },
+          "legs": [
+            {
+              "index": 2001,
+              "kind": 6,
+              "score_or_mark": 2,
+              "second_score_or_group": 3,
+              "sha256": "678a7ad9d3fb1e5f90b0364d2b6cb4ab68faefdf19cb7928f103f785b70d135d",
+              "side4": 70,
+              "side6": 68,
+              "winner_flag": 1
+            },
+            {
+              "index": 2002,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 3,
+              "sha256": "4baf74e74310dcf28e992d761f1dfe7222866279b86490a7ccf455e3d71ecfc4",
+              "side4": 68,
+              "side6": 70,
+              "winner_flag": 1
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2402,
+            "kind": 6,
+            "score_or_mark": 1,
+            "second_score_or_group": 2,
+            "sha256": "c8dd7f13e8c9466b74c56589fb79c5b1570ae43529737d2ee2227f6a1bdbe6b3",
+            "side4": 95,
+            "side6": 94,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2003,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 2,
+              "sha256": "c8dd7f13e8c9466b74c56589fb79c5b1570ae43529737d2ee2227f6a1bdbe6b3",
+              "side4": 95,
+              "side6": 94,
+              "winner_flag": 1
+            },
+            {
+              "index": 2004,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 0,
+              "sha256": "93edb6db53b0fbd9a8985efb76d5cc50643a276d7e6116cc6de09f36dc6b3026",
+              "side4": 94,
+              "side6": 95,
+              "winner_flag": 2
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2403,
+            "kind": 6,
+            "score_or_mark": 0,
+            "second_score_or_group": 2,
+            "sha256": "7e5b780323b30030b766ec103fd7172cc7ff90d785b70c19562c88f87905b8f5",
+            "side4": 76,
+            "side6": 65,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2005,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 1,
+              "sha256": "a43ce4fc2b053e53d284454460fa85afa5633f40d9d4bfd93b8d0f546dbcdcac",
+              "side4": 76,
+              "side6": 65,
+              "winner_flag": 1
+            },
+            {
+              "index": 2006,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 0,
+              "sha256": "e07e71541722d6624d29f4c81dca9bfdd6bb5d3db9a3fe5750a476c147493c82",
+              "side4": 65,
+              "side6": 76,
+              "winner_flag": 0
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2404,
+            "kind": 6,
+            "score_or_mark": 0,
+            "second_score_or_group": 4,
+            "sha256": "32d5b27706a7c62110373b6c990e2c535ba75135ac971daab2a3a4860a92305f",
+            "side4": 86,
+            "side6": 75,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2007,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 3,
+              "sha256": "d7a348d711e9d7de8e5839cd79fae9d9b6c573e2b01e13f3bfa4963860ab4fd1",
+              "side4": 86,
+              "side6": 75,
+              "winner_flag": 1
+            },
+            {
+              "index": 2008,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 0,
+              "sha256": "f85b062eb991e390e23e62eef536d7f568d306d1496b74249aab4fab3fcc6ade",
+              "side4": 75,
+              "side6": 86,
+              "winner_flag": 0
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2405,
+            "kind": 6,
+            "score_or_mark": 2,
+            "second_score_or_group": 2,
+            "sha256": "0d158fb0f8b558d4896413a152724655ea277be97354936c5719d9e1661db307",
+            "side4": 100,
+            "side6": 126,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2009,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 0,
+              "sha256": "3e01d9bf82627f1988f9a444ce0725fe91b9dd73aeeae457b505add8ef13ab3f",
+              "side4": 100,
+              "side6": 126,
+              "winner_flag": 0
+            },
+            {
+              "index": 2010,
+              "kind": 6,
+              "score_or_mark": 2,
+              "second_score_or_group": 1,
+              "sha256": "b74da3c17549ec3df0484a9c8535f4f97753115c687cb34b46bc991392809d68",
+              "side4": 126,
+              "side6": 100,
+              "winner_flag": 0
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2406,
+            "kind": 6,
+            "score_or_mark": 2,
+            "second_score_or_group": 4,
+            "sha256": "e78a1ee7dcc01fec175089220c42101b4e39bedb40ddb8b17fb56b90fcb6cb6b",
+            "side4": 110,
+            "side6": 119,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2011,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 3,
+              "sha256": "bd69289d25ab828336b076dc5146c2d9176ddef2211f01a5e64e05503a259465",
+              "side4": 110,
+              "side6": 119,
+              "winner_flag": 1
+            },
+            {
+              "index": 2012,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 2,
+              "sha256": "7de0ee75bc14825129fc4b83df65acd2db8ace8c678f8ec5d531a1e4bb7913e3",
+              "side4": 119,
+              "side6": 110,
+              "winner_flag": 1
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2407,
+            "kind": 6,
+            "score_or_mark": 1,
+            "second_score_or_group": 1,
+            "sha256": "5ff57e299f8dc432b42160df210d491c7b399d09ef3b26ef4419985d77a9b37d",
+            "side4": 128,
+            "side6": 107,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2013,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 1,
+              "sha256": "74e0053fa69c6fb2cc4e6ad91ec8cb8e17fe3886f2b3e2eed5aad93583fc2feb",
+              "side4": 128,
+              "side6": 107,
+              "winner_flag": 1
+            },
+            {
+              "index": 2014,
+              "kind": 6,
+              "score_or_mark": 0,
+              "second_score_or_group": 1,
+              "sha256": "57268b2e1a4194799a6b50e18e99a65c05a784fa1eee43c03d2d71b0942fe5fd",
+              "side4": 107,
+              "side6": 128,
+              "winner_flag": 1
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "index": 2408,
+            "kind": 6,
+            "score_or_mark": 2,
+            "second_score_or_group": 6,
+            "sha256": "719eee5f94977d364a29d2eddb2f03f635950a26699a9ca0ba0d30af56241442",
+            "side4": 109,
+            "side6": 105,
+            "winner_flag": 1
+          },
+          "legs": [
+            {
+              "index": 2015,
+              "kind": 6,
+              "score_or_mark": 2,
+              "second_score_or_group": 5,
+              "sha256": "25aca4646075e2de928ca501393d37f1cc43d5819bc42c934bb61fcae24cf550",
+              "side4": 109,
+              "side6": 105,
+              "winner_flag": 1
+            },
+            {
+              "index": 2016,
+              "kind": 6,
+              "score_or_mark": 1,
+              "second_score_or_group": 0,
+              "sha256": "a472eb5516e320d0b63affef77dda2a43e92fbbd10d5f09c9340a54c81073965",
+              "side4": 105,
+              "side6": 109,
+              "winner_flag": 0
+            }
+          ]
+        }
+      ],
+      "group_entry_sha256": "64c1846be06d5b3ac46048eeb632bbd1a50e43488e00d8b2ef32533f2d592b4e",
+      "label": "managed-continent corrected control",
+      "original85F7_idempotent": true
+    }
+  ],
+  "code_commit": "6fbeaf3e459c19b738541932f215170b7cd119ef",
+  "schema": "t124d-world-validity/1",
+  "source_hashes": {
+    "experiments/E040-route-fixture-writes/out/T124d/prepare.py": "9c00879f7c843b6a45d4969c7b87fb5c7e050ea478ef6280019f0f1f41d22a17",
+    "experiments/E040-route-fixture-writes/out/T124d/reference.py": "2b97bfc02eac8aa9ab53b3ea0d24534c4db4203a2b674fc500f288a0c582f221",
+    "experiments/E040-route-fixture-writes/out/T124d/validate_world.py": "c6d44a0e7cf57ee7620258462488e3546b6e5924e8ca35d736893a08deb2d545"
+  }
+}

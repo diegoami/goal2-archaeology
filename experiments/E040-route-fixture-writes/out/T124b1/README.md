@@ -73,3 +73,30 @@ rounds, not stronger claims for every direct call.
 
 Model: inherited Codex GPT-6 family, exact variant unavailable. No review is
 started by this PR. No sealed full-season or year-rollover claim.
+
+
+## Evidence correction, 2026-11-06 — upstream #673
+
+The historical B1 `world-prepare-v4` recipe called original6970 but omitted the
+outer route's8757 finalization (which calls85F7 for playoff aggregates and sorts
+group tables). Aggregate2401 was still255/0 with flag0 although its two completed
+legs totaled5/3. Thus v4 and its derived world/bracket inputs were not faithful
+completed-world inputs. The retained differential results still describe the
+input actually measured; they **do not establish the completed-world validity
+previously claimed**. This is an evidence-input defect, not an established
+production-port mismatch. Continental naturalCP3 and initial-year seed proofs
+that do not consume those world inputs are unaffected.
+
+Replacement evidence is owned by [T124d](../T124d/README.md): fresh ORIGINAL
+T124tCP4 play_round/RouteMatch/legal-eleven continuation, actual8757/85F7 after
+complete calendars, all world constructors, real world finals and subsequent
+8→2 whole-qualifying regression. New corrected synthetic controls explicitly
+include actualouterRoute finalization after every calendar and remain labelled
+synthetic. All eight aggregates, leg relationships, actual original85F7 output
+and5C94 winner semantics are independently checked; no host scores/ranks/flags.
+
+Historical runners, measured receipts and indexes remain immutable at their
+recorded source-freeze heads. This factual README addition does not rewrite or
+re-hash those old measurements. Current accepted replacement files/hashes are in
+[T124d's index](../T124d/acceptance-v4/index.json); track the correction in
+[issue673](https://github.com/diegoami/goal2-archaeology/issues/673).
