@@ -8,7 +8,7 @@ def rows(p):return [json.loads(line) for line in p.read_text().splitlines()]
 
 def verify(out):
     raw=rows(HERE/'raw-v2/results.jsonl');sealed=rows(HERE/'sealed-v1/results.jsonl');natural=rows(HERE/'natural-v2/results.jsonl')
-    assert len(raw)==10 and {r['setup'] for r in raw}=={0,1}
+    assert len(raw)==10 and {(r['setup'],r['case']) for r in raw}=={(s,c) for s in (0,1) for c in ('mark','empty','same','swap','empty-outgoing')}
     for r in raw:
         assert r['status']=='passed' and r['proof']['0791:DEA6']['proved']==1
         assert not r['proof']['0791:DEA6']['scratch']
@@ -30,6 +30,7 @@ def verify(out):
             assert len(sort_reads)==1 and sort_reads[0]['live_squad']==r['after']['squad']
         for p,h in r['source_hashes'].items():assert sha((ROOT/p).read_bytes())==h,p
     assert len(sealed)==16 and sum(r['unsupported'] for r in sealed)==6
+    assert {(r['setup'],r['case']) for r in sealed}=={(s,c) for s in (0,1) for c in ('mark','empty','same','swap','empty-outgoing','pool-current','pool-marked','in-match')}
     for r in sealed:
         s=r['sealed'];assert r['status']=='passed' and s['unicorn_denied'] and s['exe_denied']
         assert s['state_unchanged'] and s['tables_unchanged']
@@ -55,9 +56,10 @@ def verify(out):
         number=r['round'];assert r['end']==reference[number]['end']
         assert r['matches']==reference[number]['matches']
         assert r['teams']==reference[number]['teams']
-        assert r['after_context']['waiting_key']==reference[number]['checkpoint']['context']['waiting_key']
+        assert r['after_context']==reference[number]['checkpoint']['context']
         assert set(r['after_context']['regs'])==set(cp['context']['regs'])
         checkpoint=r['checkpoint'];assert sha((ROOT/checkpoint['path']).read_bytes())==checkpoint['sha256']
+        assert checkpoint['sha256']==reference[number]['checkpoint']['sha256']
         for match in r['leaf_matches']:
             count=match['calls']['0791:DEA6'];p=match['proof']['0791:DEA6']
             assert p['proved']==count and p['before']==0 and not p['scratch']
@@ -67,6 +69,8 @@ def verify(out):
     assert [f['entry']['mark'] for f in leaf_frames]==[0,1]
     assert [f['after']['mark'] for f in leaf_frames]==[1,0]
     assert all(f['entry']['C1F']==0 and f['entry']['pane']==1 for f in leaf_frames)
+    assert all(f['entry']['parent_bp']==f['entry']['regs']['EBP'] and f['entry']['parent_return_offset']==0xE99C for f in leaf_frames)
+    assert all(f['after']['regs']['ESP']==f['entry']['regs']['ESP']+4 for f in leaf_frames)
     assert leaf_frames[1]['after']['marked_scroll']==0
     for p,h in header['source_hashes'].items():assert sha((ROOT/p).read_bytes())==h,p
     # Prove the normalized dead-stack exception cannot hide parent/RNG changes.
