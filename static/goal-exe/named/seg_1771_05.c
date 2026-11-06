@@ -388,7 +388,7 @@ void mark_group_fixtures_managed(char param_1)
 
 
 // ---- 1771:6730  stage_qualifying  (f_1771_6730; Ghidra 4000:6730, __cdecl16near; found by routines.tsv)
-// the stage routine for stages 2 and 5 (1771:76B1): when the year word [A923]+0x38 is 0 sets every country's +0x2F = 5 - continent and calls 23E4:11D7, which seeds DS:7B62 from the DOS time (675B-67A3); otherwise calls 1771:63A4, the rank recompute (6762); then builds the stage's fixtures (shuffled with 214B:06B1, 6804-6846). 80DA raises +0x38 at every {2, 5} gate before this runs, so the DOS time seeds once per new game  [established; F004; F007; F017; read code/seg_1771_09.asm]
+// T124b2: clear game+14/6; build_draw_order before rank recompute; year WORD+38 zero initializes points then23E411D7, otherwise63A4;16pots four RNG8 pairs/swaps then32RNG4 group permutations; full interleaved friendly/qualifier calendar and manager/group writes; final6617 preserves AH; ret near  [established; F004; F007; F017; F023; read code/seg_1771_09.asm]
 
 void __cdecl16near stage_qualifying(void)
 

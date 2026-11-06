@@ -1,7 +1,7 @@
 """runtime/original_match/port/stages.py (T124a, #427): stage_end 1771:8208's own part, run_stage 76B1's dispatch and
 the builders' shared helpers 5D02, 5D94, 5E3A, 5E99, 6617, each proved against the original by port/prove.py.
 
-- RegistryTests (no emulator): the module ports exactly T124a's seven plus T124b1's seven routines with the listing's returns; 5C94 and
+- RegistryTests (no emulator): the module ports exactly T124a's seven plus T124b1's seven and T124b2's four routines with the listing's returns; 5C94 and
   5CCB stay display's (one port a routine), and display_helpers() gives those two entries alone, installable beside
   stages.
 - DirectProofTests (unicorn and the published E006-r0001 state, `.cache/dl`, as tests/test_route_harness.py; skipped
@@ -42,17 +42,19 @@ RET = {"1771:8208": "000E:70EB", "1771:76B1": "000E:70F9",      # play_round 70E
        "1771:5D02": "1771:5DC7", "1771:5D94": "1771:5E54",      # add_fixture 5DC4, add_fixture_with_bonus 5E51
        "1771:5E3A": "1771:6DEE", "1771:5E99": "1771:6B6B",      # 6B55's calls at 6DEB, 6B68 (seg_1771_10.asm)
        "1771:6617": "1771:6E55",                                # 6B55's call at 6E52
+       "1771:6730": "1771:76C7",                                # run_stage calls6730 at76C4 (T124b2)
        "1771:63A4": "1771:6765",                                # qualifying builder6730 calls at6762 (T124b1)
        "1771:5C94": "1771:92F9", "1771:5CCB": "1771:9321"}      # 1771:91CE's calls at 92F6, 931E
 
 
 class RegistryTests(unittest.TestCase):
-    def test_the_fourteen_routines_with_the_listings_returns(self):
+    def test_the_eighteen_routines_with_the_listings_returns(self):
         self.assertEqual({a: e.ret for a, e in ST.PORTS.entries.items()},
                          {"1771:8208": "retf", "1771:76B1": "retf", "1771:5D02": "ret 4", "1771:5D94": "ret 8",
                           "1771:5E3A": "ret 0xa", "1771:5E99": "ret 2", "1771:6617": "ret 2",
                           "1771:114B": "retf 2", "1771:5EE1": "ret 6", "1771:5FD1": "ret 0xa",
-                          "1771:602D": "ret 2", "1771:6103": "ret 2", "1771:61F8": "ret 2", "1771:63A4": "ret"})
+                          "1771:602D": "ret 2", "1771:6103": "ret 2", "1771:61F8": "ret 2", "1771:63A4": "ret",
+                          "1771:56E4": "ret 2", "1771:56FF": "ret", "1771:6730": "ret", "23E4:11D7": "retf"})
 
     def test_5C94_and_5CCB_are_displays_and_installable_beside_stages(self):
         from original_match import port
@@ -239,6 +241,8 @@ class FalsifierTests(_Calls):
         "rounds-of-next-param": ("1771:76B1", (), {0x3C: 3}),
         "ranking-bonus-dropped": ("1771:63A4", (), {}),
         "manager-score-reset-dropped": ("1771:63A4", (), {}),
+        "qualifying-draw-order-reversed": ("1771:6730", (), {0x38:0,0x39:0,0x3C:2,0x40:0}),
+        "qualifying-group-plus-one": ("1771:6730", (), {0x38:0,0x39:0,0x3C:2,0x40:0}),
     }
 
     def test_every_variant_is_listed(self):

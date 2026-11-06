@@ -707,7 +707,7 @@ undefined2 __cdecl16far find_next_managed_fixture(void)
 
 
 // ---- 1771:56E4  continent_order_offset  (f_1771_56E4; Ghidra 4000:56E4, __stdcall16near; found by routines.tsv)
-// returns (continent - 1) * 0x20, the start of a continent's block in the 128-byte order table DS:9CFF + i  [likely; F023; read code/seg_1771_08.asm]
+// T124b2: word-wrapping(continent-1)*32; CX=5; ret2; called from6730 with real near frame  [established; F023; read code/seg_1771_08.asm]
 
 int continent_order_offset(int param_1)
 
@@ -717,7 +717,7 @@ int continent_order_offset(int param_1)
 
 
 // ---- 1771:56FF  build_draw_order  (f_1771_56FF; Ghidra 4000:56FF, __cdecl16near; found by routines.tsv)
-// fills the order table DS:9D00..9D7F before a stage 2 or 5 draw: class 0 copies the continental order DS:9C7E; class 1 takes the world order DS:9BFD and keeps for c = 1..4 the countries of continent c in that order (four blocks of 32 = four pots of 8 each)  [established; F023; read code/seg_1771_08.asm]
+// T124b2: mode0 real214B003C copies129 bytes9C7E->9CFF including sentinel and returnedCX0; mode1 stably scans world order for continents1..4, leaves incomingCX; called BEFORE63A4 in6730  [established; F023; F004; read code/seg_1771_08.asm; read code/seg_1771_09.asm]
 
 void __cdecl16near build_draw_order(void)
 

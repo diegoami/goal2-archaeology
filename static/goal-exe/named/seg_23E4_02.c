@@ -834,7 +834,7 @@ void __cdecl16near sys_real_horner_1101(void)
 
 
 // ---- 23E4:11D7  sys_get_time  (f_23E4_11D7; Ghidra A000:11D7, __cdecl16far; found by routines.tsv)
-// INT 21h AH=2Ch, DOS get time: stores CX (hour, minute) and DX at DS:7B62/7B64, the main random seed  [established; F004; read decompiled/seg_23E4_02.c]
+// INT21 AH2C storesCX/DX at7B62/7B64; T124b2 bounded reference Machine swallows INT21, so incomingCX/DX preserved and AH=2C, no host clock; real DOS returns time  [established; F004; read code/seg_23E4_02.asm]
 
 void __cdecl16far sys_get_time(void)
 
