@@ -701,7 +701,7 @@ void __cdecl16near stage_continental_knockout(void)
 
 
 // ---- 1771:6FEB  mark_playoff_fixture_managed  (f_1771_6FEB; Ghidra 4000:6FEB, __stdcall16near; found by routines.tsv)
-// sets byte 0 = 0xFE on the fixture just written (7090) when it is in a managed country's continent  [likely; F023; read code/seg_1771_10.asm]
+// T124d: ret2 parentlink; ANY manager whose country continent matches just-appended fixture secondside writesFE, even neither side managed; preserve repeatedwrites and count0 guard  [established; F023; read code/seg_1771_10.asm]
 
 void mark_playoff_fixture_managed(void)
 
@@ -735,7 +735,7 @@ void mark_playoff_fixture_managed(void)
 
 
 // ---- 1771:7090  stage_playoffs  (f_1771_7090; Ghidra 4000:7090, __cdecl16near; found by routines.tsv)
-// stage 6 builder: for continents 3 (Africa) and 4 (Asia) and g = 1..4 two legs of winner(group 9-g) v winner(group g), kind 6; leg 1 is copied to the aggregate record 0x961 + pair (read by 85F7 and 71B2)  [established; F023; read code/seg_1771_10.asm]
+// T124d: save count+2C; continents3/4 groups1..4 firstleg then6FEB mark then complete8byte23E4025D copy to2401..2408 before reversed secondleg/mark; groupg-v-9g; aggregate scores finalized later by8757/85F7  [established; F023; read code/seg_1771_10.asm]
 
 void __cdecl16near stage_playoffs(void)
 
@@ -780,7 +780,7 @@ void __cdecl16near stage_playoffs(void)
 
 
 // ---- 1771:71B2  stage_world_cup_groups  (f_1771_71B2; Ghidra 4000:71B2, __cdecl16near; found by routines.tsv)
-// stage 7 builder (class 1): host [A923]+0x36 = winner of a random group of continent 1 or 2; 8 finals groups of 4 = Europe winner g, Europe runner-up of group 9-g, America winner g, play-off winner g (slot permutation random); kind 7 single round robin (48 fixtures); 320 friendlies for all 128 countries (order table pairs)  [established; F023; read code/seg_1771_10.asm]
+// T124d: clear groups; hostRNG8 THEN2 with firstoffset onstack acrosssecondcall;8RNG4 permutations; Europewinner/runnerup,Americawinner,FINALIZED aggregatewinner; scanmanagers AFTERfourwrites;320friendlies before48finals/indexwrites/bonuses/hostorientation; MOVAL1 preservesAH  [established; F023; read code/seg_1771_10.asm]
 
 void __cdecl16near stage_world_cup_groups(void)
 
@@ -889,7 +889,7 @@ void __cdecl16near stage_world_cup_groups(void)
 
 
 // ---- 1771:74BE  stage_world_cup_knockout  (f_1771_74BE; Ghidra 4000:74BE, __cdecl16near; found by routines.tsv)
-// stage 8 builder, by +0x3D = 4/3/2/1: last 16 (kind 8: winner of group i v runner-up of group 9-i), quarter-finals (200), semi-finals (0xC9), third place (0xCA) and final (0xCB), each from the previous round's winners/losers; host as side B when it plays  [established; F023; read code/seg_1771_10.asm]
+// T124d: rounds4 saves start+2A and8last16;3 fourquarters;2 twosemis;1 losers CAthirdplace BEFORE winners CBfinal; original priorindices andPUSH-CS far-return helpers, firstresult stacked acrosssecondcall; host/bonuses via5E3A  [established; F023; read code/seg_1771_10.asm]
 
 void __cdecl16near stage_world_cup_knockout(void)
 
