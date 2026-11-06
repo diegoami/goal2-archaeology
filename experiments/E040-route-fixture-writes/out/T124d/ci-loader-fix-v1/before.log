@@ -1,0 +1,20 @@
+E
+======================================================================
+ERROR: test_committed_receipt_without_private_files_runs_real_fallback_and_world_oracles (tests.test_port_stage_world.CIMissingPrivateInputs.test_committed_receipt_without_private_files_runs_real_fallback_and_world_oracles)
+CI has the committed receipt, ORIGINAL E006, and NONE of the ignored natural captures.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_world.py", line 201, in test_committed_receipt_without_private_files_runs_real_fallback_and_world_oracles
+    entries,afters,kind=get_inputs()
+                        ~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_world.py", line 37, in get_inputs
+    cp=r['checkpoint'];data=(ROOT/cp['path']).read_bytes()
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_world.py", line 192, in no_private_read
+    raise FileNotFoundError('CI-equivalent ignored natural capture absent')
+FileNotFoundError: CI-equivalent ignored natural capture absent
+
+----------------------------------------------------------------------
+Ran 1 test in 0.039s
+
+FAILED (errors=1)

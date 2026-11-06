@@ -10,6 +10,7 @@ import importlib.util
 import json
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 from tests.test_port_stages import _Calls,RET,_image,ROOT
 from tests.test_port_stage_qualifying import qualifying_rng_port,word
 from original_match.image import Image
@@ -33,7 +34,9 @@ def get_inputs(load=None):
             entries={};afters={}
             for r in rows:
                 if r.get('status') in ('constructor-entry','constructed'):
-                    cp=r['checkpoint'];data=(ROOT/cp['path']).read_bytes()
+                    cp=r['checkpoint']
+                    try:data=(ROOT/cp['path']).read_bytes()
+                    except FileNotFoundError:break
                     assert hashlib.sha256(data).hexdigest()==cp['sha256']
                     image=Image(data)
                     if load is not None and image.load!=load:break
@@ -172,3 +175,44 @@ class World(_Calls):
            ('world-third-place-opponent','1771:74BE','finals',False,None,())):
             with self.subTest(variant=variant),self.assertRaises(ProofError):
                 self.phase_call(target,phase,after=after,variant=variant,before=before,args=args)
+
+
+class CIMissingPrivateInputs(_Calls):
+    def test_committed_receipt_without_private_files_runs_real_fallback_and_world_oracles(self):
+        """CI has the committed receipt, ORIGINAL E006, and NONE of the ignored natural captures."""
+        receipt=HERE/'natural-inputs-v1.jsonl'
+        self.assertTrue(receipt.is_file())
+        rows=[json.loads(l) for l in receipt.read_text().splitlines()]
+        private=next(ROOT/r['checkpoint']['path'] for r in rows if r.get('checkpoint'))
+        saved=dict(_CACHES);old_read=Path.read_bytes;old_is_file=Path.is_file;attempts=[]
+        missing=object();attrs={n:World.__dict__.get(n,missing) for n in ('image','base','entries','afters','input_kind')}
+        def ignored_capture(path):
+            return '/.cache/t124d/natural/' in path.as_posix()
+        def no_private_read(path):
+            if ignored_capture(path):
+                attempts.append(str(path))
+                raise FileNotFoundError('CI-equivalent ignored natural capture absent')
+            return old_read(path)
+        def no_private_file(path):
+            return False if ignored_capture(path) else old_is_file(path)
+        _CACHES.clear()
+        try:
+            with patch.object(Path,'is_file',no_private_file),patch.object(Path,'read_bytes',no_private_read):
+                self.assertTrue(receipt.is_file())
+                self.assertFalse(private.is_file())
+                entries,afters,kind=get_inputs()
+                self.assertEqual(kind,'declared synthetic E006/original6970+actual8757')
+                self.assertEqual(set(entries),{'playoffs','groups','last16','quarters','semis','finals','qualifying'})
+                self.assertEqual(set(entries),set(afters))
+                suite=unittest.defaultTestLoader.loadTestsFromTestCase(World)
+                result=unittest.TestResult();suite.run(result)
+                self.assertEqual(result.testsRun,9)
+                self.assertEqual(result.skipped,[])
+                self.assertTrue(result.wasSuccessful(),str(result.errors)+str(result.failures))
+                self.assertTrue(attempts,'the committed private-path receipt branch was not exercised')
+        finally:
+            _CACHES.clear();_CACHES.update(saved)
+            for name,value in attrs.items():
+                if value is missing:
+                    if name in World.__dict__:delattr(World,name)
+                else:setattr(World,name,value)
