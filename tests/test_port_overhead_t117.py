@@ -233,6 +233,10 @@ class Drive(unittest.TestCase):
             for address in reg.entries:
                 self.assertEqual(result["ports"]["calls"].pop(address), 0, f"{reg.name} {address}")
         result["ports"]["names"] = [name for name in result["ports"]["names"] if name in RECEIPT_PORTS]
+        # [derived: T123b ci-fix-v1/diagnosis.json] DEA6 extends the existing selection
+        # module but is never called in this drive. Keep the historical digest and
+        # require zero calls before excluding this new metadata counter.
+        self.assertEqual(result["ports"]["calls"].pop("0791:DEA6"), 0, "selection 0791:DEA6")
         self.assertEqual(digest(result), before["result_sha256"])
         self.assertEqual(hashlib.sha256(m.m.read(0, 0x110000)).hexdigest(), before["memory_sha256"])
 

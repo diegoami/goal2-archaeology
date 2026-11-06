@@ -1,0 +1,33 @@
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/experiments/E040-route-fixture-writes/out/T123b/continuation.py", line 118, in <module>
+    p.add_argument('--stop-after',type=int,choices=(2,3,4),default=4);a=p.parse_args();run(a.out,a.resume,a.stop_after)
+                                                                                       ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/experiments/E040-route-fixture-writes/out/T123b/continuation.py", line 84, in run
+    try:route.round()
+        ~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/route.py", line 325, in round
+    self.call()
+    ~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/route.py", line 313, in call
+    self._match()
+    ~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/route.py", line 363, in _match
+    for _ in match.events():
+             ~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/match.py", line 451, in events
+    self._advance()
+    ~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/match.py", line 595, in _advance
+    stopped = self.m.run(self.end_lin, self.timeout_s, fresh=fresh)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/prove.py", line 293, in run
+    m.pc(), cs * 16 + ip, (sp + (4 if far else 2) + pop) & 0xFFFF, m.where(cs, ip), self.where())
+                                                                                    ~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/experiments/E040-route-fixture-writes/out/T123b/continuation.py", line 55, in <lambda>
+    self.leaf_prover=Prover(self.m,self.leaf_inst,where=lambda:f"T123b fixture {self.fixture.index}")
+                                                                                ^^^^^^^^^^^^
+AttributeError: 'LeafMatch' object has no attribute 'fixture'

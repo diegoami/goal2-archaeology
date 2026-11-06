@@ -1,0 +1,106 @@
+{
+  "falsifiers": {
+    "squad-mark-clear-omitted": [
+      "ProofError: 0791:DEA6 (selection), call #1 from 0791:E672: written byte #0 differs: the original wrote 0x00 at linear 0x93FFF, the port wrote 0x00 at linear 0x93FF5",
+      "ProofError: 0791:DEA6 (selection), call #1 from 0791:E672: written byte #0 differs: the original wrote 0x00 at linear 0x93FFF, the port wrote 0x00 at linear 0x93FF5"
+    ],
+    "squad-word-swap-omitted": [
+      "ProofError: 0791:DEA6 (selection), call #1 from 0791:E672: written byte #3 differs: the original wrote 0x7B at linear 0x48ACF, the port wrote 0x7E at linear 0x48AC1",
+      "ProofError: 0791:DEA6 (selection), call #1 from 0791:E672: written byte #3 differs: the original wrote 0x7B at linear 0x48ACF, the port wrote 0x0C at linear 0x35C36 (DS:81F6)"
+    ]
+  },
+  "input_classification": "Focused synthetic parent/edge fixtures are isolated-function evidence. Natural continuation has genuine original E44F frames and unchanged T124t policy; no product automatic-eleven policy or full sealed outer-route claim.",
+  "natural_context_scope": "New T123b original-menu proof from verified accepted T124t round1 checkpoint, complete CPU/waiting_key restored; original policy/9 matches/keys/choices and later stages compared exactly. Leaf attached to actual Match machine.",
+  "natural_leaf_calls": 2,
+  "natural_matches": 9,
+  "natural_rounds": [
+    {
+      "count": 1345,
+      "cursor": 1345,
+      "rounds": 1,
+      "stage": 3
+    },
+    {
+      "count": 1353,
+      "cursor": 1353,
+      "rounds": 2,
+      "stage": 4
+    },
+    {
+      "count": 1361,
+      "cursor": 1361,
+      "rounds": 1,
+      "stage": 4
+    }
+  ],
+  "normalization_controls": {
+    "above": {
+      "baseline_sha256": "631e3922f7391a040949369d53c87e8ef9d91af9e21ccafcdbd7a014d988027b",
+      "detected": true,
+      "linear": 602112,
+      "mutated_sha256": "cd4c76a9ea98d1b9df19fde67c6ef005d3a1245bfde391e911ac1b8cbe7e0e4b"
+    },
+    "below": {
+      "baseline_sha256": "631e3922f7391a040949369d53c87e8ef9d91af9e21ccafcdbd7a014d988027b",
+      "detected": true,
+      "linear": 598015,
+      "mutated_sha256": "7f4087148223c4ecdded1ef0d2326f3f8e1112ca2d00d7b40295c2bcd4487357"
+    },
+    "caller-mark": {
+      "baseline_sha256": "631e3922f7391a040949369d53c87e8ef9d91af9e21ccafcdbd7a014d988027b",
+      "detected": true,
+      "linear": 606207,
+      "mutated_sha256": "bed740ec65ebea947d73037c8968c404914b823e2dc9c93d094c9db73995dcc3"
+    },
+    "inside-first": {
+      "baseline_sha256": "631e3922f7391a040949369d53c87e8ef9d91af9e21ccafcdbd7a014d988027b",
+      "detected": false,
+      "linear": 598016,
+      "mutated_sha256": "631e3922f7391a040949369d53c87e8ef9d91af9e21ccafcdbd7a014d988027b"
+    },
+    "inside-last": {
+      "baseline_sha256": "631e3922f7391a040949369d53c87e8ef9d91af9e21ccafcdbd7a014d988027b",
+      "detected": false,
+      "linear": 602111,
+      "mutated_sha256": "631e3922f7391a040949369d53c87e8ef9d91af9e21ccafcdbd7a014d988027b"
+    },
+    "rng": {
+      "baseline_sha256": "631e3922f7391a040949369d53c87e8ef9d91af9e21ccafcdbd7a014d988027b",
+      "detected": true,
+      "linear": 218530,
+      "mutated_sha256": "cd60725177e3c261fc1b443b06e5420098f37b53310b97907509b24f463e011a"
+    }
+  },
+  "raw_cases": 10,
+  "raw_scope": "Native published records plus declared synthetic parent/empty-slot edits; actual original re-sorts and post-sort live reads, ordered live/caller-visible writes and guest-frame effects; complete final memory including dead frames and ALLREGS match.",
+  "receipt_sha256": {
+    "experiments/E040-route-fixture-writes/out/T123b/annotations-v1/check.log": "b2e6c596bd1f7d53a21e3b806e5c69d6128eee15327b9a3cc11b0ee4985ce347",
+    "experiments/E040-route-fixture-writes/out/T123b/annotations-v1/regenerate.log": "e4d0ef9233708493cf731f8d2921477ef8ee2148e6806068ce012125f92ac351",
+    "experiments/E040-route-fixture-writes/out/T123b/baseline-final-v2/unit-red.log": "ec60247804f3a8743f3ad515f8f361f243e683776e7b628b49428ffea0a88af5",
+    "experiments/E040-route-fixture-writes/out/T123b/falsifiers-v1/squad-mark-clear-omitted.jsonl": "36f79192f1975a2ecb402ecfd57da31b65beaed5c112ff76f92d3f3080956539",
+    "experiments/E040-route-fixture-writes/out/T123b/falsifiers-v1/squad-mark-clear-omitted.log": "f5ef680ca5972a531e3fb8525d2f7bcbd21565928cf6057dc3ad5696420e3ea7",
+    "experiments/E040-route-fixture-writes/out/T123b/falsifiers-v1/squad-word-swap-omitted.jsonl": "9fbc505b887af24642872c21b209983e293ea085ce6c66b694411e2d7668b9ca",
+    "experiments/E040-route-fixture-writes/out/T123b/falsifiers-v1/squad-word-swap-omitted.log": "d7fd47028e75bde01018dbea94664b803e636c28bf85a4a940f26baf9168e848",
+    "experiments/E040-route-fixture-writes/out/T123b/natural-v2/results.jsonl": "bb8f947a7068fa99b62009dd14666a17aa2118dc48d0d5dd624a90c428de07a7",
+    "experiments/E040-route-fixture-writes/out/T123b/natural-v2/resume.log": "0ee0d45816f9cf2fd2721fc2addcbb3f7fac0c513522e14ead31435fa138590e",
+    "experiments/E040-route-fixture-writes/out/T123b/natural-v2/run.log": "a97049b8a63535b724e6d4f029f511b1281b3cd9a17ad990fa60bb1c0e859b3f",
+    "experiments/E040-route-fixture-writes/out/T123b/raw-v2/results.jsonl": "e15f40936ecf378637059738d09cf248896298a82ad242c8da36e1f3226f6112",
+    "experiments/E040-route-fixture-writes/out/T123b/raw-v2/run.log": "c9f5f7272d99faaf9b913ab3f7549150c2301c70e412ea91359130a5016f1fea",
+    "experiments/E040-route-fixture-writes/out/T123b/sealed-v1/results.jsonl": "98fcdd1d833e3f79366c0a2dd2598e49c44334a932fe6bfb1b4dfec95ceacadb",
+    "experiments/E040-route-fixture-writes/out/T123b/sealed-v1/run.log": "d37167b45843139aa754777008d38b407281cb6a62bb7e26c28d9a712dbf78a0",
+    "experiments/E040-route-fixture-writes/out/T123b/unit-v3/unit.log": "55ff7122fca47fbca0759c8ab2aa2780163782f3d58d02369026698efd1aef8b"
+  },
+  "schema": "t123b-index/1",
+  "sealed_cases": 16,
+  "sealed_scope": "Actual PortMachine with real helpers only, positive Unicorn/EXE denial, full canonical state/record/RNG/parent comparison; only SS9000:2000..2FFF dead helper locals normalized. Unsupported modes preserve complete body-entry memory.",
+  "sources": {
+    "experiments/E040-route-fixture-writes/out/T123b/continuation.py": "acf62f2533ba9d433cb9174be3a92e5c55bd7c7da1aa2df5415879385726c889",
+    "experiments/E040-route-fixture-writes/out/T123b/prove.py": "281850ef272896ac922b9513b5d39e2cad099ee61d1650d179e7fc51d5597169",
+    "experiments/E040-route-fixture-writes/out/T123b/sealed.py": "0cd591a710c2263a85b3acd2c481c53e7dd629ba407427ff7fa264368d6e6639",
+    "experiments/E040-route-fixture-writes/out/T123b/verify.py": "4709fc9f2f1004c3a128ff142d3dd104bb1ba8887f94935eafc7f6c03d6cdb61",
+    "runtime/original_match/port/selection.py": "d2e0bb9f97a0a3e8f93f0c3a5bada95220272c8739d1814b6eed5f9ed8a3d620",
+    "tests/test_port_pre_match_swap.py": "5f1c21f0137d96394d9b71d61fa87c4831008b6551b0ff7e93ef0fc8b64f9faa",
+    "tests/test_port_selection.py": "eba254e17f949371c87497214a125c91183ec95fc7969454cf304ef6a5360f00"
+  },
+  "unsupported_cases": 6
+}

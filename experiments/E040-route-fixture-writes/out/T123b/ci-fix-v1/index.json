@@ -1,0 +1,36 @@
+{
+  "schema": "T123b-ci-fix-v1",
+  "accepted_runtime_head": "0a6ea6d099badf1220518c0ef0a640eeb686e125",
+  "diagnosis_head": "ff6ea9ea60de04071820c8dbea7e2cfb6511cba7",
+  "diagnosis_reproduction": "diagnose.py was executed on ff6ea9ea with the original unmodified T117 test; its expected red is specific to that frozen source. Final test is deliberately green.",
+  "focused_source_head": "9cf7fccb941e80da53015a8a7a640f576e97cd25",
+  "command": "/home/diego/.local/bin/pypy3.11 -B -m unittest tests.test_port_overhead_t117 tests.test_port_pre_match_swap tests.test_port_selection -v",
+  "focused_tests": 35,
+  "focused_pass": true,
+  "full_suite": "CI only; no local gate/full suite",
+  "correction_scope": "Only new zero-call0791:DEA6 metadata counter is asserted zero and removed before the historical T117 result digest; all original event/result/memory assertions and later-module zero-call guards retained.",
+  "runtime_unchanged": true,
+  "prior_sources_verified": 7,
+  "prior_receipts_verified": 15,
+  "prior_index": {
+    "experiments/E040-route-fixture-writes/out/T123b/final-audit/index.json": "d2c1c9324216e936de01e5c1656a177a34a51ca0929b41242d288301e7addb2a"
+  },
+  "source_sha256": {
+    "experiments/E040-route-fixture-writes/out/T123b/ci-fix-v1/diagnose.py": "9899736418eb903124e7b917fb4027dd08a969b8f96f40faec0096729c0a0fce",
+    "tests/test_port_overhead_t117.py": "1a5382c062ff9878973ab91356591927c552fb225b38d7eb2659e129d0178321",
+    "runtime/original_match/port/selection.py": "d2e0bb9f97a0a3e8f93f0c3a5bada95220272c8739d1814b6eed5f9ed8a3d620"
+  },
+  "receipt_sha256": {
+    "experiments/E040-route-fixture-writes/out/T123b/ci-fix-v1/diagnose.py": "9899736418eb903124e7b917fb4027dd08a969b8f96f40faec0096729c0a0fce",
+    "experiments/E040-route-fixture-writes/out/T123b/ci-fix-v1/diagnosis-exit.json": "9b99a97c944b50f4598b94108a7827a68ac0f98cc54c49e2331d231c67aaf7b5",
+    "experiments/E040-route-fixture-writes/out/T123b/ci-fix-v1/diagnosis.json": "c6f9dcb85e64fe3ea3f2c7512977da512f511acc2626075455fb698e49528a5a",
+    "experiments/E040-route-fixture-writes/out/T123b/ci-fix-v1/diagnosis.log": "faaaac4c6ace1c0df5e085224878927a1c4db0c5a31613f03e74ee8cd5d997b6",
+    "experiments/E040-route-fixture-writes/out/T123b/ci-fix-v1/focused-exit.json": "c77099c6490f9f17272b9c02a077cc45c342218e8b50c399ae9b234254b753a7",
+    "experiments/E040-route-fixture-writes/out/T123b/ci-fix-v1/focused.log": "a6333580afa412537e30efac8f6733d690ddb390d16ab8b7ad7f78a101f9989c"
+  },
+  "original_test_sha256": "f65243058a409c15ccb0ece24d52539bbde05100507c33ea9a87f6abc508901e",
+  "original_golden_unchanged": {
+    "experiments/E036-match-port/out/T117/taps-before-v1.json": "00e71edeb28721d1ca2779c352f7962fc8a329d826cd1f042a8e6110036e468f"
+  },
+  "model": "Inherited Codex GPT-6 family; exact variant unavailable"
+}

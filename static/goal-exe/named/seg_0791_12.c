@@ -651,7 +651,7 @@ word * select_team_word_pointer(int param_1,int param_2,int param_3)
 
 
 // ---- 0791:DEA6  swap_select_screen_players  (f_0791_DEA6; Ghidra 2000:DEA6, __stdcall16near; found by routines.tsv)
-// Enter in the SELECT TEAM screen with DS:0C1F clear (outside a match): marks the first player, on the second Enter swaps the two word-list entries (the squad or pool lists) with 214B:007B, then sorts the squad: sort_squad_by_position when DS:0C1E is clear, resort_pitch_and_bench otherwise; with the pool list up (side 2) each Enter first asks 0791:DBFA and does nothing when it refuses (DEB9-DECE); with the squad list up it asks nothing  [established; F029; F031]
+// Enter in the SELECT TEAM screen with DS:0C1F clear (outside a match): marks the first player, on the second Enter swaps the two word-list entries (the squad or pool lists) with 214B:007B, then sorts the squad: sort_squad_by_position when DS:0C1E is clear, resort_pitch_and_bench otherwise; with the pool list up (side 2) each Enter first asks 0791:DBFA and does nothing when it refuses (DEB9-DECE); with the squad list up it asks nothing; T123b ports only the bounded pre-match squad-to-squad path: DE27 retains the pane for DE51 ret6, mark and scroll clear before word swap, C1E=0 calls 52CC and C1E!=0 calls near230C (printed1230C wraps); unsupported pool or C1F mode is refused before writes  [established; F029; F031; read code/seg_0791_22.asm]
 
 void swap_select_screen_players(int param_1)
 

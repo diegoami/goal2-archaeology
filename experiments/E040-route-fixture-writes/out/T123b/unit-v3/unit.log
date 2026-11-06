@@ -1,0 +1,30 @@
+test_empty_first_enter_leaves_parent_fields_unchanged (tests.test_port_pre_match_swap.PreMatchSwap.test_empty_first_enter_leaves_parent_fields_unchanged) ... ok
+test_first_enter_ignores_unmarked_stale_pool_location (tests.test_port_pre_match_swap.PreMatchSwap.test_first_enter_ignores_unmarked_stale_pool_location) ... ok
+test_first_enter_marks_nonempty_slot (tests.test_port_pre_match_swap.PreMatchSwap.test_first_enter_marks_nonempty_slot) ... ok
+test_nonempty_first_mark_allows_empty_outgoing_second_slot (tests.test_port_pre_match_swap.PreMatchSwap.test_nonempty_first_mark_allows_empty_outgoing_second_slot) ... ok
+test_original_partial_argument_frames_and_post_sort_read (tests.test_port_pre_match_swap.PreMatchSwap.test_original_partial_argument_frames_and_post_sort_read) ... ok
+test_pool_or_in_match_modes_refuse_before_any_memory_write (tests.test_port_pre_match_swap.PreMatchSwap.test_pool_or_in_match_modes_refuse_before_any_memory_write) ... ok
+test_same_slot_second_enter_still_re_sorts_and_clears (tests.test_port_pre_match_swap.PreMatchSwap.test_same_slot_second_enter_still_re_sorts_and_clears) ... ok
+test_two_enters_swap_starter_bench_then_use_live_sort (tests.test_port_pre_match_swap.PreMatchSwap.test_two_enters_swap_starter_bench_then_use_live_sort) ... ok
+test_allowed_zero_budget_never_calls_swap (tests.test_port_selection.Selection.test_allowed_zero_budget_never_calls_swap) ... ok
+test_bench_and_pitch_instruction_templates (tests.test_port_selection.Selection.test_bench_and_pitch_instruction_templates) ... ok
+test_both_managed_sides_are_checked_and_unmanaged_side_is_accepted (tests.test_port_selection.Selection.test_both_managed_sides_are_checked_and_unmanaged_side_is_accepted) ... ok
+test_each_first_team_refusal_and_parent_restoration (tests.test_port_selection.Selection.test_each_first_team_refusal_and_parent_restoration) ... ok
+test_empty_pool_slots_share_the_original_sentinel_position (tests.test_port_selection.Selection.test_empty_pool_slots_share_the_original_sentinel_position) ... ok
+test_empty_slot_and_first_mark (tests.test_port_selection.Selection.test_empty_slot_and_first_mark) ... ok
+test_escape_cancels_mark_before_a_later_escape_exits (tests.test_port_selection.Selection.test_escape_cancels_mark_before_a_later_escape_exits) ... ok
+test_full_pool_with_equal_keys_keeps_original_partition_tie_order (tests.test_port_selection.Selection.test_full_pool_with_equal_keys_keeps_original_partition_tie_order) ... ok
+test_locked_selection_ignores_swap_jobs_and_horizontal_keys (tests.test_port_selection.Selection.test_locked_selection_ignores_swap_jobs_and_horizontal_keys) ... ok
+test_open_selection_dispatches_managed_and_unmanaged_country (tests.test_port_selection.Selection.test_open_selection_dispatches_managed_and_unmanaged_country) ... ok
+test_request_budget_uses_the_selected_teams_side (tests.test_port_selection.Selection.test_request_budget_uses_the_selected_teams_side) ... ok
+test_request_toggle_and_zero_budget (tests.test_port_selection.Selection.test_request_toggle_and_zero_budget) ... ok
+test_same_block_unavailable_and_sentoff_refusals (tests.test_port_selection.Selection.test_same_block_unavailable_and_sentoff_refusals) ... ok
+test_selected_player_jobs_keep_the_original_cross_row_calls (tests.test_port_selection.Selection.test_selected_player_jobs_keep_the_original_cross_row_calls) ... ok
+test_squad_pointer_and_pool_pointer (tests.test_port_selection.Selection.test_squad_pointer_and_pool_pointer) ... ok
+test_swap_changes_only_squad_form_and_marking_before_refresh (tests.test_port_selection.Selection.test_swap_changes_only_squad_form_and_marking_before_refresh) ... ok
+test_ten_listing_entries_and_returns (tests.test_port_selection.Selection.test_ten_listing_entries_and_returns) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.945s
+
+OK

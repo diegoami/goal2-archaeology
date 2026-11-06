@@ -1,0 +1,93 @@
+test_empty_first_enter_leaves_parent_fields_unchanged (tests.test_port_pre_match_swap.PreMatchSwap.test_empty_first_enter_leaves_parent_fields_unchanged) ... ERROR
+test_first_enter_ignores_unmarked_stale_pool_location (tests.test_port_pre_match_swap.PreMatchSwap.test_first_enter_ignores_unmarked_stale_pool_location) ... ERROR
+test_first_enter_marks_nonempty_slot (tests.test_port_pre_match_swap.PreMatchSwap.test_first_enter_marks_nonempty_slot) ... ERROR
+test_nonempty_first_mark_allows_empty_outgoing_second_slot (tests.test_port_pre_match_swap.PreMatchSwap.test_nonempty_first_mark_allows_empty_outgoing_second_slot) ... ERROR
+test_pool_or_in_match_modes_refuse_before_any_memory_write (tests.test_port_pre_match_swap.PreMatchSwap.test_pool_or_in_match_modes_refuse_before_any_memory_write) ... ERROR
+test_same_slot_second_enter_still_re_sorts_and_clears (tests.test_port_pre_match_swap.PreMatchSwap.test_same_slot_second_enter_still_re_sorts_and_clears) ... ERROR
+test_two_enters_swap_starter_bench_then_use_live_sort (tests.test_port_pre_match_swap.PreMatchSwap.test_two_enters_swap_starter_bench_then_use_live_sort) ... ERROR
+
+======================================================================
+ERROR: test_empty_first_enter_leaves_parent_fields_unchanged (tests.test_port_pre_match_swap.PreMatchSwap.test_empty_first_enter_leaves_parent_fields_unchanged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t123b-before-runtime/tests/test_port_pre_match_swap.py", line 70, in test_empty_first_enter_leaves_parent_fields_unchanged
+    m,w=self.machine(empty=True,marked_slot=19);before=self.squad(m);self.invoke(m)
+                                                                     ~~~~~~~~~~~^^^
+  File "/tmp/t123b-before-runtime/tests/test_port_pre_match_swap.py", line 49, in invoke
+    entry=selection.PORTS.entries['0791:DEA6']
+          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '0791:DEA6'
+
+======================================================================
+ERROR: test_first_enter_ignores_unmarked_stale_pool_location (tests.test_port_pre_match_swap.PreMatchSwap.test_first_enter_ignores_unmarked_stale_pool_location)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t123b-before-runtime/tests/test_port_pre_match_swap.py", line 66, in test_first_enter_ignores_unmarked_stale_pool_location
+    m,w=self.machine(marked=False,marked_pane=2);self.invoke(m)
+                                                 ~~~~~~~~~~~^^^
+  File "/tmp/t123b-before-runtime/tests/test_port_pre_match_swap.py", line 49, in invoke
+    entry=selection.PORTS.entries['0791:DEA6']
+          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '0791:DEA6'
+
+======================================================================
+ERROR: test_first_enter_marks_nonempty_slot (tests.test_port_pre_match_swap.PreMatchSwap.test_first_enter_marks_nonempty_slot)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t123b-before-runtime/tests/test_port_pre_match_swap.py", line 60, in test_first_enter_marks_nonempty_slot
+    m,w=self.machine(marked_slot=19);before=self.squad(m);self.invoke(m)
+                                                          ~~~~~~~~~~~^^^
+  File "/tmp/t123b-before-runtime/tests/test_port_pre_match_swap.py", line 49, in invoke
+    entry=selection.PORTS.entries['0791:DEA6']
+          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '0791:DEA6'
+
+======================================================================
+ERROR: test_nonempty_first_mark_allows_empty_outgoing_second_slot (tests.test_port_pre_match_swap.PreMatchSwap.test_nonempty_first_mark_allows_empty_outgoing_second_slot)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t123b-before-runtime/tests/test_port_pre_match_swap.py", line 94, in test_nonempty_first_mark_allows_empty_outgoing_second_slot
+    m,w=self.machine(cursor=13);self.invoke(m)
+                                ~~~~~~~~~~~^^^
+  File "/tmp/t123b-before-runtime/tests/test_port_pre_match_swap.py", line 49, in invoke
+    entry=selection.PORTS.entries['0791:DEA6']
+          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '0791:DEA6'
+
+======================================================================
+ERROR: test_pool_or_in_match_modes_refuse_before_any_memory_write (tests.test_port_pre_match_swap.PreMatchSwap.test_pool_or_in_match_modes_refuse_before_any_memory_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t123b-before-runtime/tests/test_port_pre_match_swap.py", line 103, in test_pool_or_in_match_modes_refuse_before_any_memory_write
+    entry=selection.PORTS.entries['0791:DEA6'];self.assertEqual(entry.ret,'ret 2')
+          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '0791:DEA6'
+
+======================================================================
+ERROR: test_same_slot_second_enter_still_re_sorts_and_clears (tests.test_port_pre_match_swap.PreMatchSwap.test_same_slot_second_enter_still_re_sorts_and_clears)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t123b-before-runtime/tests/test_port_pre_match_swap.py", line 88, in test_same_slot_second_enter_still_re_sorts_and_clears
+    self.invoke(m)
+    ~~~~~~~~~~~^^^
+  File "/tmp/t123b-before-runtime/tests/test_port_pre_match_swap.py", line 49, in invoke
+    entry=selection.PORTS.entries['0791:DEA6']
+          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '0791:DEA6'
+
+======================================================================
+ERROR: test_two_enters_swap_starter_bench_then_use_live_sort (tests.test_port_pre_match_swap.PreMatchSwap.test_two_enters_swap_starter_bench_then_use_live_sort)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t123b-before-runtime/tests/test_port_pre_match_swap.py", line 76, in test_two_enters_swap_starter_bench_then_use_live_sort
+    m,w=self.machine(setup=setup);self.invoke(m)
+                                  ~~~~~~~~~~~^^^
+  File "/tmp/t123b-before-runtime/tests/test_port_pre_match_swap.py", line 49, in invoke
+    entry=selection.PORTS.entries['0791:DEA6']
+          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '0791:DEA6'
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.584s
+
+FAILED (errors=7)
