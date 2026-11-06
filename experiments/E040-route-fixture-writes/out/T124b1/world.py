@@ -67,7 +67,7 @@ def load(cp):
 def managers(r):
     m=r.m;g=m.far(stages.GAME);c=m.far(stages.COUNTRIES)
     return {'count':m.read(g,1)[0], 'country_tags_sha256':sha(bytes(m.read(c+191*i+46,1)[0] for i in range(129))),
-            'squads_sha256':sha(b''.join(m.read(c+191*i,40) for i in range(129)))}
+            'managed_squads_sha256':sha(b''.join(m.read(c+191*i,40) for i in range(129) if m.read(c+191*i+46,1)[0]>128))}
 
 
 def original_call(r,target,ret,sp,bp,args=(),far=False):
@@ -138,13 +138,18 @@ def prepare(out):
         for index,(label,stage,rounds) in enumerate(plan):
             if index<done:continue
             tags=managers(r);before=game(r.m)
+            all_squads_before=sha(b''.join(r.m.read(r.m.far(stages.COUNTRIES)+191*i,40) for i in range(129)))
             constructed=build(r,stage,rounds) if stage else {'before':before,'edits':[],'after':before}
             simulated=simulate_calendar(r)
-            assert managers(r)==tags,'preparation changed manager count/tags or squad words'
+            assert managers(r)==tags,'preparation changed manager count/tags or managed squad words'
             cp=checkpoint(r,label)
             emit(f,{'status':'prepared-step','step':index,'label':label,'constructor':constructed,
                 'silent_updates':simulated,'checkpoint':cp,'record_hashes':digests(r.m),
-                'manager_and_squad_invariants':tags,'end':game(r.m),'elapsed_s':round(time.monotonic()-start,4)})
+                'manager_and_squad_invariants':tags,
+                'all_squads_before_sha256':all_squads_before,
+                'all_squads_after_sha256':sha(b''.join(r.m.read(r.m.far(stages.COUNTRIES)+191*i,40) for i in range(129))),
+                'computer_squad_changes':'original A3DE calls B11F/52CC only when0B77 false; managed squads invariant',
+                'end':game(r.m),'elapsed_s':round(time.monotonic()-start,4)})
         assert game(r.m)['stage']==8 and game(r.m)['rounds']==1
         assert game(r.m)['cursor']==game(r.m)['count']
         knockout=r.m.word_at(r.m.far(stages.GAME)+0x2A)
