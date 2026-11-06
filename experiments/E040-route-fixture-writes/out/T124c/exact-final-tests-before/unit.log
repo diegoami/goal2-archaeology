@@ -1,0 +1,86 @@
+EEEEEEE
+======================================================================
+ERROR: test_entries_and_single_display_ownership (tests.test_port_stage_continental.Continental.test_entries_and_single_display_ownership)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124c-old-source-bd3a7c62/tests/test_port_stage_continental.py", line 66, in test_entries_and_single_display_ownership
+    self.assertEqual({a:ST.PORTS.entries[a].ret for a in ENTRIES},ENTRIES)
+                        ~~~~~~~~~~~~~~~~^^^
+KeyError: '1771:6B55'
+
+======================================================================
+ERROR: test_host_and_knockout_assignment_falsifiers_are_caught (tests.test_port_stage_continental.Continental.test_host_and_knockout_assignment_falsifiers_are_caught) (variant='continental-host-bound-seven')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124c-old-source-bd3a7c62/tests/test_port_stage_continental.py", line 117, in test_host_and_knockout_assignment_falsifiers_are_caught
+    self.call(target,specs=self.specs(variant),game={0x3C:3 if target.endswith('6B55') else 4,0x3D:rounds,0x40:0},before=before)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124c-old-source-bd3a7c62/tests/test_port_stages.py", line 110, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_host_and_knockout_assignment_falsifiers_are_caught (tests.test_port_stage_continental.Continental.test_host_and_knockout_assignment_falsifiers_are_caught) (variant='continental-third-place-opponent')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124c-old-source-bd3a7c62/tests/test_port_stage_continental.py", line 117, in test_host_and_knockout_assignment_falsifiers_are_caught
+    self.call(target,specs=self.specs(variant),game={0x3C:3 if target.endswith('6B55') else 4,0x3D:rounds,0x40:0},before=before)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124c-old-source-bd3a7c62/tests/test_port_stages.py", line 110, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_managed_bgroups3_to8_do_not_receive_a_finals_group (tests.test_port_stage_continental.Continental.test_managed_bgroups3_to8_do_not_receive_a_finals_group)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124c-old-source-bd3a7c62/tests/test_port_stage_continental.py", line 82, in test_managed_bgroups3_to8_do_not_receive_a_finals_group
+    m,p=self.call('1771:6B55',specs=self.specs(),game={0x3C:3,0x3D:1,0x40:0},before=manager_in_runnerup_group)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124c-old-source-bd3a7c62/tests/test_port_stages.py", line 110, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_semifinal_builder_uses_b1_winner_b2_runnerup_and_reverse (tests.test_port_stage_continental.Continental.test_semifinal_builder_uses_b1_winner_b2_runnerup_and_reverse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124c-old-source-bd3a7c62/tests/test_port_stage_continental.py", line 87, in test_semifinal_builder_uses_b1_winner_b2_runnerup_and_reverse
+    m,p=self.call('1771:6E59',specs=self.specs(),game={0x3C:4,0x3D:2,0x40:0},before=knockout_input)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124c-old-source-bd3a7c62/tests/test_port_stages.py", line 110, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_stage3_full_calendar_hosts_and_finals_group_count (tests.test_port_stage_continental.Continental.test_stage3_full_calendar_hosts_and_finals_group_count)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124c-old-source-bd3a7c62/tests/test_port_stage_continental.py", line 70, in test_stage3_full_calendar_hosts_and_finals_group_count
+    m,p=self.call('1771:6B55',specs=self.specs(),game={0x3C:3,0x3D:1,0x40:0})
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124c-old-source-bd3a7c62/tests/test_port_stages.py", line 110, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_third_place_losers_precede_final_winners_and_indices (tests.test_port_stage_continental.Continental.test_third_place_losers_precede_final_winners_and_indices)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/t124c-old-source-bd3a7c62/tests/test_port_stage_continental.py", line 98, in test_third_place_losers_precede_final_winners_and_indices
+    m,p=self.call('1771:6E59',specs=self.specs(),game={0x3C:4,0x3D:1,0x40:0},before=knockout_input)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/t124c-old-source-bd3a7c62/tests/test_port_stages.py", line 110, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.103s
+
+FAILED (errors=7)
