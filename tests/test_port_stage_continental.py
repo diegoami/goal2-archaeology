@@ -47,6 +47,17 @@ def manager_in_runnerup_group(m):
     m.write(g,b'\x01')
 
 
+def host_seed_six(m):
+    """Controlled valid RNG word: (6*0x7ABD+0x1B0F)&FFFF=64381, so first draw8 != draw7 [derived:F004]."""
+    word(m,m.far(0xA978),6)
+
+
+def continental_falsifier_input(m,variant):
+    if variant=='continental-host-bound-seven':host_seed_six(m)
+    elif variant=='continental-third-place-opponent':knockout_input(m)
+    else:raise AssertionError(variant)
+
+
 class Continental(_Calls):
     def specs(self,variant=None):
         return ((ST.PORTS,variant),'runtime',qualifying_rng_port(),(ST.display_helpers(),None))
@@ -100,7 +111,7 @@ class Continental(_Calls):
     def test_host_and_knockout_assignment_falsifiers_are_caught(self):
         from original_match.port.prove import ProofError
         for variant,target,rounds,before in (
-            ('continental-host-bound-seven','1771:6B55',1,None),
+            ('continental-host-bound-seven','1771:6B55',1,host_seed_six),
             ('continental-third-place-opponent','1771:6E59',1,knockout_input)):
             with self.subTest(variant=variant),self.assertRaises(ProofError):
                 self.call(target,specs=self.specs(variant),game={0x3C:3 if target.endswith('6B55') else 4,0x3D:rounds,0x40:0},before=before)
