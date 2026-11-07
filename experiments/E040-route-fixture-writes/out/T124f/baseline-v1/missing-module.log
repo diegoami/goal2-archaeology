@@ -1,0 +1,15 @@
+E
+======================================================================
+ERROR: test_port_in_season_ageing (unittest.loader._FailedTest.test_port_in_season_ageing)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_port_in_season_ageing
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+ModuleNotFoundError: No module named 'tests.test_port_in_season_ageing'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

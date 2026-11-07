@@ -1,0 +1,23 @@
+FF................
+======================================================================
+FAIL: test_year_rollover_refuses_before_even_a_same_value_stack_write (tests.test_port_in_season_ageing.DeferredBoundary.test_year_rollover_refuses_before_even_a_same_value_stack_write) (stage=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 217, in test_year_rollover_refuses_before_even_a_same_value_stack_write
+    m.write(0x72FFE,m.read(0x72FFE,2));self.assertTrue(writes);writes.clear()
+                                       ~~~~~~~~~~~~~~~^^^^^^^^
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_year_rollover_refuses_before_even_a_same_value_stack_write (tests.test_port_in_season_ageing.DeferredBoundary.test_year_rollover_refuses_before_even_a_same_value_stack_write) (stage=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 217, in test_year_rollover_refuses_before_even_a_same_value_stack_write
+    m.write(0x72FFE,m.read(0x72FFE,2));self.assertTrue(writes);writes.clear()
+                                       ~~~~~~~~~~~~~~~^^^^^^^^
+AssertionError: [] is not true
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.822s
+
+FAILED (failures=2)
