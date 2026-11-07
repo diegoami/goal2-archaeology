@@ -99,6 +99,8 @@ receipt = dict(knockout=a.knockout, engine=a.engine, implementation=sys.implemen
     input_sha256=image_hash, completed=True, elapsed_s=time.monotonic()-started,
     snapshots=snapshots, result_sha256=records.result_digest(result),
     all_events_sha256=hashlib.sha256(repr(events).encode()).hexdigest(),
+    canonical_events=records.events_digest(events),
+    display_profile_events=family.display_events_digest(events),
     full_memory_sha256=hashlib.sha256(m.m.read(0, 0x110000)).hexdigest(),
     accepted_state_ranges=family.digest_memory(m, [], image_hash), memory_mask=[],
     score=result['score'], draws=result['draws'], draws_digest=result['draws_digest'],
