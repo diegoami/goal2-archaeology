@@ -1,0 +1,57 @@
+test_repeated_terminal_request_preserves_every_state_byte (tests.test_route_sealed.Boundary.test_repeated_terminal_request_preserves_every_state_byte) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_terminal_entry_returns_immutable_step_without_starting_backend (tests.test_route_sealed.Boundary.test_terminal_entry_returns_immutable_step_without_starting_backend) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_factory_preserves_actual_context_and_existing_manager2 (tests.test_route_sealed.MatchEntry.test_factory_preserves_actual_context_and_existing_manager2) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_factory_refuses_invalid_frame_before_changes (tests.test_route_sealed.MatchEntry.test_factory_refuses_invalid_frame_before_changes) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_real_pending_normal_match_and_invalid_resume_are_pure (tests.test_route_sealed.MatchEntry.test_real_pending_normal_match_and_invalid_resume_are_pure) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ERROR
+test_shareware_leaf_preserves_AH_and_real_frame (tests.test_route_sealed.OuterFrames.test_shareware_leaf_preserves_AH_and_real_frame) ... ok
+
+======================================================================
+ERROR: test_real_pending_normal_match_and_invalid_resume_are_pure (tests.test_route_sealed.MatchEntry.test_real_pending_normal_match_and_invalid_resume_are_pure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 151, in test_real_pending_normal_match_and_invalid_resume_are_pure
+    result=call_in_pypy('test_route_sealed','_entry_report',args=(image.state(image.tables),to_record(image.tables)))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 111, in _entry_report
+    step=R.play_round(state,from_record(table_record),R.DEFAULT_KEYS)
+           ^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/route.py", line 590, in play_round
+    return _RoundContinuation(image,keys).start()
+                                          ^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/route.py", line 540, in start
+    return self.advance()
+                ^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/route.py", line 544, in advance
+    m=self.m;stopped=m.run(m.lin(ROUND_RETURN),self.timeout_s,fresh=True)
+                       ^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+         ^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 0791:B15F
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 7.896s
+
+FAILED (errors=1)

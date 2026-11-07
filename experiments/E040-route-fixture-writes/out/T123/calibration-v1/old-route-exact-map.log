@@ -1,0 +1,35 @@
+test_the_ten_routines_and_their_returns (tests.test_port_route_fixture.Registry.test_the_ten_routines_and_their_returns) ... FAIL
+
+======================================================================
+FAIL: test_the_ten_routines_and_their_returns (tests.test_port_route_fixture.Registry.test_the_ten_routines_and_their_returns)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_route_fixture.py", line 11, in test_the_ten_routines_and_their_returns
+    self.assertEqual({a: e.ret for a, e in reg.entries.items()}, {
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "000E:6CA7": "ret", "000E:6C21": "ret 4", "0791:E80D": "retf 4",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "000E:6685": "ret 4", "000E:038E": "ret", "000E:05F6": "ret 6",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "000E:062F": "ret 0xc", "000E:070B": "ret 6", "000E:075F": "ret 0xc",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "000E:5978": "ret 4"})
+        ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'000E:6C21': 'ret 4', '000E:6CA7': 'ret', '0791:E[206 chars]ret'} != {'000E:6CA7': 'ret', '000E:6C21': 'ret 4', '0791:E[166 chars]t 4'}
+  {'000E:038E': 'ret',
+   '000E:05F6': 'ret 6',
+   '000E:062F': 'ret 0xc',
+   '000E:070B': 'ret 6',
+   '000E:075F': 'ret 0xc',
+   '000E:5978': 'ret 4',
+   '000E:6685': 'ret 4',
+   '000E:6C21': 'ret 4',
+   '000E:6CA7': 'ret',
+-  '000E:7072': 'ret',
+-  '000E:70B9': 'ret',
+   '0791:E80D': 'retf 4'}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.005s
+
+FAILED (failures=1)

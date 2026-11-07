@@ -26,3 +26,20 @@ public API tests cover immutability, no-backend terminal entry and repeated-stat
 identity; the7072 test validates preserved incoming AH through the real frame.
 
 Model: inherited Codex GPT-6 family; exact variant unavailable.
+
+The bounded ordinary Match.from_route_entry factory is explicitly authorized by
+main task amendment ed599f54. It validates actual SS/SP/BP/DS/CS:IP, far return,
+fixture pointer/record and all16 incoming registers BEFORE mutable machine
+creation; it neither calls the normal setup nor rebases manager2 to manager1.
+Normal constructor bookkeeping is shared without changing its setup/defaults.
+Verified PyPy3.11 workers deny imports/starts and EXE/SAV/DAT reads positively.
+Manager129/130 preservation and invalid-frame refusal pass on actual original
+F1F6 fixtures; the production pending traversal currently stops at the missing
+0791:B15F leaf. No original fallback or stand-in was installed. Missing remaining
+leaf ownership is reported to main before any expansion.
+
+The initial denied PyPy-start probe lacked Unicorn's imported architecture
+constants and failed before reaching its tripwire; the corrected test-only
+sentinels make the actual cached-Uc tripwire reachable without starting a VM.
+The original failure is retained. Pure public boundary tests execute in verified
+PyPy workers; CPython retains the original-backed reference/frame work.

@@ -291,6 +291,11 @@ class Match:
         self._write_fixture(index, fixture, route=not tail)
         self._declare("delay calibration dword DS:A9FF", self.m.DS * 16 + DELAY_COUNT,
                       DELAY_COUNT_VALUE.to_bytes(4, "little"))
+        self._initialize_session(fixture, ports, prove)
+        self._call(RUN_MATCH, RUN_MATCH_RETURN)
+
+    def _initialize_session(self, fixture, ports, prove):
+        """Shared Python bookkeeping only; caller owns all entry/setup effects."""
         self.st = fresh_state(self._players_now([fixture.first, fixture.second]))
         self._queue = []
         self._menu = None
@@ -299,7 +304,67 @@ class Match:
         self._hooks()
         self._install_ports(ports)
         self._install_proof(prove)
-        self._call(RUN_MATCH, RUN_MATCH_RETURN)
+
+    @classmethod
+    def from_route_entry(cls, image, fixture, context, *, managed=None, timeout_s=600):
+        """Ordinary port Match at an already-prepared F1F6 entry, without setup.
+
+        Validates the actual full CPU/far-call/fixture context before creating
+        any mutable machine. Manager identities, all memory and RNG are kept.
+        Defaults and setup of the normal constructor remain unchanged.
+        """
+        from .machine import REGS
+        from .port.engine import PortMachine
+        if cls is not Match:
+            raise ValueError('route entry creates an ordinary Match only')
+        if set(context) != set(REGS) or any(type(v) is not int for v in context.values()):
+            raise ValueError('route entry requires the complete16-register context')
+        if image.build_problems():
+            raise ValueError('route entry image/tables are not the registered build')
+        regs=dict(context)
+        if (regs['CS']-image.load,regs['EIP']&65535)!=(0x0791,0xF1F6):
+            raise ValueError('route entry must be actual0791:F1F6')
+        if (regs['SS'],regs['ESP']&65535,regs['EBP']&65535,regs['DS'])!=(image.load+SS_PARAGRAPH,ENTRY_SP,ENTRY_BP,image.DS):
+            raise ValueError('route entry has the wrong SS/SP/BP/DS frame')
+        data=image.memory;ds=image.DS*16
+        def word(a):return int.from_bytes(data[a:a+2],'little')
+        def far(o):return word(ds+o)+16*word(ds+o+2)
+        sp=regs['SS']*16+(regs['ESP']&65535)
+        if (word(sp),word(sp+2))!=(0x6F1D,image.load+0xE):
+            raise ValueError('route entry far return is not000E:6F1D')
+        game=far(GAME_PTR);index=word(game+0x26)
+        if fixture.index!=index or fixture.kind not in KINDS or not 1<=index<word(game+0x28):
+            raise ValueError('route entry fixture/index is not the pending cursor')
+        offset=(word(ds+FIXTURES_PTR)+FIXTURE_SIZE*(index-1))&65535;segment=word(ds+FIXTURES_PTR+2)
+        if (word(sp+4),word(sp+6))!=(offset,segment):
+            raise ValueError('route entry fixture far argument differs')
+        fx=segment*16+offset
+        if (word(fx+4),word(fx+6),data[fx+2])!=(fixture.first,fixture.second,fixture.kind):
+            raise ValueError('route entry fixture record differs')
+        if not(1<=fixture.first<=128 and 1<=fixture.second<=128 and fixture.first!=fixture.second):
+            raise ValueError('route entry needs distinct valid countries')
+        countries=far(COUNTRIES_PTR)
+        humans=[c for c in (fixture.first,fixture.second) if data[countries+COUNTRY_SIZE*c+MANAGER]>128]
+        if len(humans)>1:
+            raise ValueError('two human participants are not supported by Match')
+        if managed is None:
+            managed=humans[0] if humans else data[far(MANAGERS_PTR)+3*(128+data[game+1])]
+        if type(managed) is not int or not 1<=managed<=128 or (humans and managed!=humans[0]):
+            raise ValueError('route entry managed country does not match its existing manager')
+        self=cls.__new__(cls)
+        self.engine='port';self.timeout_s=timeout_s;self.m=PortMachine(image.memory,image.load)
+        self.image_header=image.header;self.image_tail=bytes(image.memory[MEM_SIZE:]);self.image_sha256=image.sha256()
+        self.tables=getattr(image,'tables',None);self.inputs=[]
+        self.opts={'first':fixture.first,'second':fixture.second,'index':index,'managed':managed,
+                   'captain':None,'seed':None,'ticks':False,'record_draws':False,'delay_byte':None,
+                   'kind':fixture.kind,'substitutions':None,'engine':'port','tail':False}
+        self.side=(0 if managed==fixture.first else 1) if managed in (fixture.first,fixture.second) else None
+        self._initialize_session(fixture,['all'],None)
+        for name,value in regs.items():self.m.set_reg(name,value)
+        self.end_lin=self.m.lin(RUN_MATCH_RETURN);self.st['fresh']=True
+        if self.m.read(0,MEM_SIZE)!=bytes(data[:MEM_SIZE]) or any(self.m.reg(k)!=v for k,v in regs.items()):
+            raise MatchError('route entry initialization changed incoming memory/CPU')
+        return self
 
     def _install_proof(self, prove):
         """The proof mode (T59, port/prove.py): the ports' calls from the draw `prove` on, side by side."""

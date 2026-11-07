@@ -36,21 +36,135 @@ class OuterFrames(_Calls):
 
 class Boundary(unittest.TestCase):
     def test_terminal_entry_returns_immutable_step_without_starting_backend(self):
-        from unittest.mock import patch
-        from original_match import machine
+        from port_test_runtime import call_in_pypy
+        from original_match.port.tables import to_record
         for stage in (4,8):
             with self.subTest(stage=stage):
-                state,tables=terminal_state(stage);before=json.dumps(state,sort_keys=True)
-                with patch.object(machine,'Uc',side_effect=AssertionError('denied original backend')):
-                    step=R.play_round(state,tables,R.DEFAULT_KEYS)
-                self.assertEqual(step.status,'deferred-rollover');self.assertEqual(step.state,state)
-                self.assertIsNot(step.state,state);self.assertEqual(step.played_fixtures,());self.assertEqual(step.news_pages,())
-                self.assertIsNone(step.match);self.assertIsNone(step.continuation)
-                with self.assertRaises(dataclasses.FrozenInstanceError):step.status='complete'
-                self.assertEqual(json.dumps(state,sort_keys=True),before)
+                state,tables=terminal_state(stage)
+                result=call_in_pypy('test_route_sealed','_boundary_report',args=(state,to_record(tables),False))
+                self.assertTrue(result['pure']);self.assertTrue(result['immutable']);self.assertTrue(result['denials'])
 
     def test_repeated_terminal_request_preserves_every_state_byte(self):
-        state,tables=terminal_state(8);first=R.play_round(state,tables,None)
-        second=R.play_round(first.state,tables,None)
-        self.assertEqual(first.state,second.state);self.assertEqual(second.status,'deferred-rollover')
-        self.assertEqual(second.played_fixtures,());self.assertEqual(second.news_pages,())
+        from port_test_runtime import call_in_pypy
+        from original_match.port.tables import to_record
+        state,tables=terminal_state(8)
+        result=call_in_pypy('test_route_sealed','_boundary_report',args=(state,to_record(tables),True))
+        self.assertTrue(result['pure']);self.assertTrue(result['repeated'])
+
+
+def _denials():
+    """Positive worker guards, active before any production API call."""
+    import builtins,io,os
+    original_import=builtins.__import__;original_open=builtins.open;original_os_open=os.open
+    def importing(name,*args,**kwargs):
+        if name=='unicorn' or name.startswith('unicorn.'):raise ImportError('T123 positive Unicorn import denial')
+        return original_import(name,*args,**kwargs)
+    def forbidden(path):
+        try:return os.fspath(path).lower().endswith(('.exe','.sav','.dat'))
+        except TypeError:return False
+    def opening(path,*args,**kwargs):
+        if forbidden(path):raise PermissionError('T123 positive original file denial')
+        return original_open(path,*args,**kwargs)
+    def os_open(path,*args,**kwargs):
+        if forbidden(path):raise PermissionError('T123 positive original file denial')
+        return original_os_open(path,*args,**kwargs)
+    builtins.__import__=importing;builtins.open=io.open=opening;os.open=os_open
+    for probe in (lambda:__import__('unicorn'),lambda:open('GOAL.EXE','rb'),lambda:open('probe.sav','rb'),lambda:os.open('probe.DAT',os.O_RDONLY)):
+        try:probe()
+        except (ImportError,PermissionError):pass
+        else:raise AssertionError('denial control inactive')
+    from original_match import machine
+    def denied(*a,**k):raise RuntimeError('T123 positive Unicorn start denial')
+    machine.Uc=denied
+    # With imports denied, these constructor argument constants are absent.
+    # Sentinels only let the positive tripwire be reached; no VM starts.
+    machine.UC_ARCH_X86=0;machine.UC_MODE_16=0
+    try:machine.Machine(bytearray(MEM_SIZE),0)
+    except RuntimeError as exc:assert 'positive Unicorn start denial' in str(exc)
+    else:raise AssertionError('backend-start denial inactive')
+    return True
+
+
+def _factory_report(state,table_record,fixture,context,bad=False):
+    assert sys.implementation.name=='pypy' and sys.version_info[:2]==(3,11)
+    _denials()
+    from original_match import Match,Fixture
+    from original_match.port.tables import from_record
+    tables=from_record(table_record);image=Image.from_state(state,tables);before=hashlib.sha256(image.memory[:MEM_SIZE]).hexdigest()
+    if bad:
+        context=dict(context);context['ESP']+=2
+        try:Match.from_route_entry(image,Fixture(**fixture),context)
+        except ValueError:return {'refused':True,'unchanged':hashlib.sha256(image.memory[:MEM_SIZE]).hexdigest()==before}
+        raise AssertionError('invalid entry accepted')
+    m=Match.from_route_entry(image,Fixture(**fixture),context)
+    assert type(m) is Match and not m.inputs and not m.over and m.engine=='port' and m.opts['tail'] is False
+    assert m.m.read(0,MEM_SIZE)==bytes(image.memory[:MEM_SIZE])
+    assert all(m.m.reg(k)==v for k,v in context.items())
+    return {'preserved':True,'backend':'pypy3.11','denials':True,'manager_tags':[m._manager_byte(c) for c in (fixture['first'],fixture['second'])]}
+
+
+def _entry_report(state,table_record):
+    assert sys.implementation.name=='pypy' and sys.version_info[:2]==(3,11)
+    _denials()
+    from original_match import Match
+    from original_match.port.tables import from_record
+    step=R.play_round(state,from_record(table_record),R.DEFAULT_KEYS)
+    assert step.status=='match' and type(step.match) is Match and not step.match.over and not step.match.inputs
+    before=hashlib.sha256(step.continuation.m.read(0,MEM_SIZE)).hexdigest()
+    for bad_cont,bad_match in [(object(),step.match),(step.continuation,object()),(step.continuation,step.match)]:
+        try:R.resume_round(bad_cont,bad_match)
+        except ValueError:pass
+        else:raise AssertionError('foreign/incomplete resume accepted')
+    assert hashlib.sha256(step.continuation.m.read(0,MEM_SIZE)).hexdigest()==before
+    return {'status':step.status,'normal_match':True,'no_autopick':not hasattr(step.match,'team_choices'),'invalid_resume_pure':True,'denials':True}
+
+
+def _fixtures():
+    import importlib.util
+    path=ROOT/'experiments/E040-route-fixture-writes/out/T123/fixtures.py'
+    spec=importlib.util.spec_from_file_location('_t123_test_fixtures',path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    return module
+
+
+class MatchEntry(unittest.TestCase):
+    def test_factory_preserves_actual_context_and_existing_manager2(self):
+        from port_test_runtime import call_in_pypy
+        from original_match.port.tables import to_record
+        for manager2 in (False,True):
+            with self.subTest(manager2=manager2):
+                image,context,fixture=_fixtures().entry(manager2=manager2)
+                result=call_in_pypy('test_route_sealed','_factory_report',args=(image.state(image.tables),to_record(image.tables),fixture,context))
+                self.assertTrue(result['preserved']);self.assertTrue(result['denials'])
+                self.assertIn(130 if manager2 else 129,result['manager_tags'])
+
+    def test_factory_refuses_invalid_frame_before_changes(self):
+        from port_test_runtime import call_in_pypy
+        from original_match.port.tables import to_record
+        image,context,fixture=_fixtures().entry()
+        result=call_in_pypy('test_route_sealed','_factory_report',args=(image.state(image.tables),to_record(image.tables),fixture,context,True))
+        self.assertTrue(result['refused']);self.assertTrue(result['unchanged'])
+
+    def test_real_pending_normal_match_and_invalid_resume_are_pure(self):
+        from port_test_runtime import call_in_pypy
+        from original_match.port.tables import to_record
+        image=_fixtures().image()
+        result=call_in_pypy('test_route_sealed','_entry_report',args=(image.state(image.tables),to_record(image.tables)))
+        self.assertTrue(result['normal_match']);self.assertTrue(result['no_autopick']);self.assertTrue(result['invalid_resume_pure'])
+
+
+def _boundary_report(state,table_record,repeat):
+    assert sys.implementation.name=='pypy' and sys.version_info[:2]==(3,11)
+    _denials()
+    from original_match.port.tables import from_record
+    tables=from_record(table_record);before=json.dumps(state,sort_keys=True)
+    step=R.play_round(state,tables,R.DEFAULT_KEYS)
+    assert step.status=='deferred-rollover' and step.state==state and step.state is not state
+    assert step.played_fixtures==() and step.news_pages==() and step.match is None and step.continuation is None
+    try:step.status='complete'
+    except dataclasses.FrozenInstanceError:immutable=True
+    else:raise AssertionError('mutable RoundStep')
+    if repeat:
+        second=R.play_round(step.state,tables,None)
+        assert second.status==step.status and second.state==step.state and not second.played_fixtures and not second.news_pages
+    assert json.dumps(state,sort_keys=True)==before
+    return {'pure':True,'immutable':immutable,'denials':True,'repeated':repeat}

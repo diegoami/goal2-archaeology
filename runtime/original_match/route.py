@@ -438,3 +438,159 @@ def _runs(a, b, chunk=256):
     if start is not None:
         out.append((start, n))
     return out
+
+
+# -- T123 sealed consumer ---------------------------------------------------
+from dataclasses import dataclass
+from copy import deepcopy
+
+
+@dataclass(frozen=True)
+class RoundStep:
+    """One immutable observation of an in-process sealed round continuation."""
+    status: str
+    state: dict
+    played_fixtures: tuple
+    news_pages: tuple
+    match: object = None
+    continuation: object = None
+    record: tuple = ()
+
+
+def _deferred_image(image):
+    data=image.memory;ds=image.DS*16
+    def word(a):return int.from_bytes(data[a:a+2],'little')
+    game=word(ds+GAME_PTR)+16*word(ds+GAME_PTR+2)
+    return (word(game+0x26)==word(game+0x28) and data[game+0x3D]==1
+            and data[game+0x3C] in (4,8))
+
+
+class _RoundKeys:
+    """Existing Route.Keys policy through the real menu ports' key API."""
+    def __init__(self,round):self.round=round
+    def keypressed(self,site):
+        r=self.round;has,source=r.keys.poll(site,r)
+        r.record.append(('key',site,'poll',r.keys.waiting if has else None,source))
+        return has
+    def key(self,site):
+        r=self.round;key,source=r.keys.read(site,r)
+        r.record.append(('key',site,'read',key,source))
+        r._write("08DD's key (0947 DS:A976, 097C DS:A977)",r.m.DS*16+KEY,bytes([key,key]))
+        r.m.set_reg('ax',(r.m.reg('ax')&0xFF00)|key)
+        return key
+
+
+class _RoundContinuation(Route):
+    """Owns one plain dispatcher and its suspended ordinary Match, in process."""
+    def __init__(self,image,keys):
+        from .port.engine import PortMachine
+        from . import port
+        self.header=image.header;self.tail=bytes(image.memory[MEM_SIZE:]);self.tables=image.tables
+        self.origin=bytes(image.memory[:MEM_SIZE]);self.m=PortMachine(image.memory,image.load)
+        self.keys=keys if isinstance(keys,Keys) else Keys(DEFAULT_KEYS if keys is None else keys)
+        self.record=[];self.inputs=[];self.matches=[];self.news_history=[]
+        self.capture_news=True;self.record_writes=False;self.entry='play_round';self.match_entry=True;self.timeout_s=600
+        self.pending=None;self.pending_context=None;self.completed=[];self.finished=False
+        for name,off in SEEDS.items():self._watch_seed(self.m,name,off,'route')
+        self.m.at('000E:05F6',self._on_news_page)
+        self.m.at(ROUND_END,self._on_round_end)
+        self.m.at('0791:F1F6',lambda replay:None if replay else self.m.stop('match'))
+        self.m.at(READKEY,self._pushed_key)
+        loaded=[]
+        for reg,variant in port.load(['all']):
+            real=port.Registry(reg.name,reg.doc)
+            for entry in reg.entries.values():
+                if entry.stub is None:real._add(entry)
+            if real.entries:loaded.append((real,variant))
+        self.ports=port.install(self.m,loaded,keys=_RoundKeys(self))
+        self.m.watch(self.m.far(GAME_PTR)+0x26,2,self._fixture_completed)
+
+    def _fixture_completed(self,old,new):
+        previous=int.from_bytes(old,'little');current=int.from_bytes(new,'little')
+        if current!=previous+1:return
+        game=self.m.far(GAME_PTR)
+        if not 1<=previous<self.m.word_at(game+0x28):return
+        raw=self.m.read(self.m.far(FIXTURES_PTR)+8*(previous-1),8)
+        item={'fixture':previous,'first':int.from_bytes(raw[4:6],'little'),
+              'second':int.from_bytes(raw[6:8],'little'),'kind':raw[2],
+              'score':tuple(raw[:2]),'winner_flag':raw[3]}
+        self.completed.append(item)
+
+    def _pushed_key(self,replay):
+        if self.m.rd(PUSHED_BACK,1):
+            self.record.append(('key',self._site(),'read',self.m.rd(KEY,1),'pushed-back'))
+
+    def _image(self):
+        image=Image.__new__(Image);image.header=self.header;image.memory=bytearray(self.m.read(0,MEM_SIZE)+self.tail)
+        image.load=self.m.load;image.DS=self.m.DS;image.tables=self.tables
+        return image
+
+    def _step(self,status):
+        return RoundStep(status,self._image().state(self.tables),tuple(deepcopy(self.completed)),
+                         tuple(self.news_history),self.pending if status=='match' else None,
+                         self if status=='match' else None,tuple(deepcopy(self.record)))
+
+    def start(self):
+        # Entry terminal guard was checked before constructing this controller.
+        m=self.m;raw=DELAY_COUNT_VALUE.to_bytes(4,'little')
+        if m.read(m.DS*16+DELAY_COUNT,4)!=raw:self._write('delay calibration DS:A9FF (Match input)',m.DS*16+DELAY_COUNT,raw)
+        word=int(ROUND_RETURN.split(':')[1],16)
+        self._write(f'the call of {PLAY_ROUND} at {ROUND_CALLER}: its return word',m.seg(SS_PARAGRAPH)*16+ROUND_SP,word.to_bytes(2,'little'))
+        for name,value in [('ss',m.seg(SS_PARAGRAPH)),('sp',ROUND_SP),('bp',MENU_BP),('ds',m.DS),('es',m.DS),('cs',m.seg(0xE)),('eip',0x70B9)]:m.set_reg(name,value)
+        return self.advance()
+
+    def advance(self):
+        from .machine import REGS
+        m=self.m;stopped=m.run(m.lin(ROUND_RETURN),self.timeout_s,fresh=True)
+        if stopped=='match':
+            context={name:m.reg(name) for name in REGS}
+            game=m.far(GAME_PTR);index=m.word_at(game+0x26);fx=m.read(m.far(FIXTURES_PTR)+8*(index-1),8)
+            fixture=Fixture(first=int.from_bytes(fx[4:6],'little'),second=int.from_bytes(fx[6:8],'little'),index=index,kind=fx[2])
+            self.pending=Match.from_route_entry(self._image(),fixture,context)
+            self.pending_context=context
+            for name,off in SEEDS.items():self._watch_seed(self.pending.m,name,off,'match')
+            self.record.append(('stop','0791:F1F6',dict(context)))
+            return self._step('match')
+        if stopped is not None:raise GuestError('sealed round stopped unexpectedly: '+str(stopped))
+        if m.reg('sp')!=ROUND_SP+2:raise GuestError('sealed play_round returned with wrong SP')
+        self.finished=True;self.record.append(('return',ROUND_RETURN))
+        return self._step('deferred-rollover' if _deferred_image(self._image()) else 'complete')
+
+    def resume(self,match):
+        # Every rejected request is checked BEFORE route-visible writes/counters.
+        if self.finished or self.pending is None or match is not self.pending:
+            raise ValueError('foreign or already consumed round match')
+        if not match.over:raise ValueError('round match is incomplete')
+        mm=match.m;context=self.pending_context;ss=context['SS']
+        if (mm.pc(),mm.reg('sp'),mm.reg('bp'),mm.reg('ss'),mm.reg('ds'))!=(mm.lin(RUN_MATCH_RETURN),MATCH_SP+4,ENTRY_BP,ss,context['DS']):
+            raise ValueError('completed route match has the wrong actual return frame')
+        result=match.result();after=mm.read(0,MEM_SIZE);now=self.m.read(0,MEM_SIZE)
+        self.pending=None;self.pending_context=None
+        for start,end in _runs(now,after):self._write('match',start,after[start:end])
+        # Retain the established split-call CPU convention of the oracle; the
+        # match's actual return SS/SP/BP/DS/CS:IP was validated above.
+        for name,value in context.items():self.m.set_reg(name,value)
+        self.m.set_reg('cs',self.m.seg(0xE));self.m.set_reg('eip',0x6F1D);self.m.set_reg('sp',MATCH_SP+4)
+        item={'fixture':match.opts['index'],'first':match.opts['first'],'second':match.opts['second'],
+              'kind':match.opts['kind'],'managed':result['managed'],'score':deepcopy(result['score']),'winner':result['winner']}
+        self.matches.append(match)
+        self.record.append(('match',deepcopy(item)));self.record.append(('resume',RUN_MATCH_RETURN,MATCH_SP+4))
+        return self.advance()
+
+
+def play_round(state,tables,keys=None):
+    """Start one sealed round; return its completed, managed, or deferred step.
+
+    A supplied Keys object carries the caller's queue across round calls. A
+    mapping follows Route's existing policy. Production chooses no legal eleven.
+    """
+    image=Image.from_state(state,tables)
+    if _deferred_image(image):
+        return RoundStep('deferred-rollover',deepcopy(state),(),())
+    return _RoundContinuation(image,keys).start()
+
+
+def resume_round(continuation,match):
+    """Resume only the completed pending ordinary Match of this continuation."""
+    if not isinstance(continuation,_RoundContinuation):raise ValueError('foreign round continuation')
+    return continuation.resume(match)
