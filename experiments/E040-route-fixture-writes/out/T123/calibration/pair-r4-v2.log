@@ -1,0 +1,10 @@
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T123/pairs.py", line 68, in <module>
+    p=argparse.ArgumentParser();p.add_argument('--case',required=True);p.add_argument('--out',required=True);parent(p.parse_args())
+                                                                                                             ~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T123/pairs.py", line 65, in parent
+    assert row['state_equal'] and row['pages_equal'],row
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'case': 'E040-r0004', 'elapsed_s': 76.2258, 'state_equal': False, 'state_digests': ['59bfe2fa3b82e88a28a757b2f22a9314638fd70f8dad6302d6e83f9f51155c66', '62eeba40a05fd7b26883a4f0a83c9b816463f95e1c358384d6c103a2b0158db8'], 'different_bytes': 48, 'first_different_offsets': [254581, 254583, 254585, 254587, 254589, 254591, 254593, 254595, 254597, 254599, 254601, 254603, 254605, 254607, 254609, 254611, 254613, 254615, 254617, 254619, 254621, 254623, 254625, 254627, 254741, 254743, 254745, 254747, 254749, 254751], 'pages_equal': True, 'page_count': 1, 'page_digests': ['796600454cae69933d37261d36906c213391fcb7bca0b992934bb5f1c3b9feba', '796600454cae69933d37261d36906c213391fcb7bca0b992934bb5f1c3b9feba'], 'status': 'complete', 'played': ({'fixture': 1, 'first': 18, 'second': 10, 'kind': 1, 'score': (1, 0), 'winner_flag': 0}, {'fixture': 2, 'first': 13, 'second': 4, 'kind': 1, 'score': (3, 0), 'winner_flag': 0}, {'fixture': 3, 'first': 7, 'second': 27, 'kind': 1, 'score': (3, 2), 'winner_flag': 0})}

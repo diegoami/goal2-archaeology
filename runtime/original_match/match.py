@@ -355,6 +355,7 @@ class Match:
         self.engine='port';self.timeout_s=timeout_s;self.m=PortMachine(image.memory,image.load)
         self.image_header=image.header;self.image_tail=bytes(image.memory[MEM_SIZE:]);self.image_sha256=image.sha256()
         self.tables=getattr(image,'tables',None);self.inputs=[]
+        self.fixture_ptr=(segment,offset)
         self.opts={'first':fixture.first,'second':fixture.second,'index':index,'managed':managed,
                    'captain':None,'seed':None,'ticks':False,'record_draws':False,'delay_byte':None,
                    'kind':fixture.kind,'substitutions':None,'engine':'port','tail':False}

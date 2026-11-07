@@ -51,6 +51,10 @@ def parent(opts):
     expected=Image(oracle.header+oracle.m.read(0,MEM_SIZE)+oracle.tail);expected.tables=image.tables
     actual=call_in_pypy('test_route_sealed', '_pair_candidate',args=(state,to_record(image.tables)))
     a=actual['state'];b=expected.state(image.tables)
+    private=ROOT/'.cache/t123/pairs';private.mkdir(parents=True,exist_ok=True)
+    for label,value in [('original',b),('sealed',a)]:
+        path=private/(opts.case+'-'+Path(opts.out).stem+'-'+label+'.json')
+        with path.open('x') as stream:json.dump(value,stream)
     if a!=b:
         import base64,zlib
         x=zlib.decompress(base64.b64decode(a['memory']));y=zlib.decompress(base64.b64decode(b['memory']))

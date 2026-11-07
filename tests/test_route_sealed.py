@@ -234,3 +234,47 @@ def _pair_candidate(state,tables):
     path=ROOT/'experiments/E040-route-fixture-writes/out/T123/pairs.py'
     spec=importlib.util.spec_from_file_location('_t123_pairs',path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
     return module.candidate(state,tables)
+
+
+def _before_callback(sources,function,args,kwargs):
+    import types,importlib
+    import original_match
+    for name,text in sources.items():
+        parent,_,leaf=name.rpartition('.');module=types.ModuleType(name);module.__package__=parent;module.__file__=str(ROOT/'runtime'/Path(*name.split('.')).with_suffix('.py'))
+        sys.modules[name]=module;exec(compile(text,module.__file__,'exec'),module.__dict__);setattr(importlib.import_module(parent),leaf,module)
+    original_match.Match=sys.modules['original_match.match'].Match
+    globals()['R']=sys.modules['original_match.route'];globals()['P']=sys.modules['original_match.port.route']
+    return globals()[function](*args,**kwargs)
+
+
+class ReachedFalsifiers(_Calls):
+    def test_omitted_decider_header_and_row_are_detected_by_original(self):
+        from original_match import port
+        from original_match.port.prove import ProofError
+        for owner,target,args in [('silent','0791:B15F',(0x9000,0x100)),('display','1771:5BF6',()),('display','1771:7812',(0x9000,0x100,7,0x21))]:
+            with self.subTest(target=target):
+                original=port._module_registry(owner).entries[target]
+                mutant=port.Registry(owner,'test-only exact body omission, ABI preserved')
+                mutant._add(port.Entry(target,original.ret,lambda mem,variant:None,'omitted-body'))
+                def prepare(m):
+                    m.write(0x90100,b'\xfe\x00\x04\x00\x03\x00\x04\x00')
+                    m.write(m.DS*16+0x9B3C,b'\x02\x02');m.set_reg('ax',0xABCD)
+                with self.assertRaises(ProofError):self.call(target,args=args,specs=[(mutant,None)],before=prepare)
+
+    def test_omitted_expand_and_union_fail_complete_original_comparison(self):
+        from tests.test_port_entrypoints import oracle
+        from original_match import port
+        from original_match.machine import Machine
+        from original_match.port.engine import PortMachine
+        baseline=bytes(self.image.memory[:MEM_SIZE])
+        for target,args in [('23E4:0831',[0x0103,0x100,0x9000,0x200,0x9000]),('23E4:0900',[0x100,0x9000,0x200,0x9000])]:
+            with self.subTest(target=target):
+                entry=port._module_registry('entrypoints').entries[target]
+                mutant=port.Registry('entrypoints','test-only body omission')
+                mutant._add(port.Entry(target,entry.ret,lambda mem,variant:None,'omitted-body'))
+                reference=Machine(baseline,self.image.load);candidate=PortMachine(baseline,self.image.load)
+                port.install(candidate,[(mutant,None)])
+                for machine in (reference,candidate):
+                    machine.write(0x90100,bytes(range(64)));machine.write(0x90200,bytes([0xA5])*64)
+                    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,eflags=0xED7))
+                self.assertNotEqual(candidate.read(0,MEM_SIZE),reference.read(0,MEM_SIZE))

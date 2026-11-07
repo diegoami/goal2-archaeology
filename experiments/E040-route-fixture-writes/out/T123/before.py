@@ -1,19 +1,32 @@
-"""Load unchanged old port owner in memory; exact authored tests must fail.
-No checkout file is rewritten and no production fallback is supplied.
+"""Load exact old owners in both parent and verified PyPy test workers.
+No checkout is changed; all authored test methods must fail, without skips.
 """
-import ast,importlib,subprocess,sys,types,unittest
+import importlib,subprocess,sys,types,unittest
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[4];sys.path[:0]=[str(ROOT),str(ROOT/'runtime')]
-from original_match import port
-name='original_match.port.route';old=types.ModuleType(name);old.__package__='original_match.port';old.__file__=str(ROOT/'runtime/original_match/port/route.py')
-source=subprocess.check_output(['git','show','62289f17e3386560537cb32804799765a437cb59:runtime/original_match/port/route.py'],text=True,cwd=ROOT)
-sys.modules[name]=old;exec(compile(source,old.__file__,'exec'),old.__dict__);port.route=old
+ROOT=Path(__file__).resolve().parents[4];sys.path[:0]=[str(ROOT),str(ROOT/'runtime'),str(ROOT/'tools')]
+BASE='62289f17e3386560537cb32804799765a437cb59'
+OWNERS=['original_match.port.route','original_match.port.silent','original_match.port.display','original_match.port.entrypoints','original_match.match','original_match.route']
+sources={name:subprocess.check_output(['git','show',BASE+':runtime/'+name.replace('.','/')+'.py'],text=True,cwd=ROOT) for name in OWNERS}
+
+def install(sources):
+    import original_match
+    from original_match import port
+    for name,source in sources.items():
+        parent,_,leaf=name.rpartition('.');module=types.ModuleType(name);module.__package__=parent;module.__file__=str(ROOT/'runtime'/Path(*name.split('.')).with_suffix('.py'))
+        sys.modules[name]=module;exec(compile(source,module.__file__,'exec'),module.__dict__)
+        setattr(importlib.import_module(parent),leaf,module)
+    original_match.Match=sys.modules['original_match.match'].Match
+
+install(sources)
+import port_test_runtime
+real_call=port_test_runtime.call_in_pypy
+port_test_runtime.call_in_pypy=lambda module,function,args=(),kwargs=None,**options:real_call('test_route_sealed','_before_callback',args=(sources,function,args,kwargs or {}),**options)
 m=importlib.import_module('tests.test_route_sealed');suite=unittest.defaultTestLoader.loadTestsFromModule(m)
-def ids(s):
- for t in s:
-  if isinstance(t,unittest.TestSuite):yield from ids(t)
-  else:yield t.id()
+def ids(suite):
+    for t in suite:
+        if isinstance(t,unittest.TestSuite):yield from ids(t)
+        else:yield t.id()
 expected=set(ids(suite));result=unittest.TextTestRunner(verbosity=2).run(suite)
 failed={getattr(t,'test_case',t).id() for t,_ in result.errors+result.failures}
 assert expected==failed and not result.skipped,(expected-failed,result.skipped)
-print('ALL authored tests fail/error on unchanged before source; no skip/no checkout rewrite.')
+print('ALL authored methods fail on exact unchanged old owners in parent and verified PyPy workers; no skips.')
