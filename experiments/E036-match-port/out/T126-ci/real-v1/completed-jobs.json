@@ -1,0 +1,32 @@
+{
+  "t126-real-mixed-v1": {
+    "name": "t126-real-mixed-v1",
+    "command": [
+      "bash",
+      "-c",
+      "set -e; source .cache/cloud.env; exec tools/heavy.sh t126-mixed -- python3 -B -m unittest tests.test_port_engine.Engine.test_complete_reference_fixture_events_results_and_memory_equal tests.test_port_engine.Engine.test_interactive_pause_tactics_and_halftime_equal tests.test_port_engine.Engine.test_knockout_match_result_and_events_equal -v > experiments/E036-match-port/out/T126-ci/real-v1/mixed.log 2>&1"
+    ],
+    "cwd": "/home/diego/projects/m3-trackb/goal2-archaeology",
+    "head": "03fbadb460db3b9b4e09d081bd84e02f4402327d",
+    "started_utc": "2026-11-06T23:26:39+00:00",
+    "log": "/home/diego/projects/m3-trackb/goal2/.cache/jobs/t126-real-mixed-v1.log",
+    "wrapper_pid": 595062,
+    "exit_code": 0,
+    "ended_utc": "2026-11-07T00:13:08+00:00"
+  },
+  "t126-real-checkpoint-e03403-v1": {
+    "name": "t126-real-checkpoint-e03403-v1",
+    "command": [
+      "bash",
+      "-c",
+      "set -e; source .cache/cloud.env; exec python3 -B tools/ci_gate.py run-tests --group e034-03 > experiments/E036-match-port/out/T126-ci/real-v1/checkpoint-e03403.log 2>&1"
+    ],
+    "cwd": "/home/diego/projects/m3-trackb/goal2-archaeology",
+    "head": "03fbadb460db3b9b4e09d081bd84e02f4402327d",
+    "started_utc": "2026-11-06T23:26:39+00:00",
+    "log": "/home/diego/projects/m3-trackb/goal2/.cache/jobs/t126-real-checkpoint-e03403-v1.log",
+    "wrapper_pid": 595074,
+    "exit_code": 0,
+    "ended_utc": "2026-11-06T23:40:19+00:00"
+  }
+}
