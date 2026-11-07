@@ -130,3 +130,14 @@ missing-cache GitHub release download, then compares actual original and denied
 PyPy pending state/all16 registers. Unit controls cover missing/cache reuse and
 corrupt/unreadable failures. `before.py` uses62289f17 runtime owners and82a86d9e's
 unchanged pre-availability fixture loader for those regression tests.
+
+
+The one-file mechanical T117 test-fixture maintenance preserves its original
+optimization receipt and every event/result/full-memory assertion. Real006C
+adds four00DB calls in that drive; events and full memory still equal the old
+receipt. The preserved optimization test explicitly uses its historical006C
+omission profile through the existing `ports=` option, asserts production006C
+is real, and requires zero calls before removing the four new unused metadata
+entries. No golden, physical-memory mask or nonzero counter adjustment is used.
+`t117-profile-diagnosis-v1` retains actual current/historical-profile measurements;
+current production fidelity is checked by the separate original-backed corpus.

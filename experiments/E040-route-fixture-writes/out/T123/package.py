@@ -24,7 +24,7 @@ def main():
     for path in accepted:
         data=(ROOT/path).read_text();row=json.loads(data);visit(row)
         for name,digest in row.get('sources',{}).items():assert sha((ROOT/name).read_bytes())==digest,('stale accepted source',path,name);sources[name]=digest
-    extra=[ROOT/'tests'/name for name in ('test_port_route_fixture.py','test_port_silent.py','test_port_display.py','test_port_entrypoints.py','test_port_stages.py','test_port_update.py')]
+    extra=[ROOT/'tests'/name for name in ('test_port_route_fixture.py','test_port_silent.py','test_port_display.py','test_port_entrypoints.py','test_port_stages.py','test_port_update.py','test_port_overhead_t117.py')]
     extra += [ROOT/'tools/port_test_runtime.py',ROOT/'tools/heavy.sh',ROOT/'experiments/E036-match-port/out/T60/fuzz.py',HERE.parent/'T124d/prepare.py']
     extra += [p for p in HERE.rglob('*.py') if '__pycache__' not in p.parts]
     for path in extra:sources[rel(path)]=sha(path.read_bytes())
@@ -33,6 +33,8 @@ def main():
     extras += [path for path in (ROOT/'static/goal-exe/tables').rglob('*') if path.is_file()]
     names=subprocess.check_output(['git','diff','--name-only','62289f17e3386560537cb32804799765a437cb59','--','static/goal-exe/named'],text=True,cwd=ROOT).splitlines()
     extras += [ROOT/name for name in names]
+    extras += [ROOT/'experiments/E036-match-port/out/T117/taps-before-v1.json',ROOT/'experiments/E033-original-match-kit/save_boundaries.py']
+    extras += list((ROOT/'evidence').glob('E0*/*.manifest.json'))
     extras += [HERE.parent/'T124c/natural-groups-input-v1.jsonl',HERE.parent/'T124d/natural-inputs-v1.jsonl',HERE.parent/'T124t/continuation-context.jsonl']
     for path in extras:files[rel(path)]=sha(path.read_bytes())
     for case in P.F.runner.CASES:
@@ -44,7 +46,7 @@ def main():
       'source_hashes':sources,'file_hashes':files,'private_inputs':private,'private_retained_hashes':retained,
       'corpus':corpus,'natural':natural,'managers':managers,'return_effects':rel(HERE/'return-cpu-after-v2.jsonl'),
       'pending_history':rel(HERE/'pending-history-v2.json'),'completed_history':rel(HERE/'completed-history-v3.json'),
-      'ci_fixture':rel(HERE/'ci-missing-published-after-v2.json'),'preservation':rel(HERE/'preserved-source-v3.json'),'call_audit':rel(HERE/'static-call-audit-v1.json'),
+      't117_diagnosis':rel(HERE/'t117-profile-diagnosis-v1.jsonl'),'t117_test':rel(HERE/'t123-t117-preserved-final-v1.log'),'ci_fixture':rel(HERE/'ci-missing-published-after-v2.json'),'preservation':rel(HERE/'preserved-source-v3.json'),'call_audit':rel(HERE/'static-call-audit-v1.json'),
       'model':'inherited Codex GPT-6 family; exact variant unavailable',
       'scope':'actual ordinary port Match; incoming original16CPU preserved; actualreturned16CPU reach first6F1D unchanged; complete state/2 fields/ordered draws/routekeys/pages exact, with no additional exclusions; raw original memory remains private',
       'limits':'annual rollover/pool-list/active-round serialization unsupported; legal11 supplied only by comparison harness; original references CPython, standaloneAPI verifiedPyPy3.11 with positive original import/start/file denials; owner milestone review beforegoal2 adoption'}

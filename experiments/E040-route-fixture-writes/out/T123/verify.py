@@ -54,6 +54,12 @@ def main(index):
     for row in preserved['source_audits']:assert row['current_sha256']==sha((ROOT/row['path']).read_bytes())
     audit=load(x['call_audit']);assert audit['status']=='passed' and audit['routines']==8 and audit['listing_calls']==16
     for path,digest in audit['sources'].items():assert sha((ROOT/path).read_bytes())==digest
+    diagnosis=[json.loads(line) for line in (ROOT/x['t117_diagnosis']).read_text().splitlines()]
+    assert len(diagnosis)==2 and all(row['events_equal'] and row['memory_equal'] for row in diagnosis)
+    assert not diagnosis[0]['result_equal_after_asserted_zero_metadata_removal'] and diagnosis[1]['result_equal_after_asserted_zero_metadata_removal']
+    assert diagnosis[0]['00DB_calls']-diagnosis[1]['00DB_calls']==4
+    assert all(not any(row['new_existing_module_calls'].values()) for row in diagnosis)
+    t117=(ROOT/x['t117_test']).read_text();assert 'Ran 10 tests' in t117 and t117.rstrip().endswith('OK')
     before=(HERE/'t123-before-final-v4.log').read_text();assert 'Ran 21 tests' in before and 'ALL authored methods fail' in before and 'skipped=' not in before
     focused=(HERE/'t123-focused-final-v6.log').read_text();assert 'Ran 23 tests' in focused and focused.rstrip().endswith('OK')
     display=(HERE/'t123-preserved-display-pypy-v1.log').read_text();assert 'Ran 83 tests' in display and display.rstrip().endswith('OK')
