@@ -2189,3 +2189,49 @@ for _address, _entry in sorted(PORTS.entries.items()):
 PORTS.variant('secondary-seed-adjacent', '94CF: DI=8338 instead of8336 for the secondary seed')
 PORTS.variant('aggregate-divisor-ten', '14CB: the morale quotient divisor is10 instead of11')
 PORTS.variant('table-default-group-two', '95DE: the default group local is2 instead of1')
+
+
+@PORTS.port('1771:5BF6',ret='retf')
+def silent_results_header(mem,variant):
+    """T123 reached closure, named1771_04 then raw1771_08 5BF6..5C5F."""
+    r=Regs(mem);r.enter(4);r.di,r.es=mem.ds16(0xA923),mem.ds16(0xA925)
+    r.local16(-4,r.di);r.local16(-2,r.es)
+    r.di=0x26F2;source=mem.DS,r.di;r.di=0xA96E
+    r=yield from guest(mem,r,'214B:0329',*source,mem.DS,r.di,ret='1771:5C15')
+    r=yield from guest(mem,r,'1771:59D8',ret='1771:5C19')
+    r.push(r.ax);r.di=ss16(mem,r,r.bp-4);r.es=ss16(mem,r,r.bp-2)
+    r.al=int(rb(mem,r,0x3C)>=5);r.push(r.ax)
+    r.di=ss16(mem,r,r.bp-4);r.es=ss16(mem,r,r.bp-2);r.al=rb(mem,r,1);r.ah=0
+    r.ax+=0x80;r.dx=3;mul(r,r.dx);r.di,r.es=mem.ds16(0xA91F),mem.ds16(0xA921);r.di+=r.ax
+    r.al=rb(mem,r,0);r.ah=0;r.dx=0xBF;mul(r,r.dx)
+    r.di,r.es=mem.ds16(0xA917),mem.ds16(0xA919);r.di+=r.ax;r.al=rb(mem,r,0x2C);r.ah=0;r.push(r.ax)
+    r=yield from _finals._call(mem,r,'1771:5AC4',3,'1771:5C5C',False)
+    return _end(r)
+
+
+@PORTS.port('1771:7812',ret='retf 8')
+def silent_fixture_row(mem,variant):
+    """T123 reached closure, named1771_06 then raw1771_11 7812..78B7."""
+    r=Regs(mem);r.enter(0x104);farg(mem,r,0xA);r.local16(-4,r.di);r.local16(-2,r.es)
+    r.di=ss16(mem,r,r.bp-4);r.es=ss16(mem,r,r.bp-2)
+    if rb(mem,r,2)==0:mem.wds8(0xAAB2,6,'1771:782C')
+    else:
+        r.di=ss16(mem,r,r.bp-4);r.es=ss16(mem,r,r.bp-2);r.al=int(rb(mem,r,2)==1);cbw(r);r.di=r.ax
+        r.al=mem.ds8((r.di+0x110A)&65535);mem.wds8(0xAAB2,r.al,'1771:784A')
+    r.di=r.bp-0x104;r.push(r.ss);r.push(r.di)
+    r.di=ss16(mem,r,r.bp-4);r.es=ss16(mem,r,r.bp-2);r.al=rb(mem,r,2);r.ah=0
+    r=yield from guest(mem,r,'1771:580B',r.ax,ret='1771:7861')
+    r.al=ss8(mem,r,r.bp+8);r.push(r.ax);r.ax=ss16(mem,r,r.bp+6)+0x16;r.push(r.ax)
+    r.di=0xA96E;r.push(mem.DS);r.push(r.di)
+    r=yield from _finals._call(mem,r,'214B:026D',6,'1771:7876',True)
+    fixture=farg(mem,r,0xA)
+    r=yield from guest(mem,r,'1771:77C3',*fixture,ss16(mem,r,r.bp+8),ss16(mem,r,r.bp+6),ret='1771:7884',far=False)
+    r.di=ss16(mem,r,r.bp-4);r.es=ss16(mem,r,r.bp-2)
+    if rb(mem,r,0)==0xFE:
+        r.di=ss16(mem,r,r.bp-4);r.es=ss16(mem,r,r.bp-2)
+        if rb(mem,r,2)!=0:
+            r.al=14;r.push(r.ax);r.di=0x7810;r.push(mem.seg(0x1771));r.push(r.di)
+            r.al=ss8(mem,r,r.bp+8);r.push(r.ax);r.ax=ss16(mem,r,r.bp+6)+0x23;r.push(r.ax)
+            r.di=0xA96E;r.push(mem.DS);r.push(r.di)
+            r=yield from _finals._call(mem,r,'214B:02C8',7,'1771:78B4',True)
+    return _end(r)

@@ -473,3 +473,19 @@ def simulate_fixture(mem, variant):
     r.es, r.di = game                                            # 6C14
     w16(mem, r, 0x26, rw(mem, r, 0x26) + 1, _at(0x6C17))
     return _end(r)
+
+
+@PORTS.port('0791:B15F',ret='ret 4')
+def result_needs_winner(mem,variant):
+    """T123 reached closure: named0791_10, raw0791_18 B15F..B19A."""
+    from .setup import member
+    from .runtime import sub_flags
+    r=Regs(mem);r.enter(6);farg(mem,r,4);save_ptr(r,-5)
+    r.di=ss16(mem,r,r.bp-5);r.es=ss16(mem,r,r.bp-3);r.al=rb(mem,r,2)
+    r.di=0x693A
+    r=yield from guest(mem,r,'23E4:08DF',r.ax,mem.DS,r.di,ret='B180')
+    yes=False
+    if member(mem):
+        r.al=mem.ds8(0x9B3C);other=mem.ds8(0x9B3D);r.arith(sub_flags(r.al,other,8));yes=r.al==other
+    r.al=int(yes);r.local8(-1,r.al);r.al=mem.u8(mem.ss_lin(r.bp-1))
+    return _end(r)
