@@ -52,8 +52,8 @@ void __cdecl16near f_000E_0000(void)
     if (local_8 <= uVar4) {
       local_6 = local_8;
       while( true ) {
-        f_1771_7812(0x21,local_4,(byte *)fixtures + local_6 * 8 + -8,(int)((ulong)fixtures >> 0x10))
-        ;
+        draw_silent_fixture_row
+                  (0x21,local_4,(byte *)fixtures + local_6 * 8 + -8,(int)((ulong)fixtures >> 0x10));
         local_4 = local_4 + 1;
         if (local_6 == uVar4) break;
         local_6 = local_6 + 1;

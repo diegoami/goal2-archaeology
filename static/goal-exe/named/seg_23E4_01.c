@@ -1058,7 +1058,7 @@ void __stdcall16far sys_str_delete_07DB(int param_1,int param_2,undefined4 param
 
 
 // ---- 23E4:0831  sys_set_expand_0831  (f_23E4_0831; Ghidra A000:0831, __stdcall16far; found by routines.tsv)
-// Builds a 32-byte set: zero-fills a leading offset, copies a small set's bytes, zero-fills the rest  [likely; read decompiled/seg_23E4_01.c]
+// T123 (port/entrypoints.py): Pascal hidden destination pointer retained by RETF6; descriptor BH leading zeros, BL sequential copied bytes, (32-BL-BH) modulo256 trailing zeros; SI/DI word wrap and forward overlap retained, CLD and DS restored; original full-memory/register/flag comparisons  [likely; read named/seg_23E4_01.c; read code/seg_23E4_01.asm:0831-085B]
 
 void __stdcall16far sys_set_expand_0831(uint param_1,undefined1 *param_2,undefined1 *param_3)
 
@@ -1131,7 +1131,7 @@ char __stdcall16far sys_set_bit_mask_08DF(undefined2 param_1,undefined2 param_2,
 
 
 // ---- 23E4:0900  sys_set_union_0900  (f_23E4_0900; Ghidra A000:0900, __stdcall16far; found by routines.tsv)
-// ORs 16 words (32 bytes) of one set into another: set union  [likely; read decompiled/seg_23E4_01.c]
+// T123 (port/entrypoints.py): sequential16-word OR into hidden destination pointer retained by RETF4; forward overlaps, word-boundary addressing, SI/DI word wrap, CLD and original final OR flags/DS restoration; original full-memory/register/flag comparisons  [likely; read named/seg_23E4_01.c; read code/seg_23E4_01.asm:0900-091C]
 
 void __stdcall16far sys_set_union_0900(uint *param_1,uint *param_2)
 

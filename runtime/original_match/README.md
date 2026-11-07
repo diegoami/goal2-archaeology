@@ -423,7 +423,7 @@ then reaches the count, the round's end (stage_end 1771:8208, run_stage 1771:76B
 000E:60CB per manager when the new stage is 2, 3, 5 or 7), recorded as `("round_end", {...})` at 70E6.
 `r.round()` makes play_round calls until one reaches the round's end. 60CB's page waits at the news page's sites,
 which the policy answers already. The managed matches still go through `Match`, so a run stops with `MatchError`
-when the original refuses the managed first eleven (an injured or banned player in it): the harness picks no team.
+when the squad has no legal eleven under T124t's comparison policy. The harness explicitly chooses a legal eleven through the original DEA6 menu swaps; ordinary Match callers retain their own team decisions.
 The round's end's ports are `port/stages.py`; `experiments/E040-route-fixture-writes/out/T124a/prove.py` proves them
 in this harness.
 
@@ -531,3 +531,25 @@ previously overwritten pages. Callers can retain the immutable snapshots separat
 Captured cells are private original screen memory. Proof receipts publish hashes
 and semantic scalar provenance, not raw cell/name/guest bytes. They must not be
 mistaken for the later final buffer or reconstructed from it.
+
+
+## Sealed round calls (T123)
+
+`original_match.route.play_round(state, tables, keys)` starts the ported70B9
+call from real state/2 and verified tables. Its immutable `RoundStep` reports
+`match`, `complete` or `deferred-rollover`, current state, completed fixtures and
+every ordered actual05F6 news capture. A managed step supplies an ordinary
+`Match(engine="port", tail=False)` at its existing F1F6 frame, preserving all
+incoming memory, RNG, manager tags and CPU registers without repeating setup.
+Drive that Match with `events()`/`answer()`, then call
+`resume_round(step.continuation, step.match)` after completion. The continuation
+is held in the same engine process; invalid, incomplete or consumed resumes
+refuse before route-visible changes.
+
+Finalized cursor=count/rounds1/stage4or8 returns the explicit annual boundary
+before70E6/stage_end. Fresh requests on that state preserve it before route/kit
+writes. Supported2→3 and6→7 transitions run in-season ageing and builders.
+Production installs no legal-eleven policy. Annual rollover and pool-list
+operations remain outside the supported route. See
+[the consumer handover](../../docs/requests/427-route.md) for the pinned fields,
+key queue, page history and caller responsibilities.

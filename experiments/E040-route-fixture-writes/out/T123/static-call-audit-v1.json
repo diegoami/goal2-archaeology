@@ -1,0 +1,164 @@
+{
+  "calls": [
+    {
+      "argument_words": 0,
+      "call_pc": "000E:70D1",
+      "far": false,
+      "pushed_cs_near_encoding": false,
+      "return_pc": "000E:70D4",
+      "routine": "000E:70B9",
+      "target": "000E:6CA7"
+    },
+    {
+      "argument_words": 0,
+      "call_pc": "000E:70E6",
+      "far": true,
+      "pushed_cs_near_encoding": false,
+      "return_pc": "000E:70EB",
+      "routine": "000E:70B9",
+      "target": "1771:8208"
+    },
+    {
+      "argument_words": 0,
+      "call_pc": "000E:70EB",
+      "far": false,
+      "pushed_cs_near_encoding": false,
+      "return_pc": "000E:70EE",
+      "routine": "000E:70B9",
+      "target": "000E:7072"
+    },
+    {
+      "argument_words": 0,
+      "call_pc": "000E:70F4",
+      "far": true,
+      "pushed_cs_near_encoding": false,
+      "return_pc": "000E:70F9",
+      "routine": "000E:70B9",
+      "target": "1771:76B1"
+    },
+    {
+      "argument_words": 3,
+      "call_pc": "000E:7106",
+      "far": true,
+      "pushed_cs_near_encoding": false,
+      "return_pc": "000E:710B",
+      "routine": "000E:70B9",
+      "target": "23E4:08DF"
+    },
+    {
+      "argument_words": 1,
+      "call_pc": "000E:714F",
+      "far": true,
+      "pushed_cs_near_encoding": true,
+      "return_pc": "000E:7152",
+      "routine": "000E:70B9",
+      "target": "000E:60CB"
+    },
+    {
+      "argument_words": 3,
+      "call_pc": "0791:B17B",
+      "far": true,
+      "pushed_cs_near_encoding": false,
+      "return_pc": "0791:B180",
+      "routine": "0791:B15F",
+      "target": "23E4:08DF"
+    },
+    {
+      "argument_words": 4,
+      "call_pc": "1771:5C10",
+      "far": true,
+      "pushed_cs_near_encoding": false,
+      "return_pc": "1771:5C15",
+      "routine": "1771:5BF6",
+      "target": "214B:0329"
+    },
+    {
+      "argument_words": 0,
+      "call_pc": "1771:5C16",
+      "far": true,
+      "pushed_cs_near_encoding": true,
+      "return_pc": "1771:5C19",
+      "routine": "1771:5BF6",
+      "target": "1771:59D8"
+    },
+    {
+      "argument_words": 3,
+      "call_pc": "1771:5C59",
+      "far": false,
+      "pushed_cs_near_encoding": false,
+      "return_pc": "1771:5C5C",
+      "routine": "1771:5BF6",
+      "target": "1771:5AC4"
+    },
+    {
+      "argument_words": 1,
+      "call_pc": "1771:785E",
+      "far": true,
+      "pushed_cs_near_encoding": true,
+      "return_pc": "1771:7861",
+      "routine": "1771:7812",
+      "target": "1771:580B"
+    },
+    {
+      "argument_words": 6,
+      "call_pc": "1771:7871",
+      "far": true,
+      "pushed_cs_near_encoding": false,
+      "return_pc": "1771:7876",
+      "routine": "1771:7812",
+      "target": "214B:026D"
+    },
+    {
+      "argument_words": 4,
+      "call_pc": "1771:7881",
+      "far": false,
+      "pushed_cs_near_encoding": false,
+      "return_pc": "1771:7884",
+      "routine": "1771:7812",
+      "target": "1771:77C3"
+    },
+    {
+      "argument_words": 7,
+      "call_pc": "1771:78AF",
+      "far": true,
+      "pushed_cs_near_encoding": false,
+      "return_pc": "1771:78B4",
+      "routine": "1771:7812",
+      "target": "214B:02C8"
+    },
+    {
+      "argument_words": 4,
+      "call_pc": "0791:00C4",
+      "far": true,
+      "pushed_cs_near_encoding": false,
+      "return_pc": "0791:00C9",
+      "routine": "0791:006C",
+      "target": "214B:00DB"
+    },
+    {
+      "argument_words": 4,
+      "call_pc": "0791:00F6",
+      "far": true,
+      "pushed_cs_near_encoding": false,
+      "return_pc": "0791:00FB",
+      "routine": "0791:006C",
+      "target": "214B:00DB"
+    }
+  ],
+  "listing_calls": 16,
+  "method": "all listing calls matched to guest/near/far/manual _call placements, real callee cleanup and pushCS far frames",
+  "routines": 8,
+  "sources": {
+    "runtime/original_match/port/display.py": "cffb3a2bde6759cc4993a77d8adc3f458bbf326d8045e4a95a398821a69ce84d",
+    "runtime/original_match/port/entrypoints.py": "cb46f9fc71bd728951da550c848b6cf4dd4e0a7f2422304621215e412dc0c705",
+    "runtime/original_match/port/route.py": "856d18518950fad8e0f6b831d6c33c71edf95f1bd56e2b369166774905b9bb1b",
+    "runtime/original_match/port/silent.py": "0df68171c3f5e3c54a43359eecbac3f71aa192f413cbac792dabf238461d6ba1",
+    "static/goal-exe/code/seg_000E_09.asm": "6a84b76616379d6307b1cd26a822b60b90cdeb05ec7f93ddf37e1df7151a74dd",
+    "static/goal-exe/code/seg_0791_01.asm": "a785c7efdfb54bab19ca5b3eea73a19548a61a46512f79c653559e1cba080688",
+    "static/goal-exe/code/seg_0791_18.asm": "e19061df86a89389539ddc48b0497b1f04742062851deca434838b600387d397",
+    "static/goal-exe/code/seg_1771_08.asm": "095098013452e8206c929eb558f8e96fab7483d63e2911924601ac1eaefa8bb4",
+    "static/goal-exe/code/seg_1771_11.asm": "fd04e81ad11f9d0f1795b24b3a70dd4326d4cb6864dcbdc718f319221beff7d7",
+    "static/goal-exe/code/seg_23E4_01.asm": "20ea1cbc0edfab300b506228d0b05a9627e95586604692235b655bc2b9d9fb07"
+  },
+  "status": "passed"
+}
