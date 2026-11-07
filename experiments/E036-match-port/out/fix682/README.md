@@ -12,3 +12,5 @@ after-v2.log exposed a test invocation error:the existing _checkpoint_state API 
 after-v3.log:6/6PASS0.007s; stopped-controls-v1.log:existing9/9PASS. No old game assertion,
 seed, profile or mask changed. Natural proof/checkpoint/fidelity/CI acceptance remains
 required before this API can merge. No raw original records or owner saves are published.
+
+Natural producer calibration original-friendly-v1.log stopped before completing its first arm:the producer called nonexistent Match.dump/timeout keyword. The actual API is Match.save()/Match.load(saved), which preserves saved timeout_s. Versioned proof-v2.py corrects only those calls and additionally asserts the retained60s timeout; no game/fidelity assertion was removed. The failed output remains immutable and is not a pass.
