@@ -41,6 +41,7 @@ def main(index):
         for p,d in row['sources'].items():assert x['source_hashes'][p]==d
     assert both['manager_calls']==[[1,129],[16,130]] and both['page_count']==2
     assert skip['manager_calls']==[[1,129]] and skip['page_count']==1
+    ci=load(x['ci_fixture']);assert ci['real_gh_downloads']==1 and ci['missing_cache_populated_exactly'] and ci['actual_original_pending_state_and_all16_regs_equal'] and len(ci['required_original_classes_no_skip'])==5
     returned=load(x['return_effects']);assert returned['all16_returned_registers_propagated'] and not returned['register_differences'] and returned['consumed_resume_memory_and_record_unchanged']
     assert returned['actual_return_registers']==returned['first_6F1D_registers'] and set(returned['actual_return_registers'])==set(REGS)
     pending=load(x['pending_history']);assert pending['unfinished_fixture3_excluded'] and pending['completed_fixture_indices']==[1,2]
@@ -53,8 +54,8 @@ def main(index):
     for row in preserved['source_audits']:assert row['current_sha256']==sha((ROOT/row['path']).read_bytes())
     audit=load(x['call_audit']);assert audit['status']=='passed' and audit['routines']==8 and audit['listing_calls']==16
     for path,digest in audit['sources'].items():assert sha((ROOT/path).read_bytes())==digest
-    before=(HERE/'t123-before-final-v3.log').read_text();assert 'Ran 19 tests' in before and 'ALL authored methods fail' in before and 'skipped=' not in before
-    focused=(HERE/'t123-focused-final-v5.log').read_text();assert 'Ran 21 tests' in focused and focused.rstrip().endswith('OK')
+    before=(HERE/'t123-before-final-v4.log').read_text();assert 'Ran 21 tests' in before and 'ALL authored methods fail' in before and 'skipped=' not in before
+    focused=(HERE/'t123-focused-final-v6.log').read_text();assert 'Ran 23 tests' in focused and focused.rstrip().endswith('OK')
     display=(HERE/'t123-preserved-display-pypy-v1.log').read_text();assert 'Ran 83 tests' in display and display.rstrip().endswith('OK')
     print(json.dumps({'status':'passed','source_hashes':len(x['source_hashes']),'public_hashes':len(x['file_hashes']),'private_inputs':len(x['private_inputs']),
        'private_retained':len(x['private_retained_hashes']),'E040_pairs':14,'ordered_draw_events':draw_count,'E040_pages':pages,

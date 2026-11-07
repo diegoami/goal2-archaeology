@@ -119,3 +119,14 @@ are the delivered seam. Main owns the separate goal2 register/handover/issue
 updates; owner-run upstream milestone review precedes T170 and requiredT183.
 
 Model: inherited Codex GPT-6 family; exact variant unavailable.
+
+
+The reference fixture loader fetches only a missing exact published asset and
+checks its evidence-manifest hash before atomically populating the cache.
+Corrupt/unreadable existing files refuse without a fetch or replacement. New
+original-backed classes override the legacy helper's optional-skip policy and
+require the actual reference dependency. `ci_fixture_proof.py` performs a real
+missing-cache GitHub release download, then compares actual original and denied
+PyPy pending state/all16 registers. Unit controls cover missing/cache reuse and
+corrupt/unreadable failures. `before.py` uses62289f17 runtime owners and82a86d9e's
+unchanged pre-availability fixture loader for those regression tests.
