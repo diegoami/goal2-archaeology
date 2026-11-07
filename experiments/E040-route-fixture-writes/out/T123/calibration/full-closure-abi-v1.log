@@ -1,0 +1,238 @@
+test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) ... 
+  test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) (target='1771:7812', kind=0, status=255, flags=514) ... FAIL
+  test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) (target='1771:7812', kind=0, status=255, flags=3799) ... FAIL
+  test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) (target='1771:7812', kind=0, status=2, flags=514) ... FAIL
+  test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) (target='1771:7812', kind=0, status=2, flags=3799) ... FAIL
+  test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) (target='1771:7812', kind=1, status=2, flags=514) ... FAIL
+  test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) (target='1771:7812', kind=1, status=2, flags=3799) ... FAIL
+  test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) (target='1771:7812', kind=4, status=2, flags=514) ... FAIL
+  test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) (target='1771:7812', kind=4, status=2, flags=3799) ... FAIL
+
+======================================================================
+FAIL: test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) (target='1771:7812', kind=0, status=255, flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 364, in test_reached_leaves_full_return_flags_registers_and_physical_memory
+    self.assertEqual(oracle.final(machines[1]),oracle.final(machines[0]))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'ax'[103 chars]es': 36864, 'ss': 40960, 'cs': 40704, 'eip': 16, 'eflags': 582} != {'ax'[103 chars]es': 36864, 'ss': 40960, 'cs': 40704, 'eip': 16, 'eflags': 514}
+  {'ax': 1398,
+   'bp': 26505,
+   'bx': 60578,
+   'cs': 40704,
+   'cx': 0,
+   'di': 256,
+   'ds': 11684,
+   'dx': 0,
+-  'eflags': 582,
+?             ^^
+
++  'eflags': 514,
+?             ^^
+
+   'eip': 16,
+   'es': 36864,
+   'si': 60594,
+   'sp': 61432,
+   'ss': 40960}
+
+======================================================================
+FAIL: test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) (target='1771:7812', kind=0, status=255, flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 364, in test_reached_leaves_full_return_flags_registers_and_physical_memory
+    self.assertEqual(oracle.final(machines[1]),oracle.final(machines[0]))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'ax'[103 chars]es': 36864, 'ss': 40960, 'cs': 40704, 'eip': 16, 'eflags': 582} != {'ax'[103 chars]es': 36864, 'ss': 40960, 'cs': 40704, 'eip': 16, 'eflags': 514}
+  {'ax': 1398,
+   'bp': 26505,
+   'bx': 60578,
+   'cs': 40704,
+   'cx': 0,
+   'di': 256,
+   'ds': 11684,
+   'dx': 0,
+-  'eflags': 582,
+?             ^^
+
++  'eflags': 514,
+?             ^^
+
+   'eip': 16,
+   'es': 36864,
+   'si': 60594,
+   'sp': 61432,
+   'ss': 40960}
+
+======================================================================
+FAIL: test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) (target='1771:7812', kind=0, status=2, flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 364, in test_reached_leaves_full_return_flags_registers_and_physical_memory
+    self.assertEqual(oracle.final(machines[1]),oracle.final(machines[0]))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'ax'[103 chars]es': 36864, 'ss': 40960, 'cs': 40704, 'eip': 16, 'eflags': 582} != {'ax'[103 chars]es': 36864, 'ss': 40960, 'cs': 40704, 'eip': 16, 'eflags': 531}
+  {'ax': 1398,
+   'bp': 26505,
+   'bx': 60578,
+   'cs': 40704,
+   'cx': 0,
+   'di': 256,
+   'ds': 11684,
+   'dx': 0,
+-  'eflags': 582,
+?             ^^
+
++  'eflags': 531,
+?             ^^
+
+   'eip': 16,
+   'es': 36864,
+   'si': 60594,
+   'sp': 61432,
+   'ss': 40960}
+
+======================================================================
+FAIL: test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) (target='1771:7812', kind=0, status=2, flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 364, in test_reached_leaves_full_return_flags_registers_and_physical_memory
+    self.assertEqual(oracle.final(machines[1]),oracle.final(machines[0]))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'ax'[103 chars]es': 36864, 'ss': 40960, 'cs': 40704, 'eip': 16, 'eflags': 582} != {'ax'[103 chars]es': 36864, 'ss': 40960, 'cs': 40704, 'eip': 16, 'eflags': 531}
+  {'ax': 1398,
+   'bp': 26505,
+   'bx': 60578,
+   'cs': 40704,
+   'cx': 0,
+   'di': 256,
+   'ds': 11684,
+   'dx': 0,
+-  'eflags': 582,
+?             ^^
+
++  'eflags': 531,
+?             ^^
+
+   'eip': 16,
+   'es': 36864,
+   'si': 60594,
+   'sp': 61432,
+   'ss': 40960}
+
+======================================================================
+FAIL: test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) (target='1771:7812', kind=1, status=2, flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 364, in test_reached_leaves_full_return_flags_registers_and_physical_memory
+    self.assertEqual(oracle.final(machines[1]),oracle.final(machines[0]))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'ax'[103 chars]es': 36864, 'ss': 40960, 'cs': 40704, 'eip': 16, 'eflags': 582} != {'ax'[103 chars]es': 36864, 'ss': 40960, 'cs': 40704, 'eip': 16, 'eflags': 531}
+  {'ax': 3378,
+   'bp': 26505,
+   'bx': 60580,
+   'cs': 40704,
+   'cx': 0,
+   'di': 256,
+   'ds': 11684,
+   'dx': 0,
+-  'eflags': 582,
+?             ^^
+
++  'eflags': 531,
+?             ^^
+
+   'eip': 16,
+   'es': 36864,
+   'si': 60596,
+   'sp': 61432,
+   'ss': 40960}
+
+======================================================================
+FAIL: test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) (target='1771:7812', kind=1, status=2, flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 364, in test_reached_leaves_full_return_flags_registers_and_physical_memory
+    self.assertEqual(oracle.final(machines[1]),oracle.final(machines[0]))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'ax'[103 chars]es': 36864, 'ss': 40960, 'cs': 40704, 'eip': 16, 'eflags': 582} != {'ax'[103 chars]es': 36864, 'ss': 40960, 'cs': 40704, 'eip': 16, 'eflags': 531}
+  {'ax': 3378,
+   'bp': 26505,
+   'bx': 60580,
+   'cs': 40704,
+   'cx': 0,
+   'di': 256,
+   'ds': 11684,
+   'dx': 0,
+-  'eflags': 582,
+?             ^^
+
++  'eflags': 531,
+?             ^^
+
+   'eip': 16,
+   'es': 36864,
+   'si': 60596,
+   'sp': 61432,
+   'ss': 40960}
+
+======================================================================
+FAIL: test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) (target='1771:7812', kind=4, status=2, flags=514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 364, in test_reached_leaves_full_return_flags_registers_and_physical_memory
+    self.assertEqual(oracle.final(machines[1]),oracle.final(machines[0]))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'ax'[103 chars]es': 36864, 'ss': 40960, 'cs': 40704, 'eip': 16, 'eflags': 582} != {'ax'[103 chars]es': 36864, 'ss': 40960, 'cs': 40704, 'eip': 16, 'eflags': 531}
+  {'ax': 3378,
+   'bp': 26505,
+   'bx': 60580,
+   'cs': 40704,
+   'cx': 0,
+   'di': 256,
+   'ds': 11684,
+   'dx': 0,
+-  'eflags': 582,
+?             ^^
+
++  'eflags': 531,
+?             ^^
+
+   'eip': 16,
+   'es': 36864,
+   'si': 60596,
+   'sp': 61432,
+   'ss': 40960}
+
+======================================================================
+FAIL: test_reached_leaves_full_return_flags_registers_and_physical_memory (tests.test_route_sealed.FullClosureFrames.test_reached_leaves_full_return_flags_registers_and_physical_memory) (target='1771:7812', kind=4, status=2, flags=3799)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 364, in test_reached_leaves_full_return_flags_registers_and_physical_memory
+    self.assertEqual(oracle.final(machines[1]),oracle.final(machines[0]))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'ax'[103 chars]es': 36864, 'ss': 40960, 'cs': 40704, 'eip': 16, 'eflags': 582} != {'ax'[103 chars]es': 36864, 'ss': 40960, 'cs': 40704, 'eip': 16, 'eflags': 531}
+  {'ax': 3378,
+   'bp': 26505,
+   'bx': 60580,
+   'cs': 40704,
+   'cx': 0,
+   'di': 256,
+   'ds': 11684,
+   'dx': 0,
+-  'eflags': 582,
+?             ^^
+
++  'eflags': 531,
+?             ^^
+
+   'eip': 16,
+   'es': 36864,
+   'si': 60596,
+   'sp': 61432,
+   'ss': 40960}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.292s
+
+FAILED (failures=8)

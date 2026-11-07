@@ -2227,9 +2227,11 @@ def silent_fixture_row(mem,variant):
     fixture=farg(mem,r,0xA)
     r=yield from guest(mem,r,'1771:77C3',*fixture,ss16(mem,r,r.bp+8),ss16(mem,r,r.bp+6),ret='1771:7884',far=False)
     r.di=ss16(mem,r,r.bp-4);r.es=ss16(mem,r,r.bp-2)
-    if rb(mem,r,0)==0xFE:
+    status=rb(mem,r,0);r.arith(sub_flags(status,0xFE,8))
+    if status==0xFE:
         r.di=ss16(mem,r,r.bp-4);r.es=ss16(mem,r,r.bp-2)
-        if rb(mem,r,2)!=0:
+        kind=rb(mem,r,2);r.arith(sub_flags(kind,0,8))
+        if kind!=0:
             r.al=14;r.push(r.ax);r.di=0x7810;r.push(mem.seg(0x1771));r.push(r.di)
             r.al=ss8(mem,r,r.bp+8);r.push(r.ax);r.ax=ss16(mem,r,r.bp+6)+0x23;r.push(r.ax)
             r.di=0xA96E;r.push(mem.DS);r.push(r.di)

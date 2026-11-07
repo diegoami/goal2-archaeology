@@ -205,7 +205,7 @@ class ReachedSetLeaves(unittest.TestCase):
                     self.assertEqual(machines[1].reg('sp'),oracle.SP0-12)
 
 
-RET.update({'0791:B15F':'0791:D4D1','1771:5BF6':'000E:6C4A','1771:7812':'1771:79CF'})
+RET.update({'0791:B15F':'0791:D507','1771:5BF6':'000E:6ACD','1771:7812':'000E:6B3B'})
 
 
 class ReachedRouteLeaves(_Calls):
@@ -236,11 +236,11 @@ class ReachedRouteLeaves(_Calls):
                     self.proved(p,'1771:7812')
 
 
-def _pair_candidate(state,tables):
+def _pair_candidate(state,tables,diagnostics=False):
     import importlib.util
     path=ROOT/'experiments/E040-route-fixture-writes/out/T123/pairs.py'
     spec=importlib.util.spec_from_file_location('_t123_pairs',path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
-    return module.candidate(state,tables)
+    return module.candidate(state,tables,diagnostics)
 
 
 def _before_callback(sources,function,args,kwargs):
@@ -296,7 +296,7 @@ def _entry_comparison(state,tables):
     return step.state,{name:step.match.m.reg(name) for name in REGS}
 
 
-RET['0791:006C']='0791:020F'
+RET['0791:006C']='0791:0252'
 
 class SummaryBars(_Calls):
     def test_original_wrapped_sum_low_product_zero_and_full_word_row(self):
@@ -338,5 +338,28 @@ class SummaryBars(_Calls):
                     for machine in machines:
                         machine.write(0x90100,first.to_bytes(2,'little')+second.to_bytes(2,'little'))
                         oracle.run_one(machine,False,'0791:006C',[0xCAFE,19,0x100,0x9000],dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+                    self.assertEqual(oracle.final(machines[1]),oracle.final(machines[0]))
+                    self.assertEqual(machines[1].read(0,MEM_SIZE),machines[0].read(0,MEM_SIZE))
+
+
+class FullClosureFrames(_Calls):
+    def test_reached_leaves_full_return_flags_registers_and_physical_memory(self):
+        from tests.test_port_entrypoints import oracle
+        from original_match import port
+        from original_match.machine import Machine
+        cases=[('silent','0791:B15F',[0x100,0x9000],kind,status) for kind in (1,4,203) for status in (0xFE,2)]
+        cases += [('display','1771:5BF6',[],1,0xFE)]
+        cases += [('display','1771:7812',[0x21,7,0x100,0x9000],kind,status) for kind in (0,1,4) for status in (0xFE,0xFF,2)]
+        for owner,target,args,kind,status in cases:
+            for flags in (0x202,0xED7):
+                with self.subTest(target=target,kind=kind,status=status,flags=flags):
+                    entry=port._module_registry(owner).entries[target]
+                    registry=port.Registry(owner,'isolated task-owned leaf; original callees')
+                    registry._add(entry)
+                    machines=[Machine(self.image.memory,self.image.load),Machine(self.image.memory,self.image.load)]
+                    port.install(machines[1],[(registry,None)])
+                    for machine in machines:
+                        machine.write(0x90100,bytes([status,1,kind,0,3,0,4,0]));machine.write(machine.DS*16+0x9B3C,b'\x02\x02')
+                        oracle.run_one(machine,entry.far,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
                     self.assertEqual(oracle.final(machines[1]),oracle.final(machines[0]))
                     self.assertEqual(machines[1].read(0,MEM_SIZE),machines[0].read(0,MEM_SIZE))

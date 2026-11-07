@@ -11,7 +11,7 @@ import fixtures as F
 
 def digest(value):return hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':'),default=lambda v:v.hex() if isinstance(v,bytes) else str(v)).encode()).hexdigest()
 
-def candidate(state,tables):
+def candidate(state,tables,diagnostics=False):
     from tests.test_route_sealed import _denials
     assert sys.implementation.name=='pypy' and sys.version_info[:2]==(3,11)
     _denials()
@@ -23,7 +23,7 @@ def candidate(state,tables):
     choices=[];events=[];observed=[];stub_calls={}
     while step.status=='match':
         m=step.match
-        for address in (0x3E275,0xB8000+18*160+34*2+1):
+        for address in ((0x3E275,0xB8000+18*160+34*2+1) if diagnostics else ()): 
             m.m.watch(address,1,lambda old,new,address=address,m=m:observed.append([address,old[0],new[0],m.m.where(m.m.reg('cs'),m.m.reg('ip')),m.m.pc()]))
         assert type(m) is Match and m.engine=='port' and m.opts['tail'] is False
         def select(replay,m=m):
@@ -55,13 +55,13 @@ def parent(opts):
     class ObservedMatch(R.RouteMatch):
         def __init__(self,*args,**kwargs):
             super().__init__(*args,**kwargs)
-            for address in (0x3E275,0xB8000+18*160+34*2+1):
+            for address in ((0x3E275,0xB8000+18*160+34*2+1) if getattr(opts,"diagnostics",False) else ()): 
                 self.m.watch(address,1,lambda old,new,address=address:observed.append([address,old[0],new[0],self.m.where(self.m.reg('cs'),self.m.reg('ip')),self.m.pc()]))
     from unittest.mock import patch
     with patch.object(R,'RouteMatch',ObservedMatch):
         oracle=R.Route(image,entry='play_round',record_writes=False,match_entry=True);oracle.call()
     expected=Image(oracle.header+oracle.m.read(0,MEM_SIZE)+oracle.tail);expected.tables=image.tables
-    actual=call_in_pypy('test_route_sealed', '_pair_candidate',args=(state,to_record(image.tables)))
+    actual=call_in_pypy('test_route_sealed', '_pair_candidate',args=(state,to_record(image.tables),getattr(opts,'diagnostics',False)))
     a=actual['state'];b=expected.state(image.tables)
     private=ROOT/'.cache/t123/pairs';private.mkdir(parents=True,exist_ok=True)
     for label,value in [('original',b),('sealed',a)]:
@@ -78,7 +78,7 @@ def parent(opts):
     keys_equal=digest(transcript(oracle.record,'key'))==digest(transcript(actual['record'],'key'))
     original_choices=[choice for e in oracle.record if e[0]=='team' for choice in e[1]['choices']]
     choices_equal=digest(original_choices)==digest(actual['choices'])
-    row={'case':opts.case,'elapsed_s':round(time.monotonic()-start,4),'state_equal':a==b,
+    row={'schema':'t123-paired-route/1','sources':sources(),'input_asset_sha256':F.runner.expected(next(c[3] for c in F.runner.CASES if c[0]==opts.case)),'input_state_sha256':digest(state),'case':opts.case,'elapsed_s':round(time.monotonic()-start,4),'state_equal':a==b,
          'state_digests':[digest(b),digest(a)],'different_bytes':len(differences),'first_different_offsets':differences[:30],
          'pages_equal':actual['pages']==pages,'page_count':len(pages),'page_digests':[digest(pages),digest(actual['pages'])],
          'ordered_draws_equal':draws_equal,'draw_count':len(transcript(oracle.record,'rng')),'draw_digests':[digest(transcript(oracle.record,'rng')),digest(transcript(actual['record'],'rng'))],
@@ -87,5 +87,31 @@ def parent(opts):
     with Path(opts.out).open('x') as stream:stream.write(json.dumps(row,sort_keys=True)+'\n')
     assert row['state_equal'] and row['pages_equal'] and draws_equal and keys_equal and choices_equal,row
 
+def sources():
+    paths=list((ROOT/'runtime/original_match').glob('*.py'))+list((ROOT/'runtime/original_match/port').glob('*.py'))
+    paths += [Path(__file__),HERE/'fixtures.py',ROOT/'tests/test_route_sealed.py',HERE.parents[1]/'runner.py']
+    return {str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
+
+
+def sealed_check():
+    """Check a current immutable fourteen-case bundle, creating one when absent."""
+    import datetime,types
+    frozen=sources();checks=('state_equal','pages_equal','ordered_draws_equal','ordered_keys_equal','comparison_choices_equal')
+    bundles=sorted(HERE.glob('paired-*'),reverse=True)
+    for bundle in bundles:
+        paths=[bundle/(case[0]+'.jsonl') for case in F.runner.CASES]
+        if not all(p.is_file() for p in paths):continue
+        rows=[json.loads(p.read_text()) for p in paths]
+        if all(row.get('sources')==frozen and all(row[k] for k in checks) for row in rows):
+            print('sealed E040: all14 current-source original/PyPy paired states/draws/keys/pages/choices exact:',bundle.relative_to(ROOT));return 0
+    bundle=HERE/('paired-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'))
+    bundle.mkdir()
+    for case in F.runner.CASES:
+        print('sealed fresh pair',case[0],flush=True)
+        parent(types.SimpleNamespace(case=case[0],out=str(bundle/(case[0]+'.jsonl')),diagnostics=False))
+        assert sources()==frozen,'source changed during paired batch'
+    print('sealed E040: all14 fresh original/PyPy paired states/draws/keys/pages/choices exact:',bundle.relative_to(ROOT));return 0
+
+
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--case',required=True);p.add_argument('--out',required=True);parent(p.parse_args())
+    p=argparse.ArgumentParser();p.add_argument('--case',required=True);p.add_argument('--out',required=True);p.add_argument('--diagnostics',action='store_true');parent(p.parse_args())
