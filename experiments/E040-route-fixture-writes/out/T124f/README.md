@@ -32,3 +32,28 @@ pre70E6 contexts with all16CPU registers/queued key restored. It must resume
 remains deferred; T123 must stop before70E6 at that boundary.
 
 Model: inherited Codex GPT-6 family; exact variant unavailable.
+
+`natural-continental-v1.jsonl` and `natural-world-v1.jsonl` resume the exact
+published-lineage pre70E6 contexts: full physical memory/all16CPU registers,
+ordered Route records/keys/page histories match. Each reaches128 countries,
+2640 age-one calls and2540 computer retirement checks; the original in-season
+calls replace408/282 players respectively. The original80DA entry contexts are
+retained privately with fullCPU/key hashes for independent composition proofs.
+
+`plain-*-raw-v1` and `plain-*-state-v1` run isolated80DA on ALL real ports in a
+fresh child denying Unicorn imports and GOAL.EXE reads. Raw images retain inert
+code; state/2+Tables images contain no opcode module. Both compare every ordered
+LIVE byte write and all records/keys. The state/2 codec preserves all DS and
+code-data deviations, so RNG and CS:80BA remain compared. Only the exact observed
+below-entry-SP dead stack is additionally excluded, with positive controls at
+both inside endpoints, both outside boundaries, caller data, both RNG words,
+80BA and a deleted LIVE write. Complete returned-register differences are
+reported (all16 equal in these four runs). Input state and tables are unchanged.
+This is an isolated function composition, not a whole sealed Route claim.
+
+`direct-branches-v1.jsonl` retains declared duplicate/zero/computer and all80
+managed-pool/address-wrap cases plus all four caught falsifiers. Direct frames
+are synthetic, separately labelled from the PRIMARY natural contexts.
+`exact-tests-before-v1.log` runs every exact new test with the owner absent
+using an EMPTY registry solely to permit per-test loading (no behavior supplied):
+ALL18 fail/error, with no skip and no checkout file rewritten.
