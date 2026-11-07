@@ -363,3 +363,10 @@ class FullClosureFrames(_Calls):
                         oracle.run_one(machine,entry.far,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
                     self.assertEqual(oracle.final(machines[1]),oracle.final(machines[0]))
                     self.assertEqual(machines[1].read(0,MEM_SIZE),machines[0].read(0,MEM_SIZE))
+
+
+def _terminal_candidate(state,tables,waiting):
+    import importlib.util
+    path=ROOT/'experiments/E040-route-fixture-writes/out/T123/terminal.py'
+    spec=importlib.util.spec_from_file_location('_t123_terminal',path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    return module.candidate(state,tables,waiting)

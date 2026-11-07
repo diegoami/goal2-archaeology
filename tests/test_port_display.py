@@ -148,8 +148,9 @@ class Display(Case):
         import json
         rows = json.loads((Path(__file__).resolve().parents[1] / 'experiments/E036-match-port/out/T73/static-inventory.json').read_text())
         reg = port._module_registry('display')
-        self.assertEqual(set(reg.entries), {r['address'] for r in rows})
-        self.assertEqual(len(reg.entries), 88)
+        self.assertEqual(set(reg.entries), {r['address'] for r in rows} | {'1771:5BF6','1771:7812'})
+        self.assertEqual(len(reg.entries), 90)
+        self.assertEqual({a:reg.entries[a].ret for a in ('1771:5BF6','1771:7812')}, {'1771:5BF6':'retf','1771:7812':'retf 8'})
         for row in rows:
             entry = reg.entries[row['address']]
             self.assertEqual(entry.ret, row['returns'][0] if row['returns'] else 'ret')

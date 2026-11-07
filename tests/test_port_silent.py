@@ -99,7 +99,7 @@ class Registry(Case):
     def test_the_four_routines_and_their_returns(self):
         reg = port._module_registry("silent")
         self.assertEqual({a: e.ret for a, e in reg.entries.items()},
-                         {"000E:6970": "ret 2", "0791:D47E": "retf 4", "0791:B602": "retf 4", "0791:BB2F": "retf 4"})
+                         {"000E:6970": "ret 2", "0791:D47E": "retf 4", "0791:B602": "retf 4", "0791:BB2F": "retf 4", "0791:B15F": "ret 4"})
         self.assertEqual(set(reg.variants), {"goal-plus-one", "credit-twice", "scorer-draw-29"})
         self.assertIn("silent", port.available())
 
