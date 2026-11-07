@@ -1,0 +1,68 @@
+{
+  "code_commit": "3a1d72a34737158d5c8a0db7b61701d52d038034",
+  "files": {
+    "experiments/E036-match-port/out/fix679/fix679-original-v2.log": "dae43da880a0103ae5155a8844474dbb3606ca209b13636ec1552e569170dcb1",
+    "experiments/E036-match-port/out/fix679/fix679-port-v1.log": "8c51c0cbdd480a75ab4b0202a07088f5b0318158232c2b3262b1675602782215",
+    "experiments/E036-match-port/out/fix679/after-v2.log": "15536a07467b7e02b64d44b27d5b183cce846a5643569f5ff6e014832a2867ee",
+    "experiments/E036-match-port/out/fix679/port-v3.json": "2dd2f5448938393eac1930302977567b18fb61ed5c179092f97e59aa3abb1d34",
+    "experiments/E036-match-port/out/fix679/fix679-original-v1.log": "c7b52f1f05a6df9220df3e2a24c071b407ff55f02e70625dbc34be334f5e4d45",
+    "experiments/E036-match-port/out/fix679/links-v1.log": "a5cd515660228f111fcd67d39234ab4cdb999db31f136997833a280988fe9222",
+    "experiments/E036-match-port/out/fix679/fix679-port-v3.log": "384a97feca01dbfba4e154f58565b219bba31cab5bd5d285d3396b89b8ad06b5",
+    "experiments/E036-match-port/out/fix679/after-v1.log": "ed7d6c7cc99b48082bb0c80e7e84d8f2b0c847ae8ca5004e85858944bb8711f7",
+    "experiments/E036-match-port/out/fix679/before.log": "194580d5fc5456ca61c41a35076985c665fbac28f0ac9374882bb96ae6300169",
+    "experiments/E036-match-port/out/fix679/port-v2.json": "48b88ad45bbfda7908f2ff5285dd49446e7ded27cf64449aa6d78631449fe466",
+    "experiments/E036-match-port/out/fix679/fix679-original-v3.log": "2441369e86aa631886b62b2ffcc12c61fd8b46d1b41d9c783e0efb51a100847a",
+    "experiments/E036-match-port/out/fix679/fix679-port-v2.log": "201712ede5d91e7474d2ee9ff9fe1fcf816ab67e267d4b03b3301f14f3316dd6",
+    "experiments/E036-match-port/out/fix679/before-v2.log": "7834e440a9a027335d6a74c8f7956575850724010994d3a6c7ee538b398c91cd",
+    "experiments/E036-match-port/out/fix679/proof-v2.py": "6a78a04772181edd4d1fff7c220bbb6099d3b47f5dfa1c656dee50075c97dafa",
+    "experiments/E036-match-port/out/fix679/original-v3.json": "b693027a28ad9df50d29f6df132b9d3e1623ba0a2ba2d290ee682eab1379eb78",
+    "experiments/E036-match-port/out/fix679/proof.py": "64fd424fda0d25736bc51a2bc55492b49e1bc38a5d41ff6f466201e576c10aaf",
+    "experiments/E036-match-port/out/fix679/links-v2.log": "5ce58dc8f52ee1880a2c51ab322e956ddaadf3db8f3af1e62e8735238e815506",
+    "experiments/E036-match-port/out/fix679/port-extra-v3.json": "9451dfb5291d8924f60c5902efdf812c49232c2b52554cc15b477ab3af7eeea3",
+    "experiments/E036-match-port/out/fix679/proof-v3.py": "9c0d1edad6b02730244576e4f2c45c8202ee2967c0d90823520373e398e6ebab",
+    "experiments/E036-match-port/out/fix679/original-extra-v3.json": "c5e50ab44a456c11d38eac6a0f6ead9af42dadff4f43dad795318d1183e9f7e7",
+    "experiments/E036-match-port/out/fix679/original-v2.json": "341c1c1c0b3272004b2327e3b7008e9e90dbbff4fecd812fbcc27907a0ea1cda"
+  },
+  "sources": {
+    "runtime/original_match/match.py": "10c2f76f071193b471c21666938223ad3a71d142498f4d79e662d335ce872921",
+    "runtime/original_match/screens.py": "45c220305d3e9bbbb4680edbb29fee6d6526d6521fbeea67a969d7b8daf7b304",
+    "tests/test_stopped_edit_663.py": "21f35e3adfc1811d2387aac94792fd719109237d1ae33192faebb25e7fc9aa85"
+  },
+  "comparisons": {
+    "friendly": {
+      "display_profile_events": true,
+      "snapshots": true,
+      "accepted_state_ranges": true,
+      "result_sha256": true,
+      "draws_digest": true,
+      "draws": true,
+      "score": true,
+      "full_physical_memory_equal": false,
+      "canonical_events_equal": false,
+      "original_seconds": 11.251236213000084,
+      "pypy_seconds": 67.09662167900024
+    },
+    "extra-": {
+      "display_profile_events": true,
+      "snapshots": true,
+      "accepted_state_ranges": true,
+      "result_sha256": true,
+      "draws_digest": true,
+      "draws": true,
+      "score": true,
+      "full_physical_memory_equal": true,
+      "canonical_events_equal": false,
+      "original_seconds": 16.09470714500003,
+      "pypy_seconds": 90.21162042000014
+    }
+  },
+  "edits_per_backend": 64,
+  "stopped_contexts": [
+    "pause",
+    "half_time",
+    "extra_time1",
+    "extra_time2"
+  ],
+  "memory_mask": [],
+  "display_profile_exclusion": "only full_time.data.screen_sha256; existing accepted family projection; raw full-event hashes retained"
+}
