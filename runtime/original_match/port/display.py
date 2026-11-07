@@ -111,7 +111,7 @@ RETURNS = {
 from . import _display_finals as _finals
 
 for address, ret in RETURNS.items():
-    if address not in _finals.PORTS.entries and address not in {'1771:157D', '1771:11E1', '1771:1289', '1771:0947', '1771:13D0', '1771:4D8A', '1771:4E22', '1771:8A87', '1771:5AC4', '1771:0FB1', '1771:76FA', '1771:77C3', '1771:8E9A', '1771:8CA2', '1771:958D', '1771:8939', '0791:0441', '214B:1EF1', '214B:1F87', '0791:C50C', '214B:1E09', '0791:0481', '0791:04C9', '0791:054C', '0791:1829', '0791:0106', '0791:05C6', '0791:0691', '0791:8F10', '0791:9079', '0791:A699', '0791:94C9', '0791:94E8', '0791:0C65', '0791:0712', '214B:00FF', '214B:0123', '214B:01A3', '214B:0205', '214B:026D', '214B:02C8', '0791:15B9', '0791:0000', '214B:00DB', '214B:0625', '214B:0643', '1771:3827', '1771:2EE5', '1771:2F37', '1771:0F58', '214B:0350', '0791:A75D', '1771:3AE2', '1771:3B3F', '1771:3BD3', '1771:42BC', '214B:13C5', '214B:1E5A', '214B:1E75', '214B:1E8D'}:
+    if address not in _finals.PORTS.entries and address not in {'0791:006C', '1771:157D', '1771:11E1', '1771:1289', '1771:0947', '1771:13D0', '1771:4D8A', '1771:4E22', '1771:8A87', '1771:5AC4', '1771:0FB1', '1771:76FA', '1771:77C3', '1771:8E9A', '1771:8CA2', '1771:958D', '1771:8939', '0791:0441', '214B:1EF1', '214B:1F87', '0791:C50C', '214B:1E09', '0791:0481', '0791:04C9', '0791:054C', '0791:1829', '0791:0106', '0791:05C6', '0791:0691', '0791:8F10', '0791:9079', '0791:A699', '0791:94C9', '0791:94E8', '0791:0C65', '0791:0712', '214B:00FF', '214B:0123', '214B:01A3', '214B:0205', '214B:026D', '214B:02C8', '0791:15B9', '0791:0000', '214B:00DB', '214B:0625', '214B:0643', '1771:3827', '1771:2EE5', '1771:2F37', '1771:0F58', '214B:0350', '0791:A75D', '1771:3AE2', '1771:3B3F', '1771:3BD3', '1771:42BC', '214B:13C5', '214B:1E5A', '214B:1E75', '214B:1E8D'}:
         PORTS.stub(address, ret=ret, value=None, why="display/sound/wait body omitted; listing return cleanup and incoming result registers preserved")
 
 
@@ -2234,4 +2234,26 @@ def silent_fixture_row(mem,variant):
             r.al=ss8(mem,r,r.bp+8);r.push(r.ax);r.ax=ss16(mem,r,r.bp+6)+0x23;r.push(r.ax)
             r.di=0xA96E;r.push(mem.DS);r.push(r.di)
             r=yield from _finals._call(mem,r,'214B:02C8',7,'1771:78B4',True)
+    return _end(r)
+
+
+@PORTS.port('0791:006C',ret='ret 8')
+def summary_statistic_bar(mem,variant):
+    """T123: named0791_01, raw0791_01 006C..00FE; low product before DIV."""
+    r=Regs(mem);r.enter(2);farg(mem,r,8);r.ax=rw(mem,r,2)
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(sub_flags(r.ax,0,16))
+    if not r.ax:return _end(r)
+    farg(mem,r,8);r.ax=rw(mem,r,2);farg(mem,r,8);r.ax+=rw(mem,r,0);r.bx=r.ax
+    farg(mem,r,8);r.ax=rw(mem,r,2);r.cx=24;mul(r,r.cx)
+    r.dx=0;r.arith(sub_flags(0,0,16));r.ax,r.dx=r.ax//r.bx,r.ax%r.bx;r.local16(-2,r.ax)
+    r.ax=ss16(mem,r,r.bp+6);r.dx=160;mul(r,r.dx)
+    r.di,r.es=mem.ds16(0xA96E),mem.ds16(0xA970);r.di+=r.ax;r.di+=0xFFA4
+    r.al=mem.ds8(0x832F);r.ah=0;r.arith(sub_flags(0,0,16))
+    r=yield from guest(mem,r,'214B:00DB',r.es,r.di,r.ax,ss16(mem,r,r.bp-2),ret='0791:00C9')
+    r.ax=ss16(mem,r,r.bp-2);r.ax+=0x23;r.ax<<=1;r.cx=r.ax
+    r.ax=ss16(mem,r,r.bp+6);r.dx=160;mul(r,r.dx)
+    r.di,r.es=mem.ds16(0xA96E),mem.ds16(0xA970);r.di+=r.ax;r.di+=r.cx;r.di+=0xFF5E
+    r.al=mem.ds8(0x832E);r.ah=0;r.arith(sub_flags(0,0,16));colour=r.ax
+    r.ax=24;previous=ss16(mem,r,r.bp-2);r.arith(sub_flags(r.ax,previous,16));r.ax-=previous
+    r=yield from guest(mem,r,'214B:00DB',r.es,r.di,colour,r.ax,ret='0791:00FB')
     return _end(r)

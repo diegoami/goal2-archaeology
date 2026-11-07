@@ -1,0 +1,1191 @@
+test_omitted_summary_bar_is_detected_by_original (tests.test_route_sealed.SummaryBars.test_omitted_summary_bar_is_detected_by_original) ... ok
+test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) ... 
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=0, second=0, row=0) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=0, second=0, row=19) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=0, second=0, row=20) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=0, second=0, row=65535) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=1, second=0, row=0) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=1, second=0, row=19) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=1, second=0, row=20) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=1, second=0, row=65535) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=0, second=1, row=0) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=0, second=1, row=19) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=0, second=1, row=20) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=0, second=1, row=65535) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=7, second=13, row=0) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=7, second=13, row=19) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=7, second=13, row=20) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=7, second=13, row=65535) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=1, second=4096, row=0) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=1, second=4096, row=19) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=1, second=4096, row=20) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=1, second=4096, row=65535) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=65535, second=2, row=0) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=65535, second=2, row=19) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=65535, second=2, row=20) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=65535, second=2, row=65535) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=32768, second=32768, row=0) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=32768, second=32768, row=19) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=32768, second=32768, row=20) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=32768, second=32768, row=65535) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=65535, second=65535, row=0) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=65535, second=65535, row=19) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=65535, second=65535, row=20) ... ERROR
+  test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=65535, second=65535, row=65535) ... ERROR
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=0, second=0, row=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=0, second=0, row=19)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=0, second=0, row=20)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=0, second=0, row=65535)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=1, second=0, row=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=1, second=0, row=19)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=1, second=0, row=20)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=1, second=0, row=65535)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=0, second=1, row=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=0, second=1, row=19)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=0, second=1, row=20)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=0, second=1, row=65535)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=7, second=13, row=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=7, second=13, row=19)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=7, second=13, row=20)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=7, second=13, row=65535)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=1, second=4096, row=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=1, second=4096, row=19)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=1, second=4096, row=20)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=1, second=4096, row=65535)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=65535, second=2, row=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=65535, second=2, row=19)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=65535, second=2, row=20)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=65535, second=2, row=65535)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=32768, second=32768, row=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=32768, second=32768, row=19)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=32768, second=32768, row=20)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=32768, second=32768, row=65535)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=65535, second=65535, row=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=65535, second=65535, row=19)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=65535, second=65535, row=20)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+======================================================================
+ERROR: test_original_wrapped_sum_low_product_zero_and_full_word_row (tests.test_route_sealed.SummaryBars.test_original_wrapped_sum_low_product_zero_and_full_word_row) (first=65535, second=65535, row=65535)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 312, in test_original_wrapped_sum_low_product_zero_and_full_word_row
+    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 248, in dispatch
+    runner(self)
+    ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 299, in run
+    runner(m, self._port_done)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 80, in start
+    self._step(None)
+    ~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/display.py", line 2244, in summary_statistic_bar
+    farg(mem,r,8);r.ax+=rw(mem,r,0);r.arith(or_flags(r.ax))
+                                            ~~~~~~~~^^^^^^
+TypeError: or_flags() missing 1 required positional argument: 'eflags'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.176s
+
+FAILED (errors=32)

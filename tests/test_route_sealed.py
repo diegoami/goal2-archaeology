@@ -294,3 +294,49 @@ def _entry_comparison(state,tables):
     step=R.play_round(state,from_record(tables),R.DEFAULT_KEYS)
     assert step.status=='match'
     return step.state,{name:step.match.m.reg(name) for name in REGS}
+
+
+RET['0791:006C']='0791:020F'
+
+class SummaryBars(_Calls):
+    def test_original_wrapped_sum_low_product_zero_and_full_word_row(self):
+        from original_match import port
+        from original_match.port import display
+        # Install only the new leaf: its original00DB callee preserves the literal ABI.
+        registry=port.Registry('display','isolated006C real dependency original-backed')
+        registry._add(display.PORTS.entries['0791:006C'])
+        for first,second in ((0,0),(1,0),(0,1),(7,13),(1,0x1000),(0xFFFF,2),(0x8000,0x8000),(0xFFFF,0xFFFF)):
+            for row in (0,19,20,0xFFFF):
+                with self.subTest(first=first,second=second,row=row):
+                    def prepare(m):m.write(0x90100,first.to_bytes(2,'little')+second.to_bytes(2,'little'))
+                    m,p=self.call('0791:006C',args=(0x9000,0x100,row,0xCAFE),specs=[(registry,None)],before=prepare)
+                    self.proved(p,'0791:006C')
+
+    def test_omitted_summary_bar_is_detected_by_original(self):
+        from original_match import port
+        from original_match.port import display
+        from original_match.port.prove import ProofError
+        entry=display.PORTS.entries['0791:006C']
+        self.assertIsNone(entry.stub)
+        mutant=port.Registry('display','test-only ABI-preserving006C body omission')
+        mutant._add(port.Entry(entry.address,entry.ret,lambda mem,variant:None,'omit-statistic-bar'))
+        with self.assertRaises(ProofError):
+            self.call(entry.address,args=(0x9000,0x100,19,0xCAFE),specs=[(mutant,None)],before=lambda m:m.write(0x90100,b'\x07\x00\x0D\x00'))
+
+    def test_summary_leaf_full_return_registers_flags_and_dead_frame(self):
+        from tests.test_port_entrypoints import oracle
+        from original_match import port
+        from original_match.port import display
+        from original_match.machine import Machine
+        registry=port.Registry('display','isolated006C literal return/flags/dead frame')
+        registry._add(display.PORTS.entries['0791:006C'])
+        for first,second in ((0,0),(7,13),(1,0x1000),(0xFFFF,2),(0x8000,0x8000),(0xFFFF,0xFFFF)):
+            for flags in (0x202,0xED7):
+                with self.subTest(first=first,second=second,flags=flags):
+                    machines=[Machine(self.image.memory,self.image.load),Machine(self.image.memory,self.image.load)]
+                    port.install(machines[1],[(registry,None)])
+                    for machine in machines:
+                        machine.write(0x90100,first.to_bytes(2,'little')+second.to_bytes(2,'little'))
+                        oracle.run_one(machine,False,'0791:006C',[0xCAFE,19,0x100,0x9000],dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+                    self.assertEqual(oracle.final(machines[1]),oracle.final(machines[0]))
+                    self.assertEqual(machines[1].read(0,MEM_SIZE),machines[0].read(0,MEM_SIZE))
