@@ -1,0 +1,11 @@
+test_checkpoint_codec_retains_opt_in_and_waiting_record_payload (test_live_player_records_682.LivePlayers.test_checkpoint_codec_retains_opt_in_and_waiting_record_payload) ... ok
+test_checkpoint_rejects_non_boolean_opt_in_without_rejecting_old_headers (test_live_player_records_682.LivePlayers.test_checkpoint_rejects_non_boolean_opt_in_without_rejecting_old_headers) ... ok
+test_later_snapshot_is_fresh_and_already_emitted_values_are_immutable (test_live_player_records_682.LivePlayers.test_later_snapshot_is_fresh_and_already_emitted_values_are_immutable) ... ok
+test_legacy_default_and_explicit_false_keep_exact_previous_packet_shape (test_live_player_records_682.LivePlayers.test_legacy_default_and_explicit_false_keep_exact_previous_packet_shape) ... ok
+test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions (test_live_player_records_682.LivePlayers.test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions) ... ok
+test_public_option_is_strict_boolean_and_absent_by_default (test_live_player_records_682.LivePlayers.test_public_option_is_strict_boolean_and_absent_by_default) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.054s
+
+OK

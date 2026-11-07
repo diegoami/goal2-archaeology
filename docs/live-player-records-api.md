@@ -23,3 +23,9 @@ separate; no career state or accepted substitution is replaced by a display snap
 Goal2 adoption/wire/UI changes follow accepted upstream delivery. They are not supplied
 by this upstream API alone. Private natural player-record bytes are not committed as
 proof outputs: source-bound hashes/counts/equality results are sufficient public receipts.
+
+[confirmed: scoped #682 proof](../experiments/E036-match-port/out/fix682/index-v1.json):
+all20records at28actual decision stops agree with guest memory and between original/port.
+Legacy/opt-in pairs retain exact fullresult/fullphysicalmemory within each backend.
+The existing crossbackend display profile and its raw physical differences are recorded
+separately; this API supplies no new masking or full-game UI acceptance.
