@@ -1,0 +1,52 @@
+heavy: t123-stats-test-after-v1: waiting for a slot (1 ahead)
+heavy: t123-stats-test-after-v1: waiting for a slot (0 ahead)
+heavy: t123-stats-test-after-v1: got slot 1 after 13 s
+test_removed_statistics_bar_preserves_zero_and_nonzero_inputs (tests.test_port_display.UnreachedStateBranchTests.test_removed_statistics_bar_preserves_zero_and_nonzero_inputs)
+Historical test id; T123 real bar preserves these same three inputs. ... 
+  test_removed_statistics_bar_preserves_zero_and_nonzero_inputs (tests.test_port_display.UnreachedStateBranchTests.test_removed_statistics_bar_preserves_zero_and_nonzero_inputs) (first=0, second=0)
+Historical test id; T123 real bar preserves these same three inputs. ... ERROR
+  test_removed_statistics_bar_preserves_zero_and_nonzero_inputs (tests.test_port_display.UnreachedStateBranchTests.test_removed_statistics_bar_preserves_zero_and_nonzero_inputs) (first=1, second=65535)
+Historical test id; T123 real bar preserves these same three inputs. ... ERROR
+  test_removed_statistics_bar_preserves_zero_and_nonzero_inputs (tests.test_port_display.UnreachedStateBranchTests.test_removed_statistics_bar_preserves_zero_and_nonzero_inputs) (first=1, second=3)
+Historical test id; T123 real bar preserves these same three inputs. ... ERROR
+
+======================================================================
+ERROR: test_removed_statistics_bar_preserves_zero_and_nonzero_inputs (tests.test_port_display.UnreachedStateBranchTests.test_removed_statistics_bar_preserves_zero_and_nonzero_inputs) (first=0, second=0)
+Historical test id; T123 real bar preserves these same three inputs.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_display.py", line 799, in test_removed_statistics_bar_preserves_zero_and_nonzero_inputs
+    m=PortMachine(r.mem.memory,0);port.install(m,[(registry,None)])
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 121, in __init__
+    raise ValueError(f'the image holds {len(memory)} bytes; {MEM_SIZE} are needed')
+ValueError: the image holds 393216 bytes; 1114112 are needed
+
+======================================================================
+ERROR: test_removed_statistics_bar_preserves_zero_and_nonzero_inputs (tests.test_port_display.UnreachedStateBranchTests.test_removed_statistics_bar_preserves_zero_and_nonzero_inputs) (first=1, second=65535)
+Historical test id; T123 real bar preserves these same three inputs.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_display.py", line 799, in test_removed_statistics_bar_preserves_zero_and_nonzero_inputs
+    m=PortMachine(r.mem.memory,0);port.install(m,[(registry,None)])
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 121, in __init__
+    raise ValueError(f'the image holds {len(memory)} bytes; {MEM_SIZE} are needed')
+ValueError: the image holds 393216 bytes; 1114112 are needed
+
+======================================================================
+ERROR: test_removed_statistics_bar_preserves_zero_and_nonzero_inputs (tests.test_port_display.UnreachedStateBranchTests.test_removed_statistics_bar_preserves_zero_and_nonzero_inputs) (first=1, second=3)
+Historical test id; T123 real bar preserves these same three inputs.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_display.py", line 799, in test_removed_statistics_bar_preserves_zero_and_nonzero_inputs
+    m=PortMachine(r.mem.memory,0);port.install(m,[(registry,None)])
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 121, in __init__
+    raise ValueError(f'the image holds {len(memory)} bytes; {MEM_SIZE} are needed')
+ValueError: the image holds 393216 bytes; 1114112 are needed
+
+----------------------------------------------------------------------
+Ran 1 test in 0.147s
+
+FAILED (errors=3)
