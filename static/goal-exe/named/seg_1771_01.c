@@ -2,7 +2,7 @@
 // Headings give listing addresses (SEGMENT:OFFSET, as in ../code/). DS:XXXX is the data segment 2581. A segment number written in the code (a far pointer's segment, a far call's) is Ghidra's: listing=Ghidra 0000=0000, 000E=1000, 0791=2000, 16D6=3000, 1771=4000, 2138=5000, 2139=6000, 214B=7000, 235C=8000, 2382=9000, 23E4=A000, 2581=B000.
 
 // ---- 1771:0000  draw_initial  (f_1771_0000; Ghidra 4000:0000, __cdecl16far; found by routines.tsv)
-// a new name initial: r = rand(byte DS:0C38 = 0x15) through 214B:06B1 (0006-000C), returns DS:0C38[r] (0013), one of the 21 letters ABCDEFGHIJKLMNOPRSTVW; one draw; called by 1771:7E80 (7F1F), 000E:54F0 (5599) and 1771:09A0  [established; F017; read code/seg_1771_01.asm]
+// draws one RNG(byte DS:0C38), returns AL from DS:0C38[index] with the original far return; 7F1F pushCS/near call0 resolves to this1771:0000 initializer  [established; F017; read code/seg_1771_01.asm]
 
 undefined1 __cdecl16far draw_initial(void)
 

@@ -338,7 +338,7 @@ void __stdcall16far country_fixture_list(int param_1)
 
 
 // ---- 1771:7E4A  advance_player_age  (f_1771_7E4A; Ghidra 4000:7E4A, __stdcall16near; found by routines.tsv)
-// skips player 0 (7E64), else increments the age byte +1 (7E6F, wraps at 255) and calls 1771:32EB to recompute +4  [established; F016; read code/seg_1771_11.asm]
+// computes wrapped20*player pointer first; skips only literal playerID0, else increments age byte+1 modulo256 and calls32EB; a nonzero word alias of record0 is still aged  [established; F016; read code/seg_1771_11.asm]
 
 void advance_player_age(int param_1)
 
@@ -355,7 +355,7 @@ void advance_player_age(int param_1)
 
 
 // ---- 1771:7E80  recreate_retired_player  (f_1771_7E80; Ghidra 4000:7E80, __stdcall16near; found by routines.tsv)
-// re-creates a computer country's retiree in place (from 1771:7FDF at the ageing gate): saves +6 (7E9D), make_player(1, old +7, old +0, player) (7EA6-7EC0), +1 = DS:110C[gk] + b - a with a, b = rand(6) (7EC3-7EF9; DS:110C = 19 1C), 1771:32EB (7F01), +8..+0xB and +0x10 zeroed (7F09-7F19), a new initial from 1771:0000 at [DS:9B70]+player (7F1F-7F2D), +6 restored (7F36); keeps the surname, +0x11 and +0xF's other bits; ten draws  [established; F016; F017; read code/seg_1771_11.asm]
+// computer retiree in place: saves CURRENTposition+6, real96D3(1,CLUBposition+7,country+0,player), two RNG 6 in order set age DS:110C[gk]+second-first,32EB, clears WORDS+8/+0x0A and BYTE+0x10, new initial via1771:0000 into[9B70]+player, restores+6 last; surname and+0x11 are retained  [established; F016; F017; read code/seg_1771_11.asm]
 
 void recreate_retired_player(int param_1)
 
@@ -388,7 +388,7 @@ void recreate_retired_player(int param_1)
 
 
 // ---- 1771:7F40  retirement_test  (f_1771_7F40; Ghidra 4000:7F40, __stdcall16far; found by routines.tsv)
-// retires when (DS:110E[gk] < +1 AND the caps word +8 == 0) OR (+1 > +2 + 5), gk = (+7 == 0), DS:110E = 1E 21 (30 outfield, 33 goalkeeper); deterministic, no RNG; at the year end 1771:7FDF runs it only for computer countries (its 0B77 branch), in the second pass, on the record the first pass aged  [established; F016; read code/seg_1771_11.asm]
+// deterministic/no RNG: (age BYTE > DS:110E[gk] AND caps WORD+8 == 0) OR age > extended WORD(peak BYTE+2 +5), with gk=(BYTE player[+7] == 0); 7FDF tests already-aged computer slots in its second pass, including in-season stages 3/7  [established; F016; read code/seg_1771_11.asm]
 
 undefined4 __stdcall16far retirement_test(uint param_1)
 
@@ -416,7 +416,7 @@ undefined4 __stdcall16far retirement_test(uint param_1)
 
 
 // ---- 1771:7FB1  age_one_player  (f_1771_7FB1; Ghidra 4000:7FB1, __stdcall16near; found by routines.tsv)
-// calls 1771:7E4A, then writes +0x11 (scorer_count) = 0 unconditionally (7FD4), resetting the year's top-scorer count that 0791:B3B7 keeps  [established; F016; read code/seg_1771_11.asm]
+// (player,parentlink pushed) calls7E4A then unconditionally clears scorer_count BYTE+0x11 INCLUDING player0; nearRET4; used separately for every squad/pool occurrence, without deduplication  [established; F016; read code/seg_1771_11.asm]
 
 void age_one_player(undefined2 param_1,int param_2)
 
@@ -433,7 +433,7 @@ void age_one_player(undefined2 param_1,int param_2)
 
 
 // ---- 1771:7FDF  age_country_squad  (f_1771_7FDF; Ghidra 4000:7FDF, __stdcall16near; found by routines.tsv)
-// per country: every squad word 1..20 -> 1771:7FB1; then (0B77) for a managed country the manager's 80 pool players at [A927] base DS:6D18[+0x2E-0x80] -> 7FB1 (no retirement test), for a computer country squad slots -> 1771:7F40 and on 1 -> 1771:7E80  [established; F016; read code/seg_1771_11.asm]
+// ages all 20 squad slots through7FB1 BEFORE is_managed0B77; managed branch ages 80 pool entries inclusive base..(base+79) with original unsigned wrapped-end gate and word index arithmetic, no retirement; computer branch then tests all 20 already-aged slots with7F40 and replaces in place with7E80, retaining duplicate/zero effects  [established; F016; read code/seg_1771_11.asm]
 
 void age_country_squad(int param_1)
 
@@ -475,7 +475,7 @@ void age_country_squad(int param_1)
 
 
 // ---- 1771:80DA  yearly_ageing  (f_1771_80DA; Ghidra 4000:80DA, __cdecl16near; found by routines.tsv)
-// the ageing of all 128 countries (1771:7FDF each); then only on entry to stage 2 or 5 (set CS:80BA = 0x24) increments the year word [A923]+0x38 and runs the new-season country housekeeping  [established; F016; read code/seg_1771_12.asm]
+// first ages ALL 128 countries through7FDF; ONLY new stages 2/5 (CS:80BA set0x24) increment game YEAR WORD+0x38 and perform country housekeeping. New stages 3/7 execute the complete ageing subtree while leaving that word and country housekeeping unchanged; no displayed-calendar-year mapping is inferred  [established; F016; read code/seg_1771_12.asm]
 
 void __cdecl16near yearly_ageing(void)
 
@@ -523,7 +523,7 @@ void __cdecl16near yearly_ageing(void)
 
 
 // ---- 1771:8208  stage_end  (f_1771_8208; Ghidra 4000:8208, __cdecl16far; found by routines.tsv)
-// T124a (runtime/original_match/port/stages.py, proved against the original in the route harness; the call of 1771:80DA runs as the original's, U4): decrements the state's rounds byte +0x3D; at 0 advances the stage byte +0x3C by 1 wrapped into [2,8] (214B:1D6F), tests the new stage against the set CS:81E8 = {2,3,5,7} (the ageing gate) and calls 1771:80DA for members, sets +0x40 = (stage > 4) and +0x3D = 1 + (stage == 4) + 3*(stage == 8); before advancing, a build constant (mov al, 0 at 822C) is tested: if it were set and the stage is 8, it returns without advancing the stage; the rounds byte +0x3D has already been decremented and keeps counting down modulo 256 on later calls, so the stage builder 1771:74BE still acts at rounds 4..1 and play is not stopped by this guard alone (F025, Unicorn P2)  [established; F016; F025; read code/seg_1771_12.asm]
+// T124a (runtime/original_match/port/stages.py, proved against the original in the route harness; T124f separately supplies the3/7 in-season80DA closure; annual2/5 remains deferred): decrements the state's rounds byte +0x3D; at 0 advances the stage byte +0x3C by 1 wrapped into [2,8] (214B:1D6F), tests the new stage against the set CS:81E8 = {2,3,5,7} (the ageing gate) and calls 1771:80DA for members, sets +0x40 = (stage > 4) and +0x3D = 1 + (stage == 4) + 3*(stage == 8); before advancing, a build constant (mov al, 0 at 822C) is tested: if it were set and the stage is 8, it returns without advancing the stage; the rounds byte +0x3D has already been decremented and keeps counting down modulo 256 on later calls, so the stage builder 1771:74BE still acts at rounds 4..1 and play is not stopped by this guard alone (F025, Unicorn P2)  [established; F016; F025; read code/seg_1771_12.asm]
 
 /* WARNING: Removing unreachable block (1771:8232) */
 /* WARNING: Removing unreachable block (1771:823C) */

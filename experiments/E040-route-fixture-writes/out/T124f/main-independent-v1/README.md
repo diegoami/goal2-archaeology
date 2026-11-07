@@ -1,0 +1,9 @@
+# Main independent acceptance on code53b4cf8b
+
+Main independently read all241lines of ageing.py, original named/raw7E4A/7FB1/7FDF/80DA and the natural/plain proof producers, then repeated both actual pre70E6 natural tails: complete physical memory, all16CPU registers, ordered records, queued keys and page history match. No edited stage or Route.call replay prefix. Literal playerID0 is skipped by7E4A (not an age-byte-zero rule);7FB1 still clears+0x11 for every zero/duplicate occurrence. Annual2/5 remains refused before body writes; T123 must guard BEFORE70E6.
+
+Independent fully ported continental/raw and world/state+Tables80DA compositions match all16 registers and25859/20312 ordered LIVE byte writes. Positive Unicorn/GOAL.EXE denials, original-unregistered guard, input/table immutability, bounded102byte observed below-entrySP dead stack and caller/return/adjacent/RNG/80BA/write-deletion controls pass. Raw supplied images contain inert original code; state/2 omits opcodes. No claim of whole Route sealing or annual rollover.
+
+All6 direct synthetic cases and4 semantic falsifiers pass/catch. Final agent acceptance-v3/source49/public44/private5 hashes independently verified. Existing77focused tests and both additional opposite-mode plain compositions remain the committed author receipts; main did not relabel them as new runs. All sources/producers/tests are unchanged from tested code53b4cf8b; this addendum contains only measurements. Original fullCI42365805493 completed all12groups/securitySUCCESS before this metadata-only push; retain that actual game-test receipt and reuse unchanged exercised code under the selector's existing policy.
+
+Model inherited Codex GPT-6 family; exact variant unavailable. Main local proof jobs ended normally; no fullsuite/gate/runner stopped. Original private captures remain ignored, never committed.

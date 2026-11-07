@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T124f/call_audit.py", line 34, in <module>
+    assert sum(counts.values())==563 and len(calls)==31 and len(expected)==28
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

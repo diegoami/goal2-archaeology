@@ -1,0 +1,7 @@
+{
+  "status": "packaging-failed-before-index",
+  "source_commit": "3edac2cf8a963fe1e5fc7b44a2547fae59704160",
+  "error": "ModuleNotFoundError: No module named tests",
+  "reproduction": "baseline-v1/package-import-calibration.log",
+  "runtime_proof_tests_unchanged": true
+}

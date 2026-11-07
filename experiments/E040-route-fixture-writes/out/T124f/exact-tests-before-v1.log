@@ -1,0 +1,864 @@
+test_year_rollover_refuses_before_even_a_same_value_stack_write (tests.test_port_in_season_ageing.DeferredBoundary.test_year_rollover_refuses_before_even_a_same_value_stack_write) ... 
+  test_year_rollover_refuses_before_even_a_same_value_stack_write (tests.test_port_in_season_ageing.DeferredBoundary.test_year_rollover_refuses_before_even_a_same_value_stack_write) (stage=2) ... FAIL
+  test_year_rollover_refuses_before_even_a_same_value_stack_write (tests.test_port_in_season_ageing.DeferredBoundary.test_year_rollover_refuses_before_even_a_same_value_stack_write) (stage=5) ... FAIL
+test_exact_ten_original_abis_no_wrapped_duplicate_owner (tests.test_port_in_season_ageing.Entries.test_exact_ten_original_abis_no_wrapped_duplicate_owner) ... FAIL
+test_ability_peak_plateau_half_step_and_word_wrap (tests.test_port_in_season_ageing.Leaves.test_ability_peak_plateau_half_step_and_word_wrap) ... 
+  test_ability_peak_plateau_half_step_and_word_wrap (tests.test_port_in_season_ageing.Leaves.test_ability_peak_plateau_half_step_and_word_wrap) (age=27, peak=28) ... ERROR
+  test_ability_peak_plateau_half_step_and_word_wrap (tests.test_port_in_season_ageing.Leaves.test_ability_peak_plateau_half_step_and_word_wrap) (age=28, peak=28) ... ERROR
+  test_ability_peak_plateau_half_step_and_word_wrap (tests.test_port_in_season_ageing.Leaves.test_ability_peak_plateau_half_step_and_word_wrap) (age=31, peak=28) ... ERROR
+  test_ability_peak_plateau_half_step_and_word_wrap (tests.test_port_in_season_ageing.Leaves.test_ability_peak_plateau_half_step_and_word_wrap) (age=32, peak=28) ... ERROR
+  test_ability_peak_plateau_half_step_and_word_wrap (tests.test_port_in_season_ageing.Leaves.test_ability_peak_plateau_half_step_and_word_wrap) (age=255, peak=0) ... ERROR
+test_computer_duplicates_age_all20_before_any_retirement (tests.test_port_in_season_ageing.Leaves.test_computer_duplicates_age_all20_before_any_retirement) ... ERROR
+test_computer_zero_slots_are_not_omitted_from_retirement (tests.test_port_in_season_ageing.Leaves.test_computer_zero_slots_are_not_omitted_from_retirement) ... ERROR
+test_four_required_falsifiers_are_caught (tests.test_port_in_season_ageing.Leaves.test_four_required_falsifiers_are_caught) ... 
+  test_four_required_falsifiers_are_caught (tests.test_port_in_season_ageing.Leaves.test_four_required_falsifiers_are_caught) (variant='age-increment-dropped') ... ERROR
+  test_four_required_falsifiers_are_caught (tests.test_port_in_season_ageing.Leaves.test_four_required_falsifiers_are_caught) (variant='retirement-threshold-plus-one') ... ERROR
+  test_four_required_falsifiers_are_caught (tests.test_port_in_season_ageing.Leaves.test_four_required_falsifiers_are_caught) (variant='replacement-draw-dropped') ... ERROR
+  test_four_required_falsifiers_are_caught (tests.test_port_in_season_ageing.Leaves.test_four_required_falsifiers_are_caught) (variant='pool-scorer-write-dropped') ... ERROR
+test_in_season_body_ages_all128_without_year_or_country_housekeeping (tests.test_port_in_season_ageing.Leaves.test_in_season_body_ages_all128_without_year_or_country_housekeeping) ... 
+  test_in_season_body_ages_all128_without_year_or_country_housekeeping (tests.test_port_in_season_ageing.Leaves.test_in_season_body_ages_all128_without_year_or_country_housekeeping) (stage=3) ... ERROR
+  test_in_season_body_ages_all128_without_year_or_country_housekeeping (tests.test_port_in_season_ageing.Leaves.test_in_season_body_ages_all128_without_year_or_country_housekeeping) (stage=7) ... ERROR
+test_initial_zero_address_far_function_uses_real_letter_table (tests.test_port_in_season_ageing.Leaves.test_initial_zero_address_far_function_uses_real_letter_table) ... ERROR
+test_literal_player_zero_skips_age_but_age_one_clears_scorer (tests.test_port_in_season_ageing.Leaves.test_literal_player_zero_skips_age_but_age_one_clears_scorer) ... ERROR
+test_make_player_flags_and_full_argument_words_preserve_unowned_fields (tests.test_port_in_season_ageing.Leaves.test_make_player_flags_and_full_argument_words_preserve_unowned_fields) ... 
+  test_make_player_flags_and_full_argument_words_preserve_unowned_fields (tests.test_port_in_season_ageing.Leaves.test_make_player_flags_and_full_argument_words_preserve_unowned_fields) (flag=0, club=0) ... ERROR
+  test_make_player_flags_and_full_argument_words_preserve_unowned_fields (tests.test_port_in_season_ageing.Leaves.test_make_player_flags_and_full_argument_words_preserve_unowned_fields) (flag=0, club=1) ... ERROR
+  test_make_player_flags_and_full_argument_words_preserve_unowned_fields (tests.test_port_in_season_ageing.Leaves.test_make_player_flags_and_full_argument_words_preserve_unowned_fields) (flag=1, club=0) ... ERROR
+  test_make_player_flags_and_full_argument_words_preserve_unowned_fields (tests.test_port_in_season_ageing.Leaves.test_make_player_flags_and_full_argument_words_preserve_unowned_fields) (flag=1, club=1) ... ERROR
+test_managed80_pool_duplicates_and_unsigned_wrap_gate (tests.test_port_in_season_ageing.Leaves.test_managed80_pool_duplicates_and_unsigned_wrap_gate) ... 
+  test_managed80_pool_duplicates_and_unsigned_wrap_gate (tests.test_port_in_season_ageing.Leaves.test_managed80_pool_duplicates_and_unsigned_wrap_gate) (base=None, bias=0) ... ERROR
+  test_managed80_pool_duplicates_and_unsigned_wrap_gate (tests.test_port_in_season_ageing.Leaves.test_managed80_pool_duplicates_and_unsigned_wrap_gate) (base=32768, bias=0) ... ERROR
+  test_managed80_pool_duplicates_and_unsigned_wrap_gate (tests.test_port_in_season_ageing.Leaves.test_managed80_pool_duplicates_and_unsigned_wrap_gate) (base=32736, bias=64) ... ERROR
+  test_managed80_pool_duplicates_and_unsigned_wrap_gate (tests.test_port_in_season_ageing.Leaves.test_managed80_pool_duplicates_and_unsigned_wrap_gate) (base=65520, bias=0) ... ERROR
+test_nonzero_age_zero_increments_and255_wraps (tests.test_port_in_season_ageing.Leaves.test_nonzero_age_zero_increments_and255_wraps) ... 
+  test_nonzero_age_zero_increments_and255_wraps (tests.test_port_in_season_ageing.Leaves.test_nonzero_age_zero_increments_and255_wraps) (age=0) ... ERROR
+  test_nonzero_age_zero_increments_and255_wraps (tests.test_port_in_season_ageing.Leaves.test_nonzero_age_zero_increments_and255_wraps) (age=254) ... ERROR
+  test_nonzero_age_zero_increments_and255_wraps (tests.test_port_in_season_ageing.Leaves.test_nonzero_age_zero_increments_and255_wraps) (age=255) ... ERROR
+test_nonzero_word_alias_of_player_zero_still_ages (tests.test_port_in_season_ageing.Leaves.test_nonzero_word_alias_of_player_zero_still_ages) ... ERROR
+test_peak_age_two_ordered_draws_keeper_and_outfield (tests.test_port_in_season_ageing.Leaves.test_peak_age_two_ordered_draws_keeper_and_outfield) ... 
+  test_peak_age_two_ordered_draws_keeper_and_outfield (tests.test_port_in_season_ageing.Leaves.test_peak_age_two_ordered_draws_keeper_and_outfield) (club=0) ... ERROR
+  test_peak_age_two_ordered_draws_keeper_and_outfield (tests.test_port_in_season_ageing.Leaves.test_peak_age_two_ordered_draws_keeper_and_outfield) (club=1) ... ERROR
+test_replacement_real_draws_resets_and_restores_current_position (tests.test_port_in_season_ageing.Leaves.test_replacement_real_draws_resets_and_restores_current_position) ... ERROR
+test_retirement_early_true_preserves_unsigned_mul_high_word (tests.test_port_in_season_ageing.Leaves.test_retirement_early_true_preserves_unsigned_mul_high_word) ... ERROR
+test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) ... 
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=29, caps=0) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=29, caps=1) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=29, caps=256) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=30, caps=0) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=30, caps=1) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=30, caps=256) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=31, caps=0) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=31, caps=1) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=31, caps=256) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=32, caps=0) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=32, caps=1) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=32, caps=256) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=33, caps=0) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=33, caps=1) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=33, caps=256) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=34, caps=0) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=34, caps=1) ... ERROR
+  test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=34, caps=256) ... ERROR
+test_retirement_peak_plus_five_is_extended_word (tests.test_port_in_season_ageing.Leaves.test_retirement_peak_plus_five_is_extended_word) ... ERROR
+
+======================================================================
+ERROR: test_ability_peak_plateau_half_step_and_word_wrap (tests.test_port_in_season_ageing.Leaves.test_ability_peak_plateau_half_step_and_word_wrap) (age=27, peak=28)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 77, in test_ability_peak_plateau_half_step_and_word_wrap
+    m,p=self.call_age('1771:32EB',(1,),before=lambda m:record(m,1,p1=age,p2=peak,p3=rating))
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_ability_peak_plateau_half_step_and_word_wrap (tests.test_port_in_season_ageing.Leaves.test_ability_peak_plateau_half_step_and_word_wrap) (age=28, peak=28)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 77, in test_ability_peak_plateau_half_step_and_word_wrap
+    m,p=self.call_age('1771:32EB',(1,),before=lambda m:record(m,1,p1=age,p2=peak,p3=rating))
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_ability_peak_plateau_half_step_and_word_wrap (tests.test_port_in_season_ageing.Leaves.test_ability_peak_plateau_half_step_and_word_wrap) (age=31, peak=28)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 77, in test_ability_peak_plateau_half_step_and_word_wrap
+    m,p=self.call_age('1771:32EB',(1,),before=lambda m:record(m,1,p1=age,p2=peak,p3=rating))
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_ability_peak_plateau_half_step_and_word_wrap (tests.test_port_in_season_ageing.Leaves.test_ability_peak_plateau_half_step_and_word_wrap) (age=32, peak=28)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 77, in test_ability_peak_plateau_half_step_and_word_wrap
+    m,p=self.call_age('1771:32EB',(1,),before=lambda m:record(m,1,p1=age,p2=peak,p3=rating))
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_ability_peak_plateau_half_step_and_word_wrap (tests.test_port_in_season_ageing.Leaves.test_ability_peak_plateau_half_step_and_word_wrap) (age=255, peak=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 77, in test_ability_peak_plateau_half_step_and_word_wrap
+    m,p=self.call_age('1771:32EB',(1,),before=lambda m:record(m,1,p1=age,p2=peak,p3=rating))
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_computer_duplicates_age_all20_before_any_retirement (tests.test_port_in_season_ageing.Leaves.test_computer_duplicates_age_all20_before_any_retirement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 162, in test_computer_duplicates_age_all20_before_any_retirement
+    m,p=self.call_age('1771:7FDF',(1,),before=before);self.proved(p,'1771:7FDF')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_computer_zero_slots_are_not_omitted_from_retirement (tests.test_port_in_season_ageing.Leaves.test_computer_zero_slots_are_not_omitted_from_retirement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 172, in test_computer_zero_slots_are_not_omitted_from_retirement
+    m,p=self.call_age('1771:7FDF',(1,),before=before);self.proved(p,'1771:7FDF')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_four_required_falsifiers_are_caught (tests.test_port_in_season_ageing.Leaves.test_four_required_falsifiers_are_caught) (variant='age-increment-dropped')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 217, in test_four_required_falsifiers_are_caught
+    with self.subTest(variant=variant),self.assertRaises(ProofError):self.call_age(target,args,before=before,variant=variant)
+                                                                     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_four_required_falsifiers_are_caught (tests.test_port_in_season_ageing.Leaves.test_four_required_falsifiers_are_caught) (variant='retirement-threshold-plus-one')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 217, in test_four_required_falsifiers_are_caught
+    with self.subTest(variant=variant),self.assertRaises(ProofError):self.call_age(target,args,before=before,variant=variant)
+                                                                     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_four_required_falsifiers_are_caught (tests.test_port_in_season_ageing.Leaves.test_four_required_falsifiers_are_caught) (variant='replacement-draw-dropped')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 217, in test_four_required_falsifiers_are_caught
+    with self.subTest(variant=variant),self.assertRaises(ProofError):self.call_age(target,args,before=before,variant=variant)
+                                                                     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_four_required_falsifiers_are_caught (tests.test_port_in_season_ageing.Leaves.test_four_required_falsifiers_are_caught) (variant='pool-scorer-write-dropped')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 217, in test_four_required_falsifiers_are_caught
+    with self.subTest(variant=variant),self.assertRaises(ProofError):self.call_age(target,args,before=before,variant=variant)
+                                                                     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_in_season_body_ages_all128_without_year_or_country_housekeeping (tests.test_port_in_season_ageing.Leaves.test_in_season_body_ages_all128_without_year_or_country_housekeeping) (stage=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 201, in test_in_season_body_ages_all128_without_year_or_country_housekeeping
+    m,p=self.call_age('1771:80DA',(),before=before);self.proved(p,'1771:80DA')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_in_season_body_ages_all128_without_year_or_country_housekeeping (tests.test_port_in_season_ageing.Leaves.test_in_season_body_ages_all128_without_year_or_country_housekeeping) (stage=7)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 201, in test_in_season_body_ages_all128_without_year_or_country_housekeeping
+    m,p=self.call_age('1771:80DA',(),before=before);self.proved(p,'1771:80DA')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_initial_zero_address_far_function_uses_real_letter_table (tests.test_port_in_season_ageing.Leaves.test_initial_zero_address_far_function_uses_real_letter_table)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 107, in test_initial_zero_address_far_function_uses_real_letter_table
+    m,p=self.call_age('1771:0000',())
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_literal_player_zero_skips_age_but_age_one_clears_scorer (tests.test_port_in_season_ageing.Leaves.test_literal_player_zero_skips_age_but_age_one_clears_scorer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 88, in test_literal_player_zero_skips_age_but_age_one_clears_scorer
+    m,p=self.call_age('1771:7E4A',(0,),before=before);self.proved(p,'1771:7E4A')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_make_player_flags_and_full_argument_words_preserve_unowned_fields (tests.test_port_in_season_ageing.Leaves.test_make_player_flags_and_full_argument_words_preserve_unowned_fields) (flag=0, club=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 139, in test_make_player_flags_and_full_argument_words_preserve_unowned_fields
+    m,p=self.call_age('1771:96D3',(1,1,0xCD00|club,0xAB00|flag),before=before)
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_make_player_flags_and_full_argument_words_preserve_unowned_fields (tests.test_port_in_season_ageing.Leaves.test_make_player_flags_and_full_argument_words_preserve_unowned_fields) (flag=0, club=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 139, in test_make_player_flags_and_full_argument_words_preserve_unowned_fields
+    m,p=self.call_age('1771:96D3',(1,1,0xCD00|club,0xAB00|flag),before=before)
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_make_player_flags_and_full_argument_words_preserve_unowned_fields (tests.test_port_in_season_ageing.Leaves.test_make_player_flags_and_full_argument_words_preserve_unowned_fields) (flag=1, club=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 139, in test_make_player_flags_and_full_argument_words_preserve_unowned_fields
+    m,p=self.call_age('1771:96D3',(1,1,0xCD00|club,0xAB00|flag),before=before)
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_make_player_flags_and_full_argument_words_preserve_unowned_fields (tests.test_port_in_season_ageing.Leaves.test_make_player_flags_and_full_argument_words_preserve_unowned_fields) (flag=1, club=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 139, in test_make_player_flags_and_full_argument_words_preserve_unowned_fields
+    m,p=self.call_age('1771:96D3',(1,1,0xCD00|club,0xAB00|flag),before=before)
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_managed80_pool_duplicates_and_unsigned_wrap_gate (tests.test_port_in_season_ageing.Leaves.test_managed80_pool_duplicates_and_unsigned_wrap_gate) (base=None, bias=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 184, in test_managed80_pool_duplicates_and_unsigned_wrap_gate
+    m,p=self.call_age('1771:7FDF',(country,),before=before);self.proved(p,'1771:7FDF')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_managed80_pool_duplicates_and_unsigned_wrap_gate (tests.test_port_in_season_ageing.Leaves.test_managed80_pool_duplicates_and_unsigned_wrap_gate) (base=32768, bias=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 184, in test_managed80_pool_duplicates_and_unsigned_wrap_gate
+    m,p=self.call_age('1771:7FDF',(country,),before=before);self.proved(p,'1771:7FDF')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_managed80_pool_duplicates_and_unsigned_wrap_gate (tests.test_port_in_season_ageing.Leaves.test_managed80_pool_duplicates_and_unsigned_wrap_gate) (base=32736, bias=64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 184, in test_managed80_pool_duplicates_and_unsigned_wrap_gate
+    m,p=self.call_age('1771:7FDF',(country,),before=before);self.proved(p,'1771:7FDF')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_managed80_pool_duplicates_and_unsigned_wrap_gate (tests.test_port_in_season_ageing.Leaves.test_managed80_pool_duplicates_and_unsigned_wrap_gate) (base=65520, bias=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 184, in test_managed80_pool_duplicates_and_unsigned_wrap_gate
+    m,p=self.call_age('1771:7FDF',(country,),before=before);self.proved(p,'1771:7FDF')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_nonzero_age_zero_increments_and255_wraps (tests.test_port_in_season_ageing.Leaves.test_nonzero_age_zero_increments_and255_wraps) (age=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 83, in test_nonzero_age_zero_increments_and255_wraps
+    m,p=self.call_age('1771:7E4A',(1,),before=lambda m:record(m,1,p1=age,p2=28,p3=160))
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_nonzero_age_zero_increments_and255_wraps (tests.test_port_in_season_ageing.Leaves.test_nonzero_age_zero_increments_and255_wraps) (age=254)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 83, in test_nonzero_age_zero_increments_and255_wraps
+    m,p=self.call_age('1771:7E4A',(1,),before=lambda m:record(m,1,p1=age,p2=28,p3=160))
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_nonzero_age_zero_increments_and255_wraps (tests.test_port_in_season_ageing.Leaves.test_nonzero_age_zero_increments_and255_wraps) (age=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 83, in test_nonzero_age_zero_increments_and255_wraps
+    m,p=self.call_age('1771:7E4A',(1,),before=lambda m:record(m,1,p1=age,p2=28,p3=160))
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_nonzero_word_alias_of_player_zero_still_ages (tests.test_port_in_season_ageing.Leaves.test_nonzero_word_alias_of_player_zero_still_ages)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 94, in test_nonzero_word_alias_of_player_zero_still_ages
+    m,p=self.call_age('1771:7E4A',(0x8000,),before=lambda m:record(m,0,p1=7,p2=28,p3=160))
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_peak_age_two_ordered_draws_keeper_and_outfield (tests.test_port_in_season_ageing.Leaves.test_peak_age_two_ordered_draws_keeper_and_outfield) (club=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 100, in test_peak_age_two_ordered_draws_keeper_and_outfield
+    m,p=self.call_age('1771:3291',(1,),before=lambda m:record(m,1,p7=club))
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_peak_age_two_ordered_draws_keeper_and_outfield (tests.test_port_in_season_ageing.Leaves.test_peak_age_two_ordered_draws_keeper_and_outfield) (club=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 100, in test_peak_age_two_ordered_draws_keeper_and_outfield
+    m,p=self.call_age('1771:3291',(1,),before=lambda m:record(m,1,p7=club))
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_replacement_real_draws_resets_and_restores_current_position (tests.test_port_in_season_ageing.Leaves.test_replacement_real_draws_resets_and_restores_current_position)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 151, in test_replacement_real_draws_resets_and_restores_current_position
+    m,p=self.call_age('1771:7E80',(1,),before=before);self.proved(p,'1771:7E80')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_early_true_preserves_unsigned_mul_high_word (tests.test_port_in_season_ageing.Leaves.test_retirement_early_true_preserves_unsigned_mul_high_word)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 128, in test_retirement_early_true_preserves_unsigned_mul_high_word
+    m,p=self.call_age('1771:7F40',(0x8000,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=29, caps=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=29, caps=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=29, caps=256)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=30, caps=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=30, caps=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=30, caps=256)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=31, caps=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=31, caps=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=1, age=31, caps=256)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=32, caps=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=32, caps=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=32, caps=256)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=33, caps=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=33, caps=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=33, caps=256)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=34, caps=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=34, caps=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_exact_limits_caps_words_and_club_position (tests.test_port_in_season_ageing.Leaves.test_retirement_exact_limits_caps_words_and_club_position) (club=0, age=34, caps=256)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 118, in test_retirement_exact_limits_caps_words_and_club_position
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_retirement_peak_plus_five_is_extended_word (tests.test_port_in_season_ageing.Leaves.test_retirement_peak_plus_five_is_extended_word)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 123, in test_retirement_peak_plus_five_is_extended_word
+    m,p=self.call_age('1771:7F40',(1,),before=before);self.proved(p,'1771:7F40')
+        ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 71, in call_age
+    def call_age(self,target,args,*,before=None,variant=None):return self.call(target,args,specs=specs(variant),before=before)
+                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+FAIL: test_year_rollover_refuses_before_even_a_same_value_stack_write (tests.test_port_in_season_ageing.DeferredBoundary.test_year_rollover_refuses_before_even_a_same_value_stack_write) (stage=2)
+----------------------------------------------------------------------
+original_match.port.mem.PortError: no registered port/return at 1771:80DA
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 234, in test_year_rollover_refuses_before_even_a_same_value_stack_write
+    with self.assertRaisesRegex(PortError,'deferred year rollover.*stage '+str(stage)):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "deferred year rollover.*stage 2" does not match "no registered port/return at 1771:80DA"
+
+======================================================================
+FAIL: test_year_rollover_refuses_before_even_a_same_value_stack_write (tests.test_port_in_season_ageing.DeferredBoundary.test_year_rollover_refuses_before_even_a_same_value_stack_write) (stage=5)
+----------------------------------------------------------------------
+original_match.port.mem.PortError: no registered port/return at 1771:80DA
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 234, in test_year_rollover_refuses_before_even_a_same_value_stack_write
+    with self.assertRaisesRegex(PortError,'deferred year rollover.*stage '+str(stage)):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "deferred year rollover.*stage 5" does not match "no registered port/return at 1771:80DA"
+
+======================================================================
+FAIL: test_exact_ten_original_abis_no_wrapped_duplicate_owner (tests.test_port_in_season_ageing.Entries.test_exact_ten_original_abis_no_wrapped_duplicate_owner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_in_season_ageing.py", line 63, in test_exact_ten_original_abis_no_wrapped_duplicate_owner
+    self.assertEqual({a:e.ret for a,e in A.PORTS.entries.items()},ENTRIES)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {} != {'1771:80DA': 'ret', '1771:7FDF': 'ret 2',[173 chars]etf'}
+- {}
++ {'1771:0000': 'retf',
++  '1771:3291': 'ret 2',
++  '1771:32EB': 'retf 2',
++  '1771:7E4A': 'ret 2',
++  '1771:7E80': 'ret 2',
++  '1771:7F40': 'retf 2',
++  '1771:7FB1': 'ret 4',
++  '1771:7FDF': 'ret 2',
++  '1771:80DA': 'ret',
++  '1771:96D3': 'retf 8'}
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.380s
+
+FAILED (failures=3, errors=50)
+Before-owner control: ALL18 exact final new tests fail/error with the owner absent; no skips; no checkout file changed.

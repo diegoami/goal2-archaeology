@@ -407,7 +407,7 @@ void __stdcall16far competition_table_view(int param_1,int param_2,char param_3)
 
 
 // ---- 1771:96D3  make_player  (f_1771_96D3; Ghidra 4000:96D3, __stdcall16far; found by routines.tsv)
-// makes one player record (flag, club position, country, player): +0 country, +7 club position, +6 = +7, +5 = rand(16), +1 = DS:118A[gk] - b + a (rand(7) each), +2 via 1771:3291, +3 = country_rating + 0x7F (flag 1) or that - 10 - rand(10) (flag 0), +4 via 32EB, +0xC = rand(32), +0xF's bits via 1771:3431, +0xD/+0xE via 1771:3558, +0x12 = 0x7FFF; writes no name byte and not +8..+0xB, +0x10, +0x11  [established; F007; F017; read code/seg_1771_13.asm]
+// (flag,club_position,country,player) creates original fields/draws: RNG 16,7,7; peak3291 with RNG 3,3; flag0 alone adds RNG 10; country_rating calls9768/9785 wrap printed110E7 to real10E7 using pushCS/far ABI;32EB,RNG 32,real3431/3558,performance+0x12=0x7FFF; leaves name,+8..0x0B,+0x10,+0x11 untouched  [established; F007; F017; read code/seg_1771_13.asm]
 
 void __stdcall16far make_player(char param_1,byte param_2,undefined2 param_3,int param_4)
 

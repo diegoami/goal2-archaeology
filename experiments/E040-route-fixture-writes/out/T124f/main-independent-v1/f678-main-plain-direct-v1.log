@@ -1,0 +1,15 @@
+{"schema": "t124f-fully-ported/1", "case": "continental"}
+{"case": "continental", "status": "completed", "elapsed_s": 2.7865}
+{"schema": "t124f-fully-ported/1", "case": "world"}
+{"case": "world", "status": "completed", "elapsed_s": 3.3953}
+{"schema": "t124f-direct/1"}
+{"case": "computer-duplicates", "status": "proved", "elapsed_s": 0.0639}
+{"case": "computer-zero", "status": "proved", "elapsed_s": 0.0465}
+{"case": "managed80-duplicates", "status": "proved", "elapsed_s": 0.1303}
+{"case": "managed80-doubled-word-alias", "status": "proved", "elapsed_s": 0.13}
+{"case": "managed80-signed-boundary", "status": "proved", "elapsed_s": 0.1279}
+{"case": "managed80-end-wrap-skip", "status": "proved", "elapsed_s": 0.0334}
+{"case": "age-increment-dropped", "status": "falsifier-caught"}
+{"case": "retirement-threshold-plus-one", "status": "falsifier-caught"}
+{"case": "replacement-draw-dropped", "status": "falsifier-caught"}
+{"case": "pool-scorer-write-dropped", "status": "falsifier-caught"}
