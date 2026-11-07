@@ -85,6 +85,17 @@ initialised/code-data delta (not only selected records), with the same exact dea
 stack interval as its LIVE-write comparison. The positive80BA mutation control
 specifically demonstrates that code-data constants are not hidden by opcode
 exclusion. Complete source/input bindings and final receipt lists are in
-`acceptance-v2/index.json`; older calibrations remain immutable historical evidence.
+`acceptance-v3/index.json`; older calibrations remain immutable historical evidence.
 
-The initial packager omitted the repository import path and stopped before creating an index; its reproducible import calibration is retained. `acceptance-v2` is the final index; no runtime/proof/test source changed for this packaging correction.
+The initial packager omitted the repository import path and stopped before creating an index; its reproducible import calibration is retained. `acceptance-v2` is the historical pre-CI packaging index; no runtime/proof/test source changed for this packaging correction.
+
+CI packaging correction: the empty failed audit capture originally named
+`static-call-audit-v1.json` is preserved byte-for-byte as
+`static-call-audit-v1.log` (empty SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855).
+It contains no JSON because the failed calibration stopped before emitting it.
+The initial acceptance-v2 index remains immutable at its original commit/path
+reference; acceptance-v3 records this path alias, unchanged49 runtime/proof/test
+source hashes and the unchanged measurements. The real check_links command
+fails before the path correction and passes afterward; its receipts and the
+byte/index provenance are retained in packaging-repair-v1. No game test, runtime
+semantics or original raw measurement was rewritten for this repair.
