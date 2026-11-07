@@ -57,3 +57,32 @@ are synthetic, separately labelled from the PRIMARY natural contexts.
 `exact-tests-before-v1.log` runs every exact new test with the owner absent
 using an EMPTY registry solely to permit per-test loading (no behavior supplied):
 ALL18 fail/error, with no skip and no checkout file rewritten.
+
+Final focused checks: `focused-final-v1.log` records77 tests PASS116.659s,
+including all18 new tests and the preserved stage/news/qualifying/continental/
+world modules. No full suite or local gate is run. Existing stages.py is wholly
+unchanged (`preserved-stages.json`,35 prior functions); no old registry assertion
+was modified. `annotations-final-v2.log` passes and `named-final-v2.log` records
+regeneration with the same three known baseline Ghidra failures. A wording
+correction clarifies that only the first peak-age draw result remains on the
+caller stack across the second; the runtime and proof sources did not change.
+
+Repeat the PRIMARY tails (unique output files required):
+
+```sh
+python3 -B experiments/E040-route-fixture-writes/out/T124f/proof.py --case continental --out UNIQUE
+python3 -B experiments/E040-route-fixture-writes/out/T124f/proof.py --case world --out UNIQUE
+python3 -B experiments/E040-route-fixture-writes/out/T124f/plain.py --input natural-CASE-v1.jsonl --mode raw --out UNIQUE
+python3 -B experiments/E040-route-fixture-writes/out/T124f/plain.py --input natural-CASE-v1.jsonl --mode state --out UNIQUE
+python3 -B experiments/E040-route-fixture-writes/out/T124f/direct.py --out UNIQUE
+python3 -B experiments/E040-route-fixture-writes/out/T124f/before.py
+```
+
+The two natural receipts include the original80DA entry snapshots. Plain mode
+runs those exact contexts to the actual826D return; it never executes the
+unported outer caller. `--mode state` compares complete state/2 including every
+initialised/code-data delta (not only selected records), with the same exact dead
+stack interval as its LIVE-write comparison. The positive80BA mutation control
+specifically demonstrates that code-data constants are not hidden by opcode
+exclusion. Complete source/input bindings and final receipt lists are in
+`acceptance/index.json`; older calibrations remain immutable historical evidence.

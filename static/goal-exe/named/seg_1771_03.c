@@ -110,7 +110,7 @@ undefined2 __stdcall16far player_unavailable(int param_1)
 
 
 // ---- 1771:3291  roll_peak_age  (f_1771_3291; Ghidra 4000:3291, __stdcall16near; found by routines.tsv)
-// draws +2: DS:0E80[gk] + b - a with a then b = rand(3)  [established; F007; read decompiled/seg_1771_02.c]
+// peak byte+2 := DS:0E80[gk] + second RNG 3 - first RNG 3, with gk=(BYTE player[+7] == 0); first full word draw is held on the caller stack across the second call  [established; F007; read code/seg_1771_05.asm]
 
 void roll_peak_age(int param_1)
 
@@ -131,7 +131,7 @@ void roll_peak_age(int param_1)
 
 
 // ---- 1771:32EB  compute_ability  (f_1771_32EB; Ghidra 4000:32EB, __stdcall16far; found by routines.tsv)
-// computes +4 from +1, +2, +3: +3 inside the copy branch +2..+2+3; below it k = (+2 - +1) div 2 (SIGNED idiv; k = 0 at +2-1, so the maximum spans five ages), above it k = +1 - (+2+3); +4 = AL, the low byte of ((+3 * (0x10 - k)) mod 65536) div 16, with the factor a wrapping 16-bit word (k > 16)  [established; F007; F009; F016; read decompiled/seg_1771_02.c; read code/seg_1771_05.asm]
+// ability+4 from age+1,peak+2,rating+3: plateau peak..peak+3; below peak signedIDIV2 makes peak-1 equally maximal; elsewhere factor16-k wraps word, unsignedMUL low 16 bits then unsignedDIV16, stored AL only; never clamps negative factor  [established; F007; F009; F016; read code/seg_1771_05.asm]
 
 void __stdcall16far compute_ability(int param_1)
 
