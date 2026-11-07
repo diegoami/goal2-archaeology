@@ -473,7 +473,9 @@ class _RoundKeys:
         r.record.append(('key',site,'poll',r.keys.waiting if has else None,source))
         return has
     def key(self,site):
-        r=self.round;key,source=r.keys.read(site,r)
+        r=self.round
+        if site==MENU_SITE:site=r._site()
+        key,source=r.keys.read(site,r)
         r.record.append(('key',site,'read',key,source))
         r._write("08DD's key (0947 DS:A976, 097C DS:A977)",r.m.DS*16+KEY,bytes([key,key]))
         r.m.set_reg('ax',(r.m.reg('ax')&0xFF00)|key)

@@ -370,3 +370,55 @@ def _terminal_candidate(state,tables,waiting):
     path=ROOT/'experiments/E040-route-fixture-writes/out/T123/terminal.py'
     spec=importlib.util.spec_from_file_location('_t123_terminal',path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
     return module.candidate(state,tables,waiting)
+
+
+def _route_key_report(state,tables,mode):
+    _denials()
+    from original_match.port.tables import from_record
+    from original_match.match import SS_PARAGRAPH
+    from original_match.machine import GuestError
+    image=Image.from_state(state,from_record(tables));keys=R.Keys(R.DEFAULT_KEYS)
+    r=R._RoundContinuation(image,keys);m=r.m;ss=m.seg(SS_PARAGRAPH);bp=0x3E00
+    caller=0xE000 if mode=='unknown' else 0xE86E
+    m.write(ss*16+bp+2,caller.to_bytes(2,'little')+m.seg(0x791).to_bytes(2,'little'))
+    m.set_reg('bp',bp)
+    assert not m.rd(R.PUSHED_BACK,1)
+    if mode in ('queued','pushed'):keys.waiting=R.ENTER
+    if mode=='pushed':
+        end=m.far_call('214B:0993',[27],'000E:77C2',ss,0x3D00)
+        assert m.run(end,10,fresh=True) is None and m.rd(R.PUSHED_BACK,1)==1
+    end=m.far_call(R.READKEY,[],'214B:157C',ss,0x3D00)
+    before=m.read(0,MEM_SIZE)
+    if mode=='unknown':
+        try:m.run(end,10,fresh=True)
+        except GuestError as error:assert '214B:157C<0791:E000' in str(error)
+        else:raise AssertionError('unknown contextual key accepted')
+        assert m.read(0,MEM_SIZE)==before and not [e for e in r.record if e[0]=='key']
+        return {'refused':True,'pure':True}
+    assert m.run(end,10,fresh=True) is None
+    events=[e for e in r.record if e[0]=='key'];assert len(events)==1
+    event=events[0];expected=27 if mode=='pushed' else R.ENTER if mode=='queued' else R.KEY_N
+    assert event[1:]==('214B:157C<0791:E86E','read',expected,'pushed-back' if mode=='pushed' else 'waiting' if mode=='queued' else 'policy')
+    assert m.rd(R.KEY,1)==expected and m.rd(R.KEY+1,1)==expected and m.rd(R.PUSHED_BACK,1)==0
+    assert keys.waiting==(R.ENTER if mode=='pushed' else None)
+    assert r.ports.calls[R.READKEY]==1
+    if mode=='pushed':assert r.ports.calls['214B:0993']==1
+    return {'one_read':True,'caller_qualified':True,'real_pushback':mode=='pushed','queue_preserved':True}
+
+
+class RouteKeyPorts(unittest.TestCase):
+    def test_real_contextual_read_queued_and_actual_pushback_are_consumed_once(self):
+        from port_test_runtime import call_in_pypy
+        from original_match.port.tables import to_record
+        image=_fixtures().image()
+        for mode in ('policy','queued','pushed'):
+            with self.subTest(mode=mode):
+                result=call_in_pypy('test_route_sealed','_route_key_report',args=(image.state(image.tables),to_record(image.tables),mode))
+                self.assertTrue(result['one_read']);self.assertTrue(result['queue_preserved'])
+
+    def test_unknown_contextual_read_refuses_before_memory_changes(self):
+        from port_test_runtime import call_in_pypy
+        from original_match.port.tables import to_record
+        image=_fixtures().image()
+        result=call_in_pypy('test_route_sealed','_route_key_report',args=(image.state(image.tables),to_record(image.tables),'unknown'))
+        self.assertTrue(result['refused']);self.assertTrue(result['pure'])
