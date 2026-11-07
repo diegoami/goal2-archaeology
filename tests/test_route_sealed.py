@@ -278,3 +278,12 @@ class ReachedFalsifiers(_Calls):
                     machine.write(0x90100,bytes(range(64)));machine.write(0x90200,bytes([0xA5])*64)
                     oracle.run_one(machine,True,target,args,dict(ax=0xABCD,eflags=0xED7))
                 self.assertNotEqual(candidate.read(0,MEM_SIZE),reference.read(0,MEM_SIZE))
+
+
+def _entry_comparison(state,tables):
+    _denials()
+    from original_match.port.tables import from_record
+    from original_match.machine import REGS
+    step=R.play_round(state,from_record(tables),R.DEFAULT_KEYS)
+    assert step.status=='match'
+    return step.state,{name:step.match.m.reg(name) for name in REGS}

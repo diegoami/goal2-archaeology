@@ -1,0 +1,1555 @@
+test_repeated_terminal_request_preserves_every_state_byte (tests.test_route_sealed.Boundary.test_repeated_terminal_request_preserves_every_state_byte) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ERROR
+test_terminal_entry_returns_immutable_step_without_starting_backend (tests.test_route_sealed.Boundary.test_terminal_entry_returns_immutable_step_without_starting_backend) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+
+  test_terminal_entry_returns_immutable_step_without_starting_backend (tests.test_route_sealed.Boundary.test_terminal_entry_returns_immutable_step_without_starting_backend) (stage=4) ... ERROR
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_terminal_entry_returns_immutable_step_without_starting_backend (tests.test_route_sealed.Boundary.test_terminal_entry_returns_immutable_step_without_starting_backend) (stage=8) ... ERROR
+test_factory_preserves_actual_context_and_existing_manager2 (tests.test_route_sealed.MatchEntry.test_factory_preserves_actual_context_and_existing_manager2) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+
+  test_factory_preserves_actual_context_and_existing_manager2 (tests.test_route_sealed.MatchEntry.test_factory_preserves_actual_context_and_existing_manager2) (manager2=False) ... ERROR
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_factory_preserves_actual_context_and_existing_manager2 (tests.test_route_sealed.MatchEntry.test_factory_preserves_actual_context_and_existing_manager2) (manager2=True) ... ERROR
+test_factory_refuses_invalid_frame_before_changes (tests.test_route_sealed.MatchEntry.test_factory_refuses_invalid_frame_before_changes) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ERROR
+test_real_pending_normal_match_and_invalid_resume_are_pure (tests.test_route_sealed.MatchEntry.test_real_pending_normal_match_and_invalid_resume_are_pure) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ERROR
+test_shareware_leaf_preserves_AH_and_real_frame (tests.test_route_sealed.OuterFrames.test_shareware_leaf_preserves_AH_and_real_frame) ... ERROR
+test_omitted_decider_header_and_row_are_detected_by_original (tests.test_route_sealed.ReachedFalsifiers.test_omitted_decider_header_and_row_are_detected_by_original) ... 
+  test_omitted_decider_header_and_row_are_detected_by_original (tests.test_route_sealed.ReachedFalsifiers.test_omitted_decider_header_and_row_are_detected_by_original) (target='0791:B15F') ... ERROR
+  test_omitted_decider_header_and_row_are_detected_by_original (tests.test_route_sealed.ReachedFalsifiers.test_omitted_decider_header_and_row_are_detected_by_original) (target='1771:5BF6') ... ERROR
+  test_omitted_decider_header_and_row_are_detected_by_original (tests.test_route_sealed.ReachedFalsifiers.test_omitted_decider_header_and_row_are_detected_by_original) (target='1771:7812') ... ERROR
+test_omitted_expand_and_union_fail_complete_original_comparison (tests.test_route_sealed.ReachedFalsifiers.test_omitted_expand_and_union_fail_complete_original_comparison) ... 
+  test_omitted_expand_and_union_fail_complete_original_comparison (tests.test_route_sealed.ReachedFalsifiers.test_omitted_expand_and_union_fail_complete_original_comparison) (target='23E4:0831') ... ERROR
+  test_omitted_expand_and_union_fail_complete_original_comparison (tests.test_route_sealed.ReachedFalsifiers.test_omitted_expand_and_union_fail_complete_original_comparison) (target='23E4:0900') ... ERROR
+test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) ... 
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=0, scores=[2, 2]) ... ERROR
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=0, scores=[2, 3]) ... ERROR
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=1, scores=[2, 2]) ... ERROR
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=1, scores=[2, 3]) ... ERROR
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=4, scores=[2, 2]) ... ERROR
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=4, scores=[2, 3]) ... ERROR
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=8, scores=[2, 2]) ... ERROR
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=8, scores=[2, 3]) ... ERROR
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=203, scores=[2, 2]) ... ERROR
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=203, scores=[2, 3]) ... ERROR
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=204, scores=[2, 2]) ... ERROR
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=204, scores=[2, 3]) ... ERROR
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=255, scores=[2, 2]) ... ERROR
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=255, scores=[2, 3]) ... ERROR
+test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) ... 
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=0, status=254) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=0, status=255) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=0, status=2) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=1, status=254) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=1, status=255) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=1, status=2) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=2, status=254) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=2, status=255) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=2, status=2) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=4, status=254) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=4, status=255) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=4, status=2) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=8, status=254) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=8, status=255) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=8, status=2) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=203, status=254) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=203, status=255) ... ERROR
+  test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=203, status=2) ... ERROR
+test_silent_header_real_helper_frames (tests.test_route_sealed.ReachedRouteLeaves.test_silent_header_real_helper_frames) ... 
+  test_silent_header_real_helper_frames (tests.test_route_sealed.ReachedRouteLeaves.test_silent_header_real_helper_frames) (stage=2) ... ERROR
+  test_silent_header_real_helper_frames (tests.test_route_sealed.ReachedRouteLeaves.test_silent_header_real_helper_frames) (stage=5) ... ERROR
+  test_silent_header_real_helper_frames (tests.test_route_sealed.ReachedRouteLeaves.test_silent_header_real_helper_frames) (stage=8) ... ERROR
+test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap)
+Declared synthetic Pascal frames, including hidden result pointers. ... 
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[0, 256, 36864, 512, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[0, 256, 36864, 512, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[0, 256, 36864, 257, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[0, 256, 36864, 257, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[0, 65534, 36864, 65532, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[0, 65534, 36864, 65532, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[32, 256, 36864, 512, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[32, 256, 36864, 512, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[32, 256, 36864, 257, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[32, 256, 36864, 257, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[32, 65534, 36864, 65532, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[32, 65534, 36864, 65532, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[259, 256, 36864, 512, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[259, 256, 36864, 512, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[259, 256, 36864, 257, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[259, 256, 36864, 257, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[259, 65534, 36864, 65532, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[259, 65534, 36864, 65532, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[7937, 256, 36864, 512, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[7937, 256, 36864, 512, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[7937, 256, 36864, 257, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[7937, 256, 36864, 257, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[7937, 65534, 36864, 65532, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[7937, 65534, 36864, 65532, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[8224, 256, 36864, 512, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[8224, 256, 36864, 512, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[8224, 256, 36864, 257, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[8224, 256, 36864, 257, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[8224, 65534, 36864, 65532, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[8224, 65534, 36864, 65532, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[65535, 256, 36864, 512, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[65535, 256, 36864, 512, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[65535, 256, 36864, 257, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[65535, 256, 36864, 257, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[65535, 65534, 36864, 65532, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[65535, 65534, 36864, 65532, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0900', args=[256, 36864, 512, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0900', args=[256, 36864, 512, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0900', args=[256, 36864, 258, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0900', args=[256, 36864, 258, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0900', args=[258, 36864, 256, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0900', args=[258, 36864, 256, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0900', args=[65535, 36864, 65529, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+  test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0900', args=[65535, 36864, 65529, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers. ... ERROR
+
+======================================================================
+ERROR: test_repeated_terminal_request_preserves_every_state_byte (tests.test_route_sealed.Boundary.test_repeated_terminal_request_preserves_every_state_byte)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 51, in test_repeated_terminal_request_preserves_every_state_byte
+    result=call_in_pypy('test_route_sealed','_boundary_report',args=(state,to_record(tables),True))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T123/before.py", line 23, in <lambda>
+    port_test_runtime.call_in_pypy=lambda module,function,args=(),kwargs=None,**options:real_call('test_route_sealed','_before_callback',args=(sources,function,args,kwargs or {}),**options)
+                                                                                        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 247, in _before_callback
+    return globals()[function](*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 160, in _boundary_report
+    step=R.play_round(state,tables,R.DEFAULT_KEYS)
+           ^^^^^^^^^^
+AttributeError: module 'original_match.route' has no attribute 'play_round'
+
+
+======================================================================
+ERROR: test_terminal_entry_returns_immutable_step_without_starting_backend (tests.test_route_sealed.Boundary.test_terminal_entry_returns_immutable_step_without_starting_backend) (stage=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 44, in test_terminal_entry_returns_immutable_step_without_starting_backend
+    result=call_in_pypy('test_route_sealed','_boundary_report',args=(state,to_record(tables),False))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T123/before.py", line 23, in <lambda>
+    port_test_runtime.call_in_pypy=lambda module,function,args=(),kwargs=None,**options:real_call('test_route_sealed','_before_callback',args=(sources,function,args,kwargs or {}),**options)
+                                                                                        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 247, in _before_callback
+    return globals()[function](*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 160, in _boundary_report
+    step=R.play_round(state,tables,R.DEFAULT_KEYS)
+           ^^^^^^^^^^
+AttributeError: module 'original_match.route' has no attribute 'play_round'
+
+
+======================================================================
+ERROR: test_terminal_entry_returns_immutable_step_without_starting_backend (tests.test_route_sealed.Boundary.test_terminal_entry_returns_immutable_step_without_starting_backend) (stage=8)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 44, in test_terminal_entry_returns_immutable_step_without_starting_backend
+    result=call_in_pypy('test_route_sealed','_boundary_report',args=(state,to_record(tables),False))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T123/before.py", line 23, in <lambda>
+    port_test_runtime.call_in_pypy=lambda module,function,args=(),kwargs=None,**options:real_call('test_route_sealed','_before_callback',args=(sources,function,args,kwargs or {}),**options)
+                                                                                        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 247, in _before_callback
+    return globals()[function](*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 160, in _boundary_report
+    step=R.play_round(state,tables,R.DEFAULT_KEYS)
+           ^^^^^^^^^^
+AttributeError: module 'original_match.route' has no attribute 'play_round'
+
+
+======================================================================
+ERROR: test_factory_preserves_actual_context_and_existing_manager2 (tests.test_route_sealed.MatchEntry.test_factory_preserves_actual_context_and_existing_manager2) (manager2=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 136, in test_factory_preserves_actual_context_and_existing_manager2
+    result=call_in_pypy('test_route_sealed','_factory_report',args=(image.state(image.tables),to_record(image.tables),fixture,context))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T123/before.py", line 23, in <lambda>
+    port_test_runtime.call_in_pypy=lambda module,function,args=(),kwargs=None,**options:real_call('test_route_sealed','_before_callback',args=(sources,function,args,kwargs or {}),**options)
+                                                                                        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 247, in _before_callback
+    return globals()[function](*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 99, in _factory_report
+    m=Match.from_route_entry(image,Fixture(**fixture),context)
+            ^^^^^^^^^^^^^^^^
+AttributeError: type object 'Match' has no attribute 'from_route_entry'
+
+
+======================================================================
+ERROR: test_factory_preserves_actual_context_and_existing_manager2 (tests.test_route_sealed.MatchEntry.test_factory_preserves_actual_context_and_existing_manager2) (manager2=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 136, in test_factory_preserves_actual_context_and_existing_manager2
+    result=call_in_pypy('test_route_sealed','_factory_report',args=(image.state(image.tables),to_record(image.tables),fixture,context))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T123/before.py", line 23, in <lambda>
+    port_test_runtime.call_in_pypy=lambda module,function,args=(),kwargs=None,**options:real_call('test_route_sealed','_before_callback',args=(sources,function,args,kwargs or {}),**options)
+                                                                                        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 247, in _before_callback
+    return globals()[function](*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 99, in _factory_report
+    m=Match.from_route_entry(image,Fixture(**fixture),context)
+            ^^^^^^^^^^^^^^^^
+AttributeError: type object 'Match' has no attribute 'from_route_entry'
+
+
+======================================================================
+ERROR: test_factory_refuses_invalid_frame_before_changes (tests.test_route_sealed.MatchEntry.test_factory_refuses_invalid_frame_before_changes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 144, in test_factory_refuses_invalid_frame_before_changes
+    result=call_in_pypy('test_route_sealed','_factory_report',args=(image.state(image.tables),to_record(image.tables),fixture,context,True))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T123/before.py", line 23, in <lambda>
+    port_test_runtime.call_in_pypy=lambda module,function,args=(),kwargs=None,**options:real_call('test_route_sealed','_before_callback',args=(sources,function,args,kwargs or {}),**options)
+                                                                                        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 247, in _before_callback
+    return globals()[function](*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 96, in _factory_report
+    try:Match.from_route_entry(image,Fixture(**fixture),context)
+              ^^^^^^^^^^^^^^^^
+AttributeError: type object 'Match' has no attribute 'from_route_entry'
+
+
+======================================================================
+ERROR: test_real_pending_normal_match_and_invalid_resume_are_pure (tests.test_route_sealed.MatchEntry.test_real_pending_normal_match_and_invalid_resume_are_pure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 151, in test_real_pending_normal_match_and_invalid_resume_are_pure
+    result=call_in_pypy('test_route_sealed','_entry_report',args=(image.state(image.tables),to_record(image.tables)))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T123/before.py", line 23, in <lambda>
+    port_test_runtime.call_in_pypy=lambda module,function,args=(),kwargs=None,**options:real_call('test_route_sealed','_before_callback',args=(sources,function,args,kwargs or {}),**options)
+                                                                                        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 247, in _before_callback
+    return globals()[function](*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 111, in _entry_report
+    step=R.play_round(state,from_record(table_record),R.DEFAULT_KEYS)
+           ^^^^^^^^^^
+AttributeError: module 'original_match.route' has no attribute 'play_round'
+
+
+======================================================================
+ERROR: test_shareware_leaf_preserves_AH_and_real_frame (tests.test_route_sealed.OuterFrames.test_shareware_leaf_preserves_AH_and_real_frame)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 32, in test_shareware_leaf_preserves_AH_and_real_frame
+    self.assertEqual(P.PORTS.entries['000E:7072'].ret,'ret')
+                     ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '000E:7072'
+
+======================================================================
+ERROR: test_omitted_decider_header_and_row_are_detected_by_original (tests.test_route_sealed.ReachedFalsifiers.test_omitted_decider_header_and_row_are_detected_by_original) (target='0791:B15F')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 256, in test_omitted_decider_header_and_row_are_detected_by_original
+    original=port._module_registry(owner).entries[target]
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+KeyError: '0791:B15F'
+
+======================================================================
+ERROR: test_omitted_decider_header_and_row_are_detected_by_original (tests.test_route_sealed.ReachedFalsifiers.test_omitted_decider_header_and_row_are_detected_by_original) (target='1771:5BF6')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 256, in test_omitted_decider_header_and_row_are_detected_by_original
+    original=port._module_registry(owner).entries[target]
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+KeyError: '1771:5BF6'
+
+======================================================================
+ERROR: test_omitted_decider_header_and_row_are_detected_by_original (tests.test_route_sealed.ReachedFalsifiers.test_omitted_decider_header_and_row_are_detected_by_original) (target='1771:7812')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 256, in test_omitted_decider_header_and_row_are_detected_by_original
+    original=port._module_registry(owner).entries[target]
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+KeyError: '1771:7812'
+
+======================================================================
+ERROR: test_omitted_expand_and_union_fail_complete_original_comparison (tests.test_route_sealed.ReachedFalsifiers.test_omitted_expand_and_union_fail_complete_original_comparison) (target='23E4:0831')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 272, in test_omitted_expand_and_union_fail_complete_original_comparison
+    entry=port._module_registry('entrypoints').entries[target]
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+KeyError: '23E4:0831'
+
+======================================================================
+ERROR: test_omitted_expand_and_union_fail_complete_original_comparison (tests.test_route_sealed.ReachedFalsifiers.test_omitted_expand_and_union_fail_complete_original_comparison) (target='23E4:0900')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 272, in test_omitted_expand_and_union_fail_complete_original_comparison
+    entry=port._module_registry('entrypoints').entries[target]
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+KeyError: '23E4:0900'
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=0, scores=[2, 2])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=0, scores=[2, 3])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=1, scores=[2, 2])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=1, scores=[2, 3])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=4, scores=[2, 2])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=4, scores=[2, 3])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=8, scores=[2, 2])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=8, scores=[2, 3])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=203, scores=[2, 2])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=203, scores=[2, 3])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=204, scores=[2, 2])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=204, scores=[2, 3])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=255, scores=[2, 2])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=255, scores=[2, 3])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=0, status=254)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=0, status=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=0, status=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=1, status=254)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=1, status=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=1, status=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=2, status=254)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=2, status=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=2, status=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=4, status=254)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=4, status=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=4, status=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=8, status=254)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=8, status=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=8, status=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=203, status=254)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=203, status=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) (kind=203, status=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 228, in test_fixture_row_real_hidden_string_and_pending_marker
+    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_silent_header_real_helper_frames (tests.test_route_sealed.ReachedRouteLeaves.test_silent_header_real_helper_frames) (stage=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 219, in test_silent_header_real_helper_frames
+    m,p=self.call('1771:5BF6',specs=[(display.PORTS,None)],game={0x3C:stage})
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_silent_header_real_helper_frames (tests.test_route_sealed.ReachedRouteLeaves.test_silent_header_real_helper_frames) (stage=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 219, in test_silent_header_real_helper_frames
+    m,p=self.call('1771:5BF6',specs=[(display.PORTS,None)],game={0x3C:stage})
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_silent_header_real_helper_frames (tests.test_route_sealed.ReachedRouteLeaves.test_silent_header_real_helper_frames) (stage=8)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 219, in test_silent_header_real_helper_frames
+    m,p=self.call('1771:5BF6',specs=[(display.PORTS,None)],game={0x3C:stage})
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 117, in call
+    far = next(e for r, _ in inst.loaded for a, e in r.entries.items() if a == target).far
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[0, 256, 36864, 512, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[0, 256, 36864, 512, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[0, 256, 36864, 257, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[0, 256, 36864, 257, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[0, 65534, 36864, 65532, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[0, 65534, 36864, 65532, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[32, 256, 36864, 512, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[32, 256, 36864, 512, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[32, 256, 36864, 257, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[32, 256, 36864, 257, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[32, 65534, 36864, 65532, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[32, 65534, 36864, 65532, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[259, 256, 36864, 512, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[259, 256, 36864, 512, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[259, 256, 36864, 257, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[259, 256, 36864, 257, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[259, 65534, 36864, 65532, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[259, 65534, 36864, 65532, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[7937, 256, 36864, 512, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[7937, 256, 36864, 512, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[7937, 256, 36864, 257, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[7937, 256, 36864, 257, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[7937, 65534, 36864, 65532, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[7937, 65534, 36864, 65532, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[8224, 256, 36864, 512, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[8224, 256, 36864, 512, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[8224, 256, 36864, 257, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[8224, 256, 36864, 257, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[8224, 65534, 36864, 65532, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[8224, 65534, 36864, 65532, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[65535, 256, 36864, 512, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[65535, 256, 36864, 512, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[65535, 256, 36864, 257, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[65535, 256, 36864, 257, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[65535, 65534, 36864, 65532, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0831', args=[65535, 65534, 36864, 65532, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0831
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0900', args=[256, 36864, 512, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0900
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0900', args=[256, 36864, 512, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0900
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0900', args=[256, 36864, 258, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0900
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0900', args=[256, 36864, 258, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0900
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0900', args=[258, 36864, 256, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0900
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0900', args=[258, 36864, 256, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0900
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0900', args=[65535, 36864, 65529, 36864], flags=514)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0900
+
+======================================================================
+ERROR: test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap) (target='23E4:0900', args=[65535, 36864, 65529, 36864], flags=3799)
+Declared synthetic Pascal frames, including hidden result pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 194, in test_expand_and_union_full_memory_registers_and_wrapped_overlap
+    oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/T60/fuzz.py", line 85, in run_one
+    reason = m.run(ret_cs * 16 + ret_ip, timeout_s=timeout, fresh=True)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 23E4:0900
+
+----------------------------------------------------------------------
+Ran 12 tests in 3.527s
+
+FAILED (errors=92)
+ALL authored methods fail on exact unchanged old owners in parent and verified PyPy workers; no skips.

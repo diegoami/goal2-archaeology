@@ -20,9 +20,12 @@ def candidate(state,tables):
     from original_match.route_team import PreMatchPlan,choose_eleven
     from original_match.port.tables import from_record
     initial=digest(state);step=R.play_round(state,from_record(tables),R.DEFAULT_KEYS)
-    choices=[];events=[]
+    choices=[];events=[];observed=[];stub_calls={}
     while step.status=='match':
-        m=step.match;assert type(m) is Match and m.engine=='port' and m.opts['tail'] is False
+        m=step.match
+        for address in (0x3E275,0xB8000+18*160+34*2+1):
+            m.m.watch(address,1,lambda old,new,address=address,m=m:observed.append([address,old[0],new[0],m.m.where(m.m.reg('cs'),m.m.reg('ip')),m.m.pc()]))
+        assert type(m) is Match and m.engine=='port' and m.opts['tail'] is False
         def select(replay,m=m):
             if not replay and m.st['menu_context']=='pre_match' and m.side is not None:
                 squad=m._squad(m.opts['managed']);changes=choose_eleven(squad,m._player)
@@ -30,6 +33,7 @@ def candidate(state,tables):
                 m._menu=PreMatchPlan(m.side,subs=changes)
         m.m.at(TEAM_MENU,select)
         events.extend((e.kind,e.data) for e in m.events())
+        stub_calls.update({e.address:m.ports.calls.get(e.address,0) for reg,_ in m.ports.loaded for e in reg.entries.values() if e.stub and m.ports.calls.get(e.address)})
         old=step;step=R.resume_round(old.continuation,m)
         before=digest(step.state)
         try:R.resume_round(old.continuation,m)
@@ -38,7 +42,7 @@ def candidate(state,tables):
         assert digest(step.state)==before
     assert initial==digest(state)
     return {'state':step.state,'pages':[dict(p.__dict__,cells=p.cells.hex()) for p in step.news_pages],
-      'record':step.record,'played':step.played_fixtures,'events':events,'choices':choices,'status':step.status}
+      'record':step.record,'played':step.played_fixtures,'events':events,'choices':choices,'status':step.status,'observed':observed,'stub_calls':stub_calls}
 
 def parent(opts):
     from original_match import route as R
@@ -47,7 +51,15 @@ def parent(opts):
     from original_match.port.tables import to_record
     from port_test_runtime import call_in_pypy
     start=time.monotonic();image=F.image(opts.case);state=image.state(image.tables)
-    oracle=R.Route(image,entry='play_round',record_writes=False,match_entry=True);oracle.call()
+    observed=[]
+    class ObservedMatch(R.RouteMatch):
+        def __init__(self,*args,**kwargs):
+            super().__init__(*args,**kwargs)
+            for address in (0x3E275,0xB8000+18*160+34*2+1):
+                self.m.watch(address,1,lambda old,new,address=address:observed.append([address,old[0],new[0],self.m.where(self.m.reg('cs'),self.m.reg('ip')),self.m.pc()]))
+    from unittest.mock import patch
+    with patch.object(R,'RouteMatch',ObservedMatch):
+        oracle=R.Route(image,entry='play_round',record_writes=False,match_entry=True);oracle.call()
     expected=Image(oracle.header+oracle.m.read(0,MEM_SIZE)+oracle.tail);expected.tables=image.tables
     actual=call_in_pypy('test_route_sealed', '_pair_candidate',args=(state,to_record(image.tables)))
     a=actual['state'];b=expected.state(image.tables)
@@ -64,7 +76,7 @@ def parent(opts):
     row={'case':opts.case,'elapsed_s':round(time.monotonic()-start,4),'state_equal':a==b,
          'state_digests':[digest(b),digest(a)],'different_bytes':len(differences),'first_different_offsets':differences[:30],
          'pages_equal':actual['pages']==pages,'page_count':len(pages),'page_digests':[digest(pages),digest(actual['pages'])],
-         'status':actual['status'],'played':actual['played']}
+         'status':actual['status'],'played':actual['played'],'attribute_observations':[observed,actual['observed']],'reached_match_stubs':actual['stub_calls']}
     with Path(opts.out).open('x') as stream:stream.write(json.dumps(row,sort_keys=True)+'\n')
     assert row['state_equal'] and row['pages_equal'],row
 
