@@ -1,0 +1,35 @@
+t124e-fully-ported/1
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T124e/plain.py", line 76, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T124e/plain.py", line 57, in main
+    ref,rp,rw,rs=run(cp,False,a.phase);r,pp,pw,ps=run(cp,True,a.phase)
+                                                  ~~~^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T124e/plain.py", line 47, in run
+    assert m.run(m.lin('000E:7152'),120,fresh=True) is None
+           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/engine.py", line 255, in _dispatch
+    if runner is not None:runner(self)
+                          ~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/__init__.py", line 140, in run
+    PortFrame(machine, mem, entry, variant, done).start()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 77, in start
+    value = self._in_frame(lambda: self.entry.fn(self.mem, self.variant))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 77, in <lambda>
+    value = self._in_frame(lambda: self.entry.fn(self.mem, self.variant))
+                                   ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/menus.py", line 56, in read_key
+    mem.read_key(_ret_site(mem))
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/mem.py", line 125, in read_key
+    key = self._key(site)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/mem.py", line 206, in _key
+    raise PortError(f"a key read at {site} with no kit to answer it")
+original_match.port.mem.PortError: a key read at 5E02:3EDA with no kit to answer it

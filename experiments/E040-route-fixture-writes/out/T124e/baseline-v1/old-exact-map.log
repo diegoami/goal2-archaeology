@@ -1,0 +1,22 @@
+F
+======================================================================
+FAIL: test_the_twenty_four_routines_with_the_listings_returns (tests.test_port_stages.RegistryTests.test_the_twenty_four_routines_with_the_listings_returns)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 55, in test_the_twenty_four_routines_with_the_listings_returns
+    self.assertEqual({a: e.ret for a, e in ST.PORTS.entries.items()},
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     {"1771:8208": "retf", "1771:76B1": "retf", "1771:5D02": "ret 4", "1771:5D94": "ret 8",
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                      "1771:6B55": "ret", "1771:6E59": "ret",
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      "1771:6FEB": "ret 2", "1771:7090": "ret", "1771:71B2": "ret", "1771:74BE": "ret"})
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'177[343 chars]t', '23E4:11D7': 'retf', '1771:6730': 'ret', '[182 chars]f 2'} != {'177[343 chars]t', '1771:6730': 'ret', '23E4:11D7': 'retf', '[115 chars]ret'}
+Diff is 698 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

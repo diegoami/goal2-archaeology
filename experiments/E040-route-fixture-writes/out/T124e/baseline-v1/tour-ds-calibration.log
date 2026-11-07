@@ -1,0 +1,133 @@
+..E.EE.E
+======================================================================
+ERROR: test_failed_group_still_calls_tour_and_preserves_ownership (tests.test_port_stage_news.StageNewsControl.test_failed_group_still_calls_tour_and_preserves_ownership)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 149, in test_failed_group_still_calls_tour_and_preserves_ownership
+    r,p,contexts=announce(image,[country],setup=failure)
+                 ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 108, in announce
+    assert m.run(m.lin('000E:7152')+1,120,fresh=True)=='announcement-return'
+           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 251, in dispatch
+    frame.resume(self)
+    ~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 123, in resume
+    self._step(ax)
+    ~~~~~~~~~~^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/stages.py", line 1941, in stage_tour_line
+    _news_ptr(r,r.ds,r.di)
+                ^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/runtime.py", line 88, in __getattr__
+    raise AttributeError(name)
+AttributeError: ds. Did you mean: 'di'?
+
+======================================================================
+ERROR: test_news_draw_and_cursor_restoration_falsifiers_are_caught (tests.test_port_stage_news.StageNewsControl.test_news_draw_and_cursor_restoration_falsifiers_are_caught)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 173, in test_news_draw_and_cursor_restoration_falsifiers_are_caught
+    with self.assertRaises(ProofError):announce(image,[country],variant='stage-news-draw-dropped',setup=failure)
+                                       ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 108, in announce
+    assert m.run(m.lin('000E:7152')+1,120,fresh=True)=='announcement-return'
+           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 251, in dispatch
+    frame.resume(self)
+    ~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 123, in resume
+    self._step(ax)
+    ~~~~~~~~~~^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/stages.py", line 1941, in stage_tour_line
+    _news_ptr(r,r.ds,r.di)
+                ^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/runtime.py", line 88, in __getattr__
+    raise AttributeError(name)
+AttributeError: ds. Did you mean: 'di'?
+
+======================================================================
+ERROR: test_observer_on_off_preserves_full_state_keys_draws_and_records (tests.test_port_stage_news.StageNewsControl.test_observer_on_off_preserves_full_state_keys_draws_and_records)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 162, in test_observer_on_off_preserves_full_state_keys_draws_and_records
+    a,_,_=announce(image,[country],setup=pushed)
+          ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 108, in announce
+    assert m.run(m.lin('000E:7152')+1,120,fresh=True)=='announcement-return'
+           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 251, in dispatch
+    frame.resume(self)
+    ~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 123, in resume
+    self._step(ax)
+    ~~~~~~~~~~^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/stages.py", line 1941, in stage_tour_line
+    _news_ptr(r,r.ds,r.di)
+                ^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/runtime.py", line 88, in __getattr__
+    raise AttributeError(name)
+AttributeError: ds. Did you mean: 'di'?
+
+======================================================================
+ERROR: test_two_actual_pages_keep_each_selected_manager_then_restore_cursor (tests.test_port_stage_news.StageNewsControl.test_two_actual_pages_keep_each_selected_manager_then_restore_cursor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 132, in test_two_actual_pages_keep_each_selected_manager_then_restore_cursor
+    r,p,contexts=announce(image,countries)
+                 ~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 108, in announce
+    assert m.run(m.lin('000E:7152')+1,120,fresh=True)=='announcement-return'
+           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 251, in dispatch
+    frame.resume(self)
+    ~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 123, in resume
+    self._step(ax)
+    ~~~~~~~~~~^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                     ~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/stages.py", line 1941, in stage_tour_line
+    _news_ptr(r,r.ds,r.di)
+                ^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/runtime.py", line 88, in __getattr__
+    raise AttributeError(name)
+AttributeError: ds. Did you mean: 'di'?
+
+----------------------------------------------------------------------
+Ran 8 tests in 3.490s
+
+FAILED (errors=4)

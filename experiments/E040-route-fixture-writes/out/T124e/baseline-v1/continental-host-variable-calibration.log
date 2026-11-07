@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T124e/continental_host.py", line 50, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T124e/continental_host.py", line 39, in main
+    out=Path(a.input_out)
+             ^^^^^^^^^^^
+AttributeError: 'bytes' object has no attribute 'input_out'

@@ -44,9 +44,9 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 000E:5978	news_championship_heading	likely	decompiled	seg_000E_04.c	827	1000:5978	routines.tsv	
 000E:5AC5			decompiled	seg_000E_04.c	865	1000:5AC5	routines.tsv	
 000E:5CF4	finals_squad_news	likely	decompiled	seg_000E_04.c	968	1000:5CF4	routines.tsv	
-000E:5DAF	news_tour_line	likely	decompiled	seg_000E_04.c	1006	1000:5DAF	routines.tsv	
-000E:5E6C	news_failed_to_qualify	likely	decompiled	seg_000E_04.c	1027	1000:5E6C	routines.tsv	
-000E:60CB	announce_stage_to_manager	likely	decompiled	seg_000E_05.c	4	1000:60CB	routines.tsv	
+000E:5DAF	news_tour_line	established	decompiled	seg_000E_04.c	1006	1000:5DAF	routines.tsv	
+000E:5E6C	news_failed_to_qualify	established	decompiled	seg_000E_04.c	1027	1000:5E6C	routines.tsv	
+000E:60CB	announce_stage_to_manager	established	decompiled	seg_000E_05.c	4	1000:60CB	routines.tsv	
 000E:6685	news_competition_result	likely	decompiled	seg_000E_05.c	239	1000:6685	routines.tsv	
 000E:68A4	welcome_new_manager	likely	decompiled	seg_000E_05.c	332	1000:68A4	routines.tsv	
 000E:6970	simulate_fixture	established	decompiled	seg_000E_05.c	376	1000:6970	routines.tsv	

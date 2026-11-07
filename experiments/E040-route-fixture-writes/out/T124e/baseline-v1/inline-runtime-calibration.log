@@ -1,0 +1,32 @@
+E.
+======================================================================
+ERROR: test_failure_headline_keeps_manager_ownership_and_visits_tour_when_sacked (tests.test_port_stage_news.StageNews.test_failure_headline_keeps_manager_ownership_and_visits_tour_when_sacked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 47, in test_failure_headline_keeps_manager_ownership_and_visits_tour_when_sacked
+    m,p=self.call('000E:5E6C',(0x3F00,),specs=specs(),before=before)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 125, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 226, in dispatch
+    self.muted_hook(lin)
+    ~~~~~~~~~~~~~~~^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 426, in _muted_at
+    self._nested_returned()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 454, in _nested_returned
+    self._fail(f"ported call #{i + 1} inside: the original's call of {address} from {caller} returned, the "
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               f"port's run's of {p_address} from {p_caller}")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 476, in _fail
+    raise ProofError(f"{self._head(st)}: {text}")
+original_match.port.prove.ProofError: 000E:5E6C (stages), call #1 from 000E:6199: ported call #8 inside: the original's call of 23E4:0644 from 214B:00B5 returned, the port's run's of 214B:009C from 000E:0745
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.127s
+
+FAILED (errors=1)

@@ -15,6 +15,9 @@ port/_display_finals.py); a routine has one port (port.install refuses two), so 
 `display_helpers()` gives those two of display's entries alone, for a proof of the round's end that installs them
 without display's 86 other entries (its display stubs) [designed: T124a].
 
+T124e also ports 000E:5DAF/5E6C/60CB: announcements retain the manager cursor through the actual page wait,
+reuse the existing real assistant/display/news helpers and restore it afterward; failure text does not unmanage.
+
 The far pointers [designed: from globals.tsv]: DS:A917 the countries (0xBF a record), DS:A91F the managers (3 bytes,
 from index 0x80), DS:A923 the game record, DS:A92B the fixtures (8 bytes, 1-based), DS:A92F the countries' fixture
 lists (0x48 bytes), DS:A933 the group tables."""
@@ -1901,4 +1904,287 @@ def stage_world_cup_knockout(mem,variant):
         second=r.ax;first=pop(mem,r)
         r.ax=0xCB;kind=r.ax;r.ax=0
         r=yield from guest(mem,r,'1771:5E3A',first,second,kind,r.ax,ss16(mem,r,r.bp-4),ret='1771:76AD',far=False)
+    return _end(r)
+
+
+# -- T124e: original stage announcements (named000E_04/05, then raw000E_07/08) --------------------------------------------
+PORTS.variant('stage-news-draw-dropped', '5EB3: omit the failed-qualification headline draw')
+PORTS.variant('stage-news-cursor-not-restored', '662B: omit restoring the caller manager cursor after the wait')
+
+
+def _news_call(mem, r, target, words, ret, far=False, variant=None):
+    # The string producers consume their explicit parameters, retaining the
+    # caller's hidden result pointer. Reuse the existing news stack mechanism.
+    from .news import _result_call
+    mutation='result-draw-dropped' if variant=='stage-news-draw-dropped' else None
+    return (yield from _result_call(mem,r,mutation,target,words,ret,far))
+
+
+def _news_ptr(r, seg, off):
+    r.push(seg);r.push(off)
+
+
+@PORTS.port('000E:5DAF', ret='ret 2')
+def stage_tour_line(mem, variant):
+    r=Regs(mem);r.enter(4)                                     # 5DAF
+    r.local8(-1,0)
+    r.di=ss16(mem,r,r.bp+4)
+    r.push(ss16(mem,r,r.di+6))
+    r=yield from _news_call(mem,r,'0791:DAF8',1,0x5DC5,True)
+    if r.al:                                                 # 5DC5
+        r.di=ss16(mem,r,r.bp+4);r.ax=ss16(mem,r,r.di+6)
+        _set_cl(r,4);r.ax<<=r.cx&0xFF
+        _far(mem,r,0x9B68);r.di+=r.ax;_news_ptr(r,r.es,r.di)
+        r.di=0x5DA7;_news_ptr(r,mem.seg(0xE),r.di)
+        r.ax=mem.ds16(0x9B43);_set_cl(r,3);r.ax<<=r.cx&0xFF
+        _far(mem,r,FIXTURES);r.di+=r.ax;r.ax=rw(mem,r,-2)
+        r.dx=0xBF;mul(r,r.dx);_far(mem,r,COUNTRIES);r.di+=r.ax
+        r.al=rb(mem,r,0x2C);r.ah=0;r.di=r.ax
+        _set_cl(r,3);r.di<<=r.cx&0xFF;r.di+=0x6E92
+        _news_ptr(r,mem.DS,r.di)
+        r=yield from _news_call(mem,r,'000E:075F',6,0x5E12)
+        r.local8(-1,1)
+    r.al=ss8(mem,r,r.bp-1)
+    return _end(r)
+
+
+@PORTS.port('000E:5E6C', ret='ret 2')
+def failed_qualification_news(mem, variant):
+    r=Regs(mem);r.enter(0x108)                                 # 5E6C
+    r.di=ss16(mem,r,r.bp+4);r.ax=ss16(mem,r,r.di+6)
+    r.dx=0xBF;mul(r,r.dx);_far(mem,r,COUNTRIES);r.di+=r.ax;_keep(r,-4)
+    _far(mem,r,GAME);_keep(r,-8)
+    r.ax=2;r.push(r.ax);r.di=0x5E1F;_news_ptr(r,mem.seg(0xE),r.di)
+    r=yield from _news_call(mem,r,'000E:070B',3,0x5EA1)
+    r.ax=3;r.push(r.ax);r.di=ss16(mem,r,r.bp+4);r.push(ss16(mem,r,r.di+6))
+    r=yield from _news_call(mem,r,'000E:5978',2,0x5EAF)
+    r.ax=3;r.push(r.ax)
+    r=yield from _news_call(mem,r,'214B:06B1',1,0x5EB8,True,variant)
+    choice={1:(0x5E33,0x5ED4),2:(0x5E3C,0x5EF2),3:(0x5E41,0x5F10)}.get(r.ax)
+    if choice:
+        text,ret=choice;r.di=text;_news_ptr(r,mem.seg(0xE),r.di)
+        r.di=ss16(mem,r,r.bp+4);r.di+=0xFFEB;_news_ptr(r,r.ss,r.di)
+        r.ax=20;r.push(r.ax)
+        r=yield from _news_call(mem,r,'23E4:0644',5,ret,True)
+    r.di=ss16(mem,r,r.bp+4);r.di+=0xFFEB;_news_ptr(r,r.ss,r.di)
+    r.di=r.bp-0x108;_news_ptr(r,r.ss,r.di)
+    _local_far(mem,r,-4);r.al=rb(mem,r,0x2E);r.ah=0;r.push(r.ax)
+    r=yield from _news_call(mem,r,'1771:0947',1,0x5F2E,True)
+    r.di=0x5E4C;_news_ptr(r,mem.seg(0xE),r.di)
+    r=yield from _news_call(mem,r,'000E:062F',6,0x5F36)
+    r.di=ss16(mem,r,r.bp+4);r.ax=ss16(mem,r,r.di-0x21)
+    text,ret=(0x5E4D,0x5F5E) if 25<=r.ax<=32 else ((0x5E5C,0x5F81) if 17<=r.ax<=24 else (0x5E66,0x5F9A))
+    r.di=text;_news_ptr(r,mem.seg(0xE),r.di)
+    r.di=ss16(mem,r,r.bp+4);r.di+=0xFFEB;_news_ptr(r,r.ss,r.di)
+    r.ax=20;r.push(r.ax)
+    r=yield from _news_call(mem,r,'23E4:0644',5,ret,True)
+    r.push(ss16(mem,r,r.bp+4))
+    r=yield from _news_call(mem,r,'000E:5DAF',1,0x5FA0)
+    if not r.al:                                             # 5FA2: failure STILL calls the tour helper above.
+        r.di=r.bp-0x108;_news_ptr(r,r.ss,r.di)
+        _local_far(mem,r,-4);r.al=rb(mem,r,0x2E);r.ah=0;r.push(r.ax)
+        r=yield from _news_call(mem,r,'1771:0947',1,0x5FB9,True)
+        r.di=ss16(mem,r,r.bp+4);r.di+=0xFFEB;_news_ptr(r,r.ss,r.di)
+        r.di=ss16(mem,r,r.bp+4);r.ax=ss16(mem,r,r.di+6)
+        _set_cl(r,4);r.ax<<=r.cx&0xFF;_far(mem,r,0x9B68);r.di+=r.ax
+        _news_ptr(r,r.es,r.di)
+        r=yield from _news_call(mem,r,'000E:075F',6,0x5FD8)
+    return _end(r)
+
+
+def _stage_code(r,mem,off):
+    r.di=off;_news_ptr(r,mem.seg(0xE),r.di)
+
+
+def _stage_local(r,off):
+    r.di=r.bp+off;_news_ptr(r,r.ss,r.di)
+
+
+def _stage_country(mem,r,country):
+    r.ax=country;_set_cl(r,4);r.ax<<=r.cx&0xFF
+    _far(mem,r,0x9B68);r.di+=r.ax;_news_ptr(r,r.es,r.di)
+
+
+def _stage_copy(mem,r,text,ret):
+    _stage_code(r,mem,text);_stage_local(r,-0x15);r.ax=20;r.push(r.ax)
+    return (yield from _news_call(mem,r,'23E4:0644',5,ret,True))
+
+
+def _stage_heading(mem,r,row,text,ret):
+    r.ax=row;r.push(r.ax);_stage_code(r,mem,text)
+    return (yield from _news_call(mem,r,'000E:070B',3,ret))
+
+
+def _stage_qualified(mem,r):
+    def local(off):return ss16(mem,r,r.bp+off)
+    # 619C: world-finals table uses continent 1 only in world mode.
+    _local_far(mem,r,-0x2B)
+    finals=False
+    if rb(mem,r,0x40):
+        r=yield from _news_call(mem,r,'1771:59D8',0,0x61AB,True)
+        finals=bool(r.al)
+    if finals:r.local16(-0x1B,1)
+    else:
+        _local_far(mem,r,-0x2F);r.al=rb(mem,r,0x2C);r.ah=0;r.local16(-0x1B,r.ax)
+    r.local16(-0x19,1)
+    _local_far(mem,r,-0x2B);r.al=rb(mem,r,1);r.ah=0
+    _local_far(mem,r,-0x2B);r.di+=r.ax;r.al=rb(mem,r,1);r.ah=0
+    r.dx=0x38;mul(r,r.dx);r.push(r.ax)
+    r.ax=local(-0x1B);r.dx=0x1C0;mul(r,r.dx);r.push(r.ax)
+    r=yield from _news_call(mem,r,'1771:59D8',0,0x61EF,True)
+    cbw(r);r.dx=0x700;mul(r,r.dx);r.cx=r.ax
+    _local_far(mem,r,-0x2B);r.al=rb(mem,r,0x40);cbw(r);r.dx=0xE00;mul(r,r.dx)
+    _far(mem,r,TABLES);r.di+=r.ax;r.di+=r.cx
+    r.ax=pop(mem,r);r.di+=r.ax;r.ax=pop(mem,r);r.di+=r.ax;r.di+=0xFE08;_keep(r,-0x33)
+    r.local16(-0x1D,1)
+    while True:
+        r.ax=local(-0x19);_set_cl(r,3);r.ax<<=r.cx&0xFF
+        _local_far(mem,r,-0x33);r.di+=r.ax;r.ax=rw(mem,r,-8)
+        if r.ax==local(6):r.local16(-0x19,local(-0x19)+1)
+        r.ax=local(-0x19);_set_cl(r,3);r.ax<<=r.cx&0xFF
+        _local_far(mem,r,-0x33);r.di+=r.ax;r.ax=rw(mem,r,-8)
+        r.di=local(-0x1D);r.di<<=1;r.local16(r.di-0x29,r.ax)
+        r.local16(-0x19,local(-0x19)+1)
+        if local(-0x1D)==3:break
+        r.local16(-0x1D,local(-0x1D)+1)
+    r=yield from _news_call(mem,r,'1771:59D8',0,0x6264,True)
+    host=False
+    if r.al:r.ax=local(-0x1F);host=r.ax==local(6)
+    if host:
+        r=yield from _stage_heading(mem,r,2,0x5FDE,0x627C)
+        r.ax=3;r.push(r.ax);r.push(local(6))
+        r=yield from _news_call(mem,r,'000E:5978',2,0x6286)
+        r=yield from _stage_heading(mem,r,8,0x5FE9,0x6292)
+    else:
+        r=yield from _news_call(mem,r,'1771:59D8',0,0x629A,True)
+        if r.al:
+            r=yield from _stage_heading(mem,r,2,0x5FFE,0x62AA)
+            r=yield from _stage_heading(mem,r,3,0x600C,0x62B6)
+            r.local16(-0x19,4)
+        else:
+            r=yield from _stage_heading(mem,r,1,0x5FE9,0x62C9)
+            r=yield from _stage_heading(mem,r,2,0x601A,0x62D5)
+            r.local16(-0x19,3)
+        r.push(local(-0x19));r.push(local(6))
+        r=yield from _news_call(mem,r,'000E:5978',2,0x62E3)
+        r=yield from _news_call(mem,r,'1771:59D8',0,0x62E8,True)
+        if r.al:
+            _local_far(mem,r,-0x2B);r.al=rb(mem,r,0x40);r.ah=0;r.dx=r.ax
+            r.ax=local(-0x19);r.ax+=2;r.ax-=r.dx;r.push(r.ax)
+            _stage_local(r,-0x12F);_stage_code(r,mem,0x602D)
+            r=yield from _news_call(mem,r,'23E4:062A',2,0x6310,True)
+            _stage_country(mem,r,local(-0x1F))
+            r=yield from _news_call(mem,r,'23E4:06B7',2,0x6324,True)
+            r=yield from _news_call(mem,r,'000E:070B',3,0x6327)
+    r=yield from _news_call(mem,r,'214B:06FA',0,0x632C,True)
+    r=yield from _stage_copy(mem,r,0x6031 if r.al else 0x6036,0x6343 if r.al else 0x6358)
+    r.ax=9;r.push(r.ax);_stage_local(r,-0x12F);_stage_country(mem,r,local(6))
+    r=yield from _news_call(mem,r,'23E4:062A',2,0x6376,True)
+    _stage_code(r,mem,0x603B);r=yield from _news_call(mem,r,'23E4:06B7',2,0x6380,True)
+    _stage_local(r,-0x15);r=yield from _news_call(mem,r,'23E4:06B7',2,0x638A,True)
+    r=yield from _news_call(mem,r,'000E:070B',3,0x638D)
+    for row,peer,store,concat,heading in ((10,-0x27,0x63AB,0x63B5,0x63B8),(11,-0x25,0x63D6,0x63E0,0x63E3)):
+        r.ax=row;r.push(r.ax);_stage_local(r,-0x12F);_stage_country(mem,r,local(peer))
+        r=yield from _news_call(mem,r,'23E4:062A',2,store,True)
+        _stage_code(r,mem,0x603D);r=yield from _news_call(mem,r,'23E4:06B7',2,concat,True)
+        r=yield from _news_call(mem,r,'000E:070B',3,heading)
+    r.ax=12;r.push(r.ax);_stage_local(r,-0x12F);_stage_code(r,mem,0x603F)
+    r=yield from _news_call(mem,r,'23E4:062A',2,0x63F7,True)
+    _stage_country(mem,r,local(-0x23));r=yield from _news_call(mem,r,'23E4:06B7',2,0x640B,True)
+    r=yield from _news_call(mem,r,'000E:070B',3,0x640E)
+    r=yield from _news_call(mem,r,'1771:59D8',0,0x6413,True)
+    host=False
+    if r.al:r.ax=local(-0x1F);host=r.ax==local(6)
+    if host:
+        _stage_code(r,mem,0x6044);_stage_country(mem,r,local(6));_stage_code(r,mem,0x6053)
+        r=yield from _news_call(mem,r,'000E:062F',6,0x643B)
+        r.push(r.bp);r=yield from _news_call(mem,r,'000E:5DAF',1,0x643F)
+        if not r.al:
+            _stage_country(mem,r,local(6));_stage_code(r,mem,0x6054);_stage_code(r,mem,0x6062)
+            r=yield from _news_call(mem,r,'000E:075F',6,0x645F)
+        return r
+    r.ax=0;r.local16(-0x19,r.ax);r.local16(-0x1D,1)
+    while True:
+        r.di=local(-0x1D);r.di<<=1;r.push(ss16(mem,r,r.bp+r.di-0x29))
+        r=yield from _news_call(mem,r,'1771:10E7',1,0x647E,True)
+        r.local16(-0x19,local(-0x19)+r.ax)
+        if local(-0x1D)==3:break
+        r.local16(-0x1D,local(-0x1D)+1)
+    r.push(local(6));r=yield from _news_call(mem,r,'1771:10E7',1,0x648F,True)
+    r.ax<<=1;r.dx=0xFFFF if r.ax&0x8000 else 0;r.cx=r.ax;r.bx=r.dx;r.ax=local(-0x19);r.dx=0
+    if r.bx==0 and r.ax<r.cx:
+        _stage_country(mem,r,local(6));_stage_code(r,mem,0x606C);_stage_code(r,mem,0x6053)
+        r=yield from _news_call(mem,r,'000E:062F',6,0x64C1)
+    else:
+        r.push(local(6));r=yield from _news_call(mem,r,'1771:10E7',1,0x64CB,True)
+        r.cx=3;imul(r,r.cx);r.dx=0xFFFF if r.ax&0x8000 else 0
+        r.cx=r.ax;r.bx=r.dx;r.ax=local(-0x19);r.dx=0
+        if r.bx==0 and r.ax<r.cx:
+            _stage_country(mem,r,local(6));_stage_code(r,mem,0x607D);_stage_code(r,mem,0x6053)
+            r=yield from _news_call(mem,r,'000E:062F',6,0x6500)
+        else:
+            _stage_code(r,mem,0x608F);_stage_country(mem,r,local(6));_stage_code(r,mem,0x6053)
+            r=yield from _news_call(mem,r,'000E:062F',6,0x651E)
+    r.ax=local(6);r.local16(-0x19,r.ax);r.local16(-0x1D,1)
+    while True:
+        r.push(local(-0x19));r=yield from _news_call(mem,r,'1771:10E7',1,0x6536,True);r.push(r.ax)
+        r.di=local(-0x1D);r.di<<=1;r.push(ss16(mem,r,r.bp+r.di-0x29))
+        r=yield from _news_call(mem,r,'1771:10E7',1,0x6544,True);r.dx=pop(mem,r)
+        if ((r.ax+0x8000)&M16)>((r.dx+0x8000)&M16):
+            r.di=local(-0x1D);r.di<<=1;r.ax=ss16(mem,r,r.bp+r.di-0x29);r.local16(-0x19,r.ax)
+        if local(-0x1D)==3:break
+        r.local16(-0x1D,local(-0x1D)+1)
+    r=yield from _news_call(mem,r,'214B:06FA',0,0x655F,True)
+    r=yield from _stage_copy(mem,r,0x609E if r.al else 0x60AF,0x6576 if r.al else 0x658B)
+    r.push(r.bp);r=yield from _news_call(mem,r,'000E:5DAF',1,0x658F)
+    if not r.al:
+        _stage_local(r,-0x12F);_stage_country(mem,r,local(-0x19))
+        r=yield from _news_call(mem,r,'23E4:062A',2,0x65AD,True)
+        _stage_code(r,mem,0x60C0);r=yield from _news_call(mem,r,'23E4:06B7',2,0x65B7,True)
+        _stage_local(r,-0x15);_stage_local(r,-0x32F);_stage_code(r,mem,0x60C4)
+        r=yield from _news_call(mem,r,'23E4:062A',2,0x65CC,True)
+        _stage_local(r,-0x22F);_local_far(mem,r,-0x2B);r.al=rb(mem,r,1);r.ah=0
+        _local_far(mem,r,-0x2B);r.di+=r.ax;r.al=rb(mem,r,1);r.ah=0;r.ax+=0x40;r.push(r.ax)
+        r=yield from _news_call(mem,r,'23E4:075A',1,0x65EF,True)
+        r=yield from _news_call(mem,r,'23E4:06B7',2,0x65F4,True)
+        r=yield from _news_call(mem,r,'000E:075F',6,0x65F7)
+    return r
+
+
+@PORTS.port('000E:60CB', ret='retf 2')
+def stage_news(mem,variant):
+    r=Regs(mem);r.enter(0x330)
+    _far(mem,r,GAME);_keep(r,-0x2B)
+    r.ax=ss16(mem,r,r.bp+6);r.dx=0xBF;mul(r,r.dx)
+    _far(mem,r,COUNTRIES);r.di+=r.ax;_keep(r,-0x2F)
+    _local_far(mem,r,-0x2B);r.al=rb(mem,r,1);r.ah=0;r.local16(-0x17,r.ax)
+    _local_far(mem,r,-0x2F);r.al=rb(mem,r,0x2E);r.ah=0;r.ax-=0x80
+    _local_far(mem,r,-0x2B);w8(mem,r,1,r.al,'000E:610B')
+    r=yield from _news_call(mem,r,'000E:038E',0,0x6112)
+    _local_far(mem,r,-0x2B)
+    if rb(mem,r,0x40):
+        _local_far(mem,r,-0x2B);r.ax=rw(mem,r,0x36)
+    else:
+        _local_far(mem,r,-0x2F);r.al=rb(mem,r,0x2C);r.ah=0;r.ax<<=1
+        _local_far(mem,r,-0x2B);r.di+=r.ax;r.ax=rw(mem,r,0x2C)
+    r.local16(-0x1F,r.ax)
+    _local_far(mem,r,-0x2B);r.al=rb(mem,r,1);r.ah=0;r.dx=r.ax
+    _local_far(mem,r,-0x2B);r.al=rb(mem,r,0x40);cbw(r);r.ax<<=1;r.si=r.ax;r.ax<<=1;r.ax+=r.si
+    _local_far(mem,r,-0x2B);r.di+=r.ax;r.di+=r.dx;r.al=rb(mem,r,7);r.ah=0;r.local16(-0x21,r.ax)
+    r.ax=1;r.push(r.ax);_stage_country(mem,r,ss16(mem,r,r.bp+6))
+    r=yield from _news_call(mem,r,'000E:070B',3,0x6180)
+    _local_far(mem,r,-0x2B);r.al=rb(mem,r,1);r.ah=0
+    _local_far(mem,r,-0x2B);r.di+=r.ax
+    if rb(mem,r,1)==0:
+        r.push(r.bp);r=yield from _news_call(mem,r,'000E:5E6C',1,0x6199,variant=variant)
+    else:r=yield from _stage_qualified(mem,r)
+    r=yield from _news_call(mem,r,'1771:59D8',0,0x65FC,True)
+    qualified=False
+    if r.al:
+        _local_far(mem,r,-0x2B);r.al=rb(mem,r,1);r.ah=0
+        _local_far(mem,r,-0x2B);r.di+=r.ax;qualified=rb(mem,r,1)>0
+    r.al=int(qualified);r.push(r.ax);r.al=0;r.push(r.ax);r.al=0;r.push(r.ax)
+    r=yield from _news_call(mem,r,'000E:05F6',3,0x6625)
+    r.al=ss8(mem,r,r.bp-0x17);_local_far(mem,r,-0x2B)
+    if variant!='stage-news-cursor-not-restored':w8(mem,r,1,r.al,'000E:662B')
     return _end(r)

@@ -1,0 +1,14 @@
+........F..
+======================================================================
+FAIL: test_competitive_next_fixture_false_still_updates_previous_word (tests.test_port_stage_news.TourEffects.test_competitive_next_fixture_false_still_updates_previous_word)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stage_news.py", line 203, in test_competitive_next_fixture_false_still_updates_previous_word
+    self.assertEqual(m.read(m.far(ST.FIXTURES)+8*(next_fixture-1)+2,1)[0],2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 2
+
+----------------------------------------------------------------------
+Ran 11 tests in 7.555s
+
+FAILED (failures=1)

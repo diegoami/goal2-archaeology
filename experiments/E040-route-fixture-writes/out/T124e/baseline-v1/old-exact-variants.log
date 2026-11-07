@@ -1,0 +1,16 @@
+F
+======================================================================
+FAIL: test_every_variant_is_listed (tests.test_port_stages.FalsifierTests.test_every_variant_is_listed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 259, in test_every_variant_is_listed
+    self.assertEqual(set(self.CASES), set(ST.PORTS.variants))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Items in the second set but not the first:
+'stage-news-cursor-not-restored'
+'stage-news-draw-dropped'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.032s
+
+FAILED (failures=1)

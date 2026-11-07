@@ -1,0 +1,525 @@
+{
+  "base_commit": "4e8c34201473c46e058daf96c0b559c21fb41116",
+  "controlled_pages": "experiments/E040-route-fixture-writes/out/T124e/controlled-pages-falsifiers-v1.jsonl",
+  "controlled_tails": [
+    "experiments/E040-route-fixture-writes/out/T124e/controlled-continental-host-proof-v4.jsonl"
+  ],
+  "file_hashes": {
+    "experiments/E040-route-fixture-writes/out/T124d/natural-inputs-v1.jsonl": "66e0af4230e9ef05cc4c56b671d84727262ead533ee6db6a15737920ff585adf",
+    "experiments/E040-route-fixture-writes/out/T124e/README.md": "5cb6848ecb465128a17c857d3160ceb2a8a9e2ea40aa789844317947e82fb137",
+    "experiments/E040-route-fixture-writes/out/T124e/annotations-v1.log": "ed7673d94e6fc885ad154d2225a00cdc14f93c0efa86f6fb320134076f3c08fb",
+    "experiments/E040-route-fixture-writes/out/T124e/annotations-v2.log": "5457ac576e7fe5288eca72b66ef6b67dcfe19de727405029a689e7c9fb753831",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/annotations-basis-calibration.log": "242861726225abd7d0107e9250de0fea736e55c7deab62be16cb168ea7b6c268",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/comparison-observer-calibration.log": "d399a802c3b7d9ab1ebbc56e6f30b9af46e2ba616e4ebcbfd8802c714e01930a",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/competitive-input-calibration.log": "72a7075213dbaa5c8cffeb179cfb3aeb3a109e17e5556e83b8c1f01861120d26",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/continental-host-cli-calibration.log": "3c743ffd1679412a28ef88cbf249b0a5b9e3226129e01e3325ac1ef3eb3526ef",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/continental-host-variable-calibration.log": "6a73f6e46aa95f7feec6a4ecf6cc238625b5525da573f9ee978ab714a7195f10",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/falsifier-positive-baseline-calibration.log": "71ae0682e8d6094ee7483b58cbb8279d6c0c2013915b8464b1800407d07838fb",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/inline-runtime-calibration.log": "4d92c72cd2376a5cdc32e15a3dfe5ebc9a84b2beffbb5aa4d2db41fa6126c674",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/invalid-parent-calibration.log": "69789935f7d0a9a54ec93a82beb10ee107f081384be9cac76ab866b51e119d46",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/missing-module.log": "6d0dad4b95a9b32b1eb07c1cb331790f93d270fb3d9d5a8df9b9e4ecbd6e5739",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/old-exact-map.log": "534729e25e994323c69fcb579362a898d2747cdc4aa1ba764cbfaf356492c074",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/old-exact-variants.log": "02622efb9cb67ad344665655a2010333712d58ce25011a90b2b18d52ffdd466c",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/plain-key-service-calibration.log": "5537eee35470719a1cf8032b3c5c6bfe55e85a54c2caccc8b91e4809e16af7e4",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/plain-private-label-calibration.log": "d3750516c79da326cda57b967e8d07896167b45526e764c0da4f133422501386",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/registry.json": "a38a8c9bd2f65e1ea5ce8415f5d7821dab499d81511abbab6c985eeaef235b46",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/round-api-calibration.log": "fd5d7bd68daedbae31194fa9cd2d2fb7f683f0b0e625f8c8f08e55b9b2ebaadb",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/runtime-closure-calibration.log": "f4e2e2077250837a50aa4b1bdd41cfd50a0f9df4a64f410e70eab8d3e9b47ce7",
+    "experiments/E040-route-fixture-writes/out/T124e/baseline-v1/tour-ds-calibration.log": "5068e065868d23ad02dc470ce4aae7dbc62b53e47b0748c54f58fdce90ffdf08",
+    "experiments/E040-route-fixture-writes/out/T124e/before.py": "b9e7e7df0bd6af4433b27df0b67d5eab7674dc1c34ceabfd39664a85d60e9fee",
+    "experiments/E040-route-fixture-writes/out/T124e/call_audit.py": "8b5495ad526a031f4a2ba03a997b62873fde1ed6a6326eb3cf54f89b43fad606",
+    "experiments/E040-route-fixture-writes/out/T124e/continental_host.py": "1f08a2012f303e09873d204489b4c9fbfc688fd89e40449fdadebb0652daf37c",
+    "experiments/E040-route-fixture-writes/out/T124e/controlled-continental-host-input-v1.jsonl": "10f904372e223e8f85c6cb143b73c09c5f8dde3949246362e0dff3a8923cb7a4",
+    "experiments/E040-route-fixture-writes/out/T124e/controlled-continental-host-input-v4.jsonl": "a46086f22fd5eca0d9a8137b2d707e91a84001b5f6b2a72259814f8a0b9b5f18",
+    "experiments/E040-route-fixture-writes/out/T124e/controlled-continental-host-proof-v1.jsonl": "d1e762ba831cad1a63004d113f0c6b362c9c8312e470521a2ccc4c75f6412773",
+    "experiments/E040-route-fixture-writes/out/T124e/controlled-continental-host-proof-v4.jsonl": "eba9578e3b56f79d073e8166e02ce253f4558d6e307394411d201176f1ffdd37",
+    "experiments/E040-route-fixture-writes/out/T124e/controlled-pages-falsifiers-v1.jsonl": "3bf5606e638136e8aac21abc5dded901d37ecc0e55b2177f1bc3c14874ac5003",
+    "experiments/E040-route-fixture-writes/out/T124e/controls.py": "e9e9d2e42e32ff0fdd8c5d02c3ab5f2f4d675e19980c85b8c75c5bd4e7eb2bd9",
+    "experiments/E040-route-fixture-writes/out/T124e/exact-tests-before-v2.log": "fbff2498c73412d6b9d30cdf11f6225c5c6cda2072478d10be59b62570712425",
+    "experiments/E040-route-fixture-writes/out/T124e/focused-before-positive-v1.log": "f39e26f0e2dcee15912526058cb9dd3db587202d93881b5848d7938b4723e96d",
+    "experiments/E040-route-fixture-writes/out/T124e/focused-ci-controls-v6.log": "000f98ee61bce1af20ac827be99afe891929300f5a6ef6ada44a108170b5a8a7",
+    "experiments/E040-route-fixture-writes/out/T124e/focused-controls-v4.log": "476e5992840bf5116ca1f69ca4003848da7d731d5afae3d97a2cbdbb8a584dcb",
+    "experiments/E040-route-fixture-writes/out/T124e/focused-final-v2.log": "bf128f8ff038c82c7534bdfbf13fe09222159b30a76932a588ddd60ecc2f31b3",
+    "experiments/E040-route-fixture-writes/out/T124e/helpers-selected-v4.log": "fc0a2e7ec617815ae081159b672a57c2e0519eb6936c20d2d310957d8f9d61d2",
+    "experiments/E040-route-fixture-writes/out/T124e/named-v1.log": "e4d0ef9233708493cf731f8d2921477ef8ee2148e6806068ce012125f92ac351",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-continental-input-v1.jsonl": "0c553322828bc70e37e138fafa39192222aab2f637456706a1f7c5faa83796ef",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-continental-proof-v1.jsonl": "a60887cd962df50d5fdf3d63cde943fa4a7c864b763bf258ac474951892c8f15",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-continental-proof-v2.jsonl": "a5c395914db01548f5068d3fb03b9910595d240d93055eae335e6c859579ebc3",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-continental-proof-v3.jsonl": "db187b764de0712b698f627d7cda1a8a5147600deb7425a3316db364f25aa6a6",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-next-continental-input-v1.jsonl": "120b1bc03dab897a424761d2ddcd2800d506b5b500329597f99949766fd0f95a",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-next-continental-proof-v1.jsonl": "a03b78162569eb616f7f2bb17dedb4397c20029ff0827931fbd2cc65410d0152",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-next-continental-proof-v2.jsonl": "8a43cd8bb3328cf655d50e29c7bfcee7c13f294a0ac314cac61dc1854098d83a",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-next-continental-proof-v3.jsonl": "8ae43d45f02d0c6abc45627c7c643448af7233c347684fa718ab4e242e18a416",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-world-finals-input-v1.jsonl": "2ec12d526392b0996ab4d68784e0d9e7d9e7fa1ccb808a9d795d5e627676916f",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-world-finals-proof-v1.jsonl": "92df8f1fda60c20944af5c6567c7b06b6df960a72a1c1c8d02de51b6b12b0dc6",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-world-finals-proof-v2.jsonl": "144a6fb287d4a1d5c10d738e2b30b24dc41d2babc047ed8b7fd170c40eff635a",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-world-finals-proof-v3.jsonl": "d629e3f962ed09e343027411b32b031518306484c0aa369627ecd32ddfacc035",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-world-qualifying-input-v1.jsonl": "934265cf8eba3c92e18dcb3533260a327c04c90b536dcc04889e124450efb896",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-world-qualifying-input-v2.jsonl": "37554822f01084c69f265530ee5cbe3a42b700533891cc6ff5bf916473443cbd",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-world-qualifying-proof-v1.jsonl": "a86f1818c7b348ec1b63035026ee59582df0300cb991f85e4dc31dd0bc025736",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-world-qualifying-proof-v2.jsonl": "e771213f7caecdea09783430843454073f6cd1376e188000818bf17f44dbc074",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-world-qualifying-proof-v3.jsonl": "9c858d4eee1d25cebeefe0ba25dbbe4b97ca55e461ae9e2bea7e6f90e2cef7c9",
+    "experiments/E040-route-fixture-writes/out/T124e/package.py": "b0b16dd8b1fe4849ca32a9d6adcfdf37a9a660508a2c7b9337af0e0255599b83",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-continental-host-v1.jsonl": "f5815505da2dd41936daf68541302c674ffbee65b4ad9a2a94a37198e9d14bdc",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-continental-host-v4.jsonl": "ef4abfc3bde9fbe1f4f00aaf036e9011c2f70ca8fea47d1d9f889361b58fd3b0",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-continental-v1.jsonl": "fae578523f1a56d316f1685d9aab7dbeca9c121e203bd9653bf882d7a8576c7e",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-continental-v2.jsonl": "0677c0a1aa461e7a541064df696c126f931082e1ba510b8bc95f4cd2fb5cb882",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-continental-v3.jsonl": "bf8eae1e169b5b025bba29b017168918387a9af471875daac5d507fa67bfdb67",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-continental-v4.jsonl": "fdbeffd4b692c93f56f6849685a361c6d6dd59b06653053c18c8dc28975ed829",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-continental-v5.jsonl": "3de256ba1ad66509206edf92b5d091a00af79dbf0ab08afa749a5a703f9fabcb",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-next-continental-v3.jsonl": "9c1e837e2034ff4096b64ca9fa911a6410c4d79fa3bf36a39acc6d03540a2fb4",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-next-continental-v4.jsonl": "d38d53b57e9c8189d94ad80fb0bda42487768267b50358032f88d1d0fbb1e131",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-next-continental-v5.jsonl": "1c9eeb15d23f7a305d12c48abb8e51adb2d75f303b36d9fa915ccda6eb7cc0e7",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-pushed-back-v3.jsonl": "80231e386b1e16dd39b41dcef1f6ed68b1d2c0411ecddc32e1c4bad4a616de90",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-pushed-back-v4.jsonl": "43fbec8c0c59689902fff86f345e8923e85b59c1c04510648d6472b7ee174c07",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-pushed-back-v5.jsonl": "c164a4374b78d5e236c5720c68f93a7b9ba3639f69667662e9fba2f9c1fa64c7",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-world-finals-v3.jsonl": "8edc010665a835379896d7d604eec8e075b45af49de6dc885dedb199324944fd",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-world-finals-v4.jsonl": "c2cc52f822a04c0cdf0ec81b7ee85408a12181bce4feae057f3a5f6f070d791a",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-world-finals-v5.jsonl": "3879453ea2022b70b0ca1f9e04e7ef60252589263174d690fbafb05f1072b11c",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-world-qualifying-v3.jsonl": "f61b488210b2b8cc587fbcde05290a0881ebfbf28410ef71390de25ae7fb2b21",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-world-qualifying-v4.jsonl": "9f72b0d7c03280c651b24b37449d9a3777e5482006e59264bf6336d414c15725",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-world-qualifying-v5.jsonl": "e7aff8c4a3498acbcd952f25420ea899b71f1b638134ca5e0532a3658ae669fb",
+    "experiments/E040-route-fixture-writes/out/T124e/plain.py": "95f3594273fe8482fd8ea3fd972aa888c6ac7a203bf73327f48f20e8fc086297",
+    "experiments/E040-route-fixture-writes/out/T124e/preserved-functions.json": "c1df72ca779947dc1890e78b88ae809c6d2174eccd2652aa011aaa4e157a75d1",
+    "experiments/E040-route-fixture-writes/out/T124e/proof.py": "070206cbbdb8e94256c00dd95aed22a028c241794833111248a3766a9f7db648",
+    "experiments/E040-route-fixture-writes/out/T124e/static-call-audit-v1.json": "f4c359232680aeef27af7810190fa924c8af5e509dbc4b860d6c25ca43b4d61e",
+    "experiments/E040-route-fixture-writes/out/T124e/verify.py": "3dc838beed620509f19c7ecb60b71ed94f244ff8f426bad3975e506f5a69b737",
+    "static/goal-exe/annotations/routines.tsv": "6ccdb73b2bcb511d5666acdb3871342bd85d114ec5437ef828b17400a16107d8",
+    "static/goal-exe/named/index.tsv": "ef8b71e2cb1e62c0f0e5f010e498a39400ed5d7bcdabf7d76c77cdfdd24e0fc3",
+    "static/goal-exe/named/seg_000E_04.c": "476e9008ef54385c95320c24b4ae937b29e5f38dd6b5f3aada766266dd71a737",
+    "static/goal-exe/named/seg_000E_05.c": "44dcdf2985a9d5e8d448c8124c66413a99c6234e4fc27b154bebda8b3a7287eb"
+  },
+  "input_receipts": [
+    "experiments/E040-route-fixture-writes/out/T124e/natural-continental-input-v1.jsonl",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-world-qualifying-input-v2.jsonl",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-world-finals-input-v1.jsonl",
+    "experiments/E040-route-fixture-writes/out/T124e/natural-next-continental-input-v1.jsonl",
+    "experiments/E040-route-fixture-writes/out/T124e/controlled-continental-host-input-v4.jsonl"
+  ],
+  "limits": "four PRIMARY natural inputs; continental-host/two-manager edits DECLARED SYNTHETIC. No sealed Route/year-rollover claim. Historical calibration receipts immutable; final lists above are acceptance.",
+  "measurement_modes": {
+    "natural_and_controlled_tail": "strictProver new-body/selected-real-helper hybrid;009C remains ORIGINAL; fullmemory/all16regs equality as measured",
+    "plain": "raw supplied Image, all reached real ports incl009C/0644/0723/08DD; SAME Route.Keys via adapter; no original opcode/savestate fallback; exact observed dedicated below-entry-SP deadstack only; every register difference reported"
+  },
+  "natural_tails": {
+    "continental": "experiments/E040-route-fixture-writes/out/T124e/natural-continental-proof-v3.jsonl",
+    "next-continental": "experiments/E040-route-fixture-writes/out/T124e/natural-next-continental-proof-v3.jsonl",
+    "world-finals": "experiments/E040-route-fixture-writes/out/T124e/natural-world-finals-proof-v3.jsonl",
+    "world-qualifying": "experiments/E040-route-fixture-writes/out/T124e/natural-world-qualifying-proof-v3.jsonl"
+  },
+  "plain_compositions": [
+    "experiments/E040-route-fixture-writes/out/T124e/plain-continental-v5.jsonl",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-world-qualifying-v5.jsonl",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-world-finals-v5.jsonl",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-next-continental-v5.jsonl",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-pushed-back-v5.jsonl",
+    "experiments/E040-route-fixture-writes/out/T124e/plain-continental-host-v4.jsonl"
+  ],
+  "private_files": {
+    ".cache/t124c/groups-builder-entry-cd96ae80ecd4fd5e.mem": {
+      "context": {
+        "regs": {
+          "CS": 8084,
+          "DS": 11684,
+          "EAX": 3,
+          "EBP": 16092,
+          "EBX": 0,
+          "ECX": 3,
+          "EDI": 6,
+          "EDX": 0,
+          "EFLAGS": 70,
+          "EIP": 27477,
+          "ES": 23911,
+          "ESI": 31588,
+          "ESP": 16090,
+          "FS": 0,
+          "GS": 0,
+          "SS": 14453
+        },
+        "waiting_key": 13
+      },
+      "path": ".cache/t124c/groups-builder-entry-cd96ae80ecd4fd5e.mem",
+      "sha256": "cd96ae80ecd4fd5ea75446139b2874b59ba9325c8f205c64adbb36fab4dec1f5"
+    },
+    ".cache/t124d/natural/groups-constructed-0136d7517eea6655.mem": {
+      "context": {
+        "regs": {
+          "CS": 2097,
+          "DS": 11684,
+          "EAX": 1,
+          "EBP": 16374,
+          "EBX": 15250,
+          "ECX": 0,
+          "EDI": 6,
+          "EDX": 11684,
+          "EFLAGS": 70,
+          "EIP": 30658,
+          "ES": 23911,
+          "ESI": 4000,
+          "ESP": 16110,
+          "FS": 0,
+          "GS": 0,
+          "SS": 14453
+        },
+        "waiting_key": null
+      },
+      "path": ".cache/t124d/natural/groups-constructed-0136d7517eea6655.mem",
+      "sha256": "0136d7517eea665591162032419c5b76da8a404dfca1701a09ce99deb24c2db3"
+    },
+    ".cache/t124d/natural/groups-entry-d9f85cfefc48c04b.mem": {
+      "context": {
+        "regs": {
+          "CS": 8084,
+          "DS": 11684,
+          "EAX": 7,
+          "EBP": 16092,
+          "EBX": 0,
+          "ECX": 3,
+          "EDI": 6,
+          "EDX": 0,
+          "EFLAGS": 70,
+          "EIP": 29106,
+          "ES": 23911,
+          "ESI": 31588,
+          "ESP": 16090,
+          "FS": 0,
+          "GS": 0,
+          "SS": 14453
+        },
+        "waiting_key": 13
+      },
+      "path": ".cache/t124d/natural/groups-entry-d9f85cfefc48c04b.mem",
+      "sha256": "d9f85cfefc48c04b70dc11c1e78765c866b1063b76dd40cef3c715a1e5a86965"
+    },
+    ".cache/t124d/natural/last16-constructed-95087fc6c5a1ac8b.mem": {
+      "context": {
+        "regs": {
+          "CS": 2097,
+          "DS": 11684,
+          "EAX": 5889,
+          "EBP": 16374,
+          "EBX": 1,
+          "ECX": 2304,
+          "EDI": 28825,
+          "EDX": 0,
+          "EFLAGS": 70,
+          "EIP": 30658,
+          "ES": 2097,
+          "ESI": 158,
+          "ESP": 16110,
+          "FS": 0,
+          "GS": 0,
+          "SS": 14453
+        },
+        "waiting_key": 13
+      },
+      "path": ".cache/t124d/natural/last16-constructed-95087fc6c5a1ac8b.mem",
+      "sha256": "95087fc6c5a1ac8bf896c7739417b4d01322a91c217ab870bef31644b86e2cec"
+    },
+    ".cache/t124d/natural/qualifying-entry-3f76028c25d2e2c4.mem": {
+      "context": {
+        "regs": {
+          "CS": 8084,
+          "DS": 11684,
+          "EAX": 2,
+          "EBP": 16092,
+          "EBX": 0,
+          "ECX": 3,
+          "EDI": 6,
+          "EDX": 0,
+          "EFLAGS": 70,
+          "EIP": 26416,
+          "ES": 23911,
+          "ESI": 24519,
+          "ESP": 16090,
+          "FS": 0,
+          "GS": 0,
+          "SS": 14453
+        },
+        "waiting_key": null
+      },
+      "path": ".cache/t124d/natural/qualifying-entry-3f76028c25d2e2c4.mem",
+      "sha256": "3f76028c25d2e2c4f02f1eeb4936f48edcd344c27967a2099568787b548ecf26"
+    },
+    ".cache/t124e/continental-entry-41aef0fe923ed015.mem": {
+      "context": {
+        "regs": {
+          "CS": 2097,
+          "DS": 11684,
+          "EAX": 16,
+          "EBP": 16106,
+          "EBX": 0,
+          "ECX": 1283,
+          "EDI": 388,
+          "EDX": 0,
+          "EFLAGS": 70,
+          "EIP": 24779,
+          "ES": 23886,
+          "ESI": 7430,
+          "ESP": 16092,
+          "FS": 0,
+          "GS": 0,
+          "SS": 14453
+        },
+        "waiting_key": 13
+      },
+      "path": ".cache/t124e/continental-entry-41aef0fe923ed015.mem",
+      "sha256": "41aef0fe923ed0152756d30fe474f042ac9a6dbaa50885ce17aeb88ab9624f4c"
+    },
+    ".cache/t124e/continental-host-entry-d420bd569cff2040.mem": {
+      "context": {
+        "regs": {
+          "CS": 2097,
+          "DS": 11684,
+          "EAX": 6,
+          "EBP": 16106,
+          "EBX": 0,
+          "ECX": 1283,
+          "EDI": 388,
+          "EDX": 0,
+          "EFLAGS": 70,
+          "EIP": 24779,
+          "ES": 23886,
+          "ESI": 7430,
+          "ESP": 16092,
+          "FS": 0,
+          "GS": 0,
+          "SS": 14453
+        },
+        "waiting_key": 13
+      },
+      "path": ".cache/t124e/continental-host-entry-d420bd569cff2040.mem",
+      "sha256": "d420bd569cff2040a61bf69fe38835f9e3de17e0341a6a5c2ebe28189b7f3685"
+    },
+    ".cache/t124e/next-continental-entry-ab8e42778dfa71f9.mem": {
+      "context": {
+        "regs": {
+          "CS": 2097,
+          "DS": 11684,
+          "EAX": 16,
+          "EBP": 16106,
+          "EBX": 0,
+          "ECX": 2,
+          "EDI": 388,
+          "EDX": 0,
+          "EFLAGS": 70,
+          "EIP": 24779,
+          "ES": 23886,
+          "ESI": 7214,
+          "ESP": 16092,
+          "FS": 0,
+          "GS": 0,
+          "SS": 14453
+        },
+        "waiting_key": null
+      },
+      "path": ".cache/t124e/next-continental-entry-ab8e42778dfa71f9.mem",
+      "sha256": "ab8e42778dfa71f97dd2226ea9308b8ce5723c000f25e911114b6155b9642dfa"
+    },
+    ".cache/t124e/pages/continental-candidate-0-b7d7ca29f632a49a.json": {
+      "path": ".cache/t124e/pages/continental-candidate-0-b7d7ca29f632a49a.json",
+      "sha256": "3fc8e5daf96387422c25499471ba127f5094bfdc2b5a1f0e3a76e289d97fb481"
+    },
+    ".cache/t124e/pages/continental-host-candidate-0-ef3624560cdd9ade.json": {
+      "path": ".cache/t124e/pages/continental-host-candidate-0-ef3624560cdd9ade.json",
+      "sha256": "cdad5baf1fab6180e32e36585bbff2b2d83f4471cc43742de15302a0214b7df5"
+    },
+    ".cache/t124e/pages/continental-host-original-0-ef3624560cdd9ade.json": {
+      "path": ".cache/t124e/pages/continental-host-original-0-ef3624560cdd9ade.json",
+      "sha256": "cdad5baf1fab6180e32e36585bbff2b2d83f4471cc43742de15302a0214b7df5"
+    },
+    ".cache/t124e/pages/continental-host-plain-0-ef3624560cdd9ade.json": {
+      "path": ".cache/t124e/pages/continental-host-plain-0-ef3624560cdd9ade.json",
+      "sha256": "cdad5baf1fab6180e32e36585bbff2b2d83f4471cc43742de15302a0214b7df5"
+    },
+    ".cache/t124e/pages/continental-original-0-b7d7ca29f632a49a.json": {
+      "path": ".cache/t124e/pages/continental-original-0-b7d7ca29f632a49a.json",
+      "sha256": "3fc8e5daf96387422c25499471ba127f5094bfdc2b5a1f0e3a76e289d97fb481"
+    },
+    ".cache/t124e/pages/continental-plain-0-b7d7ca29f632a49a.json": {
+      "path": ".cache/t124e/pages/continental-plain-0-b7d7ca29f632a49a.json",
+      "sha256": "3fc8e5daf96387422c25499471ba127f5094bfdc2b5a1f0e3a76e289d97fb481"
+    },
+    ".cache/t124e/pages/continental-pushed-original-0-b7d7ca29f632a49a.json": {
+      "path": ".cache/t124e/pages/continental-pushed-original-0-b7d7ca29f632a49a.json",
+      "sha256": "99e43711e0310574fbfac00c2bc66014a95838b9e6c85d356936d961cd03f2ec"
+    },
+    ".cache/t124e/pages/continental-pushed-plain-0-b7d7ca29f632a49a.json": {
+      "path": ".cache/t124e/pages/continental-pushed-plain-0-b7d7ca29f632a49a.json",
+      "sha256": "99e43711e0310574fbfac00c2bc66014a95838b9e6c85d356936d961cd03f2ec"
+    },
+    ".cache/t124e/pages/controlled-two-manager-0-17bb8bc56dcb9646.json": {
+      "path": ".cache/t124e/pages/controlled-two-manager-0-17bb8bc56dcb9646.json",
+      "sha256": "bf42fcc6454f247c3dd8aadda1e2cde96ab2df118821f5ae86459dfb030f812d"
+    },
+    ".cache/t124e/pages/controlled-two-manager-1-4ba648f451901f87.json": {
+      "path": ".cache/t124e/pages/controlled-two-manager-1-4ba648f451901f87.json",
+      "sha256": "4e1e2734a6448e4263da6f3c5128aa31271877419e2bdc38b1ee1691869918e8"
+    },
+    ".cache/t124e/pages/next-continental-candidate-0-95e1617c1910137f.json": {
+      "path": ".cache/t124e/pages/next-continental-candidate-0-95e1617c1910137f.json",
+      "sha256": "7fa5faed914ccc2440a2ea82baa44db379ef1908f7b0debb6962ef8dd3cb1718"
+    },
+    ".cache/t124e/pages/next-continental-original-0-95e1617c1910137f.json": {
+      "path": ".cache/t124e/pages/next-continental-original-0-95e1617c1910137f.json",
+      "sha256": "7fa5faed914ccc2440a2ea82baa44db379ef1908f7b0debb6962ef8dd3cb1718"
+    },
+    ".cache/t124e/pages/next-continental-plain-0-95e1617c1910137f.json": {
+      "path": ".cache/t124e/pages/next-continental-plain-0-95e1617c1910137f.json",
+      "sha256": "7fa5faed914ccc2440a2ea82baa44db379ef1908f7b0debb6962ef8dd3cb1718"
+    },
+    ".cache/t124e/pages/world-finals-candidate-0-7f54b3ee51d8e6df.json": {
+      "path": ".cache/t124e/pages/world-finals-candidate-0-7f54b3ee51d8e6df.json",
+      "sha256": "501fe6430e298b7afb98f9e435d5720ae689e577b5235ce29dd4c6725b93b5b1"
+    },
+    ".cache/t124e/pages/world-finals-original-0-7f54b3ee51d8e6df.json": {
+      "path": ".cache/t124e/pages/world-finals-original-0-7f54b3ee51d8e6df.json",
+      "sha256": "501fe6430e298b7afb98f9e435d5720ae689e577b5235ce29dd4c6725b93b5b1"
+    },
+    ".cache/t124e/pages/world-finals-plain-0-7f54b3ee51d8e6df.json": {
+      "path": ".cache/t124e/pages/world-finals-plain-0-7f54b3ee51d8e6df.json",
+      "sha256": "501fe6430e298b7afb98f9e435d5720ae689e577b5235ce29dd4c6725b93b5b1"
+    },
+    ".cache/t124e/pages/world-qualifying-candidate-0-8c91dc676fdbd2f1.json": {
+      "path": ".cache/t124e/pages/world-qualifying-candidate-0-8c91dc676fdbd2f1.json",
+      "sha256": "0c5008afdc113a42eacc6d13aae9aaaae38564484b8d4572664ae5f4930d1f99"
+    },
+    ".cache/t124e/pages/world-qualifying-original-0-8c91dc676fdbd2f1.json": {
+      "path": ".cache/t124e/pages/world-qualifying-original-0-8c91dc676fdbd2f1.json",
+      "sha256": "0c5008afdc113a42eacc6d13aae9aaaae38564484b8d4572664ae5f4930d1f99"
+    },
+    ".cache/t124e/pages/world-qualifying-plain-0-8c91dc676fdbd2f1.json": {
+      "path": ".cache/t124e/pages/world-qualifying-plain-0-8c91dc676fdbd2f1.json",
+      "sha256": "0c5008afdc113a42eacc6d13aae9aaaae38564484b8d4572664ae5f4930d1f99"
+    },
+    ".cache/t124e/world-finals-entry-cf3534902cde9558.mem": {
+      "context": {
+        "regs": {
+          "CS": 2097,
+          "DS": 11684,
+          "EAX": 16,
+          "EBP": 16106,
+          "EBX": 0,
+          "ECX": 2311,
+          "EDI": 388,
+          "EDX": 0,
+          "EFLAGS": 70,
+          "EIP": 24779,
+          "ES": 23886,
+          "ESI": 2750,
+          "ESP": 16092,
+          "FS": 0,
+          "GS": 0,
+          "SS": 14453
+        },
+        "waiting_key": 13
+      },
+      "path": ".cache/t124e/world-finals-entry-cf3534902cde9558.mem",
+      "sha256": "cf3534902cde955843f260a74aa18d9e863d11a8eb79c72862f090e69e79f038"
+    },
+    ".cache/t124e/world-qualifying-entry-b877d578bd910097.mem": {
+      "context": {
+        "regs": {
+          "CS": 2097,
+          "DS": 11684,
+          "EAX": 16,
+          "EBP": 16106,
+          "EBX": 0,
+          "ECX": 5,
+          "EDI": 388,
+          "EDX": 0,
+          "EFLAGS": 70,
+          "EIP": 24779,
+          "ES": 23886,
+          "ESI": 7070,
+          "ESP": 16092,
+          "FS": 0,
+          "GS": 0,
+          "SS": 14453
+        },
+        "waiting_key": 13
+      },
+      "path": ".cache/t124e/world-qualifying-entry-b877d578bd910097.mem",
+      "sha256": "b877d578bd9100970fb830e14b7a5fa1fdc754d1bf36d5b361e4fc8fbd2ca8fd"
+    },
+    ".cache/t124t/continuation-context/round-3-4c1c7635ecf50d8a.mem": {
+      "context": {
+        "regs": {
+          "CS": 2097,
+          "DS": 11684,
+          "EAX": 23312,
+          "EBP": 16374,
+          "EBX": 0,
+          "ECX": 1284,
+          "EDI": 28825,
+          "EDX": 0,
+          "EFLAGS": 70,
+          "EIP": 30658,
+          "ES": 2097,
+          "ESI": 8654,
+          "ESP": 16110,
+          "FS": 0,
+          "GS": 0,
+          "SS": 14453
+        },
+        "waiting_key": 13
+      },
+      "path": ".cache/t124t/continuation-context/round-3-4c1c7635ecf50d8a.mem",
+      "sha256": "4c1c7635ecf50d8a1eaed2bcb5fd56e4351f9c320eaacc1a4a013cb01b7190ff"
+    }
+  },
+  "schema": "t124e-acceptance/1",
+  "source_freeze_commit": "2e3aea6ed4843608b9658b09cedd21e17f5d6718",
+  "source_hashes": {
+    "experiments/E040-route-fixture-writes/out/T124d/prepare.py": "9c00879f7c843b6a45d4969c7b87fb5c7e050ea478ef6280019f0f1f41d22a17",
+    "experiments/E040-route-fixture-writes/out/T124d/reference.py": "2b97bfc02eac8aa9ab53b3ea0d24534c4db4203a2b674fc500f288a0c582f221",
+    "experiments/E040-route-fixture-writes/out/T124e/continental_host.py": "1f08a2012f303e09873d204489b4c9fbfc688fd89e40449fdadebb0652daf37c",
+    "experiments/E040-route-fixture-writes/out/T124e/controls.py": "e9e9d2e42e32ff0fdd8c5d02c3ab5f2f4d675e19980c85b8c75c5bd4e7eb2bd9",
+    "experiments/E040-route-fixture-writes/out/T124e/plain.py": "95f3594273fe8482fd8ea3fd972aa888c6ac7a203bf73327f48f20e8fc086297",
+    "experiments/E040-route-fixture-writes/out/T124e/proof.py": "070206cbbdb8e94256c00dd95aed22a028c241794833111248a3766a9f7db648",
+    "runtime/original_match/image.py": "2314ac46e20e4bf11e6f8f739300ddb564565e718b58c543b6b1f9848fbb8c24",
+    "runtime/original_match/machine.py": "c01aa890626ac0235f6e1a40dec93475624a5f09d426bdb6f701b37ceb6c2db1",
+    "runtime/original_match/match.py": "1d33ea45e7179ad458b5ab192babd670c6cf457ba76e39abec29326ca975c68d",
+    "runtime/original_match/news.py": "dde07e302270d1360e6cbc46511ace0502044419a427949801f1d42cb31fc97c",
+    "runtime/original_match/port/__init__.py": "7352fa45b65f353b5626f0c86407bddff3564f4508d5ee4ec5dd498a54e2bdbc",
+    "runtime/original_match/port/_display_finals.py": "32ad22c55be46cd6ce22ac105070f5938f94d013f3ea41d26df967d8bcf02325",
+    "runtime/original_match/port/assistant.py": "32fe1f315f1a8cce5375b2cc9fdc07ec78a5461a0e275c99ebd06f9cad5db514",
+    "runtime/original_match/port/attributes.py": "187df60ae923ab002c40939bf4eb7bacae63ac2b1a932fb1f1ba269d12503cc0",
+    "runtime/original_match/port/ball.py": "6b5f17ee9af3bf7dbb2bae4bd5ae00e1a012f6d6cf6e6e3c2cdd8464a7e2c72a",
+    "runtime/original_match/port/contests.py": "b4db099959a09a1dcb78f031e9a44dc64624a5ffd8ea7b0be3441298bb0ec40e",
+    "runtime/original_match/port/discipline.py": "a8ee74a7336ebd3d8c85ee71cbb6a089fca45fc0c05ee3efec866d798649fdcd",
+    "runtime/original_match/port/display.py": "e1e76343a2b7128a42eeae3c74faa75063b54e0197ea64369e09bdbcd8cd7d63",
+    "runtime/original_match/port/duels.py": "37fe8ea7dec6c3aff8c80d26367d3225460af037a839912e98b4e6217dd739b6",
+    "runtime/original_match/port/engine.py": "6439370e3ffcc5977bb066506431a25a0c300ea374faf28ec3f4fbd9718c6f14",
+    "runtime/original_match/port/entrypoints.py": "a55d378798ed5ec2c33404739b0961b8fec1e6167d1d301f5512cced4063b5b7",
+    "runtime/original_match/port/frame.py": "d4c0cd4753038d6058f8359818164ce8cd0be775191fc8338f9a7ec9849b3a6a",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "runtime/original_match/port/guest.py": "1062b5ea7d72114b5f404485768f6aeca69a5d94ffb0285a31158b266c46de7f",
+    "runtime/original_match/port/mem.py": "0105113f8102a3e8c3544942a445e156fecc0196f7911089e7f789a7775fe45c",
+    "runtime/original_match/port/menus.py": "ea87406a9f0300d0d54c3f71d664a8ed2925505fb133b59a481e8fc5f098f053",
+    "runtime/original_match/port/motion.py": "4e7bab13c1e196464ecb41fd2ddb3a41878c217885c238fd2e80cd8329746eb2",
+    "runtime/original_match/port/news.py": "c8aec06208f0ef2bf2591b8b8a74aff1e4e161b774e45da8225dec6bd159fc4e",
+    "runtime/original_match/port/pilot.py": "700a8bf56db7adcccd6d011b0e26d0a06599c24fbc451e44fee033b8e56e0863",
+    "runtime/original_match/port/positioning.py": "6a8feb436f745149a010db472a1aed04569d897875cd966eb434a6170b7f839e",
+    "runtime/original_match/port/postmatch.py": "32035e9d055055cc29ba6dedbb38ceda3ac18ea6cc5d2a40605450086f41f86e",
+    "runtime/original_match/port/prove.py": "74e7724eaf93206e4070b9bc41d2f04cf546e177b6a9718451da6476a313e8d7",
+    "runtime/original_match/port/quick.py": "28836a578a2937b72a4fff05ab315bb0a9f665f24cf79e5a14bd4da710432590",
+    "runtime/original_match/port/rare.py": "588b6fc3430a0e674664d9bf8f165bdf31779f240ac783f0490e5f4c5be1d66e",
+    "runtime/original_match/port/real.py": "dbd3e488d8959924ffedeb58f8afec62ffa4c71a35116d7dd72c307a30dcd1f9",
+    "runtime/original_match/port/restarts.py": "c378834575a59d89f31fea8f9ee5ffca7daaf98754a36e848164bb819ad87977",
+    "runtime/original_match/port/route.py": "265571c26de4b00fc1ca78bfde598034e125afe0f9488181c4b201574c65af75",
+    "runtime/original_match/port/runtime.py": "2e94867069cd6e35c28af96426bfade7dcb381e370eb12af106627cbeeced0eb",
+    "runtime/original_match/port/selection.py": "d2e0bb9f97a0a3e8f93f0c3a5bada95220272c8739d1814b6eed5f9ed8a3d620",
+    "runtime/original_match/port/setup.py": "0f703063621cd8a96d9ac0acde56da89754aa885a3d94d9333991a115e8185e2",
+    "runtime/original_match/port/silent.py": "8eb759b7290d343019ad3eda863b75a6ccdf0486bc9d99567fd4ff4ab9e0a996",
+    "runtime/original_match/port/stages.py": "27947c3368fc8b5618c76452e2be2d295fd64d2fec4b107dd325de0a7745b7e7",
+    "runtime/original_match/port/tables.py": "b5296fd3cdef46228b3f616dc0e34dbf31ca3ef0de73e2737cfa3798c64022b4",
+    "runtime/original_match/port/takers.py": "fcd182d4543af18a0def9e16773cd317939fd0ca37559f941b499bf9ab40d7b8",
+    "runtime/original_match/port/update.py": "0a4b3f58a48aec4fc69a229410e566af2144cc9e7153cbfd604da1557deb36b2",
+    "runtime/original_match/route.py": "b30afbac2b86436bd3306114af4a7b315c432b9dd49c66a4e6a00728eb39981f",
+    "runtime/original_match/route_team.py": "0ce2f8ac578476670a518c32e0a7ad2fb9f279fc96bfa98b996db40fbb5baf4d",
+    "tests/test_port_stage_news.py": "f1e1252b2e08a223b16d9dc5950d4c06671b88b83322aa41312ce0e8e87022f5",
+    "tests/test_port_stage_world.py": "d29d5d0dabe7ddd714f9f1655d213d9ba04b71d41ff6b1b02466e15160f9a885",
+    "tests/test_port_stages.py": "754df352d1f093bbf637ae24ee78a396d32bc7a7a8ac6b25d0bab4b9f6b4c3c7"
+  }
+}
