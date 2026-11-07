@@ -1,0 +1,134 @@
+{
+  "tested_code_head": "53b4cf8b240d0d3ebd34ae778474a3daccec9630",
+  "acceptance_index_v3_sha256": "94eadd565ef9efaf287bcd857ee0ae12eea8b5c226dab9ccfcfe9583848cf674",
+  "ageing_source_sha256": "5f076abe6787b9100fb1a9ca34e4e1508925eb4afd9d3412197e144630d14d9f",
+  "checks": {
+    "continental": {
+      "all_physical_memory": true,
+      "all16_registers": true,
+      "records_keys_pages": true,
+      "seconds": 9.8205
+    },
+    "world": {
+      "all_physical_memory": true,
+      "all16_registers": true,
+      "records_keys_pages": true,
+      "seconds": 7.7316
+    },
+    "continental-raw": {
+      "all16_registers": true,
+      "ordered_live_byte_writes": 25859,
+      "bounded_dead_stack": [
+        247232,
+        247334
+      ],
+      "positive_denials": true,
+      "controls": {
+        "below_dead": {
+          "caught": true,
+          "expected": true,
+          "linear": 247231
+        },
+        "caller_game_pointer": {
+          "caught": true,
+          "expected": true,
+          "linear": 247336
+        },
+        "constant_80BA": {
+          "caught": true,
+          "expected": true,
+          "linear": 162298
+        },
+        "inside_high": {
+          "caught": false,
+          "expected": false,
+          "linear": 247333
+        },
+        "inside_low": {
+          "caught": false,
+          "expected": false,
+          "linear": 247232
+        },
+        "live_write_drop_caught": true,
+        "return_word": {
+          "caught": true,
+          "expected": true,
+          "linear": 247334
+        },
+        "rng_7B62": {
+          "caught": true,
+          "expected": true,
+          "linear": 218530
+        },
+        "rng_8336": {
+          "caught": true,
+          "expected": true,
+          "linear": 220534
+        }
+      }
+    },
+    "world-state": {
+      "all16_registers": true,
+      "ordered_live_byte_writes": 20312,
+      "bounded_dead_stack": [
+        247232,
+        247334
+      ],
+      "positive_denials": true,
+      "controls": {
+        "below_dead": {
+          "caught": true,
+          "expected": true,
+          "linear": 247231
+        },
+        "caller_game_pointer": {
+          "caught": true,
+          "expected": true,
+          "linear": 247336
+        },
+        "constant_80BA": {
+          "caught": true,
+          "expected": true,
+          "linear": 162298
+        },
+        "inside_high": {
+          "caught": false,
+          "expected": false,
+          "linear": 247333
+        },
+        "inside_low": {
+          "caught": false,
+          "expected": false,
+          "linear": 247232
+        },
+        "live_write_drop_caught": true,
+        "return_word": {
+          "caught": true,
+          "expected": true,
+          "linear": 247334
+        },
+        "rng_7B62": {
+          "caught": true,
+          "expected": true,
+          "linear": 218530
+        },
+        "rng_8336": {
+          "caught": true,
+          "expected": true,
+          "linear": 220534
+        }
+      }
+    }
+  },
+  "synthetic_proved": 6,
+  "falsifiers_caught": 4,
+  "files": {
+    "experiments/E040-route-fixture-writes/out/T124f/main-independent-v1/world.jsonl": "1185be1eaaabf42d3265b6731865333c7f6b8afe97a51e3aedfff791869cf1ac",
+    "experiments/E040-route-fixture-writes/out/T124f/main-independent-v1/direct.jsonl": "eba26944d202bbb1f4b8d16170bcda1fffab8ef7f3edc7f33c698043caedd31f",
+    "experiments/E040-route-fixture-writes/out/T124f/main-independent-v1/world-state.jsonl": "7163e66b8bd77402d6773bcd30dd738946438b8e578d9dd830b6a22dd139929c",
+    "experiments/E040-route-fixture-writes/out/T124f/main-independent-v1/f678-main-natural-v1.log": "e0468fd474e6b8653cdf007a59bce0e056af40881547e180442e284ac46e0990",
+    "experiments/E040-route-fixture-writes/out/T124f/main-independent-v1/continental.jsonl": "b342749609c4579f2230644a291f2d64fc785a3942cf3f63420d8129d6c5d81d",
+    "experiments/E040-route-fixture-writes/out/T124f/main-independent-v1/continental-raw.jsonl": "77116a89162013d7937b202facb70d84a170c39306af7dc45abf753f4888559a",
+    "experiments/E040-route-fixture-writes/out/T124f/main-independent-v1/f678-main-plain-direct-v1.log": "c06b1b2def29ce4cd76f565a17d0b12a155b26ed0815fd0bb7552ab1a27384d1"
+  }
+}
