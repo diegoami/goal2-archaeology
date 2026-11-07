@@ -19,7 +19,7 @@ def main():
     corpus={case[0]:rel(HERE/'paired-final-v3'/(case[0]+'.jsonl')) for case in P.F.runner.CASES}
     natural={case:rel(HERE/('natural-'+case+'-v4.jsonl')) for case in ('continental','world','ageing-continental','ageing-world')}
     managers={case:rel(HERE/name) for case,name in [('both','two-managers-v2.jsonl'),('skip','manager-skip-v2.jsonl')]}
-    accepted=[rel(HERE/'ci-missing-published-after-v1.json')]+list(corpus.values())+list(natural.values())+list(managers.values())+[rel(HERE/'return-cpu-after-v2.jsonl'),rel(HERE/'pending-history-v2.json'),rel(HERE/'completed-history-v3.json')]
+    accepted=[rel(HERE/'ci-missing-published-after-v2.json')]+list(corpus.values())+list(natural.values())+list(managers.values())+[rel(HERE/'return-cpu-after-v2.jsonl'),rel(HERE/'pending-history-v2.json'),rel(HERE/'completed-history-v3.json')]
     sources=dict(P.sources())
     for path in accepted:
         data=(ROOT/path).read_text();row=json.loads(data);visit(row)
@@ -44,7 +44,7 @@ def main():
       'source_hashes':sources,'file_hashes':files,'private_inputs':private,'private_retained_hashes':retained,
       'corpus':corpus,'natural':natural,'managers':managers,'return_effects':rel(HERE/'return-cpu-after-v2.jsonl'),
       'pending_history':rel(HERE/'pending-history-v2.json'),'completed_history':rel(HERE/'completed-history-v3.json'),
-      'ci_fixture':rel(HERE/'ci-missing-published-after-v1.json'),'preservation':rel(HERE/'preserved-source-v3.json'),'call_audit':rel(HERE/'static-call-audit-v1.json'),
+      'ci_fixture':rel(HERE/'ci-missing-published-after-v2.json'),'preservation':rel(HERE/'preserved-source-v3.json'),'call_audit':rel(HERE/'static-call-audit-v1.json'),
       'model':'inherited Codex GPT-6 family; exact variant unavailable',
       'scope':'actual ordinary port Match; incoming original16CPU preserved; actualreturned16CPU reach first6F1D unchanged; complete state/2 fields/ordered draws/routekeys/pages exact, with no additional exclusions; raw original memory remains private',
       'limits':'annual rollover/pool-list/active-round serialization unsupported; legal11 supplied only by comparison harness; original references CPython, standaloneAPI verifiedPyPy3.11 with positive original import/start/file denials; owner milestone review beforegoal2 adoption'}

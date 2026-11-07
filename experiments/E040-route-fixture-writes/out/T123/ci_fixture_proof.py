@@ -24,7 +24,7 @@ def main(out):
     names=['OuterFrames','ReachedRouteLeaves','ReachedFalsifiers','SummaryBars','FullClosureFrames']
     old_source=subprocess.check_output(['git','show','82a86d9e5d2a5148c0924fa4d9ce63a5bb10484e:tests/test_route_sealed.py'],text=True,cwd=ROOT)
     old=types.ModuleType('_t123_pre_ci_test');old.__file__=str(ROOT/'tests/test_route_sealed.py')
-    with patch.object(tests._Calls,'__unittest_skip__',True):
+    with patch.object(tests._Calls,'__unittest_skip__',True,create=True):
         exec(compile(old_source,old.__file__,'exec'),old.__dict__)
         assert all(getattr(getattr(old,name),'__unittest_skip__') for name in names)
         assert not any(getattr(getattr(tests,name),'__unittest_skip__') for name in names)
