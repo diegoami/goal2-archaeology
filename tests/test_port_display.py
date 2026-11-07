@@ -148,8 +148,9 @@ class Display(Case):
         import json
         rows = json.loads((Path(__file__).resolve().parents[1] / 'experiments/E036-match-port/out/T73/static-inventory.json').read_text())
         reg = port._module_registry('display')
-        self.assertEqual(set(reg.entries), {r['address'] for r in rows})
-        self.assertEqual(len(reg.entries), 88)
+        self.assertEqual(set(reg.entries), {r['address'] for r in rows} | {'1771:5BF6','1771:7812'})
+        self.assertEqual(len(reg.entries), 90)
+        self.assertEqual({a:reg.entries[a].ret for a in ('1771:5BF6','1771:7812')}, {'1771:5BF6':'retf','1771:7812':'retf 8'})
         for row in rows:
             entry = reg.entries[row['address']]
             self.assertEqual(entry.ret, row['returns'][0] if row['returns'] else 'ret')
@@ -784,10 +785,34 @@ class RemovedBodyDispositionTests(unittest.TestCase):
 
 class UnreachedStateBranchTests(unittest.TestCase):
     def test_removed_statistics_bar_preserves_zero_and_nonzero_inputs(self):
+        """Historical test id; T123 real bar preserves these same three inputs."""
+        from original_match.port.engine import PortMachine
+        source=port._module_registry('display')
+        self.assertIsNone(source.entries['0791:006C'].stub)
+        registry=port.Registry('display','actual006C and00DB, synthetic statistic frame')
+        for address in ('0791:006C','214B:00DB'):registry._add(source.entries[address])
         for first,second in ((0,0),(1,65535),(1,3)):
-            r=Rig();r.lin16(0x40100,first);r.lin16(0x40102,second)
-            r.ds16(0xA96E,0x200);r.ds16(0xA970,0x500)
-            assert_explicit_void_removal(self,r,'0791:006C',(0,4,0x100,0x4000))
+            with self.subTest(first=first,second=second):
+                r=Rig();r.lin16(0x40100,first);r.lin16(0x40102,second)
+                r.ds16(0xA96E,0x200);r.ds16(0xA970,0x500)
+                r.ds8(0x832F,14);r.ds8(0x832E,12)
+                m=PortMachine(bytes(r.mem.memory).ljust(0x110000,b'\0'),0);port.install(m,[(registry,None)])
+                m.write(0x5424,b'X\x5A'*24)
+                calls=[]
+                def entered(replay):
+                    if not replay:calls.append((m.stack_word(10),m.stack_word(8),m.stack_word(6),m.stack_word(4),m.where(m.stack_word(2),m.stack_word(0))))
+                m.at('214B:00DB',entered)
+                for i,word in enumerate((0x0252,0,4,0x100,0x4000)):m.write(0x20000+0x3000+2*i,word.to_bytes(2,'little'))
+                for name,value in (('ss',0x2000),('sp',0x3000),('bp',0x1234),('ds',m.DS),('es',m.DS),('cs',m.seg(0x791)),('eip',0x006C),('eflags',0x602)):m.set_reg(name,value)
+                self.assertIsNone(m.run(m.lin('0791:0252'),10,fresh=True))
+                self.assertEqual(m.reg('sp'),0x300A)
+                if (first,second)==(1,3):
+                    self.assertEqual(calls,[(0x500,0x424,14,18,'0791:00C9'),(0x500,0x448,12,6,'0791:00FB')])
+                    self.assertEqual(m.read(0x5424,48)[1::2],bytes([14])*18+bytes([12])*6)
+                else:
+                    self.assertEqual(calls,[])
+                    self.assertEqual(m.read(0x5424,48)[1::2],bytes([0x5A])*24)
+                self.assertEqual(m.read(0x5424,48)[0::2],b'X'*24)
 
 
     def test_empty_squad_row_and_nonempty_reached_twin(self):

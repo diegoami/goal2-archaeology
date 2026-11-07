@@ -1,0 +1,31 @@
+test_repeated_terminal_request_preserves_every_state_byte (tests.test_route_sealed.Boundary.test_repeated_terminal_request_preserves_every_state_byte) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_terminal_entry_returns_immutable_step_without_starting_backend (tests.test_route_sealed.Boundary.test_terminal_entry_returns_immutable_step_without_starting_backend) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_factory_preserves_actual_context_and_existing_manager2 (tests.test_route_sealed.MatchEntry.test_factory_preserves_actual_context_and_existing_manager2) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_factory_refuses_invalid_frame_before_changes (tests.test_route_sealed.MatchEntry.test_factory_refuses_invalid_frame_before_changes) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_real_pending_normal_match_and_invalid_resume_are_pure (tests.test_route_sealed.MatchEntry.test_real_pending_normal_match_and_invalid_resume_are_pure) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_shareware_leaf_preserves_AH_and_real_frame (tests.test_route_sealed.OuterFrames.test_shareware_leaf_preserves_AH_and_real_frame) ... ok
+test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) ... ok
+test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) ... ok
+test_silent_header_real_helper_frames (tests.test_route_sealed.ReachedRouteLeaves.test_silent_header_real_helper_frames) ... ok
+test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap)
+Declared synthetic Pascal frames, including hidden result pointers. ... ok
+test_the_ten_routines_and_their_returns (tests.test_port_route_fixture.Registry.test_the_ten_routines_and_their_returns) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 4.326s
+
+OK

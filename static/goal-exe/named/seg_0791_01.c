@@ -36,7 +36,7 @@ void __cdecl16near draw_shootout_score_numbers(void)
 
 
 // ---- 0791:006C  draw_summary_statistic_bar  (f_0791_006C; Ghidra 2000:006C, __stdcall16near; found by routines.tsv)
-// Given two statistic words, splits24 attribute cells by the second word times24 divided by the wrapped sum; zero sum skips both writes; team colours come from DS:832F/832E  [likely; read code/seg_0791_01.asm:62]
+// T123 (port/display.py): near RET8 with parent/row/statistic far arguments; wrapped16-bit sum zero skips writes; quotient LOW16(second*24)/wrapped_sum because XOR DX,DX discards MUL high word; two real214B:00DB calls split24 attribute cells in the back buffer using DS:832F/832E; full ABI/flags/dead-frame and wrapped-edge original comparisons  [likely; read named/seg_0791_01.c; read code/seg_0791_01.asm:006C-00FE]
 
 void draw_summary_statistic_bar(undefined2 param_1,int param_2,int *param_3)
 

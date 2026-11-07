@@ -1,0 +1,37 @@
+test_repeated_terminal_request_preserves_every_state_byte (tests.test_route_sealed.Boundary.test_repeated_terminal_request_preserves_every_state_byte) ... ERROR
+test_terminal_entry_returns_immutable_step_without_starting_backend (tests.test_route_sealed.Boundary.test_terminal_entry_returns_immutable_step_without_starting_backend) ... 
+  test_terminal_entry_returns_immutable_step_without_starting_backend (tests.test_route_sealed.Boundary.test_terminal_entry_returns_immutable_step_without_starting_backend) (stage=4) ... ERROR
+  test_terminal_entry_returns_immutable_step_without_starting_backend (tests.test_route_sealed.Boundary.test_terminal_entry_returns_immutable_step_without_starting_backend) (stage=8) ... ERROR
+test_shareware_leaf_preserves_AH_and_real_frame (tests.test_route_sealed.OuterFrames.test_shareware_leaf_preserves_AH_and_real_frame) ... ok
+
+======================================================================
+ERROR: test_repeated_terminal_request_preserves_every_state_byte (tests.test_route_sealed.Boundary.test_repeated_terminal_request_preserves_every_state_byte)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 53, in test_repeated_terminal_request_preserves_every_state_byte
+    state,tables=terminal_state(8);first=R.play_round(state,tables,None)
+                                         ^^^^^^^^^^^^
+AttributeError: module 'original_match.route' has no attribute 'play_round'
+
+======================================================================
+ERROR: test_terminal_entry_returns_immutable_step_without_starting_backend (tests.test_route_sealed.Boundary.test_terminal_entry_returns_immutable_step_without_starting_backend) (stage=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 45, in test_terminal_entry_returns_immutable_step_without_starting_backend
+    step=R.play_round(state,tables,R.DEFAULT_KEYS)
+         ^^^^^^^^^^^^
+AttributeError: module 'original_match.route' has no attribute 'play_round'
+
+======================================================================
+ERROR: test_terminal_entry_returns_immutable_step_without_starting_backend (tests.test_route_sealed.Boundary.test_terminal_entry_returns_immutable_step_without_starting_backend) (stage=8)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 45, in test_terminal_entry_returns_immutable_step_without_starting_backend
+    step=R.play_round(state,tables,R.DEFAULT_KEYS)
+         ^^^^^^^^^^^^
+AttributeError: module 'original_match.route' has no attribute 'play_round'
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.095s
+
+FAILED (errors=3)

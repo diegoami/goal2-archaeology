@@ -434,7 +434,7 @@ void __stdcall16far choose_computer_lineup(undefined2 param_1)
 
 
 // ---- 0791:B15F  result_needs_winner  (f_0791_B15F; Ghidra 2000:B15F, __stdcall16near; found by routines.tsv)
-// (fixture) 1 when the fixture's competition code (+2) is in the set at DS:693A (4 and 8..203) and the two score bytes DS:9B3C and DS:9B3D are equal: 0791:D47E then adds a 4-attempt 0791:B19D round and, if still level, a coin (214B:06FA)  [likely; F024; read code/seg_0791_18.asm:386-416]
+// T123 (port/silent.py): fixture kind in DS:693A and equal DS:9B3C/9B3D scores returns AL1, otherwise AL0, preserving AH and membership/comparison flags; original near RET4 and six-byte frame; D47E adds four quick attempts and then a coin if still level  [likely; F024; read code/seg_0791_18.asm:386-416]
 
 undefined2 result_needs_winner(undefined4 param_1)
 

@@ -586,3 +586,52 @@ def news_competition_result(mem, variant):
     zero = r.ax
     r = yield from near(mem, r, 0x05F6, zero, zero, zero, ret=0x6863)
     return _end(r)
+
+
+# T123: named000E_05 then raw000E_09 7072..715D. Annual deferral is an
+# explicit bounded-consumer contract; it precedes stage_end's first mutation.
+@PORTS.port('000E:7072',ret='ret')
+def shareware_limit_reached(mem,variant):
+    from .runtime import PF,ZF
+    r=Regs(mem);r.enter(2)
+    r.al=0;r.arith(PF|ZF)                                       # 7078/707A registered build
+    r.al=0;r.local8(-1,r.al);r.al=ss8(mem,r,r.bp-1)               # 7089/708F/7092
+    return _end(r)
+
+
+@PORTS.port('000E:70B9',ret='ret')
+def play_round_body(mem,variant):
+    from .runtime import sub_flags
+    r=Regs(mem);r.enter(8)
+    _ds_far(mem,r,0xA923);save_ptr(r,-6)
+    farg(mem,r,-6);w8(mem,r,1,1,'000E:70CC')
+    r=yield from near(mem,r,0x6CA7,ret=0x70D4)
+    farg(mem,r,-6);r.ax=rw(mem,r,0x26)
+    farg(mem,r,-6);count=rw(mem,r,0x28);r.arith(sub_flags(r.ax,count,16))
+    if r.ax!=count:return _end(r)                              # 70E2/70E4: equality only
+    terminal=rb(mem,r,0x3D)==1 and rb(mem,r,0x3C) in (4,8)
+    r.store(stack=True)
+    mem.site('000E:70E6')                                      # explicit Python-body observation
+    if terminal:return _end(r)                                # BEFORE yielding8208
+    r=yield from far(mem,r,'1771:8208',ret=0x70EB)
+    r=yield from near(mem,r,0x7072,ret=0x70EE)
+    r.arith(sub_flags(r.al,0,8))
+    if r.al:return _end(r)
+    r=yield from far(mem,r,'1771:76B1',ret=0x70F9)
+    farg(mem,r,-6);r.al=rb(mem,r,0x3C);r.di=0x7099
+    r=yield from far(mem,r,'23E4:08DF',r.ax,mem.seg(0xE),r.di,ret=0x710B)
+    if not member(mem):return _end(r)
+    farg(mem,r,-6);r.al=rb(mem,r,0);r.ah=0;r.local16(-8,r.ax)
+    r.ax=1;r.arith(sub_flags(r.ax,ss16(mem,r,r.bp-8),16))
+    if r.ax>ss16(mem,r,r.bp-8):return _end(r)
+    r.local16(-2,r.ax)
+    while True:
+        r.ax=ss16(mem,r,r.bp-2);farg(mem,r,-6);r.di+=r.ax
+        if rb(mem,r,0x47)==0:
+            r.ax=ss16(mem,r,r.bp-2);r.ax+=0x80;r.dx=3;mul(r,r.dx)
+            _ds_far(mem,r,0xA91F);r.di+=r.ax;r.al=rb(mem,r,0);r.ah=0
+            r=yield from far(mem,r,'000E:60CB',r.ax,ret=0x7152)    # pushCS+near, FAR return
+        r.ax=ss16(mem,r,r.bp-2);limit=ss16(mem,r,r.bp-8);r.arith(sub_flags(r.ax,limit,16))
+        if r.ax==limit:break
+        r.local16(-2,ss16(mem,r,r.bp-2)+1)
+    return _end(r)

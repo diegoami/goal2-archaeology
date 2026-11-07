@@ -943,9 +943,10 @@ void draw_competition_stage_header(int param_1,byte param_2,char param_3)
 }
 
 
-// ---- 1771:5BF6  f_1771_5BF6  (f_1771_5BF6; Ghidra 4000:5BF6, __cdecl16far; found by routines.tsv)
+// ---- 1771:5BF6  draw_silent_results_header  (f_1771_5BF6; Ghidra 4000:5BF6, __cdecl16far; found by routines.tsv)
+// T123 (port/display.py): unpack DS:26F2 into back buffer, call59D8, push returned fullAX flag and stage>=5 boolean preserving AH, then current manager country continent to near5AC4; far RET with four-byte game-pointer local frame  [likely; read named/seg_1771_04.c; read code/seg_1771_08.asm:5BF6-5C5F]
 
-void __cdecl16far f_1771_5BF6(void)
+void __cdecl16far draw_silent_results_header(void)
 
 {
   int iVar1;

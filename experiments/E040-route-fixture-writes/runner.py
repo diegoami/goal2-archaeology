@@ -578,7 +578,17 @@ def main(argv=None):
     p.add_argument("--fetch", action="store_true")
     p.add_argument("--check", action="store_true")
     p.add_argument("--report", action="store_true")
+    p.add_argument("--sealed", action="store_true", help="fresh/current-source original-versus-PyPy state/tables round comparisons")
     a = p.parse_args(argv)
+    if a.sealed:
+        if not a.check or a.run is not None or a.report or a.fetch:
+            p.error("--sealed requires --check alone")
+        path=OUT/"T123"/"pairs.py"
+        spec=importlib.util.spec_from_file_location("t123_pairs",path)
+        module=importlib.util.module_from_spec(spec)
+        sys.path.insert(0,str(path.parent))
+        spec.loader.exec_module(module)
+        return module.sealed_check()
     if a.fetch:
         fetch()
     if a.run is not None:

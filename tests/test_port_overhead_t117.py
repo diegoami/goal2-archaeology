@@ -215,8 +215,22 @@ class Drive(unittest.TestCase):
         harness = importlib.util.module_from_spec(spec);spec.loader.exec_module(harness)
         from original_match import Image, Match, Fixture
         from original_match.assets import reference_image
+        from original_match import port
+        # This receipt records T117's historical display configuration. T123
+        # intentionally made006C real; preserve the optimization regression's
+        # original profile without changing any recorded hash or subtracting
+        # actual nonzero calls. Current006C fidelity is original-backed in T123.
+        display = port._module_registry("display")
+        self.assertIsNone(display.entries["0791:006C"].stub)
+        historical = port.Registry("display", "T117 before-profile006C omission")
+        for entry in display.entries.values():
+            if entry.address == "0791:006C":
+                historical.stub(entry.address, ret=entry.ret, value=None,
+                                why="the immutable T117 before receipt used this explicit omission")
+            else:
+                historical._add(entry)
         m = Match(Image.from_savestate(reference_image(ROOT / ".cache/dl")), Fixture(7, 19, index=9, kind=200), managed=7,
-                  substitutions=None, engine="port", record_draws=True)
+                  substitutions=None, engine="port", record_draws=True, ports=[(historical, None)])
         self.assertEqual(m.timeout_s, 60)
 
         def policy(match, data):
@@ -237,6 +251,10 @@ class Drive(unittest.TestCase):
         # module but is never called in this drive. Keep the historical digest and
         # require zero calls before excluding this new metadata counter.
         self.assertEqual(result["ports"]["calls"].pop("0791:DEA6"), 0, "selection 0791:DEA6")
+        # T123 extends existing modules; these new route-only entries are
+        # absent from the historical result metadata and unused in this drive.
+        for address in ("1771:5BF6", "1771:7812", "23E4:0831", "23E4:0900"):
+            self.assertEqual(result["ports"]["calls"].pop(address), 0, address)
         self.assertEqual(digest(result), before["result_sha256"])
         self.assertEqual(hashlib.sha256(m.m.read(0, 0x110000)).hexdigest(), before["memory_sha256"])
 

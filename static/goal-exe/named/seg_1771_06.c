@@ -64,9 +64,10 @@ void draw_fixture_row(int param_1,undefined2 param_2,undefined4 param_3)
 }
 
 
-// ---- 1771:7812  f_1771_7812  (f_1771_7812; Ghidra 4000:7812, __stdcall16far; found by routines.tsv)
+// ---- 1771:7812  draw_silent_fixture_row  (f_1771_7812; Ghidra 4000:7812, __stdcall16far; found by routines.tsv)
+// T123 (port/display.py): choose kind colour, format competition through580B hidden local Pascal result, draw at row/column+16h, call77C3 for sides/results, add CS:7810 pending marker at column+23h for first byteFE and nonzero kind; far RET8 and104h local frame  [likely; read named/seg_1771_06.c; read code/seg_1771_11.asm:7812-78B9]
 
-void __stdcall16far f_1771_7812(int param_1,undefined2 param_2,char *param_3)
+void __stdcall16far draw_silent_fixture_row(int param_1,undefined2 param_2,char *param_3)
 
 {
   char *pcVar1;
@@ -295,10 +296,11 @@ void __stdcall16far country_fixture_list(int param_1)
     if (local_8 <= uVar4) {
       local_6 = local_8;
       while( true ) {
-        f_1771_7812(0x21,local_4,
-                    (byte *)fixtures +
-                    ((word *)country_fixture_lists)[param_1 * 0x24 + (local_6 - 1)] * 8 + -8,
-                    (int)((ulong)fixtures >> 0x10));
+        draw_silent_fixture_row
+                  (0x21,local_4,
+                   (byte *)fixtures +
+                   ((word *)country_fixture_lists)[param_1 * 0x24 + (local_6 - 1)] * 8 + -8,
+                   (int)((ulong)fixtures >> 0x10));
         local_4 = local_4 + 1;
         if (local_6 == uVar4) break;
         local_6 = local_6 + 1;
@@ -981,44 +983,6 @@ void draw_competition_fixture_reference
   if (param_4 != 0) {
     draw_fixture_row(param_2,param_3,(byte *)fixtures + param_4 * 8 + -8,
                      (int)((ulong)fixtures >> 0x10));
-  }
-  return;
-}
-
-
-// ---- 1771:8CCF  draw_competition_bracket_fixture  (f_1771_8CCF; Ghidra 4000:8CCF, __stdcall16near; found by routines.tsv)
-// #419 retains the full listing body in display, including stack residue and state effects: For a nonzero fixture index, draws both countries and scores at bracket coordinates, then the winner marker for a played fixture whose kind is not6  [likely; read code/seg_1771_13.asm:30]
-
-void draw_competition_bracket_fixture
-               (undefined2 param_1,undefined2 param_2,undefined2 param_3,int param_4,int param_5,
-               int param_6)
-
-{
-  undefined1 extraout_AH;
-  uint uVar1;
-  byte *pbVar2;
-  undefined2 uVar3;
-  undefined4 local_6;
-  
-  if (param_6 != 0) {
-    uVar3 = (undefined2)((ulong)fixtures >> 0x10);
-    pbVar2 = (byte *)fixtures;
-    local_6 = (byte *)CONCAT22(uVar3,pbVar2 + param_6 * 8 + -8);
-    draw_country_name_right(param_4 + 0xe,param_5,*(undefined2 *)(pbVar2 + param_6 * 8 + -2));
-    draw_country_name_right(param_4 + 0xe,param_5 + 1,*(undefined2 *)(pbVar2 + param_6 * 8 + -4));
-    draw_fixture_score(param_2,param_3,(byte *)fixtures + param_6 * 8 + -8,
-                       (int)((ulong)fixtures >> 0x10));
-    if ((*local_6 < 0xfe) && (pbVar2[param_6 * 8 + -6] != 6)) {
-      if (pbVar2[param_6 * 8 + -5] == 0) {
-        uVar1 = CONCAT11(extraout_AH,1);
-      }
-      else {
-        uVar1 = 0;
-      }
-      u214b_write_string_at_fwd_set_attr
-                ((undefined4 *)&DS:A96E,0xb000,param_4 + 0xf,(uVar1 & 0xff) + param_5,0x8ccd,
-                 0x4000,CONCAT11(extraout_AH,6));
-    }
   }
   return;
 }

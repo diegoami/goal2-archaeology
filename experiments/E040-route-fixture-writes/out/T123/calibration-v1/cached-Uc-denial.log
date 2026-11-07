@@ -1,0 +1,11 @@
+t123-behavior-before/1
+behavioral-red-confirmed
+behavioral-red-confirmed
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T123/behavior_before.py", line 61, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E040-route-fixture-writes/out/T123/behavior_before.py", line 59, in main
+    else:raise AssertionError('legacy route did not require the denied original backend')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: legacy route did not require the denied original backend
