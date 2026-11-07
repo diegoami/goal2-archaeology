@@ -20,7 +20,7 @@ def candidate(state,tables,diagnostics=False):
     from original_match.route_team import PreMatchPlan,choose_eleven
     from original_match.port.tables import from_record
     initial=digest(state);step=R.play_round(state,from_record(tables),R.DEFAULT_KEYS)
-    choices=[];events=[];observed=[];stub_calls={}
+    choices=[];events=[];observed=[];stub_calls={};returned_contexts=[]
     while step.status=='match':
         m=step.match
         for address in ((0x3E275,0xB8000+18*160+34*2+1) if diagnostics else ()): 
@@ -34,15 +34,22 @@ def candidate(state,tables,diagnostics=False):
         m.m.at(TEAM_MENU,select)
         events.extend((e.kind,e.data) for e in m.events())
         stub_calls.update({e.address:m.ports.calls.get(e.address,0) for reg,_ in m.ports.loaded for e in reg.entries.values() if e.stub and m.ports.calls.get(e.address)})
+        from original_match.machine import REGS,MEM_SIZE
+        returned={name:m.m.reg(name) for name in REGS};continuation=step.continuation;seen=[]
+        continuation.m.at('000E:6F1D',lambda replay:None if replay else seen.append({name:continuation.m.reg(name) for name in REGS}))
         old=step;step=R.resume_round(old.continuation,m)
+        assert seen==[returned],'actual returned CPU did not reach first6F1D unchanged'
+        returned_contexts.append(returned)
+        memory_before=hashlib.sha256(continuation.m.read(0,MEM_SIZE)).hexdigest();record_before=digest(continuation.record)
         before=digest(step.state)
         try:R.resume_round(old.continuation,m)
         except ValueError:pass
         else:raise AssertionError('consumed match accepted')
         assert digest(step.state)==before
+        assert hashlib.sha256(continuation.m.read(0,MEM_SIZE)).hexdigest()==memory_before and digest(continuation.record)==record_before
     assert initial==digest(state)
     return {'state':step.state,'pages':[dict(p.__dict__,cells=p.cells.hex()) for p in step.news_pages],
-      'record':step.record,'played':step.played_fixtures,'events':events,'choices':choices,'status':step.status,'observed':observed,'stub_calls':stub_calls}
+      'record':step.record,'played':step.played_fixtures,'events':events,'choices':choices,'status':step.status,'observed':observed,'stub_calls':stub_calls,'all16_returned_cpu_equal':True,'returned_context_count':len(returned_contexts)}
 
 def parent(opts):
     from original_match import route as R
@@ -65,7 +72,7 @@ def parent(opts):
     a=actual['state'];b=expected.state(image.tables)
     private=ROOT/'.cache/t123/pairs';private.mkdir(parents=True,exist_ok=True)
     for label,value in [('original',b),('sealed',a)]:
-        path=private/(opts.case+'-'+Path(opts.out).stem+'-'+label+'.json')
+        path=private/(opts.case+'-'+Path(opts.out).stem+'-'+hashlib.sha256(str(Path(opts.out).resolve()).encode()).hexdigest()[:12]+'-'+label+'.json')
         with path.open('x') as stream:json.dump(value,stream)
     if a!=b:
         import base64,zlib
@@ -83,7 +90,7 @@ def parent(opts):
          'pages_equal':actual['pages']==pages,'page_count':len(pages),'page_digests':[digest(pages),digest(actual['pages'])],
          'ordered_draws_equal':draws_equal,'draw_count':len(transcript(oracle.record,'rng')),'draw_digests':[digest(transcript(oracle.record,'rng')),digest(transcript(actual['record'],'rng'))],
          'ordered_keys_equal':keys_equal,'key_count':len(transcript(oracle.record,'key')),'key_digests':[digest(transcript(oracle.record,'key')),digest(transcript(actual['record'],'key'))],
-         'comparison_choices_equal':choices_equal,'status':actual['status'],'played':actual['played'],'attribute_observations':[observed,actual['observed']],'reached_match_stubs':actual['stub_calls']}
+         'comparison_choices_equal':choices_equal,'all16_returned_cpu_equal':actual['all16_returned_cpu_equal'],'returned_context_count':actual['returned_context_count'],'status':actual['status'],'played':actual['played'],'attribute_observations':[observed,actual['observed']],'reached_match_stubs':actual['stub_calls']}
     with Path(opts.out).open('x') as stream:stream.write(json.dumps(row,sort_keys=True)+'\n')
     assert row['state_equal'] and row['pages_equal'] and draws_equal and keys_equal and choices_equal,row
 
@@ -96,7 +103,7 @@ def sources():
 def sealed_check():
     """Check a current immutable fourteen-case bundle, creating one when absent."""
     import datetime,types
-    frozen=sources();checks=('state_equal','pages_equal','ordered_draws_equal','ordered_keys_equal','comparison_choices_equal')
+    frozen=sources();checks=('state_equal','pages_equal','ordered_draws_equal','ordered_keys_equal','comparison_choices_equal','all16_returned_cpu_equal')
     bundles=sorted(HERE.glob('paired-*'),reverse=True)
     for bundle in bundles:
         paths=[bundle/(case[0]+'.jsonl') for case in F.runner.CASES]

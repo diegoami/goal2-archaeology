@@ -569,10 +569,10 @@ class _RoundContinuation(Route):
         result=match.result();after=mm.read(0,MEM_SIZE);now=self.m.read(0,MEM_SIZE)
         self.pending=None;self.pending_context=None
         for start,end in _runs(now,after):self._write('match',start,after[start:end])
-        # Retain the established split-call CPU convention of the oracle; the
-        # match's actual return SS/SP/BP/DS/CS:IP was validated above.
-        for name,value in context.items():self.m.set_reg(name,value)
-        self.m.set_reg('cs',self.m.seg(0xE));self.m.set_reg('eip',0x6F1D);self.m.set_reg('sp',MATCH_SP+4)
+        # The caller resumes with the actual completed Match's whole CPU,
+        # including scratch registers/flags, after validating its real frame.
+        from .machine import REGS
+        for name in REGS:self.m.set_reg(name,mm.reg(name))
         item={'fixture':match.opts['index'],'first':match.opts['first'],'second':match.opts['second'],
               'kind':match.opts['kind'],'managed':result['managed'],'score':deepcopy(result['score']),'winner':result['winner']}
         self.matches.append(match)
