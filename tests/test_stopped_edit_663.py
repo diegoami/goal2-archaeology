@@ -65,6 +65,12 @@ class StoppedEdit(unittest.TestCase):
         m.answer(tactics=0, edit_only=True)
         self.assertEqual(m.st['answer']['tactics'], {e: False for e in range(1, 9)})
 
+    def test_extra_time_accepts_tactics_without_allowing_substitution_edits(self):
+        m = self.match('extra_time', False)
+        m.answer(tactics={8: True}, edit_only=True)
+        self.assertEqual(m.st['answer']['tactics'], {8: True})
+        self.assertEqual(m.st['answer']['substitutions'], [])
+
     def test_tactics_edit_returns_a_still_paused_decision_before_play(self):
         m = self.match('pause', False)
         m.answer(tactics={5: True}, edit_only=True)

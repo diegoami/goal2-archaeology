@@ -1,0 +1,14 @@
+test_answer_is_opt_in_and_legacy_shape_stays_unchanged (tests.test_stopped_edit_663.StoppedEdit.test_answer_is_opt_in_and_legacy_shape_stays_unchanged) ... ok
+test_completed_pair_holds_select_without_escape_and_continue_does_not_repeat_it (tests.test_stopped_edit_663.StoppedEdit.test_completed_pair_holds_select_without_escape_and_continue_does_not_repeat_it) ... ok
+test_extra_time_accepts_tactics_without_allowing_substitution_edits (tests.test_stopped_edit_663.StoppedEdit.test_extra_time_accepts_tactics_without_allowing_substitution_edits) ... ok
+test_finishing_select_returns_fresh_decision_without_play_key (tests.test_stopped_edit_663.StoppedEdit.test_finishing_select_returns_fresh_decision_without_play_key) ... ok
+test_pause_accepts_an_all_clear_tactics_byte (tests.test_stopped_edit_663.StoppedEdit.test_pause_accepts_an_all_clear_tactics_byte) ... ok
+test_pause_accepts_tactics_only_without_enabling_substitutions (tests.test_stopped_edit_663.StoppedEdit.test_pause_accepts_tactics_only_without_enabling_substitutions) ... ok
+test_rejects_pause_and_disallowed_edits_before_consuming_decision (tests.test_stopped_edit_663.StoppedEdit.test_rejects_pause_and_disallowed_edits_before_consuming_decision) ... ok
+test_substitution_menu_reentry_consumes_new_answer_once (tests.test_stopped_edit_663.StoppedEdit.test_substitution_menu_reentry_consumes_new_answer_once) ... ok
+test_tactics_edit_returns_a_still_paused_decision_before_play (tests.test_stopped_edit_663.StoppedEdit.test_tactics_edit_returns_a_still_paused_decision_before_play) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.000s
+
+OK
