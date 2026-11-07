@@ -27,7 +27,18 @@ def terminal_state(stage):
     return image.state(tables),tables
 
 
-class OuterFrames(_Calls):
+class _RequiredCalls(_Calls):
+    """New original-backed proofs require their actual dependencies, without skips."""
+    __unittest_skip__=False
+    __unittest_skip_why__=''
+    @classmethod
+    def setUpClass(cls):
+        import unicorn
+        from original_match.assets import reference_image
+        cls.image=Image.from_savestate(reference_image(ROOT/'.cache/dl'))
+
+
+class OuterFrames(_RequiredCalls):
     def test_shareware_leaf_preserves_AH_and_real_frame(self):
         self.assertEqual(P.PORTS.entries['000E:7072'].ret,'ret')
         m,p=self.call('000E:7072',specs=[(P.PORTS,None)],before=lambda m:m.set_reg('ax',0xABCD))
@@ -208,7 +219,7 @@ class ReachedSetLeaves(unittest.TestCase):
 RET.update({'0791:B15F':'0791:D507','1771:5BF6':'000E:6ACD','1771:7812':'000E:6B3B'})
 
 
-class ReachedRouteLeaves(_Calls):
+class ReachedRouteLeaves(_RequiredCalls):
     def test_decider_membership_and_score_equality_preserve_full_AH(self):
         from original_match.port import silent
         for kind in (0,1,4,8,203,204,255):
@@ -254,7 +265,7 @@ def _before_callback(sources,function,args,kwargs):
     return globals()[function](*args,**kwargs)
 
 
-class ReachedFalsifiers(_Calls):
+class ReachedFalsifiers(_RequiredCalls):
     def test_omitted_decider_header_and_row_are_detected_by_original(self):
         from original_match import port
         from original_match.port.prove import ProofError
@@ -298,7 +309,7 @@ def _entry_comparison(state,tables):
 
 RET['0791:006C']='0791:0252'
 
-class SummaryBars(_Calls):
+class SummaryBars(_RequiredCalls):
     def test_original_wrapped_sum_low_product_zero_and_full_word_row(self):
         from original_match import port
         from original_match.port import display
@@ -342,7 +353,7 @@ class SummaryBars(_Calls):
                     self.assertEqual(machines[1].read(0,MEM_SIZE),machines[0].read(0,MEM_SIZE))
 
 
-class FullClosureFrames(_Calls):
+class FullClosureFrames(_RequiredCalls):
     def test_reached_leaves_full_return_flags_registers_and_physical_memory(self):
         from tests.test_port_entrypoints import oracle
         from original_match import port
@@ -422,3 +433,30 @@ class RouteKeyPorts(unittest.TestCase):
         image=_fixtures().image()
         result=call_in_pypy('test_route_sealed','_route_key_report',args=(image.state(image.tables),to_record(image.tables),'unknown'))
         self.assertTrue(result['refused']);self.assertTrue(result['pure'])
+
+
+class PublishedFixtureAvailability(unittest.TestCase):
+    def test_missing_exact_asset_is_verified_cached_and_not_fetched_twice(self):
+        import tempfile
+        F=_fixtures();row=next(c for c in F.runner.CASES if c[0]=='E040-r0004');raw=F.published_bytes(row);calls=[]
+        def fetch(actual,directory):
+            self.assertEqual(actual,row);calls.append(actual[3]);(directory/actual[3]).write_bytes(raw)
+        with tempfile.TemporaryDirectory() as directory:
+            first=F.published_bytes(row,cache_dir=directory,fetch=fetch)
+            second=F.published_bytes(row,cache_dir=directory,fetch=fetch)
+            self.assertEqual(first,raw);self.assertEqual(second,raw);self.assertEqual(calls,[row[3]])
+
+    def test_corrupt_and_unreadable_existing_asset_never_fetches(self):
+        import tempfile
+        from unittest.mock import patch
+        F=_fixtures();row=next(c for c in F.runner.CASES if c[0]=='E040-r0004');calls=[]
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/row[3];path.write_bytes(b'controlled-corruption')
+            with self.assertRaises(ValueError):F.published_bytes(row,cache_dir=directory,fetch=lambda *a:calls.append(a))
+            original=Path.read_bytes
+            def unreadable(target):
+                if target==path:raise PermissionError('controlled unreadable original fixture')
+                return original(target)
+            with patch.object(Path,'read_bytes',unreadable):
+                with self.assertRaises(PermissionError):F.published_bytes(row,cache_dir=directory,fetch=lambda *a:calls.append(a))
+            self.assertEqual(calls,[]);self.assertEqual(path.read_bytes(),b'controlled-corruption')

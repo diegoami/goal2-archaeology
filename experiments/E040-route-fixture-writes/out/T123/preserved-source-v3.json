@@ -1,0 +1,165 @@
+{
+  "before_commit": "62289f17e3386560537cb32804799765a437cb59",
+  "registries": {
+    "display": {
+      "added_entries": [
+        "1771:5BF6",
+        "1771:7812"
+      ],
+      "preserved_old_entries": 88,
+      "preserved_old_variants": [
+        "aggregate-divisor-ten",
+        "omit-0791-0000",
+        "omit-0791-0106",
+        "omit-0791-0441",
+        "omit-0791-0481",
+        "omit-0791-04c9",
+        "omit-0791-054c",
+        "omit-0791-05c6",
+        "omit-0791-0691",
+        "omit-0791-0712",
+        "omit-0791-0c65",
+        "omit-0791-15b9",
+        "omit-0791-1829",
+        "omit-0791-8f10",
+        "omit-0791-9079",
+        "omit-0791-94c9",
+        "omit-0791-94e8",
+        "omit-0791-a699",
+        "omit-0791-a75d",
+        "omit-0791-c50c",
+        "omit-1771-0947",
+        "omit-1771-0f58",
+        "omit-1771-0fb1",
+        "omit-1771-11e1",
+        "omit-1771-1289",
+        "omit-1771-13d0",
+        "omit-1771-157d",
+        "omit-1771-2ee5",
+        "omit-1771-2f37",
+        "omit-1771-3827",
+        "omit-1771-3ae2",
+        "omit-1771-3b3f",
+        "omit-1771-3bd3",
+        "omit-1771-42bc",
+        "omit-1771-4d8a",
+        "omit-1771-4e22",
+        "omit-1771-5ac4",
+        "omit-1771-5c94",
+        "omit-1771-5ccb",
+        "omit-1771-76fa",
+        "omit-1771-77c3",
+        "omit-1771-883f",
+        "omit-1771-8939",
+        "omit-1771-89c1",
+        "omit-1771-89fe",
+        "omit-1771-8a5d",
+        "omit-1771-8a87",
+        "omit-1771-8ca2",
+        "omit-1771-8ccf",
+        "omit-1771-8d84",
+        "omit-1771-8e9a",
+        "omit-1771-9028",
+        "omit-1771-91ce",
+        "omit-1771-937c",
+        "omit-1771-9509",
+        "omit-1771-958d",
+        "omit-214b-00db",
+        "omit-214b-00ff",
+        "omit-214b-0123",
+        "omit-214b-01a3",
+        "omit-214b-0205",
+        "omit-214b-026d",
+        "omit-214b-02c8",
+        "omit-214b-0350",
+        "omit-214b-0625",
+        "omit-214b-0643",
+        "omit-214b-13c5",
+        "omit-214b-1e09",
+        "omit-214b-1e5a",
+        "omit-214b-1e75",
+        "omit-214b-1e8d",
+        "omit-214b-1ef1",
+        "omit-214b-1f87",
+        "secondary-seed-adjacent",
+        "table-default-group-two"
+      ]
+    },
+    "entrypoints": {
+      "added_entries": [
+        "23E4:0831",
+        "23E4:0900"
+      ],
+      "preserved_old_entries": 9,
+      "preserved_old_variants": []
+    },
+    "route": {
+      "added_entries": [
+        "000E:7072",
+        "000E:70B9"
+      ],
+      "preserved_old_entries": 10,
+      "preserved_old_variants": [
+        "confidence-managed-only",
+        "finals-mark-dropped",
+        "news-second-draw-dropped"
+      ]
+    },
+    "silent": {
+      "added_entries": [
+        "0791:B15F"
+      ],
+      "preserved_old_entries": 4,
+      "preserved_old_variants": [
+        "credit-twice",
+        "goal-plus-one",
+        "scorer-draw-29"
+      ]
+    }
+  },
+  "source_audits": [
+    {
+      "before_sha256": "b30afbac2b86436bd3306114af4a7b315c432b9dd49c66a4e6a00728eb39981f",
+      "current_sha256": "2d0336fd2c35d1baea20aff974f28b8b51a78434f3a0d84be660fbf6b178e0bb",
+      "old_function_count": 20,
+      "path": "runtime/original_match/route.py",
+      "unchanged_ast_including_expanded_normal_constructor": true
+    },
+    {
+      "before_sha256": "10c2f76f071193b471c21666938223ad3a71d142498f4d79e662d335ce872921",
+      "current_sha256": "aa858ac32d4fb47c4bedb9bd856bd213c5aba674196ada47a8a28d798c3a605a",
+      "old_function_count": 92,
+      "path": "runtime/original_match/match.py",
+      "unchanged_ast_including_expanded_normal_constructor": true
+    },
+    {
+      "before_sha256": "265571c26de4b00fc1ca78bfde598034e125afe0f9488181c4b201574c65af75",
+      "current_sha256": "856d18518950fad8e0f6b831d6c33c71edf95f1bd56e2b369166774905b9bb1b",
+      "old_function_count": 16,
+      "path": "runtime/original_match/port/route.py",
+      "unchanged_ast_including_expanded_normal_constructor": true
+    },
+    {
+      "before_sha256": "8eb759b7290d343019ad3eda863b75a6ccdf0486bc9d99567fd4ff4ab9e0a996",
+      "current_sha256": "0df68171c3f5e3c54a43359eecbac3f71aa192f413cbac792dabf238461d6ba1",
+      "old_function_count": 12,
+      "path": "runtime/original_match/port/silent.py",
+      "unchanged_ast_including_expanded_normal_constructor": true
+    },
+    {
+      "before_sha256": "e1e76343a2b7128a42eeae3c74faa75063b54e0197ea64369e09bdbcd8cd7d63",
+      "current_sha256": "cffb3a2bde6759cc4993a77d8adc3f458bbf326d8045e4a95a398821a69ce84d",
+      "old_function_count": 64,
+      "path": "runtime/original_match/port/display.py",
+      "unchanged_ast_including_expanded_normal_constructor": true
+    },
+    {
+      "before_sha256": "a55d378798ed5ec2c33404739b0961b8fec1e6167d1d301f5512cced4063b5b7",
+      "current_sha256": "cb46f9fc71bd728951da550c848b6cf4dd4e0a7f2422304621215e412dc0c705",
+      "old_function_count": 14,
+      "path": "runtime/original_match/port/entrypoints.py",
+      "unchanged_ast_including_expanded_normal_constructor": true
+    }
+  ],
+  "status": "passed"
+}

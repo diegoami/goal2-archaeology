@@ -34,5 +34,6 @@ for path in paths:
         for address,entry in old_reg.entries.items():
             actual=reg.entries[address]
             assert (entry.ret,entry.far,entry.pop,entry.long,entry.return_stack_delta)==(actual.ret,actual.far,actual.pop,actual.long,actual.return_stack_delta),(name,address)
+        for variant,description in old_reg.variants.items():assert reg.variants.get(variant)==description,(name,variant)
         registries[name]={'preserved_old_entries':len(old_reg.entries),'added_entries':sorted(set(reg.entries)-set(old_reg.entries)),'preserved_old_variants':sorted(old_reg.variants)}
 print(json.dumps({'status':'passed','before_commit':BASE,'source_audits':rows,'registries':registries},sort_keys=True,indent=2))

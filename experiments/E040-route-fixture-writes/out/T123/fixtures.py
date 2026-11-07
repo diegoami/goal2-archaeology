@@ -1,5 +1,5 @@
 """Original-backed T123 fixture preparation; reference work only on CPython."""
-import hashlib,importlib.util,sys
+import hashlib,importlib.util,os,subprocess,sys,tempfile
 from pathlib import Path
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[3];sys.path[:0]=[str(ROOT),str(ROOT/'runtime')]
 from original_match import route as R
@@ -8,9 +8,30 @@ from original_match.machine import MEM_SIZE,REGS,GuestError
 from original_match.port.tables import load
 spec=importlib.util.spec_from_file_location('_t123_e040_runner',HERE.parents[1]/'runner.py');runner=importlib.util.module_from_spec(spec);spec.loader.exec_module(runner)
 
+def _download(row,directory):
+    subprocess.run(['gh','release','download',row[2],'--repo','diegoami/goal2-archaeology','--pattern',row[3],'--dir',str(directory)],cwd=ROOT,check=True,capture_output=True,timeout=120)
+
+
+def published_bytes(row,*,cache_dir=None,fetch=None):
+    """Exact published input; missing-only fetch, corrupt/unreadable always fail."""
+    cache=runner.DL if cache_dir is None else Path(cache_dir);path=cache/row[3];expected=runner.expected(row[3])
+    try:data=path.read_bytes()
+    except FileNotFoundError:
+        cache.mkdir(parents=True,exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=cache) as directory:
+            temporary=Path(directory);(fetch or _download)(row,temporary)
+            data=(temporary/row[3]).read_bytes()
+            if hashlib.sha256(data).hexdigest()!=expected:raise ValueError('downloaded published fixture digest mismatch: '+row[3])
+            # A closed verified file is linked atomically; another process's cache
+            # is never overwritten, including an unreadable/corrupt cache entry.
+            try:os.link(temporary/row[3],path)
+            except FileExistsError:data=path.read_bytes()
+    if hashlib.sha256(data).hexdigest()!=expected:raise ValueError('cached published fixture digest mismatch: '+row[3])
+    return data
+
+
 def image(case='E040-r0004',manager2=False):
-    row=next(c for c in runner.CASES if c[0]==case);raw=(runner.DL/row[3]).read_bytes()
-    assert hashlib.sha256(raw).hexdigest()==runner.expected(row[3])
+    row=next(c for c in runner.CASES if c[0]==case);raw=published_bytes(row)
     img=Image.from_savestate(raw);img.tables=load(ROOT/'static/goal-exe/tables')
     if manager2:
         game=img.far(0xA923);managers=img.far(0xA91F);countries=img.far(0xA917);old=img.memory[managers+3*129]

@@ -21,7 +21,15 @@ install(sources)
 import port_test_runtime
 real_call=port_test_runtime.call_in_pypy
 port_test_runtime.call_in_pypy=lambda module,function,args=(),kwargs=None,**options:real_call('test_route_sealed','_before_callback',args=(sources,function,args,kwargs or {}),**options)
-m=importlib.import_module('tests.test_route_sealed');suite=unittest.defaultTestLoader.loadTestsFromModule(m)
+m=importlib.import_module('tests.test_route_sealed')
+# The fixture recipe is reference scaffolding absent at BASE. Its exact pre-CI
+# loader version is82a86d9e; new availability tests must fail that unchanged owner.
+fixture_source=subprocess.check_output(['git','show','82a86d9e5d2a5148c0924fa4d9ce63a5bb10484e:experiments/E040-route-fixture-writes/out/T123/fixtures.py'],text=True,cwd=ROOT)
+def old_fixtures():
+    module=types.ModuleType('_t123_pre_ci_fixture');module.__file__=str(ROOT/'experiments/E040-route-fixture-writes/out/T123/fixtures.py')
+    exec(compile(fixture_source,module.__file__,'exec'),module.__dict__);return module
+m._fixtures=old_fixtures
+suite=unittest.defaultTestLoader.loadTestsFromModule(m)
 def ids(suite):
     for t in suite:
         if isinstance(t,unittest.TestSuite):yield from ids(t)
