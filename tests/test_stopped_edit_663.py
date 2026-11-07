@@ -43,6 +43,44 @@ class StoppedEdit(unittest.TestCase):
             self.assertIsNone(m.st['answer'])
             self.assertEqual(m.st['waiting']['context'],context)
 
+        for changes in ({'substitutions': [(105,112)]}, {'positions': {105: 2}},
+                        {'marking': {105: 201}}, {'own_tactics': {105: {1: True}}},
+                        {'quick': True}, {'speed': 1}):
+            m = self.match('pause', False)
+            with self.assertRaises(ValueError):
+                m.answer(tactics={5: True}, edit_only=True, **changes)
+            self.assertEqual(m.st['waiting']['context'], 'pause')
+            self.assertIsNone(m.st['answer'])
+
+    def test_pause_accepts_tactics_only_without_enabling_substitutions(self):
+        m = self.match('pause', False)
+        m.answer(tactics={1: True, 8: False}, edit_only=True)
+        self.assertIsNone(m.st['waiting'])
+        self.assertEqual(m.st['answer']['tactics'], {1: True, 8: False})
+        self.assertEqual(m.st['answer']['substitutions'], [])
+        self.assertTrue(m.st['answer']['edit_only'])
+
+    def test_pause_accepts_an_all_clear_tactics_byte(self):
+        m = self.match('pause', False)
+        m.answer(tactics=0, edit_only=True)
+        self.assertEqual(m.st['answer']['tactics'], {e: False for e in range(1, 9)})
+
+    def test_extra_time_accepts_tactics_without_allowing_substitution_edits(self):
+        m = self.match('extra_time', False)
+        m.answer(tactics={8: True}, edit_only=True)
+        self.assertEqual(m.st['answer']['tactics'], {8: True})
+        self.assertEqual(m.st['answer']['substitutions'], [])
+
+    def test_tactics_edit_returns_a_still_paused_decision_before_play(self):
+        m = self.match('pause', False)
+        m.answer(tactics={5: True}, edit_only=True)
+        m._menu = m._new_plan(m.st['answer'])
+        m._menu.in_screen = 'tactics'
+        m._menu.menu_key = lambda item: self.fail('must not navigate to Play')
+        self.assertIsNone(m._team_menu_key(0))
+        self.assertEqual(m.decisions, [('pause', {'substitutions_now': False, 'requested': [], 'edited': True})])
+        self.assertEqual(len(m.closed), 1)
+
     def test_finishing_select_returns_fresh_decision_without_play_key(self):
         m=self.match()
         plan=S.MenuPlan(0,subs=[(105,112)])

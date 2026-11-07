@@ -1,0 +1,59 @@
+test_answer_is_opt_in_and_legacy_shape_stays_unchanged (tests.test_stopped_edit_663.StoppedEdit.test_answer_is_opt_in_and_legacy_shape_stays_unchanged) ... ok
+test_completed_pair_holds_select_without_escape_and_continue_does_not_repeat_it (tests.test_stopped_edit_663.StoppedEdit.test_completed_pair_holds_select_without_escape_and_continue_does_not_repeat_it) ... ok
+test_extra_time_accepts_tactics_without_allowing_substitution_edits (tests.test_stopped_edit_663.StoppedEdit.test_extra_time_accepts_tactics_without_allowing_substitution_edits) ... ERROR
+test_finishing_select_returns_fresh_decision_without_play_key (tests.test_stopped_edit_663.StoppedEdit.test_finishing_select_returns_fresh_decision_without_play_key) ... ok
+test_pause_accepts_an_all_clear_tactics_byte (tests.test_stopped_edit_663.StoppedEdit.test_pause_accepts_an_all_clear_tactics_byte) ... ERROR
+test_pause_accepts_tactics_only_without_enabling_substitutions (tests.test_stopped_edit_663.StoppedEdit.test_pause_accepts_tactics_only_without_enabling_substitutions) ... ERROR
+test_rejects_pause_and_disallowed_edits_before_consuming_decision (tests.test_stopped_edit_663.StoppedEdit.test_rejects_pause_and_disallowed_edits_before_consuming_decision) ... ok
+test_substitution_menu_reentry_consumes_new_answer_once (tests.test_stopped_edit_663.StoppedEdit.test_substitution_menu_reentry_consumes_new_answer_once) ... ok
+test_tactics_edit_returns_a_still_paused_decision_before_play (tests.test_stopped_edit_663.StoppedEdit.test_tactics_edit_returns_a_still_paused_decision_before_play) ... ERROR
+
+======================================================================
+ERROR: test_extra_time_accepts_tactics_without_allowing_substitution_edits (tests.test_stopped_edit_663.StoppedEdit.test_extra_time_accepts_tactics_without_allowing_substitution_edits)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_stopped_edit_663.py", line 70, in test_extra_time_accepts_tactics_without_allowing_substitution_edits
+    m.answer(tactics={8: True}, edit_only=True)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "match_before_679.py", line 479, in answer
+    # during a pause even when SELECT TEAM cannot make substitutions.
+ValueError: edit_only needs a legal stopped bench decision, without play-on inputs
+
+======================================================================
+ERROR: test_pause_accepts_an_all_clear_tactics_byte (tests.test_stopped_edit_663.StoppedEdit.test_pause_accepts_an_all_clear_tactics_byte)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_stopped_edit_663.py", line 65, in test_pause_accepts_an_all_clear_tactics_byte
+    m.answer(tactics=0, edit_only=True)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "match_before_679.py", line 479, in answer
+    # during a pause even when SELECT TEAM cannot make substitutions.
+ValueError: edit_only needs a legal stopped bench decision, without play-on inputs
+
+======================================================================
+ERROR: test_pause_accepts_tactics_only_without_enabling_substitutions (tests.test_stopped_edit_663.StoppedEdit.test_pause_accepts_tactics_only_without_enabling_substitutions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_stopped_edit_663.py", line 57, in test_pause_accepts_tactics_only_without_enabling_substitutions
+    m.answer(tactics={1: True, 8: False}, edit_only=True)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "match_before_679.py", line 479, in answer
+    # during a pause even when SELECT TEAM cannot make substitutions.
+ValueError: edit_only needs a legal stopped bench decision, without play-on inputs
+
+======================================================================
+ERROR: test_tactics_edit_returns_a_still_paused_decision_before_play (tests.test_stopped_edit_663.StoppedEdit.test_tactics_edit_returns_a_still_paused_decision_before_play)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_stopped_edit_663.py", line 76, in test_tactics_edit_returns_a_still_paused_decision_before_play
+    m.answer(tactics={5: True}, edit_only=True)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "match_before_679.py", line 479, in answer
+    # during a pause even when SELECT TEAM cannot make substitutions.
+ValueError: edit_only needs a legal stopped bench decision, without play-on inputs
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.001s
+
+FAILED (errors=4)
+EXPECTED: four new positive regressions fail on original entry guard; five original controls pass
