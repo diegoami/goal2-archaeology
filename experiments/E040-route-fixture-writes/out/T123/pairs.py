@@ -73,12 +73,19 @@ def parent(opts):
         differences=[i for i,(u,v) in enumerate(zip(x,y)) if u!=v]
     else:differences=[]
     pages=[dict(p.__dict__,cells=p.cells.hex()) for p in oracle.news_history]
+    transcript=lambda records,kind:[list(e) for e in records if e[0]==kind]
+    draws_equal=digest(transcript(oracle.record,'rng'))==digest(transcript(actual['record'],'rng'))
+    keys_equal=digest(transcript(oracle.record,'key'))==digest(transcript(actual['record'],'key'))
+    original_choices=[choice for e in oracle.record if e[0]=='team' for choice in e[1]['choices']]
+    choices_equal=digest(original_choices)==digest(actual['choices'])
     row={'case':opts.case,'elapsed_s':round(time.monotonic()-start,4),'state_equal':a==b,
          'state_digests':[digest(b),digest(a)],'different_bytes':len(differences),'first_different_offsets':differences[:30],
          'pages_equal':actual['pages']==pages,'page_count':len(pages),'page_digests':[digest(pages),digest(actual['pages'])],
-         'status':actual['status'],'played':actual['played'],'attribute_observations':[observed,actual['observed']],'reached_match_stubs':actual['stub_calls']}
+         'ordered_draws_equal':draws_equal,'draw_count':len(transcript(oracle.record,'rng')),'draw_digests':[digest(transcript(oracle.record,'rng')),digest(transcript(actual['record'],'rng'))],
+         'ordered_keys_equal':keys_equal,'key_count':len(transcript(oracle.record,'key')),'key_digests':[digest(transcript(oracle.record,'key')),digest(transcript(actual['record'],'key'))],
+         'comparison_choices_equal':choices_equal,'status':actual['status'],'played':actual['played'],'attribute_observations':[observed,actual['observed']],'reached_match_stubs':actual['stub_calls']}
     with Path(opts.out).open('x') as stream:stream.write(json.dumps(row,sort_keys=True)+'\n')
-    assert row['state_equal'] and row['pages_equal'],row
+    assert row['state_equal'] and row['pages_equal'] and draws_equal and keys_equal and choices_equal,row
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--case',required=True);p.add_argument('--out',required=True);parent(p.parse_args())

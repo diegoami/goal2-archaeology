@@ -127,6 +127,13 @@ def _fixtures():
 
 
 class MatchEntry(unittest.TestCase):
+    def test_actual_pending_entry_equals_original_full_state_and_all_registers(self):
+        from port_test_runtime import call_in_pypy
+        from original_match.port.tables import to_record
+        image=_fixtures().image();expected,context,fixture=_fixtures().entry()
+        state,regs=call_in_pypy('test_route_sealed','_entry_comparison',args=(image.state(image.tables),to_record(image.tables)))
+        self.assertEqual(state,expected.state(image.tables));self.assertEqual(regs,context)
+
     def test_factory_preserves_actual_context_and_existing_manager2(self):
         from port_test_runtime import call_in_pypy
         from original_match.port.tables import to_record
