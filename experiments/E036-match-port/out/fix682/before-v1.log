@@ -1,0 +1,90 @@
+test_checkpoint_codec_retains_opt_in_and_waiting_record_payload (test_live_player_records_682.LivePlayers.test_checkpoint_codec_retains_opt_in_and_waiting_record_payload) ... ERROR
+test_later_snapshot_is_fresh_and_already_emitted_values_are_immutable (test_live_player_records_682.LivePlayers.test_later_snapshot_is_fresh_and_already_emitted_values_are_immutable) ... ERROR
+test_legacy_default_and_explicit_false_keep_exact_previous_packet_shape (test_live_player_records_682.LivePlayers.test_legacy_default_and_explicit_false_keep_exact_previous_packet_shape) ... ok
+test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions (test_live_player_records_682.LivePlayers.test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions) ... 
+  test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions (test_live_player_records_682.LivePlayers.test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions) (context='pause') ... FAIL
+  test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions (test_live_player_records_682.LivePlayers.test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions) (context='half_time') ... FAIL
+  test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions (test_live_player_records_682.LivePlayers.test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions) (context='substitution') ... FAIL
+  test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions (test_live_player_records_682.LivePlayers.test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions) (context='extra_time') ... FAIL
+  test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions (test_live_player_records_682.LivePlayers.test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions) (context='set_piece') ... FAIL
+  test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions (test_live_player_records_682.LivePlayers.test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions) (context='shootout_order') ... FAIL
+test_public_option_is_strict_boolean_and_absent_by_default (test_live_player_records_682.LivePlayers.test_public_option_is_strict_boolean_and_absent_by_default) ... FAIL
+
+======================================================================
+ERROR: test_checkpoint_codec_retains_opt_in_and_waiting_record_payload (test_live_player_records_682.LivePlayers.test_checkpoint_codec_retains_opt_in_and_waiting_record_payload)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-live-card-engine-a/tests/test_live_player_records_682.py", line 105, in test_checkpoint_codec_retains_opt_in_and_waiting_record_payload
+    self.assertEqual(loaded['opts']['live_players'],True)
+                     ~~~~~~^^^^^^^^
+TypeError: 'int' object is not subscriptable
+
+======================================================================
+ERROR: test_later_snapshot_is_fresh_and_already_emitted_values_are_immutable (test_live_player_records_682.LivePlayers.test_later_snapshot_is_fresh_and_already_emitted_values_are_immutable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-live-card-engine-a/tests/test_live_player_records_682.py", line 62, in test_later_snapshot_is_fresh_and_already_emitted_values_are_immutable
+    self.assertEqual(bytes.fromhex(latest[words[1]])[14],3)
+                                   ~~~~~~^^^^^^^^^^
+KeyError: 402
+
+======================================================================
+FAIL: test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions (test_live_player_records_682.LivePlayers.test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions) (context='pause')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-live-card-engine-a/tests/test_live_player_records_682.py", line 42, in test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions
+    self.assertEqual(data.get('player_records'),[[w,bytes(records[w]).hex()] for w in words])
+AssertionError: None != [[401, '0792939495969798999a9b9c9d9e9fa0a[974 chars]b7']]
+
+======================================================================
+FAIL: test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions (test_live_player_records_682.LivePlayers.test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions) (context='half_time')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-live-card-engine-a/tests/test_live_player_records_682.py", line 42, in test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions
+    self.assertEqual(data.get('player_records'),[[w,bytes(records[w]).hex()] for w in words])
+AssertionError: None != [[401, '0792939495969798999a9b9c9d9e9fa0a[974 chars]b7']]
+
+======================================================================
+FAIL: test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions (test_live_player_records_682.LivePlayers.test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions) (context='substitution')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-live-card-engine-a/tests/test_live_player_records_682.py", line 42, in test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions
+    self.assertEqual(data.get('player_records'),[[w,bytes(records[w]).hex()] for w in words])
+AssertionError: None != [[401, '0792939495969798999a9b9c9d9e9fa0a[974 chars]b7']]
+
+======================================================================
+FAIL: test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions (test_live_player_records_682.LivePlayers.test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions) (context='extra_time')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-live-card-engine-a/tests/test_live_player_records_682.py", line 42, in test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions
+    self.assertEqual(data.get('player_records'),[[w,bytes(records[w]).hex()] for w in words])
+AssertionError: None != [[401, '0792939495969798999a9b9c9d9e9fa0a[974 chars]b7']]
+
+======================================================================
+FAIL: test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions (test_live_player_records_682.LivePlayers.test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions) (context='set_piece')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-live-card-engine-a/tests/test_live_player_records_682.py", line 42, in test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions
+    self.assertEqual(data.get('player_records'),[[w,bytes(records[w]).hex()] for w in words])
+AssertionError: None != [[401, '0792939495969798999a9b9c9d9e9fa0a[974 chars]b7']]
+
+======================================================================
+FAIL: test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions (test_live_player_records_682.LivePlayers.test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions) (context='shootout_order')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-live-card-engine-a/tests/test_live_player_records_682.py", line 42, in test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions
+    self.assertEqual(data.get('player_records'),[[w,bytes(records[w]).hex()] for w in words])
+AssertionError: None != [[401, '0792939495969798999a9b9c9d9e9fa0a[974 chars]b7']]
+
+======================================================================
+FAIL: test_public_option_is_strict_boolean_and_absent_by_default (test_live_player_records_682.LivePlayers.test_public_option_is_strict_boolean_and_absent_by_default)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-live-card-engine-a/tests/test_live_player_records_682.py", line 89, in test_public_option_is_strict_boolean_and_absent_by_default
+    self.assertIn('live_players',inspect.signature(Match).parameters)
+AssertionError: 'live_players' not found in mappingproxy(OrderedDict({'image': <Parameter "image">, 'fixture': <Parameter "fixture">, 'managed': <Parameter "managed=None">, 'captain': <Parameter "captain=None">, 'seed': <Parameter "seed=None">, 'players': <Parameter "players=None">, 'countries': <Parameter "countries=None">, 'substitutions': <Parameter "substitutions=None">, 'ticks': <Parameter "ticks=False">, 'record_draws': <Parameter "record_draws=False">, 'delay_byte': <Parameter "delay_byte=None">, 'timeout_s': <Parameter "timeout_s=60">, 'ports': <Parameter "ports=None">, 'prove': <Parameter "prove=None">, 'set_piece': <Parameter "set_piece=False">, 'engine': <Parameter "engine='original'">, 'tail': <Parameter "tail=True">}))
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.002s
+
+FAILED (failures=7, errors=2)

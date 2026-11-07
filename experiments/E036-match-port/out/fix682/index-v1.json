@@ -1,0 +1,69 @@
+{
+  "baseline": "46e0043e89de2799272addad2b99017cb259302c",
+  "runtime_sha256": "0d7e2986a5947892f66ba10e2732dd22d8e53f1d473e33ac9de75f18bb40878c",
+  "proof_sha256": "f6cc0d4958414dad8e37a2d73c7bf7354ce9c04c54c77667d9b2e7227a04dff4",
+  "outputs_sha256": {
+    "experiments/E036-match-port/out/fix682/original-friendly-v2.json": "ba71df88966f0ea9e300680a721d9a00564ffdfdd09cff4c71d9a5eb5201979f",
+    "experiments/E036-match-port/out/fix682/fix682-port-friendly-v2.json": "76cec253332d156d933e35b8d3524bffde0d4feb0b8ab4a4c893acdf7ccd6920",
+    "experiments/E036-match-port/out/fix682/fix682-original-extra-v2.json": "4b3c8ea8408e17f3eab551ebee0c4a747cb098aead3da56b9d36b6aeb60762bb",
+    "experiments/E036-match-port/out/fix682/fix682-port-extra-v2.json": "a10631b3facc764094d8e299ecdb6586e247100582e50c3d44ccf85d1febe9c9"
+  },
+  "matches_completed": 8,
+  "snapshots_checked": 28,
+  "records_checked": 560,
+  "within_backend_full_result_memory_and_exact_event_extension": true,
+  "cross_backend": {
+    "friendly": {
+      "legacy": {
+        "result_sha256": true,
+        "display_profile_events": true,
+        "accepted_state_ranges": true,
+        "snapshots": true,
+        "draws": true,
+        "draws_digest": true,
+        "score": true,
+        "full_physical_memory_equal": false,
+        "raw_all_event_digest_equal": false
+      },
+      "live": {
+        "result_sha256": true,
+        "display_profile_events": true,
+        "accepted_state_ranges": true,
+        "snapshots": true,
+        "draws": true,
+        "draws_digest": true,
+        "score": true,
+        "full_physical_memory_equal": false,
+        "raw_all_event_digest_equal": false
+      }
+    },
+    "extra": {
+      "legacy": {
+        "result_sha256": true,
+        "display_profile_events": true,
+        "accepted_state_ranges": true,
+        "snapshots": true,
+        "draws": true,
+        "draws_digest": true,
+        "score": true,
+        "full_physical_memory_equal": true,
+        "raw_all_event_digest_equal": false
+      },
+      "live": {
+        "result_sha256": true,
+        "display_profile_events": true,
+        "accepted_state_ranges": true,
+        "snapshots": true,
+        "draws": true,
+        "draws_digest": true,
+        "score": true,
+        "full_physical_memory_equal": true,
+        "raw_all_event_digest_equal": false
+      }
+    }
+  },
+  "memory_mask": [],
+  "event_profile": "existing only full_time.data.screen_sha256 exclusion; no new projection; raw hashes retained",
+  "public_raw_record_bytes": false,
+  "scope": "current managed records opt-in; not goal2 UI adoption, extra-time substitution support or whole-season readiness"
+}

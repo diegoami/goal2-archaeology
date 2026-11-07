@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/tmp/goal2-live-card-engine-a/experiments/E036-match-port/out/fix682/proof-v1.py", line 106, in <module>
+    legacy,old_result,old_memory,old_events,old_snapshots=arm(False)
+                                                          ^^^^^^^^^^
+  File "/tmp/goal2-live-card-engine-a/experiments/E036-match-port/out/fix682/proof-v1.py", line 62, in arm
+    saved=m.dump();loaded=Match.load(saved,timeout_s=60)
+          ^^^^^^
+AttributeError: 'Match' object has no attribute 'dump'

@@ -97,3 +97,8 @@ rerunning the unit suite in a fresh subprocess — 23/23 mutants
 killed. See `findings/F020-events-change-confidence-and-team-morale-aggregates-it.md`
 and E019's `notes.md` for the inventory, listing lines and the booking
 limitation.
+
+[designed: #682, goal2#611] The optional
+[live-player-record snapshot](../docs/live-player-records-api.md) supplies current20-byte
+managed squad records at decisions when `Match(..., live_players=True)` is requested.
+The default leaves existing decision/options shapes unchanged.
