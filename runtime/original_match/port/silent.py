@@ -487,5 +487,5 @@ def result_needs_winner(mem,variant):
     yes=False
     if member(mem):
         r.al=mem.ds8(0x9B3C);other=mem.ds8(0x9B3D);r.arith(sub_flags(r.al,other,8));yes=r.al==other
-    r.al=int(yes);r.local8(-1,r.al);r.al=mem.u8(mem.ss_lin(r.bp-1))
+    r.al=int(yes);r.local8(-1,r.al);r.flush();r.al=mem.u8(mem.ss_lin(r.bp-1))
     return _end(r)

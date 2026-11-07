@@ -168,3 +168,69 @@ def _boundary_report(state,table_record,repeat):
         assert second.status==step.status and second.state==step.state and not second.played_fixtures and not second.news_pages
     assert json.dumps(state,sort_keys=True)==before
     return {'pure':True,'immutable':immutable,'denials':True,'repeated':repeat}
+
+
+class ReachedSetLeaves(unittest.TestCase):
+    def test_expand_and_union_full_memory_registers_and_wrapped_overlap(self):
+        """Declared synthetic Pascal frames, including hidden result pointers."""
+        from tests.test_port_entrypoints import oracle
+        from original_match.machine import Machine
+        from original_match.port.engine import PortMachine
+        from original_match import port
+        image=_fixtures().image();baseline=bytes(image.memory[:MEM_SIZE])
+        cases=[]
+        for descriptor in (0,0x20,0x0103,0x1F01,0x2020,0xFFFF):
+            for src,dst in ((0x100,0x200),(0x100,0x101),(0xFFFE,0xFFFC)):
+                cases.append(('23E4:0831',[descriptor,src,0x9000,dst,0x9000]))
+        for src,dst in ((0x100,0x200),(0x100,0x102),(0x102,0x100),(0xFFFF,0xFFF9)):
+            cases.append(('23E4:0900',[src,0x9000,dst,0x9000]))
+        for target,args in cases:
+            for flags in (0x202,0xED7):
+                with self.subTest(target=target,args=args,flags=flags):
+                    machines=[Machine(baseline,image.load),PortMachine(baseline,image.load)]
+                    port.install(machines[1],['entrypoints'])
+                    for machine in machines:
+                        machine.write(0x90000,bytes((i*37+11)&255 for i in range(0x10020)))
+                        oracle.run_one(machine,True,target,args,dict(ax=0xABCD,bx=0xDEAD,cx=0x7654,dx=0x9876,si=0x4321,di=0x2468,bp=0x6789,eflags=flags))
+                    self.assertEqual(oracle.final(machines[1]),oracle.final(machines[0]))
+                    self.assertEqual(machines[1].read(0,MEM_SIZE),machines[0].read(0,MEM_SIZE))
+                    # RETF consumes only explicit arguments, leaving hidden result pointer.
+                    self.assertEqual(machines[1].reg('sp'),oracle.SP0-12)
+
+
+RET.update({'0791:B15F':'0791:D4D1','1771:5BF6':'000E:6C4A','1771:7812':'1771:79CF'})
+
+
+class ReachedRouteLeaves(_Calls):
+    def test_decider_membership_and_score_equality_preserve_full_AH(self):
+        from original_match.port import silent
+        for kind in (0,1,4,8,203,204,255):
+            for scores in (b'\x02\x02',b'\x02\x03'):
+                with self.subTest(kind=kind,scores=list(scores)):
+                    def prepare(m):
+                        m.write(0x90100,bytes([0xFF,0,kind,0,3,0,4,0]));m.write(m.DS*16+0x9B3C,scores);m.set_reg('ax',0xABCD)
+                    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+                    self.proved(p,'0791:B15F');self.assertEqual(m.reg('ax')>>8,0xAB)
+
+    def test_silent_header_real_helper_frames(self):
+        from original_match.port import display
+        for stage in (2,5,8):
+            with self.subTest(stage=stage):
+                m,p=self.call('1771:5BF6',specs=[(display.PORTS,None)],game={0x3C:stage})
+                self.proved(p,'1771:5BF6')
+
+    def test_fixture_row_real_hidden_string_and_pending_marker(self):
+        from original_match.port import display
+        for kind in (0,1,2,4,8,203):
+            for status in (0xFE,0xFF,2):
+                with self.subTest(kind=kind,status=status):
+                    def prepare(m):m.write(0x90100,bytes([status,1,kind,0,3,0,4,0]))
+                    m,p=self.call('1771:7812',args=(0x9000,0x100,7,0x21),specs=[(display.PORTS,None)],before=prepare)
+                    self.proved(p,'1771:7812')
+
+
+def _pair_candidate(state,tables):
+    import importlib.util
+    path=ROOT/'experiments/E040-route-fixture-writes/out/T123/pairs.py'
+    spec=importlib.util.spec_from_file_location('_t123_pairs',path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    return module.candidate(state,tables)

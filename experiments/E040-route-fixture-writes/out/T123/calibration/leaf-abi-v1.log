@@ -1,0 +1,94 @@
+test_expand_and_union_full_memory_registers_and_wrapped_overlap (tests.test_route_sealed.ReachedSetLeaves.test_expand_and_union_full_memory_registers_and_wrapped_overlap)
+Declared synthetic Pascal frames, including hidden result pointers. ... ok
+test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) ... 
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=4, scores=[2, 2]) ... ERROR
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=8, scores=[2, 2]) ... ERROR
+  test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=203, scores=[2, 2]) ... ERROR
+test_fixture_row_real_hidden_string_and_pending_marker (tests.test_route_sealed.ReachedRouteLeaves.test_fixture_row_real_hidden_string_and_pending_marker) ... ok
+test_silent_header_real_helper_frames (tests.test_route_sealed.ReachedRouteLeaves.test_silent_header_real_helper_frames) ... ok
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=4, scores=[2, 2])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 226, in dispatch
+    self.muted_hook(lin)
+    ~~~~~~~~~~~~~~~^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 420, in _muted_at
+    self._original_returned()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 576, in _original_returned
+    self._fail(f"register {r} at the return: the original 0x{original_regs[r]:04X}, "
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               f"the port 0x{port_regs[r]:04X}")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 476, in _fail
+    raise ProofError(f"{self._head(st)}: {text}")
+original_match.port.prove.ProofError: 0791:B15F (silent), call #1 from 0791:D4D1: register AX at the return: the original 0xAB01, the port 0xAB00
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=8, scores=[2, 2])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 226, in dispatch
+    self.muted_hook(lin)
+    ~~~~~~~~~~~~~~~^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 420, in _muted_at
+    self._original_returned()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 576, in _original_returned
+    self._fail(f"register {r} at the return: the original 0x{original_regs[r]:04X}, "
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               f"the port 0x{port_regs[r]:04X}")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 476, in _fail
+    raise ProofError(f"{self._head(st)}: {text}")
+original_match.port.prove.ProofError: 0791:B15F (silent), call #1 from 0791:D4D1: register AX at the return: the original 0xAB01, the port 0xAB00
+
+======================================================================
+ERROR: test_decider_membership_and_score_equality_preserve_full_AH (tests.test_route_sealed.ReachedRouteLeaves.test_decider_membership_and_score_equality_preserve_full_AH) (kind=203, scores=[2, 2])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_sealed.py", line 212, in test_decider_membership_and_score_equality_preserve_full_AH
+    m,p=self.call('0791:B15F',args=(0x9000,0x100),specs=[(silent.PORTS,None)],before=prepare)
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_port_stages.py", line 127, in call
+    self.assertEqual(m.run(m.lin(END), 300, fresh=True), "returned")
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 226, in dispatch
+    self.muted_hook(lin)
+    ~~~~~~~~~~~~~~~^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 420, in _muted_at
+    self._original_returned()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 576, in _original_returned
+    self._fail(f"register {r} at the return: the original 0x{original_regs[r]:04X}, "
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               f"the port 0x{port_regs[r]:04X}")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/port/prove.py", line 476, in _fail
+    raise ProofError(f"{self._head(st)}: {text}")
+original_match.port.prove.ProofError: 0791:B15F (silent), call #1 from 0791:D4D1: register AX at the return: the original 0xAB01, the port 0xAB00
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.793s
+
+FAILED (errors=3)

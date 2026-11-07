@@ -12,7 +12,7 @@ class Registry(unittest.TestCase):
             "000E:6CA7": "ret", "000E:6C21": "ret 4", "0791:E80D": "retf 4",
             "000E:6685": "ret 4", "000E:038E": "ret", "000E:05F6": "ret 6",
             "000E:062F": "ret 0xc", "000E:070B": "ret 6", "000E:075F": "ret 0xc",
-            "000E:5978": "ret 4"})
+            "000E:5978": "ret 4", "000E:7072": "ret", "000E:70B9": "ret"})
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from test_port_silent import Rig as SilentRig, responder, GAME, FIXTURES_SEG, FIXTURES_OFF
