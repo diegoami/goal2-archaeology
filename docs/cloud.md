@@ -92,3 +92,22 @@ every PR merges with a merge commit (process.md §3).
   in the background (about 6 minutes on two CPUs).
 - A probe failure means the emulator differs here: no run made in that session counts until it is
   understood.
+
+
+## Test interpreters
+
+[designed: owner, 2026-11-07, T126/#676] The twelve CI groups keep the same
+coverage and required checks. CPython3.12 runs original/Unicorn references and
+static/tooling tests. Standalone PortMachine checkpoint, sealed and other pure
+port cases run under the production PyPy3.11 runtime. Mixed facade tests retain
+their existing Unicorn-plus-ports reference on CPython and run only the candidate
+in a trusted PyPy child, comparing the complete typed event list, result and
+full-memory digest. No seeded golden, denial control or time limit changes.
+
+CI installs PyPy with `setup-python`'s `update-environment: false`, keeping the
+CPython/pip environment for reference dependencies. The test step passes its
+absolute interpreter as `GOAL2_PORT_PYTHON`. Locally put `pypy3.11` on PATH or set
+that variable to PyPy3.11. A missing or CPython-valued port interpreter is an error;
+there is no slow CPython fallback. Pure-test ownership is explicit in
+`tools/ci_gate.py`; an unexpected child skip or lost test identifier fails the
+parent. Local full suites remain in CI; focused checks use `tools/heavy.sh`.

@@ -1,0 +1,33 @@
+{"group": "e034-03", "test_ids": ["test_port_engine.Checkpoints.test_e034_03"]}
+{"reference_runtime": "cpython", "cpython_test_ids": [], "pypy_test_ids": ["test_port_engine.Checkpoints.test_e034_03"]}
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: test_port_engine.Checkpoints.test_e034_03
+checkpoint PASS E034 index 9 boundary=0 phase=event
+checkpoint PASS E034 index 9 boundary=2 phase=event
+checkpoint PASS E034 index 9 boundary=8 phase=event
+checkpoint PASS E034 index 9 boundary=166 phase=event
+checkpoint PASS E034 index 9 boundary=168 phase=event
+checkpoint PASS E034 index 9 boundary=616 phase=event
+checkpoint PASS E034 index 9 boundary=617 phase=event
+checkpoint PASS E034 index 9 boundary=617 phase=answered
+checkpoint PASS E034 index 9 boundary=631 phase=event
+checkpoint PASS E034 index 9 boundary=637 phase=event
+checkpoint PASS E034 index 9 boundary=674 phase=event
+checkpoint PASS E034 index 9 boundary=676 phase=event
+checkpoint PASS E034 index 9 boundary=676 phase=answered
+checkpoint PASS E034 index 9 boundary=694 phase=event
+checkpoint PASS E034 index 9 boundary=694 phase=answered
+checkpoint PASS E034 index 9 boundary=711 phase=event
+checkpoint PASS E034 index 9 boundary=712 phase=event
+checkpoint PASS E034 index 9 boundary=712 phase=answered
+checkpoint PASS E034 index 9 boundary=718 phase=event
+checkpoint PASS E034 index 9 boundary=829 phase=event
+checkpoint PASS E034 index 9 boundary=830 phase=event
+PyPy test end: test_port_engine.Checkpoints.test_e034_03
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 1 selected tests
+test_e034_03 (test_port_engine.Checkpoints.test_e034_03) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 819.076s
+
+OK

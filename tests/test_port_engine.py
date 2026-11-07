@@ -16,7 +16,7 @@ import unittest
 from unittest.mock import patch
 
 ROOT=Path(__file__).resolve().parents[1]
-sys.path.insert(0,str(ROOT/'runtime'))
+sys.path[:0] = [str(ROOT/'runtime'), str(ROOT/'tools')]
 from original_match import Image,Match,Fixture
 from original_match.assets import reference_image
 from original_match.port.engine import PortMachine
@@ -55,6 +55,24 @@ def play_knockout(image,engine):
     return m,events
 
 
+def _candidate_report(image, *, interactive=False, knockout=False):
+    """Same candidate execution/assertion values, in a trusted PyPy test child."""
+    assert sys.implementation.name == 'pypy' and sys.version_info[:2] == (3, 11)
+    candidate, events = (play_knockout(image, 'port') if knockout
+                         else play(image, 'port', interactive=interactive))
+    assert isinstance(candidate.m, PortMachine) and not hasattr(candidate.m, '_uc')
+    return {'events': events, 'result': candidate.result(),
+            'memory_sha256': memory_digest(candidate),
+            'runtime': (sys.implementation.name, sys.version_info[:2])}
+
+
+def candidate_report(image, **options):
+    from port_test_runtime import call_in_pypy
+    result = call_in_pypy('test_port_engine', '_candidate_report', args=(image,), kwargs=options)
+    assert result['runtime'] == ('pypy', (3, 11)), result['runtime']
+    return result
+
+
 class Engine(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -75,25 +93,25 @@ class Engine(unittest.TestCase):
 
     def test_complete_reference_fixture_events_results_and_memory_equal(self):
         original,events=play(self.image,'original')
-        candidate,actual=play(self.image,'port')
+        candidate=candidate_report(self.image);actual=candidate['events']
         self.assertEqual(actual,events)
-        self.assertEqual(candidate.result(),original.result())
-        self.assertEqual(memory_digest(candidate),memory_digest(original))
+        self.assertEqual(candidate['result'],original.result())
+        self.assertEqual(candidate['memory_sha256'],memory_digest(original))
 
     def test_interactive_pause_tactics_and_halftime_equal(self):
         original,events=play(self.image,'original',interactive=True)
-        candidate,actual=play(self.image,'port',interactive=True)
+        candidate=candidate_report(self.image,interactive=True);actual=candidate['events']
         self.assertTrue(any(e['kind']=='decision' and e['data']['context']=='pause' for e in actual))
-        self.assertEqual(actual,events);self.assertEqual(candidate.result(),original.result())
-        self.assertEqual(memory_digest(candidate),memory_digest(original))
+        self.assertEqual(actual,events);self.assertEqual(candidate['result'],original.result())
+        self.assertEqual(candidate['memory_sha256'],memory_digest(original))
 
     def test_knockout_match_result_and_events_equal(self):
         original,events=play_knockout(self.image,'original')
-        candidate,actual=play_knockout(self.image,'port')
-        self.assertTrue(candidate.result()['extra_time'])
-        self.assertIsNotNone(candidate.result()['shootout'])
-        self.assertEqual(actual,events);self.assertEqual(candidate.result(),original.result())
-        self.assertEqual(memory_digest(candidate),memory_digest(original))
+        candidate=candidate_report(self.image,knockout=True);actual=candidate['events']
+        self.assertTrue(candidate['result']['extra_time'])
+        self.assertIsNotNone(candidate['result']['shootout'])
+        self.assertEqual(actual,events);self.assertEqual(candidate['result'],original.result())
+        self.assertEqual(candidate['memory_sha256'],memory_digest(original))
 
     def test_no_unicorn_positive_denial_runs_a_complete_match(self):
         script=r'''import builtins,sys,json

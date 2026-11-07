@@ -76,6 +76,14 @@ jobs:
           BEFORE: ${{ github.event.before }}
           REPO: ${{ github.repository }}
         run: python3 tools/ci_gate.py decide >> "$GITHUB_OUTPUT"
+      # [designed: owner, T126/#676] Keep CPython/pip for original and static
+      # references; provide the accepted standalone engine runtime separately.
+      - if: steps.gate.outputs.code == 'true'
+        uses: actions/setup-python@v5
+        id: pypy
+        with:
+          python-version: 'pypy3.11'
+          update-environment: false
       # Relative Markdown links resolve and JSON files parse.
       - if: steps.gate.outputs.quick == 'true'
         run: python3 tools/check_links.py
@@ -122,6 +130,8 @@ jobs:
       # The record tools, their tests and fixtures (the fetched checker and artifact stay in .cache/).
       # The six slow modules (tools/ci_gate.py SLOW) run only when the gate names them.
       - if: steps.gate.outputs.code == 'true'
+        env:
+          GOAL2_PORT_PYTHON: ${{ steps.pypy.outputs.python-path }}
         run: python3 tools/ci_gate.py run-tests --modules="${{ steps.gate.outputs.modules }}" --group="${{ matrix.group }}"
       # T37: every finding's citations resolve under the pinned checker (U25-U27).
       - if: steps.gate.outputs.quick == 'true'

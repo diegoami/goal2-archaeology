@@ -1,0 +1,275 @@
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEF
+======================================================================
+ERROR: test_mixed_original_reference_and_unknown_tests_stay_cpython (tests.test_ci_gate.PortRuntimeOwnership.test_mixed_original_reference_and_unknown_tests_stay_cpython) (case='test_port_engine.Engine.test_complete_reference_fixture_events_results_and_memory_equal')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 427, in test_mixed_original_reference_and_unknown_tests_stay_cpython
+    self.assertFalse(G.is_pure_port_test(name))
+                     ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_mixed_original_reference_and_unknown_tests_stay_cpython (tests.test_ci_gate.PortRuntimeOwnership.test_mixed_original_reference_and_unknown_tests_stay_cpython) (case='test_port_engine.Engine.test_interactive_pause_tactics_and_halftime_equal')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 427, in test_mixed_original_reference_and_unknown_tests_stay_cpython
+    self.assertFalse(G.is_pure_port_test(name))
+                     ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_mixed_original_reference_and_unknown_tests_stay_cpython (tests.test_ci_gate.PortRuntimeOwnership.test_mixed_original_reference_and_unknown_tests_stay_cpython) (case='test_port_engine.Engine.test_knockout_match_result_and_events_equal')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 427, in test_mixed_original_reference_and_unknown_tests_stay_cpython
+    self.assertFalse(G.is_pure_port_test(name))
+                     ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_mixed_original_reference_and_unknown_tests_stay_cpython (tests.test_ci_gate.PortRuntimeOwnership.test_mixed_original_reference_and_unknown_tests_stay_cpython) (case='test_port_engine.Checkpoints.test_plain_checkpoint_keeps_backend_and_legacy_saves_keep_original')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 427, in test_mixed_original_reference_and_unknown_tests_stay_cpython
+    self.assertFalse(G.is_pure_port_test(name))
+                     ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_mixed_original_reference_and_unknown_tests_stay_cpython (tests.test_ci_gate.PortRuntimeOwnership.test_mixed_original_reference_and_unknown_tests_stay_cpython) (case='test_port_engine.Checkpoints.test_unknown_corrupt_stale_backend_refuses_before_machine_construction')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 427, in test_mixed_original_reference_and_unknown_tests_stay_cpython
+    self.assertFalse(G.is_pure_port_test(name))
+                     ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_mixed_original_reference_and_unknown_tests_stay_cpython (tests.test_ci_gate.PortRuntimeOwnership.test_mixed_original_reference_and_unknown_tests_stay_cpython) (case='test_port_speaker.SpeakerABI.test_reference')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 427, in test_mixed_original_reference_and_unknown_tests_stay_cpython
+    self.assertFalse(G.is_pure_port_test(name))
+                     ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_mixed_original_reference_and_unknown_tests_stay_cpython (tests.test_ci_gate.PortRuntimeOwnership.test_mixed_original_reference_and_unknown_tests_stay_cpython) (case='test_port_entrypoints.Helpers.test_reference')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 427, in test_mixed_original_reference_and_unknown_tests_stay_cpython
+    self.assertFalse(G.is_pure_port_test(name))
+                     ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_mixed_original_reference_and_unknown_tests_stay_cpython (tests.test_ci_gate.PortRuntimeOwnership.test_mixed_original_reference_and_unknown_tests_stay_cpython) (case='test_future.Future.test_future_case')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 427, in test_mixed_original_reference_and_unknown_tests_stay_cpython
+    self.assertFalse(G.is_pure_port_test(name))
+                     ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_engine.Checkpoints.test_e033_01')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_engine.Checkpoints.test_e033_02')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_engine.Checkpoints.test_e033_03')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_engine.Checkpoints.test_e033_04')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_engine.Checkpoints.test_e033_05')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_engine.Checkpoints.test_e033_06')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_engine.Checkpoints.test_e033_07')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_engine.Checkpoints.test_e034_01')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_engine.Checkpoints.test_e034_02')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_engine.Checkpoints.test_e034_03')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_seal.Sealed.test_the_check_passes_from_state_and_tables_alone')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_engine.CLI.test_family_cli_guarded_quick_result_records_backend_identity')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_engine.CheckScreen.test_without_the_screen_only_the_screen_is_left_out')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_engine.Checkpoints.test_completed_quick_match_answer_records_and_memory_survive_loading')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_engine.Checkpoints.test_frame_free_answer_records_keep_pair_types_after_loading')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_engine.Checkpoints.test_live_decisions_and_completed_tail_with_positive_unicorn_denial')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_engine.Engine.test_no_unicorn_positive_denial_runs_a_complete_match')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_seal.CheckpointTables.test_a_loaded_sealed_match_gives_the_same_next_state')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_machine.PortableMachine.test_future_case')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) (case='test_port_overhead_t117.Drive.test_e034_03_drive_equals_the_recorded_before_receipt')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 414, in test_pure_port_groups_and_cases_belong_to_pypy
+    self.assertTrue(G.is_pure_port_test(name))
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'is_pure_port_test'
+
+======================================================================
+ERROR: test_runtime_partitions_preserve_every_discovered_case_exactly_once (tests.test_ci_gate.PortRuntimeOwnership.test_runtime_partitions_preserve_every_discovered_case_exactly_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 431, in test_runtime_partitions_preserve_every_discovered_case_exactly_once
+    native, pure = G.partition_runtimes(unittest.TestSuite(selected))
+                   ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'ci_gate' has no attribute 'partition_runtimes'. Did you mean: 'partition_suite'?
+
+======================================================================
+FAIL: test_workflow_installs_pypy_without_replacing_cpython_reference_environment (tests.test_ci_gate.PortRuntimeOwnership.test_workflow_installs_pypy_without_replacing_cpython_reference_environment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology/tests/test_ci_gate.py", line 442, in test_workflow_installs_pypy_without_replacing_cpython_reference_environment
+    self.assertIn("python-version: 'pypy3.11'", text)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "python-version: 'pypy3.11'" not found in 'name: CI\n\n# CI minutes (the owner, 2026-10-12): no run on draft PRs; a new push cancels the run of the commit it\n# supersedes; a push that changes only measured outputs runs nothing; a push to main (the PR already\n# passed on its tree, or a task file, a lesson, a log committed there) runs only the quick checks.\n# CI minutes (the owner, 2026-10-17, issue #297): the `checks` job runs what the change obliges\n# (tools/ci_gate.py: nothing, docs, the fast tests, and each of six slow test modules only when\n# the PR touches what it reads), and a merge commit made by `gh pr merge --merge` does not run\n# `quick` on main again.  The whole suite still runs every night on main when code landed that day\n# and on a manual run.  docs/process.md "The loop".\non:\n  push:\n    branches: [main]\n    paths-ignore: [\'**/*.log\', \'experiments/**/out/**\']\n  pull_request:\n    types: [opened, synchronize, reopened, ready_for_review]\n  schedule:\n    - cron: \'23 2 * * *\'\n  workflow_dispatch:\n\nconcurrency:\n  group: ci-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}\n  cancel-in-progress: true\n\npermissions:\n  contents: read\n  checks: read\n\njobs:\n  # A research PR merged with a merge commit (CLAUDE.md rule 20) lands the tree its CI just checked.\n  quick:\n    if: "github.event_name == \'push\' && !startsWith(github.event.head_commit.message, \'Merge pull request #\')"\n    runs-on: ubuntu-latest\n    env:\n      GH_TOKEN: ${{ github.token }}\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-python@v5\n        with:\n          python-version: \'3.12\'\n      - run: python3 tools/check_links.py\n      - run: for f in findings/F*.md; do python3 tools/check_citations.py "$f"; done\n      - run: "! git ls-files | grep -iE \'\\\\.(exe|dat|hlp|hil|pif|bat)$\'"\n\n  # Every matrix group must succeed; ci_gate.py rejects incomplete or skipped sets.\n  # Ten long checkpoint cases run independently; general holds every other test.\n  # A status is reported for every non-draft PR, and nightly/manual runs.  The first step chooses the tier; the others run\n  # when the tier asks for them.  A green `checks` on a PR head means every obligation of the\n  # whole PR\'s diff has been met (tools/ci_gate.py explains why a docs-only push to a code PR may\n  # run less).\n  checks:\n    name: checks (${{ matrix.group }})\n    if: github.event_name != \'push\' && (github.event_name != \'pull_request\' || !github.event.pull_request.draft)\n    runs-on: ubuntu-latest\n    # [designed: owner, 2026-10-30] No cap on parallel groups: every group starts at once (4 at a time held the\n    # twelve-group full run on the Candidate of #629 for about five hours).\n    strategy:\n      fail-fast: false\n      matrix:\n        group: [general, e034-01, e033-06, e034-02, e033-01, e033-02, e033-03, e033-04, e033-05, e033-07, e034-03, seal]\n    env:\n      GH_TOKEN: ${{ github.token }}\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          fetch-depth: 0\n      - uses: actions/setup-python@v5\n        with:\n          python-version: \'3.12\'\n      - id: gate\n        env:\n          EVENT: ${{ github.event_name }}\n          ACTION: ${{ github.event.action }}\n          BASE: ${{ github.event.pull_request.base.sha }}\n          HEAD: ${{ github.event.pull_request.head.sha }}\n          BEFORE: ${{ github.event.before }}\n          REPO: ${{ github.repository }}\n        run: python3 tools/ci_gate.py decide >> "$GITHUB_OUTPUT"\n      # Relative Markdown links resolve and JSON files parse.\n      - if: steps.gate.outputs.quick == \'true\'\n        run: python3 tools/check_links.py\n      # G2: the artifact is a release asset; the workflow\'s token fetches it (never committed).\n      # goal2-67cf27d6 is the set the driver and new runs name (it declares the runtime writes,\n      # F001); goal2-a949da2f stays fetched for tests/static, whose released-file tests read its\n      # cache path. The files are identical (T11).\n      - if: steps.gate.outputs.code == \'true\'\n        run: python3 tools/fetch_artifact.py goal2-67cf27d6\n      - if: steps.gate.outputs.code == \'true\'\n        run: python3 tools/fetch_artifact.py goal2-a949da2f\n      # The static tools need capstone, and the released-file tests the artifact fetched above.\n      # The emulator tests (tests/test_emul_*.py and the other modules that import unicorn) need unicorn,\n      # pinned at the 2.1.4 the engine work and E018\'s records use (issue #304): without it they skip.\n      - if: steps.gate.outputs.code == \'true\'\n        uses: actions/cache@v4\n        with:\n          path: ~/.cache/pip\n          key: pip-${{ runner.os }}-${{ hashFiles(\'tools/static/requirements.txt\', \'runtime/emul/requirements.txt\') }}\n      - if: steps.gate.outputs.code == \'true\'\n        run: pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt\n      - if: steps.gate.outputs.code == \'true\' && matrix.group == \'general\'\n        run: python3 -m unittest discover -s tests/static -v\n      # T34: the human-recorder tests need a nested X display stack (Xephyr inside Xvfb) and the\n      # emulator; tests that require it skip themselves (skipUnless) when a tool is missing, so\n      # the assertions still run wherever the stack is present.\n      # The packages\' .deb files are cached between runs (2026-10-22: the runners\' Ubuntu mirror served them at a few\n      # KB/s and the install, ffmpeg\'s ~70 dependencies, ran 40 minutes twice); a cache hit installs without\n      # downloading them. A slow mirror stops the step at 15 minutes instead of holding the job.\n      - if: steps.gate.outputs.code == \'true\' && matrix.group == \'general\'\n        uses: actions/cache@v4\n        with:\n          path: ~/apt-archives\n          key: apt-${{ runner.os }}-${{ hashFiles(\'.github/workflows/ci.yml\') }}\n          restore-keys: apt-${{ runner.os }}-\n      - if: steps.gate.outputs.code == \'true\' && matrix.group == \'general\'\n        timeout-minutes: 15\n        run: |\n          mkdir -p ~/apt-archives/partial\n          sudo apt-get update\n          sudo apt-get install -y -o Dir::Cache::Archives="$HOME/apt-archives" \\\n            xvfb xserver-xephyr xinput xdotool x11-utils ffmpeg dosbox-x\n          sudo chown -R "$(id -u):$(id -g)" ~/apt-archives\n      # The record tools, their tests and fixtures (the fetched checker and artifact stay in .cache/).\n      # The six slow modules (tools/ci_gate.py SLOW) run only when the gate names them.\n      - if: steps.gate.outputs.code == \'true\'\n        run: python3 tools/ci_gate.py run-tests --modules="${{ steps.gate.outputs.modules }}" --group="${{ matrix.group }}"\n      # T37: every finding\'s citations resolve under the pinned checker (U25-U27).\n      - if: steps.gate.outputs.quick == \'true\'\n        run: for f in findings/F*.md; do python3 tools/check_citations.py "$f"; done\n      # No original file is ever in the tree (U17: they are release assets only).\n      - if: steps.gate.outputs.quick == \'true\'\n        run: "! git ls-files | grep -iE \'\\\\.(exe|dat|hlp|hil|pif|bat)$\'"\n'
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.440s
+
+FAILED (failures=1, errors=29)

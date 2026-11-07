@@ -1,0 +1,131 @@
+test_garbage_is_not_a_pass (tests.test_ci_gate.CheckRuns.test_garbage_is_not_a_pass) ... ok
+test_only_a_successful_checks_job_counts (tests.test_ci_gate.CheckRuns.test_only_a_successful_checks_job_counts) ... ok
+test_every_matrix_check_must_succeed_at_the_same_head (tests.test_ci_gate.CheckpointGroups.test_every_matrix_check_must_succeed_at_the_same_head) ... ok
+test_groups_from_separate_executions_never_assemble_success (tests.test_ci_gate.CheckpointGroups.test_groups_from_separate_executions_never_assemble_success) ... ok
+test_longest_measured_cases_start_with_general_in_the_first_four_slots (tests.test_ci_gate.CheckpointGroups.test_longest_measured_cases_start_with_general_in_the_first_four_slots) ... ok
+test_metadata_parent_checks_actual_git_diff_and_stops_at_source_changes (tests.test_ci_gate.CheckpointGroups.test_metadata_parent_checks_actual_git_diff_and_stops_at_source_changes) ... ok
+test_old_skipped_draft_placeholder_does_not_shadow_real_success (tests.test_ci_gate.CheckpointGroups.test_old_skipped_draft_placeholder_does_not_shadow_real_success) ... ok
+test_only_verified_metadata_chain_can_reuse_complete_source (tests.test_ci_gate.CheckpointGroups.test_only_verified_metadata_chain_can_reuse_complete_source) ... ok
+test_partition_is_the_exact_disjoint_union_including_future_tests (tests.test_ci_gate.CheckpointGroups.test_partition_is_the_exact_disjoint_union_including_future_tests) ... ok
+test_unknown_missing_or_duplicate_boundaries_are_refused (tests.test_ci_gate.CheckpointGroups.test_unknown_missing_or_duplicate_boundaries_are_refused) ... ok
+test_workflow_runs_all_groups_without_fast_fail_or_recorder_setup_in_boundary_jobs (tests.test_ci_gate.CheckpointGroups.test_workflow_runs_all_groups_without_fast_fail_or_recorder_setup_in_boundary_jobs) ... ok
+test_a_change_obliges_the_union_of_its_files (tests.test_ci_gate.Classify.test_a_change_obliges_the_union_of_its_files) ... ok
+test_every_dependency_prefix_exists (tests.test_ci_gate.Classify.test_every_dependency_prefix_exists) ... ok
+test_every_doc_a_test_reads_exists (tests.test_ci_gate.Classify.test_every_doc_a_test_reads_exists) ... ok
+test_every_path_a_slow_module_reads_obliges_that_module (tests.test_ci_gate.Classify.test_every_path_a_slow_module_reads_obliges_that_module)
+The traces of the six slow modules: every repo file one opens or executes must oblige it. ... ok
+test_what_examples_oblige (tests.test_ci_gate.Classify.test_what_examples_oblige) ... ok
+test_a_docs_push_to_a_code_pr_runs_docs_when_the_previous_head_passed (tests.test_ci_gate.Decide.test_a_docs_push_to_a_code_pr_runs_docs_when_the_previous_head_passed) ... ok
+test_a_docs_push_to_a_code_pr_runs_the_whole_pr_when_the_previous_head_did_not_pass (tests.test_ci_gate.Decide.test_a_docs_push_to_a_code_pr_runs_the_whole_pr_when_the_previous_head_did_not_pass)
+The case the rule exists for: a red run followed by a prose-only fix must not go green. ... ok
+test_a_force_push_whose_old_head_is_gone_takes_the_whole_pr (tests.test_ci_gate.Decide.test_a_force_push_whose_old_head_is_gone_takes_the_whole_pr) ... ok
+test_a_new_pr_obliges_what_its_whole_diff_does (tests.test_ci_gate.Decide.test_a_new_pr_obliges_what_its_whole_diff_does) ... ok
+test_a_push_runs_only_the_modules_it_touches (tests.test_ci_gate.Decide.test_a_push_runs_only_the_modules_it_touches) ... ok
+test_a_push_that_obliges_all_the_pr_does_does_not_ask (tests.test_ci_gate.Decide.test_a_push_that_obliges_all_the_pr_does_does_not_ask) ... ok
+test_an_output_only_push_runs_nothing_only_after_a_pass (tests.test_ci_gate.Decide.test_an_output_only_push_runs_nothing_only_after_a_pass) ... ok
+test_an_unreadable_diff_runs_everything (tests.test_ci_gate.Decide.test_an_unreadable_diff_runs_everything) ... ok
+test_manual_runs_are_everything (tests.test_ci_gate.Decide.test_manual_runs_are_everything) ... ok
+test_no_before_takes_the_whole_pr (tests.test_ci_gate.Decide.test_no_before_takes_the_whole_pr) ... ok
+test_the_nightly_run_is_everything_only_when_code_landed_in_the_day (tests.test_ci_gate.Decide.test_the_nightly_run_is_everything_only_when_code_landed_in_the_day) ... ok
+test_mixed_original_reference_and_unknown_tests_stay_cpython (tests.test_ci_gate.PortRuntimeOwnership.test_mixed_original_reference_and_unknown_tests_stay_cpython) ... ok
+test_pure_port_groups_and_cases_belong_to_pypy (tests.test_ci_gate.PortRuntimeOwnership.test_pure_port_groups_and_cases_belong_to_pypy) ... ok
+test_real_gate_executes_native_and_pure_cases_in_their_actual_interpreters (tests.test_ci_gate.PortRuntimeOwnership.test_real_gate_executes_native_and_pure_cases_in_their_actual_interpreters) ... {"reference_runtime": "cpython", "cpython_test_ids": ["tests.test_ci_gate.PortRuntimeOwnership.test_real_gate_executes_native_and_pure_cases_in_their_actual_interpreters.<locals>.NativeReference.runTest"], "pypy_test_ids": ["tests.test_port_test_runtime.WorkerFixture.test_ok"]}
+runTest (tests.test_ci_gate.PortRuntimeOwnership.test_real_gate_executes_native_and_pure_cases_in_their_actual_interpreters.<locals>.NativeReference.runTest) ... ok
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_ok
+authored test stdout
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_ok
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 1 selected tests
+test_ok (tests.test_port_test_runtime.WorkerFixture.test_ok) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.183s
+
+OK
+ok
+test_runtime_partitions_preserve_every_discovered_case_exactly_once (tests.test_ci_gate.PortRuntimeOwnership.test_runtime_partitions_preserve_every_discovered_case_exactly_once) ... ok
+test_workflow_installs_pypy_without_replacing_cpython_reference_environment (tests.test_ci_gate.PortRuntimeOwnership.test_workflow_installs_pypy_without_replacing_cpython_reference_environment) ... ok
+test_the_slow_modules_run_only_when_named (tests.test_ci_gate.Suite.test_the_slow_modules_run_only_when_named) ... ok
+test_a_nightly_full_run_on_main_exists (tests.test_ci_gate.Workflow.test_a_nightly_full_run_on_main_exists) ... ok
+test_no_unquoted_if_holds_a_hash (tests.test_ci_gate.Workflow.test_no_unquoted_if_holds_a_hash)
+In YAML a ` #` inside a plain scalar starts a comment: the first push of PR 298 made ... ok
+test_the_cheap_checks_run_in_every_tier_that_runs (tests.test_ci_gate.Workflow.test_the_cheap_checks_run_in_every_tier_that_runs) ... ok
+test_the_code_tier_installs_the_pinned_unicorn (tests.test_ci_gate.Workflow.test_the_code_tier_installs_the_pinned_unicorn)
+Issue #304: without unicorn the emulator tests skip and their assertions never run in CI. ... ok
+test_the_merge_commit_of_a_research_pr_skips_quick_on_main (tests.test_ci_gate.Workflow.test_the_merge_commit_of_a_research_pr_skips_quick_on_main) ... ok
+test_the_status_job_has_no_needs_and_no_gate_output_in_its_if (tests.test_ci_gate.Workflow.test_the_status_job_has_no_needs_and_no_gate_output_in_its_if)
+A PR that is not a draft always gets a `checks` status: a skipped job must not block. ... ok
+test_the_unit_suite_gets_the_modules_the_gate_chose (tests.test_ci_gate.Workflow.test_the_unit_suite_gets_the_modules_the_gate_chose) ... ok
+test_actual_child_failures_errors_and_subtests_propagate (tests.test_port_test_runtime.RuntimeTests.test_actual_child_failures_errors_and_subtests_propagate) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_failure
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_failure
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_error
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_error
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_subtest
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_subtest
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 3 selected tests
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_cleanup_errors
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_cleanup_errors
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 1 selected tests
+ok
+test_callback_failure_reaches_parent (tests.test_port_test_runtime.RuntimeTests.test_callback_failure_reaches_parent) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_class_fixture_error_is_preserved_and_cannot_look_green (tests.test_port_test_runtime.RuntimeTests.test_class_fixture_error_is_preserved_and_cannot_look_green) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 1 selected tests
+ok
+test_configured_cpython_is_rejected_before_callback (tests.test_port_test_runtime.RuntimeTests.test_configured_cpython_is_rejected_before_callback) ... ok
+test_configured_missing_executable_fails_without_fallback (tests.test_port_test_runtime.RuntimeTests.test_configured_missing_executable_fails_without_fallback) ... ok
+test_expected_failure_and_unexpected_success_keep_semantics (tests.test_port_test_runtime.RuntimeTests.test_expected_failure_and_unexpected_success_keep_semantics) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_expected_failure
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_expected_failure
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_unexpected_success
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_unexpected_success
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 2 selected tests
+ok
+test_explicit_approved_skip_remains_visible (tests.test_port_test_runtime.RuntimeTests.test_explicit_approved_skip_remains_visible) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_dynamic_skip
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_dynamic_skip
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 1 selected tests
+ok
+test_missing_or_duplicate_requested_selectors_fail_parent (tests.test_port_test_runtime.RuntimeTests.test_missing_or_duplicate_requested_selectors_fail_parent) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_only_parent_known_static_skips_are_allowed_by_default (tests.test_port_test_runtime.RuntimeTests.test_only_parent_known_static_skips_are_allowed_by_default) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_static_skip
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_static_skip
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 1 selected tests
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_dynamic_skip
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_dynamic_skip
+ok
+test_real_pypy_callback_preserves_tuple_bytes_and_mapping (tests.test_port_test_runtime.RuntimeTests.test_real_pypy_callback_preserves_tuple_bytes_and_mapping) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+authored incidental stdout
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_subtest_skips_keep_identity_and_require_approval (tests.test_port_test_runtime.RuntimeTests.test_subtest_skips_keep_identity_and_require_approval) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_subtest_skip
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_subtest_skip
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_subtest_skip
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_subtest_skip
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 1 selected tests
+ok
+test_suite_preserves_ids_counts_and_success (tests.test_port_test_runtime.RuntimeTests.test_suite_preserves_ids_counts_and_success) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_ok
+authored test stdout
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_ok
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_expected_failure
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_expected_failure
+port test runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14)), 2 selected tests
+ok
+test_tampered_loaded_and_executed_inventory_is_rejected (tests.test_port_test_runtime.RuntimeTests.test_tampered_loaded_and_executed_inventory_is_rejected) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+PyPy test start: tests.test_port_test_runtime.WorkerFixture.test_ok
+authored test stdout
+PyPy test end: tests.test_port_test_runtime.WorkerFixture.test_ok
+ok
+test_wrong_runtime_suite_is_error_not_skip (tests.test_port_test_runtime.RuntimeTests.test_wrong_runtime_suite_is_error_not_skip) ... ok
+
+----------------------------------------------------------------------
+Ran 54 tests in 3.300s
+
+OK
