@@ -85,4 +85,6 @@ initialised/code-data delta (not only selected records), with the same exact dea
 stack interval as its LIVE-write comparison. The positive80BA mutation control
 specifically demonstrates that code-data constants are not hidden by opcode
 exclusion. Complete source/input bindings and final receipt lists are in
-`acceptance/index.json`; older calibrations remain immutable historical evidence.
+`acceptance-v2/index.json`; older calibrations remain immutable historical evidence.
+
+The initial packager omitted the repository import path and stopped before creating an index; its reproducible import calibration is retained. `acceptance-v2` is the final index; no runtime/proof/test source changed for this packaging correction.

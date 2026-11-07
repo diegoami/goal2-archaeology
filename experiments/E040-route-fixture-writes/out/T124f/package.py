@@ -1,7 +1,7 @@
 """Create a fresh immutable T124f acceptance directory; never rewrite evidence."""
-import argparse,hashlib,json,subprocess
+import argparse,hashlib,json,subprocess,sys
 from pathlib import Path
-HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[3]
+HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[3];sys.path[:0]=[str(ROOT),str(ROOT/'runtime')]
 def sha(v):return hashlib.sha256(v).hexdigest()
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--dir',required=True);opts=ap.parse_args();out=Path(opts.dir);out.mkdir()
