@@ -205,10 +205,13 @@ def _candidate(state,table_record,controlled):
     result=_drive_entry(m,controlled)
     from original_match.image import Image
     assert result['result']['image_sha256']==Image.from_state(step.state,tables).sha256()
-    context=result['returned'];seen=[];continuation=step.continuation
+    context=result['returned'];seen=[];continuation=step.continuation;updates=[]
+    for site in ('0791:B7FA','1771:8757'):
+        continuation.m.at(site,lambda replay,site=site:None if replay else updates.append(site))
     continuation.m.at('000E:6F1D',lambda replay:None if replay else seen.append({k:continuation.m.reg(k) for k in REGS}))
     next_step=R.resume_round(continuation,m)
     assert seen==[context],'actual returned ALL16 did not reach route unchanged'
+    assert updates.count('0791:B7FA')==1 and updates.count('1771:8757')==1,updates
     before_memory=continuation.m.read(0,MEM_SIZE);before_record=copy.deepcopy(continuation.record)
     for args in ((continuation,m),(object(),m),(continuation,object())):
         try:R.resume_round(*args)
@@ -218,7 +221,7 @@ def _candidate(state,table_record,controlled):
     result.update(state=next_step.state,pages=[dict(p.__dict__) for p in next_step.news_pages],
                   played=next_step.played_fixtures,record=next_step.record,status=next_step.status,
                   entry_pure=True,all16_returned=True,resume_pure=True,denials=True,
-                  implementation=sys.implementation.name)
+                  implementation=sys.implementation.name,updates=updates)
     return result
 
 
@@ -234,7 +237,7 @@ class ActualEntry(unittest.TestCase):
         stamp=time.strftime('%Y%m%dT%H%M%SZ',time.gmtime())
         for controlled in (False,True):
             with self.subTest(controlled=controlled):
-                image=_fixtures().image();state=image.state(image.tables);matches=[]
+                image=_fixtures().image();state=image.state(image.tables);matches=[];original_returned=[];updates=[]
                 class Oracle(R.Route):
                     def _match(self):
                         context={k:self.m.reg(k) for k in REGS};g=self.m.far(0xA923)
@@ -246,6 +249,9 @@ class ActualEntry(unittest.TestCase):
                         m=Match(entry,fixture,engine='original',tail=False,timeout_s=600,**options)
                         assert m.inputs==[] and m.m.read(0,MEM_SIZE)==self.m.read(0,MEM_SIZE),'original constructor changed actual entry'
                         for k,v in context.items():m.m.set_reg(k,v)
+                        for site in ('0791:B7FA','1771:8757'):
+                            self.m.at(site,lambda replay,site=site:None if replay else updates.append(site))
+                        self.m.at('000E:6F1D',lambda replay:None if replay else original_returned.append({k:self.m.reg(k) for k in REGS}))
                         result=_drive_entry(m,controlled)
                         assert result['result']['image_sha256']==entry.sha256()
                         matches.append(result)
@@ -261,7 +267,19 @@ class ActualEntry(unittest.TestCase):
                 (private/'pair.pickle').write_bytes(pickle.dumps((expected,actual),protocol=4))
                 self.assertTrue(actual['state']==final.state(image.tables),'complete sealed state/2 differs')
                 self.assertTrue(actual['pages']==[dict(p.__dict__) for p in oracle.news_history],'ordered original news differs')
-                self.assertEqual(actual['returned'],expected['returned'],'ALL16 actual match return differs')
+                # Main-owned81ef03e7 clarification: preserve own ALL16; the
+                # accepted c6a baseline already differs only in raw EFLAGS.
+                self.assertEqual({k:v for k,v in actual['returned'].items() if k!='EFLAGS'},
+                                 {k:v for k,v in expected['returned'].items() if k!='EFLAGS'},'other15 return registers differ')
+                self.assertEqual(original_returned,[expected['returned']],'original ALL16 actual route resume differs')
+                self.assertEqual(updates,actual['updates'],'route update calls differ')
+                if not controlled:
+                    binding=json.loads((root/'experiments/E040-route-fixture-writes/out/T127/accepted-default-binding-v1.json').read_text())
+                    def fields(r):
+                        canonical=lambda v:json.dumps(v,sort_keys=True,separators=(',',':')).encode()
+                        return {k:hashlib.sha256(r[k] if k=='memory' else canonical(r[k])).hexdigest() for k in ('result','events','keys','draws','returned','memory')}
+                    self.assertEqual(fields(expected),binding['original'],'original configured-default regression vs accepted c6a')
+                    self.assertEqual(fields(actual),binding['port'],'port configured-default regression vs accepted c6a')
                 self.assertEqual(actual['keys'],expected['keys'],'actual match read keys differ')
                 self.assertEqual([r for r in actual['record'] if r[0]=='key'],[r for r in oracle.record if r[0]=='key'],'route first-poll/read keys differ')
                 self.assertTrue(actual['events']==expected['events'],'complete event transcript differs')
@@ -274,13 +292,20 @@ class ActualEntry(unittest.TestCase):
                 self.assertTrue({k:v for k,v in a.items() if k not in differences}=={k:v for k,v in b.items() if k not in differences})
                 digest=lambda v:hashlib.sha256(pickle.dumps(v,protocol=4)).hexdigest()
                 sources={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest()
-                         for p in [*sorted((root/'runtime/original_match').rglob('*.py')),Path(__file__)]}
+                         for p in [*sorted((root/'runtime/original_match').rglob('*.py')),Path(__file__),
+                                   root/'experiments/E040-route-fixture-writes/out/T127/verify-v1.py',
+                                   root/'experiments/E040-route-fixture-writes/out/T127/accepted-default-binding-v1.json',
+                                   root/'experiments/E040-route-fixture-writes/out/T127/accepted-default-baseline-20261108T130302Z.json',
+                                   root/'experiments/E040-route-fixture-writes/out/T127/t127_entry_baseline.py']}
                 receipt=dict(schema='t127-entry-config/1',controlled=controlled,sources=sources,
                     same_result_except_declared_execution_metadata=sorted(differences),
                     complete_state_equal=True,events_equal=True,ordered_draws_equal=True,news_equal=True,
-                    all16_returned_equal=True,entry_configuration_pure=actual['entry_pure'],
+                    all16_actual_transfer_equal=True,other15_returned_equal=True,
+                    raw_returned_registers={'original':expected['returned'],'port':actual['returned']},
+                    accepted_default_within_backend_equal=not controlled,
+                    entry_configuration_pure=actual['entry_pure'],
                     invalid_resume_pure=actual['resume_pure'],positive_denials=actual['denials'],
-                    draw_count=len(actual['draws']),event_count=len(actual['events']),page_count=len(actual['pages']),
+                    draw_count=len(actual['draws']),update_calls=actual['updates'],captains=actual['captains'],event_count=len(actual['events']),page_count=len(actual['pages']),
                     request_operations=actual['request_operations'],opportunity_accepted=actual['opportunity_accepted'],
                     state_sha256=digest(actual['state']),events_sha256=digest(actual['events']),
                     original_full_memory_sha256=hashlib.sha256(expected['memory']).hexdigest(),
