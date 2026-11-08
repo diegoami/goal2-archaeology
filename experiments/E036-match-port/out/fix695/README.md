@@ -88,8 +88,8 @@ private full outputs without republishing them. It passes6full natural pairs,
 2shared-original-input bounded controls and the existing request-not-set omission.
 The composite profile validates37decisions×20records=740records per backend.
 The final focused controls pass30/30; all9new controls fail on immutable old code.
-`acceptance-v1.json` binds current source/public evidence/private artifact hashes.
-`verify-v1.py` is static; `--private` also verifies retained original artifacts.
+`acceptance-v2.json` binds current source/public evidence/private artifact hashes.
+`verify-v2.py` is static; `--private` also verifies retained original artifacts.
 
 Focused reproduction (source `.cache/cloud.env`; one registered heavy job/selector,
 unique immutable output/private stem; no full unit suite or local gate):
@@ -98,16 +98,33 @@ unique immutable output/private stem; no full unit suite or local gate):
 PYTHONPATH=runtime python3 -m unittest tests.test_substitution_control_695 tests.test_stopped_edit_663 tests.test_live_player_records_682 tests.test_original_match.ScreenDriverTests -v
 tools/heavy.sh fix695-repeat-original -- .cache/venv/bin/python -B experiments/E036-match-port/out/fix695/proof-v2.py --engine original --case request --out /tmp/fix695-original-repeat-request.json
 tools/heavy.sh fix695-repeat-port -- /home/diego/.local/bin/pypy3.11 -B experiments/E036-match-port/out/fix695/proof-v2.py --engine port --case request --out /tmp/fix695-port-repeat-request.json
-python3 experiments/E036-match-port/out/fix695/verify-v1.py --private
+python3 experiments/E036-match-port/out/fix695/verify-v2.py --private
 python3 experiments/E036-match-port/out/fix695/compare-v2.py --out /tmp/fix695-independent-comparison.json
 ```
 
 Other fixed recipes use `--case cancel`, `zero`, `dismiss`, `timeout`; checkpoint
 request adds `--checkpoint`. The paired live snapshot profile uses composite-v1.py
 with the same request selector. The legacy reference archive is recreated with
-`git archive4fe3a973:runtime` semantics (ordinary exported files, no checkout or
+`git archive 4fe3a973 runtime` semantics (ordinary exported files, no checkout or
 worktree); legacy-v1.py's --runtime takes that runtime folder. The prepared frame
 producer capture-frame-v1.py writes original bytes only under the ignored path;
 shared-frame-v1.py consumes its receipt in a bounded fresh-machine ABIcontrol.
 No benchmark/season, natural keeper injury, active-parent resume or generalized
 frame API is claimed by that supplementary harness.
+
+
+Observed pending-request lifecycle (existing original/port recipes, no new run):
+ordinary Esc and timeout at minute2/tick122 have request=True/allowed=True; the
+next actual pause at tick123 has request=True/allowed=False. Only the explicit
+False edit then clears the request, at that same tick123. Those two control
+recipes cancel immediately, so do not claim later recurrence for those recipes.
+In the full request recipe a first swap clears the latch, then a natural injury
+at minute26 sets it again:30subsequent no-key timeouts retainTrue and eligible
+notices recur at26,27,36,38…92 (31total notices including the initial acceptance).
+A frontend clears the consumed OPPORTUNITY display after timeout/dismiss, never
+invents cancellation of the authoritative pending REQUESTED flag.
+
+Acceptance-v1 is preserved at its original metadata commit. Acceptance-v2 updates
+only these documentation/reproduction/lifecycle clarifications; all measured
+runtime, tests and proof producers remain byte-identical. Use verify-v2.py for
+current bindings; prior source/index receipts remain historical.
