@@ -97,3 +97,194 @@ class Controls(unittest.TestCase):
             before=snapshot(m)
             with self.assertRaises(ValueError):m.configure_route_entry()
             self.assertEqual(snapshot(m),before)
+
+
+# Proof helpers deliberately share only the declared player/input policy. The
+# original arm runs actual guest instructions; the public candidate stays sealed.
+def _captain(image,fixture):
+    from original_match.image import COUNTRIES_PTR,COUNTRY_SIZE,MANAGER,PLAYERS_PTR,PLAYER_SIZE
+    from original_match.route_team import choose_eleven
+    humans=[c for c in (fixture.first,fixture.second)
+            if image.memory[image.far(COUNTRIES_PTR)+COUNTRY_SIZE*c+MANAGER]>128]
+    assert len(humans)==1
+    squad=image.squad(humans[0]);base=image.far(PLAYERS_PTR)
+    swaps=choose_eleven(squad,lambda w,o:image.memory[base+PLAYER_SIZE*w+o])
+    return next(w for w in squad[:11] if w not in {off for off,on in swaps})
+
+
+def _drive_entry(m,controlled):
+    import hashlib
+    from dataclasses import asdict
+    from original_match import screens as S
+    from original_match.match import TEAM_MENU,MINUTE,SUBTICK
+    from original_match.route_team import choose_eleven,PreMatchPlan
+    events=[];independent=[];keys=[];captains=[];captain_prompt=[False];paused=False;operations=[];accepted=False;requests=[True,False,True]
+    previous_key=m._key_for
+    def key(site):
+        value=previous_key(site)
+        if value is not None:keys.append([site,value])
+        return value
+    m._key_for=key
+    def prompt(replay):
+        if not replay:captain_prompt[0]=m.m.stack_word(4)==1 and m.m.stack_word(6)==m.side
+    def chosen(replay):
+        if not replay and captain_prompt[0]:captains.append(m.m.reg('ax'));captain_prompt[0]=False
+    m.m.at('0791:CC7B',prompt);m.m.at('0791:D010',chosen)
+    def select(replay):
+        if not replay and m.st['menu_context']=='pre_match' and m.side is not None:
+            swaps=choose_eleven(m._squad(m.opts['managed']),m._player)
+            m._menu=PreMatchPlan(m.side,subs=swaps)
+    m.m.at(TEAM_MENU,select)  # Explicit proof-only original SELECT TEAM inputs.
+    def draw(old,new):
+        if m.st['recording']:
+            independent.append([m.m.rd(MINUTE),m.m.rd(SUBTICK),int.from_bytes(old,'little'),int.from_bytes(new,'little')])
+    m.m.watch(m.m.DS*16+SEED,2,draw)
+    for event in m.events():
+        events.append(asdict(event))
+        if event.kind=='tick' and controlled and not paused and event.minute>=2:
+            m.pause();paused=True
+        if event.kind!='decision':continue
+        d=event.data;c=d['context']
+        if controlled:
+            records=d['player_records'];assert [w for w,raw in records]==d['eleven']+d['bench']
+            for w,raw in records:
+                assert bytes.fromhex(raw)==m.m.read(m.m.far(0xA91B)+20*w,20)
+            assert d['request_substitution'] is bool(m.m.rd(S.SUBS_REQUEST,1))
+        else:
+            assert 'player_records' not in d and 'request_substitution' not in d
+        if controlled and c=='pause' and paused and requests:
+            desired=requests.pop(0)
+            if operations:assert d['request_substitution'] is operations[-1]
+            m.answer(request_substitution=desired,edit_only=True);operations.append(desired)
+        elif controlled and c=='pause' and paused and operations:
+            assert d['request_substitution'] is operations[-1];m.answer()
+        elif c=='substitution_opportunity':
+            assert controlled
+            assert d['timeout_polls']==(1000 if d['keeper_unavailable'] else 400)
+            m.answer(opportunity='accept');accepted=True
+        elif c in ('half_time','substitution'):
+            swaps=choose_eleven(m._squad(m.opts['managed']),m._player) if d.get('refused') else []
+            m.answer(substitutions=swaps)
+        elif c=='set_piece':m.answer(taker=None)
+        elif c=='shootout_order':m.answer(shootout_order=[])
+        else:m.answer()
+    assert m.over and m.m.pc()==m.m.lin('000E:6F1D') and m.m.reg('sp')==0x3EC8
+    if controlled:
+        assert paused and operations==[True,False,True] and accepted
+        assert captains and captains[0]==m.opts['captain'],'actual chosen captain differs'
+        assert m.result()['substitution_budget']==[5,5]
+        assert independent and m.st['draws']==independent,'independent ordered guest RNG writes differ'
+        digest=hashlib.sha256('\n'.join('%d %d %04x %04x'%tuple(v) for v in independent).encode()).hexdigest()
+        assert m.result()['draws_digest']==digest
+    else:assert m.st['draws']==[] and m.result()['draws_digest'] is None
+    return dict(result=copy.deepcopy(m.result()),events=events,draws=independent,keys=keys,captains=captains,
+                returned={k:m.m.reg(k) for k in REGS},request_operations=operations,
+                opportunity_accepted=accepted,memory=m.m.read(0,MEM_SIZE))
+
+
+def _candidate(state,table_record,controlled):
+    import hashlib
+    from original_match import route as R
+    from original_match.port.tables import from_record
+    from tests.test_route_sealed import _denials
+    assert sys.implementation.name=='pypy' and sys.version_info[:2]==(3,11)
+    _denials()
+    tables=from_record(table_record);step=R.play_round(state,tables,R.DEFAULT_KEYS)
+    assert step.status=='match' and type(step.match)is Match
+    m=step.match;before=snapshot(m)
+    if controlled:
+        from original_match.image import Image
+        image=Image.from_state(step.state,tables)
+        fixture=Fixture(m.opts['first'],m.opts['second'],m.opts['index'],m.opts['kind'])
+        m.configure_route_entry(captain=_captain(image,fixture),substitutions=(5,5),ticks=True,
+                                record_draws=True,set_piece=True,live_players=True,substitution_control=True)
+    else:m.configure_route_entry()
+    after=snapshot(m);assert after[:2]==before[:2]
+    result=_drive_entry(m,controlled)
+    from original_match.image import Image
+    assert result['result']['image_sha256']==Image.from_state(step.state,tables).sha256()
+    context=result['returned'];seen=[];continuation=step.continuation
+    continuation.m.at('000E:6F1D',lambda replay:None if replay else seen.append({k:continuation.m.reg(k) for k in REGS}))
+    next_step=R.resume_round(continuation,m)
+    assert seen==[context],'actual returned ALL16 did not reach route unchanged'
+    before_memory=continuation.m.read(0,MEM_SIZE);before_record=copy.deepcopy(continuation.record)
+    for args in ((continuation,m),(object(),m),(continuation,object())):
+        try:R.resume_round(*args)
+        except ValueError:pass
+        else:raise AssertionError('foreign/consumed resume accepted')
+        assert continuation.m.read(0,MEM_SIZE)==before_memory and continuation.record==before_record
+    result.update(state=next_step.state,pages=[dict(p.__dict__) for p in next_step.news_pages],
+                  played=next_step.played_fixtures,record=next_step.record,status=next_step.status,
+                  entry_pure=True,all16_returned=True,resume_pure=True,denials=True,
+                  implementation=sys.implementation.name)
+    return result
+
+
+class ActualEntry(unittest.TestCase):
+    def test_actual_original_and_denied_pypy_same_options_full_route(self):
+        import hashlib,json,os,time
+        from original_match import route as R
+        from original_match.image import Image
+        from original_match.port.tables import to_record
+        sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tools'))
+        from port_test_runtime import call_in_pypy
+        root=Path(__file__).resolve().parents[1]
+        stamp=time.strftime('%Y%m%dT%H%M%SZ',time.gmtime())
+        for controlled in (False,True):
+            with self.subTest(controlled=controlled):
+                image=_fixtures().image();state=image.state(image.tables);matches=[]
+                class Oracle(R.Route):
+                    def _match(self):
+                        context={k:self.m.reg(k) for k in REGS};g=self.m.far(0xA923)
+                        idx=self.m.word_at(g+0x26);raw=self.m.read(self.m.far(0xA92B)+8*(idx-1),8)
+                        fixture=Fixture(int.from_bytes(raw[4:6],'little'),int.from_bytes(raw[6:8],'little'),idx,raw[2])
+                        entry=Image(self.header+self.m.read(0,MEM_SIZE)+self.tail);entry.tables=self.tables
+                        options=dict(captain=_captain(entry,fixture),substitutions=(5,5),ticks=True,record_draws=True,
+                                     set_piece=True,live_players=True,substitution_control=True) if controlled else {}
+                        m=Match(entry,fixture,engine='original',tail=False,timeout_s=600,**options)
+                        assert m.inputs==[] and m.m.read(0,MEM_SIZE)==self.m.read(0,MEM_SIZE),'original constructor changed actual entry'
+                        for k,v in context.items():m.m.set_reg(k,v)
+                        result=_drive_entry(m,controlled)
+                        assert result['result']['image_sha256']==entry.sha256()
+                        matches.append(result)
+                        self.m.write(0,result['memory'])
+                        for k,v in result['returned'].items():self.m.set_reg(k,v)
+                oracle=Oracle(image,entry='play_round',record_writes=False,match_entry=True);oracle.call()
+                self.assertEqual(len(matches),1)
+                expected=matches[0]
+                actual=call_in_pypy('test_route_entry_config','_candidate',args=(state,to_record(image.tables),controlled))
+                final=Image(oracle.header+oracle.m.read(0,MEM_SIZE)+oracle.tail);final.tables=image.tables
+                private=root/'.cache/t127'/f'{stamp}-{int(controlled)}';private.mkdir(parents=True,exist_ok=False)
+                import pickle
+                (private/'pair.pickle').write_bytes(pickle.dumps((expected,actual),protocol=4))
+                self.assertTrue(actual['state']==final.state(image.tables),'complete sealed state/2 differs')
+                self.assertTrue(actual['pages']==[dict(p.__dict__) for p in oracle.news_history],'ordered original news differs')
+                self.assertEqual(actual['returned'],expected['returned'],'ALL16 actual match return differs')
+                self.assertEqual(actual['keys'],expected['keys'],'actual match read keys differ')
+                self.assertEqual([r for r in actual['record'] if r[0]=='key'],[r for r in oracle.record if r[0]=='key'],'route first-poll/read keys differ')
+                self.assertTrue(actual['events']==expected['events'],'complete event transcript differs')
+                self.assertTrue(actual['draws']==expected['draws'],'ordered independent guest draws differ')
+                a=actual['result'];b=expected['result']
+                # Existing T123 representation: opcode-free state/2 has its own
+                # input image hash; assert each declared input separately.
+                differences={k for k in set(a)|set(b) if a.get(k)!=b.get(k)}
+                self.assertEqual(differences,{'ports','image_sha256'})
+                self.assertTrue({k:v for k,v in a.items() if k not in differences}=={k:v for k,v in b.items() if k not in differences})
+                digest=lambda v:hashlib.sha256(pickle.dumps(v,protocol=4)).hexdigest()
+                sources={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest()
+                         for p in [*sorted((root/'runtime/original_match').rglob('*.py')),Path(__file__)]}
+                receipt=dict(schema='t127-entry-config/1',controlled=controlled,sources=sources,
+                    same_result_except_declared_execution_metadata=sorted(differences),
+                    complete_state_equal=True,events_equal=True,ordered_draws_equal=True,news_equal=True,
+                    all16_returned_equal=True,entry_configuration_pure=actual['entry_pure'],
+                    invalid_resume_pure=actual['resume_pure'],positive_denials=actual['denials'],
+                    draw_count=len(actual['draws']),event_count=len(actual['events']),page_count=len(actual['pages']),
+                    request_operations=actual['request_operations'],opportunity_accepted=actual['opportunity_accepted'],
+                    state_sha256=digest(actual['state']),events_sha256=digest(actual['events']),
+                    original_full_memory_sha256=hashlib.sha256(expected['memory']).hexdigest(),
+                    sealed_full_memory_sha256=hashlib.sha256(actual['memory']).hexdigest(),
+                    physical_representation='existing T123 state/2 opcode elision; no new memory mask',
+                    raw_private_sha256=hashlib.sha256((private/'pair.pickle').read_bytes()).hexdigest())
+                out=root/'experiments/E040-route-fixture-writes/out/T127'/f'proof-{stamp}-{int(controlled)}.json'
+                with out.open('x')as f:json.dump(receipt,f,indent=2);f.write('\n')
+                print('T127_ACTUAL '+str(out.relative_to(root))+' PASS',flush=True)
