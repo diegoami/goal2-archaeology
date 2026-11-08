@@ -1,0 +1,55 @@
+{
+  "schema": "t127-accepted-default-baseline/1",
+  "accepted_source": "c6a5e1134cf7b9e3796fb9a3c48b1d3ac59b6af4",
+  "accepted_match_sha256": "e949159c9cc77f4d195bc9b150c67dfd913ba447417375122bc58db1bca97f92",
+  "accepted_route_sha256": "2d0336fd2c35d1baea20aff974f28b8b51a78434f3a0d84be660fbf6b178e0bb",
+  "script_sha256": "5e88064a09a5e37ec1a070eb50c94a1befa5f80c6d21876ec40702e272e43c0e",
+  "original_returned": {
+    "EAX": 5120,
+    "EBX": 31421,
+    "ECX": 4,
+    "EDX": 0,
+    "ESI": 31588,
+    "EDI": 6,
+    "EBP": 16094,
+    "ESP": 16072,
+    "EFLAGS": 70,
+    "EIP": 28445,
+    "CS": 2097,
+    "DS": 11684,
+    "ES": 23911,
+    "SS": 14453,
+    "FS": 0,
+    "GS": 0
+  },
+  "port_returned": {
+    "EAX": 5120,
+    "EBX": 31421,
+    "ECX": 4,
+    "EDX": 0,
+    "ESI": 31588,
+    "EDI": 6,
+    "EBP": 16094,
+    "ESP": 16072,
+    "EFLAGS": 2,
+    "EIP": 28445,
+    "CS": 2097,
+    "DS": 11684,
+    "ES": 23911,
+    "SS": 14453,
+    "FS": 0,
+    "GS": 0
+  },
+  "differences": {
+    "EFLAGS": [
+      70,
+      2
+    ]
+  },
+  "accepted_original_identical_to_new_original": true,
+  "accepted_port_identical_to_new_configured_default": true,
+  "full_sealed_round_state_equal": true,
+  "actual_all16_transfer_equal": true,
+  "no_configure_api_or_call": true,
+  "raw_private_sha256": "ae056db56e130183e76337fc65209aded625570ea0ed2a72b5aea9c7841d7774"
+}

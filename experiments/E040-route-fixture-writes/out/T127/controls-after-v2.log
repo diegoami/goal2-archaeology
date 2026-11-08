@@ -1,0 +1,13 @@
+test_all_default_configuration_preserves_entry_and_options (tests.test_route_entry_config.Controls.test_all_default_configuration_preserves_entry_and_options) ... ok
+test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) ... ok
+test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) ... ok
+test_draw_recorder_is_installed_once_without_reinstalling_hooks (tests.test_route_entry_config.Controls.test_draw_recorder_is_installed_once_without_reinstalling_hooks) ... ok
+test_lazy_events_creation_allows_configuration_but_replay_capture_locks_it (tests.test_route_entry_config.Controls.test_lazy_events_creation_allows_configuration_but_replay_capture_locks_it) ... ok
+test_options_detach_budget_and_preserve_complete_incoming_context (tests.test_route_entry_config.Controls.test_options_detach_budget_and_preserve_complete_incoming_context) ... ok
+test_ordinary_loaded_and_changed_entry_targets_refuse_without_changes (tests.test_route_entry_config.Controls.test_ordinary_loaded_and_changed_entry_targets_refuse_without_changes) ... ok
+test_unknown_and_setup_options_are_rejected_without_consumption (tests.test_route_entry_config.Controls.test_unknown_and_setup_options_are_rejected_without_consumption) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 2.640s
+
+OK

@@ -1,0 +1,19 @@
+{
+  "schema": "t127-postmerge-identity/1",
+  "time": "2026-11-08T14:51:06.679132+00:00",
+  "merged_head": "39fca7f38d94fcd2237bccf8f124dd31add461fa",
+  "previous_receipt_head": "83e5d8a4f6144f0d47db929d61136cb2623c677d",
+  "unchanged_source_fixture_count": 64,
+  "unchanged_private_input_sha256": "f8b22081eeb072e5b371a5b36628a745cc359efcfdabf6dc2cdaab4ebc66263c",
+  "changed_paths": [
+    "CLAUDE.md",
+    "docs/requests/701-order-boundary.md",
+    "docs/requests/701-prematch-pool.md",
+    "docs/tasks/README.md",
+    "docs/tasks/T128.md",
+    "experiments/E040-route-fixture-writes/out/T127/ci-bb100-complete-v1.json"
+  ],
+  "unexpected_exercised_changes": [],
+  "actual_engine_proof_reused_from": "9711cad35bf6",
+  "scope": "identity check only; no fresh engine test, CI acceptance or flag-fidelity claim"
+}

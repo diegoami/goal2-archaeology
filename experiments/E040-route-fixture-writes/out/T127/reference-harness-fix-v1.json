@@ -1,0 +1,26 @@
+{
+  "schema": "t127-reference-harness-fix/1",
+  "time": "2026-11-08T16:33:26.879694+00:00",
+  "production_runtime_unchanged": true,
+  "fixtures_and_tables_unchanged": true,
+  "intentional_changed_old_input": [
+    {
+      "path": "tests/test_route_entry_config.py",
+      "before": "3f4d7d51f9496c6ecc1c100034d3b10c4b46fe81586f5680ca7e5e051e958780",
+      "after": "3f939927e49fe3c483cb5b44f4ee8943feb8072cbbd96c0ec71a991c78ed1783"
+    }
+  ],
+  "new_verifier": "verify-v3.py",
+  "original_parent_lifecycle_control": {
+    "before": "FAIL True is not false; child inside live parent",
+    "after": "PASS"
+  },
+  "actual_original_port_profiles_pass": true,
+  "seconds": 154.867,
+  "focused_tests": 44,
+  "focused_seconds": 7.867,
+  "limit_s": 600,
+  "limit_increased": false,
+  "old_accepted_default_digests_unchanged": true,
+  "scope": "test reference now pauses genuine F1F6 and drives child outside parent; net writes retain full memory equality; no production change, mask or retry"
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "t127-accepted-default-binding/1",
+  "accepted_source": "c6a5e1134cf7b9e3796fb9a3c48b1d3ac59b6af4",
+  "baseline_receipt": "accepted-default-baseline-20261108T130302Z.json",
+  "baseline_receipt_sha256": "2a13e7ea92db3d74bac996d9f858f8e4a89fa734b604e05588cb9e3c20e10675",
+  "producer": "t127_entry_baseline.py",
+  "producer_sha256": "5e88064a09a5e37ec1a070eb50c94a1befa5f80c6d21876ec40702e272e43c0e",
+  "private_pair_sha256": "ae056db56e130183e76337fc65209aded625570ea0ed2a72b5aea9c7841d7774",
+  "original": {
+    "result": "621fc24668965e9d58198aae1505cb6001b53b9aa36aac1b9cf5878b51e6417c",
+    "events": "1c71ea569b2df0b43aca6f4074943836c7b774cfc30496380a4890992779b9a4",
+    "keys": "13ef7edd73539b5349ec88cecdcf0bdf4f2f11cbac344d9dfb31f0dabec8c38a",
+    "draws": "7952799765e5c5838f768f3ab1b728d9fa59b57b92ac8d3c619f4546aaa2ec06",
+    "returned": "b41b7b5947a01c444a7cf690b2d79925bf4189f338d7a98d67ff210f6aa48d8b",
+    "memory": "1886fd50992cf6388e23b367c91f279dab11fe998650baf8c03bba5758a6c9d7"
+  },
+  "port": {
+    "result": "35f943b9fb19e944efa4c728479dc462e753c7bf7e61c5848316a88b22aceab0",
+    "events": "1c71ea569b2df0b43aca6f4074943836c7b774cfc30496380a4890992779b9a4",
+    "keys": "13ef7edd73539b5349ec88cecdcf0bdf4f2f11cbac344d9dfb31f0dabec8c38a",
+    "draws": "7952799765e5c5838f768f3ab1b728d9fa59b57b92ac8d3c619f4546aaa2ec06",
+    "returned": "f07afb81584dd24896bdf4734cb9221c893a7a256c4d02ad516a78e1887d6880",
+    "memory": "f0176bbccdb704c6bfa5a710e34830f157393113626c8bc3e25986d26888dad2"
+  },
+  "t127_exercised_source": "a73bab4d7dad",
+  "t127_match_sha256": "0c8dd58b82a06fb65164b8430fa99fe2fd2341854b0d46f9c003f8692d71d365",
+  "compared_fields": "complete result/events/keys/independent draws/ALL16/memory; observer-only captain log is not game output"
+}

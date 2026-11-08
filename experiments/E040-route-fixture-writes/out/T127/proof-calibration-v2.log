@@ -1,0 +1,64 @@
+test_actual_original_and_denied_pypy_same_options_full_route (tests.test_route_entry_config.ActualEntry.test_actual_original_and_denied_pypy_same_options_full_route) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+
+  test_actual_original_and_denied_pypy_same_options_full_route (tests.test_route_entry_config.ActualEntry.test_actual_original_and_denied_pypy_same_options_full_route) (controlled=False) ... FAIL
+  test_actual_original_and_denied_pypy_same_options_full_route (tests.test_route_entry_config.ActualEntry.test_actual_original_and_denied_pypy_same_options_full_route) (controlled=True) ... FAIL
+
+======================================================================
+FAIL: test_actual_original_and_denied_pypy_same_options_full_route (tests.test_route_entry_config.ActualEntry.test_actual_original_and_denied_pypy_same_options_full_route) (controlled=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 262, in test_actual_original_and_denied_pypy_same_options_full_route
+    self.assertEqual(actual['returned'],expected['returned'],'ALL16 actual match return differs')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'EAX[100 chars]GS': 2, 'EIP': 28445, 'CS': 2097, 'DS': 11684,[39 chars]': 0} != {'EAX[100 chars]GS': 70, 'EIP': 28445, 'CS': 2097, 'DS': 11684[40 chars]': 0}
+  {'CS': 2097,
+   'DS': 11684,
+   'EAX': 5120,
+   'EBP': 16094,
+   'EBX': 31421,
+   'ECX': 4,
+   'EDI': 6,
+   'EDX': 0,
+-  'EFLAGS': 2,
+?            ^
+
++  'EFLAGS': 70,
+?            ^^
+
+   'EIP': 28445,
+   'ES': 23911,
+   'ESI': 31588,
+   'ESP': 16072,
+   'FS': 0,
+   'GS': 0,
+   'SS': 14453} : ALL16 actual match return differs
+
+======================================================================
+FAIL: test_actual_original_and_denied_pypy_same_options_full_route (tests.test_route_entry_config.ActualEntry.test_actual_original_and_denied_pypy_same_options_full_route) (controlled=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 252, in test_actual_original_and_denied_pypy_same_options_full_route
+    oracle=Oracle(image,entry='play_round',record_writes=False,match_entry=True);oracle.call()
+                                                                                 ~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/route.py", line 340, in call
+    stopped = m.run(end + int(self.match_entry), self.timeout_s, fresh=fresh)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 235, in dispatch
+    h(replay)
+    ~^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/route.py", line 207, in <lambda>
+    m.at("0791:F1F6", lambda replay: None if replay else self._match())
+                                                         ~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 247, in _match
+    result=_drive_entry(m,controlled)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 174, in _drive_entry
+    assert captains and captains[0]==m.opts['captain'],'actual chosen captain differs'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: actual chosen captain differs
+
+----------------------------------------------------------------------
+Ran 1 test in 114.770s
+
+FAILED (failures=2)
