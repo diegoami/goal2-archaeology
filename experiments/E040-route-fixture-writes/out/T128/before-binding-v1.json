@@ -1,0 +1,12 @@
+{
+  "baseline": "6bdf7bbed441b6e2c758949bae409963dfa6c175",
+  "job": "t128-red-v1",
+  "tests": 11,
+  "errors": 15,
+  "result": "FAILED: new pool cases refused by bounded T123b guard; within20 controls retained",
+  "source_sha256": {
+    "tests/test_port_pool_swap.py": "1aeda12907f516e0b376b455d34d7a0f1b642ea8bee1e8022539c0931fc66e36",
+    "runtime/original_match/port/selection.py": "d2e0bb9f97a0a3e8f93f0c3a5bada95220272c8739d1814b6eed5f9ed8a3d620"
+  },
+  "model": "Codex GPT-6 family; exact variant unavailable"
+}
