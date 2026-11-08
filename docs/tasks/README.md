@@ -190,3 +190,5 @@ exists.
 - [T127](T127.md): strict once-only configuration of an actual sealed-route Match before execution (#699; goal2T170).
 
 - [T128](T128.md): complete DEA6 pool selection for the required ordinary pre-match controls (#701; goal2T170).
+
+- [T129p](T129p.md): complete E2E6 pool-view state/ABI before interactive pool actions (#703).
