@@ -1,0 +1,10 @@
+{"boundary": {"context": "pause", "minute": 2, "request": false, "allowed": false, "squad_sha256": "5149b099b98a9399775e36d9df13560fd59c479a6f06094f8dd582a5f21058f8", "budget": 5, "ticks": 105, "rng": [52296, 46186], "edited": false, "keeper": null, "timeout_polls": null}}
+{"boundary": {"context": "pause", "minute": 2, "request": true, "allowed": false, "squad_sha256": "5149b099b98a9399775e36d9df13560fd59c479a6f06094f8dd582a5f21058f8", "budget": 5, "ticks": 105, "rng": [52296, 46186], "edited": true, "keeper": null, "timeout_polls": null}}
+{"boundary": {"context": "substitution_opportunity", "minute": 2, "request": true, "allowed": false, "squad_sha256": "5149b099b98a9399775e36d9df13560fd59c479a6f06094f8dd582a5f21058f8", "budget": 5, "ticks": 105, "rng": [52296, 46186], "edited": false, "keeper": false, "timeout_polls": 400}}
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/fix695/proof-v1.py", line 134, in <module>
+    pending_response=('timeout',keeper);m.answer(opportunity='timeout')
+                                        ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/match.py", line 554, in answer
+    raise MatchError("no decision is waiting")
+original_match.match.MatchError: no decision is waiting
