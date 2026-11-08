@@ -1,0 +1,34 @@
+test_original_child_requires_an_inactive_parent (tests.test_route_entry_config.Controls.test_original_child_requires_an_inactive_parent) ... FAIL
+
+======================================================================
+FAIL: test_original_child_requires_an_inactive_parent (tests.test_route_entry_config.Controls.test_original_child_requires_an_inactive_parent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 95, in test_original_child_requires_an_inactive_parent
+    _original_round(_fixtures().image(),False,child_driver=child)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 264, in _original_round
+    oracle=Oracle(image,entry='play_round',record_writes=False,match_entry=True);oracle.call()
+                                                                                 ~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/route.py", line 340, in call
+    stopped = m.run(end + int(self.match_entry), self.timeout_s, fresh=fresh)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/machine.py", line 235, in dispatch
+    h(replay)
+    ~^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/route.py", line 207, in <lambda>
+    m.at("0791:F1F6", lambda replay: None if replay else self._match())
+                                                         ~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 259, in _match
+    result=(_drive_entry(m,controlled) if child_driver is None else child_driver(self,m,controlled))
+                                                                    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 91, in child
+    self.assertFalse(parent.m.running,'a child original emulator must not run inside a live parent')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false : a child original emulator must not run inside a live parent
+
+----------------------------------------------------------------------
+Ran 1 test in 0.182s
+
+FAILED (failures=1)

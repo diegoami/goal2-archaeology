@@ -85,6 +85,17 @@ class Controls(unittest.TestCase):
         with self.assertRaises(ValueError):c.configure_route_entry(ticks=True)
         self.assertEqual(snapshot(c),before)
 
+    def test_original_child_requires_an_inactive_parent(self):
+        class ReachedChild(Exception):pass
+        def child(parent,match,controlled):
+            self.assertFalse(parent.m.running,'a child original emulator must not run inside a live parent')
+            self.assertEqual(parent.m.pc(),parent.m.lin('0791:F1F6'))
+            self.assertTrue(parent.m.read(0,MEM_SIZE)==match.m.read(0,MEM_SIZE),'child entry memory differs')
+            self.assertEqual({k:parent.m.reg(k) for k in REGS},{k:match.m.reg(k) for k in REGS})
+            raise ReachedChild
+        with self.assertRaises(ReachedChild):
+            _original_round(_fixtures().image(),False,child_driver=child)
+
     def test_unknown_and_setup_options_are_rejected_without_consumption(self):
         for key in ('seed','reference_seed','delay_byte','players','countries','managed','fixture','index','engine','tail','ports','prove','opts'):
             m=self.match();before=snapshot(m)
@@ -228,6 +239,53 @@ def _candidate(state,table_record,controlled):
     return result
 
 
+def _original_round(image,controlled,child_driver=None):
+    """Original reference; child_driver is a focused lifecycle tripwire only."""
+    from original_match import route as R
+    from original_match.image import Image
+    matches=[];original_returned=[];updates=[]
+    class Oracle(R.Route):
+        def _match(self):
+            # Pause the real entry; Route.call already drives a stopped match
+            # outside the parent emulator. Never nest original emulators or
+            # rewrite its active translation block inside the F1F6 hook.
+            assert self.m.pc()==self.m.lin('0791:F1F6')
+            here=(self.m.read(0,MEM_SIZE),{k:self.m.reg(k) for k in REGS})
+            if self.m.running:
+                self.paused_entry=here
+                self.entry_pause_count=getattr(self,'entry_pause_count',0)+1
+                self.m.stop('match')
+                return
+            assert self.paused_entry==here,'stopped original entry memory/ALL16 changed'
+            self.entry_unchanged=True
+            self.child_parent_inactive=not self.m.running
+            assert self.child_parent_inactive
+            context=here[1];g=self.m.far(0xA923)
+            idx=self.m.word_at(g+0x26);raw=self.m.read(self.m.far(0xA92B)+8*(idx-1),8)
+            fixture=Fixture(int.from_bytes(raw[4:6],'little'),int.from_bytes(raw[6:8],'little'),idx,raw[2])
+            entry=Image(self.header+self.m.read(0,MEM_SIZE)+self.tail);entry.tables=self.tables
+            options=dict(captain=_captain(entry,fixture),substitutions=(255,255),ticks=True,record_draws=True,
+                         set_piece=True,live_players=True,substitution_control=True) if controlled else {}
+            m=Match(entry,fixture,engine='original',tail=False,timeout_s=600,**options)
+            assert m.inputs==[] and m.m.read(0,MEM_SIZE)==self.m.read(0,MEM_SIZE),'original constructor changed actual entry'
+            for k,v in context.items():m.m.set_reg(k,v)
+            for site in ('0791:B7FA','1771:8757'):
+                self.m.at(site,lambda replay,site=site:None if replay else updates.append(site))
+            self.m.at('000E:6F1D',lambda replay:None if replay else original_returned.append({k:self.m.reg(k) for k in REGS}))
+            result=(_drive_entry(m,controlled) if child_driver is None else child_driver(self,m,controlled))
+            assert result['result']['image_sha256']==entry.sha256()
+            matches.append(result)
+            assert not self.m.running,'parent resumed while its child was driven'
+            runs=R._runs(self.m.read(0,MEM_SIZE),result['memory'])
+            for begin,end in runs:self.m.write(begin,result['memory'][begin:end])
+            self.net_write_runs=len(runs)
+            self.net_write_full_equal=self.m.read(0,MEM_SIZE)==result['memory']
+            assert self.net_write_full_equal,'net original writeback differs from FULL child memory'
+            for k,v in result['returned'].items():self.m.set_reg(k,v)
+    oracle=Oracle(image,entry='play_round',record_writes=False,match_entry=True);oracle.call()
+    return oracle,matches,original_returned,updates
+
+
 class ActualEntry(unittest.TestCase):
     def test_actual_original_and_denied_pypy_same_options_full_route(self):
         import hashlib,json,os,time
@@ -240,27 +298,8 @@ class ActualEntry(unittest.TestCase):
         stamp=time.strftime('%Y%m%dT%H%M%SZ',time.gmtime())
         for controlled in (False,True):
             with self.subTest(controlled=controlled):
-                image=_fixtures().image();state=image.state(image.tables);matches=[];original_returned=[];updates=[]
-                class Oracle(R.Route):
-                    def _match(self):
-                        context={k:self.m.reg(k) for k in REGS};g=self.m.far(0xA923)
-                        idx=self.m.word_at(g+0x26);raw=self.m.read(self.m.far(0xA92B)+8*(idx-1),8)
-                        fixture=Fixture(int.from_bytes(raw[4:6],'little'),int.from_bytes(raw[6:8],'little'),idx,raw[2])
-                        entry=Image(self.header+self.m.read(0,MEM_SIZE)+self.tail);entry.tables=self.tables
-                        options=dict(captain=_captain(entry,fixture),substitutions=(255,255),ticks=True,record_draws=True,
-                                     set_piece=True,live_players=True,substitution_control=True) if controlled else {}
-                        m=Match(entry,fixture,engine='original',tail=False,timeout_s=600,**options)
-                        assert m.inputs==[] and m.m.read(0,MEM_SIZE)==self.m.read(0,MEM_SIZE),'original constructor changed actual entry'
-                        for k,v in context.items():m.m.set_reg(k,v)
-                        for site in ('0791:B7FA','1771:8757'):
-                            self.m.at(site,lambda replay,site=site:None if replay else updates.append(site))
-                        self.m.at('000E:6F1D',lambda replay:None if replay else original_returned.append({k:self.m.reg(k) for k in REGS}))
-                        result=_drive_entry(m,controlled)
-                        assert result['result']['image_sha256']==entry.sha256()
-                        matches.append(result)
-                        self.m.write(0,result['memory'])
-                        for k,v in result['returned'].items():self.m.set_reg(k,v)
-                oracle=Oracle(image,entry='play_round',record_writes=False,match_entry=True);oracle.call()
+                image=_fixtures().image();state=image.state(image.tables)
+                oracle,matches,original_returned,updates=_original_round(image,controlled)
                 self.assertEqual(len(matches),1)
                 expected=matches[0]
                 actual=call_in_pypy('test_route_entry_config','_candidate',args=(state,to_record(image.tables),controlled))
@@ -296,7 +335,7 @@ class ActualEntry(unittest.TestCase):
                 digest=lambda v:hashlib.sha256(pickle.dumps(v,protocol=4)).hexdigest()
                 sources={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest()
                          for p in [*sorted((root/'runtime/original_match').rglob('*.py')),Path(__file__),
-                                   root/'experiments/E040-route-fixture-writes/out/T127/verify-v2.py',
+                                   root/'experiments/E040-route-fixture-writes/out/T127/verify-v3.py',
                                    root/'experiments/E040-route-fixture-writes/out/T127/accepted-default-binding-v2.json',
                                    root/'experiments/E040-route-fixture-writes/out/T127/accepted-default-baseline-70f38677-v2.json',
                                    root/'experiments/E040-route-fixture-writes/out/T127/t127_entry_baseline_v2.py']}
@@ -307,6 +346,11 @@ class ActualEntry(unittest.TestCase):
                     raw_returned_registers={'original':expected['returned'],'port':actual['returned']},
                     accepted_default_within_backend_equal=not controlled,
                     entry_configuration_pure=actual['entry_pure'],
+                    original_parent_inactive=oracle.child_parent_inactive,
+                    original_entry_unchanged=oracle.entry_unchanged,
+                    original_entry_pause_count=oracle.entry_pause_count,
+                    original_net_write_full_equal=oracle.net_write_full_equal,
+                    original_net_write_runs=oracle.net_write_runs,original_timeout_s=oracle.timeout_s,
                     invalid_resume_pure=actual['resume_pure'],positive_denials=actual['denials'],
                     draw_count=len(actual['draws']),recorded_draw_count=actual['recorded_draw_count'],
                     substitution_budget=actual['result']['substitution_budget'],
