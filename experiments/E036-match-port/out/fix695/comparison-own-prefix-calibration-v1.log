@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/experiments/E036-match-port/out/fix695/compare-v1.py", line 68, in <module>
+    assert x[field]==y[field],(stem,field)
+           ^^^^^^^^^^^^^^^^^^
+AssertionError: ('keeper-timeout', 'input_sha256')

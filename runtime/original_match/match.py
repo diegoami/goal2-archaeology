@@ -204,7 +204,8 @@ def fresh_state(players_before):
 class Match:
     def __init__(self, image, fixture, *, managed=None, captain=None, seed=None, players=None, countries=None,
                  substitutions=None, ticks=False, record_draws=False, delay_byte=None, timeout_s=60, ports=None,
-                 prove=None, set_piece=False, engine="original", tail=True, live_players=False):
+                 prove=None, set_piece=False, engine="original", tail=True, live_players=False,
+                 substitution_control=False):
         """image: an Image of the original (goal2's savestate bytes through Image.from_savestate, e.g. of
         to_savestate(state, template); or GameState.mem through Image.from_memory_component). On the fixture
         tried, the match depended on the image only through its two teams' records (E033 notes, section 2).
@@ -233,6 +234,8 @@ class Match:
         player update 0791:B7FA, which the kit then does not call (T119a: route.py runs route_fixture itself, and
         its own call of B7FA at 000E:6FF8 runs as guest code); and the fixture record keeps route_fixture's +1 (a
         competitive fixture's round) and +3 (T119c, _write_fixture)."""
+        if type(substitution_control) is not bool:
+            raise ValueError("substitution_control: a boolean opt-in")
         if type(live_players) is not bool:
             raise ValueError("live_players: a boolean opt-in")
         if engine not in ("original", "port"):
@@ -294,6 +297,8 @@ class Match:
         # options/checkpoints/events stay byte-identical when it is not requested.
         if live_players:
             self.opts["live_players"] = True
+        if substitution_control:
+            self.opts["substitution_control"] = True
         self.side = (0 if managed == fixture.first else 1) if managed in (fixture.first, fixture.second) else None
         if captain is not None and (self.side is None or captain not in self._squad(managed)[:11]):
             raise ValueError(f"captain {captain} is not in the managed eleven")
@@ -526,7 +531,8 @@ class Match:
             self._advance()
 
     def answer(self, substitutions=(), tactics=None, positions=None, marking=None, own_tactics=None, quick=False,
-               speed=None, shootout_order=None, taker=None, edit_only=False):
+               speed=None, shootout_order=None, taker=None, edit_only=False,
+               request_substitution=None, opportunity=None):
         """goal2's answer to the waiting decision; nothing given plays on.
         edit_only: execute edits at a legal half-time/substitution menu, or team-tactics-only edits at an
           ordinary pause/extra-time menu, and yield a fresh decision before Play. An ordinary subsequent answer continues;
@@ -546,6 +552,30 @@ class Match:
           Enter (the highlighted player, from the top of the eleven)."""
         if self.st["waiting"] is None:
             raise MatchError("no decision is waiting")
+        # [designed: #695] This opt-in exposes two distinct original operations:
+        # E44F Enter changes the request, and 7FCF accepts/dismisses a timed notice.
+        # Validate all new inputs before consuming the waiting decision/replay.
+        context = self.st["waiting"]["context"]
+        controlled = self.opts.get("substitution_control", False)
+        if opportunity is not None or context == "substitution_opportunity":
+            if (not controlled or context != "substitution_opportunity"
+                    or type(opportunity) is not str or opportunity not in ("accept", "dismiss", "timeout")
+                    or edit_only or request_substitution is not None or substitutions or tactics is not None
+                    or positions or marking or own_tactics or quick or speed is not None
+                    or taker is not None or shootout_order is not None):
+                raise ValueError("opportunity needs accept/dismiss/timeout at its waiting opt-in notice only")
+            value = {"opportunity": opportunity}
+            self._replay_action("answer", value)
+            self.st["answer"] = value
+            self.st["decisions"].append({"context": context, "minute": self.st["minute"], "answer": dict(value)})
+            self.st["waiting"] = None
+            return
+        if request_substitution is not None:
+            if (not controlled or type(request_substitution) is not bool or context != "pause"
+                    or not edit_only or self.m.rd(S.SUBS_ALLOWED, 1) or substitutions or positions
+                    or marking or own_tactics or quick or speed is not None or taker is not None
+                    or shootout_order is not None):
+                raise ValueError("request_substitution needs a desired boolean at an opt-in ordinary paused edit")
         # [designed: #663, goal2#599] An edit is a real stopped-menu visit without Play.
         # Default answers and the legacy in-play request API retain their existing behavior.
         if edit_only:
@@ -555,7 +585,7 @@ class Match:
             paused_tactics = (context in ("pause", "extra_time") and tactics is not None
                               and not (substitutions or positions or marking or own_tactics))
             legal_bench = context in ("half_time", "substitution") and self.m.rd(S.SUBS_ALLOWED, 1)
-            if (not (legal_bench or paused_tactics) or quick or speed is not None
+            if (not (legal_bench or paused_tactics or request_substitution is not None) or quick or speed is not None
                     or taker is not None or shootout_order is not None):
                 raise ValueError("edit_only needs a legal stopped bench or a tactics-only paused menu, without play-on inputs")
         if self.st["waiting"]["context"] == "set_piece":
@@ -608,6 +638,8 @@ class Match:
         if any(p not in squad or any(not 1 <= e <= 4 for e in d) for p, d in own.items()):
             raise ValueError("own_tactics: {player of the managed squad: {element 1..4: True, False or None}}")
         edit = {"edit_only": True} if edit_only else {}
+        if request_substitution is not None:
+            edit["request_substitution"] = request_substitution
         self._replay_action("answer", {"substitutions": subs, "tactics": tactics, "positions": positions,
                                       "marking": marking, "own_tactics": own, "quick": bool(quick), "speed": speed, **edit})
         self.st["answer"] = {"substitutions": subs, "tactics": tactics, "positions": positions, "marking": marking,
@@ -621,7 +653,8 @@ class Match:
 
     def _new_plan(self, answer):
         plan = S.MenuPlan(self.side, tactics=answer.get("tactics"), subs=answer.get("substitutions"),
-                          positions=answer.get("positions"), marking=answer.get("marking"), own=answer.get("own"))
+                          positions=answer.get("positions"), marking=answer.get("marking"), own=answer.get("own"),
+                          request_substitution=answer.get("request_substitution"))
         plan.edit_only = bool(answer.get("edit_only"))
         return plan
 
@@ -829,8 +862,9 @@ class Match:
         if site == SITE_PROMPT:
             return self._captain_key()
         if site == SITE_NOTICE:
+            key = st["prompt"]["key"] if self.opts.get("substitution_control") else S.ENTER
             st["prompt"] = None
-            return S.ENTER
+            return key
         if site == SITE_MESSAGE:
             return S.ENTER
         if site == TABLE_KEY and st["full_time"]:
@@ -838,7 +872,7 @@ class Match:
         if site == SITE_SELECT and self.st.get("editing_select"):
             answer = self.st["answer"]
             if answer is None:
-                self._decide(self.st["menu_context"], substitutions_now=True, edited=True)
+                self._decide(self.st["menu_context"], substitutions_now=bool(m.rd(S.SUBS_ALLOWED, 1)), edited=True)
                 return None
             self.st["editing_select"] = False
             if answer.get("tactics"):
@@ -861,7 +895,7 @@ class Match:
                 self._close_plan(self._menu)
                 self._menu = None
                 st["editing_select"] = True
-                self._decide(st["menu_context"], substitutions_now=True, edited=True)
+                self._decide(st["menu_context"], substitutions_now=bool(m.rd(S.SUBS_ALLOWED, 1)), edited=True)
                 return None
             return key
         if site == SITE_MENU:
@@ -910,7 +944,7 @@ class Match:
                 # run_match still visits its menu for two computer sides. Keep
                 # its sorting/validation and choose play, with no human answer.
                 self._menu = S.MenuPlan(1)
-            elif context in DECIDED_AT_MENU or st.get("editing_menu") or (context == "substitution" and st.get("refused")):
+            elif context in DECIDED_AT_MENU or st.get("editing_menu") or (context == "substitution" and (st.get("refused") or self.opts.get("substitution_control"))):
                 if st["answer"] is None:
                     self._decide(context, substitutions_now=bool(self.m.rd(S.SUBS_ALLOWED, 1)),
                                  refused=st.get("refused"))
@@ -983,6 +1017,19 @@ class Match:
         """0791:7FCF timed_notice(side, keeper unavailable): the original offers the managed side a substitution
         at a stoppage (0791:8062: after an injury, or a substitution asked for at a pause)."""
         st = self.st
+        if self.opts.get("substitution_control"):
+            if st["answer"] is None:
+                keeper = bool(self.m.stack_word(4) & 0xFF)
+                self._decide("substitution_opportunity", keeper_unavailable=keeper,
+                    timeout_polls=self.m.rd(0x087C + 2 * int(keeper)), poll_ms=10,
+                    substitutions_now=bool(self.m.rd(S.SUBS_ALLOWED, 1)))
+                return
+            response = st["answer"]["opportunity"]
+            st["answer"] = None
+            # [confirmed: 7FCF/804B,8052; 8062/80F0] Esc or no-key skips an
+            # ordinary menu; a keeper's forced menu is the guest's own branch.
+            st["prompt"] = {"kind": "notice", "key": {"accept": S.ENTER, "dismiss": S.ESC, "timeout": None}[response]}
+            return
         if st["answer"] is None and st["notice"] is None:
             self._decide("substitution", keeper_unavailable=bool(self.m.stack_word(2) & 0xFF),
                          requested=[list(s) for s in st["pending_subs"]], substitutions_now=True)
@@ -1005,6 +1052,8 @@ class Match:
         positions = [[w, self.m.read(base + PLAYER_SIZE * w + PLAYER_POSITION, 1)[0]] for w in squad if w]
         data.update(context=context, eleven=squad[:11], bench=squad[11:], injured=injured, positions=positions,
                     substitutions_left=self.m.rd(S.SUBS_LEFT + self.side, 1), tactics=self._tactics())
+        if self.opts.get("substitution_control", False):
+            data["request_substitution"] = bool(self.m.rd(S.SUBS_REQUEST, 1))
         if self.opts.get("live_players", False):
             # [confirmed: F008, original1771:42BC] The card reads these actual
             #20-byte records from DS:A91B. Copy every managed slot, including bench
@@ -1555,6 +1604,8 @@ class Match:
             raise ValueError(f"saved by kit version {version}, this is {VERSION} (it loads {', '.join(LOADS)})")
         if engine not in ("original", "port"):
             raise ValueError("unknown checkpoint engine")
+        if "substitution_control" in opts and type(opts["substitution_control"]) is not bool:
+            raise ValueError("substitution_control: a boolean opt-in in a checkpoint")
         if "live_players" in opts and type(opts["live_players"]) is not bool:
             raise ValueError("live_players: a boolean opt-in in a checkpoint")
         if engine == "port":

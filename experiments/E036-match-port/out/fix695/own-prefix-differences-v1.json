@@ -1,0 +1,33 @@
+{
+  "method": "inherited own-prefix calibration differences, NOT a same-input bounded proof; no exclusions applied",
+  "input_register_differences": {
+    "EDI": [
+      33526,
+      0
+    ]
+  },
+  "memory_differences": {
+    "input.bin": {
+      "count": 15,
+      "ranges": [
+        {
+          "linear_start": 247206,
+          "length": 13
+        },
+        {
+          "linear_start": 247246,
+          "length": 2
+        }
+      ]
+    },
+    "after.bin": {
+      "count": 2,
+      "ranges": [
+        {
+          "linear_start": 247246,
+          "length": 2
+        }
+      ]
+    }
+  }
+}
