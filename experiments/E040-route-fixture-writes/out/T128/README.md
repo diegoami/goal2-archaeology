@@ -33,3 +33,34 @@ python3 -B experiments/E040-route-fixture-writes/out/T128/verify.py --out /tmp/t
 The source digests bind exercised files even when a job starts from a committed base with uncommitted implementation. Final-head verification rechecks these digests. Failed/calibration outputs are immutable. No Match/API/UI/worker change, full suite, reviewer or merge was performed by this implementer; required full suites remain CI-owned.
 
 Model: Codex GPT-6 family; exact variant unavailable.
+
+## Integrated historical-counter repair (Track A)
+
+[designed: main, `docs/requests/701-counter-compatibility.md`] The owner transferred
+continuation to Track A. Accepted T127 merge `79aa07c7` is normally merged into
+this branch. Production T127 Match and the T128 selection body are unchanged.
+Only historical TEST COPIES assert an added DDCB counter is zero before omitting
+that one metadata entry. All fixed historical hashes, events, full-memory checks,
+keys, returned registers, deadlines and actual production result objects remain.
+
+`legacy-before-tracka-v1.log` reproduces the old T117 digest failure. Four new
+compatibility controls fail before the helper exists (`counter-controls-before-a1.log`),
+then cover missing/zero/nonzero counters, detached copies and every other hashed field.
+`focused-integrated-tracka-v1.log`: 55 tests PASS, no skips, 183.040s, including
+both actual original/denied-PyPy T127 profiles. `legacy-after-tracka-v1.log`:
+10 tests PASS under PyPy, no skips, 37.287s, retaining the immutable T117 hashes.
+Both current-source T127 receipts pass its unchanged verifier-v3.
+
+Fresh T128 primitive/auxiliary records are `primitive-tracka-v1.jsonl` and
+`auxiliary-tracka-v1.jsonl`. `verify-v2.py` retains the original verifier's
+assertions and adds only explicit input-ledger arguments; it verifies all21
+private complete trace pairs,15 primitive cases,6 DDCB cases,5 falsifiers,
+4 sealed exact cases and5 actual registered-helper cases. Example:
+
+```sh
+python3 -B experiments/E040-route-fixture-writes/out/T128/verify-v2.py --primitive primitive-tracka-v1.jsonl --auxiliary auxiliary-tracka-v1.jsonl --out /tmp/t128-current-verification.json
+```
+
+`repair-tracka-v1.json` binds60 exercised source/table/test files and3 fixtures.
+The old failed CI remains failed in `ci-before-tracka-v1.json`; fresh required CI
+must accept the repaired head before merge. No local full suite or reviewer starts.
