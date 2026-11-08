@@ -1,0 +1,380 @@
+test_checkpoint_codec_retains_opt_in_and_waiting_record_payload (tests.test_live_player_records_682.LivePlayers.test_checkpoint_codec_retains_opt_in_and_waiting_record_payload) ... ok
+test_checkpoint_rejects_non_boolean_opt_in_without_rejecting_old_headers (tests.test_live_player_records_682.LivePlayers.test_checkpoint_rejects_non_boolean_opt_in_without_rejecting_old_headers) ... ok
+test_later_snapshot_is_fresh_and_already_emitted_values_are_immutable (tests.test_live_player_records_682.LivePlayers.test_later_snapshot_is_fresh_and_already_emitted_values_are_immutable) ... ok
+test_legacy_default_and_explicit_false_keep_exact_previous_packet_shape (tests.test_live_player_records_682.LivePlayers.test_legacy_default_and_explicit_false_keep_exact_previous_packet_shape) ... ok
+test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions (tests.test_live_player_records_682.LivePlayers.test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions) ... ok
+test_public_option_is_strict_boolean_and_absent_by_default (tests.test_live_player_records_682.LivePlayers.test_public_option_is_strict_boolean_and_absent_by_default) ... ok
+test_checkpoint_round_trip_retains_raw_context_without_changing_old_payloads (tests.test_live_team_context_697.TeamContext.test_checkpoint_round_trip_retains_raw_context_without_changing_old_payloads) ... FAIL
+test_context_is_fresh_and_previous_emitted_packet_does_not_change (tests.test_live_team_context_697.TeamContext.test_context_is_fresh_and_previous_emitted_packet_does_not_change) ... FAIL
+test_default_and_false_preserve_legacy_context_omission_and_reads (tests.test_live_team_context_697.TeamContext.test_default_and_false_preserve_legacy_context_omission_and_reads) ... ok
+test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) ... 
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='pause', setup=0, used=0) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='pause', setup=0, used=255) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='pause', setup=255, used=0) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='pause', setup=1, used=2) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='half_time', setup=0, used=0) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='half_time', setup=0, used=255) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='half_time', setup=255, used=0) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='half_time', setup=1, used=2) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='substitution', setup=0, used=0) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='substitution', setup=0, used=255) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='substitution', setup=255, used=0) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='substitution', setup=1, used=2) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='substitution_opportunity', setup=0, used=0) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='substitution_opportunity', setup=0, used=255) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='substitution_opportunity', setup=255, used=0) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='substitution_opportunity', setup=1, used=2) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='extra_time', setup=0, used=0) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='extra_time', setup=0, used=255) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='extra_time', setup=255, used=0) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='extra_time', setup=1, used=2) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='set_piece', setup=0, used=0) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='set_piece', setup=0, used=255) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='set_piece', setup=255, used=0) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='set_piece', setup=1, used=2) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='shootout_order', setup=0, used=0) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='shootout_order', setup=0, used=255) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='shootout_order', setup=255, used=0) ... FAIL
+  test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='shootout_order', setup=1, used=2) ... FAIL
+test_original_performance_visibility_and_side_selection_use_exact_context (tests.test_live_team_context_697.TeamContext.test_original_performance_visibility_and_side_selection_use_exact_context) ... ERROR
+
+======================================================================
+ERROR: test_original_performance_visibility_and_side_selection_use_exact_context (tests.test_live_team_context_697.TeamContext.test_original_performance_visibility_and_side_selection_use_exact_context)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 63, in test_original_performance_visibility_and_side_selection_use_exact_context
+    from team_card.team_performance import shown, match_side
+ModuleNotFoundError: No module named 'team_card'
+
+======================================================================
+FAIL: test_checkpoint_round_trip_retains_raw_context_without_changing_old_payloads (tests.test_live_team_context_697.TeamContext.test_checkpoint_round_trip_retains_raw_context_without_changing_old_payloads)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 55, in test_checkpoint_round_trip_retains_raw_context_without_changing_old_payloads
+    self.assertIn('team_context', waiting)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'team_context' not found in {'context': 'pause', 'eleven': [401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411], 'bench': [412, 413, 414, 415, 416, 417, 418, 419, 420], 'injured': [401], 'positions': [[401, 151], [402, 152], [403, 153], [404, 154], [405, 155], [406, 156], [407, 157], [408, 158], [409, 159], [410, 160], [411, 161], [412, 162], [413, 163], [414, 164], [415, 165], [416, 166], [417, 167], [418, 168], [419, 169], [420, 170]], 'substitutions_left': 5, 'tactics': 82, 'player_records': [[401, '0792939495969798999a9b9c9d9e9fa0a1a2a3a4'], [402, '07939495969798999a9b9c9d9e9fa0a1a2a3a4a5'], [403, '079495969798999a9b9c9d9e9fa0a1a2a3a4a5a6'], [404, '0795969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7'], [405, '07969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8'], [406, '079798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9'], [407, '0798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aa'], [408, '07999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaab'], [409, '079a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabac'], [410, '079b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacad'], [411, '079c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadae'], [412, '079d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeaf'], [413, '079e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0'], [414, '079fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1'], [415, '07a0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2'], [416, '07a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3'], [417, '07a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4'], [418, '07a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5'], [419, '07a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6'], [420, '07a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7']]}
+
+======================================================================
+FAIL: test_context_is_fresh_and_previous_emitted_packet_does_not_change (tests.test_live_team_context_697.TeamContext.test_context_is_fresh_and_previous_emitted_packet_does_not_change)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 40, in test_context_is_fresh_and_previous_emitted_packet_does_not_change
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     dict(match_set_up=9, in_match_menu_used=255, sides=[19, 7]))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 9, 'in_match_menu_used': 255, 'sides': [19, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='pause', setup=0, used=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 0, 'in_match_menu_used': 0, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='pause', setup=0, used=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 0, 'in_match_menu_used': 255, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='pause', setup=255, used=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 255, 'in_match_menu_used': 0, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='pause', setup=1, used=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 1, 'in_match_menu_used': 2, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='half_time', setup=0, used=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 0, 'in_match_menu_used': 0, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='half_time', setup=0, used=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 0, 'in_match_menu_used': 255, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='half_time', setup=255, used=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 255, 'in_match_menu_used': 0, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='half_time', setup=1, used=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 1, 'in_match_menu_used': 2, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='substitution', setup=0, used=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 0, 'in_match_menu_used': 0, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='substitution', setup=0, used=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 0, 'in_match_menu_used': 255, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='substitution', setup=255, used=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 255, 'in_match_menu_used': 0, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='substitution', setup=1, used=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 1, 'in_match_menu_used': 2, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='substitution_opportunity', setup=0, used=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 0, 'in_match_menu_used': 0, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='substitution_opportunity', setup=0, used=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 0, 'in_match_menu_used': 255, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='substitution_opportunity', setup=255, used=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 255, 'in_match_menu_used': 0, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='substitution_opportunity', setup=1, used=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 1, 'in_match_menu_used': 2, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='extra_time', setup=0, used=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 0, 'in_match_menu_used': 0, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='extra_time', setup=0, used=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 0, 'in_match_menu_used': 255, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='extra_time', setup=255, used=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 255, 'in_match_menu_used': 0, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='extra_time', setup=1, used=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 1, 'in_match_menu_used': 2, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='set_piece', setup=0, used=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 0, 'in_match_menu_used': 0, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='set_piece', setup=0, used=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 0, 'in_match_menu_used': 255, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='set_piece', setup=255, used=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 255, 'in_match_menu_used': 0, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='set_piece', setup=1, used=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 1, 'in_match_menu_used': 2, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='shootout_order', setup=0, used=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 0, 'in_match_menu_used': 0, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='shootout_order', setup=0, used=255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 0, 'in_match_menu_used': 255, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='shootout_order', setup=255, used=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 255, 'in_match_menu_used': 0, 'sides': [128, 7]}
+
+======================================================================
+FAIL: test_every_decision_samples_raw_visibility_bytes_and_both_side_words (tests.test_live_team_context_697.TeamContext.test_every_decision_samples_raw_visibility_bytes_and_both_side_words) (context='shootout_order', setup=1, used=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-team-context-engine-a/tests/test_live_team_context_697.py", line 26, in test_every_decision_samples_raw_visibility_bytes_and_both_side_words
+    self.assertEqual(packets[-1][1].get('team_context'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dict(match_set_up=setup, in_match_menu_used=used, sides=[128, 7]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'match_set_up': 1, 'in_match_menu_used': 2, 'sides': [128, 7]}
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.013s
+
+FAILED (failures=30, errors=1)
