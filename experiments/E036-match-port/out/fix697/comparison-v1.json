@@ -1,0 +1,26 @@
+{
+  "source_sha256": "58472fd3656346ce14512e8b17b10c0f1677f303270fe7c5352a2a8ae1d363bd",
+  "proof_sha256": "aefe411c5628b6448279d7c6ecf4601f2e6f87c1baf3323f884be345c45d94f7",
+  "receipts_sha256": {
+    "experiments/E036-match-port/out/fix697/original-friendly-v2.json": "192f58eaf44f47b1786ee69012344210acaa5ed89091ddea77da6074b092779c",
+    "experiments/E036-match-port/out/fix697/port-friendly-v2.json": "1688aead2d87ee4121372af717edbe1ab8f482fe5eb2e2ce81bd5c80d152e77f"
+  },
+  "matches_completed": 4,
+  "decision_snapshots_checked": 12,
+  "within_backend_full_result_memory_exact_event_extension": true,
+  "cross_backend": {
+    "legacy": {
+      "accepted_fidelity_fields_equal": true,
+      "raw_full_memory_equal": true,
+      "raw_all_events_equal": true
+    },
+    "live": {
+      "accepted_fidelity_fields_equal": true,
+      "raw_full_memory_equal": true,
+      "raw_all_events_equal": true
+    }
+  },
+  "scope": "Fresh friendly pause, half-time, immediate swap and checkpoint-load equality; synthetic controls cover other visibility bytes and sides. No extra-time or goal2UI acceptance claim.",
+  "event_profile": "Unchanged682 profile; only full_time.data.screen_sha256 excluded cross-backend. Raw hashes retained.",
+  "memory_mask": []
+}
