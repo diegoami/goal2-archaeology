@@ -188,3 +188,5 @@ exists.
 - [T126](T126.md): pure-port CI on PyPy3.11; CPython original/reference and UI coverage retained (#676).
 
 - [T127](T127.md): strict once-only configuration of an actual sealed-route Match before execution (#699; goal2T170).
+
+- [T128](T128.md): complete DEA6 pool selection for the required ordinary pre-match controls (#701; goal2T170).
