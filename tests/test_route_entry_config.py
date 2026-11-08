@@ -70,6 +70,8 @@ class Controls(unittest.TestCase):
             m.configure_route_entry(record_draws=True)
         after=snapshot(m);self.assertEqual(after[:2],before[:2]);self.assertEqual(after[3:6],before[3:6])
         self.assertEqual(after[6],before[6]+1)
+        m._install_draw_recorder()
+        self.assertEqual(len(m.m._writes),before[6]+1)
         m.st['recording']=True;old=m.m.rd(SEED);m.m.write_as(m.m.DS*16+SEED,2,(old+1)&65535,m.m.pc())
         self.assertEqual(len(m.st['draws']),1)
         self.assertEqual(m.st['draws'][0][2:],[old,(old+1)&65535])
@@ -126,7 +128,7 @@ def _drive_entry(m,controlled):
         return value
     m._key_for=key
     def prompt(replay):
-        if not replay:captain_prompt[0]=m.m.stack_word(4)==1 and m.m.stack_word(6)==m.side
+        if not replay:captain_prompt[0]=m.m.stack_word(2)==1 and m.m.stack_word(4)==m.side
     def chosen(replay):
         if not replay and captain_prompt[0]:captains.append(m.m.reg('ax'));captain_prompt[0]=False
     m.m.at('0791:CC7B',prompt);m.m.at('0791:D010',chosen)
