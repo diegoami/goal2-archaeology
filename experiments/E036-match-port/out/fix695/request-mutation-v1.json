@@ -1,0 +1,11 @@
+{
+  "positive_real_key_request_ack_pass": true,
+  "registered_mutant": "selection.request-not-set",
+  "mutant_rejected_by_same_actual_ack_oracle": true,
+  "raw_original_bytes_published": false,
+  "source_sha256": {
+    "runtime/original_match/match.py": "e949159c9cc77f4d195bc9b150c67dfd913ba447417375122bc58db1bca97f92",
+    "runtime/original_match/screens.py": "8ce9b0d6c4c9f75da469c728a9ed03787e413aeb5f98693ba38c914ed36d143e",
+    "experiments/E036-match-port/out/fix695/mutation-v1.py": "b7cb50479a72a51ed5e3a1c7a447fe7e768adab647154f66a86ec83a873c4952"
+  }
+}
