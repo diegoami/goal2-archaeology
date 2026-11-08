@@ -67,6 +67,23 @@ example `m3-campaign-ui`) on **exactly the reviewed commit** of `main`.
    issue, and SHOULD findings stay open as ordinary issues. The owner's playtest accompanies the
    review; the owner may also tag without a review, and the issue records that.
 
+## Reusing full validation for unchanged inputs
+
+[designed: owner, 2026-11-07, goal2 T189/PR607; recorded here after review693]
+A manual full-CI receipt may come from an ancestor of the candidate when the intervening diff
+contains only documentation, evidence, measurements or ancestry and changes no exercised runtime,
+test, tool, workflow, dependency or fixture input. The milestone issue records both exact SHAs,
+the run ID, the intervening path diff and input hashes. The reviewer independently checks that
+mapping and the actual successful run-test steps. Do not replay a whole suite solely for a new
+metadata commit ID. Functional changes require affected checks; repeat broad validation when
+those changes invalidate its coverage.
+
+Reuse retains the original scope: disclose test counts, all failures and skips, and which relevant
+suites were not exercised. Passing jobs are not proof that every test ran. Separate later focused
+results from the original receipt; never relabel skipped or failed tests as passes. A missing or
+invalid source/input mapping remains a MUST-FIX. This rule does not itself accept a milestone's
+unverified coverage limits; record any required owner acceptance on its issue.
+
 ## Severities
 
 - **MUST-FIX**: a defect in this milestone's changes that must be fixed before the tag (a finding
