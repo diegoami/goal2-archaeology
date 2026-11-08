@@ -29,3 +29,19 @@ receipts contain only filtered identities/hashes and small context fields.
 Natural producer receipts, final source identity and hosted CI are still required
 before merge. Historical682/695 proof outputs remain immutable. Full suites are
 left to integrated milestones; focused proof is required for this addition.
+
+Natural batch: proof-v1.py completed both arms but its report compared the
+context-name set rather than the raw-context accumulator. The two failed logs
+are retained; neither supplies acceptance. proof-v2.py only disambiguates that
+accumulator, with all assertions retained and identical runtime source.
+Original proof-v2 PASS21.567s; PyPy proof-v2 PASS97.400s. Four matches complete,
+12decision snapshots/240record slots, two actual checkpoint-load pairs, natural
+pause/half-time/immediate swap. Both backends retain full within-backend result/
+physical-memory equality and exact independent context/record event additions.
+verify-v1.py compares all unchanged682 fidelity fields across backends; public
+comparison-v1.json reports raw event/memory differences honestly. Natural flags
+are1/1, sides7/19; other values/sides remain explicitly synthetic controls.
+No new extra-time/natural-off-visibility/UI acceptance is claimed. source-v1.json
+binds59runtime/decoder/test/proof files; immutable original private input is hash
+verified, not published. CPython and PyPy each29focusedPASS. links-v1.log PASS.
+Required exact-source hostedCI still pending before merge.
