@@ -1,0 +1,123 @@
+{
+  "mutation_omission_rejected": true,
+  "natural_pairs": [
+    {
+      "case": "request",
+      "full_physical_memory_equal": true,
+      "whole_events_equal": true,
+      "full_result_equal_except_execution_metadata": [
+        "ports"
+      ],
+      "keys_boundaries_wait_counters_equal": true,
+      "actual_record_decisions": null,
+      "record_count": 0
+    },
+    {
+      "case": "cancel",
+      "full_physical_memory_equal": true,
+      "whole_events_equal": true,
+      "full_result_equal_except_execution_metadata": [
+        "ports"
+      ],
+      "keys_boundaries_wait_counters_equal": true,
+      "actual_record_decisions": null,
+      "record_count": 0
+    },
+    {
+      "case": "zero",
+      "full_physical_memory_equal": true,
+      "whole_events_equal": true,
+      "full_result_equal_except_execution_metadata": [
+        "ports"
+      ],
+      "keys_boundaries_wait_counters_equal": true,
+      "actual_record_decisions": null,
+      "record_count": 0
+    },
+    {
+      "case": "dismiss",
+      "full_physical_memory_equal": true,
+      "whole_events_equal": true,
+      "full_result_equal_except_execution_metadata": [
+        "ports"
+      ],
+      "keys_boundaries_wait_counters_equal": true,
+      "actual_record_decisions": null,
+      "record_count": 0
+    },
+    {
+      "case": "timeout",
+      "full_physical_memory_equal": true,
+      "whole_events_equal": true,
+      "full_result_equal_except_execution_metadata": [
+        "ports"
+      ],
+      "keys_boundaries_wait_counters_equal": true,
+      "actual_record_decisions": null,
+      "record_count": 0
+    },
+    {
+      "case": "composite",
+      "full_physical_memory_equal": true,
+      "whole_events_equal": true,
+      "full_result_equal_except_execution_metadata": [
+        "ports"
+      ],
+      "keys_boundaries_wait_counters_equal": true,
+      "actual_record_decisions": 37,
+      "record_count": 740
+    }
+  ],
+  "within_backend_checkpoint_replays": [
+    {
+      "engine": "original",
+      "full_result_events_memory_keys_boundaries_waits_equal": true
+    },
+    {
+      "engine": "port",
+      "full_result_events_memory_keys_boundaries_waits_equal": true
+    }
+  ],
+  "legacy_prechange_pairs": [
+    {
+      "engine": "original",
+      "legacy_queued_pair_made": true,
+      "default_false_prechange_full_result_events_memory_equal": true
+    },
+    {
+      "engine": "port",
+      "legacy_queued_pair_made": true,
+      "default_false_prechange_full_result_events_memory_equal": true
+    }
+  ],
+  "prepared_controls": [
+    {
+      "control": "keeper-timeout",
+      "full_input_memory_regs_keys_rng_output_memory_regs_equal": true,
+      "forced_menu": true,
+      "polls": 1000,
+      "injected_bytes": [
+        {
+          "linear": 323391,
+          "before": "15",
+          "after": "00",
+          "meaning": "single prepared keeper energy byte"
+        }
+      ]
+    },
+    {
+      "control": "side1-timeout",
+      "full_input_memory_regs_keys_rng_output_memory_regs_equal": true,
+      "forced_menu": false,
+      "polls": 400,
+      "injected_bytes": []
+    }
+  ],
+  "events_exclusions": [],
+  "memory_mask": [],
+  "cross_backend_result_execution_metadata_only": [
+    "ports"
+  ],
+  "raw_original_bytes_republished": false,
+  "comparator_sha256": "c32c6f3852331e55a51be97a850b8fd42e09da91fea2be80e34e6961a0af0d88"
+}

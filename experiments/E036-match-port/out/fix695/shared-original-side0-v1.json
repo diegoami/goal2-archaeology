@@ -1,0 +1,32 @@
+{
+  "input_memory_sha256": "7bb92da53b705a7bb4d80057ec16cd3f4197eff60b4a381610c1ff8397de46fe",
+  "coordinator_sha256": "74faf91db836767cdb5a2a930208baa3e4a467f795db17be024e39cdeb45c24f",
+  "registers": {
+    "EAX": 1,
+    "EBX": 0,
+    "ECX": 45,
+    "EDX": 65535,
+    "ESI": 31588,
+    "EDI": 33526,
+    "EBP": 15988,
+    "ESP": 15986,
+    "EFLAGS": 70,
+    "EIP": 32866,
+    "CS": 4020,
+    "DS": 11684,
+    "ES": 11684,
+    "SS": 14453,
+    "FS": 0,
+    "GS": 0
+  },
+  "side": 0,
+  "request_byte": 1,
+  "private_path": ".cache/fix695/shared-original-side0-v1",
+  "method": "unmodified original actual8062entry after real key request; genuine endpoint side",
+  "original_asset_sha256": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d",
+  "sources_sha256": {
+    "runtime/original_match/match.py": "e949159c9cc77f4d195bc9b150c67dfd913ba447417375122bc58db1bca97f92",
+    "runtime/original_match/screens.py": "8ce9b0d6c4c9f75da469c728a9ed03787e413aeb5f98693ba38c914ed36d143e",
+    "experiments/E036-match-port/out/fix695/capture-frame-v1.py": "39b596765cb2f6c2e7cfacd4dfe23f3fc28c272a4edfde0b93776ec8971b1cd4"
+  }
+}
