@@ -1,0 +1,146 @@
+test_checkpoint_rejects_non_boolean_profile_before_loading_a_backend (tests.test_substitution_control_695.SubstitutionControl.test_checkpoint_rejects_non_boolean_profile_before_loading_a_backend) ... FAIL
+test_invalid_request_context_values_and_play_inputs_fail_before_consumption (tests.test_substitution_control_695.SubstitutionControl.test_invalid_request_context_values_and_play_inputs_fail_before_consumption) ... 
+  test_invalid_request_context_values_and_play_inputs_fail_before_consumption (tests.test_substitution_control_695.SubstitutionControl.test_invalid_request_context_values_and_play_inputs_fail_before_consumption) (context='half_time', enabled=True) ... ERROR
+  test_invalid_request_context_values_and_play_inputs_fail_before_consumption (tests.test_substitution_control_695.SubstitutionControl.test_invalid_request_context_values_and_play_inputs_fail_before_consumption) (context='substitution', enabled=True) ... ERROR
+  test_invalid_request_context_values_and_play_inputs_fail_before_consumption (tests.test_substitution_control_695.SubstitutionControl.test_invalid_request_context_values_and_play_inputs_fail_before_consumption) (context='extra_time', enabled=True) ... ERROR
+  test_invalid_request_context_values_and_play_inputs_fail_before_consumption (tests.test_substitution_control_695.SubstitutionControl.test_invalid_request_context_values_and_play_inputs_fail_before_consumption) (context='pause', enabled=False) ... ERROR
+  test_invalid_request_context_values_and_play_inputs_fail_before_consumption (tests.test_substitution_control_695.SubstitutionControl.test_invalid_request_context_values_and_play_inputs_fail_before_consumption) (context='pause', enabled=True) ... ERROR
+test_invalid_request_context_values_and_play_inputs_fail_before_consumption (tests.test_substitution_control_695.SubstitutionControl.test_invalid_request_context_values_and_play_inputs_fail_before_consumption) ... ERROR
+test_notice_publishes_original_timeout_metadata_before_running_wait (tests.test_substitution_control_695.SubstitutionControl.test_notice_publishes_original_timeout_metadata_before_running_wait) ... FAIL
+test_opportunity_requires_explicit_valid_response_and_retains_literal_key_choice (tests.test_substitution_control_695.SubstitutionControl.test_opportunity_requires_explicit_valid_response_and_retains_literal_key_choice) ... ERROR
+test_option_is_strict_boolean_and_default_options_remain_identical (tests.test_substitution_control_695.SubstitutionControl.test_option_is_strict_boolean_and_default_options_remain_identical) ... FAIL
+test_repeated_desired_state_is_idempotent_and_zero_budget_does_not_spin (tests.test_substitution_control_695.SubstitutionControl.test_repeated_desired_state_is_idempotent_and_zero_budget_does_not_spin) ... ERROR
+test_request_and_cancel_are_explicit_desired_booleans_retained_in_replay (tests.test_substitution_control_695.SubstitutionControl.test_request_and_cancel_are_explicit_desired_booleans_retained_in_replay) ... ERROR
+test_request_plan_uses_one_real_enter_and_never_constructs_a_pair (tests.test_substitution_control_695.SubstitutionControl.test_request_plan_uses_one_real_enter_and_never_constructs_a_pair) ... ERROR
+
+======================================================================
+ERROR: test_invalid_request_context_values_and_play_inputs_fail_before_consumption (tests.test_substitution_control_695.SubstitutionControl.test_invalid_request_context_values_and_play_inputs_fail_before_consumption) (context='half_time', enabled=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_substitution_control_695.py", line 45, in test_invalid_request_context_values_and_play_inputs_fail_before_consumption
+    match.answer(request_substitution=True,edit_only=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.answer() got an unexpected keyword argument 'request_substitution'
+
+======================================================================
+ERROR: test_invalid_request_context_values_and_play_inputs_fail_before_consumption (tests.test_substitution_control_695.SubstitutionControl.test_invalid_request_context_values_and_play_inputs_fail_before_consumption) (context='substitution', enabled=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_substitution_control_695.py", line 45, in test_invalid_request_context_values_and_play_inputs_fail_before_consumption
+    match.answer(request_substitution=True,edit_only=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.answer() got an unexpected keyword argument 'request_substitution'
+
+======================================================================
+ERROR: test_invalid_request_context_values_and_play_inputs_fail_before_consumption (tests.test_substitution_control_695.SubstitutionControl.test_invalid_request_context_values_and_play_inputs_fail_before_consumption) (context='extra_time', enabled=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_substitution_control_695.py", line 45, in test_invalid_request_context_values_and_play_inputs_fail_before_consumption
+    match.answer(request_substitution=True,edit_only=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.answer() got an unexpected keyword argument 'request_substitution'
+
+======================================================================
+ERROR: test_invalid_request_context_values_and_play_inputs_fail_before_consumption (tests.test_substitution_control_695.SubstitutionControl.test_invalid_request_context_values_and_play_inputs_fail_before_consumption) (context='pause', enabled=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_substitution_control_695.py", line 45, in test_invalid_request_context_values_and_play_inputs_fail_before_consumption
+    match.answer(request_substitution=True,edit_only=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.answer() got an unexpected keyword argument 'request_substitution'
+
+======================================================================
+ERROR: test_invalid_request_context_values_and_play_inputs_fail_before_consumption (tests.test_substitution_control_695.SubstitutionControl.test_invalid_request_context_values_and_play_inputs_fail_before_consumption) (context='pause', enabled=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_substitution_control_695.py", line 45, in test_invalid_request_context_values_and_play_inputs_fail_before_consumption
+    match.answer(request_substitution=True,edit_only=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.answer() got an unexpected keyword argument 'request_substitution'
+
+======================================================================
+ERROR: test_invalid_request_context_values_and_play_inputs_fail_before_consumption (tests.test_substitution_control_695.SubstitutionControl.test_invalid_request_context_values_and_play_inputs_fail_before_consumption)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_substitution_control_695.py", line 49, in test_invalid_request_context_values_and_play_inputs_fail_before_consumption
+    with self.assertRaises(ValueError):match.answer(request_substitution=value,edit_only=True)
+                                       ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.answer() got an unexpected keyword argument 'request_substitution'
+
+======================================================================
+ERROR: test_opportunity_requires_explicit_valid_response_and_retains_literal_key_choice (tests.test_substitution_control_695.SubstitutionControl.test_opportunity_requires_explicit_valid_response_and_retains_literal_key_choice)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_substitution_control_695.py", line 81, in test_opportunity_requires_explicit_valid_response_and_retains_literal_key_choice
+    match.answer(opportunity=response)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.answer() got an unexpected keyword argument 'opportunity'
+
+======================================================================
+ERROR: test_repeated_desired_state_is_idempotent_and_zero_budget_does_not_spin (tests.test_substitution_control_695.SubstitutionControl.test_repeated_desired_state_is_idempotent_and_zero_budget_does_not_spin)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_substitution_control_695.py", line 71, in test_repeated_desired_state_is_idempotent_and_zero_budget_does_not_spin
+    plan=S.MenuPlan(0,request_substitution=True)
+TypeError: MenuPlan.__init__() got an unexpected keyword argument 'request_substitution'
+
+======================================================================
+ERROR: test_request_and_cancel_are_explicit_desired_booleans_retained_in_replay (tests.test_substitution_control_695.SubstitutionControl.test_request_and_cancel_are_explicit_desired_booleans_retained_in_replay)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_substitution_control_695.py", line 35, in test_request_and_cancel_are_explicit_desired_booleans_retained_in_replay
+    match.answer(request_substitution=desired,edit_only=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.answer() got an unexpected keyword argument 'request_substitution'
+
+======================================================================
+ERROR: test_request_plan_uses_one_real_enter_and_never_constructs_a_pair (tests.test_substitution_control_695.SubstitutionControl.test_request_plan_uses_one_real_enter_and_never_constructs_a_pair)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_substitution_control_695.py", line 59, in test_request_plan_uses_one_real_enter_and_never_constructs_a_pair
+    plan=S.MenuPlan(0,request_substitution=desired)
+TypeError: MenuPlan.__init__() got an unexpected keyword argument 'request_substitution'
+
+======================================================================
+FAIL: test_checkpoint_rejects_non_boolean_profile_before_loading_a_backend (tests.test_substitution_control_695.SubstitutionControl.test_checkpoint_rejects_non_boolean_profile_before_loading_a_backend)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_substitution_control_695.py", line 106, in test_checkpoint_rejects_non_boolean_profile_before_loading_a_backend
+    with self.assertRaisesRegex(ValueError,'substitution_control'):Match._checkpoint_state(data)
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_notice_publishes_original_timeout_metadata_before_running_wait (tests.test_substitution_control_695.SubstitutionControl.test_notice_publishes_original_timeout_metadata_before_running_wait)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_substitution_control_695.py", line 96, in test_notice_publishes_original_timeout_metadata_before_running_wait
+    self.assertEqual(match.decisions,[('substitution_opportunity',dict(keeper_unavailable=False,timeout_polls=400,poll_ms=10,substitutions_now=True))])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [('substitution', {'keeper_unavailable': False, 'request[32 chars]ue})] != [('substitution_opportunity', {'keeper_unavailable': Fal[64 chars]ue})]
+
+First differing element 0:
+('substitution', {'keeper_unavailable': False, 'request[31 chars]rue})
+('substitution_opportunity', {'keeper_unavailable': Fal[63 chars]rue})
+
+- [('substitution',
+-   {'keeper_unavailable': False, 'requested': [], 'substitutions_now': True})]
++ [('substitution_opportunity',
++   {'keeper_unavailable': False,
++    'poll_ms': 10,
++    'substitutions_now': True,
++    'timeout_polls': 400})]
+
+======================================================================
+FAIL: test_option_is_strict_boolean_and_default_options_remain_identical (tests.test_substitution_control_695.SubstitutionControl.test_option_is_strict_boolean_and_default_options_remain_identical)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_substitution_control_695.py", line 24, in test_option_is_strict_boolean_and_default_options_remain_identical
+    self.assertIn('substitution_control',inspect.signature(Match).parameters)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'substitution_control' not found in mappingproxy(OrderedDict({'image': <Parameter "image">, 'fixture': <Parameter "fixture">, 'managed': <Parameter "managed=None">, 'captain': <Parameter "captain=None">, 'seed': <Parameter "seed=None">, 'players': <Parameter "players=None">, 'countries': <Parameter "countries=None">, 'substitutions': <Parameter "substitutions=None">, 'ticks': <Parameter "ticks=False">, 'record_draws': <Parameter "record_draws=False">, 'delay_byte': <Parameter "delay_byte=None">, 'timeout_s': <Parameter "timeout_s=60">, 'ports': <Parameter "ports=None">, 'prove': <Parameter "prove=None">, 'set_piece': <Parameter "set_piece=False">, 'engine': <Parameter "engine='original'">, 'tail': <Parameter "tail=True">, 'live_players': <Parameter "live_players=False">}))
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.014s
+
+FAILED (failures=3, errors=10)

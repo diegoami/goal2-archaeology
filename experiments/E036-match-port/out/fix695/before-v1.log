@@ -1,0 +1,18 @@
+test_substitution_control_695 (unittest.loader._FailedTest.test_substitution_control_695) ... ERROR
+
+======================================================================
+ERROR: test_substitution_control_695 (unittest.loader._FailedTest.test_substitution_control_695)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_substitution_control_695
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_substitution_control_695.py", line 12, in <module>
+    from tests.test_live_player_records_682 import LivePlayerRecords
+ImportError: cannot import name 'LivePlayerRecords' from 'tests.test_live_player_records_682' (/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_live_player_records_682.py)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (errors=1)
