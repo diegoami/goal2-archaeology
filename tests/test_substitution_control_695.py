@@ -100,6 +100,15 @@ class SubstitutionControl(unittest.TestCase):
             self.assertEqual(match.st['prompt'],{'kind':'notice','key':key})
             if key is not None:self.assertEqual(match._key_for(SITE_NOTICE),key)
 
+    def test_notice_keeper_argument_is_second_near_argument_not_side(self):
+        for side,keeper,polls in [(1,0,400),(0,1,1000)]:
+            match=self.coordinator()
+            match.m=SimpleNamespace(stack_word=lambda offset: {2:side,4:keeper}[offset],
+                rd=lambda addr,*args: polls if addr==0x087C+2*keeper else 1)
+            match._on_notice(False)
+            self.assertEqual(match.decisions[0][1]['keeper_unavailable'],bool(keeper))
+            self.assertEqual(match.decisions[0][1]['timeout_polls'],polls)
+
     def test_checkpoint_rejects_non_boolean_profile_before_loading_a_backend(self):
         for value in (None,0,1,'yes'):
             data=Match._encode_save({'version':VERSION,'opts':{'substitution_control':value}},b'synthetic')

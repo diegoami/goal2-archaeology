@@ -1019,7 +1019,7 @@ class Match:
         st = self.st
         if self.opts.get("substitution_control"):
             if st["answer"] is None:
-                keeper = bool(self.m.stack_word(2) & 0xFF)
+                keeper = bool(self.m.stack_word(4) & 0xFF)
                 self._decide("substitution_opportunity", keeper_unavailable=keeper,
                     timeout_polls=self.m.rd(0x087C + 2 * int(keeper)), poll_ms=10,
                     substitutions_now=bool(self.m.rd(S.SUBS_ALLOWED, 1)))
