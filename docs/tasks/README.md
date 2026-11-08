@@ -186,3 +186,5 @@ exists.
 - [T123a](T123a.md): real speaker-on return ABI; independent sealed-route prerequisite (#427).
 - [T123b](T123b.md): bounded pre-match SELECT TEAM squad swaps and original-key continuation (#427).
 - [T126](T126.md): pure-port CI on PyPy3.11; CPython original/reference and UI coverage retained (#676).
+
+- [T127](T127.md): strict once-only configuration of an actual sealed-route Match before execution (#699; goal2T170).
