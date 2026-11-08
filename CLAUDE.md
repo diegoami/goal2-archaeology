@@ -49,6 +49,7 @@ kept on the branch `local`.
     `git checkout`, `git restore` or `git reset` a file with uncommitted work.
 11a. Wait on a background job by its PID (`while kill -0 <pid>; do sleep 30; done`) or by the final
     line of its log, never with `pgrep -f`: it matches the waiting shell's own command line (L48).
+11b. [designed: owner IT13 instruction, 2026-11-08] Never stop an already-running full suite or runner, including indirectly through a push. CI uses `cancel-in-progress: true`: before **every** PR push, including receipt-only pushes, check whether it would cancel a running full CI batch. If so, commit locally, checkpoint the local head/evidence on the issue, and wait for natural completion before pushing. Mark a PR ready only after the integrated source and focused proofs are final. A queued-only batch may be superseded; do not report cancelled work as passed.
 12. Heavy jobs (match runs, family runs, `check.py`, the unit suite) take a slot of
     `tools/heavy.sh` (#318), four at a time on a machine.
 
