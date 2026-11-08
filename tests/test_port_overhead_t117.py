@@ -5,6 +5,7 @@ registers, what an io_tap is told, and the error type and message of every unsup
 the write listeners are still the ones present when a write starts; call addresses parse as
 before; and E034-03's straight drive still gives the events, result and full memory recorded
 before the change (experiments/E036-match-port/out/T117/taps-before-v1.json)."""
+import copy
 import hashlib
 import importlib.util
 import json
@@ -240,7 +241,7 @@ class Drive(unittest.TestCase):
         digest = lambda value: hashlib.sha256(json.dumps(value, sort_keys=True, default=repr).encode()).hexdigest()
         self.assertEqual(len(events), before["events"])
         self.assertEqual(digest(events), before["events_sha256"])
-        result = m.result()
+        result = copy.deepcopy(m.result())
         from original_match import port
         added = [name for name in result["ports"]["names"] if name not in RECEIPT_PORTS]
         for reg, _ in port.load(added):                    # a later module makes no call in this drive
@@ -251,6 +252,9 @@ class Drive(unittest.TestCase):
         # module but is never called in this drive. Keep the historical digest and
         # require zero calls before excluding this new metadata counter.
         self.assertEqual(result["ports"]["calls"].pop("0791:DEA6"), 0, "selection 0791:DEA6")
+        # Main701-counter-compatibility: T128 adds an unused leaf to selection.
+        # Assert zero before omitting only its metadata from this detached copy.
+        self.assertEqual(result["ports"]["calls"].pop("0791:DDCB"), 0, "selection 0791:DDCB")
         # T123 extends existing modules; these new route-only entries are
         # absent from the historical result metadata and unused in this drive.
         for address in ("1771:5BF6", "1771:7812", "23E4:0831", "23E4:0900"):
