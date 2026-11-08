@@ -68,11 +68,18 @@ one comment on the issue and stop.
 - [designed: owner, 2026-10-31] The whole unit suite with every slow module is the manual full CI run
   the issue links, not a local run: the twelve groups run in parallel on separate runners, where a
   local run either takes hours or, run in parallel, fails on memory (the m9 review's `MemoryError`).
-  Verify that run yourself: `gh run view <id> --json headSha,conclusion,jobs` must show the Candidate
-  as `headSha`, `conclusion` `success`, and every group's job `success` (none skipped); read any job's
-  log you need in full with `gh api repos/diegoami/goal2-archaeology/actions/jobs/<job id>/logs`. If the issue links no such run, or it is
-  not at the Candidate, say so as a MUST-FIX and do not start the suite locally. Run a single test or
-  group locally only to reproduce something you suspect, one heavy group at a time.
+  Verify that run yourself: `gh run view <id> --json headSha,conclusion,jobs` must show
+  `conclusion` `success` and every required test group's actual run-tests step successful (none
+  skipped). Its `headSha` must be the Candidate or an ancestor with a verified unchanged-input
+  mapping under docs/milestone-review.md's reuse rule (owner T189, goal2 PR607). For reuse,
+  independently verify the exact SHAs, path diff and hashes of exercised runtime, tests, tools,
+  workflows, dependencies and fixtures; documentation/evidence/ancestry alone need no full rerun.
+  Read job logs with `gh api repos/diegoami/goal2-archaeology/actions/jobs/<job id>/logs` and report
+  test counts, failures, skips and relevant unexercised suites explicitly. Reuse covers only the
+  original run's actual scope; later focused results stay separate. A missing full receipt or an
+  invalid/missing reuse mapping is a MUST-FIX; do not start the whole suite locally. Run a single
+  test or group locally only to reproduce a concern or resolve a coverage gap, one heavy group at
+  a time. Owner acceptance of coverage limits remains separate from receipt reuse.
 
 ## Review
 
