@@ -1,0 +1,239 @@
+{
+  "schema": "t127-ci-completion/1",
+  "collected_utc": "2026-11-08T14:50:31.138073+00:00",
+  "run": 42484151610,
+  "head": "bb100f2742fc57964f03131341930f4080ef9041",
+  "status": "completed",
+  "conclusion": "success",
+  "url": "https://github.com/diegoami/goal2-archaeology/actions/runs/42484151610",
+  "required_group_count": 12,
+  "all_actual_groups_success": true,
+  "jobs": [
+    {
+      "id": 128742317793,
+      "name": "checks (e034-01)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T13:16:39Z",
+      "completed_at": "2026-11-08T13:57:59Z",
+      "test_steps": [
+        {
+          "name": "Run python3 tools/ci_gate.py run-tests --modules=\"test_e036_compare\" --group=\"e034-01\"",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T13:17:09Z",
+          "completed_at": "2026-11-08T13:57:23Z"
+        }
+      ],
+      "actual_test_step_success": true
+    },
+    {
+      "id": 128742317882,
+      "name": "checks (e034-02)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T13:16:39Z",
+      "completed_at": "2026-11-08T13:38:18Z",
+      "test_steps": [
+        {
+          "name": "Run python3 tools/ci_gate.py run-tests --modules=\"test_e036_compare\" --group=\"e034-02\"",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T13:17:07Z",
+          "completed_at": "2026-11-08T13:37:39Z"
+        }
+      ],
+      "actual_test_step_success": true
+    },
+    {
+      "id": 128742317961,
+      "name": "checks (e033-02)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T13:16:39Z",
+      "completed_at": "2026-11-08T13:27:44Z",
+      "test_steps": [
+        {
+          "name": "Run python3 tools/ci_gate.py run-tests --modules=\"test_e036_compare\" --group=\"e033-02\"",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T13:17:02Z",
+          "completed_at": "2026-11-08T13:27:15Z"
+        }
+      ],
+      "actual_test_step_success": true
+    },
+    {
+      "id": 128742317979,
+      "name": "checks (seal)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T13:16:39Z",
+      "completed_at": "2026-11-08T13:44:16Z",
+      "test_steps": [
+        {
+          "name": "Run python3 tools/ci_gate.py run-tests --modules=\"test_e036_compare\" --group=\"seal\"",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T13:17:07Z",
+          "completed_at": "2026-11-08T13:43:37Z"
+        }
+      ],
+      "actual_test_step_success": true
+    },
+    {
+      "id": 128742317995,
+      "name": "checks (general)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T13:16:39Z",
+      "completed_at": "2026-11-08T14:47:53Z",
+      "test_steps": [
+        {
+          "name": "Run python3 tools/ci_gate.py run-tests --modules=\"test_e036_compare\" --group=\"general\"",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T13:17:29Z",
+          "completed_at": "2026-11-08T14:47:29Z"
+        }
+      ],
+      "actual_test_step_success": true
+    },
+    {
+      "id": 128742317996,
+      "name": "checks (e033-06)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T13:16:39Z",
+      "completed_at": "2026-11-08T13:45:35Z",
+      "test_steps": [
+        {
+          "name": "Run python3 tools/ci_gate.py run-tests --modules=\"test_e036_compare\" --group=\"e033-06\"",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T13:17:05Z",
+          "completed_at": "2026-11-08T13:45:00Z"
+        }
+      ],
+      "actual_test_step_success": true
+    },
+    {
+      "id": 128742318011,
+      "name": "checks (e033-01)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T13:16:39Z",
+      "completed_at": "2026-11-08T13:27:42Z",
+      "test_steps": [
+        {
+          "name": "Run python3 tools/ci_gate.py run-tests --modules=\"test_e036_compare\" --group=\"e033-01\"",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T13:17:03Z",
+          "completed_at": "2026-11-08T13:27:05Z"
+        }
+      ],
+      "actual_test_step_success": true
+    },
+    {
+      "id": 128742318016,
+      "name": "checks (e034-03)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T13:16:39Z",
+      "completed_at": "2026-11-08T13:35:35Z",
+      "test_steps": [
+        {
+          "name": "Run python3 tools/ci_gate.py run-tests --modules=\"test_e036_compare\" --group=\"e034-03\"",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T13:17:02Z",
+          "completed_at": "2026-11-08T13:35:05Z"
+        }
+      ],
+      "actual_test_step_success": true
+    },
+    {
+      "id": 128742318018,
+      "name": "checks (e033-04)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T13:16:39Z",
+      "completed_at": "2026-11-08T13:33:22Z",
+      "test_steps": [
+        {
+          "name": "Run python3 tools/ci_gate.py run-tests --modules=\"test_e036_compare\" --group=\"e033-04\"",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T13:17:02Z",
+          "completed_at": "2026-11-08T13:32:52Z"
+        }
+      ],
+      "actual_test_step_success": true
+    },
+    {
+      "id": 128742318034,
+      "name": "checks (e033-07)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T13:16:38Z",
+      "completed_at": "2026-11-08T13:22:25Z",
+      "test_steps": [
+        {
+          "name": "Run python3 tools/ci_gate.py run-tests --modules=\"test_e036_compare\" --group=\"e033-07\"",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T13:17:02Z",
+          "completed_at": "2026-11-08T13:21:54Z"
+        }
+      ],
+      "actual_test_step_success": true
+    },
+    {
+      "id": 128742318061,
+      "name": "checks (e033-05)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T13:16:39Z",
+      "completed_at": "2026-11-08T13:29:42Z",
+      "test_steps": [
+        {
+          "name": "Run python3 tools/ci_gate.py run-tests --modules=\"test_e036_compare\" --group=\"e033-05\"",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T13:17:00Z",
+          "completed_at": "2026-11-08T13:29:12Z"
+        }
+      ],
+      "actual_test_step_success": true
+    },
+    {
+      "id": 128742318067,
+      "name": "checks (e033-03)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T13:16:39Z",
+      "completed_at": "2026-11-08T13:27:43Z",
+      "test_steps": [
+        {
+          "name": "Run python3 tools/ci_gate.py run-tests --modules=\"test_e036_compare\" --group=\"e033-03\"",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T13:17:05Z",
+          "completed_at": "2026-11-08T13:27:04Z"
+        }
+      ],
+      "actual_test_step_success": true
+    },
+    {
+      "id": 128742318806,
+      "name": "quick",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-11-08T13:16:36Z",
+      "completed_at": "2026-11-08T13:16:36Z",
+      "test_steps": []
+    }
+  ],
+  "boundary": "CI at this exact head only; no other integrated-source acceptance is implied"
+}
