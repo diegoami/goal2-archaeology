@@ -286,6 +286,19 @@ def _original_round(image,controlled,child_driver=None):
     return oracle,matches,original_returned,updates
 
 
+def accepted_default_fields(record):
+    """Main701-counter-compatibility: retain the immutable historical profile."""
+    import hashlib,json
+    historical=copy.deepcopy(record)
+    calls=historical['result'].get('ports',{}).get('calls',{})
+    if '0791:DDCB' in calls:
+        assert calls['0791:DDCB']==0,'historical default executed DDCB'
+        del calls['0791:DDCB']
+    canonical=lambda v:json.dumps(v,sort_keys=True,separators=(',',':')).encode()
+    return {k:hashlib.sha256(historical[k] if k=='memory' else canonical(historical[k])).hexdigest()
+            for k in ('result','events','keys','draws','returned','memory')}
+
+
 class ActualEntry(unittest.TestCase):
     def test_actual_original_and_denied_pypy_same_options_full_route(self):
         import hashlib,json,os,time
@@ -317,11 +330,8 @@ class ActualEntry(unittest.TestCase):
                 self.assertEqual(updates,actual['updates'],'route update calls differ')
                 if not controlled:
                     binding=json.loads((root/'experiments/E040-route-fixture-writes/out/T127/accepted-default-binding-v2.json').read_text())
-                    def fields(r):
-                        canonical=lambda v:json.dumps(v,sort_keys=True,separators=(',',':')).encode()
-                        return {k:hashlib.sha256(r[k] if k=='memory' else canonical(r[k])).hexdigest() for k in ('result','events','keys','draws','returned','memory')}
-                    self.assertEqual(fields(expected),binding['original'],'original configured-default regression vs accepted c6a')
-                    self.assertEqual(fields(actual),binding['port'],'port configured-default regression vs accepted c6a')
+                    self.assertEqual(accepted_default_fields(expected),binding['original'],'original configured-default regression vs accepted c6a')
+                    self.assertEqual(accepted_default_fields(actual),binding['port'],'port configured-default regression vs accepted c6a')
                 self.assertEqual(actual['keys'],expected['keys'],'actual match read keys differ')
                 self.assertEqual([r for r in actual['record'] if r[0]=='key'],[r for r in oracle.record if r[0]=='key'],'route first-poll/read keys differ')
                 self.assertTrue(actual['events']==expected['events'],'complete event transcript differs')

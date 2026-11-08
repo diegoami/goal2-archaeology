@@ -1,0 +1,63 @@
+test_empty_first_enter_leaves_parent_fields_unchanged (tests.test_port_pre_match_swap.PreMatchSwap.test_empty_first_enter_leaves_parent_fields_unchanged) ... ok
+test_first_enter_ignores_unmarked_stale_pool_location (tests.test_port_pre_match_swap.PreMatchSwap.test_first_enter_ignores_unmarked_stale_pool_location) ... ok
+test_first_enter_marks_nonempty_slot (tests.test_port_pre_match_swap.PreMatchSwap.test_first_enter_marks_nonempty_slot) ... ok
+test_in_match_modes_refuse_before_any_memory_write (tests.test_port_pre_match_swap.PreMatchSwap.test_in_match_modes_refuse_before_any_memory_write) ... ok
+test_nonempty_first_mark_allows_empty_outgoing_second_slot (tests.test_port_pre_match_swap.PreMatchSwap.test_nonempty_first_mark_allows_empty_outgoing_second_slot) ... ok
+test_original_partial_argument_frames_and_post_sort_read (tests.test_port_pre_match_swap.PreMatchSwap.test_original_partial_argument_frames_and_post_sort_read) ... ok
+test_same_slot_second_enter_still_re_sorts_and_clears (tests.test_port_pre_match_swap.PreMatchSwap.test_same_slot_second_enter_still_re_sorts_and_clears) ... ok
+test_two_enters_swap_starter_bench_then_use_live_sort (tests.test_port_pre_match_swap.PreMatchSwap.test_two_enters_swap_starter_bench_then_use_live_sort) ... ok
+test_pool_first_marks_scroll_and_empty (tests.test_port_pool_swap.PoolSwap.test_pool_first_marks_scroll_and_empty) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_final_and_tour_refusals_preserve_existing_mark (tests.test_port_pool_swap.PoolSwap.test_final_and_tour_refusals_preserve_existing_mark) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_falsifiers_gate_index_scroll_swap_and_mark (tests.test_port_pool_swap.PoolSwap.test_falsifiers_gate_index_scroll_swap_and_mark) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_code_free_sealed_primitive_exact_helper_replay (tests.test_port_pool_swap.PoolSwap.test_code_free_sealed_primitive_exact_helper_replay) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 21.913s
+
+OK

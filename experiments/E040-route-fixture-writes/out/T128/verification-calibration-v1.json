@@ -1,0 +1,5 @@
+{
+  "status": "failed",
+  "scope": "receipt verifier representation check only; engine tests remain passed",
+  "reason": "Verifier asserted1<<20; actual shared Machine MEM_SIZE is0x110000 (includes HMA). Full-memory tests already compare allMEM_SIZE bytes; corrected verifier to use same constant, no exclusions."
+}

@@ -1,0 +1,18 @@
+test_e034_03_drive_equals_the_recorded_before_receipt (tests.test_port_overhead_t117.Drive.test_e034_03_drive_equals_the_recorded_before_receipt) ... FAIL
+
+======================================================================
+FAIL: test_e034_03_drive_equals_the_recorded_before_receipt (tests.test_port_overhead_t117.Drive.test_e034_03_drive_equals_the_recorded_before_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_overhead_t117.py", line 258, in test_e034_03_drive_equals_the_recorded_before_receipt
+    self.assertEqual(digest(result), before["result_sha256"])
+         ^^^^^^^^^^^
+AssertionError: 'cdaae0a21eef40534ee0f4c301bea48edb09544b1291f4068a980879eb2df107' != 'b08217dfc263e5406fe960e6a31dbae42770deb94f81b6ef339f2e1fac0eb289'
+- cdaae0a21eef40534ee0f4c301bea48edb09544b1291f4068a980879eb2df107
++ b08217dfc263e5406fe960e6a31dbae42770deb94f81b6ef339f2e1fac0eb289
+
+
+----------------------------------------------------------------------
+Ran 1 test in 36.411s
+
+FAILED (failures=1)

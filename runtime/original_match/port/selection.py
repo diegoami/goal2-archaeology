@@ -5,7 +5,7 @@ The key adapter supplies keys; these bodies retain the original frames and calls
 from . import Registry
 from .contests import ss16, ss8
 from .geometry import cbw, mul
-from .runtime import Regs, sub_flags
+from .runtime import Regs, sub_flags, add_flags
 from .mem import PortError
 from .restarts import _end
 from .setup import guest, farg, rb, rw, w8, w16, squad_of, player_of, ss_w16
@@ -16,6 +16,9 @@ PORTS.variant('form-not-swapped','E20B omits the match-form swap')
 PORTS.variant('keeper-check-inverted','EB89 rejects one keeper instead of two')
 PORTS.variant('squad-word-swap-omitted','DF24 omits the pre-match squad word swap')
 PORTS.variant('squad-mark-clear-omitted','DEDE omits clearing the parent mark before the swap')
+PORTS.variant('pool-gate-omitted','DEB9 omits the current-pool DBFA gate')
+PORTS.variant('pool-index-off-by-one','DF78 stores the wrong retained pool index')
+PORTS.variant('pool-scroll-omitted','DFC2 omits the pool mark scroll value')
 M16=0xFFFF
 
 
@@ -47,6 +50,24 @@ def slot(mem,r,index):
     return rw(mem,r,-2)
 
 
+@PORTS.port('0791:DDCB',ret='ret 2')
+def pool_selection_index(mem,variant):
+    """[confirmed: T128 rescope, code seg_0791_22.asm DDCB-DE24] No callees; full original frame."""
+    r=Regs(mem);r.enter(6)
+    r.di,r.es=mem.ds16(0xA923),mem.ds16(0xA925)
+    r.local16(-6,r.di);r.local16(-4,r.es)
+    farg(mem,r,-6);r.al=rb(mem,r,1);r.ah=0;r.di=(r.ax<<1)&M16
+    r.cx=mem.ds16((r.di+0x6D18)&M16)
+    farg(mem,r,-6);r.al=rb(mem,r,1);r.ah=0;r.ax=(r.ax<<1)&M16
+    farg(mem,r,-6);r.di+=r.ax;r.dx=rw(mem,r,0x5E)
+    farg(mem,r,-6);r.al=rb(mem,r,1);r.ah=0;r.ax=(r.ax<<1)&M16
+    farg(mem,r,-6);r.di+=r.ax;r.ax=rw(mem,r,0x52)
+    r.ax=(r.ax+r.dx)&M16;r.ax=(r.ax+r.cx)&M16
+    r.arith(sub_flags(r.ax,2,16));r.ax=(r.ax-2)&M16
+    r.local16(-2,r.ax);r.ax=ss16(mem,r,r.bp-2)
+    return _end(r)
+
+
 @PORTS.port('0791:DE27',ret='ret 2')
 def selected_index(mem,variant):
     r=Regs(mem);r.enter(2)
@@ -72,21 +93,21 @@ def selected_pointer(mem,variant):
 
 @PORTS.port('0791:DEA6',ret='ret 2')
 def swap_pre_match_squad(mem,variant):
-    """T123b bounded DEA6: squad pane only, C1F clear; both original C1E re-sorts.
-
-    named/seg_0791_12.c, then code/seg_0791_22.asm DEA6-DFDC. Unsupported
-    current/marked pool panes and in-match substitution mode fail before any
-    write. A stale marked pane is irrelevant while no mark is active.
+    """[confirmed: T128, named seg_0791_12.c; code seg_0791_22.asm DEA6-DFDC]
+    Original pre-match squad/pool selection. Only the CURRENT pool pane asks
+    DBFA; a marked pool pane alone does not. C1F remains an unsupported mode.
     """
-    outer=mem.arg(0)
-    if (mem.ds8(0xC1F) or mem.u16(mem.ss_lin(outer-5))!=1 or
-            (mem.u8(mem.ss_lin(outer-1)) and mem.u16(mem.ss_lin(outer-7))!=1)):
-        raise PortError('0791:DEA6 supports only pre-match squad-to-squad selection')
+    if mem.ds8(0xC1F):
+        raise PortError('0791:DEA6 requires pre-match selection')
     r=Regs(mem);r.enter(4)
     r.di,r.es=mem.ds16(0xA923),mem.ds16(0xA925)
     r.local16(-4,r.di);r.local16(-2,r.es)
-    # DEB9's pool gate is outside this bounded entry; supported pane is one.
     r.arith(sub_flags(pword(mem,r,-5),2,16))
+    if pword(mem,r,-5)==2 and variant!='pool-gate-omitted':
+        country=pword(mem,r,6)
+        r=yield from guest(mem,r,'DBFA',country,ret='DECA',far=False)
+        r.arith(sub_flags(r.al,0,8))                       # DECA: or al,al
+        if not r.al:return _end(r)
     marked=pbyte(mem,r,-1);r.arith(sub_flags(marked,0,8))
     if marked:
         if variant!='squad-mark-clear-omitted':putp(r,parent(mem,r)-1,0,byte=True)  # DEDE
@@ -121,10 +142,19 @@ def swap_pre_match_squad(mem,variant):
         r.di=r.ax;r.es=r.dx;word=rw(mem,r,0);r.arith(sub_flags(word,0,16))
         if word:
             r=yield from guest(mem,r,'DE27',ss16(mem,r,r.bp+4),ret='DF75',far=False)
-            putp(r,parent(mem,r)-9,r.ax)
+            putp(r,parent(mem,r)-9,(r.ax+1)&M16 if variant=='pool-index-off-by-one' and pword(mem,r,-5)==2 else r.ax)
             r.ax=pword(mem,r,-5);putp(r,parent(mem,r)-7,r.ax)
             r.arith(sub_flags(pword(mem,r,-5),2,16))
-            r.di=parent(mem,r);r.ax=0;r.arith(sub_flags(0,0,16));putp(r,r.di-11,r.ax)
+            if pword(mem,r,-5)==2:
+                farg(mem,r,-4);r.al=rb(mem,r,1);r.ah=0;r.ax=(r.ax<<1)&M16
+                farg(mem,r,-4);r.di+=r.ax;r.dx=rw(mem,r,0x52)
+                farg(mem,r,-4);r.al=rb(mem,r,1);r.ah=0;r.ax=(r.ax<<1)&M16
+                farg(mem,r,-4);r.di+=r.ax;r.ax=rw(mem,r,0x5E)
+                carry=add_flags(r.ax,r.dx)&1;r.ax=(r.ax+r.dx)&M16
+                r.arith((sub_flags(r.ax,1,16)&~1)|carry);r.ax=(r.ax-1)&M16  # DFBE: dec preserves CF
+                r.di=parent(mem,r);putp(r,r.di-11,0 if variant=='pool-scroll-omitted' else r.ax)
+            else:
+                r.di=parent(mem,r);r.ax=0;r.arith(sub_flags(0,0,16));putp(r,r.di-11,r.ax)
             putp(r,parent(mem,r)-1,1,byte=True)
     return _end(r)
 

@@ -1,0 +1,64 @@
+test_sealed_real_registered_helpers_preserve_caller_records_and_rng (tests.test_port_pool_swap.PoolSwap.test_sealed_real_registered_helpers_preserve_caller_records_and_rng) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+
+  test_sealed_real_registered_helpers_preserve_caller_records_and_rng (tests.test_port_pool_swap.PoolSwap.test_sealed_real_registered_helpers_preserve_caller_records_and_rng) (case='mark') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_sealed_real_registered_helpers_preserve_caller_records_and_rng (tests.test_port_pool_swap.PoolSwap.test_sealed_real_registered_helpers_preserve_caller_records_and_rng) (case='squad-to-pool') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+
+======================================================================
+ERROR: test_sealed_real_registered_helpers_preserve_caller_records_and_rng (tests.test_port_pool_swap.PoolSwap.test_sealed_real_registered_helpers_preserve_caller_records_and_rng) (case='mark')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 213, in test_sealed_real_registered_helpers_preserve_caller_records_and_rng
+    actual=call_in_pypy(__name__,'real_helpers',(sealed_initial,))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 244, in real_helpers
+    m.run(m.lin('0791:E673'),fresh=True,timeout_s=60)
+      ^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+         ^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 0791:DDCB
+
+
+======================================================================
+ERROR: test_sealed_real_registered_helpers_preserve_caller_records_and_rng (tests.test_port_pool_swap.PoolSwap.test_sealed_real_registered_helpers_preserve_caller_records_and_rng) (case='squad-to-pool')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 213, in test_sealed_real_registered_helpers_preserve_caller_records_and_rng
+    actual=call_in_pypy(__name__,'real_helpers',(sealed_initial,))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 244, in real_helpers
+    m.run(m.lin('0791:E673'),fresh=True,timeout_s=60)
+      ^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+         ^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 0791:DDCB
+
+
+----------------------------------------------------------------------
+Ran 1 test in 5.249s
+
+FAILED (errors=2)

@@ -85,10 +85,10 @@ class Selection(unittest.TestCase):
         r.lin8(PARENT-1,marked);r.lin8(PARENT-3,side);r.ds16(0xC1B,cursor)
         r.squad(7,list(range(101,121)))
 
-    def test_ten_listing_entries_and_returns(self):
+    def test_listing_entries_and_returns(self):
         expected={'0791:E44F':'retf 2','0791:E022':'ret 2','0791:DE27':'ret 2','0791:DE51':'ret 6',
                   '0791:E2A0':'ret 2','0791:E949':'ret 2','0791:EA09':'ret 2',
-                  '1771:5532':'retf','1771:53E8':'ret 6','0791:DEA6':'ret 2'}
+                  '1771:5532':'retf','1771:53E8':'ret 6','0791:DEA6':'ret 2','0791:DDCB':'ret 2'}
         self.assertEqual({a:e.ret for a,e in selection.PORTS.entries.items()},expected)
         self.assertTrue(all(e.stub is None for e in selection.PORTS.entries.values()))
 

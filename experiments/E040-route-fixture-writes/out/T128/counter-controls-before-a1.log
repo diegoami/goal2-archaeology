@@ -1,0 +1,45 @@
+test_every_other_field_and_counter_remains_part_of_digest (tests.test_port_counter_compat_t128.HistoricalCounters.test_every_other_field_and_counter_remains_part_of_digest) ... ERROR
+test_missing_counter_and_original_without_ports_are_unchanged (tests.test_port_counter_compat_t128.HistoricalCounters.test_missing_counter_and_original_without_ports_are_unchanged) ... ERROR
+test_nonzero_counter_is_refused_without_mutation (tests.test_port_counter_compat_t128.HistoricalCounters.test_nonzero_counter_is_refused_without_mutation) ... ERROR
+test_zero_counter_only_is_omitted_from_detached_historical_copy (tests.test_port_counter_compat_t128.HistoricalCounters.test_zero_counter_only_is_omitted_from_detached_historical_copy) ... ERROR
+
+======================================================================
+ERROR: test_every_other_field_and_counter_remains_part_of_digest (tests.test_port_counter_compat_t128.HistoricalCounters.test_every_other_field_and_counter_remains_part_of_digest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_counter_compat_t128.py", line 41, in test_every_other_field_and_counter_remains_part_of_digest
+    baseline = target.accepted_default_fields(row)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'tests.test_route_entry_config' has no attribute 'accepted_default_fields'
+
+======================================================================
+ERROR: test_missing_counter_and_original_without_ports_are_unchanged (tests.test_port_counter_compat_t128.HistoricalCounters.test_missing_counter_and_original_without_ports_are_unchanged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_counter_compat_t128.py", line 19, in test_missing_counter_and_original_without_ports_are_unchanged
+    target.accepted_default_fields(row)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'tests.test_route_entry_config' has no attribute 'accepted_default_fields'
+
+======================================================================
+ERROR: test_nonzero_counter_is_refused_without_mutation (tests.test_port_counter_compat_t128.HistoricalCounters.test_nonzero_counter_is_refused_without_mutation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_counter_compat_t128.py", line 36, in test_nonzero_counter_is_refused_without_mutation
+    target.accepted_default_fields(row)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'tests.test_route_entry_config' has no attribute 'accepted_default_fields'
+
+======================================================================
+ERROR: test_zero_counter_only_is_omitted_from_detached_historical_copy (tests.test_port_counter_compat_t128.HistoricalCounters.test_zero_counter_only_is_omitted_from_detached_historical_copy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_counter_compat_t128.py", line 24, in test_zero_counter_only_is_omitted_from_detached_historical_copy
+    expected = target.accepted_default_fields(row)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'tests.test_route_entry_config' has no attribute 'accepted_default_fields'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+FAILED (errors=4)

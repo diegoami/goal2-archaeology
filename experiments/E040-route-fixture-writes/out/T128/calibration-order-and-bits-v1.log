@@ -1,0 +1,301 @@
+test_empty_first_enter_leaves_parent_fields_unchanged (tests.test_port_pre_match_swap.PreMatchSwap.test_empty_first_enter_leaves_parent_fields_unchanged) ... ok
+test_first_enter_ignores_unmarked_stale_pool_location (tests.test_port_pre_match_swap.PreMatchSwap.test_first_enter_ignores_unmarked_stale_pool_location) ... ok
+test_first_enter_marks_nonempty_slot (tests.test_port_pre_match_swap.PreMatchSwap.test_first_enter_marks_nonempty_slot) ... ok
+test_in_match_modes_refuse_before_any_memory_write (tests.test_port_pre_match_swap.PreMatchSwap.test_in_match_modes_refuse_before_any_memory_write) ... ok
+test_nonempty_first_mark_allows_empty_outgoing_second_slot (tests.test_port_pre_match_swap.PreMatchSwap.test_nonempty_first_mark_allows_empty_outgoing_second_slot) ... ok
+test_original_partial_argument_frames_and_post_sort_read (tests.test_port_pre_match_swap.PreMatchSwap.test_original_partial_argument_frames_and_post_sort_read) ... ok
+test_same_slot_second_enter_still_re_sorts_and_clears (tests.test_port_pre_match_swap.PreMatchSwap.test_same_slot_second_enter_still_re_sorts_and_clears) ... ok
+test_two_enters_swap_starter_bench_then_use_live_sort (tests.test_port_pre_match_swap.PreMatchSwap.test_two_enters_swap_starter_bench_then_use_live_sort) ... ok
+test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+
+  test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) (setup=0, case='squad-to-pool') ... FAIL
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) (setup=0, case='pool-to-squad') ... FAIL
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) (setup=0, case='pool-to-pool') ... FAIL
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) (setup=0, case='same') ... FAIL
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) (setup=1, case='squad-to-pool') ... FAIL
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) (setup=1, case='pool-to-squad') ... FAIL
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) (setup=1, case='pool-to-pool') ... FAIL
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) (setup=1, case='same') ... FAIL
+test_final_and_tour_refusals_preserve_existing_mark (tests.test_port_pool_swap.PoolSwap.test_final_and_tour_refusals_preserve_existing_mark) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+
+  test_final_and_tour_refusals_preserve_existing_mark (tests.test_port_pool_swap.PoolSwap.test_final_and_tour_refusals_preserve_existing_mark) (case='refused-mark') ... FAIL
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_final_and_tour_refusals_preserve_existing_mark (tests.test_port_pool_swap.PoolSwap.test_final_and_tour_refusals_preserve_existing_mark) (case='refused-swap') ... FAIL
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_final_and_tour_refusals_preserve_existing_mark (tests.test_port_pool_swap.PoolSwap.test_final_and_tour_refusals_preserve_existing_mark) (case='tour-refused') ... FAIL
+test_pool_first_marks_scroll_and_empty (tests.test_port_pool_swap.PoolSwap.test_pool_first_marks_scroll_and_empty) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+
+  test_pool_first_marks_scroll_and_empty (tests.test_port_pool_swap.PoolSwap.test_pool_first_marks_scroll_and_empty) (setup=0, case='mark') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_pool_first_marks_scroll_and_empty (tests.test_port_pool_swap.PoolSwap.test_pool_first_marks_scroll_and_empty) (setup=0, case='empty') ... FAIL
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_pool_first_marks_scroll_and_empty (tests.test_port_pool_swap.PoolSwap.test_pool_first_marks_scroll_and_empty) (setup=1, case='mark') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_pool_first_marks_scroll_and_empty (tests.test_port_pool_swap.PoolSwap.test_pool_first_marks_scroll_and_empty) (setup=1, case='empty') ... FAIL
+
+======================================================================
+ERROR: test_pool_first_marks_scroll_and_empty (tests.test_port_pool_swap.PoolSwap.test_pool_first_marks_scroll_and_empty) (setup=0, case='mark')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 167, in test_pool_first_marks_scroll_and_empty
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 154, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 134, in candidate
+    m.run(m.lin('0791:E673'),fresh=True,timeout_s=60)
+      ^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+         ^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/engine.py", line 257, in _dispatch
+    self.frames.pop();frame.resume(self)
+                            ^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/guest.py", line 123, in resume
+    self._step(ax)
+         ^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+                   ^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+           ^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                              ^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/selection.py", line 136, in swap_pre_match_squad
+    r.arith((sub_flags(r.ax,1)&~1)|carry);r.ax=(r.ax-1)&M16  # DFBE: dec preserves CF
+             ^^^^^^^^^^^^^^^^^
+TypeError: sub_flags() missing 1 required positional argument: 'bits'
+
+
+======================================================================
+ERROR: test_pool_first_marks_scroll_and_empty (tests.test_port_pool_swap.PoolSwap.test_pool_first_marks_scroll_and_empty) (setup=1, case='mark')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 167, in test_pool_first_marks_scroll_and_empty
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 154, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 134, in candidate
+    m.run(m.lin('0791:E673'),fresh=True,timeout_s=60)
+      ^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+         ^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/engine.py", line 257, in _dispatch
+    self.frames.pop();frame.resume(self)
+                            ^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/guest.py", line 123, in resume
+    self._step(ax)
+         ^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+                   ^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+           ^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                              ^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/selection.py", line 136, in swap_pre_match_squad
+    r.arith((sub_flags(r.ax,1)&~1)|carry);r.ax=(r.ax-1)&M16  # DFBE: dec preserves CF
+             ^^^^^^^^^^^^^^^^^
+TypeError: sub_flags() missing 1 required positional argument: 'bits'
+
+
+======================================================================
+FAIL: test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) (setup=0, case='squad-to-pool')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 172, in test_both_swap_directions_pool_pairs_and_same_entry
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 157, in compare
+    self.assertTrue(actual['writes']==writes,'ordered primitive writes differ')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ordered primitive writes differ
+
+======================================================================
+FAIL: test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) (setup=0, case='pool-to-squad')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 172, in test_both_swap_directions_pool_pairs_and_same_entry
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 157, in compare
+    self.assertTrue(actual['writes']==writes,'ordered primitive writes differ')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ordered primitive writes differ
+
+======================================================================
+FAIL: test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) (setup=0, case='pool-to-pool')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 172, in test_both_swap_directions_pool_pairs_and_same_entry
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 157, in compare
+    self.assertTrue(actual['writes']==writes,'ordered primitive writes differ')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ordered primitive writes differ
+
+======================================================================
+FAIL: test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) (setup=0, case='same')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 172, in test_both_swap_directions_pool_pairs_and_same_entry
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 157, in compare
+    self.assertTrue(actual['writes']==writes,'ordered primitive writes differ')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ordered primitive writes differ
+
+======================================================================
+FAIL: test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) (setup=1, case='squad-to-pool')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 172, in test_both_swap_directions_pool_pairs_and_same_entry
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 157, in compare
+    self.assertTrue(actual['writes']==writes,'ordered primitive writes differ')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ordered primitive writes differ
+
+======================================================================
+FAIL: test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) (setup=1, case='pool-to-squad')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 172, in test_both_swap_directions_pool_pairs_and_same_entry
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 157, in compare
+    self.assertTrue(actual['writes']==writes,'ordered primitive writes differ')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ordered primitive writes differ
+
+======================================================================
+FAIL: test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) (setup=1, case='pool-to-pool')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 172, in test_both_swap_directions_pool_pairs_and_same_entry
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 157, in compare
+    self.assertTrue(actual['writes']==writes,'ordered primitive writes differ')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ordered primitive writes differ
+
+======================================================================
+FAIL: test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) (setup=1, case='same')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 172, in test_both_swap_directions_pool_pairs_and_same_entry
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 157, in compare
+    self.assertTrue(actual['writes']==writes,'ordered primitive writes differ')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ordered primitive writes differ
+
+======================================================================
+FAIL: test_final_and_tour_refusals_preserve_existing_mark (tests.test_port_pool_swap.PoolSwap.test_final_and_tour_refusals_preserve_existing_mark) (case='refused-mark')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 176, in test_final_and_tour_refusals_preserve_existing_mark
+    with self.subTest(case=case):self.compare(case)
+                                 ~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 157, in compare
+    self.assertTrue(actual['writes']==writes,'ordered primitive writes differ')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ordered primitive writes differ
+
+======================================================================
+FAIL: test_final_and_tour_refusals_preserve_existing_mark (tests.test_port_pool_swap.PoolSwap.test_final_and_tour_refusals_preserve_existing_mark) (case='refused-swap')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 176, in test_final_and_tour_refusals_preserve_existing_mark
+    with self.subTest(case=case):self.compare(case)
+                                 ~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 157, in compare
+    self.assertTrue(actual['writes']==writes,'ordered primitive writes differ')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ordered primitive writes differ
+
+======================================================================
+FAIL: test_final_and_tour_refusals_preserve_existing_mark (tests.test_port_pool_swap.PoolSwap.test_final_and_tour_refusals_preserve_existing_mark) (case='tour-refused')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 176, in test_final_and_tour_refusals_preserve_existing_mark
+    with self.subTest(case=case):self.compare(case)
+                                 ~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 157, in compare
+    self.assertTrue(actual['writes']==writes,'ordered primitive writes differ')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ordered primitive writes differ
+
+======================================================================
+FAIL: test_pool_first_marks_scroll_and_empty (tests.test_port_pool_swap.PoolSwap.test_pool_first_marks_scroll_and_empty) (setup=0, case='empty')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 167, in test_pool_first_marks_scroll_and_empty
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 157, in compare
+    self.assertTrue(actual['writes']==writes,'ordered primitive writes differ')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ordered primitive writes differ
+
+======================================================================
+FAIL: test_pool_first_marks_scroll_and_empty (tests.test_port_pool_swap.PoolSwap.test_pool_first_marks_scroll_and_empty) (setup=1, case='empty')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 167, in test_pool_first_marks_scroll_and_empty
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 157, in compare
+    self.assertTrue(actual['writes']==writes,'ordered primitive writes differ')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ordered primitive writes differ
+
+----------------------------------------------------------------------
+Ran 11 tests in 11.843s
+
+FAILED (failures=13, errors=2)

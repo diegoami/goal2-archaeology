@@ -1,0 +1,26 @@
+{
+  "C1F_refusal_assertions_unchanged": true,
+  "compared_memory_bytes": 1114112,
+  "ddcb_cases": 6,
+  "failed_calibrations_retained": true,
+  "falsifiers": 5,
+  "files": {
+    "experiments/E040-route-fixture-writes/out/T128/verify-v2.py": "7947f7d5ff7b5f2ae67e69fd2c4218d820ca0fc3867c2ca28d8ab8b615f201fb",
+    "runtime/original_match/port/selection.py": "5e7333748df2e1ae6c57fe0532589654c4241658558bef8cfe8133ded7a1eb35",
+    "tests/test_port_pool_swap.py": "43fde2b9e942588e12bb31b69302d9b37fd5bf8ee6a9062ad716d2744509363e",
+    "tests/test_port_pre_match_swap.py": "e58e80bd069fb37f23487a8b8c3903ab7336700149c890d075329b4f0587ceb0",
+    "tests/test_port_selection.py": "6e4441ffbc87c5b568f08e0571c51a9a5ae4b9395f26498e9e96e675dfdf8821"
+  },
+  "full_final_and_helper_memory_and_all16_no_masks": true,
+  "git_head": "94dfad8fb0abdca9c772c37a1dfd6dea58bae2e5",
+  "model": "Codex GPT-6 family; exact variant unavailable",
+  "order_boundary": "Original-measured lowest stack reached while writing..caller returned SP; byte-expanded live order, main701-order-boundary.md; not instruction-order fidelity",
+  "primitive_cases": 15,
+  "primitive_helper_scope": "Original helpers replayed privately only after complete helper-entry memory/ALL16 equality",
+  "private_complete_trace_pairs_verified": 21,
+  "real_helper_scope": "Separate code-free actual registered helpers; complete gameplay/caller record hashes and RNG + retained caller ABI, not a new all-scratch-register proof of existing helpers",
+  "sealed_exact_primitive_cases": 4,
+  "sealed_real_registered_helper_cases": 5,
+  "status": "passed",
+  "within_twenty_bodies_assertions_unchanged": true
+}
