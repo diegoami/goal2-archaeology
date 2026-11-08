@@ -1,0 +1,457 @@
+test_all_default_configuration_preserves_entry_and_options (tests.test_route_entry_config.Controls.test_all_default_configuration_preserves_entry_and_options) ... ERROR
+test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) ... 
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='ticks', value=0) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='ticks', value=1) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='ticks', value=None) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='ticks', value='yes') ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='ticks', value=[]) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='record_draws', value=0) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='record_draws', value=1) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='record_draws', value=None) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='record_draws', value='yes') ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='record_draws', value=[]) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='set_piece', value=0) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='set_piece', value=1) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='set_piece', value=None) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='set_piece', value='yes') ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='set_piece', value=[]) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='live_players', value=0) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='live_players', value=1) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='live_players', value=None) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='live_players', value='yes') ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='live_players', value=[]) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='substitution_control', value=0) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='substitution_control', value=1) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='substitution_control', value=None) ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='substitution_control', value='yes') ... ERROR
+  test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='substitution_control', value=[]) ... ERROR
+test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) ... 
+  test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'captain': True}) ... ERROR
+  test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'captain': 0}) ... ERROR
+  test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'captain': -1}) ... ERROR
+  test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'captain': 3061}) ... ERROR
+  test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'captain': 132}) ... ERROR
+  test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': True}) ... ERROR
+  test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': -1}) ... ERROR
+  test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': 256}) ... ERROR
+  test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': []}) ... ERROR
+  test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': [1]}) ... ERROR
+  test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': [1, 2, 3]}) ... ERROR
+  test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': [True, 2]}) ... ERROR
+  test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': [0, 256]}) ... ERROR
+  test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': '5'}) ... ERROR
+test_draw_recorder_is_installed_once_without_reinstalling_hooks (tests.test_route_entry_config.Controls.test_draw_recorder_is_installed_once_without_reinstalling_hooks) ... ERROR
+test_lazy_events_creation_allows_configuration_but_replay_capture_locks_it (tests.test_route_entry_config.Controls.test_lazy_events_creation_allows_configuration_but_replay_capture_locks_it) ... ERROR
+test_options_detach_budget_and_preserve_complete_incoming_context (tests.test_route_entry_config.Controls.test_options_detach_budget_and_preserve_complete_incoming_context) ... ERROR
+test_ordinary_loaded_and_changed_entry_targets_refuse_without_changes (tests.test_route_entry_config.Controls.test_ordinary_loaded_and_changed_entry_targets_refuse_without_changes) ... ERROR
+test_unknown_and_setup_options_are_rejected_without_consumption (tests.test_route_entry_config.Controls.test_unknown_and_setup_options_are_rejected_without_consumption) ... ERROR
+
+======================================================================
+ERROR: test_all_default_configuration_preserves_entry_and_options (tests.test_route_entry_config.Controls.test_all_default_configuration_preserves_entry_and_options)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 29, in test_all_default_configuration_preserves_entry_and_options
+    self.assertIsNone(m.configure_route_entry())
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='ticks', value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='ticks', value=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='ticks', value=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='ticks', value='yes')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='ticks', value=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='record_draws', value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='record_draws', value=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='record_draws', value=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='record_draws', value='yes')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='record_draws', value=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='set_piece', value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='set_piece', value=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='set_piece', value=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='set_piece', value='yes')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='set_piece', value=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='live_players', value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='live_players', value=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='live_players', value=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='live_players', value='yes')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='live_players', value=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='substitution_control', value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='substitution_control', value=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='substitution_control', value=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='substitution_control', value='yes')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) (field='substitution_control', value=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 39, in test_boolean_validation_is_atomic_and_failure_does_not_consume
+    with self.assertRaises(ValueError):m.configure_route_entry(**{field:value,'captain':m._squad(m.opts['managed'])[0]})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'captain': True})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 49, in test_captain_and_budget_validation_precedes_every_change
+    with self.assertRaises(ValueError):m.configure_route_entry(ticks=True,record_draws=True,**options)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'captain': 0})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 49, in test_captain_and_budget_validation_precedes_every_change
+    with self.assertRaises(ValueError):m.configure_route_entry(ticks=True,record_draws=True,**options)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'captain': -1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 49, in test_captain_and_budget_validation_precedes_every_change
+    with self.assertRaises(ValueError):m.configure_route_entry(ticks=True,record_draws=True,**options)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'captain': 3061})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 49, in test_captain_and_budget_validation_precedes_every_change
+    with self.assertRaises(ValueError):m.configure_route_entry(ticks=True,record_draws=True,**options)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'captain': 132})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 49, in test_captain_and_budget_validation_precedes_every_change
+    with self.assertRaises(ValueError):m.configure_route_entry(ticks=True,record_draws=True,**options)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': True})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 49, in test_captain_and_budget_validation_precedes_every_change
+    with self.assertRaises(ValueError):m.configure_route_entry(ticks=True,record_draws=True,**options)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': -1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 49, in test_captain_and_budget_validation_precedes_every_change
+    with self.assertRaises(ValueError):m.configure_route_entry(ticks=True,record_draws=True,**options)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': 256})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 49, in test_captain_and_budget_validation_precedes_every_change
+    with self.assertRaises(ValueError):m.configure_route_entry(ticks=True,record_draws=True,**options)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': []})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 49, in test_captain_and_budget_validation_precedes_every_change
+    with self.assertRaises(ValueError):m.configure_route_entry(ticks=True,record_draws=True,**options)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': [1]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 49, in test_captain_and_budget_validation_precedes_every_change
+    with self.assertRaises(ValueError):m.configure_route_entry(ticks=True,record_draws=True,**options)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': [1, 2, 3]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 49, in test_captain_and_budget_validation_precedes_every_change
+    with self.assertRaises(ValueError):m.configure_route_entry(ticks=True,record_draws=True,**options)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': [True, 2]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 49, in test_captain_and_budget_validation_precedes_every_change
+    with self.assertRaises(ValueError):m.configure_route_entry(ticks=True,record_draws=True,**options)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': [0, 256]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 49, in test_captain_and_budget_validation_precedes_every_change
+    with self.assertRaises(ValueError):m.configure_route_entry(ticks=True,record_draws=True,**options)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) (options={'substitutions': '5'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 49, in test_captain_and_budget_validation_precedes_every_change
+    with self.assertRaises(ValueError):m.configure_route_entry(ticks=True,record_draws=True,**options)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_draw_recorder_is_installed_once_without_reinstalling_hooks (tests.test_route_entry_config.Controls.test_draw_recorder_is_installed_once_without_reinstalling_hooks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 70, in test_draw_recorder_is_installed_once_without_reinstalling_hooks
+    m.configure_route_entry(record_draws=True)
+    ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_lazy_events_creation_allows_configuration_but_replay_capture_locks_it (tests.test_route_entry_config.Controls.test_lazy_events_creation_allows_configuration_but_replay_capture_locks_it)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 80, in test_lazy_events_creation_allows_configuration_but_replay_capture_locks_it
+    a.configure_route_entry(ticks=True);b.configure_route_entry(ticks=True)
+    ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_options_detach_budget_and_preserve_complete_incoming_context (tests.test_route_entry_config.Controls.test_options_detach_budget_and_preserve_complete_incoming_context)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 55, in test_options_detach_budget_and_preserve_complete_incoming_context
+    m.configure_route_entry(captain=captain,substitutions=budget,ticks=True,set_piece=True,
+    ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_ordinary_loaded_and_changed_entry_targets_refuse_without_changes (tests.test_route_entry_config.Controls.test_ordinary_loaded_and_changed_entry_targets_refuse_without_changes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 98, in test_ordinary_loaded_and_changed_entry_targets_refuse_without_changes
+    with self.assertRaises(ValueError):m.configure_route_entry()
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+======================================================================
+ERROR: test_unknown_and_setup_options_are_rejected_without_consumption (tests.test_route_entry_config.Controls.test_unknown_and_setup_options_are_rejected_without_consumption)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_route_entry_config.py", line 89, in test_unknown_and_setup_options_are_rejected_without_consumption
+    with self.assertRaises(TypeError):m.configure_route_entry(**{key:True})
+                                      ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Match' object has no attribute 'configure_route_entry'
+
+----------------------------------------------------------------------
+Ran 8 tests in 1.917s
+
+FAILED (errors=45)

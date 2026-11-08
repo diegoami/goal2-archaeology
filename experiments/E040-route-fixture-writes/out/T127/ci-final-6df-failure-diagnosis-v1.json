@@ -1,0 +1,28 @@
+{
+  "schema": "t127-ci-failure-diagnosis/1",
+  "run": 42491950551,
+  "head": "6df8147bc99ee9d26dfcf35dcf5571492fb31f8d",
+  "general_job": 128766035519,
+  "conclusion": "failure",
+  "other_real_groups_success": 11,
+  "general_report": {
+    "tests": 2312,
+    "seconds": 4154.553,
+    "errors": 1,
+    "skipped": 158
+  },
+  "failing_test": "test_route_entry_config.ActualEntry.test_actual_original_and_denied_pypy_same_options_full_route controlled=False",
+  "exception": "GuestError: run ended at000E:6F1D without reaching end (time limit600s)",
+  "boundary": "outer original Route.run returned after synchronous inner Match callback; no comparison assertion failed",
+  "actual_method_stamp": "20261108T160742Z",
+  "default_error_utc": "2026-11-08T16:08:09Z",
+  "configured_pass_marker_utc": "2026-11-08T16:09:50Z",
+  "elapsed_default_estimate_s": 27,
+  "timeout_text_is_generic": true,
+  "suspected_cause": "test oracle rewrites entire active outer Unicorn memory after nested original Match, including unchanged executing code; inspect before any retry",
+  "raw_log_sha256": "dc1e13e1354d32a267f7564680b345f6c13b248d951eb7e896dec2a1c51d1a55",
+  "raw_log_private": ".cache/t127-ci/42491950551/general-raw-v2.log",
+  "raw_log_bytes": 1055768,
+  "uploaded_artifacts": [],
+  "no_retry_no_waiver": true
+}

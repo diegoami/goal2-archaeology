@@ -1,0 +1,59 @@
+test_all_default_configuration_preserves_entry_and_options (tests.test_route_entry_config.Controls.test_all_default_configuration_preserves_entry_and_options) ... ok
+test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) ... ok
+test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) ... ok
+test_draw_recorder_is_installed_once_without_reinstalling_hooks (tests.test_route_entry_config.Controls.test_draw_recorder_is_installed_once_without_reinstalling_hooks) ... ok
+test_lazy_events_creation_allows_configuration_but_replay_capture_locks_it (tests.test_route_entry_config.Controls.test_lazy_events_creation_allows_configuration_but_replay_capture_locks_it) ... ok
+test_options_detach_budget_and_preserve_complete_incoming_context (tests.test_route_entry_config.Controls.test_options_detach_budget_and_preserve_complete_incoming_context) ... ok
+test_ordinary_loaded_and_changed_entry_targets_refuse_without_changes (tests.test_route_entry_config.Controls.test_ordinary_loaded_and_changed_entry_targets_refuse_without_changes) ... ok
+test_unknown_and_setup_options_are_rejected_without_consumption (tests.test_route_entry_config.Controls.test_unknown_and_setup_options_are_rejected_without_consumption) ... ok
+test_repeated_terminal_request_preserves_every_state_byte (tests.test_route_sealed.Boundary.test_repeated_terminal_request_preserves_every_state_byte) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_terminal_entry_returns_immutable_step_without_starting_backend (tests.test_route_sealed.Boundary.test_terminal_entry_returns_immutable_step_without_starting_backend) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_actual_pending_entry_equals_original_full_state_and_all_registers (tests.test_route_sealed.MatchEntry.test_actual_pending_entry_equals_original_full_state_and_all_registers) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_factory_preserves_actual_context_and_existing_manager2 (tests.test_route_sealed.MatchEntry.test_factory_preserves_actual_context_and_existing_manager2) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_factory_refuses_invalid_frame_before_changes (tests.test_route_sealed.MatchEntry.test_factory_refuses_invalid_frame_before_changes) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_real_pending_normal_match_and_invalid_resume_are_pure (tests.test_route_sealed.MatchEntry.test_real_pending_normal_match_and_invalid_resume_are_pure) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+test_checkpoint_codec_retains_opt_in_and_waiting_record_payload (tests.test_live_player_records_682.LivePlayers.test_checkpoint_codec_retains_opt_in_and_waiting_record_payload) ... ok
+test_checkpoint_rejects_non_boolean_opt_in_without_rejecting_old_headers (tests.test_live_player_records_682.LivePlayers.test_checkpoint_rejects_non_boolean_opt_in_without_rejecting_old_headers) ... ok
+test_later_snapshot_is_fresh_and_already_emitted_values_are_immutable (tests.test_live_player_records_682.LivePlayers.test_later_snapshot_is_fresh_and_already_emitted_values_are_immutable) ... ok
+test_legacy_default_and_explicit_false_keep_exact_previous_packet_shape (tests.test_live_player_records_682.LivePlayers.test_legacy_default_and_explicit_false_keep_exact_previous_packet_shape) ... ok
+test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions (tests.test_live_player_records_682.LivePlayers.test_opt_in_carries_every_current_record_in_squad_order_at_all_decisions) ... ok
+test_public_option_is_strict_boolean_and_absent_by_default (tests.test_live_player_records_682.LivePlayers.test_public_option_is_strict_boolean_and_absent_by_default) ... ok
+test_checkpoint_rejects_non_boolean_profile_before_loading_a_backend (tests.test_substitution_control_695.SubstitutionControl.test_checkpoint_rejects_non_boolean_profile_before_loading_a_backend) ... ok
+test_invalid_request_context_values_and_play_inputs_fail_before_consumption (tests.test_substitution_control_695.SubstitutionControl.test_invalid_request_context_values_and_play_inputs_fail_before_consumption) ... ok
+test_notice_keeper_argument_is_second_near_argument_not_side (tests.test_substitution_control_695.SubstitutionControl.test_notice_keeper_argument_is_second_near_argument_not_side) ... ok
+test_notice_publishes_original_timeout_metadata_before_running_wait (tests.test_substitution_control_695.SubstitutionControl.test_notice_publishes_original_timeout_metadata_before_running_wait) ... ok
+test_opportunity_requires_explicit_valid_response_and_retains_literal_key_choice (tests.test_substitution_control_695.SubstitutionControl.test_opportunity_requires_explicit_valid_response_and_retains_literal_key_choice) ... ok
+test_option_is_strict_boolean_and_default_options_remain_identical (tests.test_substitution_control_695.SubstitutionControl.test_option_is_strict_boolean_and_default_options_remain_identical) ... ok
+test_repeated_desired_state_is_idempotent_and_zero_budget_does_not_spin (tests.test_substitution_control_695.SubstitutionControl.test_repeated_desired_state_is_idempotent_and_zero_budget_does_not_spin) ... ok
+test_request_and_cancel_are_explicit_desired_booleans_retained_in_replay (tests.test_substitution_control_695.SubstitutionControl.test_request_and_cancel_are_explicit_desired_booleans_retained_in_replay) ... ok
+test_request_plan_uses_one_real_enter_and_never_constructs_a_pair (tests.test_substitution_control_695.SubstitutionControl.test_request_plan_uses_one_real_enter_and_never_constructs_a_pair) ... ok
+test_answer_is_opt_in_and_legacy_shape_stays_unchanged (tests.test_stopped_edit_663.StoppedEdit.test_answer_is_opt_in_and_legacy_shape_stays_unchanged) ... ok
+test_completed_pair_holds_select_without_escape_and_continue_does_not_repeat_it (tests.test_stopped_edit_663.StoppedEdit.test_completed_pair_holds_select_without_escape_and_continue_does_not_repeat_it) ... ok
+test_extra_time_accepts_tactics_without_allowing_substitution_edits (tests.test_stopped_edit_663.StoppedEdit.test_extra_time_accepts_tactics_without_allowing_substitution_edits) ... ok
+test_finishing_select_returns_fresh_decision_without_play_key (tests.test_stopped_edit_663.StoppedEdit.test_finishing_select_returns_fresh_decision_without_play_key) ... ok
+test_pause_accepts_an_all_clear_tactics_byte (tests.test_stopped_edit_663.StoppedEdit.test_pause_accepts_an_all_clear_tactics_byte) ... ok
+test_pause_accepts_tactics_only_without_enabling_substitutions (tests.test_stopped_edit_663.StoppedEdit.test_pause_accepts_tactics_only_without_enabling_substitutions) ... ok
+test_rejects_pause_and_disallowed_edits_before_consuming_decision (tests.test_stopped_edit_663.StoppedEdit.test_rejects_pause_and_disallowed_edits_before_consuming_decision) ... ok
+test_substitution_menu_reentry_consumes_new_answer_once (tests.test_stopped_edit_663.StoppedEdit.test_substitution_menu_reentry_consumes_new_answer_once) ... ok
+test_tactics_edit_returns_a_still_paused_decision_before_play (tests.test_stopped_edit_663.StoppedEdit.test_tactics_edit_returns_a_still_paused_decision_before_play) ... ok
+
+----------------------------------------------------------------------
+Ran 38 tests in 9.509s
+
+OK
