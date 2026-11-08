@@ -1,0 +1,132 @@
+test_ddcb_original_leaf_full_abi_and_wrap (tests.test_port_pool_swap.PoolSwap.test_ddcb_original_leaf_full_abi_and_wrap) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+
+  test_ddcb_original_leaf_full_abi_and_wrap (tests.test_port_pool_swap.PoolSwap.test_ddcb_original_leaf_full_abi_and_wrap) (manager=1, base=1, scroll=0, cursor=1) ... ERROR
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_ddcb_original_leaf_full_abi_and_wrap (tests.test_port_pool_swap.PoolSwap.test_ddcb_original_leaf_full_abi_and_wrap) (manager=2, base=81, scroll=4, cursor=3) ... ERROR
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_ddcb_original_leaf_full_abi_and_wrap (tests.test_port_pool_swap.PoolSwap.test_ddcb_original_leaf_full_abi_and_wrap) (manager=6, base=401, scroll=65535, cursor=65535) ... ERROR
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_ddcb_original_leaf_full_abi_and_wrap (tests.test_port_pool_swap.PoolSwap.test_ddcb_original_leaf_full_abi_and_wrap) (manager=0, base=65535, scroll=1, cursor=2) ... ERROR
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_ddcb_original_leaf_full_abi_and_wrap (tests.test_port_pool_swap.PoolSwap.test_ddcb_original_leaf_full_abi_and_wrap) (manager=1, base=0, scroll=0, cursor=0) ... ERROR
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_ddcb_original_leaf_full_abi_and_wrap (tests.test_port_pool_swap.PoolSwap.test_ddcb_original_leaf_full_abi_and_wrap) (manager=2, base=65280, scroll=65520, cursor=273) ... ERROR
+
+======================================================================
+ERROR: test_ddcb_original_leaf_full_abi_and_wrap (tests.test_port_pool_swap.PoolSwap.test_ddcb_original_leaf_full_abi_and_wrap) (manager=1, base=1, scroll=0, cursor=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 276, in test_ddcb_original_leaf_full_abi_and_wrap
+    actual=call_in_pypy(__name__,'ddcb_candidate',(initial,))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 288, in ddcb_candidate
+    reg=port.Registry('selection','T128 DDCB leaf');reg._add(selection.PORTS.entries['0791:DDCB'])
+                                                             ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '0791:DDCB'
+
+
+======================================================================
+ERROR: test_ddcb_original_leaf_full_abi_and_wrap (tests.test_port_pool_swap.PoolSwap.test_ddcb_original_leaf_full_abi_and_wrap) (manager=2, base=81, scroll=4, cursor=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 276, in test_ddcb_original_leaf_full_abi_and_wrap
+    actual=call_in_pypy(__name__,'ddcb_candidate',(initial,))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 288, in ddcb_candidate
+    reg=port.Registry('selection','T128 DDCB leaf');reg._add(selection.PORTS.entries['0791:DDCB'])
+                                                             ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '0791:DDCB'
+
+
+======================================================================
+ERROR: test_ddcb_original_leaf_full_abi_and_wrap (tests.test_port_pool_swap.PoolSwap.test_ddcb_original_leaf_full_abi_and_wrap) (manager=6, base=401, scroll=65535, cursor=65535)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 276, in test_ddcb_original_leaf_full_abi_and_wrap
+    actual=call_in_pypy(__name__,'ddcb_candidate',(initial,))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 288, in ddcb_candidate
+    reg=port.Registry('selection','T128 DDCB leaf');reg._add(selection.PORTS.entries['0791:DDCB'])
+                                                             ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '0791:DDCB'
+
+
+======================================================================
+ERROR: test_ddcb_original_leaf_full_abi_and_wrap (tests.test_port_pool_swap.PoolSwap.test_ddcb_original_leaf_full_abi_and_wrap) (manager=0, base=65535, scroll=1, cursor=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 276, in test_ddcb_original_leaf_full_abi_and_wrap
+    actual=call_in_pypy(__name__,'ddcb_candidate',(initial,))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 288, in ddcb_candidate
+    reg=port.Registry('selection','T128 DDCB leaf');reg._add(selection.PORTS.entries['0791:DDCB'])
+                                                             ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '0791:DDCB'
+
+
+======================================================================
+ERROR: test_ddcb_original_leaf_full_abi_and_wrap (tests.test_port_pool_swap.PoolSwap.test_ddcb_original_leaf_full_abi_and_wrap) (manager=1, base=0, scroll=0, cursor=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 276, in test_ddcb_original_leaf_full_abi_and_wrap
+    actual=call_in_pypy(__name__,'ddcb_candidate',(initial,))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 288, in ddcb_candidate
+    reg=port.Registry('selection','T128 DDCB leaf');reg._add(selection.PORTS.entries['0791:DDCB'])
+                                                             ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '0791:DDCB'
+
+
+======================================================================
+ERROR: test_ddcb_original_leaf_full_abi_and_wrap (tests.test_port_pool_swap.PoolSwap.test_ddcb_original_leaf_full_abi_and_wrap) (manager=2, base=65280, scroll=65520, cursor=273)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 276, in test_ddcb_original_leaf_full_abi_and_wrap
+    actual=call_in_pypy(__name__,'ddcb_candidate',(initial,))
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 288, in ddcb_candidate
+    reg=port.Registry('selection','T128 DDCB leaf');reg._add(selection.PORTS.entries['0791:DDCB'])
+                                                             ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '0791:DDCB'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 2.446s
+
+FAILED (errors=6)

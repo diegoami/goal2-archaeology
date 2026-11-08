@@ -120,8 +120,8 @@ class PreMatchSwap(unittest.TestCase):
         self.assertIn(13,self.squad(m)[:11]);self.assertIn(0,self.squad(m)[11:])
         self.assertEqual(self.parent(m,-1,1),0)
 
-    def test_pool_or_in_match_modes_refuse_before_any_memory_write(self):
-        for options in ({'pane':2},{'marked':True,'marked_pane':2},{'mode':1},{'mode':255}):
+    def test_in_match_modes_refuse_before_any_memory_write(self):
+        for options in ({'mode':1},{'mode':255}):
             m,w=self.machine(**options)
             # Require the entry to exist on old code too: missing behavior fails this test.
             entry=selection.PORTS.entries['0791:DEA6'];self.assertEqual(entry.ret,'ret 2')

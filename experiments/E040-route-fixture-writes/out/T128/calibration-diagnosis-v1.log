@@ -1,0 +1,37 @@
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+mark PortRuntimeError PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/tests/test_port_pool_swap.py", line 134, in candidate
+    m.run(m.lin('0791:E673'),fresh=True,timeout_s=60)
+      ^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+         ^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/engine.py", line 257, in _dispatch
+    self.frames.pop();frame.resume(self)
+                            ^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/guest.py", line 123, in resume
+    self._step(ax)
+         ^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/guest.py", line 86, in _step
+    request = self._in_frame(lambda: self.gen.send(sent))
+                   ^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/guest.py", line 72, in _in_frame
+    return fn()
+           ^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/guest.py", line 86, in <lambda>
+    request = self._in_frame(lambda: self.gen.send(sent))
+                                              ^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-2/runtime/original_match/port/selection.py", line 136, in swap_pre_match_squad
+    r.arith((sub_flags(r.ax,1)&~1)|carry);r.ax=(r.ax-1)&M16  # DFBE: dec preserves CF
+             ^^^^^^^^^^^^^^^^^
+TypeError: sub_flags() missing 1 required positional argument: 'bits'
+
+refused-mark counts 973 971
+firstdelta 0 original 602110 2 b8811852747cfa3620c3dd2af5d59498c240f208e689b4052bac934c29faf094 ported 602106 6 6c3d2de4564f8759f72759bcc93e549786efc84329933b3ea3075afca9dc5d2f
+near original [(602110, 2), (602106, 2), (602108, 2), (602104, 2)] port [(602106, 6), (602104, 2), (602102, 2), (602100, 2)]

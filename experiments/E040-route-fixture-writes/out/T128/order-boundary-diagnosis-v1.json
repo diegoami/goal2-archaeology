@@ -1,0 +1,302 @@
+{
+  "baseline": "6bdf7bbed441b6e2c758949bae409963dfa6c175",
+  "source_basis": "port/prove.py doc step3 compares ordered writes outside original lowest reached SP..caller returned SP; port/runtime.py Regs.store flushes coalesced pending stack writes. No comparison exclusion applied to focused tests.",
+  "rows": [
+    {
+      "case": "squad-only",
+      "setup": 0,
+      "asset_sha256": "c6b4796bbd02b1ab826ae0084b28a89711ec14b722a318c55ff6fc94be8f7854",
+      "country": 7,
+      "manager": 1,
+      "pool_index": 6,
+      "version": "accepted-pre-T128",
+      "complete_final_memory_equal": true,
+      "all16_equal": true,
+      "all_helper_entry_memory_and_all16_equal": true,
+      "unfiltered_order_equal": false,
+      "original_write_count": 1067,
+      "port_write_count": 1067,
+      "first_difference_index": 0,
+      "proposed_dead_order_interval": [
+        601976,
+        602116
+      ],
+      "original_first_writes": [
+        {
+          "address": 602110,
+          "size": 2,
+          "value_sha256": "b8811852747cfa3620c3dd2af5d59498c240f208e689b4052bac934c29faf094"
+        },
+        {
+          "address": 602106,
+          "size": 2,
+          "value_sha256": "ceb827ad3d3884fd4d50ae6099d6d50c09a21e72ebd309708e8b69d93df19e55"
+        },
+        {
+          "address": 602108,
+          "size": 2,
+          "value_sha256": "73612ba182694371ea717de0707e591a3cff3ce4f8386d67ced49c5f0d9096d1"
+        },
+        {
+          "address": 606207,
+          "size": 1,
+          "value_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+        },
+        {
+          "address": 606197,
+          "size": 2,
+          "value_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+        }
+      ],
+      "port_first_writes": [
+        {
+          "address": 602106,
+          "size": 6,
+          "value_sha256": "6c3d2de4564f8759f72759bcc93e549786efc84329933b3ea3075afca9dc5d2f"
+        },
+        {
+          "address": 606207,
+          "size": 1,
+          "value_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+        },
+        {
+          "address": 606197,
+          "size": 2,
+          "value_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+        },
+        {
+          "address": 602104,
+          "size": 2,
+          "value_sha256": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254"
+        },
+        {
+          "address": 602102,
+          "size": 2,
+          "value_sha256": "b8811852747cfa3620c3dd2af5d59498c240f208e689b4052bac934c29faf094"
+        }
+      ]
+    },
+    {
+      "case": "squad-only",
+      "setup": 0,
+      "asset_sha256": "c6b4796bbd02b1ab826ae0084b28a89711ec14b722a318c55ff6fc94be8f7854",
+      "country": 7,
+      "manager": 1,
+      "pool_index": 6,
+      "version": "T128-candidate",
+      "complete_final_memory_equal": true,
+      "all16_equal": true,
+      "all_helper_entry_memory_and_all16_equal": true,
+      "unfiltered_order_equal": false,
+      "original_write_count": 1067,
+      "port_write_count": 1067,
+      "first_difference_index": 0,
+      "proposed_dead_order_interval": [
+        601976,
+        602116
+      ],
+      "original_first_writes": [
+        {
+          "address": 602110,
+          "size": 2,
+          "value_sha256": "b8811852747cfa3620c3dd2af5d59498c240f208e689b4052bac934c29faf094"
+        },
+        {
+          "address": 602106,
+          "size": 2,
+          "value_sha256": "ceb827ad3d3884fd4d50ae6099d6d50c09a21e72ebd309708e8b69d93df19e55"
+        },
+        {
+          "address": 602108,
+          "size": 2,
+          "value_sha256": "73612ba182694371ea717de0707e591a3cff3ce4f8386d67ced49c5f0d9096d1"
+        },
+        {
+          "address": 606207,
+          "size": 1,
+          "value_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+        },
+        {
+          "address": 606197,
+          "size": 2,
+          "value_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+        }
+      ],
+      "port_first_writes": [
+        {
+          "address": 602106,
+          "size": 6,
+          "value_sha256": "6c3d2de4564f8759f72759bcc93e549786efc84329933b3ea3075afca9dc5d2f"
+        },
+        {
+          "address": 606207,
+          "size": 1,
+          "value_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+        },
+        {
+          "address": 606197,
+          "size": 2,
+          "value_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+        },
+        {
+          "address": 602104,
+          "size": 2,
+          "value_sha256": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254"
+        },
+        {
+          "address": 602102,
+          "size": 2,
+          "value_sha256": "b8811852747cfa3620c3dd2af5d59498c240f208e689b4052bac934c29faf094"
+        }
+      ]
+    },
+    {
+      "case": "mark",
+      "setup": 0,
+      "asset_sha256": "c6b4796bbd02b1ab826ae0084b28a89711ec14b722a318c55ff6fc94be8f7854",
+      "country": 7,
+      "manager": 1,
+      "pool_index": 6,
+      "version": "T128-candidate",
+      "complete_final_memory_equal": true,
+      "all16_equal": true,
+      "all_helper_entry_memory_and_all16_equal": true,
+      "unfiltered_order_equal": false,
+      "original_write_count": 237,
+      "port_write_count": 236,
+      "first_difference_index": 0,
+      "proposed_dead_order_interval": [
+        601474,
+        602116
+      ],
+      "original_first_writes": [
+        {
+          "address": 602110,
+          "size": 2,
+          "value_sha256": "b8811852747cfa3620c3dd2af5d59498c240f208e689b4052bac934c29faf094"
+        },
+        {
+          "address": 602106,
+          "size": 2,
+          "value_sha256": "ceb827ad3d3884fd4d50ae6099d6d50c09a21e72ebd309708e8b69d93df19e55"
+        },
+        {
+          "address": 602108,
+          "size": 2,
+          "value_sha256": "73612ba182694371ea717de0707e591a3cff3ce4f8386d67ced49c5f0d9096d1"
+        },
+        {
+          "address": 602104,
+          "size": 2,
+          "value_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "address": 602102,
+          "size": 2,
+          "value_sha256": "c29badfdc41ed929ae8f5f0ace6d23db5c4ec7bce3d0e6be6985355911a7c176"
+        }
+      ],
+      "port_first_writes": [
+        {
+          "address": 602106,
+          "size": 6,
+          "value_sha256": "6c3d2de4564f8759f72759bcc93e549786efc84329933b3ea3075afca9dc5d2f"
+        },
+        {
+          "address": 602104,
+          "size": 2,
+          "value_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "address": 602102,
+          "size": 2,
+          "value_sha256": "c29badfdc41ed929ae8f5f0ace6d23db5c4ec7bce3d0e6be6985355911a7c176"
+        },
+        {
+          "address": 602100,
+          "size": 2,
+          "value_sha256": "fa00253b923ef8c567f51cd227eb77090bba189558c798c8d61122a60ce0deac"
+        },
+        {
+          "address": 602095,
+          "size": 2,
+          "value_sha256": "ceb827ad3d3884fd4d50ae6099d6d50c09a21e72ebd309708e8b69d93df19e55"
+        }
+      ]
+    },
+    {
+      "case": "refused-mark",
+      "setup": 0,
+      "asset_sha256": "c6b4796bbd02b1ab826ae0084b28a89711ec14b722a318c55ff6fc94be8f7854",
+      "country": 7,
+      "manager": 1,
+      "pool_index": 6,
+      "version": "T128-candidate",
+      "complete_final_memory_equal": true,
+      "all16_equal": true,
+      "all_helper_entry_memory_and_all16_equal": true,
+      "unfiltered_order_equal": false,
+      "original_write_count": 973,
+      "port_write_count": 971,
+      "first_difference_index": 0,
+      "proposed_dead_order_interval": [
+        600480,
+        602116
+      ],
+      "original_first_writes": [
+        {
+          "address": 602110,
+          "size": 2,
+          "value_sha256": "b8811852747cfa3620c3dd2af5d59498c240f208e689b4052bac934c29faf094"
+        },
+        {
+          "address": 602106,
+          "size": 2,
+          "value_sha256": "ceb827ad3d3884fd4d50ae6099d6d50c09a21e72ebd309708e8b69d93df19e55"
+        },
+        {
+          "address": 602108,
+          "size": 2,
+          "value_sha256": "73612ba182694371ea717de0707e591a3cff3ce4f8386d67ced49c5f0d9096d1"
+        },
+        {
+          "address": 602104,
+          "size": 2,
+          "value_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "address": 602102,
+          "size": 2,
+          "value_sha256": "c29badfdc41ed929ae8f5f0ace6d23db5c4ec7bce3d0e6be6985355911a7c176"
+        }
+      ],
+      "port_first_writes": [
+        {
+          "address": 602106,
+          "size": 6,
+          "value_sha256": "6c3d2de4564f8759f72759bcc93e549786efc84329933b3ea3075afca9dc5d2f"
+        },
+        {
+          "address": 602104,
+          "size": 2,
+          "value_sha256": "0a6361b3a802f55cd5ae06101c88a1e216320fe11cc0cfe1d791eed08a1200fd"
+        },
+        {
+          "address": 602102,
+          "size": 2,
+          "value_sha256": "c29badfdc41ed929ae8f5f0ace6d23db5c4ec7bce3d0e6be6985355911a7c176"
+        },
+        {
+          "address": 602100,
+          "size": 2,
+          "value_sha256": "fa00253b923ef8c567f51cd227eb77090bba189558c798c8d61122a60ce0deac"
+        },
+        {
+          "address": 602095,
+          "size": 2,
+          "value_sha256": "ceb827ad3d3884fd4d50ae6099d6d50c09a21e72ebd309708e8b69d93df19e55"
+        }
+      ]
+    }
+  ]
+}
