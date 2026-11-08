@@ -148,12 +148,14 @@ def _drive_entry(m,controlled):
         if event.kind!='decision':continue
         d=event.data;c=d['context']
         if controlled:
+            assert d['team_context']==dict(match_set_up=m.m.rd(0xC1E,1),
+                in_match_menu_used=m.m.rd(0xC1F,1),sides=[m.m.rd(0x9B34,2),m.m.rd(0x9B36,2)])
             records=d['player_records'];assert [w for w,raw in records]==d['eleven']+d['bench']
             for w,raw in records:
                 assert bytes.fromhex(raw)==m.m.read(m.m.far(0xA91B)+20*w,20)
             assert d['request_substitution'] is bool(m.m.rd(S.SUBS_REQUEST,1))
         else:
-            assert 'player_records' not in d and 'request_substitution' not in d
+            assert 'player_records' not in d and 'request_substitution' not in d and 'team_context' not in d
         if controlled and c=='pause' and paused and requests:
             desired=requests.pop(0)
             if operations:assert d['request_substitution'] is operations[-1]
@@ -174,12 +176,13 @@ def _drive_entry(m,controlled):
     if controlled:
         assert paused and operations==[True,False,True] and accepted
         assert captains and captains[0]==m.opts['captain'],'actual chosen captain differs'
-        assert m.result()['substitution_budget']==[5,5]
+        assert m.result()['substitution_budget']==[255,255]
         assert independent and m.st['draws']==independent,'independent ordered guest RNG writes differ'
         digest=hashlib.sha256('\n'.join('%d %d %04x %04x'%tuple(v) for v in independent).encode()).hexdigest()
         assert m.result()['draws_digest']==digest
     else:assert m.st['draws']==[] and m.result()['draws_digest'] is None
     return dict(result=copy.deepcopy(m.result()),events=events,draws=independent,keys=keys,captains=captains,
+                recorded_draw_count=len(m.st['draws']),
                 returned={k:m.m.reg(k) for k in REGS},request_operations=operations,
                 opportunity_accepted=accepted,memory=m.m.read(0,MEM_SIZE))
 
@@ -198,7 +201,7 @@ def _candidate(state,table_record,controlled):
         from original_match.image import Image
         image=Image.from_state(step.state,tables)
         fixture=Fixture(m.opts['first'],m.opts['second'],m.opts['index'],m.opts['kind'])
-        m.configure_route_entry(captain=_captain(image,fixture),substitutions=(5,5),ticks=True,
+        m.configure_route_entry(captain=_captain(image,fixture),substitutions=(255,255),ticks=True,
                                 record_draws=True,set_piece=True,live_players=True,substitution_control=True)
     else:m.configure_route_entry()
     after=snapshot(m);assert after[:2]==before[:2]
@@ -244,7 +247,7 @@ class ActualEntry(unittest.TestCase):
                         idx=self.m.word_at(g+0x26);raw=self.m.read(self.m.far(0xA92B)+8*(idx-1),8)
                         fixture=Fixture(int.from_bytes(raw[4:6],'little'),int.from_bytes(raw[6:8],'little'),idx,raw[2])
                         entry=Image(self.header+self.m.read(0,MEM_SIZE)+self.tail);entry.tables=self.tables
-                        options=dict(captain=_captain(entry,fixture),substitutions=(5,5),ticks=True,record_draws=True,
+                        options=dict(captain=_captain(entry,fixture),substitutions=(255,255),ticks=True,record_draws=True,
                                      set_piece=True,live_players=True,substitution_control=True) if controlled else {}
                         m=Match(entry,fixture,engine='original',tail=False,timeout_s=600,**options)
                         assert m.inputs==[] and m.m.read(0,MEM_SIZE)==self.m.read(0,MEM_SIZE),'original constructor changed actual entry'
@@ -274,7 +277,7 @@ class ActualEntry(unittest.TestCase):
                 self.assertEqual(original_returned,[expected['returned']],'original ALL16 actual route resume differs')
                 self.assertEqual(updates,actual['updates'],'route update calls differ')
                 if not controlled:
-                    binding=json.loads((root/'experiments/E040-route-fixture-writes/out/T127/accepted-default-binding-v1.json').read_text())
+                    binding=json.loads((root/'experiments/E040-route-fixture-writes/out/T127/accepted-default-binding-v2.json').read_text())
                     def fields(r):
                         canonical=lambda v:json.dumps(v,sort_keys=True,separators=(',',':')).encode()
                         return {k:hashlib.sha256(r[k] if k=='memory' else canonical(r[k])).hexdigest() for k in ('result','events','keys','draws','returned','memory')}
@@ -293,10 +296,10 @@ class ActualEntry(unittest.TestCase):
                 digest=lambda v:hashlib.sha256(pickle.dumps(v,protocol=4)).hexdigest()
                 sources={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest()
                          for p in [*sorted((root/'runtime/original_match').rglob('*.py')),Path(__file__),
-                                   root/'experiments/E040-route-fixture-writes/out/T127/verify-v1.py',
-                                   root/'experiments/E040-route-fixture-writes/out/T127/accepted-default-binding-v1.json',
-                                   root/'experiments/E040-route-fixture-writes/out/T127/accepted-default-baseline-20261108T130302Z.json',
-                                   root/'experiments/E040-route-fixture-writes/out/T127/t127_entry_baseline.py']}
+                                   root/'experiments/E040-route-fixture-writes/out/T127/verify-v2.py',
+                                   root/'experiments/E040-route-fixture-writes/out/T127/accepted-default-binding-v2.json',
+                                   root/'experiments/E040-route-fixture-writes/out/T127/accepted-default-baseline-70f38677-v2.json',
+                                   root/'experiments/E040-route-fixture-writes/out/T127/t127_entry_baseline_v2.py']}
                 receipt=dict(schema='t127-entry-config/1',controlled=controlled,sources=sources,
                     same_result_except_declared_execution_metadata=sorted(differences),
                     complete_state_equal=True,events_equal=True,ordered_draws_equal=True,news_equal=True,
@@ -305,7 +308,9 @@ class ActualEntry(unittest.TestCase):
                     accepted_default_within_backend_equal=not controlled,
                     entry_configuration_pure=actual['entry_pure'],
                     invalid_resume_pure=actual['resume_pure'],positive_denials=actual['denials'],
-                    draw_count=len(actual['draws']),update_calls=actual['updates'],captains=actual['captains'],event_count=len(actual['events']),page_count=len(actual['pages']),
+                    draw_count=len(actual['draws']),recorded_draw_count=actual['recorded_draw_count'],
+                    substitution_budget=actual['result']['substitution_budget'],
+                    team_context_decisions=sum(e['kind']=='decision' and 'team_context' in e['data'] for e in actual['events']),update_calls=actual['updates'],captains=actual['captains'],event_count=len(actual['events']),page_count=len(actual['pages']),
                     request_operations=actual['request_operations'],opportunity_accepted=actual['opportunity_accepted'],
                     state_sha256=digest(actual['state']),events_sha256=digest(actual['events']),
                     original_full_memory_sha256=hashlib.sha256(expected['memory']).hexdigest(),
