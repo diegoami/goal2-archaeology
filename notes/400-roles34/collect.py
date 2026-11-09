@@ -201,10 +201,11 @@ def stop(name,menu,number,menu_sha):
         run.rec['error']=repr(e);print(repr(e),flush=True)
     finally:run.finish()
 
-def search(name,menu,number,menu_sha,bound,maxround):
+def search(name,menu,number,menu_sha,bound,maxround,want='3,4'):
     load_core();adapt()
+    want={int(x) for x in want.split(',')}
     number=int(number);raw=Path(menu).read_bytes();assert sha(raw)==menu_sha
-    run=Run(name,int(bound),'search',menu=dict(file=str(Path(menu)),sha256=menu_sha),first_round=number,max_round=int(maxround),
+    run=Run(name,int(bound),'search',want_roles=sorted(want),menu=dict(file=str(Path(menu)),sha256=menu_sha),first_round=number,max_round=int(maxround),
             adapter='screens._taker also labels CC7B roles 3 and 4 TAKER_SELECT (host label only)')
     captured={};seen=set();state=dict(round=number,runs=0)
     original_run=Core._run
@@ -226,7 +227,7 @@ def search(name,menu,number,menu_sha,bound,maxround):
                 if ident not in seen:
                     seen.add(ident)
                     run.row(label=f"taker-r{state['round']:02}-role{d['role']}",round=state['round'],role=d['role'],side=d['side'],minute=d['minute'],run_index=state['runs'],poll=w.poll,text_head=w.text.splitlines()[:6])
-                    if d['role'] in (3,4) and d['role'] not in captured:
+                    if d['role'] in want and d['role'] not in captured:
                         captured[d['role']]=capture(run,self.core,d['role'],state)
         return original_key(self,key)
     Driver.taker_key=hooked
@@ -243,13 +244,20 @@ def search(name,menu,number,menu_sha,bound,maxround):
                     except DriverError as e:
                         if 'refuses the eleven' not in str(e) or attempts>=8:raise
                         refusal=str(e)
+                    except AssertionError as e:
+                        # [T131] the oracle asserts a return site; the pre-tournament announcement is a press of "play next
+                        # game" that shows a bulletin and returns to the manager menu with the cursor unmoved (probe
+                        # of search-r1's round 20). Its Core is at that menu: the round counts and the search goes on.
+                        if 'returned from play_round at no observed site' not in str(e):raise
+                        class Announced:kind='announcement';before=after={'note':'bulletin and back to the manager menu'}
+                        got=[Announced];break
                     else:break
                 attempts+=1;current,swap=repair_eleven(current)
                 run.row(label=f'repair-r{number:02}',round=number,refusal=refusal,swap=list(swap),state=run.keep(f'menu-r{number:02}-repair{attempts}.g2core',current),elapsed=round(time.monotonic()-run.start,1))
             run.row(label=f'round-r{number:02}',round=number,round_kind=got[0].kind,before=got[0].before,after=got[0].after,elapsed=round(time.monotonic()-run.start,1))
             if got[0].kind=='deferred-rollover':run.rec['status']='season ended';break
             current=cores[-1].save();state['round']+=1;state['runs']=0
-            if {3,4}<=set(captured):run.rec['status']='roles 3 and 4 captured';break
+            if want<=set(captured):run.rec['status']=f'roles {sorted(want)} captured';break
         else:run.rec.setdefault('status','bound of rounds reached')
         if run.rec['status']=='aborted':run.rec['status']='finished'
         run.rec['captured']={str(r):c for r,c in captured.items()}
