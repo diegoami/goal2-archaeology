@@ -247,6 +247,22 @@ class Controls(unittest.TestCase):
         self.assertEqual([e for e in a.record if e[0] in shared], [e for e in b.record if e[0] in shared])
         self.assertEqual(b.replay(b.origin), b.m.read(0, MEM_SIZE))
 
+    def test_the_harness_makes_the_one_local_the_branch_reads(self):
+        """[bp-6] is 7440-7447's copy of DS:A923: with the stack word cleared in the image, the press still finds the
+        game record, and ends with the word the state held."""
+        image = self.image()
+        ss = (image.load + SS_PARAGRAPH) * 16
+        want = bytes(image.memory[ss + R.ACTION_LOCAL:ss + R.ACTION_LOCAL + 4])
+        self.assertEqual(want, bytes(image.memory[image.DS * 16 + GAME_PTR:image.DS * 16 + GAME_PTR + 4]))
+        image.memory[ss + R.ACTION_LOCAL:ss + R.ACTION_LOCAL + 4] = bytes(4)
+        r = self._at_the_rounds_end(R.Route(image, entry="play_action"))
+        r.call()
+        self.assertEqual(r.m.read(ss + R.ACTION_LOCAL, 4), want)
+        self.assertEqual(r.record[-1], ("return", "000E:77CB"))
+        self.assertEqual([e[1] for e in r.record if e[0] == "k" and e[1].startswith("main_menu_loop")],
+                         ["main_menu_loop 7439's [bp-6]: the game record pointer, as 7440-7447 load it from DS:A923"])
+
+
 
 class PortGap(unittest.TestCase):
     def test_the_port_has_no_pre_step(self):
