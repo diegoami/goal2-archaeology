@@ -26,3 +26,10 @@ T123's consumer document `427-route.md` explains the delivered API and proof lim
 ## Configure the held Match before execution (T127)
 
 `step.match.configure_route_entry(*, captain=None, substitutions=None, ticks=False, record_draws=False, set_piece=False, live_players=False, substitution_control=False)` configures the same actual F1F6 object exactly once. Supply final choices together before the first event-iterator advancement or replay-origin capture. Creation itself retains the old defaults; failed validation consumes nothing. Exact booleans, a current managed-XI captain and detached0..255 budgets are validated before changes. No guest memory, register, fixture, setup or RNG write occurs during configuration. A deduplicated draw recorder is installed independently of existing hooks when requested. Ordinary/loaded/changed/started/already-configured targets refuse. No seed, delay, player-record, engine or tail option is accepted; no active-round serialization is supplied. Drive normal events/answers and return this exact completed object to resume_round.
+
+## The manager menu's Play action (T130, #705)
+
+Not part of this seam. `Route(entry="play_action")` (see [427-route.md](427-route.md)) is a comparison-harness entry on the
+original; the sealed `play_round()`/`resume_round()` have no equivalent, because the pre-step of the Play action (000E:57E5
+and what it reaches) has no port. `play_round()`'s site, stack, purity, records, news capture, key policy and return
+contract are unchanged.
