@@ -2,7 +2,7 @@
 
 **No new qualifying input and no guest execution.** The retained-source assessment
 supports stopping at this checkpoint. [#400](https://github.com/diegoami/goal2-archaeology/issues/400)
-remains open for CC7B role3 penalty, role4 shooting-range free kick, E022/E062 no-player
+remains open for CC7B role3 penalty (since supplied by [T131](400-roles34.md)), role4 shooting-range free kick, E022/E062 no-player
 and EA09/EC60 first-eleven vacancy. T88/PR405 and T89/PR407 remain the positive
 corner/goal-kick/CF3A/E19F deliveries. F029/F030 retain their proposed status.
 

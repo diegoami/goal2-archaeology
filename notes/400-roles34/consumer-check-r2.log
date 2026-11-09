@@ -1,0 +1,123 @@
+{
+ "unchanged": {
+  "role3 decision-before-space": "UnknownScreen at 0791:CC54",
+  "role3 space-pitch-read": "UnknownScreen at 0791:CF3A",
+  "role3 return-back-at-selector": "UnknownScreen at 0791:CC54",
+  "role4-england decision-before-space": "UnknownScreen at 0791:CC54",
+  "role4-england space-pitch-read": "UnknownScreen at 0791:CF3A",
+  "role4-england return-back-at-selector": "UnknownScreen at 0791:CC54",
+  "role4-albania decision-before-space": "UnknownScreen at 0791:CC54",
+  "role4-albania space-pitch-read": "UnknownScreen at 0791:CF3A",
+  "role4-albania return-back-at-selector": "UnknownScreen at 0791:CC54"
+ },
+ "label_widened": {
+  "role3 decision-before-space": {
+   "kind": "set-piece-select",
+   "site": "0791:CC54",
+   "poll": true,
+   "view": {
+    "role": 3,
+    "side": 1,
+    "country": 7,
+    "slot": 11,
+    "stored": 131
+   }
+  },
+  "role3 space-pitch-read": {
+   "kind": "set-piece-pitch",
+   "site": "0791:CF3A",
+   "poll": false,
+   "view": {
+    "role": 3,
+    "side": 1,
+    "country": 7,
+    "slot": 11,
+    "stored": 131
+   }
+  },
+  "role3 return-back-at-selector": {
+   "kind": "set-piece-select",
+   "site": "0791:CC54",
+   "poll": true,
+   "view": {
+    "role": 3,
+    "side": 1,
+    "country": 7,
+    "slot": 11,
+    "stored": 131
+   }
+  },
+  "role4-england decision-before-space": {
+   "kind": "set-piece-select",
+   "site": "0791:CC54",
+   "poll": true,
+   "view": {
+    "role": 4,
+    "side": 0,
+    "country": 9,
+    "slot": 3,
+    "stored": 163
+   }
+  },
+  "role4-england space-pitch-read": {
+   "kind": "set-piece-pitch",
+   "site": "0791:CF3A",
+   "poll": false,
+   "view": {
+    "role": 4,
+    "side": 0,
+    "country": 9,
+    "slot": 3,
+    "stored": 163
+   }
+  },
+  "role4-england return-back-at-selector": {
+   "kind": "set-piece-select",
+   "site": "0791:CC54",
+   "poll": true,
+   "view": {
+    "role": 4,
+    "side": 0,
+    "country": 9,
+    "slot": 3,
+    "stored": 163
+   }
+  },
+  "role4-albania decision-before-space": {
+   "kind": "set-piece-select",
+   "site": "0791:CC54",
+   "poll": true,
+   "view": {
+    "role": 4,
+    "side": 1,
+    "country": 1,
+    "slot": 10,
+    "stored": 10
+   }
+  },
+  "role4-albania space-pitch-read": {
+   "kind": "set-piece-pitch",
+   "site": "0791:CF3A",
+   "poll": false,
+   "view": {
+    "role": 4,
+    "side": 1,
+    "country": 1,
+    "slot": 10,
+    "stored": 10
+   }
+  },
+  "role4-albania return-back-at-selector": {
+   "kind": "set-piece-select",
+   "site": "0791:CC54",
+   "poll": true,
+   "view": {
+    "role": 4,
+    "side": 1,
+    "country": 1,
+    "slot": 10,
+    "stored": 10
+   }
+  }
+ }
+}

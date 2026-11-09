@@ -118,8 +118,8 @@ hashes and observations are in [core-inventory-r1.json](../../notes/400-next/cor
 
 | Still missing | Exact limit and cheaper existing assumption |
 | --- | --- |
-| Role3 penalty | No retained CC7B role3 choice in the one bounded qualifier. A shootout-order input is not this case. F030's role3 contract remains static-only. |
-| Role4 free kick | No retained CC7B role4 choice through full time. Ordinary free kicks do not prove the dangerous free-kick selector. Keep F030's conditional contract static-only. |
+| Role3 penalty | **Supplied later by [T131](400-roles34.md)** (a genuine role-3 decision, its input before, the CF3A read and return); this T89 search itself retained none: no CC7B role3 choice in the one bounded qualifier. A shootout-order input is not this case. F030's role3 contract remains static-only. |
+| Role4 free kick | **Searched again by [T131](400-roles34.md) through a whole Core season, still unreached.** Here: no retained CC7B role4 choice through full time. Ordinary free kicks do not prove the dangerous free-kick selector. Keep F030's conditional contract static-only. |
 | E022 / E062 no player | Requires selecting an actual zero squad word; none exists in the inspected17 saves or12 retained G13 inputs. No direct guest edit or external save alteration is used to manufacture one. Keep the conditional original caller contract. |
 | EA09 / EC60 vacancy | Requires a genuine first-eleven vacancy while earlier checks pass; no such input was found. The known retirement path replaces the retiring member at once (F017), so a new multi-year run has no justified cheap yield. Keep the conditional contract. |
 

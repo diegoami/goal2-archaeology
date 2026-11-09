@@ -1,0 +1,1188 @@
+{
+  "schema": "T131-original-inputs/2",
+  "covered_roles": [
+    3,
+    4
+  ],
+  "remaining": [],
+  "core": {
+    "commit": "42c25412a81a397cb40ed28ba54bca7c688d8b07",
+    "tree_sha256": "f84cb2ad14e6749039f9a7b3aa4b66798688d3561730b90290122f7a4fe8686b"
+  },
+  "source": {
+    "date_call_sha256": "0d9c683023c7327f17bfc29900f2eff4e703641d21d3f353693f09654688494b",
+    "goal_dat_sha256": "bc5e5c04434d31f350eb7803afc3810333393e049d50dde559797a5b068c60ca",
+    "private": "goal2drive:e039-r0005-date-call.sav"
+  },
+  "searches": {
+    "search-c1": {
+      "status": "roles [4] captured",
+      "error": null,
+      "bound_s": 14400,
+      "first_round": 1,
+      "max_round": 45,
+      "want": [
+        4
+      ],
+      "elapsed_s": 1215.0,
+      "menu": {
+        "file": ".cache/400-roles34/start-c1/start.g2core",
+        "sha256": "9b3df9d73550b4045645eb1e70a313188c351392a777fc7ca1fc7f8445fb7637"
+      },
+      "taker_prompts_by_role": {
+        "5": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1
+      },
+      "managed_matches": 3
+    },
+    "search-c20": {
+      "status": "aborted",
+      "error": "InterruptError(\"the original called INT 16h AH=01h (AX 0186, by Intr) at 214B:073A (CS:IP 296E:073A), through Intr: the core serves INT 21h AH=2Ch by `int`, and INT 21h AH=3Dh/3Fh/3Eh on GOAL.DAT through Intr/MsDos, only\\n (c) NE'93\u2502 \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u252cQUALIFYING\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\u250c\u2500\u2500\u2500\u2584 \u2584\u2580\u2580\u2580\u2580\\n \u250c\u2500\u2510\u250c\u2500\u2510\u250c\u2500\u2510\u2502 \u2502HOLLAND--------\u2502 3\u2502D'itriadis on the ball             \u2502\u2502   \u2588 \u2588   \u2502\\n \u2502 \u2502\u2502 \u2502\u2502 \u2502\u2502 \u251cversus\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2524cross from D'itriadis              \u2502\u251c\u2500\u2500\u2500\u2584 \u251c\u2580\u2580\u2580\u2584\\n \u2514\u2500\u2524\u2514\u2500\u2518\u2514\u2500\u2524\u2502 \u2502GREECE---------\u2502 2\u2502*** THROW IN ***                   \u2502\u2502   \u2588 \u2502   \u2588\\n\u2500\u2500\u2500\u2518 v.2    \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\u2514\u2500\u2500\u2500\u2518 \u2514\u2580\u2580\u2580\u2580\\n\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2580\u2580\u2580\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\\n\u2591\u2591\u250c\u2500\u2500\u2500\u2022\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u263a\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\u2591\u2591\\n\u2591\u2591\u2502                                    \u2502                                    \u2502\u2591\u2591\\n\u2591\u2591\u2502     M     W          W             \u2502                                    \u2502\u2591\u2591\\n\u2591\u2591\u251c\u2500\u2500\u2500\u2500\u263a\u2500\u2500\u2500M\u2500\u2500\u2510F       C               \u2502                        \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2524\u2591\u2591\\n\u2591\u2591\u2502           \u2502      B             $   \u2502                        \u2502           \u2502\u2591\u2591\\n\u2591\u2591\u2502   S       \u2502                        \u2502                        \u2502           \u2502\u2591\u2591\\n\u2591\u2591\u251c\u2500\u2500\u2500\u2510       \u2502   D                    \u2502C                       \u2502       \u250c\u2500\u263a\u2500\u2524\u2591\u2591\\n\u2591\u250c\u2518   C       \u2502                        \u2502                        \u2502       \u2502   \u2514\u2510\u2591\\n\u2591\u2502\u263a   \u2502       \u2502                        \u25cb                        \u2502       \u2502    \u2502\u2591\\n\u2591\u2514\u2510   \u2502   M   \u2502         D              \u2502C                       \u2502       \u2502   \u250c\u2518\u2591\\n\u2591\u2591\u251c\u2500\u2500\u2500\u2518       \u2502                        \u2502                        \u2502       \u2514\u2500\u2500\u2500\u2524\u2591\u2591\\n\u2591\u2591\u2502           \u2502       B                \u2502                        \u2502           \u2502\u2591\u2591\\n\u2591\u2591\u2502           M                  W     \u2502                        \u2502           \u2502\u2591\u2591\\n\u2591\u2591\u251c\u2500\u2500\u2500\u2500\u00a2\u2500\u2500\u2500\u2500\u2500\u2500\u2518                        \u2502                        \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2524\u2591\u2591\\n\u2591\u2591\u2502    W                               \u2502                                    \u2502\u2591\u2591\\n\u2591\u2591\u2502                                    \u2502                                    \u2502\u2591\u2591\\n\u2591\u2591\u2514\u2500\u2500\u2500\u263a\u00bb\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\u2591\u2591\\n\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\\n  \u2193\u2191-display \u2190\u2192-speed\u00bb\u00bb\u00bb\u00bb\u00bb   R-result   spacebar-commentary  F9-\u266b  Esc,\u25c4\u2518-bench\")",
+      "bound_s": 14400,
+      "first_round": 1,
+      "max_round": 45,
+      "want": [
+        4
+      ],
+      "elapsed_s": 2124.3,
+      "menu": {
+        "file": ".cache/400-roles34/start-c20/start.g2core",
+        "sha256": "f0714ea3e4463decd48d7fb38338e23f7127d34401bd2520bd4a36ab0eea60b3"
+      },
+      "taker_prompts_by_role": {
+        "5": 4,
+        "2": 2
+      },
+      "managed_matches": 6
+    },
+    "search-c9": {
+      "status": "roles [4] captured",
+      "error": null,
+      "bound_s": 14400,
+      "first_round": 1,
+      "max_round": 45,
+      "want": [
+        4
+      ],
+      "elapsed_s": 1143.6,
+      "menu": {
+        "file": ".cache/400-roles34/start-c9/start.g2core",
+        "sha256": "1970c64b93014e48ca01ac03783c00df968d4af0ece523613d0c7d2d9ec58cd5"
+      },
+      "taker_prompts_by_role": {
+        "5": 2,
+        "2": 1,
+        "4": 1
+      },
+      "managed_matches": 3
+    },
+    "search-r1": {
+      "status": "aborted",
+      "error": "AssertionError('round 1: the original returned from play_round at no observed site')",
+      "bound_s": 12000,
+      "first_round": 7,
+      "max_round": 30,
+      "want": [
+        3,
+        4
+      ],
+      "elapsed_s": 3348.1,
+      "menu": {
+        "file": ".cache/400-roles34/reach-r1/menu-r07-repair1.g2core",
+        "sha256": "9ffdcd81fc3c8119a8cbe0d4c532656c1cb6fa73c82f0ad3670d3a3d903773e5"
+      },
+      "taker_prompts_by_role": {
+        "3": 2,
+        "5": 15,
+        "2": 9
+      },
+      "managed_matches": 12
+    },
+    "search-r2": {
+      "status": "season ended",
+      "error": null,
+      "bound_s": 14400,
+      "first_round": 20,
+      "max_round": 45,
+      "want": [
+        4
+      ],
+      "elapsed_s": 719.1,
+      "menu": {
+        "file": ".cache/400-roles34/search-r1/menu-r20.g2core",
+        "sha256": "28fda3d816caee9efb3514da97021c60ac7ef7bc3a2b547e743ecfc0965948c3"
+      },
+      "taker_prompts_by_role": {
+        "5": 3
+      },
+      "managed_matches": 3
+    }
+  },
+  "roles": {
+    "role3": {
+      "role": 3,
+      "attempt": "search-r1",
+      "round": 7,
+      "run_index": 1799,
+      "inputs": [
+        {
+          "step": 0,
+          "label": "preceding-wait",
+          "file": "t131-a9fe9ceb05994265-role3-preceding-wait.g2core",
+          "sha256": "a9fe9ceb05994265428ee410b15abba7d1c9aa814f5a296516bfb703f5ca7304",
+          "bytes": 197827,
+          "site": "0791:93C2",
+          "kind": "match-live",
+          "poll": true,
+          "keys": 123,
+          "keys_sha256": "c50c8ddd42bf822acc1b005d51907103c19874e9de691dc44798c098ab3589d5",
+          "raw_row": "preceding-r1#1",
+          "origin": null,
+          "frame": null,
+          "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-a9fe9ceb05994265-role3-preceding-wait.g2core",
+          "readback": ".cache/400-roles34/readback/t131-a9fe9ceb05994265-role3-preceding-wait.g2core"
+        },
+        {
+          "step": 1,
+          "label": "decision-before-space",
+          "file": "t131-964d78d67e8cd83c-role3-decision-before-space.g2core",
+          "sha256": "964d78d67e8cd83c4248106d304d2dfd09f411f6b3f50782412d983b617780de",
+          "bytes": 198770,
+          "site": "0791:CC54",
+          "kind": "set-piece-select",
+          "poll": true,
+          "keys": 123,
+          "keys_sha256": "c50c8ddd42bf822acc1b005d51907103c19874e9de691dc44798c098ab3589d5",
+          "raw_row": "search-r1#3",
+          "origin": {
+            "bp": 15940,
+            "return_offset": 28399,
+            "args": [
+              10,
+              3,
+              1
+            ],
+            "raw_args": [
+              10,
+              3,
+              1
+            ]
+          },
+          "frame": {
+            "site": "0791:CC54",
+            "cpu": "214B:0723",
+            "ss": 14453,
+            "sp": 15902,
+            "chain": [
+              {
+                "bp": 15910,
+                "parent": 15930,
+                "return_offset": 52953,
+                "return_segment": 64453
+              },
+              {
+                "bp": 15930,
+                "parent": 15940,
+                "return_offset": 28020,
+                "return_segment": 64736
+              }
+            ],
+            "role": 3,
+            "side": 1,
+            "country": 7,
+            "country_name": "Denmark",
+            "opponent": 9,
+            "opponent_name": "England",
+            "highlight": 11,
+            "pick": 131,
+            "stored_pick": 131,
+            "eleven": [
+              121,
+              122,
+              123,
+              125,
+              135,
+              126,
+              127,
+              128,
+              129,
+              130,
+              131
+            ],
+            "pick_in_eleven": true,
+            "pick_status": 0,
+            "pick_position": 13,
+            "manager_byte": 129,
+            "minute": 33,
+            "rng_main": 10546,
+            "rng_aux": 5215
+          },
+          "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-964d78d67e8cd83c-role3-decision-before-space.g2core",
+          "readback": ".cache/400-roles34/readback/t131-964d78d67e8cd83c-role3-decision-before-space.g2core"
+        },
+        {
+          "step": 2,
+          "label": "space-pitch-read",
+          "file": "t131-a09516fe0d0d4ca4-role3-space-pitch-read.g2core",
+          "sha256": "a09516fe0d0d4ca4fcf2b828f371580a75bf7981898b442d684e4add9134d634",
+          "bytes": 198904,
+          "site": "0791:CF3A",
+          "kind": "set-piece-pitch",
+          "poll": false,
+          "keys": 124,
+          "keys_sha256": "22691af140ef22127838c93ecf65021970b43e46d78cfbc61955d1c43210acd4",
+          "raw_row": "search-r1#4",
+          "origin": {
+            "bp": 15940,
+            "return_offset": 28399,
+            "args": [
+              10,
+              3,
+              1
+            ],
+            "raw_args": [
+              10,
+              3,
+              1
+            ]
+          },
+          "frame": {
+            "site": "0791:CF3A",
+            "cpu": "214B:08DD",
+            "ss": 14453,
+            "sp": 15912,
+            "chain": [
+              {
+                "bp": 15930,
+                "parent": 15940,
+                "return_offset": 28020,
+                "return_segment": 64736
+              }
+            ],
+            "role": 3,
+            "side": 1,
+            "country": 7,
+            "country_name": "Denmark",
+            "opponent": 9,
+            "opponent_name": "England",
+            "highlight": 11,
+            "pick": 131,
+            "stored_pick": 131,
+            "eleven": [
+              121,
+              122,
+              123,
+              125,
+              135,
+              126,
+              127,
+              128,
+              129,
+              130,
+              131
+            ],
+            "pick_in_eleven": true,
+            "pick_status": 0,
+            "pick_position": 13,
+            "manager_byte": 129,
+            "minute": 33,
+            "rng_main": 10546,
+            "rng_aux": 5215
+          },
+          "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-a09516fe0d0d4ca4-role3-space-pitch-read.g2core",
+          "readback": ".cache/400-roles34/readback/t131-a09516fe0d0d4ca4-role3-space-pitch-read.g2core"
+        },
+        {
+          "step": 3,
+          "label": "return-back-at-selector",
+          "file": "t131-407b6a751d22a72b-role3-return-back-at-selector.g2core",
+          "sha256": "407b6a751d22a72b38d25bc412b35c85e1cf9650b26509d737577c822922a74b",
+          "bytes": 193113,
+          "site": "0791:CC54",
+          "kind": "set-piece-select",
+          "poll": true,
+          "keys": 125,
+          "keys_sha256": "7f82050625a3a6d899990bf7cbe1544dd70bc1b4d2153447542672cb57e33428",
+          "raw_row": "search-r1#5",
+          "origin": {
+            "bp": 15940,
+            "return_offset": 28399,
+            "args": [
+              10,
+              3,
+              1
+            ],
+            "raw_args": [
+              10,
+              3,
+              1
+            ]
+          },
+          "frame": {
+            "site": "0791:CC54",
+            "cpu": "214B:0723",
+            "ss": 14453,
+            "sp": 15902,
+            "chain": [
+              {
+                "bp": 15910,
+                "parent": 15930,
+                "return_offset": 52953,
+                "return_segment": 64453
+              },
+              {
+                "bp": 15930,
+                "parent": 15940,
+                "return_offset": 28020,
+                "return_segment": 64736
+              }
+            ],
+            "role": 3,
+            "side": 1,
+            "country": 7,
+            "country_name": "Denmark",
+            "opponent": 9,
+            "opponent_name": "England",
+            "highlight": 11,
+            "pick": 131,
+            "stored_pick": 131,
+            "eleven": [
+              121,
+              122,
+              123,
+              125,
+              135,
+              126,
+              127,
+              128,
+              129,
+              130,
+              131
+            ],
+            "pick_in_eleven": true,
+            "pick_status": 0,
+            "pick_position": 13,
+            "manager_byte": 129,
+            "minute": 33,
+            "rng_main": 10546,
+            "rng_aux": 5215
+          },
+          "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-407b6a751d22a72b-role3-return-back-at-selector.g2core",
+          "readback": ".cache/400-roles34/readback/t131-407b6a751d22a72b-role3-return-back-at-selector.g2core"
+        },
+        {
+          "step": 4,
+          "label": "return-accept",
+          "file": "t131-238785d42fd20539-role3-return-accept.g2core",
+          "sha256": "238785d42fd205392c35ad68cf58dee6a99f8aa3a08ee8bb410c9abf0c2488ed",
+          "bytes": 198990,
+          "site": "0791:93C2",
+          "kind": "match-live",
+          "poll": true,
+          "keys": 126,
+          "keys_sha256": "2a4a30cb49fdf4042b320cc9f54377710c8adfd1d39a4bd6a7fdcfc7fbfd5b09",
+          "raw_row": "search-r1#6",
+          "origin": null,
+          "frame": null,
+          "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-238785d42fd20539-role3-return-accept.g2core",
+          "readback": ".cache/400-roles34/readback/t131-238785d42fd20539-role3-return-accept.g2core"
+        }
+      ]
+    },
+    "role4-england": {
+      "role": 4,
+      "attempt": "search-c9",
+      "round": 3,
+      "run_index": 3508,
+      "inputs": [
+        {
+          "step": 0,
+          "label": "preceding-wait",
+          "file": "t131-6557737543da7701-role4-england-preceding-wait.g2core",
+          "sha256": "6557737543da7701aa6b7377340a44f0e60de2594c25d3843c2e5e837510a60e",
+          "bytes": 194381,
+          "site": "0791:93C2",
+          "kind": "match-live",
+          "poll": true,
+          "keys": 55,
+          "keys_sha256": "2199a51134d09834c808789cd30c4bc43e689c692008f6dbf7e8ecc087b47850",
+          "raw_row": "preceding-c9#1",
+          "origin": null,
+          "frame": null,
+          "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-6557737543da7701-role4-england-preceding-wait.g2core",
+          "readback": ".cache/400-roles34/readback/t131-6557737543da7701-role4-england-preceding-wait.g2core"
+        },
+        {
+          "step": 1,
+          "label": "decision-before-space",
+          "file": "t131-dc1f31f1af0b355c-role4-england-decision-before-space.g2core",
+          "sha256": "dc1f31f1af0b355cb9d9c3a4514b4755fccb1bd9359fbe5914fd897d49478bc4",
+          "bytes": 195438,
+          "site": "0791:CC54",
+          "kind": "set-piece-select",
+          "poll": true,
+          "keys": 55,
+          "keys_sha256": "2199a51134d09834c808789cd30c4bc43e689c692008f6dbf7e8ecc087b47850",
+          "raw_row": "search-c9#9",
+          "origin": {
+            "bp": 15928,
+            "return_offset": 28562,
+            "args": [
+              11,
+              4,
+              0
+            ],
+            "raw_args": [
+              11,
+              4,
+              0
+            ]
+          },
+          "frame": {
+            "site": "0791:CC54",
+            "cpu": "214B:0723",
+            "ss": 14453,
+            "sp": 15890,
+            "chain": [
+              {
+                "bp": 15898,
+                "parent": 15918,
+                "return_offset": 52953,
+                "return_segment": 64453
+              },
+              {
+                "bp": 15918,
+                "parent": 15928,
+                "return_offset": 28020,
+                "return_segment": 64993
+              }
+            ],
+            "role": 4,
+            "side": 0,
+            "country": 9,
+            "country_name": "England",
+            "opponent": 23,
+            "opponent_name": "Portugal",
+            "highlight": 3,
+            "pick": 163,
+            "stored_pick": 163,
+            "eleven": [
+              161,
+              162,
+              163,
+              164,
+              165,
+              166,
+              167,
+              168,
+              169,
+              170,
+              171
+            ],
+            "pick_in_eleven": true,
+            "pick_status": 0,
+            "pick_position": 2,
+            "manager_byte": 129,
+            "minute": 71,
+            "rng_main": 10008,
+            "rng_aux": 5215
+          },
+          "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-dc1f31f1af0b355c-role4-england-decision-before-space.g2core",
+          "readback": ".cache/400-roles34/readback/t131-dc1f31f1af0b355c-role4-england-decision-before-space.g2core"
+        },
+        {
+          "step": 2,
+          "label": "space-pitch-read",
+          "file": "t131-4a956146b9eac9dd-role4-england-space-pitch-read.g2core",
+          "sha256": "4a956146b9eac9dd6774fb249eee49da3eca13f36c5f9accd74205d34bc58982",
+          "bytes": 195604,
+          "site": "0791:CF3A",
+          "kind": "set-piece-pitch",
+          "poll": false,
+          "keys": 56,
+          "keys_sha256": "6d9cc3866fec61362427d471b18feae233c584c196773d752165afb85da1be4b",
+          "raw_row": "search-c9#10",
+          "origin": {
+            "bp": 15928,
+            "return_offset": 28562,
+            "args": [
+              11,
+              4,
+              0
+            ],
+            "raw_args": [
+              11,
+              4,
+              0
+            ]
+          },
+          "frame": {
+            "site": "0791:CF3A",
+            "cpu": "214B:08DD",
+            "ss": 14453,
+            "sp": 15900,
+            "chain": [
+              {
+                "bp": 15918,
+                "parent": 15928,
+                "return_offset": 28020,
+                "return_segment": 64993
+              }
+            ],
+            "role": 4,
+            "side": 0,
+            "country": 9,
+            "country_name": "England",
+            "opponent": 23,
+            "opponent_name": "Portugal",
+            "highlight": 3,
+            "pick": 163,
+            "stored_pick": 163,
+            "eleven": [
+              161,
+              162,
+              163,
+              164,
+              165,
+              166,
+              167,
+              168,
+              169,
+              170,
+              171
+            ],
+            "pick_in_eleven": true,
+            "pick_status": 0,
+            "pick_position": 2,
+            "manager_byte": 129,
+            "minute": 71,
+            "rng_main": 10008,
+            "rng_aux": 5215
+          },
+          "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-4a956146b9eac9dd-role4-england-space-pitch-read.g2core",
+          "readback": ".cache/400-roles34/readback/t131-4a956146b9eac9dd-role4-england-space-pitch-read.g2core"
+        },
+        {
+          "step": 3,
+          "label": "return-back-at-selector",
+          "file": "t131-1e3ecd1594e728b1-role4-england-return-back-at-selector.g2core",
+          "sha256": "1e3ecd1594e728b1115db70c41fbfa3c9e20a5625081a1cb362287ef29a1b97b",
+          "bytes": 189800,
+          "site": "0791:CC54",
+          "kind": "set-piece-select",
+          "poll": true,
+          "keys": 57,
+          "keys_sha256": "411e84632fe66a120fc73cd5362f0cb073b26732aab7ef252f0b022438d6fadc",
+          "raw_row": "search-c9#11",
+          "origin": {
+            "bp": 15928,
+            "return_offset": 28562,
+            "args": [
+              11,
+              4,
+              0
+            ],
+            "raw_args": [
+              11,
+              4,
+              0
+            ]
+          },
+          "frame": {
+            "site": "0791:CC54",
+            "cpu": "214B:0723",
+            "ss": 14453,
+            "sp": 15890,
+            "chain": [
+              {
+                "bp": 15898,
+                "parent": 15918,
+                "return_offset": 52953,
+                "return_segment": 64453
+              },
+              {
+                "bp": 15918,
+                "parent": 15928,
+                "return_offset": 28020,
+                "return_segment": 64993
+              }
+            ],
+            "role": 4,
+            "side": 0,
+            "country": 9,
+            "country_name": "England",
+            "opponent": 23,
+            "opponent_name": "Portugal",
+            "highlight": 3,
+            "pick": 163,
+            "stored_pick": 163,
+            "eleven": [
+              161,
+              162,
+              163,
+              164,
+              165,
+              166,
+              167,
+              168,
+              169,
+              170,
+              171
+            ],
+            "pick_in_eleven": true,
+            "pick_status": 0,
+            "pick_position": 2,
+            "manager_byte": 129,
+            "minute": 71,
+            "rng_main": 10008,
+            "rng_aux": 5215
+          },
+          "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-1e3ecd1594e728b1-role4-england-return-back-at-selector.g2core",
+          "readback": ".cache/400-roles34/readback/t131-1e3ecd1594e728b1-role4-england-return-back-at-selector.g2core"
+        },
+        {
+          "step": 4,
+          "label": "return-accept",
+          "file": "t131-2a70cbc70a9767c4-role4-england-return-accept.g2core",
+          "sha256": "2a70cbc70a9767c4da5f32c08948967c04ab73e26d90ee693b4554a9f8ecf1b5",
+          "bytes": 195716,
+          "site": "0791:93C2",
+          "kind": "match-live",
+          "poll": true,
+          "keys": 58,
+          "keys_sha256": "506cf50212de4f2966653e0d790a5839e77df33b778451feef29d7a6fe6bb127",
+          "raw_row": "search-c9#12",
+          "origin": null,
+          "frame": null,
+          "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-2a70cbc70a9767c4-role4-england-return-accept.g2core",
+          "readback": ".cache/400-roles34/readback/t131-2a70cbc70a9767c4-role4-england-return-accept.g2core"
+        }
+      ]
+    },
+    "role4-albania": {
+      "role": 4,
+      "attempt": "search-c1",
+      "round": 3,
+      "run_index": 2922,
+      "inputs": [
+        {
+          "step": 0,
+          "label": "preceding-wait",
+          "file": "t131-4c28a1087379994d-role4-albania-preceding-wait.g2core",
+          "sha256": "4c28a1087379994d04a5630cea948966a388f07ff6c51d4a77fc45cd9190bc16",
+          "bytes": 193970,
+          "site": "0791:CC54",
+          "kind": "substitution-notice",
+          "poll": true,
+          "keys": 57,
+          "keys_sha256": "a40eda6a00e1554a34faab188c770842eb0ec12895b3c223603dce3eafd0c078",
+          "raw_row": "preceding-c1#1",
+          "origin": null,
+          "frame": null,
+          "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-4c28a1087379994d-role4-albania-preceding-wait.g2core",
+          "readback": ".cache/400-roles34/readback/t131-4c28a1087379994d-role4-albania-preceding-wait.g2core"
+        },
+        {
+          "step": 1,
+          "label": "decision-before-space",
+          "file": "t131-b2221e9c681dec5a-role4-albania-decision-before-space.g2core",
+          "sha256": "b2221e9c681dec5a4aa257f795922ecafc7df7e105cde6c7599b0de6ed60d439",
+          "bytes": 194867,
+          "site": "0791:CC54",
+          "kind": "set-piece-select",
+          "poll": true,
+          "keys": 57,
+          "keys_sha256": "a40eda6a00e1554a34faab188c770842eb0ec12895b3c223603dce3eafd0c078",
+          "raw_row": "search-c1#12",
+          "origin": {
+            "bp": 15918,
+            "return_offset": 28562,
+            "args": [
+              11,
+              4,
+              1
+            ],
+            "raw_args": [
+              11,
+              4,
+              1
+            ]
+          },
+          "frame": {
+            "site": "0791:CC54",
+            "cpu": "214B:0723",
+            "ss": 14453,
+            "sp": 15880,
+            "chain": [
+              {
+                "bp": 15888,
+                "parent": 15908,
+                "return_offset": 52953,
+                "return_segment": 64453
+              },
+              {
+                "bp": 15908,
+                "parent": 15918,
+                "return_offset": 28020,
+                "return_segment": 63457
+              }
+            ],
+            "role": 4,
+            "side": 1,
+            "country": 1,
+            "country_name": "Albania",
+            "opponent": 5,
+            "opponent_name": "Cyprus",
+            "highlight": 10,
+            "pick": 10,
+            "stored_pick": 10,
+            "eleven": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ],
+            "pick_in_eleven": true,
+            "pick_status": 0,
+            "pick_position": 13,
+            "manager_byte": 129,
+            "minute": 58,
+            "rng_main": 58884,
+            "rng_aux": 5215
+          },
+          "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-b2221e9c681dec5a-role4-albania-decision-before-space.g2core",
+          "readback": ".cache/400-roles34/readback/t131-b2221e9c681dec5a-role4-albania-decision-before-space.g2core"
+        },
+        {
+          "step": 2,
+          "label": "space-pitch-read",
+          "file": "t131-8e0fd565b24f9925-role4-albania-space-pitch-read.g2core",
+          "sha256": "8e0fd565b24f992554ab7a3478087303c2837f37c71a828d938518dc506c9bd6",
+          "bytes": 195099,
+          "site": "0791:CF3A",
+          "kind": "set-piece-pitch",
+          "poll": false,
+          "keys": 58,
+          "keys_sha256": "b9e230107f219cceb138193de4ab4ae2ca8e49e5ac3721d1c694a5a5f180a62f",
+          "raw_row": "search-c1#13",
+          "origin": {
+            "bp": 15918,
+            "return_offset": 28562,
+            "args": [
+              11,
+              4,
+              1
+            ],
+            "raw_args": [
+              11,
+              4,
+              1
+            ]
+          },
+          "frame": {
+            "site": "0791:CF3A",
+            "cpu": "214B:08DD",
+            "ss": 14453,
+            "sp": 15890,
+            "chain": [
+              {
+                "bp": 15908,
+                "parent": 15918,
+                "return_offset": 28020,
+                "return_segment": 63457
+              }
+            ],
+            "role": 4,
+            "side": 1,
+            "country": 1,
+            "country_name": "Albania",
+            "opponent": 5,
+            "opponent_name": "Cyprus",
+            "highlight": 10,
+            "pick": 10,
+            "stored_pick": 10,
+            "eleven": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ],
+            "pick_in_eleven": true,
+            "pick_status": 0,
+            "pick_position": 13,
+            "manager_byte": 129,
+            "minute": 58,
+            "rng_main": 58884,
+            "rng_aux": 5215
+          },
+          "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-8e0fd565b24f9925-role4-albania-space-pitch-read.g2core",
+          "readback": ".cache/400-roles34/readback/t131-8e0fd565b24f9925-role4-albania-space-pitch-read.g2core"
+        },
+        {
+          "step": 3,
+          "label": "return-back-at-selector",
+          "file": "t131-4b08af6a0b187a42-role4-albania-return-back-at-selector.g2core",
+          "sha256": "4b08af6a0b187a422e3f6361a13809b26495c0607379088e8b9f88c9fcc599c3",
+          "bytes": 189248,
+          "site": "0791:CC54",
+          "kind": "set-piece-select",
+          "poll": true,
+          "keys": 59,
+          "keys_sha256": "572f08442264d50155f8642b1f57a6149911cfad73856759ffa7b044defdf08c",
+          "raw_row": "search-c1#14",
+          "origin": {
+            "bp": 15918,
+            "return_offset": 28562,
+            "args": [
+              11,
+              4,
+              1
+            ],
+            "raw_args": [
+              11,
+              4,
+              1
+            ]
+          },
+          "frame": {
+            "site": "0791:CC54",
+            "cpu": "214B:0723",
+            "ss": 14453,
+            "sp": 15880,
+            "chain": [
+              {
+                "bp": 15888,
+                "parent": 15908,
+                "return_offset": 52953,
+                "return_segment": 64453
+              },
+              {
+                "bp": 15908,
+                "parent": 15918,
+                "return_offset": 28020,
+                "return_segment": 63457
+              }
+            ],
+            "role": 4,
+            "side": 1,
+            "country": 1,
+            "country_name": "Albania",
+            "opponent": 5,
+            "opponent_name": "Cyprus",
+            "highlight": 10,
+            "pick": 10,
+            "stored_pick": 10,
+            "eleven": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ],
+            "pick_in_eleven": true,
+            "pick_status": 0,
+            "pick_position": 13,
+            "manager_byte": 129,
+            "minute": 58,
+            "rng_main": 58884,
+            "rng_aux": 5215
+          },
+          "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-4b08af6a0b187a42-role4-albania-return-back-at-selector.g2core",
+          "readback": ".cache/400-roles34/readback/t131-4b08af6a0b187a42-role4-albania-return-back-at-selector.g2core"
+        },
+        {
+          "step": 4,
+          "label": "return-accept",
+          "file": "t131-4a78a12771878a30-role4-albania-return-accept.g2core",
+          "sha256": "4a78a12771878a3022f324e12a347c20c8d692f4236be9b425746f173ad28055",
+          "bytes": 195161,
+          "site": "0791:93C2",
+          "kind": "match-live",
+          "poll": true,
+          "keys": 60,
+          "keys_sha256": "884619649c039b627f1532d17fb430a6b4db1ea58aaed40e55ce8779ad771b8a",
+          "raw_row": "search-c1#15",
+          "origin": null,
+          "frame": null,
+          "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-4a78a12771878a30-role4-albania-return-accept.g2core",
+          "readback": ".cache/400-roles34/readback/t131-4a78a12771878a30-role4-albania-return-accept.g2core"
+        }
+      ]
+    }
+  },
+  "unchanged_core_stop": {
+    "role3": {
+      "step": 0,
+      "label": "unchanged-core-stop",
+      "file": "t131-eefc6f7f20e42e0c-role3-unchanged-core-stop.ucstate",
+      "sha256": "eefc6f7f20e42e0cb8514179b0d446acb47ea1a1835f367a2deb35a153180344",
+      "bytes": 162660,
+      "site": "0791:CC54",
+      "kind": null,
+      "poll": null,
+      "keys": 123,
+      "keys_sha256": "c50c8ddd42bf822acc1b005d51907103c19874e9de691dc44798c098ab3589d5",
+      "raw_row": "stop-r1#1",
+      "origin": {
+        "bp": 15940,
+        "return_offset": 28399,
+        "args": [
+          10,
+          3,
+          1
+        ],
+        "raw_args": [
+          10,
+          3,
+          1
+        ]
+      },
+      "frame": {
+        "site": "0791:CC54",
+        "cpu": "214B:0723",
+        "ss": 14453,
+        "sp": 15902,
+        "chain": [
+          {
+            "bp": 15910,
+            "parent": 15930,
+            "return_offset": 52953,
+            "return_segment": 64453
+          },
+          {
+            "bp": 15930,
+            "parent": 15940,
+            "return_offset": 28020,
+            "return_segment": 64736
+          }
+        ],
+        "role": 3,
+        "side": 1,
+        "country": 7,
+        "country_name": "Denmark",
+        "opponent": 9,
+        "opponent_name": "England",
+        "highlight": 11,
+        "pick": 131,
+        "stored_pick": 131,
+        "eleven": [
+          121,
+          122,
+          123,
+          125,
+          135,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131
+        ],
+        "pick_in_eleven": true,
+        "pick_status": 0,
+        "pick_position": 13,
+        "manager_byte": 129,
+        "minute": 33,
+        "rng_main": 10546,
+        "rng_aux": 5215
+      },
+      "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-eefc6f7f20e42e0c-role3-unchanged-core-stop.ucstate",
+      "readback": ".cache/400-roles34/readback/t131-eefc6f7f20e42e0c-role3-unchanged-core-stop.ucstate"
+    },
+    "role4-england": {
+      "step": 0,
+      "label": "unchanged-core-stop",
+      "file": "t131-66fc1c8b291fb9ca-role4-england-unchanged-core-stop.ucstate",
+      "sha256": "66fc1c8b291fb9ca34ec07885c93ab6bdee2da64651316c6995b5de2e05133dc",
+      "bytes": 159935,
+      "site": "0791:CC54",
+      "kind": null,
+      "poll": null,
+      "keys": 55,
+      "keys_sha256": "2199a51134d09834c808789cd30c4bc43e689c692008f6dbf7e8ecc087b47850",
+      "raw_row": "stop-c9#1",
+      "origin": {
+        "bp": 15928,
+        "return_offset": 28562,
+        "args": [
+          11,
+          4,
+          0
+        ],
+        "raw_args": [
+          11,
+          4,
+          0
+        ]
+      },
+      "frame": {
+        "site": "0791:CC54",
+        "cpu": "214B:0723",
+        "ss": 14453,
+        "sp": 15890,
+        "chain": [
+          {
+            "bp": 15898,
+            "parent": 15918,
+            "return_offset": 52953,
+            "return_segment": 64453
+          },
+          {
+            "bp": 15918,
+            "parent": 15928,
+            "return_offset": 28020,
+            "return_segment": 64993
+          }
+        ],
+        "role": 4,
+        "side": 0,
+        "country": 9,
+        "country_name": "England",
+        "opponent": 23,
+        "opponent_name": "Portugal",
+        "highlight": 3,
+        "pick": 163,
+        "stored_pick": 163,
+        "eleven": [
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171
+        ],
+        "pick_in_eleven": true,
+        "pick_status": 0,
+        "pick_position": 2,
+        "manager_byte": 129,
+        "minute": 71,
+        "rng_main": 10008,
+        "rng_aux": 5215
+      },
+      "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-66fc1c8b291fb9ca-role4-england-unchanged-core-stop.ucstate",
+      "readback": ".cache/400-roles34/readback/t131-66fc1c8b291fb9ca-role4-england-unchanged-core-stop.ucstate"
+    }
+  },
+  "albania_first_stop": {
+    "step": 0,
+    "label": "unchanged-core-first-stop",
+    "file": "t131-9c7f10f596f62988-albania-career-unchanged-core-first-stop.ucstate",
+    "sha256": "9c7f10f596f629884092f26af899a7bb5e3df01b443726076254381fc3127548",
+    "bytes": 159156,
+    "site": "0791:CC54",
+    "kind": null,
+    "poll": null,
+    "keys": 54,
+    "keys_sha256": "46ce2c8f1c26d7cc81239508441c1f62ae7f0043dfe5f73d37823453bc5d5fc5",
+    "raw_row": "stop-c1#1",
+    "origin": {
+      "bp": 15940,
+      "return_offset": 28399,
+      "args": [
+        10,
+        3,
+        1
+      ],
+      "raw_args": [
+        10,
+        3,
+        1
+      ]
+    },
+    "frame": {
+      "site": "0791:CC54",
+      "cpu": "214B:0723",
+      "ss": 14453,
+      "sp": 15902,
+      "chain": [
+        {
+          "bp": 15910,
+          "parent": 15930,
+          "return_offset": 52953,
+          "return_segment": 64453
+        },
+        {
+          "bp": 15930,
+          "parent": 15940,
+          "return_offset": 28020,
+          "return_segment": 63456
+        }
+      ],
+      "role": 3,
+      "side": 1,
+      "country": 1,
+      "country_name": "Albania",
+      "opponent": 5,
+      "opponent_name": "Cyprus",
+      "highlight": 10,
+      "pick": 10,
+      "stored_pick": 10,
+      "eleven": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "pick_in_eleven": true,
+      "pick_status": 0,
+      "pick_position": 13,
+      "manager_byte": 129,
+      "minute": 13,
+      "rng_main": 40861,
+      "rng_aux": 5215
+    },
+    "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-9c7f10f596f62988-albania-career-unchanged-core-first-stop.ucstate",
+    "readback": ".cache/400-roles34/readback/t131-9c7f10f596f62988-albania-career-unchanged-core-first-stop.ucstate"
+  },
+  "prompts": {
+    "managed_matches": 33,
+    "taker_prompts_by_role": {
+      "5": 27,
+      "2": 14,
+      "3": 3,
+      "4": 2
+    },
+    "note": "first prompt of each round, role, side and minute; reach-r1 plays rounds 1-6 with the unchanged Core, which stops at any role 3/4 prompt and met none"
+  },
+  "package": {
+    "file": "t131-all-attempts-private.zip",
+    "sha256": "9bbf2b0d8727238bafe9fc0a7c07184d4825cb20f3687290dfdeb018cd285fe4",
+    "bytes": 14826593,
+    "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-all-attempts-private.zip",
+    "readback": ".cache/400-roles34/readback/t131-all-attempts-private.zip"
+  }
+}

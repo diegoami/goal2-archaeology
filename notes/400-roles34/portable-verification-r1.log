@@ -1,0 +1,26 @@
+# T131 portable verification: fresh clone of task/T131-taker-roles-3-4 at 7861b9b5fba7267b095f218146fe3872f36dd713, 2026-11-09T19:06:19Z
+$ git -C <goal2 clone> archive 42c25412a81a397cb40ed28ba54bca7c688d8b07 goal2 | tar -x -C .cache/400-roles34/core-source
+$ rclone copy goal2drive:goal2-archaeology/400-roles34-20261109 .cache/400-roles34/readback
+$ unzip -n .cache/400-roles34/readback/t131-all-attempts-private.zip -d .
+$ python3 notes/400-roles34/verify.py
+PASS: 15 attempts pinned to their collector commits; 71 kept states re-derived; cases ['role3', 'role4-albania', 'role4-england'] reached by original keys, CC7B's caller 6D4E confirms penalty (6EEF) and free kick (6F92); unchanged Core stops at the decision machine for role 3 and England's role 4; all private readbacks verified
+$ python3 -B -m unittest tests.test_taker_checkpoints_t131 -v
+test_no_collector_writes_guest_memory_or_registers_or_moves_the_cpu (tests.test_taker_checkpoints_t131.Collector.test_no_collector_writes_guest_memory_or_registers_or_moves_the_cpu) ... ok
+test_the_only_host_adapter_is_a_screen_label_for_roles_3_and_4 (tests.test_taker_checkpoints_t131.Collector.test_the_only_host_adapter_is_a_screen_label_for_roles_3_and_4) ... ok
+test_every_state_derives_to_its_manifest_frame_and_origin (tests.test_taker_checkpoints_t131.KeptBytes.test_every_state_derives_to_its_manifest_frame_and_origin) ... ok
+test_the_accepted_pick_is_the_one_the_original_stored (tests.test_taker_checkpoints_t131.KeptBytes.test_the_accepted_pick_is_the_one_the_original_stored) ... ok
+test_the_role_byte_in_the_kept_memory_is_the_roles_and_not_forced (tests.test_taker_checkpoints_t131.KeptBytes.test_the_role_byte_in_the_kept_memory_is_the_roles_and_not_forced) ... ok
+test_the_unchanged_core_stop_is_the_decision_machine (tests.test_taker_checkpoints_t131.KeptBytes.test_the_unchanged_core_stop_is_the_decision_machine) ... ok
+test_both_roles_are_covered_and_nothing_remains (tests.test_taker_checkpoints_t131.Manifest.test_both_roles_are_covered_and_nothing_remains) ... ok
+test_each_case_has_the_inputs_item_1_names_in_order (tests.test_taker_checkpoints_t131.Manifest.test_each_case_has_the_inputs_item_1_names_in_order) ... ok
+test_the_board_read_and_the_return_keep_the_same_decision (tests.test_taker_checkpoints_t131.Manifest.test_the_board_read_and_the_return_keep_the_same_decision) ... ok
+test_the_decision_frame_is_the_role_asked_for_and_not_a_captain (tests.test_taker_checkpoints_t131.Manifest.test_the_decision_frame_is_the_role_asked_for_and_not_a_captain) ... ok
+test_the_hashes_are_whole_and_name_the_files (tests.test_taker_checkpoints_t131.Manifest.test_the_hashes_are_whole_and_name_the_files) ... ok
+test_the_keys_are_the_originals_and_each_step_adds_its_one (tests.test_taker_checkpoints_t131.Manifest.test_the_keys_are_the_originals_and_each_step_adds_its_one) ... ok
+test_the_unchanged_core_stops_at_the_decision_it_has_no_entry_for (tests.test_taker_checkpoints_t131.Manifest.test_the_unchanged_core_stops_at_the_decision_it_has_no_entry_for) ... ok
+test_what_was_met_is_recorded_with_the_search_that_found_it (tests.test_taker_checkpoints_t131.Manifest.test_what_was_met_is_recorded_with_the_search_that_found_it) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.349s
+
+OK

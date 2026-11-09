@@ -1,0 +1,64 @@
+{
+  "attempt": "search-c1",
+  "kind": "search",
+  "head": "3e646fee69b2f11cb356f1d3af19f444cc8ad490",
+  "collector_sha256": "b6eadebbc2b4917f97e37b37a17a4374149cfb554a6ddc158e6af107718fe741",
+  "frames_sha256": "46198d2f73cf130d8f7fc242c70c8b1aa8f77b0aacabd6d9ffeb448ced777d1a",
+  "core_source_commit": "42c25412a81a397cb40ed28ba54bca7c688d8b07",
+  "core_tree_sha256": "f84cb2ad14e6749039f9a7b3aa4b66798688d3561730b90290122f7a4fe8686b",
+  "date_call_sha256": "0d9c683023c7327f17bfc29900f2eff4e703641d21d3f353693f09654688494b",
+  "goal_dat_sha256": "bc5e5c04434d31f350eb7803afc3810333393e049d50dde559797a5b068c60ca",
+  "python": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]",
+  "bound_s": 14400,
+  "status": "roles [4] captured",
+  "method": "Unchanged Core.boot/load/press and the season oracle; read-only observations; no guest write, register edit or CPU move",
+  "want_roles": [
+    4
+  ],
+  "menu": {
+    "file": ".cache/400-roles34/start-c1/start.g2core",
+    "sha256": "9b3df9d73550b4045645eb1e70a313188c351392a777fc7ca1fc7f8445fb7637"
+  },
+  "first_round": 1,
+  "max_round": 45,
+  "adapter": "screens._taker also labels CC7B roles 3 and 4 TAKER_SELECT (host label only)",
+  "unicorn": "2.1.4",
+  "captured": {
+    "4": {
+      "decision": {
+        "n": 12,
+        "state": {
+          "file": ".cache/400-roles34/search-c1/012-role4-decision-before-space.g2core",
+          "sha256": "b2221e9c681dec5a4aa257f795922ecafc7df7e105cde6c7599b0de6ed60d439",
+          "bytes": 194867
+        }
+      },
+      "space-pitch-read": {
+        "n": 13,
+        "state": {
+          "file": ".cache/400-roles34/search-c1/013-role4-space-pitch-read.g2core",
+          "sha256": "8e0fd565b24f992554ab7a3478087303c2837f37c71a828d938518dc506c9bd6",
+          "bytes": 195099
+        }
+      },
+      "return-back-at-selector": {
+        "n": 14,
+        "state": {
+          "file": ".cache/400-roles34/search-c1/014-role4-return-back-at-selector.g2core",
+          "sha256": "4b08af6a0b187a422e3f6361a13809b26495c0607379088e8b9f88c9fcc599c3",
+          "bytes": 189248
+        }
+      },
+      "return-accept": {
+        "n": 15,
+        "state": {
+          "file": ".cache/400-roles34/search-c1/015-role4-return-accept.g2core",
+          "sha256": "4a78a12771878a3022f324e12a347c20c8d692f4236be9b425746f173ad28055",
+          "bytes": 195161
+        }
+      }
+    }
+  },
+  "elapsed_s": 1215.0013174660016,
+  "observations": 17
+}
