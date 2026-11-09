@@ -1,0 +1,23 @@
+test_a_press_that_replaces_a_retiree_ends_without_play_round (tests.test_play_action_entry.Controls.test_a_press_that_replaces_a_retiree_ends_without_play_round) ... ok
+test_an_image_that_is_not_the_registered_build_is_refused_for_the_new_entry_too (tests.test_play_action_entry.Controls.test_an_image_that_is_not_the_registered_build_is_refused_for_the_new_entry_too) ... ok
+test_an_unknown_entry_is_refused_before_anything_is_made (tests.test_play_action_entry.Controls.test_an_unknown_entry_is_refused_before_anything_is_made) ... ok
+test_at_a_rounds_end_the_press_leaves_the_memory_play_round_leaves (tests.test_play_action_entry.Controls.test_at_a_rounds_end_the_press_leaves_the_memory_play_round_leaves) ... ok
+test_constructing_writes_nothing_and_the_image_is_untouched (tests.test_play_action_entry.Controls.test_constructing_writes_nothing_and_the_image_is_untouched) ... ok
+test_one_press_decides_in_the_original_order (tests.test_play_action_entry.Controls.test_one_press_decides_in_the_original_order) ... ok
+test_play_round_and_route_fixture_keep_their_frames_and_the_stop (tests.test_play_action_entry.Controls.test_play_round_and_route_fixture_keep_their_frames_and_the_stop) ... ok
+test_round_takes_the_new_entry_and_still_refuses_route_fixture (tests.test_play_action_entry.Controls.test_round_takes_the_new_entry_and_still_refuses_route_fixture) ... ok
+test_the_entry_is_accepted_and_the_set_keeps_its_order (tests.test_play_action_entry.Controls.test_the_entry_is_accepted_and_the_set_keeps_its_order) ... ok
+test_the_existing_entries_sites_stacks_and_returns_are_the_published_ones (tests.test_play_action_entry.Controls.test_the_existing_entries_sites_stacks_and_returns_are_the_published_ones) ... ok
+test_the_harness_hooks_no_routine_of_the_pre_step (tests.test_play_action_entry.Controls.test_the_harness_hooks_no_routine_of_the_pre_step) ... ok
+test_the_harness_makes_the_one_local_the_branch_reads (tests.test_play_action_entry.Controls.test_the_harness_makes_the_one_local_the_branch_reads)
+[bp-6] is 7440-7447's copy of DS:A923: with the stack word cleared in the image, the press still finds the ... ok
+test_the_next_press_plays_because_the_original_says_so (tests.test_play_action_entry.Controls.test_the_next_press_plays_because_the_original_says_so) ... ok
+test_the_play_action_reaches_play_round_in_play_rounds_own_frame (tests.test_play_action_entry.Controls.test_the_play_action_reaches_play_round_in_play_rounds_own_frame) ... ok
+test_the_port_has_no_pre_step (tests.test_play_action_entry.PortGap.test_the_port_has_no_pre_step)
+Records the gap Done-when 2 meets: no registered port covers these, so the sealed route (PortMachine, which ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 12.265s
+
+OK
+exit 0

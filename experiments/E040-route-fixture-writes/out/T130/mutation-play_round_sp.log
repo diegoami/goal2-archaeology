@@ -1,0 +1,57 @@
+...F..F..F....
+======================================================================
+FAIL: test_at_a_rounds_end_the_press_leaves_the_memory_play_round_leaves (tests.test_play_action_entry.Controls.test_at_a_rounds_end_the_press_leaves_the_memory_play_round_leaves)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 241, in test_at_a_rounds_end_the_press_leaves_the_memory_play_round_leaves
+    self.assertEqual(a.m.read(0, MEM_SIZE), b.m.read(0, MEM_SIZE))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: b'\xc[783020 chars]0\x00W\x041\x08P\x00}8u8\x177u8\x00\x14    CHA[3339379 chars]\x00' != b'\xc[783020 chars]0\x00\x00\x00W\x041\x08P\x00\x7f8u8\x197u8\x00[3339402 chars]\x00'
+
+======================================================================
+FAIL: test_play_round_and_route_fixture_keep_their_frames_and_the_stop (tests.test_play_action_entry.Controls.test_play_round_and_route_fixture_keep_their_frames_and_the_stop)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 143, in test_play_round_and_route_fixture_keep_their_frames_and_the_stop
+    self.assertEqual(seen["70D1"], (0x3EE2, 0x3EEA, 0x3FF6, 0x77C2, 1))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (16096, 16104, 30658, 1, 1) != (16098, 16106, 16374, 30658, 1)
+
+First differing element 0:
+16096
+16098
+
+- (16096, 16104, 30658, 1, 1)
+?      ^                ---
+
++ (16098, 16106, 16374, 30658, 1)
+?      ^      +++++++
+
+
+======================================================================
+FAIL: test_the_existing_entries_sites_stacks_and_returns_are_the_published_ones (tests.test_play_action_entry.Controls.test_the_existing_entries_sites_stacks_and_returns_are_the_published_ones)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 113, in test_the_existing_entries_sites_stacks_and_returns_are_the_published_ones
+    self.assertEqual((R.PLAY_ROUND, R.ROUND_CALLER, R.ROUND_RETURN, R.ROUND_SP, R.MENU_BP, R.ROUND_END),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     ("000E:70B9", "000E:77BF", "000E:77C2", 0x3EEC, 0x3FF6, "000E:70E6"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: ('000E:70B9', '000E:77BF', '000E:77C2', 16106, 16374, '000E:70E6') != ('000E:70B9', '000E:77BF', '000E:77C2', 16108, 16374, '000E:70E6')
+
+First differing element 3:
+16106
+16108
+
+- ('000E:70B9', '000E:77BF', '000E:77C2', 16106, 16374, '000E:70E6')
+?                                             ^
+
++ ('000E:70B9', '000E:77BF', '000E:77C2', 16108, 16374, '000E:70E6')
+?                                             ^
+
+
+----------------------------------------------------------------------
+Ran 14 tests in 8.048s
+
+FAILED (failures=3)
+exit 1
