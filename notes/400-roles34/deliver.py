@@ -28,8 +28,12 @@ def item(row,tag,role,step,preceding=None):
     return out
 
 def main():
-    search=rows('search-r1');rec=record('search-r1')
-    for r in search:r['_attempt']='search-r1'
+    names=[n for n in ('search-r1','search-r2') if (NOTES/n/'record.json').exists()]
+    search=[];recs={}
+    for n in names:
+        recs[n]=record(n)
+        for r in rows(n):r['_attempt']=n;search.append(r)
+    rec=recs[names[-1]]
     prec=rows('preceding-r1')
     for r in prec:r['_attempt']='preceding-r1'
     stop=rows('stop-r1')
@@ -58,11 +62,11 @@ def main():
         (NOTES/f'keys-role{role}.json').write_text(json.dumps(dict(role=role,keys=meta['keys'],count=len(meta['keys']),sha256=sha(bytes(meta['keys']))))+'\n')
     delivery=dict(schema='T131-original-inputs/1',covered_roles=[int(r) for r in roles],
                   remaining=[f'role{r}_{n}' for r,n in ((3,'penalty'),(4,'free_kick')) if str(r) not in roles],
-                  search_status=rec.get('status'),search_bound=dict(bound_s=rec.get('bound_s'),max_round=rec.get('max_round')),
+                  search_status=rec.get('status'),search_bound=dict(bound_s=sum(recs[n]['bound_s'] for n in names),max_round=max(recs[n]['max_round'] for n in names)),
                   core=dict(commit=reach['core_source_commit'],tree_sha256=reach['core_tree_sha256']),
                   source=dict(date_call_sha256=reach['date_call_sha256'],goal_dat_sha256=reach['goal_dat_sha256'],
                               private='goal2drive:e039-r0005-date-call.sav'),
-                  menu=search[0]['state'] and rec['menu'],roles=roles,unchanged_core_stop=unchanged)
+                  searches={n:dict(status=recs[n].get('status'),error=recs[n].get('error'),bound_s=recs[n]['bound_s'],first_round=recs[n]['first_round'],max_round=recs[n]['max_round'],want=recs[n].get('want_roles',[3,4]),elapsed_s=round(recs[n]['elapsed_s'],1),menu=recs[n]['menu']) for n in names},roles=roles,unchanged_core_stop=unchanged)
     (NOTES/'delivery.json').write_text(json.dumps(delivery,indent=2)+'\n')
     print(json.dumps({r:[x['file'] for x in e['inputs']] for r,e in roles.items()},indent=1))
 

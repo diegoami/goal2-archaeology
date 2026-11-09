@@ -9,6 +9,8 @@ Sub-commands (each writes a new folder notes/400-roles34/<name>/, never overwrit
   search NAME MENU ROUND SHA BOUND_S MAXROUND
                   From a kept manager menu play the rounds as the season oracle does (taker prompts answered by the
                   original's timer) and, at the first role 3 and the first role 4 taker decision, keep it and branch.
+  start NAME COUNTRY
+                  The original's new game for another country, kept at its first manager menu.
   stop NAME MENU ROUND SHA
                   Play one round from a kept menu with the unchanged Core and keep the machine where it stops.
   preceding NAME MENU ROUND SHA RUN
@@ -94,9 +96,10 @@ def adapt():
         return original(f,bp)
     screens._taker=taker
 
-def build_start():
+def build_start(country=None):
+    country=int(DENMARK) if country is None else int(country)
     wait=Core.boot(DATE_CALL.read_bytes(),BOOT_DATE,dos_time=BOOT_TIME,goal_dat=GOAL_DAT,title_key='n')
-    driver=Driver(wait.core);driver.new_game(int(DENMARK),MANAGER)
+    driver=Driver(wait.core);driver.new_game(country,MANAGER)
     assert driver.wait.kind=='manager-menu'
     return driver.core.save(),len(driver.core.keys)
 
@@ -180,6 +183,19 @@ def reach(name):
             if got[0].kind=='deferred-rollover':run.rec['status']='season ended';break
             current=cores[-1].save()
     except SystemExit:pass
+    except BaseException as e:
+        run.rec['error']=repr(e);print(repr(e),flush=True)
+    finally:run.finish()
+
+def start(name,country):
+    """The original's own new game for another country, by T170e's boot, kept at its first manager menu (a start for
+    `search`: the role 4 search over a second and third career, search-r1/r2 having played Denmark's season through)."""
+    load_core()
+    run=Run(name,300,'start',country=int(country),boot=dict(date=BOOT_DATE,dos_time=BOOT_TIME,country=int(country),manager=MANAGER,title_key='n'))
+    try:
+        blob,nkeys=build_start(country)
+        run.row(label='start',kind='manager-menu',keys=nkeys,state=run.keep('start.g2core',blob))
+        run.rec['status']='kept'
     except BaseException as e:
         run.rec['error']=repr(e);print(repr(e),flush=True)
     finally:run.finish()
@@ -309,4 +325,4 @@ def preceding(name,menu,number,menu_sha,run_index):
 
 if __name__=='__main__':
     cmd,*args=sys.argv[1:]
-    {'reach':reach,'stop':stop,'search':search,'preceding':preceding}[cmd](*args)
+    {'reach':reach,'start':start,'stop':stop,'search':search,'preceding':preceding}[cmd](*args)
