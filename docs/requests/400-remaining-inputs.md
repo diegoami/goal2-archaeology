@@ -7,6 +7,8 @@ The [supplemental original-key E19F input](400-nice-try.md) also captures “Nic
 closer T114 stoppage checkpoint identified in a newer #400 comment. The raw records were committed before this interpretation. Findings F029/F030 retain their
 existing status; this collection establishes no new general game rule.
 
+[T131](400-roles34.md) later adds the role 3 penalty taker beside this role 2 and T89's role 5; role 4 remains unreached.
+
 ## Private inputs
 
 Use the owner's [private delivery folder](https://drive.google.com/drive/folders/1a9afcTH1f_tFDgJ1OOgbH7Bzfy_gea0h),
