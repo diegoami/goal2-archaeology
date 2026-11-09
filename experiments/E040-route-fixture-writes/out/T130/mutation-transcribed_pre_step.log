@@ -1,0 +1,97 @@
+F....F....F.F.
+======================================================================
+FAIL: test_a_press_that_replaces_a_retiree_ends_without_play_round (tests.test_play_action_entry.Controls.test_a_press_that_replaces_a_retiree_ends_without_play_round)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 206, in test_a_press_that_replaces_a_retiree_ends_without_play_round
+    self.assertEqual([e for e in r.record if e[0] == "action"], [("action", "retirements", 1)])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [('action', 'retirements2'), ('action', 'retirements', 1)] != [('action', 'retirements', 1)]
+
+First differing element 0:
+('action', 'retirements2')
+('action', 'retirements', 1)
+
+First list contains 1 additional elements.
+First extra element 1:
+('action', 'retirements', 1)
+
+- [('action', 'retirements2'), ('action', 'retirements', 1)]
++ [('action', 'retirements', 1)]
+
+======================================================================
+FAIL: test_one_press_decides_in_the_original_order (tests.test_play_action_entry.Controls.test_one_press_decides_in_the_original_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 172, in test_one_press_decides_in_the_original_order
+    self.assertEqual([e for e in r.record if e[0] == "action"],
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     [("action", "retirements", 0), ("action", "finals_news", 0), ("action", "play_round")])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [('ac[14 chars]ments2'), ('action', 'retirements', 0), ('acti[44 chars]nd')] != [('ac[14 chars]ments', 0), ('action', 'finals_news', 0), ('ac[16 chars]nd')]
+
+First differing element 0:
+('action', 'retirements2')
+('action', 'retirements', 0)
+
+First list contains 1 additional elements.
+First extra element 3:
+('action', 'play_round')
+
+- [('action', 'retirements2'),
+-  ('action', 'retirements', 0),
+? ^
+
++ [('action', 'retirements', 0),
+? ^
+
+   ('action', 'finals_news', 0),
+   ('action', 'play_round')]
+
+======================================================================
+FAIL: test_the_harness_hooks_no_routine_of_the_pre_step (tests.test_play_action_entry.Controls.test_the_harness_hooks_no_routine_of_the_pre_step)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 161, in test_the_harness_hooks_no_routine_of_the_pre_step
+    self.assertNotIn(r.m.lin(site), hooked, site)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 56053 unexpectedly found in {171523, 35078, 61992, 64207, 64212, 56053, 62454, 64152, 64188, 171965} : 000E:57E5
+
+======================================================================
+FAIL: test_the_next_press_plays_because_the_original_says_so (tests.test_play_action_entry.Controls.test_the_next_press_plays_because_the_original_says_so)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 225, in test_the_next_press_plays_because_the_original_says_so
+    self.assertEqual([e for e in r.record if e[0] == "action"],
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     [("action", "retirements", 1),
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      ("action", "retirements", 0), ("action", "finals_news", 0), ("action", "play_round")])
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [('ac[14 chars]ments2'), ('action', 'retirements', 1), ('acti[102 chars]nd')] != [('ac[14 chars]ments', 1), ('action', 'retirements', 0), ('ac[46 chars]nd')]
+
+First differing element 0:
+('action', 'retirements2')
+('action', 'retirements', 1)
+
+First list contains 2 additional elements.
+First extra element 4:
+('action', 'finals_news', 0)
+
+- [('action', 'retirements2'),
+-  ('action', 'retirements', 1),
+? ^
+
++ [('action', 'retirements', 1),
+? ^
+
+-  ('action', 'retirements2'),
+   ('action', 'retirements', 0),
+   ('action', 'finals_news', 0),
+   ('action', 'play_round')]
+
+----------------------------------------------------------------------
+Ran 14 tests in 7.930s
+
+FAILED (failures=4)
+exit 1

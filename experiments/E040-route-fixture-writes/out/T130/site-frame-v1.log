@@ -1,0 +1,10 @@
+state e0afff6751747233-e006-1000-r0001.sav
+DS:A923 (offset, segment) 0x6 0x5d67
+SS:3FF0 [bp-6] = di (offset): 0x0006
+SS:3FF2 [bp-4] = es (segment): 0x5d67
+SS:3FF4 [bp-2] loop local: 0x0001
+SS:3FF6 [bp] saved BP: 0x3ffe
+SS:3FF8 return: 0x00cb
+entry: SS = load + 0x3052 = 0x3875 SP 0x3eee BP 0x3ff6 BP-0x108 = 0x3eee CS:IP 000E:772A ends 000E:77CB
+at 70D1 (SP, BP, SS:3EEA, SS:3EEC, [A923]+1): [('0x3ee2', '0x3eea', '0x3ff6', '0x77c2', '0x1')]
+actions: [('action', 'retirements', 0), ('action', 'finals_news', 0), ('action', 'play_round')] return: ('return', '000E:77CB') SP 0x3eee BP 0x3ff6

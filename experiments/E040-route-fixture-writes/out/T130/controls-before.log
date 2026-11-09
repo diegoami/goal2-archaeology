@@ -1,0 +1,252 @@
+test_a_press_that_replaces_a_retiree_ends_without_play_round (tests.test_play_action_entry.Controls.test_a_press_that_replaces_a_retiree_ends_without_play_round) ... ERROR
+test_an_image_that_is_not_the_registered_build_is_refused_for_the_new_entry_too (tests.test_play_action_entry.Controls.test_an_image_that_is_not_the_registered_build_is_refused_for_the_new_entry_too) ... ok
+test_an_unknown_entry_is_refused_before_anything_is_made (tests.test_play_action_entry.Controls.test_an_unknown_entry_is_refused_before_anything_is_made) ... 
+  test_an_unknown_entry_is_refused_before_anything_is_made (tests.test_play_action_entry.Controls.test_an_unknown_entry_is_refused_before_anything_is_made) (entry='main') ... FAIL
+  test_an_unknown_entry_is_refused_before_anything_is_made (tests.test_play_action_entry.Controls.test_an_unknown_entry_is_refused_before_anything_is_made) (entry='play') ... FAIL
+  test_an_unknown_entry_is_refused_before_anything_is_made (tests.test_play_action_entry.Controls.test_an_unknown_entry_is_refused_before_anything_is_made) (entry='PLAY_ACTION') ... FAIL
+  test_an_unknown_entry_is_refused_before_anything_is_made (tests.test_play_action_entry.Controls.test_an_unknown_entry_is_refused_before_anything_is_made) (entry='') ... FAIL
+  test_an_unknown_entry_is_refused_before_anything_is_made (tests.test_play_action_entry.Controls.test_an_unknown_entry_is_refused_before_anything_is_made) (entry=None) ... FAIL
+  test_an_unknown_entry_is_refused_before_anything_is_made (tests.test_play_action_entry.Controls.test_an_unknown_entry_is_refused_before_anything_is_made) (entry='menu_action') ... FAIL
+test_at_a_rounds_end_the_press_leaves_the_memory_play_round_leaves (tests.test_play_action_entry.Controls.test_at_a_rounds_end_the_press_leaves_the_memory_play_round_leaves) ... ERROR
+test_constructing_writes_nothing_and_the_image_is_untouched (tests.test_play_action_entry.Controls.test_constructing_writes_nothing_and_the_image_is_untouched) ... ERROR
+test_one_press_decides_in_the_original_order (tests.test_play_action_entry.Controls.test_one_press_decides_in_the_original_order) ... ERROR
+test_play_round_and_route_fixture_keep_their_frames_and_the_stop (tests.test_play_action_entry.Controls.test_play_round_and_route_fixture_keep_their_frames_and_the_stop) ... ok
+test_round_takes_the_new_entry_and_still_refuses_route_fixture (tests.test_play_action_entry.Controls.test_round_takes_the_new_entry_and_still_refuses_route_fixture) ... ERROR
+test_the_entry_is_accepted_and_the_set_keeps_its_order (tests.test_play_action_entry.Controls.test_the_entry_is_accepted_and_the_set_keeps_its_order) ... FAIL
+test_the_existing_entries_sites_stacks_and_returns_are_the_published_ones (tests.test_play_action_entry.Controls.test_the_existing_entries_sites_stacks_and_returns_are_the_published_ones) ... ERROR
+test_the_harness_hooks_no_routine_of_the_pre_step (tests.test_play_action_entry.Controls.test_the_harness_hooks_no_routine_of_the_pre_step) ... ERROR
+test_the_next_press_plays_because_the_original_says_so (tests.test_play_action_entry.Controls.test_the_next_press_plays_because_the_original_says_so) ... ERROR
+test_the_play_action_reaches_play_round_in_play_rounds_own_frame (tests.test_play_action_entry.Controls.test_the_play_action_reaches_play_round_in_play_rounds_own_frame) ... ERROR
+
+======================================================================
+ERROR: test_a_press_that_replaces_a_retiree_ends_without_play_round (tests.test_play_action_entry.Controls.test_a_press_that_replaces_a_retiree_ends_without_play_round)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 199, in test_a_press_that_replaces_a_retiree_ends_without_play_round
+    r, country, retiree = self._with_a_retiree()
+                          ~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 196, in _with_a_retiree
+    return R.Route(image, entry="play_action"), country, slot0
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/route.py", line 173, in __init__
+    raise ValueError(f"entry {entry!r}: one of {', '.join(ENTRIES)}")
+ValueError: entry 'play_action': one of route_fixture, play_round
+
+======================================================================
+ERROR: test_at_a_rounds_end_the_press_leaves_the_memory_play_round_leaves (tests.test_play_action_entry.Controls.test_at_a_rounds_end_the_press_leaves_the_memory_play_round_leaves)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 239, in test_at_a_rounds_end_the_press_leaves_the_memory_play_round_leaves
+    b = self._at_the_rounds_end(self.route("play_action"))
+                                ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 68, in route
+    return R.Route(self.image(), entry=entry, **kw)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/route.py", line 173, in __init__
+    raise ValueError(f"entry {entry!r}: one of {', '.join(ENTRIES)}")
+ValueError: entry 'play_action': one of route_fixture, play_round
+
+======================================================================
+ERROR: test_constructing_writes_nothing_and_the_image_is_untouched (tests.test_play_action_entry.Controls.test_constructing_writes_nothing_and_the_image_is_untouched)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 96, in test_constructing_writes_nothing_and_the_image_is_untouched
+    r = R.Route(image, entry="play_action")
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/route.py", line 173, in __init__
+    raise ValueError(f"entry {entry!r}: one of {', '.join(ENTRIES)}")
+ValueError: entry 'play_action': one of route_fixture, play_round
+
+======================================================================
+ERROR: test_one_press_decides_in_the_original_order (tests.test_play_action_entry.Controls.test_one_press_decides_in_the_original_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 169, in test_one_press_decides_in_the_original_order
+    r = _stop_at_the_match(self.route("play_action"))
+                           ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 68, in route
+    return R.Route(self.image(), entry=entry, **kw)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/route.py", line 173, in __init__
+    raise ValueError(f"entry {entry!r}: one of {', '.join(ENTRIES)}")
+ValueError: entry 'play_action': one of route_fixture, play_round
+
+======================================================================
+ERROR: test_round_takes_the_new_entry_and_still_refuses_route_fixture (tests.test_play_action_entry.Controls.test_round_takes_the_new_entry_and_still_refuses_route_fixture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 104, in test_round_takes_the_new_entry_and_still_refuses_route_fixture
+    r = self._at_the_rounds_end(self.route("play_action"))
+                                ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 68, in route
+    return R.Route(self.image(), entry=entry, **kw)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/route.py", line 173, in __init__
+    raise ValueError(f"entry {entry!r}: one of {', '.join(ENTRIES)}")
+ValueError: entry 'play_action': one of route_fixture, play_round
+
+======================================================================
+ERROR: test_the_existing_entries_sites_stacks_and_returns_are_the_published_ones (tests.test_play_action_entry.Controls.test_the_existing_entries_sites_stacks_and_returns_are_the_published_ones)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 116, in test_the_existing_entries_sites_stacks_and_returns_are_the_published_ones
+    self.assertEqual((R.ACTION_AT, R.ACTION_END, R.ACTION_SP, R.ACTION_LOCAL),
+                      ^^^^^^^^^^^
+AttributeError: module 'original_match.route' has no attribute 'ACTION_AT'
+
+======================================================================
+ERROR: test_the_harness_hooks_no_routine_of_the_pre_step (tests.test_play_action_entry.Controls.test_the_harness_hooks_no_routine_of_the_pre_step)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 157, in test_the_harness_hooks_no_routine_of_the_pre_step
+    r = self.route("play_action")
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 68, in route
+    return R.Route(self.image(), entry=entry, **kw)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/route.py", line 173, in __init__
+    raise ValueError(f"entry {entry!r}: one of {', '.join(ENTRIES)}")
+ValueError: entry 'play_action': one of route_fixture, play_round
+
+======================================================================
+ERROR: test_the_next_press_plays_because_the_original_says_so (tests.test_play_action_entry.Controls.test_the_next_press_plays_because_the_original_says_so)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 220, in test_the_next_press_plays_because_the_original_says_so
+    r, _, _ = self._with_a_retiree()
+              ~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 196, in _with_a_retiree
+    return R.Route(image, entry="play_action"), country, slot0
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/route.py", line 173, in __init__
+    raise ValueError(f"entry {entry!r}: one of {', '.join(ENTRIES)}")
+ValueError: entry 'play_action': one of route_fixture, play_round
+
+======================================================================
+ERROR: test_the_play_action_reaches_play_round_in_play_rounds_own_frame (tests.test_play_action_entry.Controls.test_the_play_action_reaches_play_round_in_play_rounds_own_frame)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 151, in test_the_play_action_reaches_play_round_in_play_rounds_own_frame
+    r, seen, stop = self._at_the_first_stop("play_action")
+                    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 121, in _at_the_first_stop
+    r = _stop_at_the_match(self.route(entry))
+                           ~~~~~~~~~~^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 68, in route
+    return R.Route(self.image(), entry=entry, **kw)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/runtime/original_match/route.py", line 173, in __init__
+    raise ValueError(f"entry {entry!r}: one of {', '.join(ENTRIES)}")
+ValueError: entry 'play_action': one of route_fixture, play_round
+
+======================================================================
+FAIL: test_an_unknown_entry_is_refused_before_anything_is_made (tests.test_play_action_entry.Controls.test_an_unknown_entry_is_refused_before_anything_is_made) (entry='main')
+----------------------------------------------------------------------
+ValueError: entry 'main': one of route_fixture, play_round
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 80, in test_an_unknown_entry_is_refused_before_anything_is_made
+    with self.subTest(entry=entry), self.assertRaisesRegex(ValueError, "entry .*: one of route_fixture, "
+                                    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                           "play_round, play_action"):
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "entry .*: one of route_fixture, play_round, play_action" does not match "entry 'main': one of route_fixture, play_round"
+
+======================================================================
+FAIL: test_an_unknown_entry_is_refused_before_anything_is_made (tests.test_play_action_entry.Controls.test_an_unknown_entry_is_refused_before_anything_is_made) (entry='play')
+----------------------------------------------------------------------
+ValueError: entry 'play': one of route_fixture, play_round
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 80, in test_an_unknown_entry_is_refused_before_anything_is_made
+    with self.subTest(entry=entry), self.assertRaisesRegex(ValueError, "entry .*: one of route_fixture, "
+                                    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                           "play_round, play_action"):
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "entry .*: one of route_fixture, play_round, play_action" does not match "entry 'play': one of route_fixture, play_round"
+
+======================================================================
+FAIL: test_an_unknown_entry_is_refused_before_anything_is_made (tests.test_play_action_entry.Controls.test_an_unknown_entry_is_refused_before_anything_is_made) (entry='PLAY_ACTION')
+----------------------------------------------------------------------
+ValueError: entry 'PLAY_ACTION': one of route_fixture, play_round
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 80, in test_an_unknown_entry_is_refused_before_anything_is_made
+    with self.subTest(entry=entry), self.assertRaisesRegex(ValueError, "entry .*: one of route_fixture, "
+                                    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                           "play_round, play_action"):
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "entry .*: one of route_fixture, play_round, play_action" does not match "entry 'PLAY_ACTION': one of route_fixture, play_round"
+
+======================================================================
+FAIL: test_an_unknown_entry_is_refused_before_anything_is_made (tests.test_play_action_entry.Controls.test_an_unknown_entry_is_refused_before_anything_is_made) (entry='')
+----------------------------------------------------------------------
+ValueError: entry '': one of route_fixture, play_round
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 80, in test_an_unknown_entry_is_refused_before_anything_is_made
+    with self.subTest(entry=entry), self.assertRaisesRegex(ValueError, "entry .*: one of route_fixture, "
+                                    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                           "play_round, play_action"):
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "entry .*: one of route_fixture, play_round, play_action" does not match "entry '': one of route_fixture, play_round"
+
+======================================================================
+FAIL: test_an_unknown_entry_is_refused_before_anything_is_made (tests.test_play_action_entry.Controls.test_an_unknown_entry_is_refused_before_anything_is_made) (entry=None)
+----------------------------------------------------------------------
+ValueError: entry None: one of route_fixture, play_round
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 80, in test_an_unknown_entry_is_refused_before_anything_is_made
+    with self.subTest(entry=entry), self.assertRaisesRegex(ValueError, "entry .*: one of route_fixture, "
+                                    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                           "play_round, play_action"):
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "entry .*: one of route_fixture, play_round, play_action" does not match "entry None: one of route_fixture, play_round"
+
+======================================================================
+FAIL: test_an_unknown_entry_is_refused_before_anything_is_made (tests.test_play_action_entry.Controls.test_an_unknown_entry_is_refused_before_anything_is_made) (entry='menu_action')
+----------------------------------------------------------------------
+ValueError: entry 'menu_action': one of route_fixture, play_round
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 80, in test_an_unknown_entry_is_refused_before_anything_is_made
+    with self.subTest(entry=entry), self.assertRaisesRegex(ValueError, "entry .*: one of route_fixture, "
+                                    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                           "play_round, play_action"):
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "entry .*: one of route_fixture, play_round, play_action" does not match "entry 'menu_action': one of route_fixture, play_round"
+
+======================================================================
+FAIL: test_the_entry_is_accepted_and_the_set_keeps_its_order (tests.test_play_action_entry.Controls.test_the_entry_is_accepted_and_the_set_keeps_its_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 72, in test_the_entry_is_accepted_and_the_set_keeps_its_order
+    self.assertEqual(R.ENTRIES, ("route_fixture", "play_round", "play_action"))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: ('route_fixture', 'play_round') != ('route_fixture', 'play_round', 'play_action')
+
+Second tuple contains 1 additional elements.
+First extra element 2:
+'play_action'
+
+- ('route_fixture', 'play_round')
++ ('route_fixture', 'play_round', 'play_action')
+?                               +++++++++++++++
+
+
+----------------------------------------------------------------------
+Ran 13 tests in 2.254s
+
+FAILED (failures=7, errors=9)
+exit 1

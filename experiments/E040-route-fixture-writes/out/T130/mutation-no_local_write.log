@@ -1,0 +1,25 @@
+...F.......F..
+======================================================================
+FAIL: test_at_a_rounds_end_the_press_leaves_the_memory_play_round_leaves (tests.test_play_action_entry.Controls.test_at_a_rounds_end_the_press_leaves_the_memory_play_round_leaves)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 241, in test_at_a_rounds_end_the_press_leaves_the_memory_play_round_leaves
+    self.assertEqual(a.m.read(0, MEM_SIZE), b.m.read(0, MEM_SIZE))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: b'\xc[789231 chars]c2w\x04B Ob8\x0c\x002\nH\x00J\x00\x0e?,U\xca?J[3333191 chars]\x00' != b'\xc[789231 chars]c2w\xcbw Ob8\x0c\x002\nH\x00J\x00\x0e?,U\xca?J[3333191 chars]\x00'
+
+======================================================================
+FAIL: test_the_harness_makes_the_one_local_the_branch_reads (tests.test_play_action_entry.Controls.test_the_harness_makes_the_one_local_the_branch_reads)
+[bp-6] is 7440-7447's copy of DS:A923: with the stack word cleared in the image, the press still finds the
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/m3-trackb/goal2-archaeology-3/tests/test_play_action_entry.py", line 260, in test_the_harness_makes_the_one_local_the_branch_reads
+    self.assertEqual(r.m.read(ss + R.ACTION_LOCAL, 4), want)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: b'\x00\x00\x00\x00' != b'\x06\x00g]'
+
+----------------------------------------------------------------------
+Ran 14 tests in 6.175s
+
+FAILED (failures=2)
+exit 1
