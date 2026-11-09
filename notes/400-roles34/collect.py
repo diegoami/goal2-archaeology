@@ -9,7 +9,9 @@ Sub-commands (each writes a new folder notes/400-roles34/<name>/, never overwrit
   search NAME MENU ROUND SHA BOUND_S MAXROUND
                   From a kept manager menu play the rounds as the season oracle does (taker prompts answered by the
                   original's timer) and, at the first role 3 and the first role 4 taker decision, keep it and branch.
-  preceding NAME MENU ROUND RUN
+  stop NAME MENU ROUND SHA
+                  Play one round from a kept menu with the unchanged Core and keep the machine where it stops.
+  preceding NAME MENU ROUND SHA RUN
                   Replay one round from its kept menu and keep the wait just before the RUN-th key wait.
 
 Only unchanged Core.boot/load/press and read-only observations: no guest write, no register edit, no CPU moved. The one
@@ -166,7 +168,7 @@ def reach(name):
                         refusal=str(e)
                     except UnknownScreen as e:
                         core=cores[-1]
-                        observe_state(run,f'unknown-screen-r{number:02}',core,round=number,site=e.site,poll=e.poll,error=str(e).splitlines()[0])
+                        observe_state(run,f'unknown-screen-r{number:02}',core,round=number,stop_site=e.site,stop_poll=e.poll,error=str(e).splitlines()[0])
                         run.rec['status']='unknown screen captured';run.rec['stop']=dict(round=number,site=e.site,poll=e.poll)
                         raise SystemExit
                     else:break
@@ -178,6 +180,23 @@ def reach(name):
             if got[0].kind=='deferred-rollover':run.rec['status']='season ended';break
             current=cores[-1].save()
     except SystemExit:pass
+    except BaseException as e:
+        run.rec['error']=repr(e);print(repr(e),flush=True)
+    finally:run.finish()
+
+def stop(name,menu,number,menu_sha):
+    """Play one round from a kept manager menu with the Core exactly as it is (no adapter) and keep the actual machine
+    where it stops: the supplement to reach-r1, whose own observation row failed on a keyword clash in this file's
+    `observe_state` call (its raw .ucstate was kept before the row; its error is retained unchanged)."""
+    load_core()
+    number=int(number);raw=Path(menu).read_bytes();assert sha(raw)==menu_sha
+    run=Run(name,1800,'stop',menu=dict(file=str(Path(menu)),sha256=menu_sha),round=number)
+    try:
+        with capturing() as cores:
+            try:so.core_rounds(raw,GOAL_DAT,1);run.rec['status']='round played without a stop'
+            except UnknownScreen as e:
+                observe_state(run,f'unknown-screen-r{number:02}',cores[-1],round=number,stop_site=e.site,stop_poll=e.poll,error=str(e).splitlines()[0])
+                run.rec['status']='unknown screen captured';run.rec['stop']=dict(round=number,site=e.site,poll=e.poll)
     except BaseException as e:
         run.rec['error']=repr(e);print(repr(e),flush=True)
     finally:run.finish()
@@ -280,4 +299,4 @@ def preceding(name,menu,number,menu_sha,run_index):
 
 if __name__=='__main__':
     cmd,*args=sys.argv[1:]
-    {'reach':reach,'search':search,'preceding':preceding}[cmd](*args)
+    {'reach':reach,'stop':stop,'search':search,'preceding':preceding}[cmd](*args)
