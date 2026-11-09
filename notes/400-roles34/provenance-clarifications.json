@@ -1,0 +1,24 @@
+{
+  "schema": "T131-provenance-clarifications/1",
+  "items": [
+    {
+      "attempts": [
+        "stop-c9",
+        "stop-c1"
+      ],
+      "what": "Their frames.py copy and its recorded frames_sha256 include the `origin` function that was appended to notes/400-roles34/frames.py in the same shell command that launched them, after their recorded head commit c9030d3cb506a94bdb70d5005722ce2178168cbe, so the copy is that commit's file plus its tail. `derive`, the only function their rows use, is unchanged; verify.py accepts exactly this difference. Raw records are unchanged."
+    },
+    {
+      "attempts": [
+        "reach-r1"
+      ],
+      "what": "The last observation row of reach-r1 failed on a keyword clash in observe_state (site= given twice); the raw .ucstate was kept before the row, the error is in record.json, and stop-r1 repeats the stop from the kept menu. See docs/requests/400-roles34.md."
+    },
+    {
+      "attempts": [
+        "search-c20"
+      ],
+      "what": "Interrupted by SIGINT after the role-4 inputs were found elsewhere, to free its heavy slot; the interruption surfaced as an InterruptError inside a guest read hook. Kept as it ended."
+    }
+  ]
+}

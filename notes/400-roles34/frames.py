@@ -56,3 +56,13 @@ def derive(memory,load,regs):
                 pick_position=memory[players+20*pick+6] if pick<3061 else None,
                 manager_byte=memory[squad+0x2E],minute=w(ds+MINUTE),
                 rng_main=w(ds+SEEDS[0]),rng_aux=w(ds+SEEDS[1]))
+
+def origin(memory,load,regs):
+    """Where CC7B was called from: the frame of its caller 6D4E (choose_player), past the 6D74 return. Its own return
+    offset says which restart asked (T92's reading of 6ECF/6F3E: 6EEF for the penalty, 6F92 for the free kick) and its
+    three byte arguments are [10 or 11, role, side] (low bytes; the high bytes are scratch)."""
+    ss=regs['SS']*16
+    w=lambda a:int.from_bytes(memory[a:a+2],'little')
+    sw=lambda o:w(ss+(o&0xFFFF))
+    d=derive(memory,load,regs);pbp=d['chain'][-1]['parent']
+    return dict(bp=pbp,return_offset=sw(pbp+2),args=[sw(pbp+4)&0xFF,sw(pbp+6)&0xFF,sw(pbp+8)&0xFF],raw_args=[sw(pbp+4),sw(pbp+6),sw(pbp+8)])
