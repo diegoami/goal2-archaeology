@@ -255,6 +255,8 @@ class Drive(unittest.TestCase):
         # Main701-counter-compatibility: T128 adds an unused leaf to selection.
         # Assert zero before omitting only its metadata from this detached copy.
         self.assertEqual(result["ports"]["calls"].pop("0791:DDCB"), 0, "selection 0791:DDCB")
+        # Main701-counter-compatibility (T129p): E2E6 likewise; zero asserted, then omitted from this copy.
+        self.assertEqual(result["ports"]["calls"].pop("0791:E2E6"), 0, "selection 0791:E2E6")
         # T123 extends existing modules; these new route-only entries are
         # absent from the historical result metadata and unused in this drive.
         for address in ("1771:5BF6", "1771:7812", "23E4:0831", "23E4:0900"):

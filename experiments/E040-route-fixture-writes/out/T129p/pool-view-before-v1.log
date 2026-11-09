@@ -1,0 +1,1366 @@
+test_any_call_is_refused_without_mutation (tests.test_port_pool_view.HistoricalE2E6Counter.test_any_call_is_refused_without_mutation) ... ok
+test_missing_counter_and_every_other_field_remain_part_of_the_digest (tests.test_port_pool_view.HistoricalE2E6Counter.test_missing_counter_and_every_other_field_remain_part_of_the_digest) ... ok
+test_registry_inventory_adds_exactly_the_one_entry (tests.test_port_pool_view.HistoricalE2E6Counter.test_registry_inventory_adds_exactly_the_one_entry) ... ERROR
+test_zero_counter_is_omitted_only_from_a_detached_copy (tests.test_port_pool_view.HistoricalE2E6Counter.test_zero_counter_is_omitted_only_from_a_detached_copy) ... ok
+test_code_free_sealed_primitive_exact_helper_replay (tests.test_port_pool_view.PoolView.test_code_free_sealed_primitive_exact_helper_replay) ... Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+
+  test_code_free_sealed_primitive_exact_helper_replay (tests.test_port_pool_view.PoolView.test_code_free_sealed_primitive_exact_helper_replay) (case='first-page') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_code_free_sealed_primitive_exact_helper_replay (tests.test_port_pool_view.PoolView.test_code_free_sealed_primitive_exact_helper_replay) (case='last-row-highlight') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_code_free_sealed_primitive_exact_helper_replay (tests.test_port_pool_view.PoolView.test_code_free_sealed_primitive_exact_helper_replay) (case='empty-selected-word') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_code_free_sealed_primitive_exact_helper_replay (tests.test_port_pool_view.PoolView.test_code_free_sealed_primitive_exact_helper_replay) (case='top-wrap-skips-rows') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_code_free_sealed_primitive_exact_helper_replay (tests.test_port_pool_view.PoolView.test_code_free_sealed_primitive_exact_helper_replay) (case='footer-suppressed') ... ERROR
+test_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.PoolView.test_falsifiers_row_base_highlight_attribute_and_return) ... Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+
+  test_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.PoolView.test_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-row-off-by-one') ... FAIL
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.PoolView.test_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-base-omitted') ... FAIL
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.PoolView.test_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-highlight-omitted') ... FAIL
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.PoolView.test_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-cursor-attribute-off-by-one') ... FAIL
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.PoolView.test_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-return-ax-clobbered') ... FAIL
+test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) ... Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='first-page') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='mid-highlight') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='last-row-highlight') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='above-range-mark') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='below-range-mark') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='no-highlight') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='manager-2-base-81') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='manager-6-base-401') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='manager-0-base-wrap') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='empty-selected-word') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='empty-row-word') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='top-wrap-skips-rows') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='top-no-wrap-last') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='zero-top') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='footer-suppressed') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='wide-country') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='first-page') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='mid-highlight') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='last-row-highlight') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='above-range-mark') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='below-range-mark') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='no-highlight') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='manager-2-base-81') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='manager-6-base-401') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='manager-0-base-wrap') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='empty-selected-word') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='empty-row-word') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='top-wrap-skips-rows') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='top-no-wrap-last') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='zero-top') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='footer-suppressed') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='wide-country') ... ERROR
+test_c1f_mode_keeps_the_pool_unreachable (tests.test_port_pool_view.SealedRealPoolFlow.test_c1f_mode_keeps_the_pool_unreachable) ... Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+port callback runtime: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+ok
+test_exchange_flow_calls_records_cursor_attributes_stack_and_rng (tests.test_port_pool_view.SealedRealPoolFlow.test_exchange_flow_calls_records_cursor_attributes_stack_and_rng) ... Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+
+  test_exchange_flow_calls_records_cursor_attributes_stack_and_rng (tests.test_port_pool_view.SealedRealPoolFlow.test_exchange_flow_calls_records_cursor_attributes_stack_and_rng) (flow='exchange-setup0') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_exchange_flow_calls_records_cursor_attributes_stack_and_rng (tests.test_port_pool_view.SealedRealPoolFlow.test_exchange_flow_calls_records_cursor_attributes_stack_and_rng) (flow='exchange-setup1') ... ERROR
+test_real_flow_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.SealedRealPoolFlow.test_real_flow_falsifiers_row_base_highlight_attribute_and_return) ... Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+
+  test_real_flow_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.SealedRealPoolFlow.test_real_flow_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-row-off-by-one') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_real_flow_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.SealedRealPoolFlow.test_real_flow_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-base-omitted') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_real_flow_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.SealedRealPoolFlow.test_real_flow_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-highlight-omitted') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_real_flow_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.SealedRealPoolFlow.test_real_flow_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-cursor-attribute-off-by-one') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_real_flow_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.SealedRealPoolFlow.test_real_flow_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-return-ax-clobbered') ... ERROR
+test_refused_gate_leaves_pool_unmarked_and_records_unswapped (tests.test_port_pool_view.SealedRealPoolFlow.test_refused_gate_leaves_pool_unmarked_and_records_unswapped) ... Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+
+  test_refused_gate_leaves_pool_unmarked_and_records_unswapped (tests.test_port_pool_view.SealedRealPoolFlow.test_refused_gate_leaves_pool_unmarked_and_records_unswapped) (flow='refused-gate-setup0') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+  test_refused_gate_leaves_pool_unmarked_and_records_unswapped (tests.test_port_pool_view.SealedRealPoolFlow.test_refused_gate_leaves_pool_unmarked_and_records_unswapped) (flow='refused-gate-setup1') ... ERROR
+test_registered_3947_stub_boundary_is_exactly_twelve_attribute_writes (tests.test_port_pool_view.SealedRealPoolFlow.test_registered_3947_stub_boundary_is_exactly_twelve_attribute_writes) ... ok
+test_allowed_zero_budget_never_calls_swap (tests.test_port_selection.Selection.test_allowed_zero_budget_never_calls_swap) ... ok
+test_bench_and_pitch_instruction_templates (tests.test_port_selection.Selection.test_bench_and_pitch_instruction_templates) ... ok
+test_both_managed_sides_are_checked_and_unmanaged_side_is_accepted (tests.test_port_selection.Selection.test_both_managed_sides_are_checked_and_unmanaged_side_is_accepted) ... ok
+test_each_first_team_refusal_and_parent_restoration (tests.test_port_selection.Selection.test_each_first_team_refusal_and_parent_restoration) ... ok
+test_empty_pool_slots_share_the_original_sentinel_position (tests.test_port_selection.Selection.test_empty_pool_slots_share_the_original_sentinel_position) ... ok
+test_empty_slot_and_first_mark (tests.test_port_selection.Selection.test_empty_slot_and_first_mark) ... ok
+test_escape_cancels_mark_before_a_later_escape_exits (tests.test_port_selection.Selection.test_escape_cancels_mark_before_a_later_escape_exits) ... ok
+test_full_pool_with_equal_keys_keeps_original_partition_tie_order (tests.test_port_selection.Selection.test_full_pool_with_equal_keys_keeps_original_partition_tie_order) ... ok
+test_listing_entries_and_returns (tests.test_port_selection.Selection.test_listing_entries_and_returns) ... FAIL
+test_locked_selection_ignores_swap_jobs_and_horizontal_keys (tests.test_port_selection.Selection.test_locked_selection_ignores_swap_jobs_and_horizontal_keys) ... ok
+test_open_selection_dispatches_managed_and_unmanaged_country (tests.test_port_selection.Selection.test_open_selection_dispatches_managed_and_unmanaged_country) ... ok
+test_request_budget_uses_the_selected_teams_side (tests.test_port_selection.Selection.test_request_budget_uses_the_selected_teams_side) ... ok
+test_request_toggle_and_zero_budget (tests.test_port_selection.Selection.test_request_toggle_and_zero_budget) ... ok
+test_same_block_unavailable_and_sentoff_refusals (tests.test_port_selection.Selection.test_same_block_unavailable_and_sentoff_refusals) ... ok
+test_selected_player_jobs_keep_the_original_cross_row_calls (tests.test_port_selection.Selection.test_selected_player_jobs_keep_the_original_cross_row_calls) ... ok
+test_squad_pointer_and_pool_pointer (tests.test_port_selection.Selection.test_squad_pointer_and_pool_pointer) ... ok
+test_swap_changes_only_squad_form_and_marking_before_refresh (tests.test_port_selection.Selection.test_swap_changes_only_squad_form_and_marking_before_refresh) ... ok
+
+======================================================================
+ERROR: test_registry_inventory_adds_exactly_the_one_entry (tests.test_port_pool_view.HistoricalE2E6Counter.test_registry_inventory_adds_exactly_the_one_entry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 470, in test_registry_inventory_adds_exactly_the_one_entry
+    self.assertEqual(selection.PORTS.entries[self.ADDRESS].ret,'ret 2')
+                     ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+KeyError: '0791:E2E6'
+
+======================================================================
+ERROR: test_code_free_sealed_primitive_exact_helper_replay (tests.test_port_pool_view.PoolView.test_code_free_sealed_primitive_exact_helper_replay) (case='first-page')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 230, in test_code_free_sealed_primitive_exact_helper_replay
+    actual=call_in_pypy(__name__,'candidate',(sealed_initial,sealed_helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_code_free_sealed_primitive_exact_helper_replay (tests.test_port_pool_view.PoolView.test_code_free_sealed_primitive_exact_helper_replay) (case='last-row-highlight')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 230, in test_code_free_sealed_primitive_exact_helper_replay
+    actual=call_in_pypy(__name__,'candidate',(sealed_initial,sealed_helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_code_free_sealed_primitive_exact_helper_replay (tests.test_port_pool_view.PoolView.test_code_free_sealed_primitive_exact_helper_replay) (case='empty-selected-word')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 230, in test_code_free_sealed_primitive_exact_helper_replay
+    actual=call_in_pypy(__name__,'candidate',(sealed_initial,sealed_helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_code_free_sealed_primitive_exact_helper_replay (tests.test_port_pool_view.PoolView.test_code_free_sealed_primitive_exact_helper_replay) (case='top-wrap-skips-rows')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 230, in test_code_free_sealed_primitive_exact_helper_replay
+    actual=call_in_pypy(__name__,'candidate',(sealed_initial,sealed_helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_code_free_sealed_primitive_exact_helper_replay (tests.test_port_pool_view.PoolView.test_code_free_sealed_primitive_exact_helper_replay) (case='footer-suppressed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 230, in test_code_free_sealed_primitive_exact_helper_replay
+    actual=call_in_pypy(__name__,'candidate',(sealed_initial,sealed_helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='first-page')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='mid-highlight')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='last-row-highlight')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='above-range-mark')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='below-range-mark')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='no-highlight')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='manager-2-base-81')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='manager-6-base-401')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='manager-0-base-wrap')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='empty-selected-word')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='empty-row-word')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='top-wrap-skips-rows')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='top-no-wrap-last')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='zero-top')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='footer-suppressed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=0, case='wide-country')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='first-page')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='mid-highlight')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='last-row-highlight')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='above-range-mark')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='below-range-mark')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='no-highlight')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='manager-2-base-81')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='manager-6-base-401')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='manager-0-base-wrap')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='empty-selected-word')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='empty-row-word')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='top-wrap-skips-rows')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='top-no-wrap-last')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='zero-top')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='footer-suppressed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_primitive_cases_both_sort_setups (tests.test_port_pool_view.PoolView.test_primitive_cases_both_sort_setups) (setup=1, case='wide-country')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 205, in test_primitive_cases_both_sort_setups
+    with self.subTest(setup=setup,case=case):self.compare(case,setup)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 181, in compare
+    actual=call_in_pypy(__name__,'candidate',(initial,helpers))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+ERROR: test_exchange_flow_calls_records_cursor_attributes_stack_and_rng (tests.test_port_pool_view.SealedRealPoolFlow.test_exchange_flow_calls_records_cursor_attributes_stack_and_rng) (flow='exchange-setup0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 401, in test_exchange_flow_calls_records_cursor_attributes_stack_and_rng
+    initial,stubbed,actual,meta=self.compare(flow)
+                                ~~~~~~~~~~~~^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 375, in compare
+    actual=call_in_pypy(__name__,'real_flow',(sealed,flow))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 332, in real_flow
+    m.run(m.lin('0791:E99D'),fresh=True,timeout_s=120)
+      ^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+         ^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 0791:E2E6
+
+
+======================================================================
+ERROR: test_exchange_flow_calls_records_cursor_attributes_stack_and_rng (tests.test_port_pool_view.SealedRealPoolFlow.test_exchange_flow_calls_records_cursor_attributes_stack_and_rng) (flow='exchange-setup1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 401, in test_exchange_flow_calls_records_cursor_attributes_stack_and_rng
+    initial,stubbed,actual,meta=self.compare(flow)
+                                ~~~~~~~~~~~~^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 375, in compare
+    actual=call_in_pypy(__name__,'real_flow',(sealed,flow))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 332, in real_flow
+    m.run(m.lin('0791:E99D'),fresh=True,timeout_s=120)
+      ^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+         ^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 0791:E2E6
+
+
+======================================================================
+ERROR: test_real_flow_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.SealedRealPoolFlow.test_real_flow_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-row-off-by-one')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 449, in test_real_flow_falsifiers_row_base_highlight_attribute_and_return
+    actual=call_in_pypy(__name__,'real_flow',(sealed,flow,variant))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 332, in real_flow
+    m.run(m.lin('0791:E99D'),fresh=True,timeout_s=120)
+      ^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+         ^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 0791:E2E6
+
+
+======================================================================
+ERROR: test_real_flow_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.SealedRealPoolFlow.test_real_flow_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-base-omitted')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 449, in test_real_flow_falsifiers_row_base_highlight_attribute_and_return
+    actual=call_in_pypy(__name__,'real_flow',(sealed,flow,variant))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 332, in real_flow
+    m.run(m.lin('0791:E99D'),fresh=True,timeout_s=120)
+      ^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+         ^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 0791:E2E6
+
+
+======================================================================
+ERROR: test_real_flow_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.SealedRealPoolFlow.test_real_flow_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-highlight-omitted')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 449, in test_real_flow_falsifiers_row_base_highlight_attribute_and_return
+    actual=call_in_pypy(__name__,'real_flow',(sealed,flow,variant))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 332, in real_flow
+    m.run(m.lin('0791:E99D'),fresh=True,timeout_s=120)
+      ^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+         ^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 0791:E2E6
+
+
+======================================================================
+ERROR: test_real_flow_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.SealedRealPoolFlow.test_real_flow_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-cursor-attribute-off-by-one')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 449, in test_real_flow_falsifiers_row_base_highlight_attribute_and_return
+    actual=call_in_pypy(__name__,'real_flow',(sealed,flow,variant))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 332, in real_flow
+    m.run(m.lin('0791:E99D'),fresh=True,timeout_s=120)
+      ^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+         ^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 0791:E2E6
+
+
+======================================================================
+ERROR: test_real_flow_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.SealedRealPoolFlow.test_real_flow_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-return-ax-clobbered')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 449, in test_real_flow_falsifiers_row_base_highlight_attribute_and_return
+    actual=call_in_pypy(__name__,'real_flow',(sealed,flow,variant))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 332, in real_flow
+    m.run(m.lin('0791:E99D'),fresh=True,timeout_s=120)
+      ^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+         ^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 0791:E2E6
+
+
+======================================================================
+ERROR: test_refused_gate_leaves_pool_unmarked_and_records_unswapped (tests.test_port_pool_view.SealedRealPoolFlow.test_refused_gate_leaves_pool_unmarked_and_records_unswapped) (flow='refused-gate-setup0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 416, in test_refused_gate_leaves_pool_unmarked_and_records_unswapped
+    initial,stubbed,actual,meta=self.compare(flow)
+                                ~~~~~~~~~~~~^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 375, in compare
+    actual=call_in_pypy(__name__,'real_flow',(sealed,flow))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 332, in real_flow
+    m.run(m.lin('0791:E99D'),fresh=True,timeout_s=120)
+      ^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+         ^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 0791:E2E6
+
+
+======================================================================
+ERROR: test_refused_gate_leaves_pool_unmarked_and_records_unswapped (tests.test_port_pool_view.SealedRealPoolFlow.test_refused_gate_leaves_pool_unmarked_and_records_unswapped) (flow='refused-gate-setup1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 416, in test_refused_gate_leaves_pool_unmarked_and_records_unswapped
+    initial,stubbed,actual,meta=self.compare(flow)
+                                ~~~~~~~~~~~~^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 375, in compare
+    actual=call_in_pypy(__name__,'real_flow',(sealed,flow))
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 332, in real_flow
+    m.run(m.lin('0791:E99D'),fresh=True,timeout_s=120)
+      ^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 278, in run
+    self._dispatch(self.pc() if self.io_tap is not None else pc)
+         ^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/runtime/original_match/port/engine.py", line 261, in _dispatch
+    raise PortError('no registered port/return at '+self.where(self.reg('cs'), self.reg('ip')))
+original_match.port.mem.PortError: no registered port/return at 0791:E2E6
+
+
+======================================================================
+FAIL: test_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.PoolView.test_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-row-off-by-one')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 215, in test_falsifiers_row_base_highlight_attribute_and_return
+    try:actual=call_in_pypy(__name__,'candidate',(initial,helpers,variant))
+               ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 217, in test_falsifiers_row_base_highlight_attribute_and_return
+    self.assertTrue(any(message in str(exc) for message in
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ('helper order differs','complete helper-entry memory differs','ALL16 helper-entry ABI differs','missing helper call','extra helper call')),str(exc)[-300:])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+FAIL: test_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.PoolView.test_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-base-omitted')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 215, in test_falsifiers_row_base_highlight_attribute_and_return
+    try:actual=call_in_pypy(__name__,'candidate',(initial,helpers,variant))
+               ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 217, in test_falsifiers_row_base_highlight_attribute_and_return
+    self.assertTrue(any(message in str(exc) for message in
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ('helper order differs','complete helper-entry memory differs','ALL16 helper-entry ABI differs','missing helper call','extra helper call')),str(exc)[-300:])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+FAIL: test_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.PoolView.test_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-highlight-omitted')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 215, in test_falsifiers_row_base_highlight_attribute_and_return
+    try:actual=call_in_pypy(__name__,'candidate',(initial,helpers,variant))
+               ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 217, in test_falsifiers_row_base_highlight_attribute_and_return
+    self.assertTrue(any(message in str(exc) for message in
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ('helper order differs','complete helper-entry memory differs','ALL16 helper-entry ABI differs','missing helper call','extra helper call')),str(exc)[-300:])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+FAIL: test_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.PoolView.test_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-cursor-attribute-off-by-one')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 215, in test_falsifiers_row_base_highlight_attribute_and_return
+    try:actual=call_in_pypy(__name__,'candidate',(initial,helpers,variant))
+               ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 217, in test_falsifiers_row_base_highlight_attribute_and_return
+    self.assertTrue(any(message in str(exc) for message in
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ('helper order differs','complete helper-entry memory differs','ALL16 helper-entry ABI differs','missing helper call','extra helper call')),str(exc)[-300:])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+FAIL: test_falsifiers_row_base_highlight_attribute_and_return (tests.test_port_pool_view.PoolView.test_falsifiers_row_base_highlight_attribute_and_return) (variant='pool-view-return-ax-clobbered')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 215, in test_falsifiers_row_base_highlight_attribute_and_return
+    try:actual=call_in_pypy(__name__,'candidate',(initial,helpers,variant))
+               ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 217, in test_falsifiers_row_base_highlight_attribute_and_return
+    self.assertTrue(any(message in str(exc) for message in
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ('helper order differs','complete helper-entry memory differs','ALL16 helper-entry ABI differs','missing helper call','extra helper call')),str(exc)[-300:])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ool_view.py", line 120, in candidate
+    reg=port.Registry('selection','T129p E2E6 candidate');reg._add(selection.PORTS.entries[ENTRY]);reg.variants=dict(selection.PORTS.variants)
+                                                                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: '0791:E2E6'
+
+
+======================================================================
+FAIL: test_listing_entries_and_returns (tests.test_port_selection.Selection.test_listing_entries_and_returns)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_selection.py", line 92, in test_listing_entries_and_returns
+    self.assertEqual({a:e.ret for a,e in selection.PORTS.entries.items()},expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'0791:DDCB': 'ret 2', '0791:DE27': 'ret 2', '07[189 chars]t 6'} != {'0791:E44F': 'retf 2', '0791:E022': 'ret 2', '0[211 chars]t 2'}
+  {'0791:DDCB': 'ret 2',
+   '0791:DE27': 'ret 2',
+   '0791:DE51': 'ret 6',
+   '0791:DEA6': 'ret 2',
+   '0791:E022': 'ret 2',
+   '0791:E2A0': 'ret 2',
++  '0791:E2E6': 'ret 2',
+   '0791:E44F': 'retf 2',
+   '0791:E949': 'ret 2',
+   '0791:EA09': 'ret 2',
+   '1771:53E8': 'ret 6',
+   '1771:5532': 'retf'}
+
+----------------------------------------------------------------------
+Ran 29 tests in 35.235s
+
+FAILED (failures=6, errors=47)
+exit 1

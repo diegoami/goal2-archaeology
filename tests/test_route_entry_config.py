@@ -291,9 +291,10 @@ def accepted_default_fields(record):
     import hashlib,json
     historical=copy.deepcopy(record)
     calls=historical['result'].get('ports',{}).get('calls',{})
-    if '0791:DDCB' in calls:
-        assert calls['0791:DDCB']==0,'historical default executed DDCB'
-        del calls['0791:DDCB']
+    for address,name in (('0791:DDCB','DDCB'),('0791:E2E6','E2E6')):
+        if address in calls:
+            assert calls[address]==0,'historical default executed '+name
+            del calls[address]
     canonical=lambda v:json.dumps(v,sort_keys=True,separators=(',',':')).encode()
     return {k:hashlib.sha256(historical[k] if k=='memory' else canonical(historical[k])).hexdigest()
             for k in ('result','events','keys','draws','returned','memory')}
