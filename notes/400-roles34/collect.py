@@ -273,6 +273,8 @@ def capture(run,core,role,state):
         out[label]=observe_state(run,f'role{role}-{label}',branch,round=state['round'],key=key)
     return {k:dict(n=v['n'],state=v['state']) for k,v in out.items()}
 
+class StopReplay(Exception):pass
+
 def preceding(name,menu,number,menu_sha,run_index):
     load_core();adapt()
     raw=Path(menu).read_bytes();assert sha(raw)==menu_sha;run_index=int(run_index)
@@ -282,15 +284,15 @@ def preceding(name,menu,number,menu_sha,run_index):
         out=original_run(self)
         if getattr(self,'main',False):
             count['n']+=1
-            if count['n']==run_index-1:kept['obs']=observe_state(run,'preceding-wait',self,round=int(number),run_index=count['n'])
-            if count['n']==run_index:kept['next']=self.wait.kind if self.wait else None
+            if count['n']==run_index-1:
+                kept['obs']=observe_state(run,'preceding-wait',self,round=int(number),run_index=count['n'])
+                raise StopReplay      # the replay's purpose is this one state; the rest of the round is not played
         return out
     Core._run=counting
     try:
         with capturing() as cores:
             try:so.core_rounds(raw,GOAL_DAT,1)
-            except UnknownScreen:pass
-            except DriverError:pass
+            except StopReplay:pass
         run.rec['preceding']=kept
         run.rec['status']='kept' if 'obs' in kept else 'not reached'
     except BaseException as e:
