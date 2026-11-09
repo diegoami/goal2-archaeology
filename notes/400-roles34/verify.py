@@ -47,15 +47,31 @@ def states(name):
     return n
 
 def main():
-    attempts={n:check_attempt(n) for n in ('reach-r1','stop-r1','search-r1','preceding-r1')}
+    names=sorted(p.parent.name for p in NOTES.glob('*/record.json'))
+    attempts={n:check_attempt(n) for n in names}
     kept=sum(states(n) for n in attempts)
     reach=rows('reach-r1');repair=[r for r in reach if r['label']=='repair-r07'][0]
     menu=attempts['search-r1']['menu']['sha256'];assert menu==attempts['stop-r1']['menu']['sha256']==attempts['preceding-r1']['menu']['sha256']==repair['state']['sha256']
     # the reach reached round 7 by T170e's keys: round 6 and round 7 each refused an ineligible eleven, repaired by the squad screen's own keys
     assert [r['label'] for r in reach if r['label'].startswith('repair')]==['repair-r06','repair-r07']
     assert all('refuses the eleven' in r['refusal'] for r in reach if r['label'].startswith('repair'))
+    # every later search starts from a kept state of an earlier attempt, by hash
+    kept={r['state']['sha256'] for n in names for r in rows(n) if r.get('state')}
+    for n in names:
+        if n.startswith('search-') and n!='search-r1':assert attempts[n]['menu']['sha256'] in kept,f'{n}: its menu is not a kept state'
     assert 'keyword argument' in attempts['reach-r1']['error'] and attempts['stop-r1']['status']=='unknown screen captured'
     d=json.loads((NOTES/'delivery.json').read_text())
+    # the role-4 statement is recomputed from the raw rows: the prompts met by role, the managed matches played
+    prompts={};matches=0
+    for n in ['reach-r1']+[n for n in names if n.startswith('search-')]:
+        menu={};done=set()
+        for r in rows(n):
+            if r['label'].startswith('taker-r'):prompts[str(r['role'])]=prompts.get(str(r['role']),0)+1
+            if r['label'].startswith('menu-r') and '-repair' not in r['label']:menu[r['round']]=r['t']
+            if r['label'].startswith('round-r') and r['round'] in menu and r['round'] not in done:
+                done.add(r['round']);matches+=r['t']-menu[r['round']]>100
+    assert d['role4']['taker_prompts_by_role']==prompts and d['role4']['managed_matches']==matches,(prompts,matches)
+    assert d['role4']['covered']==('4' in prompts)
     assert d['schema']=='T131-original-inputs/1' and 3 in d['covered_roles']
     for role,entry in d['roles'].items():
         role=int(role);keys=json.loads((NOTES/f'keys-role{role}.json').read_text())

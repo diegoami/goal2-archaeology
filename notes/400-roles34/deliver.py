@@ -27,13 +27,23 @@ def item(row,tag,role,step,preceding=None):
     if preceding:out['preceding']=preceding
     return out
 
+def stats(name):
+    """Prompts by role (first of each round/role/side/minute) and the rounds in which the managed side played a match."""
+    prompts={};matches=0;seen=set();menu={}
+    for r in rows(name):
+        if r['label'].startswith('taker-r'):prompts[str(r['role'])]=prompts.get(str(r['role']),0)+1
+        if r['label'].startswith('menu-r') and '-repair' not in r['label']:menu[r['round']]=r['t']
+        if r['label'].startswith('round-r') and r['round'] in menu and r['round'] not in seen:
+            seen.add(r['round']);matches+=r['t']-menu[r['round']]>100
+    return dict(taker_prompts_by_role=prompts,managed_matches=int(matches))
+
 def main():
-    names=[n for n in ('search-r1','search-r2') if (NOTES/n/'record.json').exists()]
+    names=sorted(p.name for p in NOTES.glob('search-*') if (p/'record.json').exists())
     search=[];recs={}
     for n in names:
         recs[n]=record(n)
         for r in rows(n):r['_attempt']=n;search.append(r)
-    rec=recs[names[-1]]
+    rec=recs['search-r1']
     prec=rows('preceding-r1')
     for r in prec:r['_attempt']='preceding-r1'
     stop=rows('stop-r1')
@@ -62,11 +72,17 @@ def main():
         (NOTES/f'keys-role{role}.json').write_text(json.dumps(dict(role=role,keys=meta['keys'],count=len(meta['keys']),sha256=sha(bytes(meta['keys']))))+'\n')
     delivery=dict(schema='T131-original-inputs/1',covered_roles=[int(r) for r in roles],
                   remaining=[f'role{r}_{n}' for r,n in ((3,'penalty'),(4,'free_kick')) if str(r) not in roles],
-                  search_status=rec.get('status'),search_bound=dict(bound_s=sum(recs[n]['bound_s'] for n in names),max_round=max(recs[n]['max_round'] for n in names)),
                   core=dict(commit=reach['core_source_commit'],tree_sha256=reach['core_tree_sha256']),
                   source=dict(date_call_sha256=reach['date_call_sha256'],goal_dat_sha256=reach['goal_dat_sha256'],
                               private='goal2drive:e039-r0005-date-call.sav'),
-                  searches={n:dict(status=recs[n].get('status'),error=recs[n].get('error'),bound_s=recs[n]['bound_s'],first_round=recs[n]['first_round'],max_round=recs[n]['max_round'],want=recs[n].get('want_roles',[3,4]),elapsed_s=round(recs[n]['elapsed_s'],1),menu=recs[n]['menu']) for n in names},roles=roles,unchanged_core_stop=unchanged)
+                  searches={n:dict(status=recs[n].get('status'),error=recs[n].get('error'),bound_s=recs[n]['bound_s'],first_round=recs[n]['first_round'],max_round=recs[n]['max_round'],want=recs[n].get('want_roles',[3,4]),elapsed_s=round(recs[n]['elapsed_s'],1),menu=recs[n]['menu'],**stats(n)) for n in names},roles=roles,unchanged_core_stop=unchanged)
+    st={n:stats(n) for n in names};st['reach-r1']=stats('reach-r1')
+    total={}
+    for v in st.values():
+        for k,c in v['taker_prompts_by_role'].items():total[k]=total.get(k,0)+c
+    delivery['role4']=dict(covered='4' in roles,attempts=['reach-r1']+names,managed_matches=sum(v['managed_matches'] for v in st.values()),
+                           taker_prompts_by_role=total,max_round=max(recs[n]['max_round'] for n in names),
+                           note='reach-r1 plays rounds 1-6 with the unchanged Core, which stops at any role 3/4 prompt: it met none')
     (NOTES/'delivery.json').write_text(json.dumps(delivery,indent=2)+'\n')
     print(json.dumps({r:[x['file'] for x in e['inputs']] for r,e in roles.items()},indent=1))
 

@@ -6,11 +6,6 @@
   "remaining": [
     "role4_free_kick"
   ],
-  "search_status": "aborted",
-  "search_bound": {
-    "bound_s": 12000,
-    "max_round": 30
-  },
   "core": {
     "commit": "42c25412a81a397cb40ed28ba54bca7c688d8b07",
     "tree_sha256": "f84cb2ad14e6749039f9a7b3aa4b66798688d3561730b90290122f7a4fe8686b"
@@ -35,7 +30,32 @@
       "menu": {
         "file": ".cache/400-roles34/reach-r1/menu-r07-repair1.g2core",
         "sha256": "9ffdcd81fc3c8119a8cbe0d4c532656c1cb6fa73c82f0ad3670d3a3d903773e5"
-      }
+      },
+      "taker_prompts_by_role": {
+        "3": 2,
+        "5": 15,
+        "2": 9
+      },
+      "managed_matches": 12
+    },
+    "search-r2": {
+      "status": "season ended",
+      "error": null,
+      "bound_s": 14400,
+      "first_round": 20,
+      "max_round": 45,
+      "want": [
+        4
+      ],
+      "elapsed_s": 719.1,
+      "menu": {
+        "file": ".cache/400-roles34/search-r1/menu-r20.g2core",
+        "sha256": "28fda3d816caee9efb3514da97021c60ac7ef7bc3a2b547e743ecfc0965948c3"
+      },
+      "taker_prompts_by_role": {
+        "5": 3
+      },
+      "managed_matches": 3
     }
   },
   "roles": {
@@ -327,5 +347,21 @@
     },
     "private": "goal2drive:goal2-archaeology/400-roles34-20261109/t131-eefc6f7f20e42e0c-role3-unchanged-core-stop.ucstate",
     "readback": ".cache/400-roles34/readback/t131-eefc6f7f20e42e0c-role3-unchanged-core-stop.ucstate"
+  },
+  "role4": {
+    "covered": false,
+    "attempts": [
+      "reach-r1",
+      "search-r1",
+      "search-r2"
+    ],
+    "managed_matches": 21,
+    "taker_prompts_by_role": {
+      "3": 2,
+      "5": 18,
+      "2": 9
+    },
+    "max_round": 45,
+    "note": "reach-r1 plays rounds 1-6 with the unchanged Core, which stops at any role 3/4 prompt: it met none"
   }
 }
