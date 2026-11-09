@@ -137,6 +137,16 @@ def candidate(initial,helpers,variant=None):
     return {'memory':m.read(0,MEM_SIZE),'regs':swap.regs(m),'writes':writes,'unicorn_denied':True,'exe_denied':True}
 
 
+def unregistered_callee(initial):
+    """E2E6 alone, no helper hooks: its first callee is neither registered nor replayed, so the run must stop."""
+    swap.deny_original();m=PortMachine(initial['memory'],initial['load'])
+    for r,v in initial['regs'].items():m.set_reg(r,v)
+    reg=port.Registry('selection','T129p E2E6 alone');reg._add(selection.PORTS.entries[ENTRY])
+    port.install(m,[(reg,None)]);m.at(RETURN,lambda replay:m.stop('t129p-return'))
+    m.run(m.lin('0791:E4D9'),fresh=True,timeout_s=60)
+    return 'returned'
+
+
 def retain_traces(meta,initial,expected,writes,actual,helpers):
     # Original bytes and both complete traces remain private and retained; no payload is logged/published.
     import gzip,pickle,uuid
@@ -220,6 +230,13 @@ class PoolView(unittest.TestCase):
                     self.assertTrue(actual['memory']!=expected['memory'] or actual['regs']!=expected['regs'],
                                     'falsifier escaped complete memory/ALL16 comparison')
                 auxiliary('falsifier',variant=variant,case=case,detected=True)
+
+    def test_unknown_callee_fails_instead_of_returning_zero(self):
+        from port_test_runtime import PortRuntimeError
+        initial,expected,writes,helpers,meta,_=original('first-page',0)
+        with self.assertRaises(PortRuntimeError) as caught:call_in_pypy(__name__,'unregistered_callee',(initial,))
+        self.assertIn('no registered port/return at 214B:0329',str(caught.exception))
+        auxiliary('unknown-callee',case='first-page',failed_at='214B:0329')
 
     def test_code_free_sealed_primitive_exact_helper_replay(self):
         for case in ('first-page','last-row-highlight','empty-selected-word','top-wrap-skips-rows','footer-suppressed'):
@@ -316,7 +333,7 @@ def flow_original(flow,skip_3947=False):
     return initial,finish(m,ledger,True),meta,image
 
 
-def real_flow(initial,flow,variant=None):
+def real_flow(initial,flow,variant=None,omit=()):
     """Sealed (code-free) memory; positively denied Unicorn/GOAL.EXE; the REGISTERED production ports, stubs included,
     except the two key services the script answers. No helper replay: every callee is a registered port or the run fails.
     """
@@ -326,7 +343,7 @@ def real_flow(initial,flow,variant=None):
     for reg,_ in port.load(['all']):
         clean=port.Registry(reg.name,reg.doc);clean.variants=dict(reg.variants)
         for entry in reg.entries.values():
-            if entry.address not in ('214B:08DD','214B:0723'):clean._add(entry)
+            if entry.address not in ('214B:08DD','214B:0723')+tuple(omit):clean._add(entry)
         if clean.entries:loaded.append((clean,variant if reg.name=='selection' else None))
     installed=port.install(m,loaded);ledger=attach(m,FLOWS[flow]['keys'])
     m.run(m.lin('0791:E99D'),fresh=True,timeout_s=120)
@@ -434,6 +451,16 @@ class SealedRealPoolFlow(unittest.TestCase):
         self.assertEqual(actual['installed_calls'].get('0791:E2E6',0),0)
         auxiliary('sealed-real-flow',flow='c1f-pool-unreachable',calls=stubbed['calls'],unicorn_denied=True,exe_denied=True)
 
+    def test_closure_is_real_removing_one_registered_callee_stops_the_flow(self):
+        from port_test_runtime import PortRuntimeError
+        initial,stubbed,meta,image=flow_original('exchange-setup0',True)
+        sealed=dict(initial,memory=swap.seal_memory(image,initial['memory']))
+        for omitted in ('0791:DDCB','1771:42BC','214B:13C5'):
+            with self.subTest(omitted=omitted):
+                with self.assertRaises(PortRuntimeError) as caught:call_in_pypy(__name__,'real_flow',(sealed,'exchange-setup0',None,(omitted,)))
+                self.assertIn('no registered port/return at '+omitted,str(caught.exception))
+                auxiliary('real-flow-omitted-callee',omitted=omitted,failed=True)
+
     def test_real_flow_falsifiers_row_base_highlight_attribute_and_return(self):
         for variant,flow in [('pool-view-row-off-by-one','exchange-setup0'),('pool-view-base-omitted','exchange-setup0'),
                              ('pool-view-highlight-omitted','exchange-setup0'),
@@ -496,4 +523,7 @@ class HistoricalE2E6Counter(unittest.TestCase):
             elif field=='returned':changed[field]['EFLAGS']+=1
             else:changed[field].append(9)
             with self.subTest(field=field):
-                self.assertNotEqual(target.accepted_default_fields(changed)[field],baseline[field])
+                digest=target.accepted_default_fields(changed)
+                self.assertNotEqual(digest[field],baseline[field])
+                # ... while the unused zero counter alone never moves any other field's digest.
+                self.assertEqual({k:v for k,v in digest.items() if k!=field},{k:v for k,v in baseline.items() if k!=field})

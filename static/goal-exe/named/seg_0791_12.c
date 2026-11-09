@@ -804,7 +804,7 @@ void draw_select_team_slot_hint(void)
 
 
 // ---- 0791:E2E6  draw_pool_view  (f_0791_E2E6; Ghidra 2000:E2E6, __stdcall16near; found by routines.tsv)
-// the pool view of the SELECT TEAM screen: rows top..top+20 of the pool as 1771:2F37 for A927[DS:6D18 + 2*manager + row - 1], then the card of the selected pool player (0791:DDCB, 0791:DE51, 1771:42BC)  [established; F011; read decompiled/seg_0791_09.c; read code/seg_0791_22.asm]
+// T129p (Python match-path port in runtime/original_match/port/selection.py): the pool view of the SELECT TEAM screen: three screen templates (214B:0329), rows top..top+20 (top = game word +0x52 of the manager; unsigned wrap skips the rows) drawn as 1771:2F37 for A927[DS:6D18 + 2*manager + row - 1] with the row equal to the retained mark at parent BP-11 highlighted (214B:00DB, attribute 8Fh, 12 cells), the two footer templates when DS:0C20 is clear, then the card of the selected pool player (0791:DDCB, 0791:DE51, 1771:42BC) and the cursor bar, attribute 70h over 12 back-buffer cells at column 65, row game word +0x5E + 2 (214B:13C5); ret 2  [established; F011; read decompiled/seg_0791_09.c; read code/seg_0791_22.asm]
 
 void draw_pool_view(int param_1)
 

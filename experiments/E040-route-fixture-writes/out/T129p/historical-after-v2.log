@@ -1,0 +1,40 @@
+test_any_call_is_refused_without_mutation (tests.test_port_pool_view.HistoricalE2E6Counter.test_any_call_is_refused_without_mutation) ... ok
+test_missing_counter_and_every_other_field_remain_part_of_the_digest (tests.test_port_pool_view.HistoricalE2E6Counter.test_missing_counter_and_every_other_field_remain_part_of_the_digest) ... ok
+test_registry_inventory_adds_exactly_the_one_entry (tests.test_port_pool_view.HistoricalE2E6Counter.test_registry_inventory_adds_exactly_the_one_entry) ... ok
+test_zero_counter_is_omitted_only_from_a_detached_copy (tests.test_port_pool_view.HistoricalE2E6Counter.test_zero_counter_is_omitted_only_from_a_detached_copy) ... ok
+test_every_other_field_and_counter_remains_part_of_digest (tests.test_port_counter_compat_t128.HistoricalCounters.test_every_other_field_and_counter_remains_part_of_digest) ... ok
+test_missing_counter_and_original_without_ports_are_unchanged (tests.test_port_counter_compat_t128.HistoricalCounters.test_missing_counter_and_original_without_ports_are_unchanged) ... ok
+test_nonzero_counter_is_refused_without_mutation (tests.test_port_counter_compat_t128.HistoricalCounters.test_nonzero_counter_is_refused_without_mutation) ... ok
+test_zero_counter_only_is_omitted_from_detached_historical_copy (tests.test_port_counter_compat_t128.HistoricalCounters.test_zero_counter_only_is_omitted_from_detached_historical_copy) ... ok
+test_call_addresses_parse_as_before (tests.test_port_overhead_t117.Addresses.test_call_addresses_parse_as_before) ... ok
+test_e034_03_drive_equals_the_recorded_before_receipt (tests.test_port_overhead_t117.Drive.test_e034_03_drive_equals_the_recorded_before_receipt) ... ok
+test_a_listener_added_during_a_write_waits_for_the_next_write (tests.test_port_overhead_t117.Listeners.test_a_listener_added_during_a_write_waits_for_the_next_write) ... ok
+test_listeners_outside_the_range_are_not_called_and_order_is_kept (tests.test_port_overhead_t117.Listeners.test_listeners_outside_the_range_are_not_called_and_order_is_kept) ... ok
+test_alias_answers_as_before (tests.test_port_overhead_t117.Registers.test_alias_answers_as_before) ... ok
+test_bounds_and_word_reads_as_before (tests.test_port_overhead_t117.Registers.test_bounds_and_word_reads_as_before) ... ok
+test_every_name_reads_and_writes_as_before_with_the_same_taps (tests.test_port_overhead_t117.Registers.test_every_name_reads_and_writes_as_before_with_the_same_taps) ... ok
+test_regs_names_are_unchanged (tests.test_port_overhead_t117.Registers.test_regs_names_are_unchanged) ... ok
+test_unsupported_names_fail_with_the_same_error (tests.test_port_overhead_t117.Registers.test_unsupported_names_fail_with_the_same_error) ... ok
+test_with_no_tap_the_machine_and_the_port_view_read_and_write_as_before (tests.test_port_overhead_t117.Registers.test_with_no_tap_the_machine_and_the_port_view_read_and_write_as_before) ... ok
+test_actual_original_and_denied_pypy_same_options_full_route (tests.test_route_entry_config.ActualEntry.test_actual_original_and_denied_pypy_same_options_full_route) ... Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+port callback runtime: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+T127_ACTUAL experiments/E040-route-fixture-writes/out/T127/proof-20261109T092002Z-0.json PASS
+Verified port worker: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+port callback runtime: PyPy 3.11 (3.11.15 (194f9f44b505, May 25 2026, 19:34:11))
+T127_ACTUAL experiments/E040-route-fixture-writes/out/T127/proof-20261109T092002Z-1.json PASS
+ok
+test_all_default_configuration_preserves_entry_and_options (tests.test_route_entry_config.Controls.test_all_default_configuration_preserves_entry_and_options) ... ok
+test_boolean_validation_is_atomic_and_failure_does_not_consume (tests.test_route_entry_config.Controls.test_boolean_validation_is_atomic_and_failure_does_not_consume) ... ok
+test_captain_and_budget_validation_precedes_every_change (tests.test_route_entry_config.Controls.test_captain_and_budget_validation_precedes_every_change) ... ok
+test_draw_recorder_is_installed_once_without_reinstalling_hooks (tests.test_route_entry_config.Controls.test_draw_recorder_is_installed_once_without_reinstalling_hooks) ... ok
+test_lazy_events_creation_allows_configuration_but_replay_capture_locks_it (tests.test_route_entry_config.Controls.test_lazy_events_creation_allows_configuration_but_replay_capture_locks_it) ... ok
+test_options_detach_budget_and_preserve_complete_incoming_context (tests.test_route_entry_config.Controls.test_options_detach_budget_and_preserve_complete_incoming_context) ... ok
+test_ordinary_loaded_and_changed_entry_targets_refuse_without_changes (tests.test_route_entry_config.Controls.test_ordinary_loaded_and_changed_entry_targets_refuse_without_changes) ... ok
+test_original_child_requires_an_inactive_parent (tests.test_route_entry_config.Controls.test_original_child_requires_an_inactive_parent) ... ok
+test_unknown_and_setup_options_are_rejected_without_consumption (tests.test_route_entry_config.Controls.test_unknown_and_setup_options_are_rejected_without_consumption) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 275.246s
+
+OK
+exit 0

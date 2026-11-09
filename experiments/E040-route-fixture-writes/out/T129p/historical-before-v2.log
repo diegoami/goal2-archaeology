@@ -1,0 +1,172 @@
+test_any_call_is_refused_without_mutation (tests.test_port_pool_view.HistoricalE2E6Counter.test_any_call_is_refused_without_mutation) ... 
+  test_any_call_is_refused_without_mutation (tests.test_port_pool_view.HistoricalE2E6Counter.test_any_call_is_refused_without_mutation) (address='0791:E2E6', count=1) ... FAIL
+  test_any_call_is_refused_without_mutation (tests.test_port_pool_view.HistoricalE2E6Counter.test_any_call_is_refused_without_mutation) (address='0791:E2E6', count=-1) ... FAIL
+  test_any_call_is_refused_without_mutation (tests.test_port_pool_view.HistoricalE2E6Counter.test_any_call_is_refused_without_mutation) (address='0791:E2E6', count=2) ... FAIL
+test_missing_counter_and_every_other_field_remain_part_of_the_digest (tests.test_port_pool_view.HistoricalE2E6Counter.test_missing_counter_and_every_other_field_remain_part_of_the_digest) ... 
+  test_missing_counter_and_every_other_field_remain_part_of_the_digest (tests.test_port_pool_view.HistoricalE2E6Counter.test_missing_counter_and_every_other_field_remain_part_of_the_digest) (field='events') ... FAIL
+  test_missing_counter_and_every_other_field_remain_part_of_the_digest (tests.test_port_pool_view.HistoricalE2E6Counter.test_missing_counter_and_every_other_field_remain_part_of_the_digest) (field='keys') ... FAIL
+  test_missing_counter_and_every_other_field_remain_part_of_the_digest (tests.test_port_pool_view.HistoricalE2E6Counter.test_missing_counter_and_every_other_field_remain_part_of_the_digest) (field='draws') ... FAIL
+  test_missing_counter_and_every_other_field_remain_part_of_the_digest (tests.test_port_pool_view.HistoricalE2E6Counter.test_missing_counter_and_every_other_field_remain_part_of_the_digest) (field='returned') ... FAIL
+  test_missing_counter_and_every_other_field_remain_part_of_the_digest (tests.test_port_pool_view.HistoricalE2E6Counter.test_missing_counter_and_every_other_field_remain_part_of_the_digest) (field='memory') ... FAIL
+test_registry_inventory_adds_exactly_the_one_entry (tests.test_port_pool_view.HistoricalE2E6Counter.test_registry_inventory_adds_exactly_the_one_entry) ... ERROR
+test_zero_counter_is_omitted_only_from_a_detached_copy (tests.test_port_pool_view.HistoricalE2E6Counter.test_zero_counter_is_omitted_only_from_a_detached_copy) ... FAIL
+test_call_addresses_parse_as_before (tests.test_port_overhead_t117.Addresses.test_call_addresses_parse_as_before) ... ok
+test_e034_03_drive_equals_the_recorded_before_receipt (tests.test_port_overhead_t117.Drive.test_e034_03_drive_equals_the_recorded_before_receipt) ... ok
+test_a_listener_added_during_a_write_waits_for_the_next_write (tests.test_port_overhead_t117.Listeners.test_a_listener_added_during_a_write_waits_for_the_next_write) ... ok
+test_listeners_outside_the_range_are_not_called_and_order_is_kept (tests.test_port_overhead_t117.Listeners.test_listeners_outside_the_range_are_not_called_and_order_is_kept) ... ok
+test_alias_answers_as_before (tests.test_port_overhead_t117.Registers.test_alias_answers_as_before) ... ok
+test_bounds_and_word_reads_as_before (tests.test_port_overhead_t117.Registers.test_bounds_and_word_reads_as_before) ... ok
+test_every_name_reads_and_writes_as_before_with_the_same_taps (tests.test_port_overhead_t117.Registers.test_every_name_reads_and_writes_as_before_with_the_same_taps) ... ok
+test_regs_names_are_unchanged (tests.test_port_overhead_t117.Registers.test_regs_names_are_unchanged) ... ok
+test_unsupported_names_fail_with_the_same_error (tests.test_port_overhead_t117.Registers.test_unsupported_names_fail_with_the_same_error) ... ok
+test_with_no_tap_the_machine_and_the_port_view_read_and_write_as_before (tests.test_port_overhead_t117.Registers.test_with_no_tap_the_machine_and_the_port_view_read_and_write_as_before) ... ok
+test_allowed_zero_budget_never_calls_swap (tests.test_port_selection.Selection.test_allowed_zero_budget_never_calls_swap) ... ok
+test_bench_and_pitch_instruction_templates (tests.test_port_selection.Selection.test_bench_and_pitch_instruction_templates) ... ok
+test_both_managed_sides_are_checked_and_unmanaged_side_is_accepted (tests.test_port_selection.Selection.test_both_managed_sides_are_checked_and_unmanaged_side_is_accepted) ... ok
+test_each_first_team_refusal_and_parent_restoration (tests.test_port_selection.Selection.test_each_first_team_refusal_and_parent_restoration) ... ok
+test_empty_pool_slots_share_the_original_sentinel_position (tests.test_port_selection.Selection.test_empty_pool_slots_share_the_original_sentinel_position) ... ok
+test_empty_slot_and_first_mark (tests.test_port_selection.Selection.test_empty_slot_and_first_mark) ... ok
+test_escape_cancels_mark_before_a_later_escape_exits (tests.test_port_selection.Selection.test_escape_cancels_mark_before_a_later_escape_exits) ... ok
+test_full_pool_with_equal_keys_keeps_original_partition_tie_order (tests.test_port_selection.Selection.test_full_pool_with_equal_keys_keeps_original_partition_tie_order) ... ok
+test_listing_entries_and_returns (tests.test_port_selection.Selection.test_listing_entries_and_returns) ... ok
+test_locked_selection_ignores_swap_jobs_and_horizontal_keys (tests.test_port_selection.Selection.test_locked_selection_ignores_swap_jobs_and_horizontal_keys) ... ok
+test_open_selection_dispatches_managed_and_unmanaged_country (tests.test_port_selection.Selection.test_open_selection_dispatches_managed_and_unmanaged_country) ... ok
+test_request_budget_uses_the_selected_teams_side (tests.test_port_selection.Selection.test_request_budget_uses_the_selected_teams_side) ... ok
+test_request_toggle_and_zero_budget (tests.test_port_selection.Selection.test_request_toggle_and_zero_budget) ... ok
+test_same_block_unavailable_and_sentoff_refusals (tests.test_port_selection.Selection.test_same_block_unavailable_and_sentoff_refusals) ... ok
+test_selected_player_jobs_keep_the_original_cross_row_calls (tests.test_port_selection.Selection.test_selected_player_jobs_keep_the_original_cross_row_calls) ... ok
+test_squad_pointer_and_pool_pointer (tests.test_port_selection.Selection.test_squad_pointer_and_pool_pointer) ... ok
+test_swap_changes_only_squad_form_and_marking_before_refresh (tests.test_port_selection.Selection.test_swap_changes_only_squad_form_and_marking_before_refresh) ... ok
+
+======================================================================
+ERROR: test_registry_inventory_adds_exactly_the_one_entry (tests.test_port_pool_view.HistoricalE2E6Counter.test_registry_inventory_adds_exactly_the_one_entry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 493, in test_registry_inventory_adds_exactly_the_one_entry
+    self.assertEqual(selection.PORTS.entries[self.ADDRESS].ret,'ret 2')
+                     ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+KeyError: '0791:E2E6'
+
+======================================================================
+FAIL: test_any_call_is_refused_without_mutation (tests.test_port_pool_view.HistoricalE2E6Counter.test_any_call_is_refused_without_mutation) (address='0791:E2E6', count=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 513, in test_any_call_is_refused_without_mutation
+    with self.assertRaises(AssertionError):target.accepted_default_fields(row)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: AssertionError not raised
+
+======================================================================
+FAIL: test_any_call_is_refused_without_mutation (tests.test_port_pool_view.HistoricalE2E6Counter.test_any_call_is_refused_without_mutation) (address='0791:E2E6', count=-1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 513, in test_any_call_is_refused_without_mutation
+    with self.assertRaises(AssertionError):target.accepted_default_fields(row)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: AssertionError not raised
+
+======================================================================
+FAIL: test_any_call_is_refused_without_mutation (tests.test_port_pool_view.HistoricalE2E6Counter.test_any_call_is_refused_without_mutation) (address='0791:E2E6', count=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 513, in test_any_call_is_refused_without_mutation
+    with self.assertRaises(AssertionError):target.accepted_default_fields(row)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: AssertionError not raised
+
+======================================================================
+FAIL: test_missing_counter_and_every_other_field_remain_part_of_the_digest (tests.test_port_pool_view.HistoricalE2E6Counter.test_missing_counter_and_every_other_field_remain_part_of_the_digest) (field='events')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 529, in test_missing_counter_and_every_other_field_remain_part_of_the_digest
+    self.assertEqual({k:v for k,v in digest.items() if k!=field},{k:v for k,v in baseline.items() if k!=field})
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'result': 'b80ee979c2d671559893a7639f16af35916c70295[331 chars]a78'} != {'result': 'e605cea015c32c7d18500a6da05834ee6c95158fe[331 chars]a78'}
+  {'draws': '038966de9f6b9a901b20b4c6ca8b2a46009feebe031babc842d43690c0bc222b',
+   'keys': '525ec3b5ad9afc0f09a5f7e0eb865e97f5b4b614a85cf93f3ae644f8e5f874f0',
+   'memory': '3116fd9c918e48eb9e55eff63b9f43742990e739366cf8963dab779d3f631a78',
+-  'result': 'b80ee979c2d671559893a7639f16af35916c70295135d931ca5ff02fe518d32b',
++  'result': 'e605cea015c32c7d18500a6da05834ee6c95158fe9ac498425c4f20c729b633e',
+   'returned': '5f449910e95833b2ac0fe87ca0386e61c25c0ca617454c3c53adfa173ef51ebd'}
+
+======================================================================
+FAIL: test_missing_counter_and_every_other_field_remain_part_of_the_digest (tests.test_port_pool_view.HistoricalE2E6Counter.test_missing_counter_and_every_other_field_remain_part_of_the_digest) (field='keys')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 529, in test_missing_counter_and_every_other_field_remain_part_of_the_digest
+    self.assertEqual({k:v for k,v in digest.items() if k!=field},{k:v for k,v in baseline.items() if k!=field})
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'result': 'b80ee979c2d671559893a7639f16af35916c70295[333 chars]a78'} != {'result': 'e605cea015c32c7d18500a6da05834ee6c95158fe[333 chars]a78'}
+  {'draws': '038966de9f6b9a901b20b4c6ca8b2a46009feebe031babc842d43690c0bc222b',
+   'events': 'bd96196788e0224b8f04e961a4c7cd79d6a6e568728810721b54e6dcccb3a447',
+   'memory': '3116fd9c918e48eb9e55eff63b9f43742990e739366cf8963dab779d3f631a78',
+-  'result': 'b80ee979c2d671559893a7639f16af35916c70295135d931ca5ff02fe518d32b',
++  'result': 'e605cea015c32c7d18500a6da05834ee6c95158fe9ac498425c4f20c729b633e',
+   'returned': '5f449910e95833b2ac0fe87ca0386e61c25c0ca617454c3c53adfa173ef51ebd'}
+
+======================================================================
+FAIL: test_missing_counter_and_every_other_field_remain_part_of_the_digest (tests.test_port_pool_view.HistoricalE2E6Counter.test_missing_counter_and_every_other_field_remain_part_of_the_digest) (field='draws')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 529, in test_missing_counter_and_every_other_field_remain_part_of_the_digest
+    self.assertEqual({k:v for k,v in digest.items() if k!=field},{k:v for k,v in baseline.items() if k!=field})
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'result': 'b80ee979c2d671559893a7639f16af35916c70295[332 chars]a78'} != {'result': 'e605cea015c32c7d18500a6da05834ee6c95158fe[332 chars]a78'}
+  {'events': 'bd96196788e0224b8f04e961a4c7cd79d6a6e568728810721b54e6dcccb3a447',
+   'keys': '525ec3b5ad9afc0f09a5f7e0eb865e97f5b4b614a85cf93f3ae644f8e5f874f0',
+   'memory': '3116fd9c918e48eb9e55eff63b9f43742990e739366cf8963dab779d3f631a78',
+-  'result': 'b80ee979c2d671559893a7639f16af35916c70295135d931ca5ff02fe518d32b',
++  'result': 'e605cea015c32c7d18500a6da05834ee6c95158fe9ac498425c4f20c729b633e',
+   'returned': '5f449910e95833b2ac0fe87ca0386e61c25c0ca617454c3c53adfa173ef51ebd'}
+
+======================================================================
+FAIL: test_missing_counter_and_every_other_field_remain_part_of_the_digest (tests.test_port_pool_view.HistoricalE2E6Counter.test_missing_counter_and_every_other_field_remain_part_of_the_digest) (field='returned')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 529, in test_missing_counter_and_every_other_field_remain_part_of_the_digest
+    self.assertEqual({k:v for k,v in digest.items() if k!=field},{k:v for k,v in baseline.items() if k!=field})
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'result': 'b80ee979c2d671559893a7639f16af35916c70295[329 chars]a78'} != {'result': 'e605cea015c32c7d18500a6da05834ee6c95158fe[329 chars]a78'}
+  {'draws': '038966de9f6b9a901b20b4c6ca8b2a46009feebe031babc842d43690c0bc222b',
+   'events': 'bd96196788e0224b8f04e961a4c7cd79d6a6e568728810721b54e6dcccb3a447',
+   'keys': '525ec3b5ad9afc0f09a5f7e0eb865e97f5b4b614a85cf93f3ae644f8e5f874f0',
+   'memory': '3116fd9c918e48eb9e55eff63b9f43742990e739366cf8963dab779d3f631a78',
+-  'result': 'b80ee979c2d671559893a7639f16af35916c70295135d931ca5ff02fe518d32b'}
++  'result': 'e605cea015c32c7d18500a6da05834ee6c95158fe9ac498425c4f20c729b633e'}
+
+======================================================================
+FAIL: test_missing_counter_and_every_other_field_remain_part_of_the_digest (tests.test_port_pool_view.HistoricalE2E6Counter.test_missing_counter_and_every_other_field_remain_part_of_the_digest) (field='memory')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 529, in test_missing_counter_and_every_other_field_remain_part_of_the_digest
+    self.assertEqual({k:v for k,v in digest.items() if k!=field},{k:v for k,v in baseline.items() if k!=field})
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'result': 'b80ee979c2d671559893a7639f16af35916c70295[331 chars]ebd'} != {'result': 'e605cea015c32c7d18500a6da05834ee6c95158fe[331 chars]ebd'}
+  {'draws': '038966de9f6b9a901b20b4c6ca8b2a46009feebe031babc842d43690c0bc222b',
+   'events': 'bd96196788e0224b8f04e961a4c7cd79d6a6e568728810721b54e6dcccb3a447',
+   'keys': '525ec3b5ad9afc0f09a5f7e0eb865e97f5b4b614a85cf93f3ae644f8e5f874f0',
+-  'result': 'b80ee979c2d671559893a7639f16af35916c70295135d931ca5ff02fe518d32b',
++  'result': 'e605cea015c32c7d18500a6da05834ee6c95158fe9ac498425c4f20c729b633e',
+   'returned': '5f449910e95833b2ac0fe87ca0386e61c25c0ca617454c3c53adfa173ef51ebd'}
+
+======================================================================
+FAIL: test_zero_counter_is_omitted_only_from_a_detached_copy (tests.test_port_pool_view.HistoricalE2E6Counter.test_zero_counter_is_omitted_only_from_a_detached_copy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/goal2-t128-repair-a/tests/test_port_pool_view.py", line 503, in test_zero_counter_is_omitted_only_from_a_detached_copy
+    self.assertEqual(target.accepted_default_fields(row),expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'result': 'b80ee979c2d671559893a7639f16af35916c70295[409 chars]a78'} != {'result': 'e605cea015c32c7d18500a6da05834ee6c95158fe[409 chars]a78'}
+  {'draws': '038966de9f6b9a901b20b4c6ca8b2a46009feebe031babc842d43690c0bc222b',
+   'events': 'bd96196788e0224b8f04e961a4c7cd79d6a6e568728810721b54e6dcccb3a447',
+   'keys': '525ec3b5ad9afc0f09a5f7e0eb865e97f5b4b614a85cf93f3ae644f8e5f874f0',
+   'memory': '3116fd9c918e48eb9e55eff63b9f43742990e739366cf8963dab779d3f631a78',
+-  'result': 'b80ee979c2d671559893a7639f16af35916c70295135d931ca5ff02fe518d32b',
++  'result': 'e605cea015c32c7d18500a6da05834ee6c95158fe9ac498425c4f20c729b633e',
+   'returned': '5f449910e95833b2ac0fe87ca0386e61c25c0ca617454c3c53adfa173ef51ebd'}
+
+----------------------------------------------------------------------
+Ran 31 tests in 98.764s
+
+FAILED (failures=9, errors=1)
+exit 1

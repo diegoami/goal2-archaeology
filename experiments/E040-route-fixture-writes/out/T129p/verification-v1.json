@@ -1,0 +1,21 @@
+{
+  "compared_memory_bytes": 1114112,
+  "falsifiers": 5,
+  "files": {
+    "experiments/E040-route-fixture-writes/out/T129p/verify.py": "d764e82a0b312a5220d5738130dfbc2564f26e6e81ee761a3ed3836c9315b3cd",
+    "runtime/original_match/port/selection.py": "de6e6fff8ed8bea75169b1549009eaccf2fe93084a816c093e93291b60ea7da4",
+    "tests/test_port_pool_view.py": "5dfdc347abe4d65c930eda69e7cb1e31208edd6896aed5b8ffd61c81500ce824"
+  },
+  "full_final_and_helper_memory_and_all16_no_masks": true,
+  "git_head": "ca8630327ca3eb0f765163a5a2eb3a7e411375d6",
+  "model": "Claude Sonnet 5.5 (claude-sonnet-5-5)",
+  "omitted_callee_stops": 3,
+  "only_new_selection_function": "draw_pool_view",
+  "primitive_cases": 32,
+  "private_complete_trace_pairs_verified": 32,
+  "real_flow_falsifiers": 5,
+  "sealed_exact_primitive_cases": 5,
+  "sealed_real_flows": 5,
+  "status": "passed",
+  "t128_tests_unchanged": true
+}
