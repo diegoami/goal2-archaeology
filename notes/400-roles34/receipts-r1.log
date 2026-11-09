@@ -1,0 +1,34 @@
+# T131 receipts, 2026-11-09T19:06:38Z, head 7861b9b5fba7267b095f218146fe3872f36dd713 (+ this log)
+$ python3 -B -m unittest tests.test_taker_checkpoints_t131   (with the private readback present)
+Ran 14 tests in 0.346s
+
+OK
+$ same, with .cache/400-roles34/readback absent (CI)
+Ran 14 tests in 0.002s
+
+OK (skipped=4)
+$ mutations of delivery.json, each restored by writing its saved bytes back (the test file is unchanged)
+mutation role 3 -> 5: FAILED (failures=5); failing: ['test_every_state_derives_to_its_manifest_frame_and_origin', 'test_the_accepted_pick_is_the_one_the_original_stored', 'test_the_board_read_and_the_return_keep_the_same_decision', 'test_the_decision_frame_is_the_role_asked_for_and_not_a_captain', 'test_the_unchanged_core_stops_at_the_decision_it_has_no_entry_for', 'FAILED']
+mutation highlight 11 -> 10: FAILED (failures=4); failing: ['test_every_state_derives_to_its_manifest_frame_and_origin', 'test_the_board_read_and_the_return_keep_the_same_decision', 'test_the_decision_frame_is_the_role_asked_for_and_not_a_captain', 'test_the_unchanged_core_stops_at_the_decision_it_has_no_entry_for', 'FAILED']
+mutation pick 131 -> 130: FAILED (failures=5); failing: ['test_every_state_derives_to_its_manifest_frame_and_origin', 'test_the_accepted_pick_is_the_one_the_original_stored', 'test_the_board_read_and_the_return_keep_the_same_decision', 'test_the_decision_frame_is_the_role_asked_for_and_not_a_captain', 'test_the_unchanged_core_stops_at_the_decision_it_has_no_entry_for', 'FAILED']
+mutation decision hash zeroed: FAILED (failures=4); failing: ['test_every_state_derives_to_its_manifest_frame_and_origin', 'test_the_role_byte_in_the_kept_memory_is_the_roles_and_not_forced', 'test_the_unchanged_core_stop_is_the_decision_machine', 'test_the_hashes_are_whole_and_name_the_files', 'FAILED']
+mutation board read replaced by a captain selector: FAILED (failures=1); failing: ['test_each_case_has_the_inputs_item_1_names_in_order', 'FAILED']
+mutation preceding input dropped: FAILED (failures=1, errors=1); failing: ['test_the_keys_are_the_originals_and_each_step_adds_its_one', 'test_each_case_has_the_inputs_item_1_names_in_order', 'FAILED']
+mutation board step without its Space key: FAILED (failures=2); failing: ['test_every_state_derives_to_its_manifest_frame_and_origin', 'test_the_keys_are_the_originals_and_each_step_adds_its_one', 'FAILED']
+mutation role 4 uncovered: FAILED (failures=1); failing: ['test_both_roles_are_covered_and_nothing_remains', 'FAILED']
+mutation role 4 frame says role 3: FAILED (failures=4); failing: ['test_every_state_derives_to_its_manifest_frame_and_origin', 'test_the_board_read_and_the_return_keep_the_same_decision', 'test_the_decision_frame_is_the_role_asked_for_and_not_a_captain', 'test_the_unchanged_core_stops_at_the_decision_it_has_no_entry_for', 'FAILED']
+mutation free kick asked by the penalty caller: FAILED (failures=3); failing: ['test_every_state_derives_to_its_manifest_frame_and_origin', 'test_the_board_read_and_the_return_keep_the_same_decision', 'test_the_decision_frame_is_the_role_asked_for_and_not_a_captain', 'FAILED']
+mutation Albania side flipped: FAILED (failures=4); failing: ['test_every_state_derives_to_its_manifest_frame_and_origin', 'test_the_accepted_pick_is_the_one_the_original_stored', 'test_the_board_read_and_the_return_keep_the_same_decision', 'test_the_decision_frame_is_the_role_asked_for_and_not_a_captain', 'FAILED']
+restored: True
+$ python3 -B -m unittest tests.test_port_takers   (roles 2 and 5 port tests, unchanged)
+Ran 8 tests in 0.120s
+
+OK
+$ python3 notes/400-next/verify.py   (T89 role 5, unchanged)
+PASS:17 original saves +12 retained G13 inputs /100 managed slots each: no vacancies; 100 observations in2 bounded native attempts; original role5 + CF3A and return; all private hashes verified;4 cases remain
+$ python3 notes/400-remaining/verify.py   (T88 role 2, unchanged)
+PASS: 404 native observations / 4 native attempts + 17 core observations / 1 bounded attempt; corner, CF3A and E19F; all private readbacks verified; five cases remain unavailable
+$ python3 tools/check_links.py
+links and JSON ok (12208 files)
+$ git diff --stat origin/main -- notes/400-next notes/400-remaining tests/test_port_takers.py   (the role 2/5 files are untouched)
+(empty)
