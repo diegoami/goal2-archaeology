@@ -153,24 +153,43 @@ class Driven(unittest.TestCase):
         pos = dict((w, c) for w, c in first['positions'])
         off = first['eleven'][-1]
         on = next(w for w in first['bench'] if w and pos.get(w) == pos[off])
-        m.answer(edit_only=True, substitutions=[[off, on]])
-        second = None
-        for ev in m.events():
-            if ev.kind == 'decision':
-                second = ev.data
-                break
-        self.assertEqual((second['context'], second.get('edited'), second.get('refused')),
-                         ('pre_match', True, None))
-        self.assertTrue(on in second['eleven'] and off not in second['eleven'])
-        m.answer()                                          # play
-        played = []
-        for ev in m.events():
-            played.append(ev.kind)
-            if ev.kind == 'minute':
-                break
+        # [T132 Done-when 2, at T124t's site-visit strength] Every swap the flow makes is the
+        # original's own code: DEA6 is visited with the mark, EA09 validates, and each key the
+        # plan presses goes through a real key read (captured by wrapping the plan's act).
+        dea6, ea09, keys = [], [], []
+        m.m.at('0791:DEA6', lambda replay: replay or dea6.append(m.m.rd(0x0C1B)))
+        m.m.at('0791:EA09', lambda replay: replay or ea09.append(1))
+        real_new_plan = Match._new_plan
+
+        def logged_new_plan(match, answer, context=None):
+            plan = real_new_plan(match, answer, context)
+            act = plan.act
+            plan.act = lambda key: (keys.append(key), act(key))[1]
+            match._menu = plan
+            return plan
+        import unittest.mock as mock
+        with mock.patch.object(Match, '_new_plan', logged_new_plan):
+            m.answer(edit_only=True, substitutions=[[off, on]])
+            second = None
+            for ev in m.events():
+                if ev.kind == 'decision':
+                    second = ev.data
+                    break
+            self.assertEqual((second['context'], second.get('edited'), second.get('refused')),
+                             ('pre_match', True, None))
+            self.assertTrue(on in second['eleven'] and off not in second['eleven'])
+            m.answer()                                          # play
+            played = []
+            for ev in m.events():
+                played.append(ev.kind)
+                if ev.kind == 'minute':
+                    break
         self.assertIn('commentary', played)
         self.assertGreaterEqual(m.st['minute'], 1)
         self.assertEqual(m.st['log']['substitutions'], [])  # a line-up change, not a substitution event
+        self.assertTrue(dea6, 'DEA6 was never visited: the swap was not the original\'s own')
+        self.assertTrue(ea09, 'EA09 never validated the eleven')
+        self.assertTrue(keys and all(0 <= k <= 255 for k in keys))
 
     def test_a_tactics_toggle_is_made_by_the_original_editor_before_kick_off(self):
         m, first = self.drive()
