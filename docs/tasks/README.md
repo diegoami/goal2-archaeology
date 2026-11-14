@@ -192,3 +192,5 @@ exists.
 - [T128](T128.md): complete DEA6 pool selection for the required ordinary pre-match controls (#701; goal2T170).
 
 - [T129p](T129p.md): complete E2E6 pool-view state/ABI before interactive pool actions (#703).
+
+- [T132](T132.md): pre-match team input on the actual held route Match — consumer swaps by DEA6's own keys and the pre-match team-tactics edit (#709; goal2 #718, the T170g seam).
