@@ -1462,6 +1462,12 @@ class Match:
                 self._emit(kind, minute, score, **card)
         for team in (0, 1):            # a scorer row or an eleven change without its counter's write: not guessed
             if rows[team] or swaps[team]:
+                # [T132, #709] The pre-match menu changes the managed line-up by DEA6's own swaps,
+                # before play: no substitution event or counter write exists for them (T124t; the
+                # route harness's swaps precede the first flush's baseline for the same reason).
+                if (swaps[team] and not rows[team] and st["menu_context"] == "pre_match"
+                        and self.side is not None and team == self.side):
+                    continue
                 self._fail(f"team {team}: scorer rows {rows[team]} or eleven changes {swaps[team]} without the "
                            "score or substitutions-left write that makes them events")
         st["candidates"] = {}

@@ -130,5 +130,83 @@ class AnswerLegality(unittest.TestCase):
             bad.answer(substitutions=[[12345, 54321]])      # the generic squad-membership rule
 
 
+class Driven(unittest.TestCase):
+    """The real flow on the sealed entry: the original's own DEA6 makes the swap, the decision
+    returns edited, and play kicks off. The original-backed Prover comparison of Done-when 2
+    (complete state, ordered writes, the key sequence against the original run) stays with the
+    heavy rig; this is the behavioural proof on the actual machine."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.image, cls.context, cls.fixture = _fixtures().entry()
+
+    def drive(self):
+        m = Match.from_route_entry(self.image, Fixture(**self.fixture), self.context)
+        m.configure_route_entry(pre_match_edits=True)
+        for ev in m.events():
+            if ev.kind == 'decision' and ev.data['context'] == 'pre_match':
+                return m, ev.data
+        raise AssertionError('no pre_match decision')
+
+    def test_a_consumer_swap_is_made_by_the_original_and_play_kicks_off(self):
+        m, first = self.drive()
+        pos = dict((w, c) for w, c in first['positions'])
+        off = first['eleven'][-1]
+        on = next(w for w in first['bench'] if w and pos.get(w) == pos[off])
+        m.answer(edit_only=True, substitutions=[[off, on]])
+        second = None
+        for ev in m.events():
+            if ev.kind == 'decision':
+                second = ev.data
+                break
+        self.assertEqual((second['context'], second.get('edited'), second.get('refused')),
+                         ('pre_match', True, None))
+        self.assertTrue(on in second['eleven'] and off not in second['eleven'])
+        m.answer()                                          # play
+        played = []
+        for ev in m.events():
+            played.append(ev.kind)
+            if ev.kind == 'minute':
+                break
+        self.assertIn('commentary', played)
+        self.assertGreaterEqual(m.st['minute'], 1)
+        self.assertEqual(m.st['log']['substitutions'], [])  # a line-up change, not a substitution event
+
+    def test_a_tactics_toggle_is_made_by_the_original_editor_before_kick_off(self):
+        m, first = self.drive()
+        element, byte = 8, first['tactics']
+        want = not bool(byte >> (element - 1) & 1)
+        m.answer(edit_only=True, tactics={element: want})
+        for ev in m.events():
+            if ev.kind == 'decision':
+                second = ev.data
+                break
+        self.assertEqual((second['context'], second.get('edited'), second.get('refused')),
+                         ('pre_match', True, None))
+        self.assertEqual(bool(second['tactics'] >> (element - 1) & 1), want)
+        m.answer()                                          # play
+        played = []
+        for ev in m.events():
+            played.append(ev.kind)
+            if ev.kind == 'minute':
+                break
+        self.assertIn('commentary', played)
+
+    def test_the_flush_guard_still_fails_an_unexplained_eleven_change_outside_pre_match(self):
+        from original_match.machine import GuestError
+        m, first = self.drive()
+        squad = m._squad(m.opts['managed'])
+        baseline = squad[:10] + [squad[11]]                 # one membership difference from the live eleven
+        m.st['squads'][m.side] = baseline
+        m.st['menu_context'] = 'pause'                      # not the pre-match menu: still refused
+        with self.assertRaises(GuestError):
+            m._flush()
+        m2, _ = self.drive()                                # at the pre-match menu: the managed line-up
+        squad2 = m2._squad(m2.opts['managed'])
+        m2.st['squads'][m2.side] = squad2[:10] + [squad2[11]]
+        m2.st['menu_context'] = 'pre_match'
+        m2._flush()                                         # no GuestError: the baseline takes the line-up
+
+
 if __name__ == '__main__':
     unittest.main()
