@@ -113,7 +113,9 @@ class StoppedEdit(unittest.TestCase):
         self.assertTrue(m.st['editing_select'])
         self.assertEqual(len(m.closed),1)
         m.st['answer']={'substitutions':[]}
-        m._new_plan=lambda answer: SimpleNamespace(edit_only=False,select_key=lambda state:S.ESC)
+        # [T132 continuation] the seam passes the menu context through (the pre-match
+        # continuation builds the pre-match plan); the stub matches the real signature.
+        m._new_plan=lambda answer, context=None: SimpleNamespace(edit_only=False,select_key=lambda state:S.ESC)
         self.assertEqual(m._key_for(SITE_SELECT),S.ESC)
         self.assertFalse(m.st['editing_select'])
         self.assertEqual(len(m.closed),1)
