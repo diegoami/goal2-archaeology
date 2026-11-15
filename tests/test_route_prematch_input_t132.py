@@ -2,13 +2,15 @@
 
 Surgical controls on the configuration, the published `pre_match` decision, answer()
 legality and the installed plan; the original-backed driven proof (DEA6's own keys,
-complete state) is T132's Done-when 2 and runs with the sealed fixtures.
+complete state) is T132's Done-when 2 and runs with the sealed fixtures. The pool arm
+(#709's continuation): the made pool of F011, answer() pool exchanges and the driven
+pool-to-squad swap through DEA6 with DBFA's gate asked.
 """
 import sys
 from pathlib import Path
 import unittest
 sys.path[:0] = [str(Path(__file__).resolve().parents[1] / 'runtime')]
-from original_match.match import Match, Fixture, MatchError
+from original_match.match import Match, Fixture, MatchError, PLAYER_POSITION
 from original_match.route_team import PreMatchPlan
 from tests.test_route_sealed import _fixtures
 
@@ -69,6 +71,9 @@ class PreMatchMenu(unittest.TestCase):
         self.assertEqual(plan.jobs, [('sub', eleven[10], bench[0])])
         self.assertEqual(plan.steps, ['tactics', 'select', 'play'])
         self.assertIs(plan.edit_only, True)
+        pool_word = m._pool()[0]                            # [F011] a made-pool word rides the same jobs
+        self.assertEqual(m._new_plan({'substitutions': [[eleven[10], pool_word]], 'edit_only': True},
+                                     'pre_match').jobs, [('sub', eleven[10], pool_word)])
         empty = m._new_plan({'substitutions': [], 'tactics': {}}, 'pre_match')
         self.assertEqual((empty.jobs, empty.steps), ([], ['play']))
         other = m._new_plan({'substitutions': [[eleven[10], bench[0]]]})
@@ -128,6 +133,45 @@ class AnswerLegality(unittest.TestCase):
         bad = self.match(True)
         with self.assertRaises(ValueError):
             bad.answer(substitutions=[[12345, 54321]])      # the generic squad-membership rule
+
+    def test_a_pool_word_is_a_legal_pre_match_incoming_and_only_there(self):
+        m = self.match(True)
+        off, pool_word = m._squad(m.opts['managed'])[10], m._pool()[0]
+        m.answer(edit_only=True, substitutions=[[off, pool_word]])
+        self.assertEqual(m.st['answer']['substitutions'], [[off, pool_word]])
+        never_made = self.match(True)                       # [F011] only manager 1's block is made here:
+        with self.assertRaises(ValueError):                 # manager 2's first word is neither bench nor pool
+            never_made.answer(edit_only=True,
+                              substitutions=[[never_made._squad(m.opts['managed'])[10], pool_word + 80]])
+        unconfigured = self.match(False)
+        with self.assertRaises(ValueError):
+            unconfigured.answer(edit_only=True, substitutions=[[off, pool_word]])
+
+
+class PoolReader(unittest.TestCase):
+    """[F011] The entry holds the managed manager's made pool: eighty words 0xA01..0xA50
+    (manager 1's block; the words past it are zero), position-sorted as 1771:5532 left it,
+    disjoint from the squad's records. The screen's own state words (scroll +0x52, cursor
+    +0x5E) are the plan's to drive, proven in Driven below."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.image, cls.context, cls.fixture = _fixtures().entry()
+
+    def match(self):
+        return Match.from_route_entry(self.image, Fixture(**self.fixture), self.context)
+
+    def test_the_entry_holds_the_managed_managers_made_pool(self):
+        m = self.match()
+        pool, squad = m._pool(), m._squad(m.opts['managed'])
+        self.assertEqual(len(pool), 80)
+        self.assertTrue(all(0xA01 <= w <= 0xA50 for w in pool))       # F011: manager 1's 2561..2640
+        self.assertFalse(set(pool) & set(w for w in squad if w))      # records past the 2560 squad words
+
+    def test_the_pool_is_position_sorted_as_sort_pool_left_it(self):
+        m = self.match()
+        positions = [m._player(w, PLAYER_POSITION) for w in m._pool()]
+        self.assertEqual(positions, sorted(positions))                # F011: sorted ascending by +6, keepers first
 
 
 class Driven(unittest.TestCase):
@@ -190,6 +234,55 @@ class Driven(unittest.TestCase):
         self.assertTrue(dea6, 'DEA6 was never visited: the swap was not the original\'s own')
         self.assertTrue(ea09, 'EA09 never validated the eleven')
         self.assertTrue(keys and all(0 <= k <= 255 for k in keys))
+
+    def test_a_pool_exchange_is_made_by_the_original_and_play_kicks_off(self):
+        m, first = self.drive()
+        self.assertEqual(first.get('pool'), m._pool())      # the decision publishes the made pool
+        pos = dict((w, c) for w, c in first['positions'])
+        off = first['eleven'][-1]
+        on = next(w for w in first['pool'] if m._player(w, PLAYER_POSITION) == pos[off])
+        # [T132 pool arm, #709; T128's pool-to-squad case] The exchange is the original's own
+        # code: the pane toggle (E6C7-E6D4) is a screen key, the pool-pane Enter asks DBFA before
+        # DEA6 marks, the squad-pane Enter completes through DEA6, EA09 validates the eleven.
+        dea6, dbfa, ea09, keys = [], [], [], []
+        m.m.at('0791:DEA6', lambda replay: replay or dea6.append(m.m.rd(0x0C1B)))
+        m.m.at('0791:DBFA', lambda replay: replay or dbfa.append(1))
+        m.m.at('0791:EA09', lambda replay: replay or ea09.append(1))
+        real_new_plan = Match._new_plan
+
+        def logged_new_plan(match, answer, context=None):
+            plan = real_new_plan(match, answer, context)
+            act = plan.act
+            plan.act = lambda key: (keys.append(key), act(key))[1]
+            match._menu = plan
+            return plan
+        import unittest.mock as mock
+        with mock.patch.object(Match, '_new_plan', logged_new_plan):
+            m.answer(edit_only=True, substitutions=[[off, on]])
+            second = None
+            for ev in m.events():
+                if ev.kind == 'decision':
+                    second = ev.data
+                    break
+            self.assertEqual((second['context'], second.get('edited'), second.get('refused')),
+                             ('pre_match', True, None))
+            self.assertTrue(on in second['eleven'] and off not in second['eleven'])
+            self.assertIn(off, second['pool'])              # the word-list exchange: the outgoing word sits in the pool
+            self.assertNotIn(on, second['pool'])
+            m.answer()                                          # play
+            played = []
+            for ev in m.events():
+                played.append(ev.kind)
+                if ev.kind == 'minute':
+                    break
+        self.assertIn('commentary', played)
+        self.assertGreaterEqual(m.st['minute'], 1)
+        self.assertEqual(m.st['log']['substitutions'], [])  # a line-up change, not a substitution event
+        self.assertTrue(dea6, 'DEA6 was never visited: the exchange was not the original\'s own')
+        self.assertTrue(dbfa, 'DBFA was never asked: the pool-pane Enter skipped the gate')
+        self.assertTrue(ea09, 'EA09 never validated the eleven')
+        self.assertTrue(keys and all(0 <= k <= 255 for k in keys))
+        self.assertIn(0xAE, keys)                           # the pane toggle key, pressed both ways
 
     def test_a_tactics_toggle_is_made_by_the_original_editor_before_kick_off(self):
         m, first = self.drive()
