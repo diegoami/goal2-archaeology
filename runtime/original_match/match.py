@@ -991,12 +991,15 @@ class Match:
             self._menu.steps = ["select", "play"]
             self._menu.in_screen = "select"
         if site == SITE_SELECT and self._menu is not None:
-            pool_scroll, pool_cursor = self._pool_state()     # [T132] the pool pane's own words; MenuPlan ignores them
-            key = self._menu.select_key({
-                "cursor": m.rd(S.SELECT_CURSOR), "squad": self._squad(self.opts["managed"]),
-                "allowed": m.rd(S.SUBS_ALLOWED, 1), "request": m.rd(S.SUBS_REQUEST, 1),
-                "subs_left": m.rd(S.SUBS_LEFT + self.side, 1), "position": lambda p: self._player(p, PLAYER_POSITION),
-                "pool": self._pool(), "pool_scroll": pool_scroll, "pool_cursor": pool_cursor})
+            state = {"cursor": m.rd(S.SELECT_CURSOR), "squad": self._squad(self.opts["managed"]),
+                     "allowed": m.rd(S.SUBS_ALLOWED, 1), "request": m.rd(S.SUBS_REQUEST, 1),
+                     "subs_left": m.rd(S.SUBS_LEFT + self.side, 1), "position": lambda p: self._player(p, PLAYER_POSITION)}
+            if getattr(self._menu, "pool_pane", None) is not None:
+                # [T132] a pre-match plan drives the pool pane too; MenuPlan ignores the keys,
+                # and surgical controls with stub machines never reach here.
+                pool_scroll, pool_cursor = self._pool_state()
+                state.update(pool=self._pool(), pool_scroll=pool_scroll, pool_cursor=pool_cursor)
+            key = self._menu.select_key(state)
             if key == S.ESC and getattr(self._menu, "edit_only", False):
                 # Keep SELECT TEAM open between edits: leaving/reentering it runs original
                 # housekeeping again. The next answer continues at this same key read.
