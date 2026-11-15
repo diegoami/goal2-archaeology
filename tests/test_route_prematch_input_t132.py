@@ -284,6 +284,52 @@ class Driven(unittest.TestCase):
         self.assertTrue(keys and all(0 <= k <= 255 for k in keys))
         self.assertIn(0xAE, keys)                           # the pane toggle key, pressed both ways
 
+    def test_chained_edits_continue_inside_the_select_screen(self):
+        """[T132 continuation, found by goal2 T170m] An edit-only answer after a select-screen
+        edit continues inside the screen (editing_select); the continuation must build the
+        pre-match plan again, so a chained tactics -> swap -> pool-exchange flow makes every
+        edit through the original's own route."""
+        m, first = self.drive()
+        pos = dict((w, c) for w, c in first['positions'])
+        element, byte = 8, first['tactics']
+        want = not bool(byte >> (element - 1) & 1)
+        off = first['eleven'][-1]
+        on = next(w for w in first['bench'] if w and pos.get(w) == pos[off])
+        m.answer(edit_only=True, tactics={element: want})          # closes the menu: no select yet
+        second = None
+        for ev in m.events():
+            if ev.kind == 'decision':
+                second = ev.data
+                break
+        self.assertEqual(bool(second['tactics'] >> (element - 1) & 1), want)
+        m.answer(edit_only=True, substitutions=[[off, on]])        # keeps SELECT TEAM open
+        third = None
+        for ev in m.events():
+            if ev.kind == 'decision':
+                third = ev.data
+                break
+        self.assertIn(on, third['eleven'])
+        pool_off = third['eleven'][-1]                             # the continuation answer:
+        pool_word = next(w for w in third['pool'] if m._player(w, PLAYER_POSITION) == pos[pool_off])
+        m.answer(edit_only=True, substitutions=[[pool_off, pool_word]])
+        fourth = None
+        for ev in m.events():
+            if ev.kind == 'decision':
+                fourth = ev.data
+                break
+        self.assertEqual((fourth['context'], fourth.get('edited'), fourth.get('refused')),
+                         ('pre_match', True, None))
+        self.assertIn(pool_word, fourth['eleven'])
+        self.assertNotIn(pool_off, fourth['eleven'])
+        self.assertIn(pool_off, fourth['pool'])                    # the word-list exchange both ways
+        self.assertNotIn(pool_word, fourth['pool'])
+        m.answer()                                                # play
+        for ev in m.events():
+            if ev.kind == 'minute':
+                break
+        self.assertGreaterEqual(m.st['minute'], 1)
+        self.assertEqual(m.st['log']['substitutions'], [])
+
     def test_a_tactics_toggle_is_made_by_the_original_editor_before_kick_off(self):
         m, first = self.drive()
         element, byte = 8, first['tactics']
