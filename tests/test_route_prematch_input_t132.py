@@ -113,11 +113,23 @@ class AnswerLegality(unittest.TestCase):
                 m.answer(edit_only=True, **answer)
                 self.assertIs(m.st['answer']['edit_only'], True)
 
-    def test_every_other_edit_and_every_unconfigured_edit_refuses(self):
+    def test_t135_positions_and_club_are_exact_configured_edit_inputs(self):
+        word = self.squad(self.match(True))[0]
+        for fields in ({'positions': {word: 3}},
+                       {'tactics': {8: True}, 'positions': {word: 3}},
+                       {'positions': {word: 'club'}}):
+            m = self.match(True)
+            m.answer(edit_only=True, **fields)
+            self.assertEqual(m.st['answer']['positions'], fields['positions'])
+            self.assertIs(m.st['answer']['edit_only'], True)
+            self.assertEqual(m._new_plan(m.st['answer'], 'pre_match').jobs,
+                             [('position', word, next(iter(fields['positions'].values())))])
+
+    def test_unsupported_invalid_and_unconfigured_edits_refuse(self):
         off, on = self.squad(self.match(True))
         cases = [{'tactics': {8: True}},                                          # unconfigured entry
-                 {'positions': {off: 3}}, {'marking': {off: 0}}, {'own_tactics': {off: {1: True}}},  # not pre-match inputs
-                 {'tactics': {8: True}, 'positions': {off: 3}},                   # mixed with a non-input
+                 {'positions': {off: 14}}, {'marking': {off: 0}}, {'own_tactics': {off: {1: True}}},  # invalid or still unsupported
+                 {'tactics': {8: True}, 'positions': {off: 14}},                  # valid tactic plus invalid position
                  {}]                                                             # nothing to make
         for configured, answer in [(False, cases[0])] + [(True, c) for c in cases[1:]]:
             with self.subTest(configured=configured, answer=answer):

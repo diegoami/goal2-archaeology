@@ -1,0 +1,95 @@
+{
+  "conclusion": "success",
+  "groups": [
+    {
+      "completed_at": "2026-11-16T23:29:55Z",
+      "conclusion": "success",
+      "job": 133656599509,
+      "name": "checks (general)",
+      "started_at": "2026-11-16T22:21:09Z"
+    },
+    {
+      "completed_at": "2026-11-16T22:27:31Z",
+      "conclusion": "success",
+      "job": 133656599808,
+      "name": "checks (e033-07)",
+      "started_at": "2026-11-16T22:21:09Z"
+    },
+    {
+      "completed_at": "2026-11-16T22:30:12Z",
+      "conclusion": "success",
+      "job": 133656599875,
+      "name": "checks (e034-03)",
+      "started_at": "2026-11-16T22:21:09Z"
+    },
+    {
+      "completed_at": "2026-11-16T22:32:17Z",
+      "conclusion": "success",
+      "job": 133656599918,
+      "name": "checks (e033-01)",
+      "started_at": "2026-11-16T22:21:09Z"
+    },
+    {
+      "completed_at": "2026-11-16T22:29:34Z",
+      "conclusion": "success",
+      "job": 133656599982,
+      "name": "checks (e033-02)",
+      "started_at": "2026-11-16T22:21:09Z"
+    },
+    {
+      "completed_at": "2026-11-16T22:33:52Z",
+      "conclusion": "success",
+      "job": 133656600046,
+      "name": "checks (e033-04)",
+      "started_at": "2026-11-16T22:21:09Z"
+    },
+    {
+      "completed_at": "2026-11-16T22:51:58Z",
+      "conclusion": "success",
+      "job": 133656600139,
+      "name": "checks (e033-06)",
+      "started_at": "2026-11-16T22:21:09Z"
+    },
+    {
+      "completed_at": "2026-11-16T23:03:35Z",
+      "conclusion": "success",
+      "job": 133656600175,
+      "name": "checks (e034-01)",
+      "started_at": "2026-11-16T22:21:09Z"
+    },
+    {
+      "completed_at": "2026-11-16T22:42:54Z",
+      "conclusion": "success",
+      "job": 133656600180,
+      "name": "checks (e034-02)",
+      "started_at": "2026-11-16T22:21:09Z"
+    },
+    {
+      "completed_at": "2026-11-16T22:32:02Z",
+      "conclusion": "success",
+      "job": 133656600220,
+      "name": "checks (e033-05)",
+      "started_at": "2026-11-16T22:21:09Z"
+    },
+    {
+      "completed_at": "2026-11-16T22:35:50Z",
+      "conclusion": "success",
+      "job": 133656600310,
+      "name": "checks (seal)",
+      "started_at": "2026-11-16T22:21:09Z"
+    },
+    {
+      "completed_at": "2026-11-16T22:28:24Z",
+      "conclusion": "success",
+      "job": 133656600670,
+      "name": "checks (e033-03)",
+      "started_at": "2026-11-16T22:21:09Z"
+    }
+  ],
+  "head": "f47c9b3cac6df9dd655bf165a8802eac310d6ab1",
+  "rule11b": "Every full group reached natural success before any receipt push; no cancellation or superseding push.",
+  "run": 43969210967,
+  "runner_minutes": 244.267,
+  "schema": "t135-ci/1",
+  "url": "https://github.com/diegoami/goal2-archaeology/actions/runs/43969210967"
+}

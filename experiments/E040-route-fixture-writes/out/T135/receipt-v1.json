@@ -1,0 +1,94 @@
+{
+  "evidence_sha256": {
+    "admission-v1.log": "d067bb1d2bb15c9b77176ea0973bde796c5b16412618b0772fb97f43032f404a",
+    "before-driven-v1.log": "6c8e63002dab25d9b51a1cacc5be5d784bd59ae906719b489df3e29159a60ec5",
+    "before-v1.log": "16615029af01beb6139078faa80bc2cc7b38733a9f3e4c4be601cbbf97a0dd2f",
+    "focused-v1.log": "4f08ea610b78fd49e65f55566d835fc6897762516369c43314741b4f64126808",
+    "focused-v2.log": "a28ff649380f961fedc95b1d7cb5983a5fd8cb64fb6c3c8219cc4fd2a6d83096",
+    "focused-v3.log": "d373c120b841aaaac2f0ca7eb75b635ccc961bd00e4ddb247c6c6cb7e0ef8414",
+    "guards-v1.log": "c6b6f007c2f6b472547a636e0d88aacb5f0e3ac9153e8e0be1b733ab5092058c",
+    "inherited-v1.log": "31520883c0f131c1742eaaa520bea59983336c398d16eac683f5bebf67840549",
+    "inherited-v2.log": "3f4cac763858a66099a3322fbd961e237764295ea7af6494037ce80a4fc32c21",
+    "mixed-diagnostic-v1.log": "a2c3857fc09452991527ab21671ff70b652880cc1e1834e8fb5869d45d785a89",
+    "mixed-diagnostic-v2.log": "b50d710337dd4d42dac1c61c9f63afc51e12605602a784189001613db0c60d64",
+    "original-menu-v1.log": "39b27758eb618c4f56c591da38a631fce88d04ce9a1c4085911eaa5fee847287"
+  },
+  "failed_records_retained": [
+    "before-v1.log",
+    "before-driven-v1.log",
+    "focused-v1.log",
+    "focused-v2.log",
+    "mixed-diagnostic-v1.log",
+    "mixed-diagnostic-v2.log",
+    "inherited-v1.log"
+  ],
+  "focused": {
+    "case_names": [
+      "xi_next",
+      "bench_next",
+      "pool_next",
+      "xi_club",
+      "bench_club",
+      "pool_club",
+      "xi_club_equal",
+      "bench_club_equal",
+      "pool_club_equal",
+      "pool_wrap",
+      "xi_same",
+      "pool_mix",
+      "no_input"
+    ],
+    "guard_controls": 21,
+    "replay_checkpoints": 25,
+    "scenarios": 13,
+    "seconds": 93.844,
+    "tests": 2
+  },
+  "focused_runtime_source": "27f55e335fd00907e662bf613a5ededefc8384eb",
+  "inherited": {
+    "initial_skips": 6,
+    "seconds": 267.209,
+    "skip_resolution": "Fetched exact E015 state213 from published release and verified committed manifest; six original-menu tests then pass in18.485s with no skips.",
+    "tests": 102
+  },
+  "issue": 720,
+  "limits": [
+    "No new cross-backend raw RAM identity claim or masks",
+    "Own tactics and marking remain subsequent719 leaves",
+    "Root adoption and window activation remain separate"
+  ],
+  "native_port_equality": [
+    "keys",
+    "position entries/returns",
+    "events",
+    "draws",
+    "player records",
+    "actual squad/pool order"
+  ],
+  "notes": "focused-v3 started on already-fixed working bytes before27f55 commit metadata finished; runtime and focused-test bytes match27f55 exactly. Later d747 changes only inherited T132 admission tests; 102-case inherited proof runs on d747.",
+  "pull_request": 721,
+  "return_witness": {
+    "argument_at_entry": "SP+4",
+    "basis": "original E722 push and E725 far call; retf2 at49B5; port selection.guest retE72A",
+    "discarded_argument_at_return": "SP-2",
+    "entry": "1771:4952",
+    "return": "0791:E72A"
+  },
+  "schema": "t135-validation/1",
+  "source_entry_sha256": "c2376b657edf3cc2c2e87bfa5aaf8d89822aece4076db7a407c8af28d1eff757",
+  "source_sha256": {
+    "runtime/original_match/match.py": "1c89cb6cb6b8e7e7b0386d82f5310092f88824ea92d39d6b7736e6950e70f7fc",
+    "runtime/original_match/route_team.py": "08ce109445bf51e5d85c6f7819ac872a737a4ada8eb30c19b0a514a83549226d",
+    "tests/test_prematch_positions_t135.py": "9b0c08a21816bef37acacb8c5cc32ffbe409cb432eb069882d607d3c69b50be7",
+    "tests/test_route_prematch_input_t132.py": "ff01f330f929245adc6e7ae477b9456906417b2755eac09354fe1e6e46886365"
+  },
+  "task": 135,
+  "tested_code_head": "d747b96d670fac4dd320c8ce748ed70af5e4f381",
+  "umbrella_issue": 719,
+  "within_pypy_equality": [
+    "full RAM",
+    "all sixteen registers",
+    "manual-key policy",
+    "supported replay checkpoints"
+  ]
+}

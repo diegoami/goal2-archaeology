@@ -640,3 +640,21 @@ the pool. Same-block swaps can return to the same visible order after sorting;
 that is the original result, not permission to acknowledge an unexecuted swap
 or force an arbitrary model order. Fresh decisions return the actual order.
 No substitution budget or match tick is spent on these pre-match edits.
+
+### Native pre-match positions (T135 / #720)
+
+[confirmed: F010/F031; E44F and1771:4925/4952] At a configured pre-match
+edit-only decision, `answer(edit_only=True, positions={word: code})` selects a
+current squad or made-pool word and drives original R until code0..13 is reached.
+`positions={word: "club"}` instead presses original C exactly once, even when
+already at the club value. The4952 entry/E72A caller-return witness verifies player, resulting
+position and original key byte; all guest effects and ordering remain original.
+The entire packet is validated before replay or guest consumption. Plain
+pre-match Play with positions refuses; in-match numeric squad-only positions
+retain their existing contract. Own tactics and marking remain separate #719
+leaves. Fresh decisions expose actual order; pool record previews remain the
+consumer's read-only current-state responsibility. No Prover-completion claim
+or new memory mask follows from this input API.
+
+[designed: T135] Position edits return SELECT to the squad pane by its own toggle
+before re-decision, retaining the continued-entry convention for later answers.
