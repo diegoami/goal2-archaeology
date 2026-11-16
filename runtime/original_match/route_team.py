@@ -51,6 +51,7 @@ class PreMatchPlan(S.MenuPlan):
             self.steps.insert(-1, "select")
         self._position_visit = None
         self._position_observed = False
+        self._position_entered = False
         self.pool_pane = False          # the SELECT screen opens in the squad view (E009-r0001)
         self._expected_swap = None
         self._swap_observed = False
@@ -74,8 +75,15 @@ class PreMatchPlan(S.MenuPlan):
             raise MatchError("original pre-match word swap differs from requested pair")
         self._swap_observed = True
 
+    def observe_position_entry(self, player, key):
+        visit = self._position_visit
+        if (visit is None or self._position_entered or player != visit[0]
+                or key != (ord("C") if visit[2] else S.KEY_R)):
+            raise MatchError("original pre-match position entry differs from requested input")
+        self._position_entered = True
+
     def observe_position(self, player, position, key):
-        if self._position_visit != (player, position, key):
+        if not self._position_entered or self._position_visit != (player, position, key):
             raise MatchError("original pre-match position return differs from requested input")
         self._position_observed = True
 
@@ -117,6 +125,7 @@ class PreMatchPlan(S.MenuPlan):
                 raise MatchError("original pre-match position input has no return witness")
             self._position_visit = None
             self._position_observed = False
+            self._position_entered = False
             if self.jobs[self.job][2] == "club":
                 self.done.append(self.jobs[self.job])
                 self._next_job()
@@ -132,6 +141,12 @@ class PreMatchPlan(S.MenuPlan):
             self._expected_swap = None
             self.done.append(job)
         if self.job == len(self.jobs):
+            # [designed: T135] Keep T132's continued SELECT entry in the
+            # squad pane, which each subsequent plan starts from. Use the
+            # original toggle, never a private pane/cursor write.
+            if self.pool_pane:
+                self.pool_pane = False
+                return self.act(S.LEFT)
             return self.act(S.ESC)
         job = self.jobs[self.job]
         if job[0] == "position":

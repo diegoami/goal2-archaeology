@@ -24,6 +24,7 @@ def policy_class():
         # Independent position-key service: no production position driver or
         # return witness. Test hooks independently record actual4952 visits.
         observe_position=None
+        observe_position_entry=None
         def _position_key(self,s,job):
             word,target=job[1:]
             in_pool=word not in s['squad']
@@ -58,7 +59,7 @@ def drive(m,case,oracle=False,replay=False):
                      positions=answer.get('positions'))
             p.edit_only=bool(answer.get('edit_only'));return p
         m._new_plan=plan
-    events=[];keys=[];visits=[]
+    events=[];keys=[];visits=[];entries=[]
     previous=m._key_for
     def key(site):
         value=previous(site)
@@ -67,12 +68,15 @@ def drive(m,case,oracle=False,replay=False):
     m._key_for=key
     def returned(again):
         if not again:
-            word=m.m.stack_word(4)
+            word=m.m.stack_word(-2)
             visits.append([word,m._player(word,PLAYER_POSITION),m.m.rd(0xA976,1)])
-    m.m.at('1771:49B5',returned)
+    def entered(again):
+        if not again:entries.append([m.m.stack_word(4),m.m.rd(0xA976,1)])
+    m.m.at('1771:4952',entered);m.m.at('0791:E72A',returned)
     d=decision(m,events);budget=d['substitutions_left']
     all_words=set(d['eleven']+d['bench']+d['pool'])
-    original={w:m._player(w,PLAYER_POSITION) for w in all_words}
+    # Stable caller packet order across CPython/PyPy; a set is not an input policy.
+    original={w:m._player(w,PLAYER_POSITION) for w in sorted(all_words)}
     if case=='no_input':jobs=[]
     else:
         domain=case.split('_')[0]
@@ -122,7 +126,7 @@ def drive(m,case,oracle=False,replay=False):
         assert all(loaded.m.reg(r)==m.m.reg(r) for r in REGS);replay_checks+=1
     base=m.m.far(PLAYERS_PTR)
     records=[[w,m.m.read(base+PLAYER_SIZE*w,PLAYER_SIZE)] for w in sorted(all_words)]
-    return dict(case=case,states=states,keys=keys,visits=visits,events=events,draws=m.st['draws'],
+    return dict(case=case,states=states,keys=keys,visits=visits,entries=entries,events=events,draws=m.st['draws'],
                 records=records,memory=m.m.read(0,MEM_SIZE),regs={r:m.m.reg(r) for r in REGS},
                 replay_checks=replay_checks)
 
@@ -174,11 +178,16 @@ def guards(state,tables,fixture,context):
     except MatchError:pass
     else:raise AssertionError('lost already-equal C call acknowledged')
     for returned in ((2,2,ord('C')),(1,3,ord('C')),(1,2,0)):
-        p=PreMatchPlan(0,positions={1:'club'});p.select_key(s)
+        p=PreMatchPlan(0,positions={1:'club'});p.select_key(s);p.observe_position_entry(1,ord('C'))
         try:p.observe_position(*returned)
         except MatchError:pass
         else:raise AssertionError('wrong position return accepted')
-    return len(answers)+2+1+2+4
+    for entry in ((2,ord('C')),(1,ord('R'))):
+        p=PreMatchPlan(0,positions={1:'club'});p.select_key(s)
+        try:p.observe_position_entry(*entry)
+        except MatchError:pass
+        else:raise AssertionError('wrong position entry accepted')
+    return len(answers)+2+1+2+4+2
 
 
 class Positions(unittest.TestCase):
@@ -187,7 +196,7 @@ class Positions(unittest.TestCase):
 
     def test_invalid_packets_and_position_witnesses(self):
         self.assertEqual(call_in_pypy('test_prematch_positions_t135','guards',args=(
-            self.image.state(self.image.tables),to_record(self.image.tables),self.fixture,self.context)),19)
+            self.image.state(self.image.tables),to_record(self.image.tables),self.fixture,self.context)),21)
 
     def test_original_and_independent_port_policy_equal_api(self):
         for case in ('xi_next','bench_next','pool_next','xi_club','bench_club','pool_club',
@@ -201,14 +210,14 @@ class Positions(unittest.TestCase):
                 args=(self.image.state(self.image.tables),to_record(self.image.tables),self.fixture,self.context,case)
                 actual=call_in_pypy('test_prematch_positions_t135','candidate',args=args)
                 manual=call_in_pypy('test_prematch_positions_t135','candidate',args=args,kwargs={'oracle':True})
-                for field in ('states','keys','visits','events','draws','records'):
+                for field in ('states','keys','visits','entries','events','draws','records'):
                     self.assertTrue(actual[field]==native[field],case+': native '+field)
                     self.assertTrue(actual[field]==manual[field],case+': manual '+field)
                 self.assertTrue(actual['memory']==manual['memory'],case+': full port memory')
                 self.assertEqual(actual['regs'],manual['regs'])
                 self.assertEqual(actual['replay_checks'],1 if case=='no_input' else 2)
                 print('T135_RECEIPT '+json.dumps(dict(case=case,states=actual['states'],
-                    keys=actual['keys'],position_returns=actual['visits'],
+                    keys=actual['keys'],position_entries=actual['entries'],position_returns=actual['visits'],
                     records_sha256=hashlib.sha256(b''.join(v for _,v in actual['records'])).hexdigest(),
                     memory_sha256=hashlib.sha256(actual['memory']).hexdigest(),all16=actual['regs'],
                     original_keys_events_draws_records_equal=True,manual_full_memory_all16_equal=True,

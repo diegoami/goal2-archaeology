@@ -810,12 +810,19 @@ class Match:
         if not replay and self.st.get("menu_context") == "pre_match" and observe is not None:
             observe({"squad": self._squad(self.opts["managed"]), "pool": self._pool()})
 
+    def _on_pre_match_position_entry(self, replay):
+        # [confirmed: F010; 4952 prologue] Far entry has player at stack+4.
+        observe = getattr(self._menu, "observe_position_entry", None)
+        if not replay and self.st.get("menu_context") == "pre_match" and observe is not None:
+            observe(self.m.stack_word(4), self.m.rd(KEY, 1))
+
     def _on_pre_match_position(self, replay):
-        # [confirmed: F010; 1771:4952-49B5] At retf2, the original player
-        # argument is stack+4; R cleared A976, while C retained its key byte.
+        # [confirmed: E722/E725/E72A, retf2 at49B5] After the call, the
+        # discarded player argument remains at stack-2. Entry plus return
+        # distinguishes the real call from E710's gated no-call branch.
         observe = getattr(self._menu, "observe_position", None)
         if not replay and self.st.get("menu_context") == "pre_match" and observe is not None:
-            player = self.m.stack_word(4)
+            player = self.m.stack_word(-2)
             observe(player, self._player(player, PLAYER_POSITION), self.m.rd(KEY, 1))
 
     def _new_plan(self, answer, context=None):
@@ -922,7 +929,8 @@ class Match:
         m.at(WAIT, self._on_wait)
         m.at("0791:D010", self._on_taker_accepted)
         m.at("0791:DF29", self._on_pre_match_swap)
-        m.at("1771:49B5", self._on_pre_match_position)
+        m.at("1771:4952", self._on_pre_match_position_entry)
+        m.at("0791:E72A", self._on_pre_match_position)
         m.at(TICK, self._on_tick)
         m.at(PLAY_MATCH, self._on_play)
         m.at(MATCH_PLAYED, self._on_played)
