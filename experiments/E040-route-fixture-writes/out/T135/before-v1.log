@@ -1,0 +1,27 @@
+test_invalid_packets_and_position_witnesses (tests.test_prematch_positions_t135.Positions.test_invalid_packets_and_position_witnesses) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ERROR
+
+======================================================================
+ERROR: test_invalid_packets_and_position_witnesses (tests.test_prematch_positions_t135.Positions.test_invalid_packets_and_position_witnesses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_positions_t135.py", line 189, in test_invalid_packets_and_position_witnesses
+    self.assertEqual(call_in_pypy('test_prematch_positions_t135','guards',args=(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_positions_t135.py", line 155, in guards
+    else:raise AssertionError('plain Play silently accepted position')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: plain Play silently accepted position
+
+
+----------------------------------------------------------------------
+Ran 1 test in 1.407s
+
+FAILED (errors=1)
