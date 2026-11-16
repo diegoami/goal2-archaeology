@@ -1,0 +1,23 @@
+{
+  "schema": "t133-investigation/1",
+  "baseline": "ca3bf5d70eddc0c25ab5c38819ae1ab23cd5abff",
+  "before_feature": "new captain keyword refused with TypeError; 3 tests/4 errors",
+  "replay_first_attempt": "normalized empty tactics map rejected; fixed without changing the accepted operations",
+  "original_omit_comparison": {
+    "keys_equal": true,
+    "events_equal": true,
+    "draws_equal": true,
+    "captains_equal": true,
+    "state2_initialised_equal": true,
+    "state2_code_data_equal": true,
+    "state2_memory_different_bytes": 204,
+    "raw_register_differences": [
+      "EBX",
+      "ECX",
+      "EDI",
+      "EFLAGS",
+      "ES"
+    ]
+  },
+  "interpretation": "First-minute raw cross-backend identity was an invalid task claim even without the new input. No mask added. Main-owned task amendment splits exact within-backend mechanism equality from independent original key/event/draw/captain equality; broader Prover work stays #709."
+}

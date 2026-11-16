@@ -1,0 +1,22 @@
+test_a_plain_answer_plays_and_carries_the_generic_validations (test_route_prematch_input_t132.AnswerLegality.test_a_plain_answer_plays_and_carries_the_generic_validations) ... ok
+test_a_pool_word_is_a_legal_pre_match_incoming_and_only_there (test_route_prematch_input_t132.AnswerLegality.test_a_pool_word_is_a_legal_pre_match_incoming_and_only_there) ... ok
+test_edit_only_tactics_and_swaps_are_legal_on_a_configured_entry (test_route_prematch_input_t132.AnswerLegality.test_edit_only_tactics_and_swaps_are_legal_on_a_configured_entry) ... ok
+test_every_other_edit_and_every_unconfigured_edit_refuses (test_route_prematch_input_t132.AnswerLegality.test_every_other_edit_and_every_unconfigured_edit_refuses) ... ok
+test_default_configuration_stays_exactly_the_entry (test_route_prematch_input_t132.Configuration.test_default_configuration_stays_exactly_the_entry) ... ok
+test_pre_match_edits_is_a_boolean_validated_atomically_like_the_other_flags (test_route_prematch_input_t132.Configuration.test_pre_match_edits_is_a_boolean_validated_atomically_like_the_other_flags) ... ok
+test_a_consumer_swap_is_made_by_the_original_and_play_kicks_off (test_route_prematch_input_t132.Driven.test_a_consumer_swap_is_made_by_the_original_and_play_kicks_off) ... ok
+test_a_pool_exchange_is_made_by_the_original_and_play_kicks_off (test_route_prematch_input_t132.Driven.test_a_pool_exchange_is_made_by_the_original_and_play_kicks_off) ... ok
+test_a_tactics_toggle_is_made_by_the_original_editor_before_kick_off (test_route_prematch_input_t132.Driven.test_a_tactics_toggle_is_made_by_the_original_editor_before_kick_off) ... ok
+test_chained_edits_continue_inside_the_select_screen (test_route_prematch_input_t132.Driven.test_chained_edits_continue_inside_the_select_screen)
+[T132 continuation, found by goal2 T170m] An edit-only answer after a select-screen ... ok
+test_the_flush_guard_still_fails_an_unexplained_eleven_change_outside_pre_match (test_route_prematch_input_t132.Driven.test_the_flush_guard_still_fails_an_unexplained_eleven_change_outside_pre_match) ... ok
+test_the_entry_holds_the_managed_managers_made_pool (test_route_prematch_input_t132.PoolReader.test_the_entry_holds_the_managed_managers_made_pool) ... ok
+test_the_pool_is_position_sorted_as_sort_pool_left_it (test_route_prematch_input_t132.PoolReader.test_the_pool_is_position_sorted_as_sort_pool_left_it) ... ok
+test_a_played_refusal_raises_on_unconfigured_entries (test_route_prematch_input_t132.PreMatchMenu.test_a_played_refusal_raises_on_unconfigured_entries) ... ok
+test_new_plan_builds_the_original_dea6_plan_for_pre_match_answers (test_route_prematch_input_t132.PreMatchMenu.test_new_plan_builds_the_original_dea6_plan_for_pre_match_answers) ... ok
+test_unconfigured_pre_match_menu_plays_unseen_as_before (test_route_prematch_input_t132.PreMatchMenu.test_unconfigured_pre_match_menu_plays_unseen_as_before) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 15.688s
+
+OK

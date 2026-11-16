@@ -609,3 +609,18 @@ Production installs no legal-eleven policy. Annual rollover and pool-list
 operations remain outside the supported route. See
 [the consumer handover](../../docs/requests/427-route.md) for the pinned fields,
 key queue, page history and caller responsibilities.
+
+### Late pre-match captain (T133 / #715)
+
+[designed: goal2's accepted S15 → S16 flow; confirmed: F030, CC7B/D010]
+After a held route Match is configured with `pre_match_edits=True`, finish its
+edit-only answers, then answer its still-waiting `pre_match` decision with
+`answer(captain=word)`. This is Play, without other changes: the word must be an
+available member of the current XI, including a player just exchanged from the
+pool. `answer(captain=None)` explicitly uses the original default; omitting the
+keyword preserves the initial captain configuration. Refusals consume no state
+or replay action. The input is recorded for deterministic replay and consumed
+through the existing original captain-prompt key policy. No guest bytes or
+configuration options are patched; later replacement-captain prompts keep their
+existing default behavior. Full original/Prover comparison of the pre-match
+seam remains the separately scoped T132/#709 obligation.
