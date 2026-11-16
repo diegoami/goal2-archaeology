@@ -198,3 +198,5 @@ exists.
 - [T133](T133.md): late captain input after held pre-match edits (#715).
 
 - [T134](T134.md): full pre-match squad/pool pair domains through DEA6, with a word-swap witness (#717).
+
+- [T135](T135.md): original pre-match R/C positions across squad and pool, first personal-input leaf (#720/#719).
