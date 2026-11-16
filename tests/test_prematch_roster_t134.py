@@ -23,7 +23,8 @@ from port_test_runtime import call_in_pypy
 
 def snapshot(m):
     return (m.m.read(0,MEM_SIZE),{r:m.m.reg(r) for r in REGS},copy.deepcopy(m.opts),
-            copy.deepcopy(m.st),copy.deepcopy(m._queue),copy.deepcopy(getattr(m,'_replay_actions',None)),
+            copy.deepcopy(m.st),copy.deepcopy(m._queue),copy.deepcopy(m.inputs),
+            copy.deepcopy(getattr(m,'_replay_actions',None)),getattr(m,'_replay_events',None),
             copy.deepcopy(m._frame_state()))
 
 
@@ -43,7 +44,7 @@ def wanted(m,d,case):
         return [[a,b] for i,a in enumerate(xi) for b in xi[i+1:] if pos(a)==pos(b)][:1]
     if case=='starter_different':return [[xi[0],next(w for w in xi[1:] if pos(w)!=pos(xi[0]))]]
     if case.startswith('bench_pool') or case=='batch':
-        off=bench[0]
+        off=bench[-1] if case.endswith("different") else bench[0]
         on=next(w for w in pool if m._available(w) and ((pos(w)!=pos(off)) if case.endswith('different') else pos(w)==pos(off)))
         if case=='batch':
             starter=next(w for w in xi if pos(w)==pos(off))
@@ -105,6 +106,8 @@ def drive(m,case,replay=False):
     if case.startswith('bench_pool'):
         assert set(d['eleven'])==set(initial['eleven'])
         assert pairs[0][1] in d['bench'] and pairs[0][0] in d['pool']
+        if case.endswith('different'):
+            assert d['bench'] != last['after_raw_squad'][11:], 'fixture must visit the native re-sort'
     if case.startswith('starter_'):
         assert set(d['eleven'])==set(initial['eleven'])
     replay_checks=0
@@ -145,7 +148,8 @@ def guards(state,tables,fixture,context):
     m.configure_route_entry(pre_match_edits=True)
     d=decision(m,[]);xi,bench=d['eleven'],d['bench']
     cases=[[[xi[0],xi[0]]],[[xi[0],65535]],[[65535,bench[0]]],
-           [[xi[0],bench[0]],[65535,xi[1]]],[[bench[0],0]]]
+           [[xi[0],bench[0]],[65535,xi[1]]],[[bench[0],0]],
+           [[bench[0],d['pool'][0]],[bench[0],xi[1]]]]
     for pairs in cases:
         before=snapshot(m)
         try:m.answer(edit_only=True,substitutions=pairs)
@@ -168,7 +172,16 @@ def guards(state,tables,fixture,context):
     try:p.select_key(s)
     except MatchError:pass
     else:raise AssertionError('membership-only/no-swap acknowledgement')
-    return len(cases)+2
+    p=PreMatchPlan(0,subs=[[1,2]]);p.sub_marked=True;p.select_key(s)
+    try:p.observe_swap(s)
+    except MatchError as exc:assert 'differs' in str(exc)
+    else:raise AssertionError('wrong pre-sort word swap accepted')
+    # A real swap followed by an original sort restoring the visible order is
+    # accepted only after the exact intermediate permutation was witnessed.
+    swapped=dict(s,squad=[2,1]+list(range(3,21)))
+    p.observe_swap(swapped);p.select_key(s)
+    assert p.done==[('sub',1,2)]
+    return len(cases)+4
 
 
 class RosterDomains(unittest.TestCase):
@@ -177,7 +190,7 @@ class RosterDomains(unittest.TestCase):
 
     def test_invalid_batches_and_unobserved_swaps_are_pure_or_refused(self):
         self.assertEqual(call_in_pypy('test_prematch_roster_t134','guards',args=(
-            self.image.state(self.image.tables),to_record(self.image.tables),self.fixture,self.context)),7)
+            self.image.state(self.image.tables),to_record(self.image.tables),self.fixture,self.context)),10)
 
     def test_domains_follow_original_word_swap_and_sorted_blocks(self):
         for case in ('starter_same','starter_different','bench_pool_same','bench_pool_different',
