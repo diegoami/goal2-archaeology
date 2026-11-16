@@ -194,3 +194,5 @@ exists.
 - [T129p](T129p.md): complete E2E6 pool-view state/ABI before interactive pool actions (#703).
 
 - [T132](T132.md): pre-match team input on the actual held route Match — consumer swaps by DEA6's own keys and the pre-match team-tactics edit (#709; goal2 #718, the T170g seam).
+
+- [T133](T133.md): late captain input after held pre-match edits (#715).
