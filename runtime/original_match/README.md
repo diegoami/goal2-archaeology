@@ -624,3 +624,19 @@ through the existing original captain-prompt key policy. No guest bytes or
 configuration options are patched; later replacement-captain prompts keep their
 existing default behavior. Full original/Prover comparison of the pre-match
 seam remains the separately scoped T132/#709 obligation.
+
+### Full pre-match roster pairs (T134 / #717)
+
+[confirmed: F031/F012/F010, DEA6/230C/52CC] At a configured `pre_match`
+edit-only decision, `substitutions=[[outgoing, incoming], ...]` represents
+SELECT TEAM word swaps. Outgoing may be anywhere in the current twenty;
+incoming may be a different squad word or a nonzero made-pool word. The
+whole batch validates copied sequential membership before consuming the
+decision. Ordinary in-match substitutions keep their XI-to-bench rule.
+
+The plan witnesses DEA6's exact word swap at DF29 before the original sorts
+starters and bench independently. It then checks each block's membership and
+the pool. Same-block swaps can return to the same visible order after sorting;
+that is the original result, not permission to acknowledge an unexecuted swap
+or force an arbitrary model order. Fresh decisions return the actual order.
+No substitution budget or match tick is spent on these pre-match edits.

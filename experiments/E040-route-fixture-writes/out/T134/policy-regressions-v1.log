@@ -1,0 +1,38 @@
+test_checkpoint_hash_checked_before_loading_guest_bytes (tests.test_route_team_policy.CheckpointTests.test_checkpoint_hash_checked_before_loading_guest_bytes) ... ok
+test_all_three_status_bits_and_signed_energy_are_unavailable (tests.test_route_team_policy.ChoiceTests.test_all_three_status_bits_and_signed_energy_are_unavailable) ... ok
+test_empty_slot_replaced_without_trying_to_mark_it (tests.test_route_team_policy.ChoiceTests.test_empty_slot_replaced_without_trying_to_mark_it) ... ok
+test_keeps_the_legal_eleven (tests.test_route_team_policy.ChoiceTests.test_keeps_the_legal_eleven) ... ok
+test_no_legal_eleven_stops (tests.test_route_team_policy.ChoiceTests.test_no_legal_eleven_stops) ... ok
+test_replaces_injured_keeper_with_the_first_legal_keeper (tests.test_route_team_policy.ChoiceTests.test_replaces_injured_keeper_with_the_first_legal_keeper) ... ok
+test_pushed_back_read_is_recorded_even_without_a_policy_callback (tests.test_route_team_policy.KeyLogTests.test_pushed_back_read_is_recorded_even_without_a_policy_callback) ... ok
+test_checkpoint_restores_cpu_context_and_waiting_key (tests.test_route_team_policy.OriginalMenuTests.test_checkpoint_restores_cpu_context_and_waiting_key) ... skipped 'unicorn and E015-r0007 state 213 required (E040 runner --fetch)'
+test_empty_starter_is_replaced_by_marking_incoming_first (tests.test_route_team_policy.OriginalMenuTests.test_empty_starter_is_replaced_by_marking_incoming_first) ... skipped 'unicorn and E015-r0007 state 213 required (E040 runner --fetch)'
+test_falsifier_play_without_selection_is_refused_by_original (tests.test_route_team_policy.OriginalMenuTests.test_falsifier_play_without_selection_is_refused_by_original) ... skipped 'unicorn and E015-r0007 state 213 required (E040 runner --fetch)'
+test_following_round_matches_after_context_restore (tests.test_route_team_policy.OriginalMenuTests.test_following_round_matches_after_context_restore) ... skipped 'unicorn and E015-r0007 state 213 required (E040 runner --fetch)'
+test_original_swaps_injured_keeper_and_validates (tests.test_route_team_policy.OriginalMenuTests.test_original_swaps_injured_keeper_and_validates) ... skipped 'unicorn and E015-r0007 state 213 required (E040 runner --fetch)'
+test_reads_live_squad_after_original_sorts_between_swaps (tests.test_route_team_policy.OriginalMenuTests.test_reads_live_squad_after_original_sorts_between_swaps) ... skipped 'unicorn and E015-r0007 state 213 required (E040 runner --fetch)'
+test_empty_first_enter_leaves_parent_fields_unchanged (tests.test_port_pre_match_swap.PreMatchSwap.test_empty_first_enter_leaves_parent_fields_unchanged) ... ok
+test_first_enter_ignores_unmarked_stale_pool_location (tests.test_port_pre_match_swap.PreMatchSwap.test_first_enter_ignores_unmarked_stale_pool_location) ... ok
+test_first_enter_marks_nonempty_slot (tests.test_port_pre_match_swap.PreMatchSwap.test_first_enter_marks_nonempty_slot) ... ok
+test_in_match_modes_refuse_before_any_memory_write (tests.test_port_pre_match_swap.PreMatchSwap.test_in_match_modes_refuse_before_any_memory_write) ... ok
+test_nonempty_first_mark_allows_empty_outgoing_second_slot (tests.test_port_pre_match_swap.PreMatchSwap.test_nonempty_first_mark_allows_empty_outgoing_second_slot) ... ok
+test_original_partial_argument_frames_and_post_sort_read (tests.test_port_pre_match_swap.PreMatchSwap.test_original_partial_argument_frames_and_post_sort_read) ... ok
+test_same_slot_second_enter_still_re_sorts_and_clears (tests.test_port_pre_match_swap.PreMatchSwap.test_same_slot_second_enter_still_re_sorts_and_clears) ... ok
+test_two_enters_swap_starter_bench_then_use_live_sort (tests.test_port_pre_match_swap.PreMatchSwap.test_two_enters_swap_starter_bench_then_use_live_sort) ... ok
+test_both_swap_directions_pool_pairs_and_same_entry (tests.test_port_pool_swap.PoolSwap.test_both_swap_directions_pool_pairs_and_same_entry) ... skipped 'original fixture/Unicorn required'
+test_code_free_sealed_primitive_exact_helper_replay (tests.test_port_pool_swap.PoolSwap.test_code_free_sealed_primitive_exact_helper_replay) ... skipped 'original fixture/Unicorn required'
+test_ddcb_original_leaf_full_abi_and_wrap (tests.test_port_pool_swap.PoolSwap.test_ddcb_original_leaf_full_abi_and_wrap) ... skipped 'original fixture/Unicorn required'
+test_falsifiers_gate_index_scroll_swap_and_mark (tests.test_port_pool_swap.PoolSwap.test_falsifiers_gate_index_scroll_swap_and_mark) ... skipped 'original fixture/Unicorn required'
+test_final_and_tour_refusals_preserve_existing_mark (tests.test_port_pool_swap.PoolSwap.test_final_and_tour_refusals_preserve_existing_mark) ... skipped 'original fixture/Unicorn required'
+test_pool_first_marks_scroll_and_empty (tests.test_port_pool_swap.PoolSwap.test_pool_first_marks_scroll_and_empty) ... skipped 'original fixture/Unicorn required'
+test_sealed_real_registered_helpers_preserve_caller_records_and_rng (tests.test_port_pool_swap.PoolSwap.test_sealed_real_registered_helpers_preserve_caller_records_and_rng) ... skipped 'original fixture/Unicorn required'
+test_initial_explicit_captain_is_still_selected (tests.test_captain_reentry_659.CaptainReentry.test_initial_explicit_captain_is_still_selected) ... ok
+test_later_captain_choice_uses_the_guests_eligible_default (tests.test_captain_reentry_659.CaptainReentry.test_later_captain_choice_uses_the_guests_eligible_default) ... ok
+test_set_piece_target_selection_is_preserved (tests.test_captain_reentry_659.CaptainReentry.test_set_piece_target_selection_is_preserved) ... ok
+test_withdrawn_captain_is_not_forced_from_bench_slot_fourteen (tests.test_captain_reentry_659.CaptainReentry.test_withdrawn_captain_is_not_forced_from_bench_slot_fourteen) ... ok
+test_zero_kickoff_seed_and_delay_are_not_reapplied_later (tests.test_captain_reentry_659.CaptainReentry.test_zero_kickoff_seed_and_delay_are_not_reapplied_later) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 2.466s
+
+OK (skipped=13)
