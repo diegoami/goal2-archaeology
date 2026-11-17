@@ -202,3 +202,5 @@ exists.
 - [T135](T135.md): original pre-match R/C positions across squad and pool, first personal-input leaf (#720/#719).
 
 - [T136](T136.md): native pre-match personal tactics across squad/pool; False/True/inherit and original menu witnesses (#722/#719).
+
+- [T137](T137.md): native pre-match marking inherit/protected-zone/opponent goals for eligible XI and bench (#724/#719).
