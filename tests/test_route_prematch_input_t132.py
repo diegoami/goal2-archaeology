@@ -125,10 +125,21 @@ class AnswerLegality(unittest.TestCase):
             self.assertEqual(m._new_plan(m.st['answer'], 'pre_match').jobs,
                              [('position', word, next(iter(fields['positions'].values())))])
 
+    def test_t136_own_overrides_are_exact_configured_edit_inputs(self):
+        word = self.squad(self.match(True))[0]
+        for value in (False, True, None):
+            for extra in ({}, {'positions': {word: 'club'}}):
+                m = self.match(True)
+                m.answer(edit_only=True, own_tactics={word: {1: value}}, **extra)
+                self.assertEqual(m.st['answer']['own'], {word: {1: value}})
+                jobs = m._new_plan(m.st['answer'], 'pre_match').jobs
+                self.assertEqual(jobs[-1], ('own', word, {1: value}, None))
+                self.assertIs(m.st['answer']['edit_only'], True)
+
     def test_unsupported_invalid_and_unconfigured_edits_refuse(self):
         off, on = self.squad(self.match(True))
         cases = [{'tactics': {8: True}},                                          # unconfigured entry
-                 {'positions': {off: 14}}, {'marking': {off: 0}}, {'own_tactics': {off: {1: True}}},  # invalid or still unsupported
+                 {'positions': {off: 14}}, {'marking': {off: 0}}, {'own_tactics': {off: {5: True}}},  # invalid or still unsupported
                  {'tactics': {8: True}, 'positions': {off: 14}},                  # valid tactic plus invalid position
                  {}]                                                             # nothing to make
         for configured, answer in [(False, cases[0])] + [(True, c) for c in cases[1:]]:

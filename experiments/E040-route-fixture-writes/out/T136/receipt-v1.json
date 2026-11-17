@@ -1,0 +1,86 @@
+{
+  "admission": {
+    "passed": 7,
+    "seconds": 2.896,
+    "tests": 7
+  },
+  "fail_before": {
+    "cases": "plain-Play own fields ignored; ten driven own scenarios refuse; no-input control retains behavior.",
+    "head": "fc6b5294e1c9970f492ba8ddccf8a74333206ed9"
+  },
+  "focused": {
+    "cases": [
+      "xi_cycle",
+      "xi_keeper",
+      "bench_cycle",
+      "bench_unavailable",
+      "pool_cycle",
+      "pool_keeper",
+      "all_rows",
+      "mixed",
+      "already_inherited",
+      "defaults",
+      "no_input"
+    ],
+    "guards": 23,
+    "methods": 2,
+    "replay_checkpoints": 21,
+    "scenarios": 11,
+    "seconds": 70.504
+  },
+  "inherited": {
+    "passed": 105,
+    "scope": "T132\u2013T135, route configuration/team, original menus and port positioning; native references CPython, explicit trusted PyPy controls.",
+    "seconds": 334.014,
+    "skipped": 0,
+    "tests": 105
+  },
+  "input_sha256": {
+    "all_rows": "c2376b657edf3cc2c2e87bfa5aaf8d89822aece4076db7a407c8af28d1eff757",
+    "already_inherited": "c2376b657edf3cc2c2e87bfa5aaf8d89822aece4076db7a407c8af28d1eff757",
+    "bench_cycle": "c2376b657edf3cc2c2e87bfa5aaf8d89822aece4076db7a407c8af28d1eff757",
+    "bench_unavailable": "ebf93198a0f96abe70f0ca435fe4ad3adf9759c965c82e2e9fe828a943634395",
+    "defaults": "c2376b657edf3cc2c2e87bfa5aaf8d89822aece4076db7a407c8af28d1eff757",
+    "mixed": "c2376b657edf3cc2c2e87bfa5aaf8d89822aece4076db7a407c8af28d1eff757",
+    "no_input": "c2376b657edf3cc2c2e87bfa5aaf8d89822aece4076db7a407c8af28d1eff757",
+    "pool_cycle": "c2376b657edf3cc2c2e87bfa5aaf8d89822aece4076db7a407c8af28d1eff757",
+    "pool_keeper": "c2376b657edf3cc2c2e87bfa5aaf8d89822aece4076db7a407c8af28d1eff757",
+    "xi_cycle": "c2376b657edf3cc2c2e87bfa5aaf8d89822aece4076db7a407c8af28d1eff757",
+    "xi_keeper": "c2376b657edf3cc2c2e87bfa5aaf8d89822aece4076db7a407c8af28d1eff757"
+  },
+  "issue": 722,
+  "limits": [
+    "Marking remains next719 leaf",
+    "No new cross-backend raw RAM identity claim or mask",
+    "No Root adoption or GUI activation"
+  ],
+  "logs_sha256": {
+    "admission-v1.log": "f9b57023c9415a1c389b94c2c07de25cfc1930ecc96586d810890defd42dfc80",
+    "before-driven-v1.log": "2c7c9514acec82d6e8ff4ef64ab2ddcb870cd728fcf0cf6c47622c84dada96e3",
+    "before-v1.log": "45d63d6038d75aacb66ecf50f8b5fcc1a1cf79b4cf894b459c9079b0f457b35f",
+    "focused-v1.log": "14964e8f90f0e583a90cfb4bbd2da4309e8380333c90da026bcb7da67e166a1d",
+    "guards-v1.log": "d021fe809a1b947fa282ac036d631debfc2eb2091ab36ac828bb4fd235848b72",
+    "inherited-v1.log": "6de95bc3186528c745909c30c81a17538afb1084f61a3defb81d2992611fd5da"
+  },
+  "pull_request": 723,
+  "runtime_source": "4682bbee0011b1f74b2c7e58e7dfb21cde86ed8e",
+  "schema": "t136-validation/1",
+  "sha256": {
+    "runtime/original_match/match.py": "fdfed812c3ca80a8f8a1a9b0a8ae8c29abe0fb76d738fdd39a2ba32125cfdf88",
+    "runtime/original_match/route_team.py": "56992dba945e7d396d8c6999a8b2b41ec917d09fec21277a3d1a9d0ef7b730ed",
+    "tests/test_prematch_own_t136.py": "6f4e8f20147e9571a7584af972b9fd6c5336e6d51f7130ea7f5e64523fb745ec",
+    "tests/test_prematch_positions_t135.py": "f7c68f38242363a434810a3f4ae146ec65087aca51d9a3011469f89b84fc6c57",
+    "tests/test_route_prematch_input_t132.py": "19abb7711aa220594155ad2462787d60c91eeb47b61ea1d16e20bf088424ae07"
+  },
+  "task": 136,
+  "tested_source_head": "d9f9349fb3f86470610e8d6bff607112e9ad92f3",
+  "umbrella": 719,
+  "unavailable_control": "bench energy+0xE set0 on copied full original image before either machine construction; hash-bound, no live production guest write.",
+  "witness": {
+    "discarded_args": "SP-4 pane low byte, SP-2 player",
+    "entry": "1771:4B61",
+    "entry_args": "SP+4 pane low byte, SP+6 player",
+    "inheritance": "own flag clears; when an override was present, low bit equals player.country current default",
+    "return": "0791:E75D"
+  }
+}

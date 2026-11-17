@@ -1,0 +1,161 @@
+test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) ... 
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='xi_cycle') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='xi_keeper') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='bench_cycle') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='bench_unavailable') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='pool_cycle') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='pool_keeper') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='all_rows') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='mixed') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='already_inherited') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='defaults') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+T136_RECEIPT {"all16": {"CS": 4020, "DS": 11684, "EAX": 160, "EBP": 16022, "EBX": 31421, "ECX": 4, "EDI": 33524, "EDX": 0, "EFLAGS": 2, "EIP": 38668, "ES": 11684, "ESI": 31588, "ESP": 16018, "FS": 0, "GS": 0, "SS": 14453}, "case": "no_input", "cross_backend_raw_identity_claimed": false, "entries": [], "input_sha256": "c2376b657edf3cc2c2e87bfa5aaf8d89822aece4076db7a407c8af28d1eff757", "keys": [["214B:157C", 13], ["0791:CEED", 13]], "manual_full_memory_all16_equal": true, "memory_sha256": "28dcdac9d82f181f0ba0daa7d32c1393e1470dfaa9ec6b86eae16507f0e1e974", "native_keys_records_events_draws_equal": true, "records_sha256": "8a02bc172cd97e76b9676f160bb18da226791f9f08ee878ba13b0da2007c6829", "replays": 1, "returns": [], "rows": []}
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='xi_cycle')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 221, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 115, in drive
+    m.answer(edit_only=True,**job);d=decision(m,events)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 699, in answer
+    raise ValueError("edit_only needs a legal stopped bench, a tactics-only paused menu "
+ValueError: edit_only needs a legal stopped bench, a tactics-only paused menu or a configured pre-match edit, without play-on inputs
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='xi_keeper')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 221, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 115, in drive
+    m.answer(edit_only=True,**job);d=decision(m,events)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 699, in answer
+    raise ValueError("edit_only needs a legal stopped bench, a tactics-only paused menu "
+ValueError: edit_only needs a legal stopped bench, a tactics-only paused menu or a configured pre-match edit, without play-on inputs
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='bench_cycle')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 221, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 115, in drive
+    m.answer(edit_only=True,**job);d=decision(m,events)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 699, in answer
+    raise ValueError("edit_only needs a legal stopped bench, a tactics-only paused menu "
+ValueError: edit_only needs a legal stopped bench, a tactics-only paused menu or a configured pre-match edit, without play-on inputs
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='bench_unavailable')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 221, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 115, in drive
+    m.answer(edit_only=True,**job);d=decision(m,events)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 699, in answer
+    raise ValueError("edit_only needs a legal stopped bench, a tactics-only paused menu "
+ValueError: edit_only needs a legal stopped bench, a tactics-only paused menu or a configured pre-match edit, without play-on inputs
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='pool_cycle')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 221, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 115, in drive
+    m.answer(edit_only=True,**job);d=decision(m,events)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 699, in answer
+    raise ValueError("edit_only needs a legal stopped bench, a tactics-only paused menu "
+ValueError: edit_only needs a legal stopped bench, a tactics-only paused menu or a configured pre-match edit, without play-on inputs
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='pool_keeper')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 221, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 115, in drive
+    m.answer(edit_only=True,**job);d=decision(m,events)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 699, in answer
+    raise ValueError("edit_only needs a legal stopped bench, a tactics-only paused menu "
+ValueError: edit_only needs a legal stopped bench, a tactics-only paused menu or a configured pre-match edit, without play-on inputs
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='all_rows')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 221, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 115, in drive
+    m.answer(edit_only=True,**job);d=decision(m,events)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 699, in answer
+    raise ValueError("edit_only needs a legal stopped bench, a tactics-only paused menu "
+ValueError: edit_only needs a legal stopped bench, a tactics-only paused menu or a configured pre-match edit, without play-on inputs
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='mixed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 221, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 115, in drive
+    m.answer(edit_only=True,**job);d=decision(m,events)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 699, in answer
+    raise ValueError("edit_only needs a legal stopped bench, a tactics-only paused menu "
+ValueError: edit_only needs a legal stopped bench, a tactics-only paused menu or a configured pre-match edit, without play-on inputs
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='already_inherited')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 221, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 115, in drive
+    m.answer(edit_only=True,**job);d=decision(m,events)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 699, in answer
+    raise ValueError("edit_only needs a legal stopped bench, a tactics-only paused menu "
+ValueError: edit_only needs a legal stopped bench, a tactics-only paused menu or a configured pre-match edit, without play-on inputs
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_own_t136.OwnTactics.test_independent_native_and_port_keys_equal_api_and_replay) (case='defaults')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 221, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 115, in drive
+    m.answer(edit_only=True,**job);d=decision(m,events)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 699, in answer
+    raise ValueError("edit_only needs a legal stopped bench, a tactics-only paused menu "
+ValueError: edit_only needs a legal stopped bench, a tactics-only paused menu or a configured pre-match edit, without play-on inputs
+
+----------------------------------------------------------------------
+Ran 1 test in 6.404s
+
+FAILED (errors=10)

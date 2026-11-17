@@ -144,7 +144,7 @@ def guards(state,tables,fixture,context):
     d=decision(m,[]);word=d['eleven'][0];pool=d['pool'][0]
     answers=[dict(positions={65535:3}),dict(positions={0:3}),dict(positions={word:14}),
              dict(positions={word:-1}),dict(positions={word:True}),dict(positions={word:'bad'}),
-             dict(positions={word:3,65535:4}),dict(positions={word:2},own_tactics={word:{1:True}}),
+             dict(positions={word:3,65535:4}),dict(positions={word:2},own_tactics={word:{5:True}}),
              dict(positions={word:2},marking={word:0}),dict(positions={word:2},quick=True)]
     for answer in answers:
         before=snapshot(m)
