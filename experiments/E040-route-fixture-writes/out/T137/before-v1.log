@@ -1,0 +1,240 @@
+test_refusals_stale_repair_and_real_missing_return (tests.test_prematch_marking_t137.Guards.test_refusals_stale_repair_and_real_missing_return) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ERROR
+test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) ... 
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='xi') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='bench') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='already_met') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='mixed') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='multi') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='target_skip') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='keeper') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='pool') ... ERROR
+  test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='unavailable') ... ERROR
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+T137_RECEIPT {"all16": {"CS": 4020, "DS": 11684, "EAX": 160, "EBP": 16022, "EBX": 31421, "ECX": 4, "EDI": 33524, "EDX": 0, "EFLAGS": 2, "EIP": 38668, "ES": 11684, "ESI": 31588, "ESP": 16018, "FS": 0, "GS": 0, "SS": 14453}, "calls": [], "case": "no_input", "cross_backend_raw_identity_claimed": false, "entries": [], "input_sha256": "c2376b657edf3cc2c2e87bfa5aaf8d89822aece4076db7a407c8af28d1eff757", "keys": [["214B:157C", 13], ["0791:CEED", 13]], "manual_full_memory_all16_equal": true, "memory_sha256": "28dcdac9d82f181f0ba0daa7d32c1393e1470dfaa9ec6b86eae16507f0e1e974", "native_keys_records_events_draws_equal": true, "records_sha256": "979c5953b3250e500d69bf96f16628902a883c665ac81939cf240dc397ac7318", "replays": 1, "rows": []}
+
+======================================================================
+ERROR: test_refusals_stale_repair_and_real_missing_return (tests.test_prematch_marking_t137.Guards.test_refusals_stale_repair_and_real_missing_return)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 267, in test_refusals_stale_repair_and_real_missing_return
+    self.assertEqual(call_in_pypy('test_prematch_marking_t137','guards',args=(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 200, in guards
+    try:m.answer(marking={word:None})
+          ^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 782, in answer
+    marking = {int(p): int(o) for p, o in (marking or {}).items()}
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 782, in <dictcomp>
+    marking = {int(p): int(o) for p, o in (marking or {}).items()}
+                       ^^^^^^
+TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='xi')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 163, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 115, in drive
+    at=len(events);visits=len(entries);m.answer(edit_only=True,**job);d=decision(m,events)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 699, in answer
+    raise ValueError("edit_only needs a legal stopped bench, a tactics-only paused menu "
+ValueError: edit_only needs a legal stopped bench, a tactics-only paused menu or a configured pre-match edit, without play-on inputs
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='bench')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 163, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 115, in drive
+    at=len(events);visits=len(entries);m.answer(edit_only=True,**job);d=decision(m,events)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 699, in answer
+    raise ValueError("edit_only needs a legal stopped bench, a tactics-only paused menu "
+ValueError: edit_only needs a legal stopped bench, a tactics-only paused menu or a configured pre-match edit, without play-on inputs
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='already_met')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 163, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 115, in drive
+    at=len(events);visits=len(entries);m.answer(edit_only=True,**job);d=decision(m,events)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 699, in answer
+    raise ValueError("edit_only needs a legal stopped bench, a tactics-only paused menu "
+ValueError: edit_only needs a legal stopped bench, a tactics-only paused menu or a configured pre-match edit, without play-on inputs
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='mixed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 163, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 115, in drive
+    at=len(events);visits=len(entries);m.answer(edit_only=True,**job);d=decision(m,events)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 699, in answer
+    raise ValueError("edit_only needs a legal stopped bench, a tactics-only paused menu "
+ValueError: edit_only needs a legal stopped bench, a tactics-only paused menu or a configured pre-match edit, without play-on inputs
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='multi')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 163, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 115, in drive
+    at=len(events);visits=len(entries);m.answer(edit_only=True,**job);d=decision(m,events)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 699, in answer
+    raise ValueError("edit_only needs a legal stopped bench, a tactics-only paused menu "
+ValueError: edit_only needs a legal stopped bench, a tactics-only paused menu or a configured pre-match edit, without play-on inputs
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='target_skip')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 163, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 115, in drive
+    at=len(events);visits=len(entries);m.answer(edit_only=True,**job);d=decision(m,events)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 699, in answer
+    raise ValueError("edit_only needs a legal stopped bench, a tactics-only paused menu "
+ValueError: edit_only needs a legal stopped bench, a tactics-only paused menu or a configured pre-match edit, without play-on inputs
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='keeper')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 163, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 115, in drive
+    at=len(events);visits=len(entries);m.answer(edit_only=True,**job);d=decision(m,events)
+                                                                        ^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_roster_t134.py", line 32, in decision
+    for ev in m.events():
+              ^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 614, in events
+    self._advance()
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 949, in _advance
+    stopped = self.m.run(self.end_lin, self.timeout_s, fresh=fresh)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/machine.py", line 235, in dispatch
+    h(replay)
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 1075, in _on_readkey
+    key = self._key_for(site)      # 9B93's last Down, 9E5B, passes the full-time board)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 77, in key
+    value=prior(site)
+          ^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 1172, in _key_for
+    return self._menu.own_key(m.rd(S.OWN_ROW), self._player(player, OWN_TACTICS), marking,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 34, in own_key
+    if job[1] in self.marking and not reached(self._mark_status,marking_word,self.marking[job[1]]):
+                 ^^^^^^^^^^^^
+AttributeError: 'ManualMark' object has no attribute 'marking'
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='pool')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 163, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 115, in drive
+    at=len(events);visits=len(entries);m.answer(edit_only=True,**job);d=decision(m,events)
+                                                                        ^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_roster_t134.py", line 32, in decision
+    for ev in m.events():
+              ^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 614, in events
+    self._advance()
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 949, in _advance
+    stopped = self.m.run(self.end_lin, self.timeout_s, fresh=fresh)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/machine.py", line 235, in dispatch
+    h(replay)
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 1075, in _on_readkey
+    key = self._key_for(site)      # 9B93's last Down, 9E5B, passes the full-time board)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 77, in key
+    value=prior(site)
+          ^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 1172, in _key_for
+    return self._menu.own_key(m.rd(S.OWN_ROW), self._player(player, OWN_TACTICS), marking,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 34, in own_key
+    if job[1] in self.marking and not reached(self._mark_status,marking_word,self.marking[job[1]]):
+                 ^^^^^^^^^^^^
+AttributeError: 'ManualMark' object has no attribute 'marking'
+
+======================================================================
+ERROR: test_independent_native_and_port_keys_equal_api_and_replay (tests.test_prematch_marking_t137.Marking.test_independent_native_and_port_keys_equal_api_and_replay) (case='unavailable')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 163, in test_independent_native_and_port_keys_equal_api_and_replay
+    native=drive(m,case,oracle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 115, in drive
+    at=len(events);visits=len(entries);m.answer(edit_only=True,**job);d=decision(m,events)
+                                                                        ^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_roster_t134.py", line 32, in decision
+    for ev in m.events():
+              ^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 614, in events
+    self._advance()
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 949, in _advance
+    stopped = self.m.run(self.end_lin, self.timeout_s, fresh=fresh)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/machine.py", line 414, in run
+    raise err
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/machine.py", line 235, in dispatch
+    h(replay)
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 1075, in _on_readkey
+    key = self._key_for(site)      # 9B93's last Down, 9E5B, passes the full-time board)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 77, in key
+    value=prior(site)
+          ^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/runtime/original_match/match.py", line 1172, in _key_for
+    return self._menu.own_key(m.rd(S.OWN_ROW), self._player(player, OWN_TACTICS), marking,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_marking_t137.py", line 34, in own_key
+    if job[1] in self.marking and not reached(self._mark_status,marking_word,self.marking[job[1]]):
+                 ^^^^^^^^^^^^
+AttributeError: 'ManualMark' object has no attribute 'marking'
+
+----------------------------------------------------------------------
+Ran 2 tests in 6.636s
+
+FAILED (errors=10)

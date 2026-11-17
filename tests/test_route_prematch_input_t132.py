@@ -139,7 +139,7 @@ class AnswerLegality(unittest.TestCase):
     def test_unsupported_invalid_and_unconfigured_edits_refuse(self):
         off, on = self.squad(self.match(True))
         cases = [{'tactics': {8: True}},                                          # unconfigured entry
-                 {'positions': {off: 14}}, {'marking': {off: 0}}, {'own_tactics': {off: {5: True}}},  # invalid or still unsupported
+                 {'positions': {off: 14}}, {'marking': {off: 65535}}, {'own_tactics': {off: {5: True}}},  # invalid or still unsupported
                  {'tactics': {8: True}, 'positions': {off: 14}},                  # valid tactic plus invalid position
                  {}]                                                             # nothing to make
         for configured, answer in [(False, cases[0])] + [(True, c) for c in cases[1:]]:
