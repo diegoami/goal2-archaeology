@@ -669,6 +669,24 @@ default, including pool players; an already-inherited goal stays a native no-op
 inside a real T visit. Original4B61 entry and callerE75D return verify selected
 word/pane and actual override bits. Pool editors have no squad marking slot;
 their player_tactics event reports marking0. Plain pre-match Play own fields,
-invalid/mixed marking packets and unconfigured edits refuse before consumption.
+invalid mixed packets and unconfigured edits refuse before consumption.
 In-match behavior stays unchanged. Keeper, unavailable and pool players retain
 their native four-row editor; this adds no marking input or eligibility rule.
+
+
+### Native pre-match marking (T137 / #724)
+
+[confirmed: F010/F031; original4B61,49B8/4C2B,E75D] Configured pre-match
+edit-only `marking={word:goal}` distinguishes exact None (inherit/status bit7
+clear), integer0 (explicit protected zone/bit7 set, word0) and an available
+opponent word in original slots2..11. Keys must name an available current or
+projected outfield squad player during setup, including eligible bench players.
+Pool, keeper and unavailable players have four rows and reject marking inputs.
+Whole-packet validation precedes replay/guest consumption; pair/role projections
+are read-only and actual native sort order is observed again while driving.
+Original T/menu keys change status and side-table words; independent entry,
+row5 call/return and final T-return witnesses verify the result. An already-met
+goal still makes a real T visit. Inheritance may leave a native default target;
+it is not inferred from a zero word. No original-owned record or table is
+patched. Plain Play marking and malformed/unconfigured/stale/mixed invalid
+packets refuse without consumption. In-match domains and behavior stay unchanged.

@@ -145,7 +145,7 @@ def guards(state,tables,fixture,context):
     answers=[dict(positions={65535:3}),dict(positions={0:3}),dict(positions={word:14}),
              dict(positions={word:-1}),dict(positions={word:True}),dict(positions={word:'bad'}),
              dict(positions={word:3,65535:4}),dict(positions={word:2},own_tactics={word:{5:True}}),
-             dict(positions={word:2},marking={word:0}),dict(positions={word:2},quick=True)]
+             dict(positions={word:2},marking={word:65535}),dict(positions={word:2},quick=True)]
     for answer in answers:
         before=snapshot(m)
         try:m.answer(edit_only=True,**answer)

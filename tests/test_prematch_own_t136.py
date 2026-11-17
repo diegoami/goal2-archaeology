@@ -162,7 +162,7 @@ def guards(state,tables,fixture,context):
     cases=[{65535:{1:True}},{0:{1:True}},{word:{5:True}},{word:{0:False}},{word:{1:1}},
            {word:{True:False}},{word:{}},{word:[]},{word:{1:False},pool:{5:True}}]
     answers=[dict(own_tactics=v) for v in cases]+[
-        dict(own_tactics={word:{1:True}},marking={word:0}),
+        dict(own_tactics={word:{1:True}},marking={word:65535}),
         dict(own_tactics={word:{1:True}},quick=True)]
     for fields in answers:
         before=snapshot(m)
