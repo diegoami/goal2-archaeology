@@ -204,3 +204,5 @@ exists.
 - [T136](T136.md): native pre-match personal tactics across squad/pool; False/True/inherit and original menu witnesses (#722/#719).
 
 - [T137](T137.md): native pre-match marking inherit/protected-zone/opponent goals for eligible XI and bench (#724/#719).
+
+- [T138a](T138a.md): designed optional extended-bench roster planning for goal2#777; no Match activation (#727).
