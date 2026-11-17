@@ -651,10 +651,24 @@ already at the club value. The4952 entry/E72A caller-return witness verifies pla
 position and original key byte; all guest effects and ordering remain original.
 The entire packet is validated before replay or guest consumption. Plain
 pre-match Play with positions refuses; in-match numeric squad-only positions
-retain their existing contract. Own tactics and marking remain separate #719
-leaves. Fresh decisions expose actual order; pool record previews remain the
+retain their existing contract. Marking remains a separate #719 leaf; own inputs are described below. Fresh decisions expose actual order; pool record previews remain the
 consumer's read-only current-state responsibility. No Prover-completion claim
 or new memory mask follows from this input API.
 
 [designed: T135] Position edits return SELECT to the squad pane by its own toggle
 before re-decision, retaining the continued-entry convention for later answers.
+
+### Native pre-match own tactics (T136 / #722)
+
+[confirmed: F010/F031,1771:4B61 and0791:E75D] Configured pre-match edit-only
+`own_tactics={word:{element:value}}` supports nonzero current squad and made-pool
+words, elements1..4, and exact False/True/None. False means an explicit off
+override, True explicit on, None inheritance. Original T/arrows/Enter/Esc drive
+the editor. Clearing an existing override copies the player's own country
+default, including pool players; an already-inherited goal stays a native no-op
+inside a real T visit. Original4B61 entry and callerE75D return verify selected
+word/pane and actual override bits. Pool editors have no squad marking slot;
+their player_tactics event reports marking0. Plain pre-match Play own fields,
+invalid/mixed marking packets and unconfigured edits refuse before consumption.
+In-match behavior stays unchanged. Keeper, unavailable and pool players retain
+their native four-row editor; this adds no marking input or eligibility rule.

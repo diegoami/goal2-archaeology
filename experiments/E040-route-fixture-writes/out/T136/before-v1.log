@@ -1,0 +1,27 @@
+test_pure_invalid_packets_and_missing_wrong_visits (tests.test_prematch_own_t136.OwnTactics.test_pure_invalid_packets_and_missing_wrong_visits) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ERROR
+
+======================================================================
+ERROR: test_pure_invalid_packets_and_missing_wrong_visits (tests.test_prematch_own_t136.OwnTactics.test_pure_invalid_packets_and_missing_wrong_visits)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 211, in test_pure_invalid_packets_and_missing_wrong_visits
+    self.assertEqual(call_in_pypy('test_prematch_own_t136','guards',args=(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_prematch_own_t136.py", line 176, in guards
+    else:raise AssertionError('plain Play own input ignored')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: plain Play own input ignored
+
+
+----------------------------------------------------------------------
+Ran 1 test in 1.451s
+
+FAILED (errors=1)

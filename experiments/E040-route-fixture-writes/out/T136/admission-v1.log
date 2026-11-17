@@ -1,0 +1,14 @@
+test_a_plain_answer_plays_and_carries_the_generic_validations (tests.test_route_prematch_input_t132.AnswerLegality.test_a_plain_answer_plays_and_carries_the_generic_validations) ... ok
+test_a_pool_word_is_a_legal_pre_match_incoming_and_only_there (tests.test_route_prematch_input_t132.AnswerLegality.test_a_pool_word_is_a_legal_pre_match_incoming_and_only_there) ... ok
+test_edit_only_tactics_and_swaps_are_legal_on_a_configured_entry (tests.test_route_prematch_input_t132.AnswerLegality.test_edit_only_tactics_and_swaps_are_legal_on_a_configured_entry) ... ok
+test_t135_positions_and_club_are_exact_configured_edit_inputs (tests.test_route_prematch_input_t132.AnswerLegality.test_t135_positions_and_club_are_exact_configured_edit_inputs) ... ok
+test_t136_own_overrides_are_exact_configured_edit_inputs (tests.test_route_prematch_input_t132.AnswerLegality.test_t136_own_overrides_are_exact_configured_edit_inputs) ... ok
+test_unsupported_invalid_and_unconfigured_edits_refuse (tests.test_route_prematch_input_t132.AnswerLegality.test_unsupported_invalid_and_unconfigured_edits_refuse) ... ok
+test_pure_invalid_packets_and_missing_wrong_visits (tests.test_prematch_own_t136.OwnTactics.test_pure_invalid_packets_and_missing_wrong_visits) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.896s
+
+OK
