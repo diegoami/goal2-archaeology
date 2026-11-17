@@ -1,0 +1,113 @@
+{
+  "attempt": 2,
+  "conclusion": "success",
+  "groups": [
+    {
+      "completed_at": "2026-11-17T14:35:34Z",
+      "conclusion": "success",
+      "job": 134103031924,
+      "name": "checks (e033-04)",
+      "started_at": "2026-11-17T14:18:34Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-17T14:31:59Z",
+      "conclusion": "success",
+      "job": 134103032317,
+      "name": "checks (e034-03)",
+      "started_at": "2026-11-17T14:18:35Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-17T14:29:25Z",
+      "conclusion": "success",
+      "job": 134103032408,
+      "name": "checks (e033-03)",
+      "started_at": "2026-11-17T14:18:36Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-17T14:27:14Z",
+      "conclusion": "success",
+      "job": 134103032427,
+      "name": "checks (e033-01)",
+      "started_at": "2026-11-17T14:18:35Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-17T14:39:16Z",
+      "conclusion": "success",
+      "job": 134103032467,
+      "name": "checks (seal)",
+      "started_at": "2026-11-17T14:18:35Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-17T14:39:26Z",
+      "conclusion": "success",
+      "job": 134103032481,
+      "name": "checks (e033-06)",
+      "started_at": "2026-11-17T14:18:36Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-17T14:22:09Z",
+      "conclusion": "success",
+      "job": 134103032489,
+      "name": "checks (e033-07)",
+      "started_at": "2026-11-17T14:18:35Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-17T15:17:30Z",
+      "conclusion": "success",
+      "job": 134103032578,
+      "name": "checks (general)",
+      "started_at": "2026-11-17T14:18:35Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-17T14:40:27Z",
+      "conclusion": "success",
+      "job": 134103032654,
+      "name": "checks (e034-02)",
+      "started_at": "2026-11-17T14:18:35Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-17T14:58:48Z",
+      "conclusion": "success",
+      "job": 134103032660,
+      "name": "checks (e034-01)",
+      "started_at": "2026-11-17T14:18:35Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-17T14:25:57Z",
+      "conclusion": "success",
+      "job": 134103032668,
+      "name": "checks (e033-02)",
+      "started_at": "2026-11-17T14:18:35Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-17T14:29:26Z",
+      "conclusion": "success",
+      "job": 134103032792,
+      "name": "checks (e033-05)",
+      "started_at": "2026-11-17T14:18:36Z",
+      "status": "completed"
+    }
+  ],
+  "head": "4190957a477c72b56c971bbb48538637828e48fa",
+  "limits": [
+    "No running batch cancelled by a source push; all12 groups finished naturally",
+    "Native/raw cross-backend Prover remains separate; no root vendor/window switch"
+  ],
+  "prior_attempt": "Attempt1 cancelled at startup before steps during synchronize/ready event collision; attempt2 reruns the same exact head.",
+  "run": 44101478819,
+  "runner_minutes": 234.15,
+  "runtime_source": "7c5bc679b0383e20918a7ccabd02ab9e97fefbe3",
+  "schema": "t137-ci/1",
+  "status": "completed"
+}
