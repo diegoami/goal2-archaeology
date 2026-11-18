@@ -206,3 +206,5 @@ exists.
 - [T137](T137.md): native pre-match marking inherit/protected-zone/opponent goals for eligible XI and bench (#724/#719).
 
 - [T138a](T138a.md): designed optional extended-bench roster planning for goal2#777; no Match activation (#727).
+
+- [T138b](T138b.md): opt-in full match-day bench via declared native inputs; independent Match integration for owner goal2#777 (#727).
