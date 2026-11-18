@@ -247,3 +247,30 @@ class OriginalReference(unittest.TestCase):
         self.assertEqual(actual['selection'],expected['selection'])
         self.assertEqual(actual['inputs'],expected['inputs'])
         self.assertEqual(actual['bench'],13)
+
+
+def actual_selected_and_outside_pairs(value,tables_record,fixture,context):
+    assert sys.implementation.name=='pypy'
+    from original_match.image import Image
+    from original_match.port.tables import from_record
+    from tests.test_route_sealed import _denials
+    _denials();m=Match.from_route_entry(Image.from_state(value,from_record(tables_record)),Fixture(**fixture),context)
+    extras=[w for w in m._pool() if m._available(w)][:4]
+    m.configure_route_entry(extra_players=extras,pre_match_edits=True,live_players=True)
+    stream=iter(m.events());d=_decision(stream);members=set(d['national_squad'])
+    m.answer(edit_only=True,substitutions=[(extras[0],extras[1])]);d=_decision(stream)
+    assert set(d['national_squad'])==members and len(d['bench'])==13
+    outside=next(w for w in m._pool() if w not in members and m._available(w))
+    off=m._squad(m.opts['managed'])[-1]
+    m.answer(edit_only=True,substitutions=[(off,outside)]);d=_decision(stream)
+    assert set(d['national_squad'])==(members-{off})|{outside}
+    assert len(d['national_squad'])==24 and len(set(d['national_squad']))==24
+    return True
+
+
+class SelectedPairs(unittest.TestCase):
+    def test_two_additional_members_and_outside_recruitment_keep_exact_membership(self):
+        from port_test_runtime import call_in_pypy
+        from original_match.port.tables import to_record
+        image,context,fixture=_fixtures().entry()
+        self.assertTrue(call_in_pypy('test_extended_match_t138b','actual_selected_and_outside_pairs',args=(image.state(image.tables),to_record(image.tables),fixture,context),timeout=180))
