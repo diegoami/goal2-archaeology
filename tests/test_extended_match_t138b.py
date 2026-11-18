@@ -26,7 +26,7 @@ class Config(unittest.TestCase):
                 m.configure_route_entry()
 
     def test_valid_22_and_24_options_are_detached_without_entry_execution(self):
-        for count in (2,4):
+        for count in (1,2,3,4):
             m=self.match();before=snapshot(m);extra=m._pool()[:count]
             m.configure_route_entry(extra_players=extra)
             self.assertEqual(snapshot(m)[:2],before[:2])
@@ -67,7 +67,17 @@ def actual_entry(value,tables_record,fixture,context,count):
     assert loaded.m.read(0,MEM_SIZE)==m.m.read(0,MEM_SIZE)
     assert tuple(loaded.m.reg(r) for r in REGS)==tuple(m.m.reg(r) for r in REGS)
     assert loaded.st['national_roster']==m.st['national_roster']
-    m.answer();next_event=next(stream)
+    captains=[];captain_prompt=[False]
+    def prompt(replay):
+        if not replay:captain_prompt[0]=m.m.stack_word(2)==1 and m.m.stack_word(4)==m.side
+    def chosen(replay):
+        if not replay and captain_prompt[0]:captains.append(m.m.reg('ax'));captain_prompt[0]=False
+    m.m.at('0791:CC7B',prompt);m.m.at('0791:D010',chosen)
+    m.answer(captain=on);next_event=next(stream)
+    while not captains:
+        event=next(stream)
+        if event.kind=='decision':m.answer(quick=True)
+    assert captains[0]==on
     return dict(capacity=20+count,bench=len(edited['bench']),same_machine=True,save_equal=True,next_kind=next_event.kind)
 
 
@@ -118,7 +128,20 @@ def actual_halftime(value,tables_record,fixture,context,count):
     assert loaded.m.read(0,MEM_SIZE)==m.m.read(0,MEM_SIZE)
     assert tuple(loaded.m.reg(r) for r in REGS)==tuple(m.m.reg(r) for r in REGS)
     assert loaded.st['national_roster']==m.st['national_roster']
-    return dict(capacity=20+count,substituted=True,budget=budget-1,withdrawn=True,save_equal=True)
+    def finish(match,events):
+        log=[]
+        for event in events:
+            log.append((event.kind,event.data))
+            if event.kind=='decision':match.answer(quick=True)
+        return log
+    remaining=finish(m,stream);resumed=finish(loaded,iter(loaded.events()))
+    assert resumed==remaining
+    assert loaded.result()==m.result()
+    assert loaded.records_after()==m.records_after()
+    assert loaded.m.read(0,MEM_SIZE)==m.m.read(0,MEM_SIZE)
+    assert tuple(loaded.m.reg(r) for r in REGS)==tuple(m.m.reg(r) for r in REGS)
+    assert set(m.result()['national_squad_after'])==members
+    return dict(capacity=20+count,substituted=True,budget=budget-1,withdrawn=True,save_equal=True,final_equal=True)
 
 
 class Substitutions(unittest.TestCase):
@@ -258,6 +281,13 @@ def actual_selected_and_outside_pairs(value,tables_record,fixture,context):
     extras=[w for w in m._pool() if m._available(w)][:4]
     m.configure_route_entry(extra_players=extras,pre_match_edits=True,live_players=True)
     stream=iter(m.events());d=_decision(stream);members=set(d['national_squad'])
+    # Repeated jobs force each outside physical member through the same native
+    # bench slot; none may vanish from the logical selected membership.
+    for turn in range(3):
+        for word in extras:
+            m.answer(edit_only=True,positions={word:(m._player(word,6)+1)%14})
+            d=_decision(stream)
+            assert set(d['national_squad'])==members and len(d['bench'])==13
     m.answer(edit_only=True,substitutions=[(extras[0],extras[1])]);d=_decision(stream)
     assert set(d['national_squad'])==members and len(d['bench'])==13
     outside=next(w for w in m._pool() if w not in members and m._available(w))
@@ -274,3 +304,61 @@ class SelectedPairs(unittest.TestCase):
         from original_match.port.tables import to_record
         image,context,fixture=_fixtures().entry()
         self.assertTrue(call_in_pypy('test_extended_match_t138b','actual_selected_and_outside_pairs',args=(image.state(image.tables),to_record(image.tables),fixture,context),timeout=180))
+
+
+def finals_entry():
+    import hashlib
+    import json,zlib
+    from original_match.image import Image
+    from original_match import route
+    from original_match.port.tables import load
+    from original_match.machine import GuestError
+    root=Path(__file__).resolve().parents[1]
+    raw=(root/'.cache/T183-finals-G4B-manager-v1.g2core').read_bytes()
+    assert hashlib.sha256(raw).hexdigest()=='0a243d12abe38247b37fbf12f5ba31145f7b36c730667b36ae84d0966af3a75f'
+    length=int.from_bytes(raw[4:8],'little');saved=json.loads(raw[8:8+length])
+    image=Image(bytes.fromhex(saved['header'])+zlib.decompress(raw[8+length:]));image.tables=load(root/'static/goal-exe/tables')
+    class Entry(route.Route):
+        def _match(self):self.m.stop('extra-finals-entry')
+    r=Entry(image,entry='play_round',record_writes=False,match_entry=True)
+    try:r.call()
+    except GuestError:
+        if r.m.stop_reason!='extra-finals-entry':raise
+    else:raise AssertionError('original finals entry missing')
+    result=Image(r.header+r.m.read(0,MEM_SIZE)+r.tail);result.tables=image.tables
+    context={name:r.m.reg(name) for name in REGS};game=r.m.far(0xA923);index=r.m.word_at(game+0x26)
+    row=r.m.read(r.m.far(0xA92B)+8*(index-1),8)
+    return result,context,dict(first=int.from_bytes(row[4:6],'little'),second=int.from_bytes(row[6:8],'little'),index=index,kind=row[2])
+
+
+def actual_finals_guard(value,tables_record,fixture,context):
+    assert sys.implementation.name=='pypy'
+    from original_match.image import Image
+    from original_match.port.tables import from_record
+    from tests.test_route_sealed import _denials
+    _denials();m=Match.from_route_entry(Image.from_state(value,from_record(tables_record)),Fixture(**fixture),context)
+    game=m.m.far(0xA923);manager=m.m.read(game+1,1)[0];flag=game+0x13+manager
+    assert m.m.read(flag,1)==bytes([1])
+    core=m._squad(m.opts['managed']);pool=m._pool()
+    off,on=next((a,b) for a in core[1:11] for b in pool if m._available(a) and m._available(b) and m._player(a,6)==m._player(b,6))
+    extras=[on]+[w for w in pool if w!=on and m._available(w)][:3]
+    m.configure_route_entry(extra_players=extras,pre_match_edits=True,live_players=True)
+    stream=iter(m.events());d=_decision(stream);members=set(d['national_squad'])
+    m.answer(edit_only=True,substitutions=[(off,on)]);d=_decision(stream)
+    assert on in d['eleven'] and set(d['national_squad'])==members and m.m.read(flag,1)==bytes([1])
+    before=m._squad(m.opts['managed']);outside=next(w for w in m._pool() if w not in members and m._available(w))
+    m.answer(edit_only=True,substitutions=[(before[-1],outside)]);d=_decision(stream)
+    assert m._squad(m.opts['managed'])==before
+    assert set(d['national_squad'])==members and m.m.read(flag,1)==bytes([1])
+    return dict(selected_extra_allowed=True,outside_recruit_refused=True,finals_flag_unchanged=True)
+
+
+@unittest.skipUnless((Path(__file__).resolve().parents[1]/'.cache/T183-finals-G4B-manager-v1.g2core').is_file(),
+                     'private goal2 finals fixture supplied through owner-only artifact process')
+class Finals(unittest.TestCase):
+    def test_genuine_finals_keep_selected_extras_but_refuse_outside_recruitment(self):
+        from port_test_runtime import call_in_pypy
+        from original_match.port.tables import to_record
+        image,context,fixture=finals_entry()
+        result=call_in_pypy('test_extended_match_t138b','actual_finals_guard',args=(image.state(image.tables),to_record(image.tables),fixture,context),timeout=180)
+        self.assertTrue(all(result.values()))

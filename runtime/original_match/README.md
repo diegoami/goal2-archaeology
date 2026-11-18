@@ -720,3 +720,12 @@ and replay. Empty/unfilled consumer seats are omitted from `extra_players`;
 capacity22/24 and nullable slots are the consumer's saved metadata. The engine
 validates filled words, uniqueness, complete managed pool/core and context
 before consuming configuration; malformed larger-mode checkpoints reject.
+
+[derived: T138b actual G4B finals test] Selected additional members remain
+eligible with the real finals flag set. Outside recruitment receives the
+original refusal and yields a repairable fresh decision, with unchanged
+selected membership and finals flag. Repeated promotions, late captain after
+an extra enters the XI, and post-substitution save/replay through final
+result/records/full RAM/all16 equality are covered by
+`tests/test_extended_match_t138b.py`. Its private finals fixture is supplied
+through the owner artifact process and explicitly skipped when unavailable.

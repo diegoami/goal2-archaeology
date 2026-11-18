@@ -1166,6 +1166,12 @@ class Match:
         self.st["message"] = text
         if self._menu is not None:
             self._menu.last_message = text
+            if (self.st.get('national_roster') is not None
+                    and self.st.get('menu_context')=='pre_match'
+                    and 'cannot alter squad' in text.lower()
+                    and ('finals' in text.lower() or 'tour' in text.lower())):
+                reject=getattr(self._menu,'reject_pool_selection',None)
+                if reject is not None:reject(text)
 
     def _menus_ported(self):
         return self.ports is not None and any(n.split(".")[0] == "menus" for n in self.ports.names)
