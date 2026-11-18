@@ -690,3 +690,33 @@ goal still makes a real T visit. Inheritance may leave a native default target;
 it is not inferred from a zero word. No original-owned record or table is
 patched. Plain Play marking and malformed/unconfigured/stale/mixed invalid
 packets refuse without consumption. In-match domains and behavior stay unchanged.
+
+
+## Optional larger selected bench (T138b, owner goal2#777)
+
+[designed: owner2026-11-18] `extra_players=[word,...]` opts into up to4
+additional selected made-pool members on normal Match construction or the
+one-time `configure_route_entry` call. The default is omitted and retains the
+original20 behavior. The physical original country/pool storage stays20/80.
+Every selected member appears in bench/card decisions and is eligible through
+the existing public input controls. `national_squad` and final
+`national_squad_after` occur only in this optional mode.
+
+An additional member is promoted into an ordinary native bench slot as an
+explicit recorded public input when the original menu needs him. The displaced
+ordinary bench member stays selected and can itself be promoted later. This
+preserves the XI/selected membership and the same machine/continuation; the
+original still executes actual substitution/status/budget effects and physics.
+Personal input uses the same declaration before its original menu call. An
+outside recruitment updates membership only after its actual original pair
+succeeds, so locked-finals recruitment rules are not bypassed. No consumer may
+write guest memory, clear finals flags, widen binary arrays or reconstruct a
+Match to apply an edit. This is a designed larger-squad extension, not a natural
+original22/24 rule. Controlled original-instruction references receive the
+same declared inputs, and must be labelled that way.
+
+Selected membership and the recorded input history survive Match.save/load
+and replay. Empty/unfilled consumer seats are omitted from `extra_players`;
+capacity22/24 and nullable slots are the consumer's saved metadata. The engine
+validates filled words, uniqueness, complete managed pool/core and context
+before consuming configuration; malformed larger-mode checkpoints reject.
