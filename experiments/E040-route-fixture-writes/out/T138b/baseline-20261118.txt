@@ -1,0 +1,16 @@
+test_valid_22_and_24_options_are_detached_without_entry_execution (tests.test_extended_match_t138b.Config.test_valid_22_and_24_options_are_detached_without_entry_execution) ... ERROR
+
+======================================================================
+ERROR: test_valid_22_and_24_options_are_detached_without_entry_execution (tests.test_extended_match_t138b.Config.test_valid_22_and_24_options_are_detached_without_entry_execution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2/.cache/extended-engine-integration/tests/test_extended_match_t138b.py", line 31, in test_valid_22_and_24_options_are_detached_without_entry_execution
+    m.configure_route_entry(extra_players=extra)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.configure_route_entry() got an unexpected keyword argument 'extra_players'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.180s
+
+FAILED (errors=1)
+Expected baseline failure proved: accepted Match has no extra_players capability
