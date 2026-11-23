@@ -1,0 +1,24 @@
+test_actual_watched_exit_and_quick_control_preserve_sdk_continuation (tests.test_post_match_review_t139.Review.test_actual_watched_exit_and_quick_control_preserve_sdk_continuation) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+port callback runtime: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+
+  test_actual_watched_exit_and_quick_control_preserve_sdk_continuation (tests.test_post_match_review_t139.Review.test_actual_watched_exit_and_quick_control_preserve_sdk_continuation) (quick=True) ... FAIL
+
+======================================================================
+FAIL: test_actual_watched_exit_and_quick_control_preserve_sdk_continuation (tests.test_post_match_review_t139.Review.test_actual_watched_exit_and_quick_control_preserve_sdk_continuation) (quick=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_post_match_review_t139.py", line 75, in test_actual_watched_exit_and_quick_control_preserve_sdk_continuation
+    def test_actual_watched_exit_and_quick_control_preserve_sdk_continuation(self):
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0
+
+----------------------------------------------------------------------
+Ran 1 test in 281.757s
+
+FAILED (failures=1)
