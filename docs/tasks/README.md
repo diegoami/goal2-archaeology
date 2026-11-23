@@ -208,3 +208,4 @@ exists.
 - [T138a](T138a.md): designed optional extended-bench roster planning for goal2#777; no Match activation (#727).
 
 - [T138b](T138b.md): opt-in full match-day bench via declared native inputs; independent Match integration for owner goal2#777 (#727).
+- [T139](T139.md): opt-in SDK pause and explicit Exit at the watched post-match review callback (#730).
