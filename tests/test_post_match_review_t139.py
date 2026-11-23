@@ -8,6 +8,7 @@ import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "runtime"))
 from original_match import Match, route
 from original_match.machine import MEM_SIZE, REGS
+from original_match.match import TEAM_MENU
 from original_match.port.tables import from_record, to_record
 from tests.test_route_sealed import _fixtures
 
@@ -21,15 +22,26 @@ def play(state, tables, review, quick=False):
     step = route.play_round(state, from_record(tables), route.DEFAULT_KEYS)
     match = step.match
     options = {"post_match_review": True} if review else {}
-    match.configure_route_entry(live_players=True, **options)
+    match.configure_route_entry(live_players=True, ticks=quick, **options)
+    callbacks = []
+
+    def observe_menu(replay):
+        if not replay and match.st["menu_context"] == "post_match":
+            callbacks.append(match.m.rd(0x9A3E, 1))
+
+    match.m.at(TEAM_MENU, observe_menu)
     events = []
     reviews = 0
+    pause_requested = False
     stream = match.events()
     for event in stream:
+        if quick and event.kind == "tick" and not pause_requested:
+            match.pause()
+            pause_requested = True
         if event.kind != "decision" or event.data["context"] != "post_match":
             events.append(asdict(event))
             if event.kind == "decision":
-                match.answer(quick=quick)
+                match.answer(quick=quick and event.data["context"] == "pause")
             continue
         reviews += 1
         assert not match.over
@@ -68,7 +80,7 @@ def play(state, tables, review, quick=False):
     final = cpu(match)
     result = match.result()
     resumed = route.resume_round(step.continuation, match)
-    return reviews, events, final, result, resumed.state, resumed.played_fixtures, resumed.news_pages
+    return reviews, callbacks, events, final, result, resumed.state, resumed.played_fixtures, resumed.news_pages
 
 
 class Review(unittest.TestCase):
@@ -77,11 +89,14 @@ class Review(unittest.TestCase):
 
         image = _fixtures().image()
         args = image.state(image.tables), to_record(image.tables)
-        for quick, count in ((False, 1), (True, 0)):
+        for quick in (False, True):
             with self.subTest(quick=quick):
                 baseline = call_in_pypy("test_post_match_review_t139", "play", args=(*args, False, quick))
                 candidate = call_in_pypy("test_post_match_review_t139", "play", args=(*args, True, quick))
-                self.assertEqual(candidate[0], count)
+                # [confirmed: port/postmatch.py F331] The managed review branch
+                # and the quick-result summary-save gate are separate.
+                self.assertEqual(baseline[1], [int(quick)])
+                self.assertEqual(candidate[0], len(baseline[1]))
                 self.assertTrue(candidate[1:] == baseline[1:], "canonical events, CPU, result or round differ")
 
 
