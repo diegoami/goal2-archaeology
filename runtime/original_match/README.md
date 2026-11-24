@@ -729,3 +729,15 @@ an extra enters the XI, and post-substitution save/replay through final
 result/records/full RAM/all16 equality are covered by
 `tests/test_extended_match_t138b.py`. Its private finals fixture is supplied
 through the owner artifact process and explicitly skipped when unavailable.
+
+[designed: T139/#730] Route clients can pass `post_match_review=True` at
+`configure_route_entry`. When the runtime reaches its managed review callback,
+the Match yields a `post_match` decision carrying the recorded final board and
+current player records and context. `records_after()` reads both sides at this
+stop. Call `answer(post_match_exit=True)` on its own before taking the next
+event. Exit uses the existing menu continuation and is recorded for replay.
+Round resume still requires actual Match completion. The normal summary save
+policy applies after review.
+[confirmed: F329–F347 in `static/goal-exe/code/seg_0791_23.asm`]
+The quick-result flag gates the summary save prompt separately from the review
+callback. Managed quick results can reach the same review stop.

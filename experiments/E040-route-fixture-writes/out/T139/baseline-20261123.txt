@@ -1,0 +1,50 @@
+test_actual_watched_exit_and_quick_control_preserve_sdk_continuation (tests.test_post_match_review_t139.Review.test_actual_watched_exit_and_quick_control_preserve_sdk_continuation) ... Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+
+  test_actual_watched_exit_and_quick_control_preserve_sdk_continuation (tests.test_post_match_review_t139.Review.test_actual_watched_exit_and_quick_control_preserve_sdk_continuation) (quick=False) ... ERROR
+Verified port worker: PyPy 3.11 (3.11.16 (78565394c9b5, Sep 18 2026, 08:00:14))
+  test_actual_watched_exit_and_quick_control_preserve_sdk_continuation (tests.test_post_match_review_t139.Review.test_actual_watched_exit_and_quick_control_preserve_sdk_continuation) (quick=True) ... ERROR
+
+======================================================================
+ERROR: test_actual_watched_exit_and_quick_control_preserve_sdk_continuation (tests.test_post_match_review_t139.Review.test_actual_watched_exit_and_quick_control_preserve_sdk_continuation) (quick=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_post_match_review_t139.py", line 73, in test_actual_watched_exit_and_quick_control_preserve_sdk_continuation
+    baseline = call_in_pypy("test_post_match_review_t139", "play", args=(*args, False, quick))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_post_match_review_t139.py", line 23, in play
+    match.configure_route_entry(live_players=True, post_match_review=review)
+          ^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.configure_route_entry() got an unexpected keyword argument 'post_match_review'
+
+
+======================================================================
+ERROR: test_actual_watched_exit_and_quick_control_preserve_sdk_continuation (tests.test_post_match_review_t139.Review.test_actual_watched_exit_and_quick_control_preserve_sdk_continuation) (quick=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_post_match_review_t139.py", line 73, in test_actual_watched_exit_and_quick_control_preserve_sdk_continuation
+    baseline = call_in_pypy("test_post_match_review_t139", "play", args=(*args, False, quick))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tools/port_test_runtime.py", line 101, in call_in_pypy
+    raise PortRuntimeError('PyPy callback failed:\n' + str(response.get('traceback', 'no traceback')))
+port_test_runtime.PortRuntimeError: PyPy callback failed:
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-engine/tools/port_test_runtime.py", line 335, in _dispatch
+    value = target(*request['args'], **request['kwargs'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-engine/tests/test_post_match_review_t139.py", line 23, in play
+    match.configure_route_entry(live_players=True, post_match_review=review)
+          ^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.configure_route_entry() got an unexpected keyword argument 'post_match_review'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 2.596s
+
+FAILED (errors=2)
